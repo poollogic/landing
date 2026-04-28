@@ -1442,57 +1442,36 @@ const Migration = () => {
   return (
     <section className="section-divider" id="switching" style={{ background: 'var(--bg-soft)' }}>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.05fr', gap: 64, alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 56, alignItems: 'center' }}>
 
           {/* Copy */}
           <div>
             <span className="eyebrow"><span className="dot"></span>Switching</span>
             <h2 style={{ marginTop: 14 }}>Ready to make the switch?</h2>
-            <p style={{ marginTop: 16, fontSize: 17, lineHeight: 1.55 }}>
-              Drop a CSV from Skimmer, Pooltrac, ServiceFusion, or QuickBooks &mdash; PoolLogic imports your full customer list, billing details, and pool profiles in one pass. Most teams are live in under an hour.
+            <p style={{ marginTop: 16, fontSize: 17, lineHeight: 1.55, maxWidth: 520 }}>
+              Drop a CSV from Skimmer, Pooltrac, ServiceFusion, or QuickBooks. We import your customers, billing, and pool profiles in one pass &mdash; most teams are live in under an hour.
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 32 }}>
+            <ol style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 28, padding: 0, listStyle: 'none' }}>
               {[
-              ['Export from your current tool', 'Most CRMs export a customer list as CSV. We accept whatever you can produce.'],
-              ['Drop the file into PoolLogic', 'We map columns automatically and flag anything that needs your eyes.'],
-              ['Routes, billing & history live the same day', 'No re-keying, no double entry. Your team logs in and gets to work.']].
-              map(([t, d], i) =>
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: '32px 1fr', gap: 14, alignItems: 'flex-start' }}>
+              'Export from your current tool',
+              'Drop the file into PoolLogic',
+              'Routes, billing & history live the same day'].
+              map((t, i) =>
+              <li key={i} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 12, alignItems: 'center', fontSize: 15, color: 'var(--ink-2)', fontWeight: 500 }}>
                   <span style={{
-                  width: 28, height: 28, borderRadius: 8,
+                  width: 22, height: 22, borderRadius: '50%',
                   background: 'color-mix(in oklab, var(--brand-green) 14%, transparent)',
                   color: 'var(--brand-green)',
-                  fontSize: 13, fontWeight: 600,
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                  flexShrink: 0
+                  fontSize: 12, fontWeight: 600,
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center'
                 }}>{i + 1}</span>
-                  <div>
-                    <div style={{ fontSize: 15.5, fontWeight: 600, color: 'var(--ink-2)' }}>{t}</div>
-                    <p style={{ marginTop: 4, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-4)' }}>{d}</p>
-                  </div>
-                </div>
+                  {t}
+                </li>
               )}
-            </div>
+            </ol>
 
-            <div style={{ marginTop: 32 }}>
-              <div style={{ fontSize: 12, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 12, fontWeight: 500 }}>
-                Coming from
-              </div>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                {['Skimmer', 'Pooltrac', 'ServiceFusion', 'QuickBooks', 'Spreadsheets'].map((n) =>
-                <span key={n} style={{
-                  padding: '6px 12px',
-                  background: 'var(--bg)',
-                  border: '1px solid var(--line)',
-                  borderRadius: 999,
-                  fontSize: 13, fontWeight: 500, color: 'var(--ink-3)'
-                }}>{n}</span>
-                )}
-              </div>
-            </div>
-
-            <a href="#cta" className="btn-primary" style={{ marginTop: 32, display: 'inline-flex' }}>
+            <a href="#cta" className="btn-primary" style={{ marginTop: 28, display: 'inline-flex' }}>
               Start your migration
             </a>
           </div>
@@ -1530,7 +1509,7 @@ const ImportModalMock = () => {
     <div style={{
       background: 'var(--bg)',
       border: '1px solid var(--line)',
-      borderRadius: 18,
+      borderRadius: 16,
       boxShadow: 'var(--shadow-pop)',
       overflow: 'hidden',
       fontFamily: "'Geist', sans-serif",
@@ -1538,106 +1517,106 @@ const ImportModalMock = () => {
     }}>
     {/* Subtle green wash on header */}
     <div style={{
-    position: 'absolute', top: 0, left: 0, right: 0, height: 200,
+    position: 'absolute', top: 0, left: 0, right: 0, height: 160,
     background: 'linear-gradient(180deg, color-mix(in oklab, var(--brand-green) 8%, transparent), transparent)',
     pointerEvents: 'none'
   }} />
 
-    <div style={{ padding: 28, position: 'relative' }}>
+    <div style={{ padding: 20, position: 'relative' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{
-        width: 44, height: 44, borderRadius: 12,
+        width: 36, height: 36, borderRadius: 10,
         background: 'var(--brand-green)',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         color: '#fff'
       }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
             <polyline points="17 8 12 3 7 8"/>
             <line x1="12" y1="3" x2="12" y2="15"/>
           </svg>
         </div>
         <div style={{
-        width: 32, height: 32, borderRadius: 8,
+        width: 26, height: 26, borderRadius: 7,
         background: 'var(--bg)',
         border: '1px solid var(--line)',
         color: 'var(--ink-4)',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center'
       }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
         </div>
       </div>
 
-      <div style={{ marginTop: 20 }}>
-        <h3 style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ink)', margin: 0 }}>Import Customers</h3>
-        <p style={{ marginTop: 6, fontSize: 14, color: 'var(--ink-5)', margin: '6px 0 0' }}>Upload a CSV file to import customers in bulk.</p>
+      <div style={{ marginTop: 14 }}>
+        <h3 style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.015em', color: 'var(--ink)', margin: 0 }}>Import Customers</h3>
+        <p style={{ marginTop: 4, fontSize: 13, color: 'var(--ink-5)', margin: '4px 0 0' }}>Upload a CSV file to import customers in bulk.</p>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 18 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 14 }}>
         <span style={{
-        width: 22, height: 22, borderRadius: '50%',
+        width: 19, height: 19, borderRadius: '50%',
         background: 'var(--brand-green)', color: '#fff',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 11, fontWeight: 600
+        fontSize: 10, fontWeight: 600
       }}>1</span>
-        <span style={{ width: 32, height: 1, background: 'var(--line)' }} />
+        <span style={{ width: 26, height: 1, background: 'var(--line)' }} />
         <span style={{
-        width: 22, height: 22, borderRadius: '50%',
+        width: 19, height: 19, borderRadius: '50%',
         background: 'var(--bg-muted)', color: 'var(--ink-5)',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 11, fontWeight: 600
+        fontSize: 10, fontWeight: 600
       }}>2</span>
       </div>
     </div>
 
-    <div style={{ height: 1, background: 'var(--line-2)', margin: '0 28px' }} />
+    <div style={{ height: 1, background: 'var(--line-2)', margin: '0 20px' }} />
 
-    <div style={{ padding: 28 }}>
+    <div style={{ padding: 20 }}>
       <div style={{
       border: '1.5px dashed var(--line)',
-      borderRadius: 14,
-      padding: '40px 20px',
+      borderRadius: 12,
+      padding: '26px 16px',
       textAlign: 'center'
     }}>
         <div style={{
-        width: 48, height: 48, borderRadius: 12,
+        width: 40, height: 40, borderRadius: 10,
         background: 'var(--bg-muted)',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        marginBottom: 16
+        marginBottom: 12
       }}>
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
             <polyline points="14 2 14 8 20 8"/>
             <line x1="9" y1="13" x2="15" y2="13"/>
             <line x1="9" y1="17" x2="15" y2="17"/>
           </svg>
         </div>
-        <div style={{ fontSize: 14.5, fontWeight: 600, color: 'var(--ink-2)' }}>Drop your CSV here, or click to browse</div>
-        <div style={{ marginTop: 6, fontSize: 12.5, color: 'var(--ink-5)' }}>Max 5,000 rows &middot; 5 MB limit</div>
+        <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-2)' }}>Drop your CSV here, or click to browse</div>
+        <div style={{ marginTop: 4, fontSize: 12, color: 'var(--ink-5)' }}>Max 5,000 rows &middot; 5 MB limit</div>
       </div>
 
       {/* Column format guide — expandable, with horizontally scrollable table */}
       <div style={{
-      marginTop: 16,
+      marginTop: 12,
       border: '1px solid var(--line)',
-      borderRadius: 12,
+      borderRadius: 10,
       background: 'var(--bg)',
       overflow: 'hidden'
     }}>
         <div onClick={() => setGuideOpen((o) => !o)} style={{
-        padding: '12px 14px',
+        padding: '10px 12px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         cursor: 'pointer', userSelect: 'none'
       }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--ink-2)', fontWeight: 500 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--ink-2)', fontWeight: 500 }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
             </svg>
             Column format guide
           </div>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: guideOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: guideOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }}>
             <polyline points="6 9 12 15 18 9"/>
           </svg>
         </div>
@@ -1648,14 +1627,14 @@ const ImportModalMock = () => {
               <table style={{
               borderCollapse: 'collapse',
               width: 'max-content',
-              fontSize: 12,
+              fontSize: 11,
               fontFamily: "'Geist Mono', ui-monospace, monospace"
             }}>
                 <thead>
                   <tr style={{ background: 'var(--bg-soft)' }}>
                     {columns.map(([h]) =>
                   <th key={h} style={{
-                    padding: '10px 14px',
+                    padding: '8px 12px',
                     textAlign: 'left',
                     color: 'var(--ink-2)',
                     fontWeight: 600,
@@ -1670,7 +1649,7 @@ const ImportModalMock = () => {
                   <tr>
                     {columns.map(([h, v, isPlaceholder]) =>
                   <td key={h} style={{
-                    padding: '12px 14px',
+                    padding: '9px 12px',
                     color: isPlaceholder ? 'var(--accent)' : 'var(--ink-5)',
                     fontStyle: isPlaceholder ? 'italic' : 'normal',
                     borderRight: '1px solid var(--line-2)',
@@ -1683,7 +1662,7 @@ const ImportModalMock = () => {
             </div>
             {/* Right-edge fade — tells the eye there's more to scroll to */}
             <div style={{
-            position: 'absolute', top: 0, right: 0, bottom: 0, width: 48,
+            position: 'absolute', top: 0, right: 0, bottom: 0, width: 40,
             background: 'linear-gradient(to right, transparent, var(--bg))',
             pointerEvents: 'none'
           }} />
@@ -1692,27 +1671,27 @@ const ImportModalMock = () => {
       </div>
 
       <div style={{
-      marginTop: 12,
-      padding: '14px 16px',
+      marginTop: 10,
+      padding: '12px 14px',
       background: 'var(--bg-soft)',
       border: '1px solid var(--line-2)',
-      borderRadius: 12,
+      borderRadius: 10,
       display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12
     }}>
         <div>
-          <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-2)' }}>Need a template?</div>
-          <div style={{ marginTop: 2, fontSize: 12.5, color: 'var(--ink-5)' }}>Download a pre-formatted CSV with example data.</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>Need a template?</div>
+          <div style={{ marginTop: 2, fontSize: 11.5, color: 'var(--ink-5)' }}>Download a pre-formatted CSV with example data.</div>
         </div>
         <div style={{
-        display: 'inline-flex', alignItems: 'center', gap: 8,
-        padding: '8px 14px',
+        display: 'inline-flex', alignItems: 'center', gap: 7,
+        padding: '6px 12px',
         background: 'var(--bg)',
         border: '1px solid var(--line)',
-        borderRadius: 10,
-        fontSize: 13, fontWeight: 600, color: 'var(--ink-2)',
+        borderRadius: 8,
+        fontSize: 12, fontWeight: 600, color: 'var(--ink-2)',
         whiteSpace: 'nowrap'
       }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/>
             <line x1="12" y1="15" x2="12" y2="3"/>
