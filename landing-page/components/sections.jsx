@@ -1602,7 +1602,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 1 — UPLOAD ============== */}
         {step === 1 &&
-        <div style={{ padding: 20, minHeight: 340, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 20, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
             <div style={{
             border: '1.5px dashed var(--line)',
             borderRadius: 12,
@@ -1757,7 +1757,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 2 — PREVIEW ============== */}
         {step === 2 &&
-        <div style={{ padding: 20, minHeight: 340, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 20, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
             <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10 }}>
               First 5 of {TOTAL_ROWS} rows
             </div>
@@ -1824,7 +1824,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 3 — DONE ============== */}
         {step === 3 &&
-        <div style={{ padding: 20, minHeight: 340, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 20, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <div style={{
               padding: '22px 16px',
@@ -1877,7 +1877,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 4 — BILLING ============== */}
         {step === 4 &&
-        <div style={{ padding: 20, minHeight: 340, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 20, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
             {/* Summary card */}
             <div style={{
             padding: '12px 14px',
