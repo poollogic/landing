@@ -1449,14 +1449,14 @@ const Migration = () => {
             <span className="eyebrow"><span className="dot"></span>Switching</span>
             <h2 style={{ marginTop: 14 }}>Ready to make the switch?</h2>
             <p style={{ marginTop: 16, fontSize: 17, lineHeight: 1.55, maxWidth: 520 }}>
-              Bring up to 5,000 customers in one pass &mdash; drop a CSV from any tool, or let our AI pull customer data straight from PDFs or screenshots.
+              Bring your full customer book over in one pass &mdash; most teams are live on PoolLogic in under an hour.
             </p>
 
             <ol style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 28, padding: 0, listStyle: 'none' }}>
               {[
-              ['Upload your list', 'Drop a CSV using our template, or let AI extract customer data from a PDF, screenshot, or invoice.'],
-              ['Set your billing rules', 'Pick the next invoice date, optional card-processing fee, and chemical charging.'],
-              ['You’re live the same day', 'Routes, history, and invoices ready before your next service stop.']].
+              ['Upload your list', 'Drop a CSV with up to 5,000 rows. No clean export? Our AI pulls customer data from a PDF or screenshot.'],
+              ['Set billing rules', 'First invoice date, credit-card fees, chemical billing.'],
+              ['Live the same day', 'Routes, history, and invoices ready before your next stop.']].
               map(([t, d], i) =>
               <li key={i} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 14, alignItems: 'flex-start' }}>
                   <span style={{
