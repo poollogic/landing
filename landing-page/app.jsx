@@ -35,6 +35,7 @@ const App = () => {
       <Nav accent={tweaks.accent}/>
       <Hero layout={tweaks.heroLayout} headline={tweaks.headline} subhead={tweaks.subhead}/>
       <LogoStrip/>
+      <Migration/>
 
       <TweaksPanel title="Tweaks">
         <TweakSection label="Brand">

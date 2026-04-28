@@ -1436,6 +1436,219 @@ const FAQ = () => {
 
 };
 
+// Migration / switching — closes the "I'm already on X" objection right before pricing.
+// Visual hero is a faithful mock of the in-app Import Customers wizard.
+const Migration = () => {
+  return (
+    <section className="section-divider" id="switching" style={{ background: 'var(--bg-soft)' }}>
+      <div className="container">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.05fr', gap: 64, alignItems: 'center' }}>
+
+          {/* Copy */}
+          <div>
+            <span className="eyebrow"><span className="dot"></span>Switching</span>
+            <h2 style={{ marginTop: 14 }}>Ready to make the switch?</h2>
+            <p style={{ marginTop: 16, fontSize: 17, lineHeight: 1.55 }}>
+              Drop a CSV from Skimmer, Pooltrac, ServiceFusion, or QuickBooks &mdash; PoolLogic imports your full customer list, billing details, and pool profiles in one pass. Most teams are live in under an hour.
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 32 }}>
+              {[
+              ['Export from your current tool', 'Most CRMs export a customer list as CSV. We accept whatever you can produce.'],
+              ['Drop the file into PoolLogic', 'We map columns automatically and flag anything that needs your eyes.'],
+              ['Routes, billing & history live the same day', 'No re-keying, no double entry. Your team logs in and gets to work.']].
+              map(([t, d], i) =>
+              <div key={i} style={{ display: 'grid', gridTemplateColumns: '32px 1fr', gap: 14, alignItems: 'flex-start' }}>
+                  <span style={{
+                  width: 28, height: 28, borderRadius: 8,
+                  background: 'color-mix(in oklab, var(--brand-green) 14%, transparent)',
+                  color: 'var(--brand-green)',
+                  fontSize: 13, fontWeight: 600,
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0
+                }}>{i + 1}</span>
+                  <div>
+                    <div style={{ fontSize: 15.5, fontWeight: 600, color: 'var(--ink-2)' }}>{t}</div>
+                    <p style={{ marginTop: 4, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-4)' }}>{d}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div style={{ marginTop: 32 }}>
+              <div style={{ fontSize: 12, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 12, fontWeight: 500 }}>
+                Coming from
+              </div>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {['Skimmer', 'Pooltrac', 'ServiceFusion', 'QuickBooks', 'Spreadsheets'].map((n) =>
+                <span key={n} style={{
+                  padding: '6px 12px',
+                  background: 'var(--bg)',
+                  border: '1px solid var(--line)',
+                  borderRadius: 999,
+                  fontSize: 13, fontWeight: 500, color: 'var(--ink-3)'
+                }}>{n}</span>
+                )}
+              </div>
+            </div>
+
+            <a href="#cta" className="btn-primary" style={{ marginTop: 32, display: 'inline-flex' }}>
+              Start your migration
+            </a>
+          </div>
+
+          {/* Import Customers modal mock */}
+          <ImportModalMock />
+        </div>
+      </div>
+    </section>);
+
+};
+
+const ImportModalMock = () =>
+<div style={{
+  background: 'var(--bg)',
+  border: '1px solid var(--line)',
+  borderRadius: 18,
+  boxShadow: 'var(--shadow-pop)',
+  overflow: 'hidden',
+  fontFamily: "'Geist', sans-serif",
+  position: 'relative'
+}}>
+    {/* Subtle green wash on header */}
+    <div style={{
+    position: 'absolute', top: 0, left: 0, right: 0, height: 200,
+    background: 'linear-gradient(180deg, color-mix(in oklab, var(--brand-green) 8%, transparent), transparent)',
+    pointerEvents: 'none'
+  }} />
+
+    <div style={{ padding: 28, position: 'relative' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div style={{
+        width: 44, height: 44, borderRadius: 12,
+        background: 'var(--brand-green)',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        color: '#fff'
+      }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div style={{
+        width: 32, height: 32, borderRadius: 8,
+        background: 'var(--bg)',
+        border: '1px solid var(--line)',
+        color: 'var(--ink-4)',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center'
+      }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </div>
+      </div>
+
+      <div style={{ marginTop: 20 }}>
+        <h3 style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--ink)', margin: 0 }}>Import Customers</h3>
+        <p style={{ marginTop: 6, fontSize: 14, color: 'var(--ink-5)', margin: '6px 0 0' }}>Upload a CSV file to import customers in bulk.</p>
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 18 }}>
+        <span style={{
+        width: 22, height: 22, borderRadius: '50%',
+        background: 'var(--brand-green)', color: '#fff',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 11, fontWeight: 600
+      }}>1</span>
+        <span style={{ width: 32, height: 1, background: 'var(--line)' }} />
+        <span style={{
+        width: 22, height: 22, borderRadius: '50%',
+        background: 'var(--bg-muted)', color: 'var(--ink-5)',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 11, fontWeight: 600
+      }}>2</span>
+      </div>
+    </div>
+
+    <div style={{ height: 1, background: 'var(--line-2)', margin: '0 28px' }} />
+
+    <div style={{ padding: 28 }}>
+      <div style={{
+      border: '1.5px dashed var(--line)',
+      borderRadius: 14,
+      padding: '40px 20px',
+      textAlign: 'center'
+    }}>
+        <div style={{
+        width: 48, height: 48, borderRadius: 12,
+        background: 'var(--bg-muted)',
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        marginBottom: 16
+      }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="9" y1="13" x2="15" y2="13"/>
+            <line x1="9" y1="17" x2="15" y2="17"/>
+          </svg>
+        </div>
+        <div style={{ fontSize: 14.5, fontWeight: 600, color: 'var(--ink-2)' }}>Drop your CSV here, or click to browse</div>
+        <div style={{ marginTop: 6, fontSize: 12.5, color: 'var(--ink-5)' }}>Max 5,000 rows &middot; 5 MB limit</div>
+      </div>
+
+      <div style={{
+      marginTop: 16,
+      padding: '12px 14px',
+      border: '1px solid var(--line)',
+      borderRadius: 12,
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      background: 'var(--bg)'
+    }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--ink-2)', fontWeight: 500 }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+          Column format guide
+        </div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+
+      <div style={{
+      marginTop: 12,
+      padding: '14px 16px',
+      background: 'var(--bg-soft)',
+      border: '1px solid var(--line-2)',
+      borderRadius: 12,
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12
+    }}>
+        <div>
+          <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-2)' }}>Need a template?</div>
+          <div style={{ marginTop: 2, fontSize: 12.5, color: 'var(--ink-5)' }}>Download a pre-formatted CSV with example data.</div>
+        </div>
+        <div style={{
+        display: 'inline-flex', alignItems: 'center', gap: 8,
+        padding: '8px 14px',
+        background: 'var(--bg)',
+        border: '1px solid var(--line)',
+        borderRadius: 10,
+        fontSize: 13, fontWeight: 600, color: 'var(--ink-2)',
+        whiteSpace: 'nowrap'
+      }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download CSV Template
+        </div>
+      </div>
+    </div>
+  </div>;
+
+
 // Final CTA — uses brand drop colors, more visual interest
 const FinalCTA = () =>
 <section style={{ paddingTop: 60, paddingBottom: 96 }}>
@@ -1515,4 +1728,4 @@ const Footer = () =>
   </footer>;
 
 
-Object.assign(window, { Nav, Hero, LogoStrip, Features, HowItWorks, Stats, Testimonial, Pricing, FAQ, FinalCTA, Footer });
+Object.assign(window, { Nav, Hero, LogoStrip, Features, HowItWorks, Stats, Testimonial, Migration, Pricing, FAQ, FinalCTA, Footer });
