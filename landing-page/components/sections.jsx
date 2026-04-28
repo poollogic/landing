@@ -195,7 +195,7 @@ const TypingSearchQuery = ({ queries }) => {
       width: '100%', maxWidth: 580,
       padding: '12px 16px',
       background: 'var(--bg)',
-      border: '1px solid var(--bg-muted)',
+      border: '1px solid var(--line)',
       borderRadius: 999,
       boxShadow: '0 1px 2px rgba(15, 23, 42, .04)',
       textAlign: 'left',
@@ -238,7 +238,7 @@ const SearchQuery = ({ text }) => (
     width: '100%', maxWidth: 580,
     padding: '12px 16px',
     background: 'var(--bg)',
-    border: '1px solid var(--bg-muted)',
+    border: '1px solid var(--line)',
     borderRadius: 999,
     boxShadow: '0 1px 2px rgba(15, 23, 42, .04)',
     textAlign: 'left',
@@ -453,7 +453,7 @@ const HeroFloaters = () => {
       </div>
 
       {/* Top-right: invoice paid */}
-      <div style={wrap({ top: -90, right: -100 }, inv)}>
+      <div style={wrap({ top: -70, right: -100 }, inv)}>
         <div style={{
           ...card,
           padding: '12px 14px', width: 232,
