@@ -1449,24 +1449,28 @@ const Migration = () => {
             <span className="eyebrow"><span className="dot"></span>Switching</span>
             <h2 style={{ marginTop: 14 }}>Ready to make the switch?</h2>
             <p style={{ marginTop: 16, fontSize: 17, lineHeight: 1.55, maxWidth: 520 }}>
-              Drop a CSV from Skimmer, Pooltrac, ServiceFusion, or QuickBooks. We import your customers, billing, and pool profiles in one pass &mdash; most teams are live in under an hour.
+              Bring up to 5,000 customers in one pass &mdash; drop a CSV from any tool, or let our AI pull customer data straight from PDFs or screenshots.
             </p>
 
-            <ol style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 28, padding: 0, listStyle: 'none' }}>
+            <ol style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 28, padding: 0, listStyle: 'none' }}>
               {[
-              'Export from your current tool',
-              'Drop the file into PoolLogic',
-              'Routes, billing & history live the same day'].
-              map((t, i) =>
-              <li key={i} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 12, alignItems: 'center', fontSize: 15, color: 'var(--ink-2)', fontWeight: 500 }}>
+              ['Upload your list', 'Drop a CSV using our template, or let AI extract customer data from a PDF, screenshot, or invoice.'],
+              ['Set your billing rules', 'Pick the next invoice date, optional card-processing fee, and chemical charging.'],
+              ['You’re live the same day', 'Routes, history, and invoices ready before your next service stop.']].
+              map(([t, d], i) =>
+              <li key={i} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 14, alignItems: 'flex-start' }}>
                   <span style={{
                   width: 22, height: 22, borderRadius: '50%',
                   background: 'color-mix(in oklab, var(--brand-green) 14%, transparent)',
                   color: 'var(--brand-green)',
                   fontSize: 12, fontWeight: 600,
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center'
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  marginTop: 2, flexShrink: 0
                 }}>{i + 1}</span>
-                  {t}
+                  <div>
+                    <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-2)' }}>{t}</div>
+                    <p style={{ marginTop: 3, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-4)' }}>{d}</p>
+                  </div>
                 </li>
               )}
             </ol>
@@ -1595,6 +1599,23 @@ const ImportModalMock = () => {
         </div>
         <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-2)' }}>Drop your CSV here, or click to browse</div>
         <div style={{ marginTop: 4, fontSize: 12, color: 'var(--ink-5)' }}>Max 5,000 rows &middot; 5 MB limit</div>
+
+        <div style={{
+        marginTop: 14,
+        display: 'inline-flex', alignItems: 'center', gap: 6,
+        padding: '5px 10px',
+        background: 'color-mix(in oklab, var(--accent) 8%, transparent)',
+        border: '1px solid color-mix(in oklab, var(--accent) 18%, transparent)',
+        borderRadius: 999,
+        fontSize: 11.5, fontWeight: 600, color: 'var(--accent)',
+        whiteSpace: 'nowrap'
+      }}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+            <path d="M19 14l.7 2.1L22 17l-2.3.9L19 20l-.7-2.1L16 17l2.3-.9L19 14z"/>
+          </svg>
+          AI extract from PDF or screenshot
+        </div>
       </div>
 
       {/* Column format guide — expandable, with horizontally scrollable table */}
