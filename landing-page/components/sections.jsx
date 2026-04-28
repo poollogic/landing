@@ -1602,7 +1602,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 1 — UPLOAD ============== */}
         {step === 1 &&
-        <div style={{ padding: 20 }}>
+        <div style={{ padding: 20, minHeight: 340, display: 'flex', flexDirection: 'column' }}>
             <div style={{
             border: '1.5px dashed var(--line)',
             borderRadius: 12,
@@ -1744,12 +1744,20 @@ const ImportModalMock = () => {
                 Download CSV Template
               </div>
             </div>
+
+            <div style={{
+            marginTop: 'auto',
+            paddingTop: 14,
+            fontSize: 11, color: 'var(--ink-5)', textAlign: 'center', fontWeight: 500
+          }}>
+              Bank-grade encryption &middot; No card required to start
+            </div>
           </div>
         }
 
         {/* ============== STEP 2 — PREVIEW ============== */}
         {step === 2 &&
-        <div style={{ padding: 20 }}>
+        <div style={{ padding: 20, minHeight: 340, display: 'flex', flexDirection: 'column' }}>
             <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10 }}>
               First 5 of {TOTAL_ROWS} rows
             </div>
@@ -1800,7 +1808,7 @@ const ImportModalMock = () => {
             <div style={{ textAlign: 'center', marginTop: 10, fontSize: 12, color: 'var(--ink-5)' }}>
               ...and {TOTAL_ROWS - previewRows.length} more rows
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: 16 }}>
               <span style={{ fontSize: 13, color: 'var(--ink-4)', fontWeight: 500, cursor: 'pointer' }}>Back</span>
               <div style={{
               padding: '8px 16px',
@@ -1816,7 +1824,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 3 — DONE ============== */}
         {step === 3 &&
-        <div style={{ padding: 20 }}>
+        <div style={{ padding: 20, minHeight: 340, display: 'flex', flexDirection: 'column' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <div style={{
               padding: '22px 16px',
@@ -1847,7 +1855,7 @@ const ImportModalMock = () => {
                 <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 6 }}>Skipped</div>
               </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, marginTop: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, marginTop: 'auto', paddingTop: 16 }}>
               <div style={{
               padding: '8px 14px',
               background: 'var(--bg)',
@@ -1869,7 +1877,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 4 — BILLING ============== */}
         {step === 4 &&
-        <div style={{ padding: 20 }}>
+        <div style={{ padding: 20, minHeight: 340, display: 'flex', flexDirection: 'column' }}>
             {/* Summary card */}
             <div style={{
             padding: '12px 14px',
@@ -1951,7 +1959,7 @@ const ImportModalMock = () => {
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, marginTop: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, marginTop: 'auto', paddingTop: 16 }}>
               <div style={{
               padding: '8px 14px',
               background: 'var(--bg)',
