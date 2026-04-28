@@ -1440,7 +1440,7 @@ const FAQ = () => {
 // Visual hero is a faithful mock of the in-app Import Customers wizard.
 const Migration = () => {
   return (
-    <section className="section-divider" id="switching" style={{ background: 'var(--bg-soft)' }}>
+    <section className="section-divider" id="switching">
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 56, alignItems: 'center' }}>
 
