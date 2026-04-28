@@ -1505,16 +1505,37 @@ const Migration = () => {
 
 };
 
-const ImportModalMock = () =>
-<div style={{
-  background: 'var(--bg)',
-  border: '1px solid var(--line)',
-  borderRadius: 18,
-  boxShadow: 'var(--shadow-pop)',
-  overflow: 'hidden',
-  fontFamily: "'Geist', sans-serif",
-  position: 'relative'
-}}>
+const ImportModalMock = () => {
+  const [guideOpen, setGuideOpen] = useState(true);
+
+  // Each row: [column name, sample value, isPlaceholder]
+  // Placeholder values are instructive (italic, accent) — they describe what's accepted.
+  const columns = [
+  ['first_name', 'Jane', false],
+  ['last_name', 'Smith', false],
+  ['email', 'jane@example.com', false],
+  ['cc_email', 'billing@example.com', false],
+  ['phone', '(727) 867 5309', false],
+  ['street_address', '123 Maple St', false],
+  ['city', 'Phoenix', false],
+  ['state', 'AZ', false],
+  ['zip_code', '85251', false],
+  ['pool_type', 'Chlorine or Saltwater — defaults to Unknown', true],
+  ['notes', '—', false],
+  ['mrr', '165', false],
+  ['billing_cycle', 'Monthly, Quarterly, or Yearly', true]];
+
+
+  return (
+    <div style={{
+      background: 'var(--bg)',
+      border: '1px solid var(--line)',
+      borderRadius: 18,
+      boxShadow: 'var(--shadow-pop)',
+      overflow: 'hidden',
+      fontFamily: "'Geist', sans-serif",
+      position: 'relative'
+    }}>
     {/* Subtle green wash on header */}
     <div style={{
     position: 'absolute', top: 0, left: 0, right: 0, height: 200,
@@ -1597,23 +1618,77 @@ const ImportModalMock = () =>
         <div style={{ marginTop: 6, fontSize: 12.5, color: 'var(--ink-5)' }}>Max 5,000 rows &middot; 5 MB limit</div>
       </div>
 
+      {/* Column format guide — expandable, with horizontally scrollable table */}
       <div style={{
       marginTop: 16,
-      padding: '12px 14px',
       border: '1px solid var(--line)',
       borderRadius: 12,
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      background: 'var(--bg)'
+      background: 'var(--bg)',
+      overflow: 'hidden'
     }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--ink-2)', fontWeight: 500 }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+        <div onClick={() => setGuideOpen((o) => !o)} style={{
+        padding: '12px 14px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        cursor: 'pointer', userSelect: 'none'
+      }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--ink-2)', fontWeight: 500 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            Column format guide
+          </div>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: guideOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }}>
+            <polyline points="6 9 12 15 18 9"/>
           </svg>
-          Column format guide
         </div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="6 9 12 15 18 9"/>
-        </svg>
+
+        {guideOpen &&
+        <div style={{ borderTop: '1px solid var(--line-2)', position: 'relative' }}>
+            <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+              <table style={{
+              borderCollapse: 'collapse',
+              width: 'max-content',
+              fontSize: 12,
+              fontFamily: "'Geist Mono', ui-monospace, monospace"
+            }}>
+                <thead>
+                  <tr style={{ background: 'var(--bg-soft)' }}>
+                    {columns.map(([h]) =>
+                  <th key={h} style={{
+                    padding: '10px 14px',
+                    textAlign: 'left',
+                    color: 'var(--ink-2)',
+                    fontWeight: 600,
+                    borderRight: '1px solid var(--line-2)',
+                    borderBottom: '1px solid var(--line-2)',
+                    whiteSpace: 'nowrap'
+                  }}>{h}</th>
+                  )}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {columns.map(([h, v, isPlaceholder]) =>
+                  <td key={h} style={{
+                    padding: '12px 14px',
+                    color: isPlaceholder ? 'var(--accent)' : 'var(--ink-5)',
+                    fontStyle: isPlaceholder ? 'italic' : 'normal',
+                    borderRight: '1px solid var(--line-2)',
+                    whiteSpace: 'nowrap'
+                  }}>{v}</td>
+                  )}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            {/* Right-edge fade — tells the eye there's more to scroll to */}
+            <div style={{
+            position: 'absolute', top: 0, right: 0, bottom: 0, width: 48,
+            background: 'linear-gradient(to right, transparent, var(--bg))',
+            pointerEvents: 'none'
+          }} />
+          </div>
+        }
       </div>
 
       <div style={{
@@ -1646,7 +1721,9 @@ const ImportModalMock = () =>
         </div>
       </div>
     </div>
-  </div>;
+  </div>);
+
+};
 
 
 // Final CTA — uses brand drop colors, more visual interest
