@@ -453,7 +453,7 @@ const HeroFloaters = () => {
       </div>
 
       {/* Top-right: invoice paid */}
-      <div style={wrap({ top: -70, right: -100 }, inv)}>
+      <div style={wrap({ top: -90, right: -100 }, inv)}>
         <div style={{
           ...card,
           padding: '12px 14px', width: 232,
