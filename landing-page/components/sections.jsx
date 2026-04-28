@@ -1442,7 +1442,7 @@ const Migration = () => {
   return (
     <section className="section-divider" id="switching">
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: 56, alignItems: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)', gap: 56, alignItems: 'center' }}>
 
           {/* Copy */}
           <div>
