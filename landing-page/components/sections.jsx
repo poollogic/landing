@@ -1489,10 +1489,12 @@ const Migration = () => {
 };
 
 const ImportModalMock = () => {
+  const [step, setStep] = useState(1);
   const [guideOpen, setGuideOpen] = useState(false);
 
-  // Each row: [column name, sample value, isPlaceholder]
-  // Placeholder values are instructive (italic, accent) — they describe what's accepted.
+  const TOTAL_ROWS = 107;
+
+  // Column format guide — instructive placeholder values are italic + accent.
   const columns = [
   ['first_name', 'Jane', false],
   ['last_name', 'Smith', false],
@@ -1508,220 +1510,498 @@ const ImportModalMock = () => {
   ['mrr', '165', false],
   ['billing_cycle', 'Monthly, Quarterly, or Yearly', true]];
 
+  // Fake customer rows for the preview step. Florida-flavored, plausibly fictional.
+  const previewRows = [
+  ['Maria Henderson', '142 Palmetto Ln, Tampa, FL', 'maria.h@gmail.com', '(813) 555-0142', 'Saltwater', '$135.00'],
+  ['David Chen', '88 Magnolia Ct, St. Pete, FL', 'dchen88@gmail.com', '(727) 555-0188', 'Chlorine', '$115.00'],
+  ['Patricia Brooks', '4501 Bayshore Rd, Sarasota', 'pbrooks@outlook.com', '(941) 555-4501', 'Saltwater', '$165.00'],
+  ['Marcus Holloway', '233 Live Oak Dr, Brandon', 'mholloway@yahoo.com', '(813) 555-0233', 'Chlorine', '$125.00'],
+  ['Rachel Kim', '1789 Coral Way, Clearwater', 'rkim@gmail.com', '(727) 555-1789', 'Saltwater', '$145.00']];
+
+  const subtitles = {
+    1: 'Upload a CSV file to import customers in bulk.',
+    2: `Previewing up to 5 of ${TOTAL_ROWS} rows.`,
+    3: `Done — ${TOTAL_ROWS} imported, 0 skipped.`,
+    4: 'Configure billing settings for imported customers.'
+  };
+
+  const showStepDots = step === 1 || step === 2;
 
   return (
-    <div style={{
-      background: 'var(--bg)',
-      border: '1px solid var(--line)',
-      borderRadius: 16,
-      boxShadow: 'var(--shadow-pop)',
-      overflow: 'hidden',
-      fontFamily: "'Geist', sans-serif",
-      position: 'relative'
-    }}>
-    {/* Subtle green wash on header */}
-    <div style={{
-    position: 'absolute', top: 0, left: 0, right: 0, height: 160,
-    background: 'linear-gradient(180deg, color-mix(in oklab, var(--brand-green) 8%, transparent), transparent)',
-    pointerEvents: 'none'
-  }} />
-
-    <div style={{ padding: 20, position: 'relative' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <div style={{
-        width: 36, height: 36, borderRadius: 10,
-        background: 'var(--brand-green)',
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        color: '#fff'
-      }}>
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
-        </div>
-        <div style={{
-        width: 26, height: 26, borderRadius: 7,
+    <div>
+      <div style={{
         background: 'var(--bg)',
         border: '1px solid var(--line)',
-        color: 'var(--ink-4)',
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center'
+        borderRadius: 16,
+        boxShadow: 'var(--shadow-pop)',
+        overflow: 'hidden',
+        fontFamily: "'Geist', sans-serif",
+        position: 'relative'
       }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </div>
-      </div>
-
-      <div style={{ marginTop: 14 }}>
-        <h3 style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.015em', color: 'var(--ink)', margin: 0 }}>Import Customers</h3>
-        <p style={{ marginTop: 4, fontSize: 13, color: 'var(--ink-5)', margin: '4px 0 0' }}>Upload a CSV file to import customers in bulk.</p>
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 14 }}>
-        <span style={{
-        width: 19, height: 19, borderRadius: '50%',
-        background: 'var(--brand-green)', color: '#fff',
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 10, fontWeight: 600
-      }}>1</span>
-        <span style={{ width: 26, height: 1, background: 'var(--line)' }} />
-        <span style={{
-        width: 19, height: 19, borderRadius: '50%',
-        background: 'var(--bg-muted)', color: 'var(--ink-5)',
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 10, fontWeight: 600
-      }}>2</span>
-      </div>
-    </div>
-
-    <div style={{ height: 1, background: 'var(--line-2)', margin: '0 20px' }} />
-
-    <div style={{ padding: 20 }}>
-      <div style={{
-      border: '1.5px dashed var(--line)',
-      borderRadius: 12,
-      padding: '26px 16px',
-      textAlign: 'center'
-    }}>
+        {/* Subtle green wash on header */}
         <div style={{
-        width: 40, height: 40, borderRadius: 10,
-        background: 'var(--bg-muted)',
-        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        marginBottom: 12
-      }}>
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
-            <line x1="9" y1="13" x2="15" y2="13"/>
-            <line x1="9" y1="17" x2="15" y2="17"/>
-          </svg>
-        </div>
-        <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-2)' }}>Drop your CSV here, or click to browse</div>
-        <div style={{ marginTop: 4, fontSize: 12, color: 'var(--ink-5)' }}>Max 5,000 rows &middot; 5 MB limit</div>
+          position: 'absolute', top: 0, left: 0, right: 0, height: 160,
+          background: 'linear-gradient(180deg, color-mix(in oklab, var(--brand-green) 8%, transparent), transparent)',
+          pointerEvents: 'none'
+        }} />
 
-        <div style={{
-        marginTop: 14,
-        display: 'inline-flex', alignItems: 'center', gap: 6,
-        padding: '5px 10px',
-        background: 'color-mix(in oklab, var(--accent) 8%, transparent)',
-        border: '1px solid color-mix(in oklab, var(--accent) 18%, transparent)',
-        borderRadius: 999,
-        fontSize: 11.5, fontWeight: 600, color: 'var(--accent)',
-        whiteSpace: 'nowrap'
-      }}>
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
-            <path d="M19 14l.7 2.1L22 17l-2.3.9L19 20l-.7-2.1L16 17l2.3-.9L19 14z"/>
-          </svg>
-          AI extract from PDF or screenshot
-        </div>
-      </div>
-
-      {/* Column format guide — expandable, with horizontally scrollable table */}
-      <div style={{
-      marginTop: 12,
-      border: '1px solid var(--line)',
-      borderRadius: 10,
-      background: 'var(--bg)',
-      overflow: 'hidden'
-    }}>
-        <div onClick={() => setGuideOpen((o) => !o)} style={{
-        padding: '10px 12px',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        cursor: 'pointer', userSelect: 'none'
-      }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--ink-2)', fontWeight: 500 }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-            </svg>
-            Column format guide
-          </div>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: guideOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }}>
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
-        </div>
-
-        {guideOpen &&
-        <div style={{ borderTop: '1px solid var(--line-2)', position: 'relative' }}>
-            <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-              <table style={{
-              borderCollapse: 'collapse',
-              width: 'max-content',
-              fontSize: 11,
-              fontFamily: "'Geist Mono', ui-monospace, monospace"
-            }}>
-                <thead>
-                  <tr style={{ background: 'var(--bg-soft)' }}>
-                    {columns.map(([h]) =>
-                  <th key={h} style={{
-                    padding: '8px 12px',
-                    textAlign: 'left',
-                    color: 'var(--ink-2)',
-                    fontWeight: 600,
-                    borderRight: '1px solid var(--line-2)',
-                    borderBottom: '1px solid var(--line-2)',
-                    whiteSpace: 'nowrap'
-                  }}>{h}</th>
-                  )}
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    {columns.map(([h, v, isPlaceholder]) =>
-                  <td key={h} style={{
-                    padding: '9px 12px',
-                    color: isPlaceholder ? 'var(--accent)' : 'var(--ink-5)',
-                    fontStyle: isPlaceholder ? 'italic' : 'normal',
-                    borderRight: '1px solid var(--line-2)',
-                    whiteSpace: 'nowrap'
-                  }}>{v}</td>
-                  )}
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            {/* Right-edge fade — tells the eye there's more to scroll to */}
+        <div style={{ padding: 20, position: 'relative' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
             <div style={{
-            position: 'absolute', top: 0, right: 0, bottom: 0, width: 40,
-            background: 'linear-gradient(to right, transparent, var(--bg))',
-            pointerEvents: 'none'
-          }} />
+              width: 36, height: 36, borderRadius: 10,
+              background: 'var(--brand-green)',
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              color: '#fff'
+            }}>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <div style={{
+              width: 26, height: 26, borderRadius: 7,
+              background: 'var(--bg)',
+              border: '1px solid var(--line)',
+              color: 'var(--ink-4)',
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center'
+            }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </div>
+          </div>
+
+          <div style={{ marginTop: 14 }}>
+            <h3 style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.015em', color: 'var(--ink)', margin: 0 }}>Import Customers</h3>
+            <p style={{ marginTop: 4, fontSize: 13, color: 'var(--ink-5)', margin: '4px 0 0' }}>{subtitles[step]}</p>
+          </div>
+
+          {showStepDots &&
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 14 }}>
+              <span style={{
+              width: 19, height: 19, borderRadius: '50%',
+              background: step === 2 ? 'color-mix(in oklab, var(--brand-green) 25%, transparent)' : 'var(--brand-green)',
+              color: step === 2 ? 'var(--brand-green)' : '#fff',
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 10, fontWeight: 600
+            }}>1</span>
+              <span style={{ width: 26, height: 1, background: 'var(--line)' }} />
+              <span style={{
+              width: 19, height: 19, borderRadius: '50%',
+              background: step >= 2 ? 'var(--brand-green)' : 'var(--bg-muted)',
+              color: step >= 2 ? '#fff' : 'var(--ink-5)',
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 10, fontWeight: 600
+            }}>2</span>
+            </div>
+          }
+        </div>
+
+        <div style={{ height: 1, background: 'var(--line-2)', margin: '0 20px' }} />
+
+        {/* ============== STEP 1 — UPLOAD ============== */}
+        {step === 1 &&
+        <div style={{ padding: 20 }}>
+            <div style={{
+            border: '1.5px dashed var(--line)',
+            borderRadius: 12,
+            padding: '26px 16px',
+            textAlign: 'center'
+          }}>
+              <div style={{
+              width: 40, height: 40, borderRadius: 10,
+              background: 'var(--bg-muted)',
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              marginBottom: 12
+            }}>
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="9" y1="13" x2="15" y2="13"/>
+                  <line x1="9" y1="17" x2="15" y2="17"/>
+                </svg>
+              </div>
+              <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-2)' }}>Drop your CSV here, or click to browse</div>
+              <div style={{ marginTop: 4, fontSize: 12, color: 'var(--ink-5)' }}>Max 5,000 rows &middot; 5 MB limit</div>
+
+              <div style={{
+              marginTop: 14,
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              padding: '5px 10px',
+              background: 'color-mix(in oklab, var(--accent) 8%, transparent)',
+              border: '1px solid color-mix(in oklab, var(--accent) 18%, transparent)',
+              borderRadius: 999,
+              fontSize: 11.5, fontWeight: 600, color: 'var(--accent)',
+              whiteSpace: 'nowrap'
+            }}>
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+                  <path d="M19 14l.7 2.1L22 17l-2.3.9L19 20l-.7-2.1L16 17l2.3-.9L19 14z"/>
+                </svg>
+                AI extract from PDF or screenshot
+              </div>
+            </div>
+
+            {/* Column format guide */}
+            <div style={{
+            marginTop: 12,
+            border: '1px solid var(--line)',
+            borderRadius: 10,
+            background: 'var(--bg)',
+            overflow: 'hidden'
+          }}>
+              <div onClick={() => setGuideOpen((o) => !o)} style={{
+              padding: '10px 12px',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              cursor: 'pointer', userSelect: 'none'
+            }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 9, fontSize: 13, color: 'var(--ink-2)', fontWeight: 500 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                  </svg>
+                  Column format guide
+                </div>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: guideOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s' }}>
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+
+              {guideOpen &&
+              <div style={{ borderTop: '1px solid var(--line-2)', position: 'relative' }}>
+                  <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                    <table style={{
+                    borderCollapse: 'collapse',
+                    width: 'max-content',
+                    fontSize: 11,
+                    fontFamily: "'Geist Mono', ui-monospace, monospace"
+                  }}>
+                      <thead>
+                        <tr style={{ background: 'var(--bg-soft)' }}>
+                          {columns.map(([h]) =>
+                        <th key={h} style={{
+                          padding: '8px 12px',
+                          textAlign: 'left',
+                          color: 'var(--ink-2)',
+                          fontWeight: 600,
+                          borderRight: '1px solid var(--line-2)',
+                          borderBottom: '1px solid var(--line-2)',
+                          whiteSpace: 'nowrap'
+                        }}>{h}</th>
+                        )}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          {columns.map(([h, v, isPlaceholder]) =>
+                        <td key={h} style={{
+                          padding: '9px 12px',
+                          color: isPlaceholder ? 'var(--accent)' : 'var(--ink-5)',
+                          fontStyle: isPlaceholder ? 'italic' : 'normal',
+                          borderRight: '1px solid var(--line-2)',
+                          whiteSpace: 'nowrap'
+                        }}>{v}</td>
+                        )}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div style={{
+                  position: 'absolute', top: 0, right: 0, bottom: 0, width: 40,
+                  background: 'linear-gradient(to right, transparent, var(--bg))',
+                  pointerEvents: 'none'
+                }} />
+                </div>
+              }
+            </div>
+
+            <div style={{
+            marginTop: 10,
+            padding: '12px 14px',
+            background: 'var(--bg-soft)',
+            border: '1px solid var(--line-2)',
+            borderRadius: 10,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12
+          }}>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>Need a template?</div>
+                <div style={{ marginTop: 2, fontSize: 11.5, color: 'var(--ink-5)' }}>Download a pre-formatted CSV with example data.</div>
+              </div>
+              <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 7,
+              padding: '6px 12px',
+              background: 'var(--bg)',
+              border: '1px solid var(--line)',
+              borderRadius: 8,
+              fontSize: 12, fontWeight: 600, color: 'var(--ink-2)',
+              whiteSpace: 'nowrap'
+            }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download CSV Template
+              </div>
+            </div>
+          </div>
+        }
+
+        {/* ============== STEP 2 — PREVIEW ============== */}
+        {step === 2 &&
+        <div style={{ padding: 20 }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10 }}>
+              First 5 of {TOTAL_ROWS} rows
+            </div>
+            <div style={{ border: '1px solid var(--line)', borderRadius: 10, overflow: 'hidden', position: 'relative' }}>
+              <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 12 }}>
+                  <thead>
+                    <tr style={{ background: 'var(--bg-soft)' }}>
+                      {['Name', 'Address', 'Email', 'Phone', 'Pool Type', 'MRR'].map((h, i) =>
+                    <th key={h} style={{
+                      padding: '8px 12px',
+                      textAlign: i === 5 ? 'right' : 'left',
+                      color: 'var(--ink-5)',
+                      fontWeight: 600,
+                      borderBottom: '1px solid var(--line-2)',
+                      whiteSpace: 'nowrap',
+                      fontSize: 11
+                    }}>{h}</th>
+                    )}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {previewRows.map((row, ri) =>
+                  <tr key={ri} style={{ borderBottom: ri < previewRows.length - 1 ? '1px solid var(--line-2)' : 'none' }}>
+                        {row.map((cell, ci) =>
+                    <td key={ci} style={{
+                      padding: '10px 12px',
+                      color: ci === 0 ? 'var(--ink-2)' : 'var(--ink-4)',
+                      fontWeight: ci === 0 ? 600 : 400,
+                      textAlign: ci === 5 ? 'right' : 'left',
+                      whiteSpace: 'nowrap',
+                      maxWidth: ci === 1 || ci === 2 ? 140 : undefined,
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }}>{cell}</td>
+                    )}
+                      </tr>
+                  )}
+                  </tbody>
+                </table>
+              </div>
+              <div style={{
+              position: 'absolute', top: 0, right: 0, bottom: 0, width: 32,
+              background: 'linear-gradient(to right, transparent, var(--bg))',
+              pointerEvents: 'none'
+            }} />
+            </div>
+            <div style={{ textAlign: 'center', marginTop: 10, fontSize: 12, color: 'var(--ink-5)' }}>
+              ...and {TOTAL_ROWS - previewRows.length} more rows
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
+              <span style={{ fontSize: 13, color: 'var(--ink-4)', fontWeight: 500, cursor: 'pointer' }}>Back</span>
+              <div style={{
+              padding: '8px 16px',
+              background: 'var(--accent)',
+              color: '#fff',
+              borderRadius: 8,
+              fontSize: 13, fontWeight: 600,
+              whiteSpace: 'nowrap'
+            }}>Import {TOTAL_ROWS} customers</div>
+            </div>
+          </div>
+        }
+
+        {/* ============== STEP 3 — DONE ============== */}
+        {step === 3 &&
+        <div style={{ padding: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div style={{
+              padding: '22px 16px',
+              textAlign: 'center',
+              background: 'color-mix(in oklab, var(--brand-green) 6%, transparent)',
+              border: '1px solid color-mix(in oklab, var(--brand-green) 30%, transparent)',
+              borderRadius: 12
+            }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="9 12 11 14 15 10"/>
+                </svg>
+                <div style={{ fontSize: 28, fontWeight: 700, color: 'color-mix(in oklab, var(--brand-green) 85%, black)', marginTop: 6, lineHeight: 1 }}>{TOTAL_ROWS}</div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--brand-green)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 6 }}>Imported</div>
+              </div>
+              <div style={{
+              padding: '22px 16px',
+              textAlign: 'center',
+              background: 'var(--bg-soft)',
+              border: '1px solid var(--line)',
+              borderRadius: 12
+            }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="9 12 11 14 15 10"/>
+                </svg>
+                <div style={{ fontSize: 28, fontWeight: 700, color: 'var(--ink-3)', marginTop: 6, lineHeight: 1 }}>0</div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 6 }}>Skipped</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, marginTop: 16 }}>
+              <div style={{
+              padding: '8px 14px',
+              background: 'var(--bg)',
+              border: '1px solid var(--line)',
+              borderRadius: 8,
+              fontSize: 13, fontWeight: 600, color: 'var(--ink-2)'
+            }}>Done</div>
+              <div onClick={() => setStep(4)} style={{
+              padding: '8px 14px',
+              background: 'var(--accent)',
+              color: '#fff',
+              borderRadius: 8,
+              fontSize: 13, fontWeight: 600,
+              cursor: 'pointer'
+            }}>Set up billing →</div>
+            </div>
+          </div>
+        }
+
+        {/* ============== STEP 4 — BILLING ============== */}
+        {step === 4 &&
+        <div style={{ padding: 20 }}>
+            {/* Summary card */}
+            <div style={{
+            padding: '12px 14px',
+            background: 'var(--bg-soft)',
+            border: '1px solid var(--line)',
+            borderRadius: 10,
+            display: 'flex', alignItems: 'center', gap: 12
+          }}>
+              <div style={{
+              width: 32, height: 32, borderRadius: 8,
+              background: 'var(--bg)',
+              border: '1px solid var(--line)',
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--brand-green)',
+              flexShrink: 0
+            }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-2)' }}>Set up billing</div>
+                <div style={{ marginTop: 2, fontSize: 11.5, color: 'var(--ink-5)' }}>Configure billing for the {TOTAL_ROWS} imported customers.</div>
+              </div>
+            </div>
+
+            <div style={{ marginTop: 14 }}>
+              <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>First Invoice Date</div>
+              <div style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              padding: '8px 12px',
+              border: '1px solid var(--line)',
+              borderRadius: 8,
+              fontSize: 13, color: 'var(--ink-2)'
+            }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6"/>
+                  <line x1="8" y1="2" x2="8" y2="6"/>
+                  <line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+                05/01/2026
+              </div>
+            </div>
+
+            <div style={{ marginTop: 12 }}>
+              <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>Payment Terms</div>
+              <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '8px 12px',
+              border: '1px solid var(--line)',
+              borderRadius: 8,
+              fontSize: 13, color: 'var(--ink-2)'
+            }}>
+                Net 30 — 30 days
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginTop: 12 }}>
+              <div>
+                <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>CC Processing Fee</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ width: 13, height: 13, border: '1.5px solid var(--line)', borderRadius: 3, background: 'var(--bg)', flexShrink: 0 }} />
+                  <span style={{ fontSize: 13, color: 'var(--ink-2)' }}>Pass 2% fee</span>
+                </div>
+              </div>
+              <div>
+                <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>Chemical Charges</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ width: 13, height: 13, border: '1.5px solid var(--line)', borderRadius: 3, background: 'var(--bg)', flexShrink: 0 }} />
+                  <span style={{ fontSize: 13, color: 'var(--ink-2)' }}>Add to invoice</span>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, marginTop: 16 }}>
+              <div style={{
+              padding: '8px 14px',
+              background: 'var(--bg)',
+              border: '1px solid var(--line)',
+              borderRadius: 8,
+              fontSize: 13, fontWeight: 600, color: 'var(--ink-2)'
+            }}>Skip</div>
+              <div style={{
+              padding: '8px 14px',
+              background: 'var(--accent)',
+              color: '#fff',
+              borderRadius: 8,
+              fontSize: 13, fontWeight: 600
+            }}>Apply</div>
+            </div>
           </div>
         }
       </div>
 
+      {/* Step navigation tabs */}
       <div style={{
-      marginTop: 10,
-      padding: '12px 14px',
-      background: 'var(--bg-soft)',
-      border: '1px solid var(--line-2)',
-      borderRadius: 10,
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12
-    }}>
-        <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>Need a template?</div>
-          <div style={{ marginTop: 2, fontSize: 11.5, color: 'var(--ink-5)' }}>Download a pre-formatted CSV with example data.</div>
-        </div>
-        <div style={{
-        display: 'inline-flex', alignItems: 'center', gap: 7,
-        padding: '6px 12px',
-        background: 'var(--bg)',
-        border: '1px solid var(--line)',
-        borderRadius: 8,
-        fontSize: 12, fontWeight: 600, color: 'var(--ink-2)',
-        whiteSpace: 'nowrap'
+        marginTop: 12,
+        display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap'
       }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Download CSV Template
-        </div>
+        {[
+        [1, 'Upload'],
+        [2, 'Preview'],
+        [3, 'Done'],
+        [4, 'Billing']].
+        map(([n, label]) =>
+        <button
+          key={n}
+          onClick={() => setStep(n)}
+          style={{
+            padding: '6px 12px',
+            border: '1px solid ' + (step === n ? 'var(--ink)' : 'var(--line)'),
+            background: step === n ? 'var(--ink)' : 'var(--bg)',
+            color: step === n ? 'var(--bg)' : 'var(--ink-3)',
+            borderRadius: 999,
+            fontSize: 12, fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all .15s',
+            fontFamily: 'inherit'
+          }}>
+            <span style={{ opacity: step === n ? 0.65 : 0.6, marginRight: 6, fontFamily: "'Geist Mono', ui-monospace, monospace" }}>{n}</span>
+            {label}
+          </button>
+        )}
       </div>
-    </div>
-  </div>);
+    </div>);
 
 };
 
