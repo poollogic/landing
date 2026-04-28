@@ -1485,7 +1485,7 @@ const Migration = () => {
 };
 
 const ImportModalMock = () => {
-  const [guideOpen, setGuideOpen] = useState(true);
+  const [guideOpen, setGuideOpen] = useState(false);
 
   // Each row: [column name, sample value, isPlaceholder]
   // Placeholder values are instructive (italic, accent) — they describe what's accepted.
