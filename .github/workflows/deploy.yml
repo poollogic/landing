@@ -1,26 +1,26 @@
 name: Deploy to Cloudflare Pages
 
-  on:
+on:
   push:
     branches:
       - main
 
-        jobs:
+jobs:
   deploy:
     runs-on: ubuntu-latest
-          permissions:
+    permissions:
       contents: read
-              deployments: write
+      deployments: write
 
-                    steps:
+    steps:
       - name: Checkout
-                uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
-                        - name: Deploy to Cloudflare Pages
-                                  uses: cloudflare/pages-action@v1
-                                            with:
-                                              apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: landing
-                      directory: .
-                                  gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          directory: .
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
