@@ -1529,6 +1529,37 @@ const ImportModalMock = () => {
 
   return (
     <div>
+      {/* Step navigation tabs */}
+      <div style={{
+        marginBottom: 12,
+        display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap'
+      }}>
+        {[
+        [1, 'Upload'],
+        [2, 'Preview'],
+        [3, 'Done'],
+        [4, 'Billing']].
+        map(([n, label]) =>
+        <button
+          key={n}
+          onClick={() => setStep(n)}
+          style={{
+            padding: '6px 12px',
+            border: '1px solid ' + (step === n ? 'var(--ink)' : 'var(--line)'),
+            background: step === n ? 'var(--ink)' : 'var(--bg)',
+            color: step === n ? 'var(--bg)' : 'var(--ink-3)',
+            borderRadius: 999,
+            fontSize: 12, fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all .15s',
+            fontFamily: 'inherit'
+          }}>
+            <span style={{ opacity: step === n ? 0.65 : 0.6, marginRight: 6, fontFamily: "'Geist Mono', ui-monospace, monospace" }}>{n}</span>
+            {label}
+          </button>
+        )}
+      </div>
+
       <div style={{
         background: 'var(--bg)',
         border: '1px solid var(--line)',
@@ -1825,7 +1856,8 @@ const ImportModalMock = () => {
         {/* ============== STEP 3 — DONE ============== */}
         {step === 3 &&
         <div style={{ padding: 20, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, width: '100%' }}>
               <div style={{
               padding: '22px 16px',
               textAlign: 'center',
@@ -1855,7 +1887,8 @@ const ImportModalMock = () => {
                 <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 6 }}>Skipped</div>
               </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, marginTop: 'auto', paddingTop: 16 }}>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, paddingTop: 16 }}>
               <div style={{
               padding: '8px 14px',
               background: 'var(--bg)',
@@ -1977,37 +2010,6 @@ const ImportModalMock = () => {
             </div>
           </div>
         }
-      </div>
-
-      {/* Step navigation tabs */}
-      <div style={{
-        marginTop: 12,
-        display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap'
-      }}>
-        {[
-        [1, 'Upload'],
-        [2, 'Preview'],
-        [3, 'Done'],
-        [4, 'Billing']].
-        map(([n, label]) =>
-        <button
-          key={n}
-          onClick={() => setStep(n)}
-          style={{
-            padding: '6px 12px',
-            border: '1px solid ' + (step === n ? 'var(--ink)' : 'var(--line)'),
-            background: step === n ? 'var(--ink)' : 'var(--bg)',
-            color: step === n ? 'var(--bg)' : 'var(--ink-3)',
-            borderRadius: 999,
-            fontSize: 12, fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all .15s',
-            fontFamily: 'inherit'
-          }}>
-            <span style={{ opacity: step === n ? 0.65 : 0.6, marginRight: 6, fontFamily: "'Geist Mono', ui-monospace, monospace" }}>{n}</span>
-            {label}
-          </button>
-        )}
       </div>
     </div>);
 
