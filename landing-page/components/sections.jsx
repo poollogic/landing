@@ -1446,8 +1446,7 @@ const Migration = () => {
 
           {/* Copy */}
           <div>
-            <span className="eyebrow"><span className="dot"></span>Switching</span>
-            <h2 style={{ marginTop: 14 }}>Ready to make the switch?</h2>
+            <h2 style={{ marginTop: 0 }}>Ready to make the switch?</h2>
             <p style={{ marginTop: 16, fontSize: 17, lineHeight: 1.55, maxWidth: 520 }}>
               Bring your full customer book over in one pass &mdash; most teams are live on PoolLogic in under an hour.
             </p>
