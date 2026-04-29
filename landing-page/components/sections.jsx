@@ -1526,35 +1526,68 @@ const ImportModalMock = () => {
 
   return (
     <div>
-      {/* Step navigation tabs */}
+      {/* Flash-card nav: prev/next arrows with step label */}
       <div style={{
-        marginBottom: 12,
-        display: 'flex', gap: 6, justifyContent: 'center', flexWrap: 'wrap'
+        marginBottom: 14,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14
       }}>
-        {[
-        [1, 'Upload'],
-        [2, 'Preview'],
-        [3, 'Done'],
-        [4, 'Billing']].
-        map(([n, label]) =>
         <button
-          key={n}
-          onClick={() => setStep(n)}
+          onClick={() => setStep((s) => Math.max(1, s - 1))}
+          disabled={step === 1}
+          aria-label="Previous step"
           style={{
-            padding: '6px 12px',
-            border: '1px solid ' + (step === n ? 'var(--ink)' : 'var(--line)'),
-            background: step === n ? 'var(--ink)' : 'var(--bg)',
-            color: step === n ? 'var(--bg)' : 'var(--ink-3)',
-            borderRadius: 999,
-            fontSize: 12, fontWeight: 600,
-            cursor: 'pointer',
-            transition: 'all .15s',
-            fontFamily: 'inherit'
-          }}>
-            <span style={{ opacity: step === n ? 0.65 : 0.6, marginRight: 6, fontFamily: "'Geist Mono', ui-monospace, monospace" }}>{n}</span>
-            {label}
-          </button>
-        )}
+            width: 36, height: 36, borderRadius: '50%',
+            border: '1px solid var(--line)',
+            background: 'var(--bg)',
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            cursor: step === 1 ? 'default' : 'pointer',
+            opacity: step === 1 ? 0.35 : 1,
+            transition: 'transform .15s ease, box-shadow .15s ease, background .15s',
+            color: 'var(--ink-2)',
+            boxShadow: '0 1px 2px rgba(15, 23, 42, .04)',
+            padding: 0
+          }}
+          onMouseEnter={(e) => { if (step !== 1) { e.currentTarget.style.transform = 'translateX(-2px)'; e.currentTarget.style.background = 'var(--bg-soft)'; } }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.background = 'var(--bg)'; }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+
+        <div style={{
+          display: 'inline-flex', alignItems: 'baseline', gap: 8,
+          minWidth: 130, justifyContent: 'center'
+        }}>
+          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-2)' }}>
+            {{ 1: 'Upload', 2: 'Preview', 3: 'Done', 4: 'Billing' }[step]}
+          </span>
+          <span style={{ fontSize: 11.5, color: 'var(--ink-5)', fontFamily: "'Geist Mono', ui-monospace, monospace" }}>
+            {step} / 4
+          </span>
+        </div>
+
+        <button
+          onClick={() => setStep((s) => Math.min(4, s + 1))}
+          disabled={step === 4}
+          aria-label="Next step"
+          style={{
+            width: 36, height: 36, borderRadius: '50%',
+            border: '1px solid var(--line)',
+            background: 'var(--bg)',
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            cursor: step === 4 ? 'default' : 'pointer',
+            opacity: step === 4 ? 0.35 : 1,
+            transition: 'transform .15s ease, box-shadow .15s ease, background .15s',
+            color: 'var(--ink-2)',
+            boxShadow: '0 1px 2px rgba(15, 23, 42, .04)',
+            padding: 0
+          }}
+          onMouseEnter={(e) => { if (step !== 4) { e.currentTarget.style.transform = 'translateX(2px)'; e.currentTarget.style.background = 'var(--bg-soft)'; } }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.background = 'var(--bg)'; }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
       </div>
 
       <div style={{
@@ -1770,14 +1803,6 @@ const ImportModalMock = () => {
                 </svg>
                 Download CSV Template
               </div>
-            </div>
-
-            <div style={{
-            marginTop: 'auto',
-            paddingTop: 14,
-            fontSize: 11, color: 'var(--ink-5)', textAlign: 'center', fontWeight: 500
-          }}>
-              Bank-grade encryption &middot; No card required to start
             </div>
           </div>
         }
