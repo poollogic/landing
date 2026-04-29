@@ -1446,16 +1446,18 @@ const Migration = () => {
 
           {/* Copy */}
           <div>
-            <h2 style={{ marginTop: 0 }}>Ready to make the switch?</h2>
+            <h2 style={{ marginTop: 0 }}>
+              Ready to make the <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontWeight: 400, letterSpacing: '-0.01em' }}>switch</span>?
+            </h2>
             <p style={{ marginTop: 16, fontSize: 17, lineHeight: 1.55, maxWidth: 520 }}>
-              Bring your full customer book over in one pass &mdash; most teams are live on PoolLogic in under an hour.
+              Move your full customer book over in one upload. Most teams are running PoolLogic by their next service stop.
             </p>
 
-            <ol style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 28, padding: 0, listStyle: 'none' }}>
+            <ol style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 32, padding: 0, listStyle: 'none' }}>
               {[
-              ['Upload your list', 'Drop a CSV with up to 5,000 rows. No clean export? Our AI pulls customer data from a PDF or screenshot.'],
-              ['Set billing rules', 'First invoice date, credit-card fees, chemical billing.'],
-              ['Live the same day', 'Routes, history, and invoices ready before your next stop.']].
+              ['Bring your list', 'CSV up to 5,000 customers, or let our AI extract data straight from a PDF or screenshot.'],
+              ['Set billing rules', 'First invoice date, card fees, chemical billing.'],
+              ['You’re live', 'Routes, history, and invoices ready before your next stop.']].
               map(([t, d], i) =>
               <li key={i} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 14, alignItems: 'flex-start' }}>
                   <span style={{
@@ -1525,7 +1527,7 @@ const ImportModalMock = () => {
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: 460, marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
       {/* Flash-card nav: prev/next arrows with step label */}
       <div style={{
         marginBottom: 14,
@@ -1662,7 +1664,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 1 — UPLOAD ============== */}
         {step === 1 &&
-        <div style={{ padding: 20, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 20, minHeight: 360, display: 'flex', flexDirection: 'column' }}>
             <div style={{
             border: '1.5px dashed var(--line)',
             borderRadius: 12,
@@ -1809,7 +1811,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 2 — PREVIEW ============== */}
         {step === 2 &&
-        <div style={{ padding: 20, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 20, minHeight: 360, display: 'flex', flexDirection: 'column' }}>
             <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10 }}>
               First 5 of {TOTAL_ROWS} rows
             </div>
@@ -1876,7 +1878,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 3 — DONE ============== */}
         {step === 3 &&
-        <div style={{ padding: 20, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 20, minHeight: 360, display: 'flex', flexDirection: 'column' }}>
             <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, width: '100%' }}>
               <div style={{
@@ -1931,7 +1933,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 4 — BILLING ============== */}
         {step === 4 &&
-        <div style={{ padding: 20, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 20, minHeight: 360, display: 'flex', flexDirection: 'column' }}>
             {/* Summary card */}
             <div style={{
             padding: '12px 14px',
