@@ -1447,13 +1447,13 @@ const Migration = () => {
           {/* Copy */}
           <div>
             <h2 style={{ marginTop: 0, letterSpacing: '-0.035em', lineHeight: 1.05 }}>
-              Switch in less time than it takes to do a <span style={{ fontStyle: 'italic', fontWeight: 500 }}>route</span>.
+              Switch in less time than it takes to do a route.
             </h2>
             <p style={{ marginTop: 22, fontSize: 17, lineHeight: 1.5, maxWidth: 500, color: 'var(--ink-4)', fontWeight: 400 }}>
-              Move your full customer book over in one upload &mdash; CSV, PDF, or even a screenshot. We&rsquo;re proud to say we have the fastest setups in the pool software space.
+              Move your full customer book over in one upload &mdash; CSV, PDF, or even a screenshot. Hands down the fastest setup in pool software.
             </p>
 
-            <ol style={{ marginTop: 48, padding: 0, listStyle: 'none' }}>
+            <ol style={{ marginTop: 56, padding: 0, listStyle: 'none' }}>
               {[
               ['Bring your list', 'CSV up to 5,000 customers, or let our AI extract data from a PDF or screenshot.'],
               ['Set billing rules', 'First invoice date, card fees, chemical billing.'],
