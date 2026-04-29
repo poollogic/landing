@@ -1447,7 +1447,7 @@ const Migration = () => {
           {/* Copy */}
           <div>
             <h2 style={{ marginTop: 0, letterSpacing: '-0.035em', lineHeight: 1.05 }}>
-              Switch in less time than it takes to do a <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontWeight: 400, letterSpacing: '-0.015em' }}>route</span>.
+              Switch in less time than it takes to do a <span style={{ fontStyle: 'italic', fontWeight: 500 }}>route</span>.
             </h2>
             <p style={{ marginTop: 22, fontSize: 17, lineHeight: 1.5, maxWidth: 500, color: 'var(--ink-4)', fontWeight: 400 }}>
               Move your full customer book over in one upload &mdash; CSV, PDF, or even a screenshot. We&rsquo;re proud to say we have the fastest setups in the pool software space.
