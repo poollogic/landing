@@ -1446,38 +1446,55 @@ const Migration = () => {
 
           {/* Copy */}
           <div>
-            <h2 style={{ marginTop: 0 }}>
-              Ready to make the <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontWeight: 400, letterSpacing: '-0.01em' }}>switch</span>?
+            <h2 style={{ marginTop: 0, letterSpacing: '-0.035em', lineHeight: 1.05 }}>
+              Ready to make the <span style={{ fontFamily: "'Instrument Serif', serif", fontStyle: 'italic', fontWeight: 400, letterSpacing: '-0.015em' }}>switch</span>?
             </h2>
-            <p style={{ marginTop: 16, fontSize: 17, lineHeight: 1.55, maxWidth: 520 }}>
+            <p style={{ marginTop: 22, fontSize: 17, lineHeight: 1.5, maxWidth: 460, color: 'var(--ink-4)', fontWeight: 400 }}>
               Move your full customer book over in one upload. Most teams are running PoolLogic by their next service stop.
             </p>
 
-            <ol style={{ display: 'flex', flexDirection: 'column', gap: 18, marginTop: 32, padding: 0, listStyle: 'none' }}>
+            <ol style={{ marginTop: 48, padding: 0, listStyle: 'none' }}>
               {[
-              ['Bring your list', 'CSV up to 5,000 customers, or let our AI extract data straight from a PDF or screenshot.'],
+              ['Bring your list', 'CSV up to 5,000 customers, or let our AI extract data from a PDF or screenshot.'],
               ['Set billing rules', 'First invoice date, card fees, chemical billing.'],
               ['You’re live', 'Routes, history, and invoices ready before your next stop.']].
               map(([t, d], i) =>
-              <li key={i} style={{ display: 'grid', gridTemplateColumns: '24px 1fr', gap: 14, alignItems: 'flex-start' }}>
+              <li key={i} style={{
+                display: 'grid',
+                gridTemplateColumns: '36px 1fr',
+                gap: 24,
+                padding: '22px 0',
+                borderTop: i === 0 ? 'none' : '1px solid var(--line-2)',
+                alignItems: 'baseline'
+              }}>
                   <span style={{
-                  width: 22, height: 22, borderRadius: '50%',
-                  background: 'color-mix(in oklab, var(--brand-green) 14%, transparent)',
-                  color: 'var(--brand-green)',
-                  fontSize: 12, fontWeight: 600,
-                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                  marginTop: 2, flexShrink: 0
-                }}>{i + 1}</span>
+                  fontSize: 11.5, fontWeight: 500,
+                  color: 'var(--ink-5)',
+                  fontFamily: "'Geist Mono', ui-monospace, monospace",
+                  letterSpacing: '0.06em'
+                }}>{String(i + 1).padStart(2, '0')}</span>
                   <div>
-                    <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-2)' }}>{t}</div>
-                    <p style={{ marginTop: 3, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-4)' }}>{d}</p>
+                    <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--ink)', letterSpacing: '-0.015em' }}>{t}</div>
+                    <p style={{ marginTop: 6, fontSize: 14.5, lineHeight: 1.55, color: 'var(--ink-4)', fontWeight: 400 }}>{d}</p>
                   </div>
                 </li>
               )}
             </ol>
 
-            <a href="#cta" className="btn-primary" style={{ marginTop: 28, display: 'inline-flex' }}>
+            <a href="#cta" style={{
+              marginTop: 40,
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              fontSize: 15, fontWeight: 600, color: 'var(--accent)',
+              textDecoration: 'none',
+              transition: 'gap .2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.gap = '12px'}
+            onMouseLeave={(e) => e.currentTarget.style.gap = '8px'}>
               Start your migration
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+                <polyline points="12 5 19 12 12 19"/>
+              </svg>
             </a>
           </div>
 
