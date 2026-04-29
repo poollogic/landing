@@ -1524,8 +1524,6 @@ const ImportModalMock = () => {
     4: 'Configure billing settings for imported customers.'
   };
 
-  const showStepDots = step === 1 || step === 2;
-
   return (
     <div>
       {/* Step navigation tabs */}
@@ -1607,25 +1605,24 @@ const ImportModalMock = () => {
             <p style={{ marginTop: 4, fontSize: 13, color: 'var(--ink-5)', margin: '4px 0 0' }}>{subtitles[step]}</p>
           </div>
 
-          {showStepDots &&
           <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 14 }}>
-              <span style={{
-              width: 19, height: 19, borderRadius: '50%',
-              background: step === 2 ? 'color-mix(in oklab, var(--brand-green) 25%, transparent)' : 'var(--brand-green)',
-              color: step === 2 ? 'var(--brand-green)' : '#fff',
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 10, fontWeight: 600
-            }}>1</span>
-              <span style={{ width: 26, height: 1, background: 'var(--line)' }} />
-              <span style={{
-              width: 19, height: 19, borderRadius: '50%',
-              background: step >= 2 ? 'var(--brand-green)' : 'var(--bg-muted)',
-              color: step >= 2 ? '#fff' : 'var(--ink-5)',
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 10, fontWeight: 600
-            }}>2</span>
-            </div>
-          }
+            {[1, 2, 3, 4].map((n, i) =>
+            <React.Fragment key={n}>
+                {i > 0 && <span style={{ width: 26, height: 1, background: 'var(--line)' }} />}
+                <span style={{
+                width: 19, height: 19, borderRadius: '50%',
+                background: step === n
+                ? 'var(--brand-green)'
+                : step > n
+                ? 'color-mix(in oklab, var(--brand-green) 25%, transparent)'
+                : 'var(--bg-muted)',
+                color: step === n ? '#fff' : step > n ? 'var(--brand-green)' : 'var(--ink-5)',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 10, fontWeight: 600
+              }}>{n}</span>
+              </React.Fragment>
+            )}
+          </div>
         </div>
 
         <div style={{ height: 1, background: 'var(--line-2)', margin: '0 20px' }} />
