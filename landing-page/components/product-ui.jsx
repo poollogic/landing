@@ -1,3 +1,6 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { I, Logo } from './icons.jsx';
+
 // Recreates the PoolLogic Customer Directory shown in the brief screenshot.
 // Used as the hero product visual and as fragments in feature sections.
 
@@ -75,7 +78,7 @@ const PoolLogicApp = ({ scale = 1, dimmedRows = 0, page = 'customers', animate =
   // 16 hold (let the viewer absorb the "candidates to renegotiate" frame)
   const [step, setStep] = useState(0);
   const [inView, setInView] = useState(false);
-  const rootRef = React.useRef(null);
+  const rootRef = useRef(null);
 
   // Lazy-start: don't run the cursor demo until the component is actually visible.
   // Once it's been seen, leave inView=true so the loop keeps running uninterrupted.
@@ -142,9 +145,9 @@ const PoolLogicApp = ({ scale = 1, dimmedRows = 0, page = 'customers', animate =
   // Endpoints are exact, so click locations don't drift.
   const [cursorVisualX, setCursorVisualX] = useState(560);
   const [cursorVisualY, setCursorVisualY] = useState(470);
-  const positionRef = React.useRef({ x: 560, y: 470 });
-  const moveRef = React.useRef({ fromX: 560, fromY: 470, toX: 560, toY: 470, cpX: 560, cpY: 470, startTime: 0, duration: 1 });
-  const arcSignRef = React.useRef(1);
+  const positionRef = useRef({ x: 560, y: 470 });
+  const moveRef = useRef({ fromX: 560, fromY: 470, toX: 560, toY: 470, cpX: 560, cpY: 470, startTime: 0, duration: 1 });
+  const arcSignRef = useRef(1);
 
   // Whenever the target changes, snapshot the cursor's CURRENT visual position as the new
   // movement's starting point, then schedule a fresh easing run toward the new target.
@@ -895,4 +898,4 @@ const DashboardCard = () => (
   </div>
 );
 
-Object.assign(window, { PoolLogicApp, RouteCard, InvoiceCard, ServiceReportCard, DashboardCard });
+export { PoolLogicApp, RouteCard, InvoiceCard, ServiceReportCard, DashboardCard };

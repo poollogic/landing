@@ -1,6 +1,8 @@
 // Landing page sections
 
-const { useState, useEffect, useRef } = React;
+import React, { useState, useEffect, useRef } from 'react';
+import { Logo, I } from './icons.jsx';
+import { PoolLogicApp, RouteCard, InvoiceCard, ServiceReportCard, DashboardCard } from './product-ui.jsx';
 
 const Nav = ({ accent }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -566,10 +568,10 @@ const ProofChecklist = () => {
   const TICK_MS = 2200;
 
   // Each "frame" pushes a new item onto a rolling window.
-  const [head, setHead] = React.useState(0);
-  const [paused, setPaused] = React.useState(false);
+  const [head, setHead] = useState(0);
+  const [paused, setPaused] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (paused) return;
     const id = setInterval(() => setHead((h) => h + 1), TICK_MS);
     return () => clearInterval(id);
@@ -890,7 +892,7 @@ const NavComparison = () => {
 // Product screenshot wrapper that auto-scales
 const ProductShowcase = ({ compact = false }) => {
   const [width, setWidth] = useState(compact ? 560 : 1100);
-  const containerRef = React.useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const update = () => {
@@ -2240,4 +2242,4 @@ const Footer = () =>
   </footer>;
 
 
-Object.assign(window, { Nav, Hero, Features, HowItWorks, Stats, Testimonial, Migration, Pricing, FAQ, FinalCTA, Footer });
+export { Nav, Hero, Features, HowItWorks, Stats, Testimonial, Migration, Pricing, FAQ, FinalCTA, Footer };

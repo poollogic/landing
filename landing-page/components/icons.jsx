@@ -1,3 +1,5 @@
+import React, { useMemo } from 'react';
+
 // Icon components — 1.75px stroke, round caps/joins.
 // Sidebar nav icons follow the real app's design system: ghost fills (currentColor + fillOpacity 0.08-0.15)
 // on enclosed shapes, solid accent dots (fill="currentColor" stroke="none" r=1.5).
@@ -10,7 +12,7 @@ const Icon = ({ children, size = 18, stroke = 1.75, ...rest }) => (
 // User's official PoolLogic mark — drop with checkmark badge, transparent bg
 let __plDropCounter = 0;
 const PoolDropIcon = ({ size = 28 }) => {
-  const dropId = React.useMemo(() => `pl-drop-${++__plDropCounter}`, []);
+  const dropId = useMemo(() => `pl-drop-${++__plDropCounter}`, []);
   return (
     <svg width={size} height={size} viewBox="0 0 1024 1024" fill="none" style={{ display: 'block' }}>
       <defs>
@@ -129,4 +131,4 @@ const I = {
   menu: () => <Icon><path d="M4 7h16M4 12h16M4 17h16"/></Icon>,
 };
 
-Object.assign(window, { Icon, PoolDropIcon, Logo, I });
+export { Icon, PoolDropIcon, Logo, I };
