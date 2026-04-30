@@ -229,15 +229,15 @@
     .hero-section {
       min-height: 0 !important;
       align-items: flex-start !important;
-      padding-top: 32px !important;
-      padding-bottom: 32px !important;
+      padding-top: 28px !important;
+      padding-bottom: 16px !important;
     }
     .product-section {
-      padding-top: 48px !important;
-      padding-bottom: 56px !important;
+      padding-top: 32px !important;
+      padding-bottom: 48px !important;
     }
     .product-section .product-intro {
-      margin-bottom: 36px !important;
+      margin-bottom: 32px !important;
     }
     .product-section .product-intro h2 {
       font-size: 26px !important;
@@ -248,8 +248,16 @@
       margin-top: 14px !important;
     }
     #switching {
-      padding-top: 56px !important;
-      padding-bottom: 56px !important;
+      padding-top: 48px !important;
+      padding-bottom: 48px !important;
+    }
+    /* Authority strip — let the text use the full row instead of fighting the
+       avatar column for space, which forces awkward "weekly" orphans. */
+    .authority-strip {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 10px !important;
+      text-align: center !important;
     }
   }
 

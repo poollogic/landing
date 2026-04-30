@@ -272,7 +272,7 @@ const HeroAuthorityStrip = ({ centered }) => (
     display: 'flex',
     justifyContent: centered ? 'center' : 'flex-start',
   }}>
-    <div style={{
+    <div className="authority-strip" style={{
       display: 'inline-flex', alignItems: 'center', gap: 14,
       fontSize: 12.5, color: 'var(--ink-4)',
     }}>
