@@ -1,42 +1,344 @@
-<!DOCTYPE html>
- <html lang="en">
- <head>
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <title>Poollogic</title>
- <style>
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body {
- font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
- background: #0f1117;
- color: #ffffff;
- min-height: 100vh;
- display: flex;
- flex-direction: column;
- align-items: center;
- justify-content: center;
- text-align: center;
- padding: 2rem;
-}
- h1 { font-size: 3rem; font-weight: 700; margin-bottom: 1rem; }
- p { font-size: 1.25rem; color: #9ca3af; margin-bottom: 2rem; max-width: 500px; }
- a.btn {
- display: inline-block;
- background: #3b82f6;
- color: #fff;
- text-decoration: none;
- padding: 0.875rem 2rem;
- border-radius: 0.5rem;
- font-size: 1rem;
- font-weight: 600;
- transition: background 0.2s;
- }
- a.btn:hover { background: #2563eb; }
- </style>
- </head>
- <body>
- <h1>Pool service software your techs can run on day one</h1>
- <p>Smart pool management software. Log in to your account to get started.</p>
- <a class="btn" href="https://app.poollogic.app">Go to App &rarr;</a>
- </body>
- </html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PoolLogic — Run your pool service business on autopilot</title>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/Geist.woff2" crossorigin>
+
+<style>
+  @font-face {
+    font-family: 'Geist';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/Geist.woff2') format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'Geist Mono';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/GeistMono.woff2') format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/InstrumentSerif.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/InstrumentSerif-Italic.woff2') format('woff2');
+  }
+
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #fafafa;
+    --bg-muted: #f4f4f5;
+    --ink: #09090b;
+    --ink-2: #18181b;
+    --ink-3: #3f3f46;
+    --ink-4: #52525b;
+    --ink-5: #71717a;
+    --ink-6: #a1a1aa;
+    --line: #e4e4e7;
+    --line-2: #f1f1f3;
+
+    /* Brand palette — single source of truth for brand colors */
+    --brand-blue: #3b82f6;
+    --brand-green: #10b981;
+    --brand-orange: #fb923c;
+    --brand-teal: #14b8a6;
+    --brand-purple: #a855f7;
+    --brand-pink: #ec4899;
+    --brand-violet: #7c3aed;
+
+    --accent: var(--brand-blue);
+    --accent-ink: color-mix(in oklab, var(--brand-blue) 80%, black);
+    --accent-soft: color-mix(in oklab, var(--brand-blue) 8%, white);
+    --green: var(--brand-green);
+    --green-soft: color-mix(in oklab, var(--brand-green) 8%, white);
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --shadow-card: 0 1px 2px rgba(0,0,0,.04), 0 1px 1px rgba(0,0,0,.02);
+    --shadow-pop: 0 24px 60px -20px rgba(15,23,42,.18), 0 8px 20px -8px rgba(15,23,42,.10);
+    --shadow-screen: 0 40px 100px -30px rgba(15, 23, 42, 0.25), 0 12px 30px -10px rgba(15,23,42,.12);
+    --maxw: 1200px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01", "cv11";
+    line-height: 1.5;
+  }
+
+  .mono { font-family: 'Geist Mono', ui-monospace, Menlo, monospace; }
+  .serif { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; }
+
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; }
+
+  .container { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    height: 40px; padding: 0 16px;
+    border-radius: 8px;
+    font-size: 14px; font-weight: 500;
+    border: 1px solid transparent;
+    transition: all .15s ease;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: white;
+    border-color: var(--ink);
+  }
+  .btn-primary:hover { background: #000; transform: translateY(-1px); box-shadow: 0 6px 16px -6px rgba(0,0,0,.4); }
+  .btn-accent {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .btn-accent:hover { background: var(--accent-ink); transform: translateY(-1px); box-shadow: 0 6px 16px -6px color-mix(in oklab, var(--accent) 60%, black); }
+  .btn-ghost { background: transparent; color: var(--ink-2); border-color: transparent; }
+  .btn-ghost:hover { background: var(--bg-muted); }
+  .btn-outline {
+    background: white;
+    color: var(--ink-2);
+    border-color: var(--line);
+  }
+  .btn-outline:hover { border-color: var(--ink-6); background: var(--bg-soft); }
+  .btn-lg { height: 46px; padding: 0 20px; font-size: 15px; border-radius: 10px; }
+  .btn-sm { height: 32px; padding: 0 12px; font-size: 13px; border-radius: 7px; }
+
+  /* Type */
+  h1, h2, h3, h4 { margin: 0; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1; color: var(--ink); }
+  h1 { font-size: clamp(36px, 4.4vw, 56px); letter-spacing: -0.035em; line-height: 1.05; }
+  h2 { font-size: clamp(28px, 3.6vw, 44px); letter-spacing: -0.025em; line-height: 1.08; }
+  h3 { font-size: 20px; }
+  p { margin: 0; color: var(--ink-4); }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-5);
+  }
+  .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* Section spacing */
+  section { padding: 96px 0; position: relative; }
+  section.tight { padding: 64px 0; }
+
+  /* Footer + nav share, see partials */
+
+  /* Smooth scroll */
+  html { scroll-behavior: smooth; }
+
+  /* Subtle entrance */
+  @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .rise { animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+
+  /* Typing caret */
+  @keyframes caret-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+  /* Density toggle */
+  body[data-density="compact"] section { padding: 72px 0; }
+  body[data-density="airy"] section { padding: 128px 0; }
+
+  /* Dark mode */
+  body[data-theme="dark"] {
+    --bg: #09090b;
+    --bg-soft: #0f0f11;
+    --bg-muted: #18181b;
+    --ink: #fafafa;
+    --ink-2: #f4f4f5;
+    --ink-3: #d4d4d8;
+    --ink-4: #a1a1aa;
+    --ink-5: #71717a;
+    --ink-6: #52525b;
+    --line: #27272a;
+    --line-2: #1c1c1f;
+    --accent-soft: #0c1a36;
+  }
+  body[data-theme="dark"] .btn-primary { background: white; color: black; border-color: white; }
+  body[data-theme="dark"] .btn-primary:hover { background: #f4f4f5; }
+  body[data-theme="dark"] .btn-outline { background: var(--bg-soft); color: var(--ink-2); border-color: var(--line); }
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* Section divider */
+  .section-divider { border-top: 1px solid var(--line); }
+
+  /* ============== Responsive (above-the-fold through Deep Dive) ============== */
+
+  /* Container + section padding tightens on small screens */
+  @media (max-width: 640px) {
+    .container { padding: 0 16px; }
+    section { padding: 64px 0; }
+    body[data-density="compact"] section { padding: 48px 0; }
+    body[data-density="airy"] section { padding: 88px 0; }
+  }
+
+  /* Nav: hide center links on tablet, sign-in on small mobile */
+  @media (max-width: 880px) {
+    .nav-links { display: none !important; }
+  }
+  @media (max-width: 480px) {
+    .nav-signin { display: none !important; }
+  }
+
+  /* Hero proof bar: stack slots vertically on small screens, hide separators.
+     inline-flex + flex-start keeps the checkmarks lined up in a clean column,
+     while the parent's text-align: center keeps the whole bar centered on the page. */
+  @media (max-width: 720px) {
+    .hero-proof {
+      display: inline-flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      row-gap: 10px !important;
+    }
+    .hero-proof-sep { display: none !important; }
+  }
+
+  /* Hero on mobile: drop the 100vh fill + vertical centering that leaves a giant
+     gap above the content. Let copy sit naturally near the top. */
+  @media (max-width: 720px) {
+    .hero-section {
+      min-height: 0 !important;
+      align-items: flex-start !important;
+      padding-top: 32px !important;
+      padding-bottom: 24px !important;
+    }
+  }
+
+  /* Customer directory wrapper:
+     - On wide desktops the chip can sit in the gutter (left: -40). overflow stays visible so it isn't clipped.
+     - Below 1148px the 1100px-wide product app overflows the container, so we clip it.
+     - The chip needs ~40px of gutter to render fully, so hide it under 1280px even before clipping kicks in. */
+  @media (max-width: 1148px) {
+    .product-showcase { overflow: hidden; }
+  }
+  @media (max-width: 1280px) {
+    .product-showcase-anno { display: none !important; }
+  }
+
+  /* Product showcase orange wash — single localized spot, off to one side.
+     Same treatment on mobile and desktop. */
+  .product-wash {
+    position: absolute;
+    top: -280px; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(600px 420px at 16% 72%, color-mix(in oklab, var(--brand-orange) 12%, transparent), transparent 65%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 92%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 92%, transparent 100%);
+  }
+
+  /* Logo strip: collapse 6-col grid */
+  @media (max-width: 880px) {
+    .logo-strip-grid { grid-template-columns: repeat(3, 1fr) !important; row-gap: 24px !important; column-gap: 24px !important; }
+  }
+  @media (max-width: 480px) {
+    .logo-strip-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+
+  /* Features bento: 2-col on tablet, 1-col on mobile */
+  @media (max-width: 1000px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+    .features-grid > .feature-card { grid-column: span 1 !important; }
+  }
+  @media (max-width: 640px) {
+    .features-grid { grid-template-columns: 1fr !important; }
+  }
+
+  /* DeepDive: stack body, wrap stats, soften preview padding */
+  @media (max-width: 900px) {
+    .deep-dive-body { grid-template-columns: 1fr !important; gap: 36px !important; }
+    .deep-dive-stats { flex-wrap: wrap !important; gap: 20px 28px !important; }
+    .deep-dive-preview { padding: 16px !important; }
+  }
+
+  /* Switching/Migration: stack to single column on tablet/mobile */
+  @media (max-width: 880px) {
+    .switching-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  }
+
+  /* Visually hidden scrollbar — content still scrolls horizontally/vertically */
+  .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* Preview row: reveal trash icon on hover */
+  .preview-row .row-trash { opacity: 0; transition: opacity .15s ease; }
+  .preview-row:hover .row-trash { opacity: 1; }
+
+  /* Upload dropzone — light up on hover */
+  .upload-dropzone { transition: border-color .2s ease, background .2s ease; }
+  .upload-dropzone:hover {
+    border-color: var(--brand-green) !important;
+    background: color-mix(in oklab, var(--brand-green) 4%, white) !important;
+  }
+
+  /* Hover tooltip (used in import preview header) */
+  .info-tooltip { position: relative; display: inline-flex; cursor: help; align-items: center; }
+  .info-bubble {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    width: 280px;
+    padding: 14px 16px;
+    background: color-mix(in oklab, var(--accent) 4%, white);
+    border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent);
+    border-radius: 12px;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--ink-2);
+    line-height: 1.55;
+    text-transform: none;
+    letter-spacing: 0;
+    box-shadow: 0 12px 28px -10px rgba(15, 23, 42, .14), 0 2px 6px rgba(15, 23, 42, .04);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s ease, transform .2s cubic-bezier(.2, .8, .2, 1);
+    z-index: 10;
+    text-align: left;
+    white-space: normal;
+  }
+  .info-tooltip:hover .info-bubble {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .info-bubble strong { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script type="module" src="/main.jsx"></script>
+
+</body>
+</html>
