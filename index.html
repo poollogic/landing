@@ -280,6 +280,17 @@
     .product-section .product-intro > div[style*="justify-content"] {
       justify-content: flex-start !important;
     }
+    /* Kicker line: drop the decorative side rules and let the text wrap.
+       The nowrap was overflowing the viewport on narrow screens. */
+    .intro-kicker {
+      justify-content: flex-start !important;
+    }
+    .intro-kicker .intro-kicker-rule {
+      display: none !important;
+    }
+    .intro-kicker .intro-kicker-text {
+      white-space: normal !important;
+    }
 
     /* Authority strip — stack avatars + text vertically and flush-left
        so it lines up with the headline. */

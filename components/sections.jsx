@@ -137,15 +137,15 @@ const Hero = ({ layout, headline, subhead }) => {
             </div>
 
             {/* Kicker — divider lines flanking the answer */}
-            <div style={{
+            <div className="intro-kicker" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
               marginTop: 28,
             }}>
-              <span style={{ flex: 1, maxWidth: 60, height: 1, background: 'linear-gradient(to right, transparent, var(--bg-muted))' }}/>
-              <span style={{ fontSize: 12.5, color: 'var(--accent)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
+              <span className="intro-kicker-rule" style={{ flex: 1, maxWidth: 60, height: 1, background: 'linear-gradient(to right, transparent, var(--bg-muted))' }}/>
+              <span className="intro-kicker-text" style={{ fontSize: 12.5, color: 'var(--accent)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
                 No searching. No spreadsheets. No math. Just answers.
               </span>
-              <span style={{ flex: 1, maxWidth: 60, height: 1, background: 'linear-gradient(to left, transparent, var(--bg-muted))' }}/>
+              <span className="intro-kicker-rule" style={{ flex: 1, maxWidth: 60, height: 1, background: 'linear-gradient(to left, transparent, var(--bg-muted))' }}/>
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
