@@ -116,17 +116,38 @@ const Hero = ({ layout, headline, subhead }) => {
             Intensity dialed down on small viewports via .product-wash CSS rules. */}
         <div className="product-wash" />
         <div className="container">
-          {/* Section intro — frames the demo and carries the SEO keyword */}
-          <div className="product-intro" style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto 56px' }}>
-            <h2 style={{ marginTop: 0 }}>Pool service software where every answer is a few clicks away.</h2>
+          {/* Section intro — section header + two parallel claims, then the demo */}
+          <div className="product-intro" style={{ maxWidth: 980, margin: '0 auto 56px' }}>
+            <h2 style={{ marginTop: 0, textAlign: 'center', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto' }}>
+              Pool service software where every answer is a few clicks away.
+            </h2>
 
-            <p style={{ fontSize: 17, color: 'var(--ink-4)', marginTop: 22, lineHeight: 1.55, maxWidth: 660, marginLeft: 'auto', marginRight: 'auto' }}>
-              Whether your pool company services 100 customers a week or 15,000, finding what you need stays effortless. PoolLogic is pool service software built around how real pool companies work — customer management, billing &amp; invoicing, and route management without trimming a single feature your team relies on.
-            </p>
+            <div className="intro-cols" style={{
+              display: 'grid', gridTemplateColumns: '1fr 1fr',
+              gap: 48, marginTop: 36,
+              maxWidth: 880, marginLeft: 'auto', marginRight: 'auto',
+            }}>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  Built for any size
+                </div>
+                <p style={{ marginTop: 10, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55 }}>
+                  From 100 customers to 15,000, finding what you need stays a few keystrokes away. Every customer, every invoice, every photo — searchable instantly.
+                </p>
+              </div>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  Never a tradeoff
+                </div>
+                <p style={{ marginTop: 10, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55 }}>
+                  Customer management, billing &amp; invoicing, route planning, service audits — every feature your team relies on lives in one place, built around how real pool companies work.
+                </p>
+              </div>
+            </div>
 
             {/* Rhetorical question — single search field that types through scenarios one by one */}
             <div style={{
-              marginTop: 36,
+              marginTop: 40,
               display: 'flex', justifyContent: 'center',
             }}>
               <TypingSearchQuery queries={[
@@ -139,7 +160,7 @@ const Hero = ({ layout, headline, subhead }) => {
             {/* Kicker — divider lines flanking the answer */}
             <div className="intro-kicker" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
-              marginTop: 28,
+              marginTop: 24,
             }}>
               <span className="intro-kicker-rule" style={{ flex: 1, maxWidth: 60, height: 1, background: 'linear-gradient(to right, transparent, var(--bg-muted))' }}/>
               <span className="intro-kicker-text" style={{ fontSize: 12.5, color: 'var(--accent)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
