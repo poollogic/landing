@@ -242,6 +242,58 @@
     .deep-dive-stats { flex-wrap: wrap !important; gap: 20px 28px !important; }
     .deep-dive-preview { padding: 16px !important; }
   }
+
+  /* Switching/Migration: stack to single column on tablet/mobile */
+  @media (max-width: 880px) {
+    .switching-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  }
+
+  /* Visually hidden scrollbar — content still scrolls horizontally/vertically */
+  .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* Preview row: reveal trash icon on hover */
+  .preview-row .row-trash { opacity: 0; transition: opacity .15s ease; }
+  .preview-row:hover .row-trash { opacity: 1; }
+
+  /* Upload dropzone — light up on hover */
+  .upload-dropzone { transition: border-color .2s ease, background .2s ease; }
+  .upload-dropzone:hover {
+    border-color: var(--brand-green) !important;
+    background: color-mix(in oklab, var(--brand-green) 4%, white) !important;
+  }
+
+  /* Hover tooltip (used in import preview header) */
+  .info-tooltip { position: relative; display: inline-flex; cursor: help; align-items: center; }
+  .info-bubble {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    width: 280px;
+    padding: 14px 16px;
+    background: color-mix(in oklab, var(--accent) 4%, white);
+    border: 1px solid color-mix(in oklab, var(--accent) 22%, transparent);
+    border-radius: 12px;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--ink-2);
+    line-height: 1.55;
+    text-transform: none;
+    letter-spacing: 0;
+    box-shadow: 0 12px 28px -10px rgba(15, 23, 42, .14), 0 2px 6px rgba(15, 23, 42, .04);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s ease, transform .2s cubic-bezier(.2, .8, .2, 1);
+    z-index: 10;
+    text-align: left;
+    white-space: normal;
+  }
+  .info-tooltip:hover .info-bubble {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .info-bubble strong { color: var(--ink); font-weight: 600; }
 </style>
 </head>
 <body>
