@@ -110,14 +110,14 @@ const Hero = ({ layout, headline, subhead }) => {
 
       {/* Big product screenshot — separate from hero so it sits below the fold */}
       {!isSplit &&
-      <section style={{ paddingTop: 80, paddingBottom: 96, position: 'relative' }}>
+      <section className="product-section" style={{ paddingTop: 80, paddingBottom: 96, position: 'relative' }}>
         {/* Apple-style orange wash — bleeds ~280px above the section. The mask fades
             the top-third to transparent so there's no hard edge into the hero.
             Intensity dialed down on small viewports via .product-wash CSS rules. */}
         <div className="product-wash" />
         <div className="container">
           {/* Section intro — frames the demo and carries the SEO keyword */}
-          <div style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto 56px' }}>
+          <div className="product-intro" style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto 56px' }}>
             <h2 style={{ marginTop: 0 }}>Pool service software where every answer is a few clicks away.</h2>
 
             <p style={{ fontSize: 17, color: 'var(--ink-4)', marginTop: 22, lineHeight: 1.55, maxWidth: 660, marginLeft: 'auto', marginRight: 'auto' }}>
