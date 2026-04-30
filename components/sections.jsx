@@ -94,7 +94,7 @@ const Hero = ({ layout, headline, subhead }) => {
           <div style={{ width: '100%', position: 'relative' }}>
             {/* Floating UI fragments — only on stacked layout where there's empty side space */}
             {isStacked && <HeroFloaters />}
-            <div style={{ textAlign: (isCenter || isStacked) ? 'center' : 'left', maxWidth: isCenter ? 880 : 820, margin: (isCenter || isStacked) ? '0 auto' : 0, position: 'relative', zIndex: 1 }} className="rise">
+            <div className="hero-content rise" style={{ textAlign: (isCenter || isStacked) ? 'center' : 'left', maxWidth: isCenter ? 880 : 820, margin: (isCenter || isStacked) ? '0 auto' : 0, position: 'relative', zIndex: 1 }}>
               <HeroAuthorityStrip centered={isCenter || isStacked}/>
               <h1 style={{ marginTop: 22, maxWidth: (isCenter || isStacked) ? 760 : 820, marginLeft: (isCenter || isStacked) ? 'auto' : 0, marginRight: (isCenter || isStacked) ? 'auto' : 0, textWrap: 'balance' }}>{headline}</h1>
               <p style={{ fontSize: 17.5, color: 'var(--ink-4)', marginTop: 20, maxWidth: 560, marginLeft: (isCenter || isStacked) ? 'auto' : 0, marginRight: (isCenter || isStacked) ? 'auto' : 0, lineHeight: 1.55 }}>{subhead}</p>

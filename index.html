@@ -251,13 +251,43 @@
       padding-top: 64px !important;
       padding-bottom: 64px !important;
     }
-    /* Authority strip — let the text use the full row instead of fighting the
-       avatar column for space, which forces awkward "weekly" orphans. */
+    /* Mobile: left-align the hero copy and the product-section intro,
+       Stripe-style. Centered text on narrow screens reads soft; flush-left
+       reads confident. Override every centering decision: text-align,
+       margin auto, and the CTA row's justify-content. */
+    .hero-section .hero-content {
+      text-align: left !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      max-width: none !important;
+    }
+    .hero-section .hero-content > h1,
+    .hero-section .hero-content > p {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      max-width: none !important;
+    }
+    .hero-section .hero-content > div[style*="justify-content"] {
+      justify-content: flex-start !important;
+    }
+    .product-section .product-intro {
+      text-align: left !important;
+    }
+    .product-section .product-intro > p {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+    }
+    .product-section .product-intro > div[style*="justify-content"] {
+      justify-content: flex-start !important;
+    }
+
+    /* Authority strip — stack avatars + text vertically and flush-left
+       so it lines up with the headline. */
     .authority-strip {
       flex-direction: column !important;
-      align-items: center !important;
+      align-items: flex-start !important;
       gap: 10px !important;
-      text-align: center !important;
+      text-align: left !important;
     }
   }
 
