@@ -1626,7 +1626,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 1 — UPLOAD ============== */}
         {step === 1 &&
-        <div style={{ padding: 18, minHeight: 410, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 18, height: 410, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             <div className="upload-dropzone" style={{
             border: '1.5px dashed var(--line)',
             borderRadius: 12,
@@ -1754,14 +1754,15 @@ const ImportModalMock = () => {
               }
             </div>
 
+            {!guideOpen &&
             <div style={{
-            marginTop: 10,
-            padding: '12px 14px',
-            background: 'var(--bg-soft)',
-            border: '1px solid var(--line-2)',
-            borderRadius: 10,
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12
-          }}>
+              marginTop: 10,
+              padding: '12px 14px',
+              background: 'var(--bg-soft)',
+              border: '1px solid var(--line-2)',
+              borderRadius: 10,
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12
+            }}>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>Need a template?</div>
                 <div style={{ marginTop: 2, fontSize: 11.5, color: 'var(--ink-5)' }}>Download a pre-formatted CSV with example data.</div>
@@ -1790,6 +1791,7 @@ const ImportModalMock = () => {
                 Download CSV Template
               </button>
             </div>
+            }
           </div>
         }
 
