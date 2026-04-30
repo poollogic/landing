@@ -48,7 +48,7 @@ const Hero = ({ layout, headline, subhead }) => {
 
   return (
     <>
-      <section style={{
+      <section className="hero-section" style={{
         paddingTop: fillsViewport ? 0 : 72,
         paddingBottom: fillsViewport ? 0 : 60,
         position: 'relative',

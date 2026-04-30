@@ -4,11 +4,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PoolLogic — Run your pool service business on autopilot</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="preload" as="font" type="font/woff2" href="/fonts/Geist.woff2" crossorigin>
 
 <style>
+  @font-face {
+    font-family: 'Geist';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/Geist.woff2') format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'Geist Mono';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/GeistMono.woff2') format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/InstrumentSerif.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/InstrumentSerif-Italic.woff2') format('woff2');
+  }
+
   :root {
     --bg: #ffffff;
     --bg-soft: #fafafa;
@@ -194,6 +221,17 @@
       row-gap: 10px !important;
     }
     .hero-proof-sep { display: none !important; }
+  }
+
+  /* Hero on mobile: drop the 100vh fill + vertical centering that leaves a giant
+     gap above the content. Let copy sit naturally near the top. */
+  @media (max-width: 720px) {
+    .hero-section {
+      min-height: 0 !important;
+      align-items: flex-start !important;
+      padding-top: 32px !important;
+      padding-bottom: 24px !important;
+    }
   }
 
   /* Customer directory wrapper:
