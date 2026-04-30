@@ -148,7 +148,7 @@ const Hero = ({ layout, headline, subhead }) => {
               <span className="intro-kicker-rule" style={{ flex: 1, maxWidth: 60, height: 1, background: 'linear-gradient(to left, transparent, var(--bg-muted))' }}/>
             </div>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', zoom: 0.85 }}>
             <ProductShowcase />
           </div>
         </div>
@@ -1550,7 +1550,7 @@ const ImportModalMock = () => {
   };
 
   return (
-    <div style={{ maxWidth: 460, marginLeft: 'auto', marginRight: 'auto', width: '100%', position: 'relative' }}>
+    <div style={{ maxWidth: 460, marginLeft: 'auto', marginRight: 0, width: '100%', position: 'relative', zoom: 0.85 }}>
 
       <div style={{
         background: 'var(--bg)',
