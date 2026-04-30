@@ -164,6 +164,15 @@ const TypingSearchQuery = ({ queries }) => {
   const [text, setText] = useState('');
   const [queryIndex, setQueryIndex] = useState(0);
   const [phase, setPhase] = useState('typing'); // typing | holding | deleting | between
+  const scrollRef = useRef(null);
+
+  // Real <input> behavior: when text exceeds the visible width, scroll the
+  // content left so the caret stays pinned to the right edge.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollLeft = el.scrollWidth;
+  }, [text]);
 
   useEffect(() => {
     const current = queries[queryIndex];
@@ -206,7 +215,7 @@ const TypingSearchQuery = ({ queries }) => {
         <circle cx="11" cy="11" r="7"/>
         <path d="M21 21l-4.3-4.3"/>
       </svg>
-      <span style={{ flex: 1, fontSize: 15, color: 'var(--ink-3)', fontWeight: 500, lineHeight: 1.4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'clip' }}>
+      <span ref={scrollRef} className="hide-scrollbar" style={{ flex: 1, minWidth: 0, fontSize: 15, color: 'var(--ink-3)', fontWeight: 500, lineHeight: 1.4, whiteSpace: 'nowrap', overflowX: 'auto', overflowY: 'hidden' }}>
         {text}
         <span style={{
           display: 'inline-block',
