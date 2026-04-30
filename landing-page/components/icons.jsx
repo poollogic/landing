@@ -35,31 +35,37 @@ const PoolDropIcon = ({ size = 28 }) => {
 // Icon is always rendered at REF_SIZE and scaled with CSS transform so size changes
 // tween smoothly (SVG width/height attributes don't animate). The outer wrapper's
 // width/height transition keeps the layout footprint in sync with the visual scale.
-const Logo = ({ size = 28, plan, gap = 10, fontSize = 17 }) => {
+const Logo = ({ size = 28, plan, gap = 10, fontSize = 17, hideIcon = false }) => {
   const REF_SIZE = 40;
   const ease = 'cubic-bezier(.4, 0, .2, 1)';
   return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap }}>
+    <div style={{
+      display: 'inline-flex', alignItems: 'center',
+      gap: hideIcon ? 0 : gap,
+      transition: `gap .35s ${ease}`,
+    }}>
       <span style={{
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: size,
+        width: hideIcon ? 0 : size,
         height: size,
-        transition: `width .35s ${ease}, height .35s ${ease}`,
+        opacity: hideIcon ? 0 : 1,
+        overflow: 'hidden',
+        transition: `width .35s ${ease}, opacity .2s ${ease}`,
       }}>
         <span style={{
           display: 'block',
           transform: `scale(${size / REF_SIZE})`,
           transformOrigin: 'center',
-          transition: `transform .35s ${ease}`,
+          flexShrink: 0,
         }}>
           <PoolDropIcon size={REF_SIZE} />
         </span>
       </span>
       <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-        <span style={{ fontWeight: 600, fontSize, letterSpacing: '-0.02em', color: 'var(--ink)', transition: `font-size .35s ${ease}` }}>PoolLogic</span>
-        {plan && <span style={{ fontSize: 11, color: 'var(--ink-5)', marginTop: 2 }}>{plan}</span>}
+        <span style={{ fontWeight: 600, fontSize, letterSpacing: '-0.02em', color: 'var(--ink)', whiteSpace: 'nowrap', transition: `font-size .35s ${ease}` }}>PoolLogic</span>
+        {plan && <span style={{ fontSize: 11, color: 'var(--ink-5)', marginTop: 2, whiteSpace: 'nowrap' }}>{plan}</span>}
       </div>
     </div>
   );

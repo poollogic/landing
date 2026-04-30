@@ -19,7 +19,7 @@ const Nav = ({ accent }) => {
       transition: 'all .2s ease'
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64, position: 'relative' }}>
-        <Logo size={scrolled ? 28 : 38} gap={6} fontSize={scrolled ? 18 : 21} />
+        <Logo size={38} gap={6} fontSize={scrolled ? 18 : 21} hideIcon={scrolled} />
         <div className="nav-links" style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 14, position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
           {['Product', 'Solutions', 'Pricing', 'Customers', 'Resources'].map((l) =>
           <a key={l} href="#" style={{ padding: '8px 14px', color: 'var(--ink-3)', borderRadius: 7 }}
@@ -1424,75 +1424,40 @@ const Migration = () => {
   return (
     <section id="switching" style={{ paddingTop: 64, paddingBottom: 64 }}>
       <div className="container">
-        <div className="switching-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)', gap: 56, alignItems: 'start' }}>
+        <div className="switching-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)', gap: 56, alignItems: 'center' }}>
 
           {/* Copy */}
           <div>
             <h3 style={{ marginTop: 0, letterSpacing: '-0.03em', lineHeight: 1.1, fontSize: 'clamp(28px, 3.2vw, 42px)', fontWeight: 700 }}>
-              Switch in less time than it takes to do a route.
+              Switch pool service software in hours, not weeks.
             </h3>
             <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.5, maxWidth: 500, color: 'var(--ink-4)', fontWeight: 400 }}>
-              Move your full customer book over in one upload &mdash; CSV, PDF, or even a screenshot. Hands down the fastest setup in pool software.
+              Move your customer book, billing rules, and route history in one upload &mdash; CSV, PDF, even a screenshot. Most pool companies can be switched over to PoolLogic in a single afternoon, not a multi-week rollout like other softwares require.
             </p>
 
-            <ol style={{ marginTop: 28, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <ol style={{ marginTop: 32, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 20 }}>
               {[
-              ['Bring your list', 'CSV up to 5,000 customers, or let our AI extract data from a PDF or screenshot.',
-              <svg key="i1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>],
-              ['Set billing rules', 'First invoice date, card fees, chemical billing.',
-              <svg key="i2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>],
-              ['You’re live', 'Routes, history, and invoices ready before your next stop.',
-              <svg key="i3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>]].
-              map(([t, d, icon], i) =>
-              <li key={i}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 25%, var(--line))';
-                  e.currentTarget.style.boxShadow = '0 6px 18px -10px rgba(15, 23, 42, .10)';
-                  const ic = e.currentTarget.querySelector('[data-icon]');
-                  if (ic) { ic.style.background = 'color-mix(in oklab, var(--accent) 14%, transparent)'; ic.style.color = 'var(--accent-ink)'; }
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'var(--line-2)';
-                  e.currentTarget.style.boxShadow = 'none';
-                  const ic = e.currentTarget.querySelector('[data-icon]');
-                  if (ic) { ic.style.background = 'color-mix(in oklab, var(--accent) 8%, transparent)'; ic.style.color = 'var(--accent)'; }
-                }}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'auto 1fr auto',
-                  gap: 18,
-                  alignItems: 'center',
-                  padding: '14px 18px 14px 16px',
-                  border: '1px solid var(--line-2)',
-                  borderRadius: 12,
-                  background: 'var(--bg)',
-                  transition: 'border-color .2s ease, box-shadow .2s ease',
-                  cursor: 'default'
-                }}>
-                  {/* Number — leads on the left */}
+              ['Bring your list', 'CSV up to 16,000 customers, or let our AI extract data from a PDF or screenshot.'],
+              ['Set billing rules', 'Set first invoice date, payment terms, optional credit card fees & chemical billing.'],
+              ['You’re live', 'Customers, routes, and automated invoicing is ready to go!']].
+              map(([t, d], i) =>
+              <li key={i} style={{
+                display: 'grid',
+                gridTemplateColumns: 'auto 1fr',
+                gap: 18,
+                alignItems: 'baseline'
+              }}>
                   <span style={{
                     fontSize: 12, fontWeight: 600, color: 'var(--accent)',
                     fontFamily: "'Geist Mono', ui-monospace, monospace",
                     letterSpacing: '0.1em',
-                    minWidth: 18,
-                    paddingTop: 1
+                    minWidth: 18
                   }}>{String(i + 1).padStart(2, '0')}</span>
 
-                  {/* Text */}
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)', letterSpacing: '-0.01em' }}>{t}</div>
-                    <p style={{ marginTop: 2, fontSize: 13, lineHeight: 1.5, color: 'var(--ink-4)', fontWeight: 400 }}>{d}</p>
+                    <p style={{ marginTop: 4, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-4)', fontWeight: 400 }}>{d}</p>
                   </div>
-
-                  {/* Icon — trails on the right, balances visual weight */}
-                  <span data-icon style={{
-                    width: 36, height: 36, borderRadius: 10,
-                    background: 'color-mix(in oklab, var(--accent) 8%, transparent)',
-                    color: 'var(--accent)',
-                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    flexShrink: 0,
-                    transition: 'background .2s ease, color .2s ease'
-                  }}>{icon}</span>
                 </li>
               )}
             </ol>
@@ -1528,6 +1493,20 @@ const ImportModalMock = () => {
 
   const TOTAL_ROWS = 107;
 
+  const downloadTemplate = () => {
+    const csv = '"first_name","last_name","email","cc_email","phone","street_address","city","state","zip_code","pool_type (Chlorine / Saltwater)","notes","mrr","billing_cycle (Monthly / Quarterly / Yearly)","technician","day_of_week (Monday-Sunday)","stop_order"\n' +
+      '"Jane","Smith","jane@example.com","billing@example.com","(727) 867 5309","123 Maple St","Scottsdale","AZ","85251","","","150","Monthly","John Smith","Monday","1"\n';
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'poollogic-customer-import-template.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   // Column format guide — instructive placeholder values are italic + accent.
   const columns = [
   ['first_name', 'Jane', false],
@@ -1561,60 +1540,6 @@ const ImportModalMock = () => {
 
   return (
     <div style={{ maxWidth: 460, marginLeft: 'auto', marginRight: 'auto', width: '100%', position: 'relative' }}>
-
-      {/* Prev arrow — sits half-on, half-off the left edge of the card */}
-      <button
-        onClick={() => setStep((s) => Math.max(1, s - 1))}
-        disabled={step === 1}
-        aria-label="Previous step"
-        style={{
-          position: 'absolute',
-          left: -20, top: '50%', transform: 'translateY(-50%)',
-          width: 40, height: 40, borderRadius: '50%',
-          border: '1px solid var(--line)',
-          background: 'var(--bg)',
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          cursor: step === 1 ? 'default' : 'pointer',
-          opacity: step === 1 ? 0.35 : 1,
-          transition: 'transform .2s cubic-bezier(.2, .8, .2, 1), box-shadow .2s ease',
-          color: 'var(--ink-2)',
-          boxShadow: '0 4px 12px -4px rgba(15, 23, 42, .12), 0 1px 3px rgba(15, 23, 42, .06)',
-          padding: 0,
-          zIndex: 5
-        }}
-        onMouseEnter={(e) => { if (step !== 1) { e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)'; e.currentTarget.style.boxShadow = '0 8px 20px -6px rgba(15, 23, 42, .16), 0 2px 4px rgba(15, 23, 42, .06)'; } }}
-        onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(-50%)'; e.currentTarget.style.boxShadow = '0 4px 12px -4px rgba(15, 23, 42, .12), 0 1px 3px rgba(15, 23, 42, .06)'; }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
-      </button>
-
-      {/* Next arrow — sits half-on, half-off the right edge of the card */}
-      <button
-        onClick={() => setStep((s) => Math.min(4, s + 1))}
-        disabled={step === 4}
-        aria-label="Next step"
-        style={{
-          position: 'absolute',
-          right: -20, top: '50%', transform: 'translateY(-50%)',
-          width: 40, height: 40, borderRadius: '50%',
-          border: '1px solid var(--line)',
-          background: 'var(--bg)',
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-          cursor: step === 4 ? 'default' : 'pointer',
-          opacity: step === 4 ? 0.35 : 1,
-          transition: 'transform .2s cubic-bezier(.2, .8, .2, 1), box-shadow .2s ease',
-          color: 'var(--ink-2)',
-          boxShadow: '0 4px 12px -4px rgba(15, 23, 42, .12), 0 1px 3px rgba(15, 23, 42, .06)',
-          padding: 0,
-          zIndex: 5
-        }}
-        onMouseEnter={(e) => { if (step !== 4) { e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)'; e.currentTarget.style.boxShadow = '0 8px 20px -6px rgba(15, 23, 42, .16), 0 2px 4px rgba(15, 23, 42, .06)'; } }}
-        onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(-50%)'; e.currentTarget.style.boxShadow = '0 4px 12px -4px rgba(15, 23, 42, .12), 0 1px 3px rgba(15, 23, 42, .06)'; }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
-      </button>
 
       <div style={{
         background: 'var(--bg)',
@@ -1690,7 +1615,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 1 — UPLOAD ============== */}
         {step === 1 &&
-        <div style={{ padding: 18, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 18, minHeight: 410, display: 'flex', flexDirection: 'column' }}>
             <div className="upload-dropzone" style={{
             border: '1.5px dashed var(--line)',
             borderRadius: 12,
@@ -1727,7 +1652,7 @@ const ImportModalMock = () => {
                 fontSize: 11.5, fontWeight: 600, color: 'var(--ink-3)',
                 whiteSpace: 'nowrap'
               }}>
-                  CSV up to 5,000 customers
+                  CSV up to 16,000 customers
                 </span>
                 <span style={{
                 display: 'inline-flex', alignItems: 'center', gap: 5,
@@ -1830,29 +1755,36 @@ const ImportModalMock = () => {
                 <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)' }}>Need a template?</div>
                 <div style={{ marginTop: 2, fontSize: 11.5, color: 'var(--ink-5)' }}>Download a pre-formatted CSV with example data.</div>
               </div>
-              <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 7,
-              padding: '6px 12px',
-              background: 'var(--bg)',
-              border: '1px solid var(--line)',
-              borderRadius: 8,
-              fontSize: 12, fontWeight: 600, color: 'var(--ink-2)',
-              whiteSpace: 'nowrap'
-            }}>
+              <button
+              type="button"
+              onClick={downloadTemplate}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 7,
+                padding: '6px 12px',
+                background: 'var(--bg)',
+                border: '1px solid var(--line)',
+                borderRadius: 8,
+                fontSize: 12, fontWeight: 600, color: 'var(--ink-2)',
+                whiteSpace: 'nowrap',
+                cursor: 'pointer',
+                transition: 'border-color .15s ease, background .15s ease'
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--ink-6)'; e.currentTarget.style.background = 'var(--bg-soft)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.background = 'var(--bg)'; }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
                   <polyline points="7 10 12 15 17 10"/>
                   <line x1="12" y1="15" x2="12" y2="3"/>
                 </svg>
                 Download CSV Template
-              </div>
+              </button>
             </div>
           </div>
         }
 
         {/* ============== STEP 2 — PREVIEW ============== */}
         {step === 2 &&
-        <div style={{ height: 400, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ height: 410, display: 'flex', flexDirection: 'column' }}>
             {/* Header — table title + show all link */}
             <div style={{
             padding: '12px 18px',
@@ -2024,7 +1956,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 3 — DONE ============== */}
         {step === 3 &&
-        <div style={{ padding: 18, height: 400, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 18, height: 410, display: 'flex', flexDirection: 'column' }}>
             <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, width: '100%' }}>
               <div style={{
@@ -2079,7 +2011,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 4 — BILLING ============== */}
         {step === 4 &&
-        <div style={{ padding: '14px 18px', height: 400, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: '14px 18px', height: 410, display: 'flex', flexDirection: 'column' }}>
             {/* Summary card */}
             <div style={{
             padding: '10px 12px',
@@ -2202,6 +2134,27 @@ const ImportModalMock = () => {
             </div>
           </div>
         }
+      </div>
+
+      {/* Step indicator — 4 pills under the modal */}
+      <div style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10,
+        marginTop: 28
+      }}>
+        {[1, 2, 3, 4].map((n) =>
+        <button
+          key={n}
+          onClick={() => setStep(n)}
+          aria-label={`Go to step ${n}`}
+          aria-current={step === n ? 'step' : undefined}
+          style={{
+            width: step === n ? 56 : 28, height: 6, borderRadius: 999,
+            border: 'none', padding: 0,
+            background: step === n ? 'var(--ink)' : 'var(--bg-muted)',
+            cursor: 'pointer',
+            transition: 'width .25s cubic-bezier(.2,.8,.2,1), background .2s ease'
+          }} />
+        )}
       </div>
     </div>);
 
