@@ -921,24 +921,6 @@ const ProductShowcase = ({ compact = false }) => {
 
 };
 
-const LogoStrip = () =>
-<section className="tight" style={{ paddingTop: 8, paddingBottom: 56 }}>
-    <div className="container">
-      <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 28, fontWeight: 500 }}>
-        Trusted by 4,200+ pool service businesses
-      </div>
-      <div className="logo-strip-grid" style={{
-      display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 32, alignItems: 'center', justifyItems: 'center',
-      opacity: 0.65
-    }}>
-        {['SunCoast Pools', 'BlueWave Co.', 'Crystal Pools', 'Aqua Pro', 'Splash Service', 'PoolHaus'].map((n, i) =>
-      <div key={i} style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--ink-4)', fontFamily: i % 2 ? 'Instrument Serif, serif' : 'Geist, sans-serif', fontStyle: i % 3 === 0 ? 'italic' : 'normal' }}>{n}</div>
-      )}
-      </div>
-    </div>
-  </section>;
-
-
 // Features grid — bento-style
 const Features = () => {
   return (
@@ -1440,49 +1422,83 @@ const FAQ = () => {
 // Visual hero is a faithful mock of the in-app Import Customers wizard.
 const Migration = () => {
   return (
-    <section className="section-divider" id="switching">
+    <section id="switching" style={{ paddingTop: 64, paddingBottom: 64 }}>
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)', gap: 56, alignItems: 'center' }}>
+        <div className="switching-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(0, 0.9fr)', gap: 56, alignItems: 'start' }}>
 
           {/* Copy */}
           <div>
-            <h2 style={{ marginTop: 0, letterSpacing: '-0.035em', lineHeight: 1.05 }}>
+            <h3 style={{ marginTop: 0, letterSpacing: '-0.03em', lineHeight: 1.1, fontSize: 'clamp(28px, 3.2vw, 42px)', fontWeight: 700 }}>
               Switch in less time than it takes to do a route.
-            </h2>
-            <p style={{ marginTop: 22, fontSize: 17, lineHeight: 1.5, maxWidth: 500, color: 'var(--ink-4)', fontWeight: 400 }}>
+            </h3>
+            <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.5, maxWidth: 500, color: 'var(--ink-4)', fontWeight: 400 }}>
               Move your full customer book over in one upload &mdash; CSV, PDF, or even a screenshot. Hands down the fastest setup in pool software.
             </p>
 
-            <ol style={{ marginTop: 56, padding: 0, listStyle: 'none' }}>
+            <ol style={{ marginTop: 28, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
-              ['Bring your list', 'CSV up to 5,000 customers, or let our AI extract data from a PDF or screenshot.'],
-              ['Set billing rules', 'First invoice date, card fees, chemical billing.'],
-              ['You’re live', 'Routes, history, and invoices ready before your next stop.']].
-              map(([t, d], i) =>
-              <li key={i} style={{
-                display: 'grid',
-                gridTemplateColumns: '36px 1fr',
-                gap: 24,
-                padding: '22px 0',
-                borderTop: i === 0 ? 'none' : '1px solid var(--line-2)',
-                alignItems: 'baseline'
-              }}>
+              ['Bring your list', 'CSV up to 5,000 customers, or let our AI extract data from a PDF or screenshot.',
+              <svg key="i1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>],
+              ['Set billing rules', 'First invoice date, card fees, chemical billing.',
+              <svg key="i2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>],
+              ['You’re live', 'Routes, history, and invoices ready before your next stop.',
+              <svg key="i3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>]].
+              map(([t, d, icon], i) =>
+              <li key={i}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 25%, var(--line))';
+                  e.currentTarget.style.boxShadow = '0 6px 18px -10px rgba(15, 23, 42, .10)';
+                  const ic = e.currentTarget.querySelector('[data-icon]');
+                  if (ic) { ic.style.background = 'color-mix(in oklab, var(--accent) 14%, transparent)'; ic.style.color = 'var(--accent-ink)'; }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--line-2)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  const ic = e.currentTarget.querySelector('[data-icon]');
+                  if (ic) { ic.style.background = 'color-mix(in oklab, var(--accent) 8%, transparent)'; ic.style.color = 'var(--accent)'; }
+                }}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'auto 1fr auto',
+                  gap: 18,
+                  alignItems: 'center',
+                  padding: '14px 18px 14px 16px',
+                  border: '1px solid var(--line-2)',
+                  borderRadius: 12,
+                  background: 'var(--bg)',
+                  transition: 'border-color .2s ease, box-shadow .2s ease',
+                  cursor: 'default'
+                }}>
+                  {/* Number — leads on the left */}
                   <span style={{
-                  fontSize: 11.5, fontWeight: 500,
-                  color: 'var(--ink-5)',
-                  fontFamily: "'Geist Mono', ui-monospace, monospace",
-                  letterSpacing: '0.06em'
-                }}>{String(i + 1).padStart(2, '0')}</span>
-                  <div>
-                    <div style={{ fontSize: 17, fontWeight: 600, color: 'var(--ink)', letterSpacing: '-0.015em' }}>{t}</div>
-                    <p style={{ marginTop: 6, fontSize: 14.5, lineHeight: 1.55, color: 'var(--ink-4)', fontWeight: 400 }}>{d}</p>
+                    fontSize: 12, fontWeight: 600, color: 'var(--accent)',
+                    fontFamily: "'Geist Mono', ui-monospace, monospace",
+                    letterSpacing: '0.1em',
+                    minWidth: 18,
+                    paddingTop: 1
+                  }}>{String(i + 1).padStart(2, '0')}</span>
+
+                  {/* Text */}
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)', letterSpacing: '-0.01em' }}>{t}</div>
+                    <p style={{ marginTop: 2, fontSize: 13, lineHeight: 1.5, color: 'var(--ink-4)', fontWeight: 400 }}>{d}</p>
                   </div>
+
+                  {/* Icon — trails on the right, balances visual weight */}
+                  <span data-icon style={{
+                    width: 36, height: 36, borderRadius: 10,
+                    background: 'color-mix(in oklab, var(--accent) 8%, transparent)',
+                    color: 'var(--accent)',
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0,
+                    transition: 'background .2s ease, color .2s ease'
+                  }}>{icon}</span>
                 </li>
               )}
             </ol>
 
             <a href="#cta" style={{
-              marginTop: 40,
+              marginTop: 28,
               display: 'inline-flex', alignItems: 'center', gap: 8,
               fontSize: 15, fontWeight: 600, color: 'var(--accent)',
               textDecoration: 'none',
@@ -1530,84 +1546,75 @@ const ImportModalMock = () => {
 
   // Fake customer rows for the preview step. Florida-flavored, plausibly fictional.
   const previewRows = [
-  ['Maria Henderson', '142 Palmetto Ln, Tampa, FL', 'maria.h@gmail.com', '(813) 555-0142', 'Saltwater', '$135.00'],
-  ['David Chen', '88 Magnolia Ct, St. Pete, FL', 'dchen88@gmail.com', '(727) 555-0188', 'Chlorine', '$115.00'],
-  ['Patricia Brooks', '4501 Bayshore Rd, Sarasota', 'pbrooks@outlook.com', '(941) 555-4501', 'Saltwater', '$165.00'],
-  ['Marcus Holloway', '233 Live Oak Dr, Brandon', 'mholloway@yahoo.com', '(813) 555-0233', 'Chlorine', '$125.00'],
-  ['Rachel Kim', '1789 Coral Way, Clearwater', 'rkim@gmail.com', '(727) 555-1789', 'Saltwater', '$145.00']];
+  { first: 'Maria', last: 'Henderson', addr: '142 Palmetto Ln', city: 'Tampa', state: 'FL', zip: '33605', email: 'maria.h@gmail.com', phone: '(813) 555-0142', mrr: '135.00', billing: 'Monthly', tech: '—', day: '—', order: '—' },
+  { first: 'David', last: 'Chen', addr: '88 Magnolia Ct', city: 'St. Petersburg', state: 'FL', zip: '33712', email: 'dchen88@gmail.com', phone: '(727) 555-0188', mrr: '115.00', billing: 'Monthly', tech: '—', day: '—', order: '—' },
+  { first: 'Patricia', last: 'Brooks', addr: '4501 Bayshore Rd', city: 'Sarasota', state: 'FL', zip: '34231', email: 'pbrooks@outlook.com', phone: '(941) 555-4501', mrr: '165.00', billing: 'Monthly', tech: 'Sam Davis', day: 'Tuesday', order: '3' },
+  { first: 'Marcus', last: 'Holloway', addr: '233 Live Oak Dr', city: 'Brandon', state: 'FL', zip: '33511', email: 'mholloway@yahoo.com', phone: '(813) 555-0233', mrr: '125.00', billing: 'Monthly', tech: 'Sam Davis', day: 'Tuesday', order: '5' },
+  { first: 'Rachel', last: 'Kim', addr: '1789 Coral Way', city: 'Clearwater', state: 'FL', zip: '33756', email: 'rkim@gmail.com', phone: '(727) 555-1789', mrr: '145.00', billing: 'Monthly', tech: 'Mike Torres', day: 'Wednesday', order: '1' }];
 
   const subtitles = {
     1: 'Upload a CSV file to import customers in bulk.',
-    2: `Previewing up to 5 of ${TOTAL_ROWS} rows.`,
+    2: `Review ${TOTAL_ROWS} customers before importing.`,
     3: `Done — ${TOTAL_ROWS} imported, 0 skipped.`,
     4: 'Configure billing settings for imported customers.'
   };
 
   return (
-    <div style={{ maxWidth: 460, marginLeft: 'auto', marginRight: 'auto', width: '100%' }}>
-      {/* Flash-card nav: prev/next arrows with step label */}
-      <div style={{
-        marginBottom: 14,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14
-      }}>
-        <button
-          onClick={() => setStep((s) => Math.max(1, s - 1))}
-          disabled={step === 1}
-          aria-label="Previous step"
-          style={{
-            width: 36, height: 36, borderRadius: '50%',
-            border: '1px solid var(--line)',
-            background: 'var(--bg)',
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            cursor: step === 1 ? 'default' : 'pointer',
-            opacity: step === 1 ? 0.35 : 1,
-            transition: 'transform .15s ease, box-shadow .15s ease, background .15s',
-            color: 'var(--ink-2)',
-            boxShadow: '0 1px 2px rgba(15, 23, 42, .04)',
-            padding: 0
-          }}
-          onMouseEnter={(e) => { if (step !== 1) { e.currentTarget.style.transform = 'translateX(-2px)'; e.currentTarget.style.background = 'var(--bg-soft)'; } }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.background = 'var(--bg)'; }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6"/>
-          </svg>
-        </button>
+    <div style={{ maxWidth: 460, marginLeft: 'auto', marginRight: 'auto', width: '100%', position: 'relative' }}>
 
-        <div style={{
-          display: 'inline-flex', alignItems: 'baseline', gap: 8,
-          minWidth: 130, justifyContent: 'center'
-        }}>
-          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-2)' }}>
-            {{ 1: 'Upload', 2: 'Preview', 3: 'Done', 4: 'Billing' }[step]}
-          </span>
-          <span style={{ fontSize: 11.5, color: 'var(--ink-5)', fontFamily: "'Geist Mono', ui-monospace, monospace" }}>
-            {step} / 4
-          </span>
-        </div>
+      {/* Prev arrow — sits half-on, half-off the left edge of the card */}
+      <button
+        onClick={() => setStep((s) => Math.max(1, s - 1))}
+        disabled={step === 1}
+        aria-label="Previous step"
+        style={{
+          position: 'absolute',
+          left: -20, top: '50%', transform: 'translateY(-50%)',
+          width: 40, height: 40, borderRadius: '50%',
+          border: '1px solid var(--line)',
+          background: 'var(--bg)',
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          cursor: step === 1 ? 'default' : 'pointer',
+          opacity: step === 1 ? 0.35 : 1,
+          transition: 'transform .2s cubic-bezier(.2, .8, .2, 1), box-shadow .2s ease',
+          color: 'var(--ink-2)',
+          boxShadow: '0 4px 12px -4px rgba(15, 23, 42, .12), 0 1px 3px rgba(15, 23, 42, .06)',
+          padding: 0,
+          zIndex: 5
+        }}
+        onMouseEnter={(e) => { if (step !== 1) { e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)'; e.currentTarget.style.boxShadow = '0 8px 20px -6px rgba(15, 23, 42, .16), 0 2px 4px rgba(15, 23, 42, .06)'; } }}
+        onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(-50%)'; e.currentTarget.style.boxShadow = '0 4px 12px -4px rgba(15, 23, 42, .12), 0 1px 3px rgba(15, 23, 42, .06)'; }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
 
-        <button
-          onClick={() => setStep((s) => Math.min(4, s + 1))}
-          disabled={step === 4}
-          aria-label="Next step"
-          style={{
-            width: 36, height: 36, borderRadius: '50%',
-            border: '1px solid var(--line)',
-            background: 'var(--bg)',
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            cursor: step === 4 ? 'default' : 'pointer',
-            opacity: step === 4 ? 0.35 : 1,
-            transition: 'transform .15s ease, box-shadow .15s ease, background .15s',
-            color: 'var(--ink-2)',
-            boxShadow: '0 1px 2px rgba(15, 23, 42, .04)',
-            padding: 0
-          }}
-          onMouseEnter={(e) => { if (step !== 4) { e.currentTarget.style.transform = 'translateX(2px)'; e.currentTarget.style.background = 'var(--bg-soft)'; } }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.background = 'var(--bg)'; }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </button>
-      </div>
+      {/* Next arrow — sits half-on, half-off the right edge of the card */}
+      <button
+        onClick={() => setStep((s) => Math.min(4, s + 1))}
+        disabled={step === 4}
+        aria-label="Next step"
+        style={{
+          position: 'absolute',
+          right: -20, top: '50%', transform: 'translateY(-50%)',
+          width: 40, height: 40, borderRadius: '50%',
+          border: '1px solid var(--line)',
+          background: 'var(--bg)',
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          cursor: step === 4 ? 'default' : 'pointer',
+          opacity: step === 4 ? 0.35 : 1,
+          transition: 'transform .2s cubic-bezier(.2, .8, .2, 1), box-shadow .2s ease',
+          color: 'var(--ink-2)',
+          boxShadow: '0 4px 12px -4px rgba(15, 23, 42, .12), 0 1px 3px rgba(15, 23, 42, .06)',
+          padding: 0,
+          zIndex: 5
+        }}
+        onMouseEnter={(e) => { if (step !== 4) { e.currentTarget.style.transform = 'translateY(-50%) scale(1.08)'; e.currentTarget.style.boxShadow = '0 8px 20px -6px rgba(15, 23, 42, .16), 0 2px 4px rgba(15, 23, 42, .06)'; } }}
+        onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(-50%)'; e.currentTarget.style.boxShadow = '0 4px 12px -4px rgba(15, 23, 42, .12), 0 1px 3px rgba(15, 23, 42, .06)'; }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
 
       <div style={{
         background: 'var(--bg)',
@@ -1657,68 +1664,85 @@ const ImportModalMock = () => {
             <p style={{ marginTop: 4, fontSize: 13, color: 'var(--ink-5)', margin: '4px 0 0' }}>{subtitles[step]}</p>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginTop: 14 }}>
-            {[1, 2, 3, 4].map((n, i) =>
-            <React.Fragment key={n}>
-                {i > 0 && <span style={{ width: 26, height: 1, background: 'var(--line)' }} />}
-                <span style={{
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 7, marginTop: 14,
+            visibility: (step === 1 || step === 2) ? 'visible' : 'hidden'
+          }}>
+              <span style={{
                 width: 19, height: 19, borderRadius: '50%',
-                background: step === n
-                ? 'var(--brand-green)'
-                : step > n
-                ? 'color-mix(in oklab, var(--brand-green) 25%, transparent)'
-                : 'var(--bg-muted)',
-                color: step === n ? '#fff' : step > n ? 'var(--brand-green)' : 'var(--ink-5)',
+                background: step === 2 ? 'color-mix(in oklab, var(--brand-green) 25%, transparent)' : 'var(--brand-green)',
+                color: step === 2 ? 'var(--brand-green)' : '#fff',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 10, fontWeight: 600
-              }}>{n}</span>
-              </React.Fragment>
-            )}
-          </div>
+              }}>1</span>
+              <span style={{ width: 26, height: 1, background: 'var(--line)' }} />
+              <span style={{
+                width: 19, height: 19, borderRadius: '50%',
+                background: step >= 2 ? 'var(--brand-green)' : 'var(--bg-muted)',
+                color: step >= 2 ? '#fff' : 'var(--ink-5)',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 10, fontWeight: 600
+              }}>2</span>
+            </div>
         </div>
 
         <div style={{ height: 1, background: 'var(--line-2)', margin: '0 20px' }} />
 
         {/* ============== STEP 1 — UPLOAD ============== */}
         {step === 1 &&
-        <div style={{ padding: 20, minHeight: 360, display: 'flex', flexDirection: 'column' }}>
-            <div style={{
+        <div style={{ padding: 18, minHeight: 400, display: 'flex', flexDirection: 'column' }}>
+            <div className="upload-dropzone" style={{
             border: '1.5px dashed var(--line)',
             borderRadius: 12,
             padding: '26px 16px',
-            textAlign: 'center'
+            textAlign: 'center',
+            cursor: 'pointer'
           }}>
               <div style={{
-              width: 40, height: 40, borderRadius: 10,
-              background: 'var(--bg-muted)',
+              width: 44, height: 44, borderRadius: 10,
+              background: 'color-mix(in oklab, var(--accent) 10%, transparent)',
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
               marginBottom: 12
             }}>
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
                   <polyline points="14 2 14 8 20 8"/>
                   <line x1="9" y1="13" x2="15" y2="13"/>
                   <line x1="9" y1="17" x2="15" y2="17"/>
                 </svg>
               </div>
-              <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-2)' }}>Drop your CSV here, or click to browse</div>
-              <div style={{ marginTop: 4, fontSize: 12, color: 'var(--ink-5)' }}>Max 5,000 rows &middot; 5 MB limit</div>
+              <div style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--ink-2)' }}>Drop your file here, or click to browse</div>
+              <div style={{ marginTop: 4, fontSize: 12, color: 'var(--ink-5)' }}>CSV, PDF, or image &middot; 5 MB limit</div>
 
               <div style={{
               marginTop: 14,
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              padding: '5px 10px',
-              background: 'color-mix(in oklab, var(--accent) 8%, transparent)',
-              border: '1px solid color-mix(in oklab, var(--accent) 18%, transparent)',
-              borderRadius: 999,
-              fontSize: 11.5, fontWeight: 600, color: 'var(--accent)',
-              whiteSpace: 'nowrap'
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              flexWrap: 'wrap'
             }}>
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
-                  <path d="M19 14l.7 2.1L22 17l-2.3.9L19 20l-.7-2.1L16 17l2.3-.9L19 14z"/>
-                </svg>
-                AI extract from PDF or screenshot
+                <span style={{
+                display: 'inline-flex', alignItems: 'center',
+                padding: '5px 10px',
+                background: 'var(--bg-muted)',
+                borderRadius: 999,
+                fontSize: 11.5, fontWeight: 600, color: 'var(--ink-3)',
+                whiteSpace: 'nowrap'
+              }}>
+                  CSV up to 5,000 customers
+                </span>
+                <span style={{
+                display: 'inline-flex', alignItems: 'center', gap: 5,
+                padding: '5px 10px',
+                background: 'color-mix(in oklab, var(--accent) 8%, transparent)',
+                borderRadius: 999,
+                fontSize: 11.5, fontWeight: 600, color: 'var(--accent)',
+                whiteSpace: 'nowrap'
+              }}>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/>
+                    <path d="M19 14l.7 2.1L22 17l-2.3.9L19 20l-.7-2.1L16 17l2.3-.9L19 14z"/>
+                  </svg>
+                  AI varies by document size &amp; format
+                </span>
               </div>
             </div>
 
@@ -1748,7 +1772,7 @@ const ImportModalMock = () => {
 
               {guideOpen &&
               <div style={{ borderTop: '1px solid var(--line-2)', position: 'relative' }}>
-                  <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                  <div className="hide-scrollbar" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
                     <table style={{
                     borderCollapse: 'collapse',
                     width: 'max-content',
@@ -1828,58 +1852,163 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 2 — PREVIEW ============== */}
         {step === 2 &&
-        <div style={{ padding: 20, minHeight: 360, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 10 }}>
-              First 5 of {TOTAL_ROWS} rows
+        <div style={{ height: 400, display: 'flex', flexDirection: 'column' }}>
+            {/* Header — table title + show all link */}
+            <div style={{
+            padding: '12px 18px',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            gap: 12
+          }}>
+              <div style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              fontSize: 10.5, fontWeight: 600, color: 'var(--ink-5)',
+              textTransform: 'uppercase', letterSpacing: '0.08em'
+            }}>
+                <span style={{ whiteSpace: 'nowrap' }}>{TOTAL_ROWS} customers &mdash; click any cell to edit</span>
+                <span className="info-tooltip" tabIndex={0}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                  </svg>
+                  <span className="info-bubble">
+                    <strong>Active</strong> customers get a route stop and automated billing. Customers with a billing cycle and MRR are marked active by default. Inactive customers are still imported but won&rsquo;t receive routes or invoices until you activate them from their profile.
+                  </span>
+                </span>
+              </div>
+              <span style={{ fontSize: 12, color: 'var(--accent)', fontWeight: 500, cursor: 'pointer', whiteSpace: 'nowrap' }}>Show all {TOTAL_ROWS}</span>
             </div>
-            <div style={{ border: '1px solid var(--line)', borderRadius: 10, overflow: 'hidden', position: 'relative' }}>
-              <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-                <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: 12 }}>
-                  <thead>
-                    <tr style={{ background: 'var(--bg-soft)' }}>
-                      {['Name', 'Address', 'Email', 'Phone', 'Pool Type', 'MRR'].map((h, i) =>
-                    <th key={h} style={{
-                      padding: '8px 12px',
-                      textAlign: i === 5 ? 'right' : 'left',
-                      color: 'var(--ink-5)',
-                      fontWeight: 600,
-                      borderBottom: '1px solid var(--line-2)',
-                      whiteSpace: 'nowrap',
-                      fontSize: 11
-                    }}>{h}</th>
+
+            {/* Table container — bordered card around the scrollable table */}
+            <div style={{
+            margin: '0 18px 14px',
+            border: '1px solid var(--line)',
+            borderRadius: 10,
+            overflow: 'hidden',
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <div className="hide-scrollbar" style={{
+            overflowX: 'auto', WebkitOverflowScrolling: 'touch',
+            flex: 1, position: 'relative'
+          }}>
+              <table style={{ borderCollapse: 'collapse', width: 'max-content', fontSize: 12 }}>
+                <thead>
+                  <tr>
+                    <th style={{
+                    width: 44, minWidth: 44, maxWidth: 44, padding: '12px 0',
+                    boxSizing: 'border-box', textAlign: 'center',
+                    borderBottom: '1px solid var(--line-2)',
+                    background: 'var(--bg)',
+                    position: 'sticky', left: 0, zIndex: 3
+                  }}></th>
+                    <th style={{
+                    padding: '12px 16px', textAlign: 'center',
+                    fontSize: 10, fontWeight: 600, color: 'var(--ink-5)',
+                    textTransform: 'uppercase', letterSpacing: '0.06em',
+                    borderBottom: '1px solid var(--line-2)',
+                    borderRight: '1px solid var(--line-2)',
+                    background: 'var(--bg-muted)',
+                    whiteSpace: 'nowrap',
+                    position: 'sticky', left: 44, zIndex: 2,
+                    boxShadow: 'inset 1px 0 0 var(--line-2)'
+                  }}>Active</th>
+                    {['First Name', 'Last Name', 'Address', 'City', 'State', 'Zip', 'Email', 'Phone', 'MRR', 'Billing', 'Tech', 'Day', 'Order'].map((h) =>
+                  <th key={h} style={{
+                    padding: '12px 16px', textAlign: 'left',
+                    fontSize: 12.5, fontWeight: 600, color: 'var(--ink-2)',
+                    borderBottom: '1px solid var(--line-2)',
+                    borderRight: '1px solid var(--line-2)',
+                    background: 'var(--bg-soft)',
+                    whiteSpace: 'nowrap'
+                  }}>{h}</th>
+                  )}
+                  </tr>
+                </thead>
+                <tbody>
+                  {previewRows.map((row, ri) =>
+                <tr key={ri} className="preview-row" style={{ borderTop: ri > 0 ? '1px solid var(--line-2)' : 'none' }}>
+                      <td style={{
+                    width: 44, minWidth: 44, maxWidth: 44, padding: '14px 0', textAlign: 'center',
+                    boxSizing: 'border-box',
+                    background: 'var(--bg)',
+                    position: 'sticky', left: 0, zIndex: 2
+                  }}>
+                        <span className="row-trash" style={{
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                      color: '#ef4444', cursor: 'pointer'
+                    }}>
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6l-2 14a2 2 0 01-2 2H9a2 2 0 01-2-2L5 6"/>
+                            <path d="M10 11v6"/>
+                            <path d="M14 11v6"/>
+                          </svg>
+                        </span>
+                      </td>
+                      <td style={{
+                    padding: '14px 16px', textAlign: 'center',
+                    borderRight: '1px solid var(--line-2)',
+                    background: 'var(--bg-soft)',
+                    position: 'sticky', left: 44, zIndex: 1,
+                    boxShadow: 'inset 1px 0 0 var(--line-2)'
+                  }}>
+                        <span style={{
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                      width: 18, height: 18,
+                      background: 'var(--accent)', borderRadius: 5,
+                      color: '#fff'
+                    }}>
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                        </span>
+                      </td>
+                      {[
+                    [row.first, false],
+                    [row.last, false],
+                    [row.addr, false],
+                    [row.city, false],
+                    [row.state, false],
+                    [row.zip, false],
+                    [row.email, false],
+                    [row.phone, false],
+                    [row.mrr, false],
+                    [row.billing, true],
+                    [row.tech, false],
+                    [row.day, true],
+                    [row.order, false]].
+                    map(([val, isDropdown], ci) =>
+                    <td key={ci} style={{
+                      padding: '14px 16px',
+                      fontSize: 13, color: 'var(--ink)',
+                      borderRight: '1px solid var(--line-2)',
+                      whiteSpace: 'nowrap'
+                    }}>
+                          {isDropdown ?
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+                              {val}
+                              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                              </svg>
+                            </span> :
+                      val
+                      }
+                        </td>
                     )}
                     </tr>
-                  </thead>
-                  <tbody>
-                    {previewRows.map((row, ri) =>
-                  <tr key={ri} style={{ borderBottom: ri < previewRows.length - 1 ? '1px solid var(--line-2)' : 'none' }}>
-                        {row.map((cell, ci) =>
-                    <td key={ci} style={{
-                      padding: '10px 12px',
-                      color: ci === 0 ? 'var(--ink-2)' : 'var(--ink-4)',
-                      fontWeight: ci === 0 ? 600 : 400,
-                      textAlign: ci === 5 ? 'right' : 'left',
-                      whiteSpace: 'nowrap',
-                      maxWidth: ci === 1 || ci === 2 ? 140 : undefined,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis'
-                    }}>{cell}</td>
-                    )}
-                      </tr>
-                  )}
-                  </tbody>
-                </table>
-              </div>
-              <div style={{
-              position: 'absolute', top: 0, right: 0, bottom: 0, width: 32,
-              background: 'linear-gradient(to right, transparent, var(--bg))',
-              pointerEvents: 'none'
-            }} />
+                )}
+                </tbody>
+              </table>
             </div>
-            <div style={{ textAlign: 'center', marginTop: 10, fontSize: 12, color: 'var(--ink-5)' }}>
-              ...and {TOTAL_ROWS - previewRows.length} more rows
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: 16 }}>
+
+            {/* Footer — Back + Import */}
+            <div style={{
+            padding: '12px 18px',
+            background: 'var(--bg-soft)',
+            borderTop: '1px solid var(--line-2)',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+          }}>
               <span style={{ fontSize: 13, color: 'var(--ink-4)', fontWeight: 500, cursor: 'pointer' }}>Back</span>
               <div style={{
               padding: '8px 16px',
@@ -1895,7 +2024,7 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 3 — DONE ============== */}
         {step === 3 &&
-        <div style={{ padding: 20, minHeight: 360, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: 18, height: 400, display: 'flex', flexDirection: 'column' }}>
             <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, width: '100%' }}>
               <div style={{
@@ -1950,24 +2079,24 @@ const ImportModalMock = () => {
 
         {/* ============== STEP 4 — BILLING ============== */}
         {step === 4 &&
-        <div style={{ padding: 20, minHeight: 360, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ padding: '14px 18px', height: 400, display: 'flex', flexDirection: 'column' }}>
             {/* Summary card */}
             <div style={{
-            padding: '12px 14px',
+            padding: '10px 12px',
             background: 'var(--bg-soft)',
             border: '1px solid var(--line)',
             borderRadius: 10,
-            display: 'flex', alignItems: 'center', gap: 12
+            display: 'flex', alignItems: 'center', gap: 10
           }}>
               <div style={{
-              width: 32, height: 32, borderRadius: 8,
+              width: 30, height: 30, borderRadius: 8,
               background: 'var(--bg)',
               border: '1px solid var(--line)',
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
               color: 'var(--brand-green)',
               flexShrink: 0
             }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                   <line x1="16" y1="2" x2="16" y2="6"/>
                   <line x1="8" y1="2" x2="8" y2="6"/>
@@ -1975,21 +2104,32 @@ const ImportModalMock = () => {
                 </svg>
               </div>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-2)' }}>Set up billing</div>
-                <div style={{ marginTop: 2, fontSize: 11.5, color: 'var(--ink-5)' }}>Configure billing for the {TOTAL_ROWS} imported customers.</div>
+                <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--ink-2)' }}>Set up billing</div>
+                <div style={{ marginTop: 1, fontSize: 11, color: 'var(--ink-5)' }}>Configure billing settings for your imported customers.</div>
+                <div style={{ marginTop: 3, fontSize: 10.5, fontWeight: 600, color: 'var(--brand-green)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  {TOTAL_ROWS} active with billing
+                </div>
               </div>
             </div>
 
-            <div style={{ marginTop: 14 }}>
-              <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>First Invoice Date</div>
+            <div style={{ marginTop: 10 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 10, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 3 }}>
+                First Invoice Date
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+              </div>
               <div style={{
               display: 'flex', alignItems: 'center', gap: 8,
-              padding: '8px 12px',
+              padding: '6px 10px',
               border: '1px solid var(--line)',
-              borderRadius: 8,
-              fontSize: 13, color: 'var(--ink-2)'
+              borderRadius: 7,
+              fontSize: 12.5, color: 'var(--ink-2)'
             }}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
                   <line x1="16" y1="2" x2="16" y2="6"/>
                   <line x1="8" y1="2" x2="8" y2="6"/>
@@ -1999,35 +2139,47 @@ const ImportModalMock = () => {
               </div>
             </div>
 
-            <div style={{ marginTop: 12 }}>
-              <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>Payment Terms</div>
+            <div style={{ marginTop: 8 }}>
+              <div style={{ fontSize: 10, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 3 }}>Payment Terms</div>
               <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '8px 12px',
+              padding: '6px 10px',
               border: '1px solid var(--line)',
-              borderRadius: 8,
-              fontSize: 13, color: 'var(--ink-2)'
+              borderRadius: 7,
+              fontSize: 12.5, color: 'var(--ink-2)'
             }}>
                 Net 30 — 30 days
-                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--ink-5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="6 9 12 15 18 9"/>
                 </svg>
               </div>
+              <div style={{ marginTop: 3, fontSize: 11, color: 'var(--ink-5)' }}>Days after invoice is sent before payment is due</div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginTop: 12 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 8 }}>
               <div>
-                <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>CC Processing Fee</div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 10, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 3 }}>
+                  CC Processing Fee
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                  </svg>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ width: 13, height: 13, border: '1.5px solid var(--line)', borderRadius: 3, background: 'var(--bg)', flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: 'var(--ink-2)' }}>Pass 2% fee</span>
+                  <span style={{ fontSize: 12.5, color: 'var(--ink-2)' }}>Pass 2.9% fee</span>
                 </div>
+                <div style={{ marginTop: 2, fontSize: 11.5, color: 'var(--accent)', fontWeight: 500, cursor: 'pointer' }}>Change rate</div>
               </div>
               <div>
-                <div style={{ fontSize: 10.5, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 5 }}>Chemical Charges</div>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 10, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 3 }}>
+                  Chemical Charges
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                  </svg>
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ width: 13, height: 13, border: '1.5px solid var(--line)', borderRadius: 3, background: 'var(--bg)', flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: 'var(--ink-2)' }}>Add to invoice</span>
+                  <span style={{ fontSize: 12.5, color: 'var(--ink-2)' }}>Add chemicals to invoice</span>
                 </div>
               </div>
             </div>
@@ -2135,4 +2287,4 @@ const Footer = () =>
   </footer>;
 
 
-Object.assign(window, { Nav, Hero, LogoStrip, Features, HowItWorks, Stats, Testimonial, Migration, Pricing, FAQ, FinalCTA, Footer });
+Object.assign(window, { Nav, Hero, Features, HowItWorks, Stats, Testimonial, Migration, Pricing, FAQ, FinalCTA, Footer });
