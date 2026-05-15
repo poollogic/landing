@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // Terms of Service — starter content. Review with counsel before publishing.
 // Find-and-replace placeholders if needed:
-//   PoolLogic, LLC          legal entity name
+//   PoolLogic          legal entity name
 //   Florida                 governing state
 //   May 15, 2026            effective date
 //   legal@poollogic.app     general legal contact email
@@ -20,7 +20,7 @@ const SECTIONS = [
   { id: 'communications', title: 'Communications & SMS Consent' },
   { id: 'fees', title: 'Fees, Cancellation & Refunds' },
   { id: 'data', title: 'Data Ownership & Feedback' },
-  { id: 'termination', title: 'Termination' },
+  { id: 'termination', title: 'Termination & Suspension' },
   { id: 'disclaimers', title: 'Disclaimers & Limitation of Liability' },
   { id: 'indemnification', title: 'Indemnification' },
   { id: 'force-majeure', title: 'Force Majeure' },
@@ -67,7 +67,7 @@ const TermsPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic, LLC</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
           </div>
         </header>
 
@@ -100,7 +100,7 @@ const TermsPage = () => {
           {/* Body */}
           <article style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-3)' }}>
             <Section id="acceptance" title="1. Acceptance & Who This Applies To">
-              <p>These Terms of Service ("Terms") form a binding agreement between you and PoolLogic, LLC ("PoolLogic," "we," "our," or "us"). They apply to two distinct types of users:</p>
+              <p>These Terms of Service ("Terms") form a binding agreement between you and PoolLogic ("we," "our," or "us"). They apply to two distinct types of users:</p>
               <ul>
                 <li><strong>Subscribers</strong> — pool service businesses that create a PoolLogic account to manage their customers, routes, invoicing, and operations.</li>
                 <li><strong>End Customers</strong> — homeowners or property managers who receive invoices, estimates, or service reports from a Subscriber through PoolLogic.</li>
@@ -154,6 +154,7 @@ const TermsPage = () => {
                 <li>Upload malware, viruses, or any content designed to disrupt the service or other users.</li>
                 <li>Attempt to gain unauthorized access to other accounts, systems, or data.</li>
                 <li>Use the service to violate any law or the rights of any third party.</li>
+                <li><strong>Upload protected health information (PHI) as defined under HIPAA.</strong> PoolLogic is not a HIPAA Business Associate and is not designed to receive, store, or process PHI. If your business is subject to HIPAA, do not enter PHI into PoolLogic.</li>
               </ul>
             </Section>
 
@@ -175,13 +176,20 @@ const TermsPage = () => {
               <p>You grant PoolLogic a limited, non-exclusive, royalty-free license to host, process, transmit, and display your data solely for the purpose of operating and improving the service for you.</p>
               <p>You may export your data at any time during your subscription. On account closure or termination, you have <strong>30 days</strong> to export your data. After that period, we may delete it, subject to any legal or financial-record retention obligations (for example, Stripe transaction records, which are retained per Stripe's own policies).</p>
 
+              <h3>Our Intellectual Property</h3>
+              <p>PoolLogic and its licensors retain all right, title, and interest in and to the Service, including all software, source code, designs, UI, trademarks, logos, look and feel, and any documentation. Subject to your compliance with these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Service during your subscription, solely for your business's internal operations. No rights are granted by implication, estoppel, or otherwise. You may not remove or alter any copyright, trademark, or other proprietary notice that appears in the Service.</p>
+
               <h3>Feedback</h3>
               <p>If you send us suggestions, comments, ideas, bug reports, or other feedback about the Service ("Feedback"), you grant PoolLogic a perpetual, worldwide, royalty-free, irrevocable, sublicensable license to use, modify, and incorporate that Feedback into the Service or our other offerings without obligation or compensation. We may use Feedback freely, and you retain no rights in or claim to that Feedback once submitted.</p>
             </Section>
 
-            <Section id="termination" title="11. Termination">
-              <p>You may terminate your account at any time. We may terminate or suspend your account, with or without notice, if you (a) materially breach these Terms, (b) fail to pay subscription fees, (c) use the service for fraudulent or illegal activity, or (d) create risk or legal exposure for PoolLogic, other Subscribers, or End Customers.</p>
-              <p>On termination, your right to access the service ends immediately. Records related to historical transactions, invoices, or other financial activity may be retained as required by law or by Stripe's record-keeping rules. Sections of these Terms that by their nature should survive termination (including ownership, indemnification, disclaimers, limitation of liability, arbitration, and general provisions) will survive.</p>
+            <Section id="termination" title="11. Termination & Suspension">
+              <h3>Suspension</h3>
+              <p>We may suspend your account, or specific features of your account, at any time — with or without prior notice — if (a) a payment to PoolLogic fails or is reversed, (b) we reasonably suspect fraud, abuse, or a security risk, (c) you exceed reasonable usage limits, or (d) we need to investigate a potential breach of these Terms. Suspension is a temporary measure and may be lifted once the underlying issue is resolved. If a suspended account is not restored within a reasonable period, we may terminate it under the section below.</p>
+
+              <h3>Termination</h3>
+              <p>You may terminate your account at any time from your account settings. We may terminate your account, with or without notice, if you (a) materially breach these Terms, (b) fail to pay subscription fees after a reasonable cure period, (c) use the service for fraudulent or illegal activity, or (d) create risk or legal exposure for PoolLogic, other Subscribers, or End Customers.</p>
+              <p>On termination, your right to access the service ends immediately. Records related to historical transactions, invoices, or other financial activity may be retained as required by law or by Stripe's record-keeping rules. Sections of these Terms that by their nature should survive termination (including ownership, our intellectual property, indemnification, disclaimers, limitation of liability, arbitration, and general provisions) will survive.</p>
             </Section>
 
             <Section id="disclaimers" title="12. Disclaimers & Limitation of Liability">
@@ -217,6 +225,9 @@ const TermsPage = () => {
               <h3>Opt-Out</h3>
               <p>You may opt out of this arbitration agreement by sending written notice to <a href="mailto:legal@poollogic.app" style={{ color: 'var(--accent)' }}>legal@poollogic.app</a> within <strong>30 days</strong> of first accepting these Terms. Your notice must include your full name, account email, and a clear statement that you are opting out of arbitration. Opting out will not affect any other part of these Terms.</p>
 
+              <h3>Time Limit on Claims</h3>
+              <p>Any claim arising out of or relating to these Terms or the Service must be filed within <strong>one (1) year</strong> after the cause of action first arose; otherwise, the claim is permanently barred. This limit applies to the maximum extent permitted by law.</p>
+
               <h3>Severability and Governing Law</h3>
               <p>If the class-action waiver is held unenforceable, the entire arbitration agreement will be void. If any other portion of this Section is held unenforceable, the remainder will continue in effect. If the arbitration agreement as a whole is held unenforceable, any Dispute must be brought exclusively in the state or federal courts located in Florida, and the parties consent to the personal jurisdiction of those courts. These Terms are governed by the laws of the State of Florida, without regard to its conflict-of-laws principles. You and PoolLogic each waive any right to a jury trial in any proceeding arising out of or related to these Terms.</p>
             </Section>
@@ -224,7 +235,7 @@ const TermsPage = () => {
             <Section id="dmca" title="16. Copyright Complaints (DMCA)">
               <p>We respect intellectual property rights. If you believe content available through PoolLogic infringes your copyright, please send a notice complying with 17 U.S.C. § 512(c)(3) to our designated agent:</p>
               <p style={{ marginTop: 10 }}>
-                <strong style={{ color: 'var(--ink-2)' }}>PoolLogic, LLC — Copyright Agent</strong><br/>
+                <strong style={{ color: 'var(--ink-2)' }}>PoolLogic — Copyright Agent</strong><br/>
                 [mailing address]<br/>
                 <a href="mailto:copyright@poollogic.app" style={{ color: 'var(--accent)' }}>copyright@poollogic.app</a>
               </p>
@@ -249,7 +260,7 @@ const TermsPage = () => {
             <Section id="contact" title="19. Contact">
               <p>For questions about these Terms or to send a legal notice, contact us at:</p>
               <p style={{ marginTop: 12 }}>
-                <strong style={{ color: 'var(--ink-2)' }}>PoolLogic, LLC</strong><br/>
+                <strong style={{ color: 'var(--ink-2)' }}>PoolLogic</strong><br/>
                 <a href="mailto:legal@poollogic.app" style={{ color: 'var(--accent)' }}>legal@poollogic.app</a>
               </p>
             </Section>

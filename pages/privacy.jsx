@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // Privacy Policy — starter content. Review with counsel before publishing.
 // Find-and-replace placeholders if needed:
-//   PoolLogic, LLC          legal entity name
+//   PoolLogic          legal entity name
 //   Florida                 governing state
 //   May 15, 2026            effective date
 //   privacy@poollogic.app   contact email
@@ -66,7 +66,7 @@ const PrivacyPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic, LLC</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
           </div>
         </header>
 
@@ -99,7 +99,7 @@ const PrivacyPage = () => {
           {/* Body */}
           <article style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-3)' }}>
             <Section id="scope" title="1. Who This Applies To">
-              <p>This Privacy Policy describes how PoolLogic, LLC ("PoolLogic," "we," "our," or "us") handles personal information in two distinct roles:</p>
+              <p>This Privacy Policy describes how PoolLogic ("we," "our," or "us") handles personal information in two distinct roles:</p>
               <ul>
                 <li><strong>For Subscribers</strong> — the pool service businesses who hold accounts with us — PoolLogic acts as a <em>data controller</em>. We decide how and why your account information is collected and used.</li>
                 <li><strong>For End Customers</strong> — the homeowners and property managers whose information is entered into PoolLogic by a Subscriber — PoolLogic acts as a <em>data processor</em>. The Subscriber is the data controller and decides how that information is used. We process End Customer data only on the Subscriber's behalf and according to their instructions.</li>
@@ -243,6 +243,7 @@ const PrivacyPage = () => {
                 <li>Export their customer records, invoices, and other account data through the in-app export feature.</li>
                 <li>Correct or update inaccurate account information.</li>
                 <li>Delete their account, which begins the 90-day deletion window described in Section 10.</li>
+                <li><strong>Unsubscribe from marketing communications</strong> at any time by using the unsubscribe link in any marketing email or by contacting <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a>. Transactional and account-security messages reasonably required to operate the Service cannot be opted out of as long as your account is active.</li>
               </ul>
               <p>To exercise any of these rights, contact us at <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a> or use the relevant in-app controls.</p>
             </Section>
@@ -277,7 +278,7 @@ const PrivacyPage = () => {
             <Section id="contact" title="18. Contact">
               <p>For privacy questions, complaints, or requests, contact us at:</p>
               <p style={{ marginTop: 12 }}>
-                <strong style={{ color: 'var(--ink-2)' }}>PoolLogic, LLC</strong><br/>
+                <strong style={{ color: 'var(--ink-2)' }}>PoolLogic</strong><br/>
                 <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a>
               </p>
             </Section>
