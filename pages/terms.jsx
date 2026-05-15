@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 // Terms of Service — starter content. Review with counsel before publishing.
 // Find-and-replace placeholders if needed:
-//   PoolLogic, LLC        legal entity name
-//   Florida               governing state
-//   May 15, 2026          effective date
-//   legal@poollogic.app   contact email
+//   PoolLogic, LLC          legal entity name
+//   Florida                 governing state
+//   May 15, 2026            effective date
+//   legal@poollogic.app     general legal contact email
+//   copyright@poollogic.app DMCA designated agent email
+//   [mailing address]       physical address for DMCA notices — fill before publishing
 
 const SECTIONS = [
   { id: 'acceptance', title: 'Acceptance & Who This Applies To' },
@@ -15,12 +17,16 @@ const SECTIONS = [
   { id: 'autopay', title: 'Autopay & Saved Cards' },
   { id: 'subscriber', title: 'Subscriber Responsibilities' },
   { id: 'acceptable-use', title: 'Acceptable Use' },
+  { id: 'communications', title: 'Communications & SMS Consent' },
   { id: 'fees', title: 'Fees, Cancellation & Refunds' },
-  { id: 'data', title: 'Data Ownership' },
+  { id: 'data', title: 'Data Ownership & Feedback' },
   { id: 'termination', title: 'Termination' },
   { id: 'disclaimers', title: 'Disclaimers & Limitation of Liability' },
   { id: 'indemnification', title: 'Indemnification' },
-  { id: 'governing-law', title: 'Governing Law & Disputes' },
+  { id: 'force-majeure', title: 'Force Majeure' },
+  { id: 'disputes', title: 'Dispute Resolution & Arbitration' },
+  { id: 'dmca', title: 'Copyright Complaints (DMCA)' },
+  { id: 'general', title: 'General Provisions' },
   { id: 'changes', title: 'Changes to These Terms' },
   { id: 'contact', title: 'Contact' },
 ];
@@ -57,7 +63,7 @@ const TermsPage = () => {
             Terms of Service
           </h1>
           <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.6, maxWidth: 640 }}>
-            These terms govern your use of PoolLogic. Please read them carefully — by creating an account or using the service, you agree to them.
+            These terms govern your use of PoolLogic. Please read them carefully — by creating an account or using the service, you agree to them, including the binding arbitration and class-action waiver in Section 15.
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
@@ -118,6 +124,12 @@ const TermsPage = () => {
               <p>PoolLogic is not a party to the underlying payment transaction. Funds flow directly from your customer to your connected Stripe account. PoolLogic facilitates the request and the record-keeping, but does not handle, hold, or transfer funds on your behalf.</p>
               <p>Stripe handles all cardholder data in a PCI-compliant environment. <strong>PoolLogic never sees, receives, or stores full card numbers, CVV codes, or other sensitive payment information.</strong></p>
               <p>All disputes, chargebacks, refunds, and reversals are between the Subscriber, the End Customer, and Stripe. PoolLogic is not responsible for resolving payment disputes and will not refund Subscriber fees on the basis of a chargeback.</p>
+
+              <h3>Subscriber Liability for Stripe-Imposed Amounts</h3>
+              <p>If Stripe charges, fines, holds back, reverses, or imposes a negative balance on a Subscriber's connected Stripe account — for example due to chargebacks, refunds, fraud investigations, or regulatory action — those amounts are the sole responsibility of the Subscriber. If Stripe collects any such amounts from PoolLogic's platform balance or otherwise causes PoolLogic to bear those amounts, the Subscriber will reimburse PoolLogic in full within ten (10) days of written notice. The Subscriber indemnifies PoolLogic against any such amounts and any related fees, costs, and reasonable attorneys' fees.</p>
+
+              <h3>PCI-DSS and Card Data</h3>
+              <p>Subscribers may not collect, transmit, or store full card numbers, CVV codes, or other sensitive cardholder data outside of Stripe's UI and APIs. Subscribers may not request or accept card data through email, SMS, or any channel within PoolLogic that is not specifically designed for Stripe-mediated card capture. To the extent the Payment Card Industry Data Security Standard ("PCI-DSS") applies to a Subscriber's business, the Subscriber is responsible for its own PCI-DSS compliance.</p>
             </Section>
 
             <Section id="autopay" title="5. Autopay & Saved Cards">
@@ -145,46 +157,96 @@ const TermsPage = () => {
               </ul>
             </Section>
 
-            <Section id="fees" title="8. Fees, Cancellation & Refunds">
+            <Section id="communications" title="8. Communications & SMS Consent">
+              <p>By providing a phone number, email address, or other contact information through PoolLogic, you agree that we (and the Subscriber, where applicable) may contact you about the Service using the channels you provide, including email, phone, and SMS.</p>
+              <p>When you enable SMS or push notifications for invoice reminders, payment receipts, route updates, or other Service-related messages, <strong>you expressly consent to receive those messages, which may be sent using automated technology.</strong> Message and data rates may apply. You can opt out of non-essential SMS at any time by replying <strong>STOP</strong>; reply <strong>HELP</strong> for support. Opting out does not affect transactional or account-security messages reasonably required to operate the Service.</p>
+              <p>Subscribers are responsible for obtaining all consents required by the Telephone Consumer Protection Act ("TCPA"), the CAN-SPAM Act, and any other applicable communications law <em>before</em> using PoolLogic to send marketing or non-transactional messages to their customers. The Subscriber represents and warrants that every recipient added to PoolLogic has provided the consents required for the messages the Subscriber sends to them. The Subscriber indemnifies PoolLogic against any claim or fine arising from a failure to obtain those consents.</p>
+            </Section>
+
+            <Section id="fees" title="9. Fees, Cancellation & Refunds">
               <p>Subscriber fees, billing cycles, and any applicable taxes are presented before purchase and are charged automatically through Stripe to the payment method you provide. By subscribing, you authorize PoolLogic to charge that payment method on each renewal date.</p>
               <p>You may cancel your subscription at any time from your account settings. Cancellation takes effect at the end of the then-current billing period. Access to paid features continues until that date.</p>
               <p>Except where required by law, fees already paid are <strong>non-refundable</strong>, including for partial months or unused portions of a billing period. We may, at our sole discretion, offer prorated refunds in exceptional circumstances.</p>
               <p>Free trial periods (currently 14 days) automatically convert to a paid subscription at the end of the trial unless canceled beforehand.</p>
             </Section>
 
-            <Section id="data" title="9. Data Ownership">
+            <Section id="data" title="10. Data Ownership & Feedback">
               <p><strong>You own your data.</strong> Customer records, invoices, estimates, service reports, photos, and any other content you upload to PoolLogic remain your property.</p>
               <p>You grant PoolLogic a limited, non-exclusive, royalty-free license to host, process, transmit, and display your data solely for the purpose of operating and improving the service for you.</p>
               <p>You may export your data at any time during your subscription. On account closure or termination, you have <strong>30 days</strong> to export your data. After that period, we may delete it, subject to any legal or financial-record retention obligations (for example, Stripe transaction records, which are retained per Stripe's own policies).</p>
+
+              <h3>Feedback</h3>
+              <p>If you send us suggestions, comments, ideas, bug reports, or other feedback about the Service ("Feedback"), you grant PoolLogic a perpetual, worldwide, royalty-free, irrevocable, sublicensable license to use, modify, and incorporate that Feedback into the Service or our other offerings without obligation or compensation. We may use Feedback freely, and you retain no rights in or claim to that Feedback once submitted.</p>
             </Section>
 
-            <Section id="termination" title="10. Termination">
+            <Section id="termination" title="11. Termination">
               <p>You may terminate your account at any time. We may terminate or suspend your account, with or without notice, if you (a) materially breach these Terms, (b) fail to pay subscription fees, (c) use the service for fraudulent or illegal activity, or (d) create risk or legal exposure for PoolLogic, other Subscribers, or End Customers.</p>
-              <p>On termination, your right to access the service ends immediately. Records related to historical transactions, invoices, or other financial activity may be retained as required by law or by Stripe's record-keeping rules. Sections of these Terms that by their nature should survive termination (including ownership, indemnification, disclaimers, limitation of liability, and governing law) will survive.</p>
+              <p>On termination, your right to access the service ends immediately. Records related to historical transactions, invoices, or other financial activity may be retained as required by law or by Stripe's record-keeping rules. Sections of these Terms that by their nature should survive termination (including ownership, indemnification, disclaimers, limitation of liability, arbitration, and general provisions) will survive.</p>
             </Section>
 
-            <Section id="disclaimers" title="11. Disclaimers & Limitation of Liability">
+            <Section id="disclaimers" title="12. Disclaimers & Limitation of Liability">
               <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR UNINTERRUPTED OPERATION.</p>
               <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, POOLLOGIC'S TOTAL CUMULATIVE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE WILL NOT EXCEED THE GREATER OF (A) THE TOTAL FEES YOU PAID TO POOLLOGIC IN THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM, OR (B) ONE HUNDRED U.S. DOLLARS ($100).</p>
               <p>POOLLOGIC WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOST PROFITS, LOST REVENUE, LOST DATA, OR BUSINESS INTERRUPTION, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
               <p>Some jurisdictions do not allow the exclusion or limitation of certain warranties or damages, so these limits may not apply to you in full.</p>
             </Section>
 
-            <Section id="indemnification" title="12. Indemnification">
+            <Section id="indemnification" title="13. Indemnification">
               <p>You agree to defend, indemnify, and hold harmless PoolLogic, its officers, employees, and contractors from and against any claims, damages, losses, liabilities, and expenses (including reasonable attorneys' fees) arising out of or related to (a) your use of the service, (b) your breach of these Terms, (c) your violation of any law or the rights of any third party, or (d) any dispute between you and an End Customer, including billing disputes, service complaints, or refund claims.</p>
             </Section>
 
-            <Section id="governing-law" title="13. Governing Law & Disputes">
-              <p>These Terms are governed by the laws of the State of Florida, without regard to its conflict-of-laws principles. The exclusive venue for any dispute arising out of or relating to these Terms is the state or federal courts located in Florida, and you consent to the personal jurisdiction of those courts.</p>
-              <p>You and PoolLogic each waive any right to a jury trial in any proceeding arising out of or related to these Terms.</p>
+            <Section id="force-majeure" title="14. Force Majeure">
+              <p>Neither party will be liable for any failure or delay in performance of these Terms caused by events beyond its reasonable control, including acts of God, natural disasters, severe weather, fire, flood, war, terrorism, pandemic, epidemic, public-health emergency, civil unrest, embargo, sanctions, government action or order, labor dispute, internet or telecommunications outage, power failure, or the failure of a third-party service provider on which the affected party relies (including Stripe, Supabase, Resend, Cloudflare, or any successor or replacement provider).</p>
             </Section>
 
-            <Section id="changes" title="14. Changes to These Terms">
+            <Section id="disputes" title="15. Dispute Resolution & Arbitration">
+              <p><strong>Please read this section carefully — it affects your legal rights, including your right to file a lawsuit in court and to participate in a class action.</strong></p>
+
+              <h3>Informal Resolution</h3>
+              <p>Before filing any formal claim, you agree to first try to resolve the dispute informally by sending written notice to <a href="mailto:legal@poollogic.app" style={{ color: 'var(--accent)' }}>legal@poollogic.app</a> describing the dispute and the relief sought. The parties will negotiate in good faith for at least 60 days before initiating arbitration.</p>
+
+              <h3>Binding Arbitration</h3>
+              <p>Except as set forth below, any dispute, claim, or controversy arising out of or relating to these Terms or the Service ("Dispute") will be resolved through <strong>final and binding individual arbitration</strong> administered by the American Arbitration Association ("AAA") under its Commercial Arbitration Rules (or, for consumer disputes, the AAA Consumer Arbitration Rules). The arbitration will take place in Florida or by video conference, at the claimant's option. The arbitrator's award may be entered as a judgment in any court of competent jurisdiction.</p>
+
+              <h3>Class Action Waiver</h3>
+              <p>YOU AND POOLLOGIC AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN AN INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS, COLLECTIVE, CONSOLIDATED, OR REPRESENTATIVE PROCEEDING. The arbitrator may not consolidate more than one person's claims and may not preside over any form of class or representative proceeding.</p>
+
+              <h3>Exceptions</h3>
+              <p>Either party may (a) bring an individual claim in a small-claims court of competent jurisdiction if the claim qualifies, and (b) seek injunctive or equitable relief in a court of competent jurisdiction to protect intellectual property rights or to enjoin unauthorized access.</p>
+
+              <h3>Opt-Out</h3>
+              <p>You may opt out of this arbitration agreement by sending written notice to <a href="mailto:legal@poollogic.app" style={{ color: 'var(--accent)' }}>legal@poollogic.app</a> within <strong>30 days</strong> of first accepting these Terms. Your notice must include your full name, account email, and a clear statement that you are opting out of arbitration. Opting out will not affect any other part of these Terms.</p>
+
+              <h3>Severability and Governing Law</h3>
+              <p>If the class-action waiver is held unenforceable, the entire arbitration agreement will be void. If any other portion of this Section is held unenforceable, the remainder will continue in effect. If the arbitration agreement as a whole is held unenforceable, any Dispute must be brought exclusively in the state or federal courts located in Florida, and the parties consent to the personal jurisdiction of those courts. These Terms are governed by the laws of the State of Florida, without regard to its conflict-of-laws principles. You and PoolLogic each waive any right to a jury trial in any proceeding arising out of or related to these Terms.</p>
+            </Section>
+
+            <Section id="dmca" title="16. Copyright Complaints (DMCA)">
+              <p>We respect intellectual property rights. If you believe content available through PoolLogic infringes your copyright, please send a notice complying with 17 U.S.C. § 512(c)(3) to our designated agent:</p>
+              <p style={{ marginTop: 10 }}>
+                <strong style={{ color: 'var(--ink-2)' }}>PoolLogic, LLC — Copyright Agent</strong><br/>
+                [mailing address]<br/>
+                <a href="mailto:copyright@poollogic.app" style={{ color: 'var(--accent)' }}>copyright@poollogic.app</a>
+              </p>
+              <p>Your notice must include: (a) a physical or electronic signature of the copyright owner or authorized agent; (b) identification of the copyrighted work claimed to have been infringed; (c) identification of the allegedly infringing material and information sufficient to locate it; (d) your contact information; (e) a statement of good-faith belief that the use is not authorized; and (f) a statement under penalty of perjury that the information in the notice is accurate and that you are authorized to act. We may remove or disable access to allegedly infringing material and may terminate repeat infringers in accordance with our policies.</p>
+            </Section>
+
+            <Section id="general" title="17. General Provisions">
+              <p><strong>Entire agreement.</strong> These Terms (together with any policies referenced, including the Privacy Policy) constitute the entire agreement between you and PoolLogic regarding the Service and supersede any prior or contemporaneous agreements, communications, or proposals on the subject.</p>
+              <p><strong>No oral modification; waiver.</strong> No oral or informal modification of these Terms will be binding. Any waiver or modification must be in a writing signed by an authorized representative of PoolLogic. Our failure to enforce any provision is not a waiver of our right to do so later.</p>
+              <p><strong>Severability.</strong> If any provision is held invalid or unenforceable, that provision will be enforced to the maximum extent permitted by law and the remaining provisions will continue in full force and effect.</p>
+              <p><strong>Assignment.</strong> You may not assign or transfer these Terms or your account, by operation of law or otherwise, without our prior written consent. We may assign these Terms in connection with a merger, acquisition, reorganization, sale of assets, financing, or by operation of law.</p>
+              <p><strong>No third-party beneficiaries.</strong> These Terms do not create any third-party beneficiary rights.</p>
+              <p><strong>Notices.</strong> Notices to PoolLogic must be sent to <a href="mailto:legal@poollogic.app" style={{ color: 'var(--accent)' }}>legal@poollogic.app</a>. We may give notice to you by email at the address associated with your account, by posting in the Service, or by other reasonable means.</p>
+              <p><strong>Headings.</strong> Headings are for convenience only and do not affect interpretation.</p>
+            </Section>
+
+            <Section id="changes" title="18. Changes to These Terms">
               <p>We may update these Terms from time to time. If we make material changes, we will notify you by email and post the updated Terms on this page with a new effective date. Material changes will take effect <strong>30 days</strong> after notice. Your continued use of the service after that period constitutes acceptance of the updated Terms.</p>
               <p>For non-material changes (such as clarifications or typo corrections), we may update these Terms without individual notice.</p>
             </Section>
 
-            <Section id="contact" title="15. Contact">
+            <Section id="contact" title="19. Contact">
               <p>For questions about these Terms or to send a legal notice, contact us at:</p>
               <p style={{ marginTop: 12 }}>
                 <strong style={{ color: 'var(--ink-2)' }}>PoolLogic, LLC</strong><br/>

@@ -18,12 +18,15 @@ const SECTIONS = [
   { id: 'legal-basis', title: 'Legal Basis for Processing' },
   { id: 'sharing', title: 'How We Share Data — Subprocessors' },
   { id: 'security', title: 'Data Security' },
+  { id: 'incident', title: 'Security Incident Notification' },
   { id: 'cookies', title: 'Cookies & Tracking' },
   { id: 'retention', title: 'Data Retention' },
   { id: 'end-customer-rights', title: 'End Customer Rights' },
   { id: 'subscriber-rights', title: 'Subscriber Rights' },
+  { id: 'state-rights', title: 'Your State-Specific Privacy Rights' },
   { id: 'children', title: 'Children' },
   { id: 'international', title: 'International Transfers' },
+  { id: 'business-transfers', title: 'Business Transfers' },
   { id: 'changes', title: 'Changes to This Policy' },
   { id: 'contact', title: 'Contact' },
 ];
@@ -200,7 +203,12 @@ const PrivacyPage = () => {
               <p>No security measure is absolute. We cannot guarantee that personal information will never be compromised, but we work continuously to reduce risk.</p>
             </Section>
 
-            <Section id="cookies" title="8. Cookies & Tracking">
+            <Section id="incident" title="8. Security Incident Notification">
+              <p>If we become aware of an unauthorized access, use, or disclosure of personal information that materially affects you, we will notify affected Subscribers without undue delay, and in any event within the timeframes required by applicable law.</p>
+              <p>Our notification will describe, to the extent then known: the nature of the incident, the categories of data involved, the likely consequences, and the steps we are taking in response. Where Subscriber action is required to mitigate risk to End Customers, we will provide the information Subscribers need to fulfill their own notification obligations as data controllers.</p>
+            </Section>
+
+            <Section id="cookies" title="9. Cookies & Tracking">
               <p>We use a small number of cookies and similar technologies:</p>
               <ul>
                 <li><strong>Session cookies</strong> for authentication — required for the service to function.</li>
@@ -210,7 +218,7 @@ const PrivacyPage = () => {
               <p>You can disable cookies in your browser settings, but doing so will prevent you from signing in.</p>
             </Section>
 
-            <Section id="retention" title="9. Data Retention">
+            <Section id="retention" title="10. Data Retention">
               <ul>
                 <li><strong>Subscriber account data</strong> — retained while the account is active. After account closure, account data is retained for 90 days to allow for export, then deleted, except as noted below.</li>
                 <li><strong>Financial records</strong> — invoices, payment records, and tax-relevant documents are retained for <strong>seven (7) years</strong> as required by U.S. tax and audit rules.</li>
@@ -219,7 +227,7 @@ const PrivacyPage = () => {
               </ul>
             </Section>
 
-            <Section id="end-customer-rights" title="10. End Customer Rights">
+            <Section id="end-customer-rights" title="11. End Customer Rights">
               <p>If you are an End Customer (a homeowner or property manager receiving services from a Subscriber who uses PoolLogic):</p>
               <ul>
                 <li>The Subscriber — the pool service company — is the controller of your personal information. To request access, correction, deletion, or export of your data, please contact them directly.</li>
@@ -228,31 +236,45 @@ const PrivacyPage = () => {
               </ul>
             </Section>
 
-            <Section id="subscriber-rights" title="11. Subscriber Rights">
+            <Section id="subscriber-rights" title="12. Subscriber Rights">
               <p>Subscribers may at any time:</p>
               <ul>
                 <li>Access and review the personal information we hold about their account.</li>
                 <li>Export their customer records, invoices, and other account data through the in-app export feature.</li>
                 <li>Correct or update inaccurate account information.</li>
-                <li>Delete their account, which begins the 90-day deletion window described in Section 9.</li>
+                <li>Delete their account, which begins the 90-day deletion window described in Section 10.</li>
               </ul>
               <p>To exercise any of these rights, contact us at <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a> or use the relevant in-app controls.</p>
             </Section>
 
-            <Section id="children" title="12. Children">
+            <Section id="state-rights" title="13. Your State-Specific Privacy Rights">
+              <p>Depending on where you live, you may have additional rights under your state's privacy law. These rights typically include the right to access, correct, delete, and port the personal information we hold about you, and the right to opt out of certain processing.</p>
+              <p>If you are a resident of <strong>California, Colorado, Connecticut, Delaware, Florida, Indiana, Iowa, Kentucky, Maryland, Montana, Nebraska, New Hampshire, New Jersey, Oregon, Rhode Island, Tennessee, Texas, Utah, or Virginia</strong>, you have rights under your state's comprehensive privacy law. To exercise these rights, contact <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a>. We will verify your identity before fulfilling a request and respond within the timeframe required by applicable law.</p>
+              <p>For End Customer data entered by a Subscriber, the Subscriber is the controller. Direct your requests to them; we will assist where required by law.</p>
+              <p><strong>We do not sell personal information.</strong> We do not engage in cross-context behavioral advertising or in "sharing" of personal information as those terms are defined under California law (Cal. Civ. Code § 1798.140).</p>
+              <p><strong>California "Shine the Light" (Cal. Civ. Code § 1798.83).</strong> California residents may request information about disclosures of personal information to third parties for direct-marketing purposes. We do not currently make such disclosures.</p>
+              <p><strong>Do Not Track.</strong> Our service does not respond to "Do Not Track" browser signals at this time, because no industry standard has been finalized for how those signals should be interpreted.</p>
+              <p><strong>Appeals.</strong> If we deny your request, you may appeal by replying to our response. Where required by your state's law (for example, Virginia, Colorado, and Connecticut), we will inform you of the outcome within the timeframe set by that law.</p>
+            </Section>
+
+            <Section id="children" title="14. Children">
               <p>PoolLogic is not directed to, and we do not knowingly collect personal information from, anyone under 18 years of age. If you believe a minor has provided personal information to PoolLogic, please contact us and we will take steps to delete it.</p>
             </Section>
 
-            <Section id="international" title="13. International Transfers">
+            <Section id="international" title="15. International Transfers">
               <p>PoolLogic is operated from the United States and our service is currently offered to U.S.-based pool service businesses. If you access the service from outside the United States, personal information you provide will be transferred to and processed in the U.S., where data-protection laws may differ from those of your country.</p>
               <p>Where international transfers occur and a legal mechanism is required (such as Standard Contractual Clauses under the GDPR), we will rely on the appropriate framework.</p>
             </Section>
 
-            <Section id="changes" title="14. Changes to This Policy">
+            <Section id="business-transfers" title="16. Business Transfers">
+              <p>If PoolLogic is involved in a merger, acquisition, reorganization, bankruptcy, financing, or sale of all or a portion of its assets, personal information may be transferred to or accessed by the acquirer or successor entity as part of the transaction. We will notify affected Subscribers and post a notice on this page if such a transfer would materially change how personal information is handled. Any successor entity will be bound by this Privacy Policy with respect to personal information collected before the transfer, unless and until a new policy is published and notice is given.</p>
+            </Section>
+
+            <Section id="changes" title="17. Changes to This Policy">
               <p>We may update this Privacy Policy from time to time. If we make material changes, we'll notify Subscribers by email and post the updated policy on this page with a new effective date. For non-material changes (such as typo corrections or clarifications), we may update the policy without individual notice.</p>
             </Section>
 
-            <Section id="contact" title="15. Contact">
+            <Section id="contact" title="18. Contact">
               <p>For privacy questions, complaints, or requests, contact us at:</p>
               <p style={{ marginTop: 12 }}>
                 <strong style={{ color: 'var(--ink-2)' }}>PoolLogic, LLC</strong><br/>
