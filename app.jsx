@@ -23,7 +23,6 @@ const App = () => {
 
   return (
     <>
-      <ConstructionBanner />
       <Nav accent={TWEAK_DEFAULTS.accent} />
       <Hero
         layout={TWEAK_DEFAULTS.heroLayout}
@@ -31,31 +30,44 @@ const App = () => {
         subhead={TWEAK_DEFAULTS.subhead}
       />
       <Migration />
+      <ConstructionBanner />
     </>
   );
 };
 
 const ConstructionBanner = () => (
   <div role="status" style={{
-    background: 'color-mix(in oklab, var(--brand-orange) 12%, var(--bg))',
-    borderBottom: '1px solid color-mix(in oklab, var(--brand-orange) 28%, transparent)',
+    position: 'fixed',
+    left: 0, right: 0, bottom: 0,
+    zIndex: 60,
+    background: 'color-mix(in oklab, var(--brand-orange) 14%, var(--bg))',
+    borderTop: '1px solid color-mix(in oklab, var(--brand-orange) 32%, transparent)',
+    boxShadow: '0 -10px 28px -14px rgba(15, 23, 42, .14)',
+    backdropFilter: 'saturate(160%) blur(10px)',
+    WebkitBackdropFilter: 'saturate(160%) blur(10px)',
     color: 'var(--ink-2)',
-    fontSize: 13,
-    fontWeight: 500,
-    letterSpacing: '0.01em',
-    padding: '8px 16px',
-    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+    padding: '18px 24px',
+    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
     textAlign: 'center',
     lineHeight: 1.4,
   }}>
     <span aria-hidden="true" style={{
       display: 'inline-flex',
-      width: 8, height: 8, borderRadius: '50%',
+      width: 10, height: 10, borderRadius: '50%',
       background: 'var(--brand-orange)',
-      boxShadow: '0 0 0 3px color-mix(in oklab, var(--brand-orange) 22%, transparent)',
+      boxShadow: '0 0 0 4px color-mix(in oklab, var(--brand-orange) 22%, transparent)',
       flexShrink: 0,
+      animation: 'pulse-dot 2s ease-in-out infinite',
     }}/>
-    <span>Site under construction — actively being built. Check back soon.</span>
+    <span style={{ fontSize: 15, fontWeight: 600 }}>Site under maintenance</span>
+    <span aria-hidden="true" style={{ width: 1, height: 16, background: 'color-mix(in oklab, var(--brand-orange) 30%, transparent)', display: 'inline-block' }} />
+    <span style={{ fontSize: 14, color: 'var(--ink-4)', fontWeight: 500 }}>Check back soon.</span>
+    <style>{`
+      @keyframes pulse-dot {
+        0%, 100% { box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-orange) 22%, transparent); }
+        50%      { box-shadow: 0 0 0 8px color-mix(in oklab, var(--brand-orange) 6%, transparent); }
+      }
+    `}</style>
   </div>
 );
 
