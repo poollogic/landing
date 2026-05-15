@@ -1,8 +1,9 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Nav, Hero, Migration } from './components/sections.jsx';
 
-// Terms page is split into its own chunk — only fetched when /terms is visited.
+// Legal pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
+const PrivacyPage = lazy(() => import('./pages/privacy.jsx'));
 
 // Page defaults — accent color, hero layout, density, theme.
 // EDITMODE markers are preserved so the external prototype editor can still patch this object.
@@ -16,6 +17,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 }/*EDITMODE-END*/;
 
 const isTermsPath = (p) => p === '/terms' || p === '/terms/';
+const isPrivacyPath = (p) => p === '/privacy' || p === '/privacy/';
 
 const App = () => {
   useEffect(() => {
@@ -35,6 +37,20 @@ const App = () => {
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <TermsPage />
+          </Suspense>
+        </ErrorBoundary>
+        <ConstructionBanner />
+      </>
+    );
+  }
+
+  if (isPrivacyPath(path)) {
+    return (
+      <>
+        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <PrivacyPage />
           </Suspense>
         </ErrorBoundary>
         <ConstructionBanner />
