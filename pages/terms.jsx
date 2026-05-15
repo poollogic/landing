@@ -47,11 +47,9 @@ const TermsPage = () => {
 
   return (
     <main style={{ background: 'var(--bg)', color: 'var(--ink-2)', minHeight: '100vh' }}>
-      <ReviewBanner />
-
-      <div className="container" style={{ paddingTop: 64, paddingBottom: 96 }}>
+      <div className="container" style={{ paddingTop: 56, paddingBottom: 72 }}>
         {/* Title block */}
-        <header style={{ maxWidth: 880, marginBottom: 56 }}>
+        <header style={{ maxWidth: 880, marginBottom: 40 }}>
           <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-5)', fontFamily: "'Geist Mono', ui-monospace, monospace" }}>
             Legal
           </div>
@@ -201,32 +199,17 @@ const TermsPage = () => {
 };
 
 const Section = ({ id, title, children }) => (
-  <section id={id} style={{ scrollMarginTop: 96, marginBottom: 56 }}>
+  <section id={id} style={{ scrollMarginTop: 96, marginBottom: 36 }}>
     <h2 style={{
       fontSize: 22,
       fontWeight: 700,
       letterSpacing: '-0.015em',
       color: 'var(--ink)',
-      marginBottom: 16,
+      marginBottom: 12,
       lineHeight: 1.3,
     }}>{title}</h2>
     <div className="terms-body">{children}</div>
   </section>
-);
-
-const ReviewBanner = () => (
-  <div role="alert" style={{
-    background: 'color-mix(in oklab, var(--brand-orange) 10%, var(--bg))',
-    borderBottom: '1px solid color-mix(in oklab, var(--brand-orange) 28%, transparent)',
-    color: 'var(--ink-2)',
-    fontSize: 13,
-    padding: '10px 20px',
-    textAlign: 'center',
-    lineHeight: 1.45,
-  }}>
-    <strong style={{ color: 'var(--ink) ' }}>Template — review with counsel before publishing.</strong>{' '}
-    <span style={{ color: 'var(--ink-4)' }}>This is starter content, not legal advice. Have an attorney review before this page is live to customers.</span>
-  </div>
 );
 
 export default TermsPage;

@@ -206,6 +206,28 @@
     body[data-density="airy"] section { padding: 88px 0; }
   }
 
+  /* Legal pages (/terms, /privacy) — tighten body rhythm so sections read
+     as connected blocks instead of separate cards floating in whitespace. */
+  .terms-body { line-height: 1.65; }
+  .terms-body p { margin: 0 0 12px; }
+  .terms-body p:last-child { margin-bottom: 0; }
+  .terms-body ul { margin: 0 0 12px; padding-left: 22px; }
+  .terms-body li { margin-bottom: 4px; }
+  .terms-body li:last-child { margin-bottom: 0; }
+  .terms-body h3 { margin: 18px 0 6px; font-weight: 600; }
+  /* Stack the two-column grid on narrow screens — TOC sits above body */
+  @media (max-width: 880px) {
+    .terms-grid {
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+    }
+    .terms-toc {
+      position: static !important;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+
   /* Nav: hide center links on tablet, sign-in on small mobile */
   @media (max-width: 880px) {
     .nav-links { display: none !important; }
