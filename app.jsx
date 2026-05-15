@@ -23,6 +23,7 @@ const App = () => {
 
   return (
     <>
+      <ConstructionBanner />
       <Nav accent={TWEAK_DEFAULTS.accent} />
       <Hero
         layout={TWEAK_DEFAULTS.heroLayout}
@@ -33,5 +34,29 @@ const App = () => {
     </>
   );
 };
+
+const ConstructionBanner = () => (
+  <div role="status" style={{
+    background: 'color-mix(in oklab, var(--brand-orange) 12%, var(--bg))',
+    borderBottom: '1px solid color-mix(in oklab, var(--brand-orange) 28%, transparent)',
+    color: 'var(--ink-2)',
+    fontSize: 13,
+    fontWeight: 500,
+    letterSpacing: '0.01em',
+    padding: '8px 16px',
+    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+    textAlign: 'center',
+    lineHeight: 1.4,
+  }}>
+    <span aria-hidden="true" style={{
+      display: 'inline-flex',
+      width: 8, height: 8, borderRadius: '50%',
+      background: 'var(--brand-orange)',
+      boxShadow: '0 0 0 3px color-mix(in oklab, var(--brand-orange) 22%, transparent)',
+      flexShrink: 0,
+    }}/>
+    <span>Site under construction — actively being built. Check back soon.</span>
+  </div>
+);
 
 export default App;
