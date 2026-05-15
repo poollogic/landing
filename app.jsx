@@ -1,5 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Nav, Hero, Migration } from './components/sections.jsx';
+
+// Terms page is split into its own chunk — only fetched when /terms is visited.
+const TermsPage = lazy(() => import('./pages/terms.jsx'));
 
 // Page defaults — accent color, hero layout, density, theme.
 // EDITMODE markers are preserved so the external prototype editor can still patch this object.
@@ -12,6 +15,8 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "light"
 }/*EDITMODE-END*/;
 
+const isTermsPath = (p) => p === '/terms' || p === '/terms/';
+
 const App = () => {
   useEffect(() => {
     const root = document.documentElement;
@@ -20,6 +25,22 @@ const App = () => {
     document.body.dataset.density = TWEAK_DEFAULTS.density;
     document.body.dataset.theme = TWEAK_DEFAULTS.theme;
   }, []);
+
+  const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+
+  if (isTermsPath(path)) {
+    return (
+      <>
+        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <TermsPage />
+          </Suspense>
+        </ErrorBoundary>
+        <ConstructionBanner />
+      </>
+    );
+  }
 
   return (
     <>
@@ -34,6 +55,54 @@ const App = () => {
     </>
   );
 };
+
+// Minimal class-based error boundary so a failed lazy import or runtime error
+// inside a route renders a graceful fallback instead of a blank white page.
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+  }
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+  componentDidCatch(error, info) {
+    // Keep this lightweight — wired for an external logger later if needed.
+    console.error('Route error:', error, info);
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ maxWidth: 640, margin: '120px auto', padding: '0 24px', textAlign: 'center', color: 'var(--ink-3)' }}>
+          <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-5)' }}>
+            Something went wrong
+          </div>
+          <h1 style={{ marginTop: 12, fontSize: 32, letterSpacing: '-0.02em', color: 'var(--ink)' }}>
+            This page failed to load.
+          </h1>
+          <p style={{ marginTop: 14, fontSize: 16, lineHeight: 1.6 }}>
+            Try refreshing. If the problem persists, head back to{' '}
+            <a href="/" style={{ color: 'var(--accent)' }}>the home page</a>.
+          </p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+const RouteFallback = () => (
+  <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--ink-5)', fontSize: 14 }}>
+    <span style={{
+      display: 'inline-block',
+      width: 18, height: 18, borderRadius: '50%',
+      border: '2px solid var(--line)',
+      borderTopColor: 'var(--accent)',
+      animation: 'spin 0.8s linear infinite',
+    }}/>
+    <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+  </div>
+);
 
 const ConstructionBanner = () => (
   <div role="status" style={{
