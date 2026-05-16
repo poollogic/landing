@@ -97,7 +97,9 @@ const Hero = ({ layout, headline, subhead }) => {
             {/* Floating UI fragments — only on stacked layout where there's empty side space */}
             {isStacked && <HeroFloaters />}
             <div className="hero-content rise" style={{ textAlign: (isCenter || isStacked) ? 'center' : 'left', maxWidth: isCenter ? 880 : 820, margin: (isCenter || isStacked) ? '0 auto' : 0, position: 'relative', zIndex: 1 }}>
-              <HeroAuthorityStrip centered={isCenter || isStacked}/>
+              {/* HIDDEN: HeroAuthorityStrip — "Trusted by pool pros — 100,000+ service reports sent weekly".
+                  Restore when we have a defensible number. */}
+              {false && <HeroAuthorityStrip centered={isCenter || isStacked}/>}
               <h1 style={{ marginTop: 22, maxWidth: (isCenter || isStacked) ? 760 : 820, marginLeft: (isCenter || isStacked) ? 'auto' : 0, marginRight: (isCenter || isStacked) ? 'auto' : 0, textWrap: 'balance' }}>{headline}</h1>
               <p style={{ fontSize: 17.5, color: 'var(--ink-4)', marginTop: 20, maxWidth: 560, marginLeft: (isCenter || isStacked) ? 'auto' : 0, marginRight: (isCenter || isStacked) ? 'auto' : 0, lineHeight: 1.55 }}>{subhead}</p>
               <div style={{ display: 'flex', justifyContent: (isCenter || isStacked) ? 'center' : 'flex-start' }}>
@@ -974,7 +976,7 @@ const Features = () => {
           <FeatureCard span={2} title="Service reports your customers actually read" body="Auto-attached photos, water chemistry, tech notes — sent the moment a stop is closed." icon={<I.droplet />}>
             <ServiceReportCard />
           </FeatureCard>
-          <FeatureCard span={2} title="Invoices on autopilot" body="Recurring billing fires after service, not after end-of-month. Get paid 11 days faster on average." icon={<I.receipt />}>
+          <FeatureCard span={2} title="Invoices on autopilot" body="Recurring billing fires the moment a stop is closed — not at end-of-month. Get paid faster without chasing." icon={<I.receipt />}>
             <InvoiceCard />
           </FeatureCard>
           <FeatureCard span={2} title="Service audit, daily" body="Stops missed, photos missing, chemistry drift — surfaced before a customer notices." icon={<I.shield />}>
@@ -2239,8 +2241,8 @@ const FinalCTA = () =>
           <h2 style={{ color: 'white', fontSize: 'clamp(36px, 4.4vw, 56px)', marginTop: 20, letterSpacing: '-0.03em', lineHeight: 1.05 }}>Stop running your business<br />between the route and the desk.</h2>
           <p style={{ marginTop: 22, fontSize: 18, color: 'rgba(255,255,255,.75)', lineHeight: 1.55, maxWidth: 560 }}>Bring your customers, routes, and invoices. We'll have you running by tomorrow morning — and we won't charge you a cent until you say so.</p>
           <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
-            <button className="btn btn-lg" style={{ background: 'white', color: '#0A1628', border: 'none', fontWeight: 600 }}>Start free trial<I.arrowR /></button>
-            <button className="btn btn-lg" style={{ background: 'rgba(255,255,255,.06)', color: 'white', border: '1px solid rgba(255,255,255,.18)' }}>Book a 20-min demo</button>
+            <a href="https://portal.poollogic.app" className="btn btn-lg" style={{ background: 'white', color: '#0A1628', border: 'none', fontWeight: 600, textDecoration: 'none' }}>Start free trial<I.arrowR /></a>
+            <a href="mailto:support@poollogic.app?subject=PoolLogic%20demo%20request" className="btn btn-lg" style={{ background: 'rgba(255,255,255,.06)', color: 'white', border: '1px solid rgba(255,255,255,.18)', textDecoration: 'none' }}>Book a 20-min demo</a>
           </div>
         </div>
       </div>
