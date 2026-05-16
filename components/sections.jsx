@@ -1086,418 +1086,472 @@ onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.curr
   </div>;
 
 
-// "Built differently" — the differentiator section. Six features in an
-// asymmetric grid, sharing the bento's visual language.
+// "Built differently" — on a deep dark canvas, like apple.com/pro pages.
+// Tech App card is the visual hero; satellites support and breathe.
+const DARK = {
+  bg: '#08090c',
+  card: '#11131a',
+  cardHi: '#161924',
+  border: 'rgba(255,255,255,0.08)',
+  borderHi: 'rgba(255,255,255,0.14)',
+  ink: '#f4f5f7',
+  ink2: '#e2e4ea',
+  ink3: '#b6bac4',
+  ink4: '#8a8f9d',
+  ink5: '#5e6271',
+  tint: 'rgba(255,255,255,0.04)',
+  tint2: 'rgba(255,255,255,0.06)',
+};
+
 const BuiltDifferently = () => {
   return (
-    <section className="section-divider" style={{ position: 'relative', overflow: 'hidden' }}>
+    <section style={{
+      position: 'relative',
+      overflow: 'hidden',
+      background: DARK.bg,
+      paddingBlock: 'clamp(96px, 12vw, 160px)',
+      // soft top/bottom fade lets the section sit cleanly against white above/below
+      borderTop: '1px solid rgba(255,255,255,.04)',
+    }}>
+      {/* atmospheric glow */}
       <div aria-hidden="true" style={{
-        position: 'absolute', inset: '0 0 auto 0', height: 380, zIndex: -1, pointerEvents: 'none',
-        background: 'radial-gradient(800px 280px at 50% 0%, color-mix(in oklab, var(--accent) 3%, transparent), transparent 70%)',
+        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
+        background: 'radial-gradient(1100px 540px at 50% -10%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%)',
+        opacity: 0.55,
       }} />
-      <div className="container">
-        <div style={{ maxWidth: 780, margin: '0 auto 56px', textAlign: 'center' }}>
+      <div aria-hidden="true" style={{
+        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
+        background: 'radial-gradient(800px 400px at 90% 90%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 70%)',
+        opacity: 0.35,
+      }} />
+
+      <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+        {/* chapter marker — small "Vol. 02" beat between sections */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
+          marginBottom: 36,
+        }}>
+          <span aria-hidden="true" style={{ width: 28, height: 1, background: DARK.border }} />
+          <span style={{
+            fontFamily: "'Geist Mono', monospace",
+            fontSize: 10.5, letterSpacing: '0.24em',
+            textTransform: 'uppercase', color: DARK.ink4, fontWeight: 500,
+          }}>Vol. 02 — what no one else built</span>
+          <span aria-hidden="true" style={{ width: 28, height: 1, background: DARK.border }} />
+        </div>
+
+        <div style={{ maxWidth: 820, margin: '0 auto 80px', textAlign: 'center' }}>
           <h2 style={{
-            fontSize: 'clamp(28px, 3.2vw, 40px)',
-            letterSpacing: '-0.03em',
-            lineHeight: 1.05,
-            color: 'var(--ink)',
+            fontSize: 'clamp(36px, 4.4vw, 60px)',
+            letterSpacing: '-0.035em',
+            lineHeight: 1.02,
+            color: DARK.ink,
             textWrap: 'balance',
           }}>
-            Built differently — on purpose.
+            Six things we built<br />because they should exist.
           </h2>
           <p style={{
-            marginTop: 16,
-            fontSize: 16,
+            marginTop: 22,
+            fontSize: 17,
             lineHeight: 1.55,
-            color: 'var(--ink-4)',
-            maxWidth: 600,
+            color: DARK.ink3,
+            maxWidth: 580,
             marginInline: 'auto',
             textWrap: 'balance',
           }}>
-            Six things you won't find in Skimmer, Pooltrackrr, or whichever stack you migrated off. We built them because they should exist.
+            You won't find these in Skimmer, Pooltrackrr, or whichever stack you're migrating off. We built them because every owner we talked to was working around their absence.
           </p>
         </div>
 
+        {/* Bento — true asymmetric rhythm.
+            Row 1: Tech app HERO (7 cols, 2 rows tall) · Fleet map (5 cols, 1 row) / Auto-billing (5 cols, 1 row)
+            Row 2: Routing (4) · Permissions (3) · Fleet tracker (5) */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(12, 1fr)',
-          gridAutoRows: 'minmax(200px, auto)',
+          gridAutoRows: 'minmax(180px, auto)',
           gap: 14,
         }}>
-          <DiffCard span={7} index="01" tag="Tech mobile app">
-            <DiffHead
-              title="The truck app, built like real software."
-              body="Required fields stop reports from going out half-empty. Subject lines auto-flag low water before the customer notices. Pool profile drives live LSI, dose math, and filter-pressure alerts — so a tech with one season of experience runs the route like a 10-year vet."
-            />
-            <div style={{
-              marginTop: 18, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10,
-            }}>
-              {[
-                ['Required fields', 'Block submit until CYA, chlorine & photo are in.'],
-                ['Smart subject lines', 'Auto-changes to flag low water and out-of-range chemistry.'],
-                ['Live LSI & dosing', 'Pool profile drives chemical math in real time.'],
-                ['Pressure alerts', 'Pings the tech at +8 PSI over baseline.'],
-              ].map(([k, v]) => (
-                <div key={k} style={{
-                  background: 'var(--bg-soft)',
-                  border: '1px solid var(--line-2)',
-                  borderRadius: 10,
-                  padding: '11px 13px',
-                }}>
-                  <div style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--ink-2)', letterSpacing: '-0.005em' }}>{k}</div>
-                  <div style={{ fontSize: 11.5, color: 'var(--ink-5)', marginTop: 3, lineHeight: 1.45 }}>{v}</div>
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <a href="/tech-app" style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                fontSize: 12.5, fontWeight: 500,
-                color: 'var(--accent)',
-                textDecoration: 'none',
-              }}>
-                See the tech app in detail
-                <span style={{ display: 'inline-flex', transform: 'translateY(0)' }}>→</span>
-              </a>
-            </div>
-          </DiffCard>
-
-          <DiffCard span={5} index="02" tag="Fleet map">
-            <DiffHead
-              title="Every stop, every tech, one map."
-              body="Color-code by technician to see who owns what, or pick a tech and color-code by day to find the route waste. The kind of optimization that comes from seeing the picture all at once."
-            />
-            <FleetMapMini />
-          </DiffCard>
-
-          <DiffCard span={4} index="03" tag="Auto-billing">
-            <DiffHead
-              title="Bills on the day they signed up. Forever."
-              body="Sign a customer on the 21st, invoiced on the 21st — monthly, quarterly, or yearly. No proration, no calendar-month weirdness, no buttons to push."
-            />
-            <BillingMini />
-          </DiffCard>
-
-          <DiffCard span={5} index="04" tag="Routing">
-            <DiffHead
-              title="Change a route from your phone — and a safety net so you never forget one."
-              body="Active customers without a tech assigned land in an Unrouted queue automatically. The Customers page shows a persistent warning until every active customer is on a route."
-            />
-            <UnroutedMini />
-          </DiffCard>
-
-          <DiffCard span={3} index="05" tag="Permissions">
-            <DiffHead
-              title="Hide what they shouldn't see."
-              body="Per-tech visibility. Hide phone numbers, prices, payment info — anything."
-            />
-            <PermissionsMini />
-          </DiffCard>
-
-          <DiffCard span={12} index="06" tag="Fleet tracker" horizontal>
-            <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 32, alignItems: 'center' }}>
-              <div>
-                <DiffHead
-                  title="Your trucks, documented in the same app."
-                  body="Interior and exterior photos, mileage, oil changes, service history — uploaded by the tech who's already in the app. No separate fleet tool, no paper logs, no asking the shop for a copy."
-                />
-              </div>
-              <FleetTrackerMini />
-            </div>
-          </DiffCard>
+          <TechAppCard />
+          <FleetMapCard />
+          <AutoBillingCard />
+          <RoutingCard />
+          <PermissionsCard />
+          <FleetTrackerCard />
         </div>
       </div>
     </section>
   );
 };
 
-// Shared card chrome — matches the bento FeatureCard so the two sections rhyme visually.
-const DiffCard = ({ span, index, tag, children, horizontal = false }) => (
+// — shared card chrome (dark) —
+
+const darkCardBase = (hero = false) => ({
+  background: hero
+    ? `linear-gradient(180deg, ${DARK.cardHi} 0%, ${DARK.card} 60%)`
+    : DARK.card,
+  border: `1px solid ${hero ? DARK.borderHi : DARK.border}`,
+  borderRadius: 20,
+  padding: hero ? 32 : 24,
+  position: 'relative',
+  overflow: 'hidden',
+  display: 'flex', flexDirection: 'column',
+  transition: 'border-color .3s ease, transform .3s ease',
+});
+
+// Subtle top edge highlight — the move from apple.com/macbook-pro / Linear feature pages
+const TopHighlight = () => (
+  <div aria-hidden="true" style={{
+    position: 'absolute', inset: '0 0 auto 0', height: 1,
+    background: `linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent)`,
+    pointerEvents: 'none',
+  }} />
+);
+
+const Eyebrow = ({ children, hero = false }) => (
   <div style={{
-    gridColumn: `span ${span}`,
-    border: '1px solid var(--line)',
-    borderRadius: 16,
-    background: 'var(--bg)',
-    boxShadow: '0 1px 0 rgba(15, 23, 42, .02), 0 10px 26px -22px rgba(15, 23, 42, .12)',
-    padding: 24,
-    display: 'flex', flexDirection: 'column',
-    position: 'relative',
-    overflow: 'hidden',
-    isolation: 'isolate',
-    transition: 'transform .25s ease, box-shadow .25s ease, border-color .25s ease',
-  }}
-  onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 22%, var(--line))'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 1px 0 rgba(15, 23, 42, .02), 0 20px 32px -22px rgba(15, 23, 42, .18)'; }}
-  onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 0 rgba(15, 23, 42, .02), 0 10px 26px -22px rgba(15, 23, 42, .12)'; }}>
-    <div aria-hidden="true" style={{
-      position: 'absolute', inset: '0 0 auto 0', height: 1, zIndex: 1,
-      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent)',
-    }} />
+    fontFamily: "'Geist Mono', monospace",
+    fontSize: hero ? 11 : 10,
+    letterSpacing: '0.18em',
+    textTransform: 'uppercase',
+    color: 'color-mix(in oklab, var(--accent) 80%, white)',
+    fontWeight: 500,
+    marginBottom: hero ? 16 : 14,
+  }}>{children}</div>
+);
+
+const HeroTitle = ({ children }) => (
+  <h3 style={{
+    fontSize: 'clamp(24px, 2.4vw, 30px)',
+    fontWeight: 600,
+    letterSpacing: '-0.025em',
+    color: DARK.ink,
+    lineHeight: 1.1,
+    textWrap: 'balance',
+  }}>{children}</h3>
+);
+
+const SatTitle = ({ children }) => (
+  <h3 style={{
+    fontSize: 19,
+    fontWeight: 600,
+    letterSpacing: '-0.02em',
+    color: DARK.ink,
+    lineHeight: 1.2,
+    textWrap: 'balance',
+  }}>{children}</h3>
+);
+
+const Body = ({ children, hero = false, max = 480 }) => (
+  <p style={{
+    marginTop: hero ? 14 : 10,
+    fontSize: hero ? 15.5 : 13.5,
+    lineHeight: 1.6,
+    color: DARK.ink3,
+    maxWidth: max,
+  }}>{children}</p>
+);
+
+// ── 01 · Tech app (HERO) ──
+const TechAppCard = () => (
+  <div style={{ ...darkCardBase(true), gridColumn: 'span 7', gridRow: 'span 2' }}>
+    <TopHighlight />
+    <Eyebrow hero>01 · The tech app</Eyebrow>
+    <HeroTitle>The truck app, built like real software.</HeroTitle>
+    <Body hero max={520}>
+      Required fields stop reports from going out half-empty. Subject lines auto-flag low water before the customer notices. The pool profile drives live LSI, dose math, and pressure alerts — so a tech with one season runs the route like a ten-year vet.
+    </Body>
+
     <div style={{
-      display: 'flex', alignItems: 'center', gap: 10,
-      fontFamily: "'Geist Mono', monospace",
-      fontSize: 10.5, letterSpacing: '0.08em', color: 'var(--ink-5)',
-      marginBottom: horizontal ? 0 : 14,
+      marginTop: 28, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10,
     }}>
-      <span style={{ color: 'var(--accent)', fontWeight: 600 }}>// {index}</span>
-      <span style={{ textTransform: 'uppercase' }}>{tag}</span>
+      {[
+        ['Required fields', 'Block submit until CYA, chlorine & photo are in.'],
+        ['Smart subject lines', 'Auto-flag low water and out-of-range chemistry.'],
+        ['Live LSI & dosing', 'Pool profile drives chemical math in real time.'],
+        ['Pressure alerts', 'Ping the tech at +8 PSI over baseline.'],
+      ].map(([k, v]) => (
+        <div key={k} style={{
+          background: DARK.tint,
+          border: `1px solid ${DARK.border}`,
+          borderRadius: 12,
+          padding: '13px 14px',
+        }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: DARK.ink2, letterSpacing: '-0.005em' }}>{k}</div>
+          <div style={{ fontSize: 12, color: DARK.ink4, marginTop: 4, lineHeight: 1.5 }}>{v}</div>
+        </div>
+      ))}
     </div>
-    {children}
+
+    <div style={{ marginTop: 24 }}>
+      <a href="/tech-app" className="diff-cta" style={{
+        display: 'inline-flex', alignItems: 'center', gap: 8,
+        fontSize: 13.5, fontWeight: 500,
+        color: DARK.ink,
+        background: 'rgba(255,255,255,.06)',
+        border: `1px solid ${DARK.borderHi}`,
+        borderRadius: 999,
+        padding: '9px 14px 9px 16px',
+        textDecoration: 'none',
+        transition: 'background .2s, border-color .2s',
+      }}>
+        See the tech app
+        <span aria-hidden="true" style={{ fontSize: 14, color: 'color-mix(in oklab, var(--accent) 80%, white)' }}>→</span>
+      </a>
+    </div>
   </div>
 );
 
-const DiffHead = ({ title, body }) => (
-  <>
-    <h3 style={{
-      fontSize: 19, fontWeight: 600, letterSpacing: '-0.02em',
-      color: 'var(--ink)', lineHeight: 1.2,
-      textWrap: 'balance',
-    }}>{title}</h3>
-    <p style={{
-      marginTop: 10, fontSize: 13.5, lineHeight: 1.55, color: 'var(--ink-4)',
-    }}>{body}</p>
-  </>
-);
-
-// — visuals —
-
-const FleetMapMini = () => {
+// ── 02 · Fleet map ──
+const FleetMapCard = () => {
   const techs = [
-    { color: 'var(--accent)', label: 'Jamal', pins: [[64, 38], [76, 30], [82, 42], [72, 48], [88, 36]] },
-    { color: 'var(--brand-green)', label: 'Marisol', pins: [[24, 50], [30, 56], [22, 62], [34, 48]] },
-    { color: 'var(--brand-violet)', label: 'Theo', pins: [[28, 70], [36, 74], [42, 68]] },
-    { color: 'var(--brand-pink)', label: 'Devon', pins: [[44, 80], [54, 82], [50, 88]] },
+    { color: '#60a5fa', label: 'Jamal', pins: [[64, 28], [76, 22], [82, 38], [72, 44], [88, 30]] },
+    { color: '#34d399', label: 'Marisol', pins: [[22, 42], [30, 50], [18, 56], [34, 40]] },
+    { color: '#a78bfa', label: 'Theo', pins: [[26, 66], [36, 72], [42, 64]] },
+    { color: '#f472b6', label: 'Devon', pins: [[48, 78], [58, 80], [52, 86]] },
   ];
   return (
-    <div style={{
-      marginTop: 'auto',
-      background: '#0c1116',
-      borderRadius: 10,
-      border: '1px solid color-mix(in oklab, var(--ink) 80%, transparent)',
-      padding: 14,
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
-      <div style={{ position: 'relative', aspectRatio: '5 / 3' }}>
-        {/* faint street grid */}
-        <svg viewBox="0 0 100 60" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.18 }}>
-          {Array.from({ length: 11 }).map((_, i) => (
-            <line key={`v${i}`} x1={i * 10} y1="0" x2={i * 10} y2="60" stroke="#cbd5e1" strokeWidth="0.2" />
-          ))}
-          {Array.from({ length: 7 }).map((_, i) => (
-            <line key={`h${i}`} x1="0" y1={i * 10} x2="100" y2={i * 10} stroke="#cbd5e1" strokeWidth="0.2" />
-          ))}
-        </svg>
-        {techs.flatMap((t, ti) => t.pins.map(([x, y], pi) => (
-          <div key={`${ti}-${pi}`} style={{
-            position: 'absolute',
-            left: `${x}%`, top: `${y}%`,
-            transform: 'translate(-50%, -50%)',
-            width: 14, height: 14, borderRadius: '50%',
-            background: t.color,
-            border: '1.5px solid rgba(255,255,255,.9)',
-            boxShadow: `0 0 0 3px color-mix(in oklab, ${t.color} 22%, transparent)`,
-            fontSize: 8, fontWeight: 700, color: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: "'Geist Mono', monospace",
-          }}>{pi + 1}</div>
-        )))}
-      </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
-        {techs.map((t) => (
-          <div key={t.label} style={{
-            display: 'inline-flex', alignItems: 'center', gap: 5,
-            padding: '3px 8px',
-            background: 'rgba(255,255,255,.05)',
-            border: '1px solid rgba(255,255,255,.08)',
-            borderRadius: 999,
-            fontSize: 10.5, color: '#e2e8f0', fontWeight: 500,
-          }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: t.color }} />
-            {t.label}
+    <div style={{ ...darkCardBase(), gridColumn: 'span 5' }}>
+      <TopHighlight />
+      <Eyebrow>02 · Fleet map</Eyebrow>
+      <SatTitle>Every stop, every tech, one map.</SatTitle>
+      <Body>Color-code by technician, or pick a tech and color-code by day. The kind of optimization that comes from seeing the full picture at once.</Body>
+
+      <div style={{
+        marginTop: 'auto', paddingTop: 18,
+      }}>
+        <div style={{
+          background: '#05070a',
+          border: `1px solid ${DARK.border}`,
+          borderRadius: 12,
+          padding: 14,
+          position: 'relative',
+          overflow: 'hidden',
+        }}>
+          <div style={{ position: 'relative', aspectRatio: '5 / 3' }}>
+            <svg viewBox="0 0 100 60" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.16 }}>
+              {Array.from({ length: 11 }).map((_, i) => (
+                <line key={`v${i}`} x1={i * 10} y1="0" x2={i * 10} y2="60" stroke="#cbd5e1" strokeWidth="0.15" />
+              ))}
+              {Array.from({ length: 7 }).map((_, i) => (
+                <line key={`h${i}`} x1="0" y1={i * 10} x2="100" y2={i * 10} stroke="#cbd5e1" strokeWidth="0.15" />
+              ))}
+            </svg>
+            {techs.flatMap((t, ti) => t.pins.map(([x, y], pi) => (
+              <div key={`${ti}-${pi}`} style={{
+                position: 'absolute',
+                left: `${x}%`, top: `${y}%`,
+                transform: 'translate(-50%, -50%)',
+                width: 13, height: 13, borderRadius: '50%',
+                background: t.color,
+                border: '1.25px solid rgba(255,255,255,.9)',
+                boxShadow: `0 0 12px ${t.color}66`,
+                fontSize: 7.5, fontWeight: 700, color: '#0b1020',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: "'Geist Mono', monospace",
+              }}>{pi + 1}</div>
+            )))}
           </div>
-        ))}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 12 }}>
+            {techs.map((t) => (
+              <div key={t.label} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 5,
+                padding: '3px 9px',
+                background: 'rgba(255,255,255,.04)',
+                border: '1px solid rgba(255,255,255,.06)',
+                borderRadius: 999,
+                fontSize: 10.5, color: DARK.ink3, fontWeight: 500,
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: t.color }} />
+                {t.label}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-const BillingMini = () => (
-  <div style={{
-    marginTop: 'auto',
-    background: 'var(--bg-soft)',
-    border: '1px solid var(--line-2)',
-    borderRadius: 10,
-    padding: '14px 16px',
-    fontFamily: "'Geist', sans-serif",
-  }}>
-    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-      <div style={{ fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Anniversary date</div>
-      <div style={{ fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)' }}>The 21st</div>
-    </div>
-    {[
-      ['Apr 21', 'Marisol Vega', 'Monthly', '$165'],
-      ['May 21', 'Marisol Vega', 'Monthly', '$165'],
-      ['Jun 21', 'Marisol Vega', 'Monthly', '$165'],
-    ].map(([d, n, c, a], i) => (
-      <div key={i} style={{
-        display: 'grid', gridTemplateColumns: '52px 1fr auto auto', alignItems: 'center', gap: 10,
-        padding: '6px 0',
-        fontSize: 12,
-      }}>
-        <span style={{ fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)', fontVariantNumeric: 'tabular-nums' }}>{d}</span>
-        <span style={{ color: 'var(--ink-2)', fontWeight: 500 }}>{n}</span>
-        <span style={{ fontSize: 10.5, color: 'var(--ink-5)', fontFamily: "'Geist Mono', monospace" }}>{c}</span>
-        <span style={{ color: 'var(--ink-2)', fontWeight: 600, fontVariantNumeric: 'tabular-nums', fontFamily: "'Geist Mono', monospace" }}>{a}</span>
-      </div>
-    ))}
-    <div style={{
-      marginTop: 8, paddingTop: 10, borderTop: '1px dashed var(--line)',
-      fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)',
-      display: 'flex', justifyContent: 'space-between',
-    }}>
-      <span>Net 15 · auto</span>
-      <span>No proration</span>
-    </div>
-  </div>
-);
+// ── 03 · Auto-billing ──
+const AutoBillingCard = () => (
+  <div style={{ ...darkCardBase(), gridColumn: 'span 5' }}>
+    <TopHighlight />
+    <Eyebrow>03 · Auto-billing</Eyebrow>
+    <SatTitle>Bills on the day they signed up. Forever.</SatTitle>
+    <Body>Sign a customer on the 21st, invoiced on the 21st — monthly, quarterly, or yearly. No proration, no calendar-month weirdness, no buttons to push.</Body>
 
-const UnroutedMini = () => (
-  <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 10 }}>
     <div style={{
-      background: 'color-mix(in oklab, var(--accent) 6%, var(--bg))',
-      border: '1px solid color-mix(in oklab, var(--accent) 22%, transparent)',
-      borderRadius: 10,
-      padding: '12px 14px',
-      display: 'flex', alignItems: 'center', gap: 10,
-    }}>
-      <span style={{
-        flexShrink: 0, width: 7, height: 7, borderRadius: '50%',
-        background: 'var(--accent)',
-        boxShadow: '0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent)',
-      }} />
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--ink)', letterSpacing: '-0.005em' }}>3 active customers unrouted</div>
-        <div style={{ fontSize: 11, color: 'var(--ink-5)', marginTop: 1 }}>Tap to assign · Customers page</div>
-      </div>
-      <span style={{ fontSize: 10.5, color: 'var(--accent)', fontWeight: 600, fontFamily: "'Geist Mono', monospace" }}>WARN</span>
-    </div>
-    {[
-      ['Cole Whitfield', 'Added Mon · monthly'],
-      ['Yuki Hoffmann', 'Added Tue · quarterly'],
-      ['Esme Park', 'Added Tue · monthly'],
-    ].map(([n, m], i) => (
-      <div key={i} style={{
-        display: 'flex', alignItems: 'center', gap: 10,
-        padding: '6px 4px',
-        fontSize: 12,
-      }}>
-        <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--ink-6)' }} />
-        <span style={{ flex: 1, color: 'var(--ink-2)' }}>{n}</span>
-        <span style={{ fontSize: 11, color: 'var(--ink-5)', fontFamily: "'Geist Mono', monospace" }}>{m}</span>
-      </div>
-    ))}
-  </div>
-);
-
-const PermissionsMini = () => (
-  <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 8 }}>
-    {[
-      ['Phone numbers', false],
-      ['Pricing', false],
-      ['Payment info', false],
-      ['Customer notes', true],
-      ['Service history', true],
-    ].map(([label, on], i) => (
-      <div key={i} style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '8px 12px',
-        background: 'var(--bg-soft)',
-        border: '1px solid var(--line-2)',
-        borderRadius: 8,
-        fontSize: 12,
-      }}>
-        <span style={{ color: 'var(--ink-2)' }}>{label}</span>
-        <span style={{
-          width: 22, height: 13, borderRadius: 999,
-          background: on ? 'var(--accent)' : 'var(--line)',
-          position: 'relative',
-          transition: 'background .2s',
-        }}>
-          <span style={{
-            position: 'absolute', top: 1.5, left: on ? 10 : 1.5,
-            width: 10, height: 10, borderRadius: '50%',
-            background: '#fff',
-            boxShadow: '0 1px 2px rgba(0,0,0,.15)',
-            transition: 'left .2s',
-          }} />
-        </span>
-      </div>
-    ))}
-  </div>
-);
-
-const FleetTrackerMini = () => (
-  <div style={{
-    display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 14,
-  }}>
-    {/* truck card */}
-    <div style={{
-      background: 'var(--bg-soft)',
-      border: '1px solid var(--line-2)',
-      borderRadius: 12,
-      padding: 14,
+      marginTop: 'auto', paddingTop: 18,
     }}>
       <div style={{
-        aspectRatio: '4 / 3',
-        borderRadius: 8,
-        background: 'linear-gradient(135deg, #1e293b, #475569)',
-        position: 'relative',
-        overflow: 'hidden',
-        marginBottom: 12,
+        background: DARK.tint,
+        border: `1px solid ${DARK.border}`,
+        borderRadius: 12,
+        padding: '14px 16px',
       }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), transparent 55%)' }} />
-        <div style={{
-          position: 'absolute', bottom: 8, left: 10,
-          fontSize: 10, fontFamily: "'Geist Mono', monospace",
-          color: 'rgba(255,255,255,.75)',
-        }}>TRK-04 · Ford Transit</div>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
+          <span style={{ fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: DARK.ink4, textTransform: 'uppercase', letterSpacing: '0.12em' }}>Anniversary</span>
+          <span style={{ fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: DARK.ink4 }}>The 21st · monthly</span>
+        </div>
         {[
-          ['Mileage', '84,213'],
-          ['Last oil', 'Mar 12'],
-          ['Next service', 'Jun 9'],
-        ].map(([k, v]) => (
-          <div key={k}>
-            <div style={{ fontSize: 9.5, fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{k}</div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--ink-2)', marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{v}</div>
+          ['Apr 21', 'Marisol Vega', '$165'],
+          ['May 21', 'Marisol Vega', '$165'],
+          ['Jun 21', 'Marisol Vega', '$165'],
+        ].map(([d, n, a], i) => (
+          <div key={i} style={{
+            display: 'grid', gridTemplateColumns: '56px 1fr auto', alignItems: 'center', gap: 12,
+            padding: '7px 0', fontSize: 12.5,
+          }}>
+            <span style={{ fontFamily: "'Geist Mono', monospace", color: DARK.ink4, fontVariantNumeric: 'tabular-nums' }}>{d}</span>
+            <span style={{ color: DARK.ink2, fontWeight: 500 }}>{n}</span>
+            <span style={{ color: DARK.ink, fontWeight: 600, fontVariantNumeric: 'tabular-nums', fontFamily: "'Geist Mono', monospace" }}>{a}</span>
           </div>
         ))}
       </div>
     </div>
-    {/* log feed */}
-    <div style={{
-      background: 'var(--bg-soft)',
-      border: '1px solid var(--line-2)',
-      borderRadius: 12,
-      padding: 14,
-    }}>
-      <div style={{ fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>Fleet log</div>
+  </div>
+);
+
+// ── 04 · Routing safety net ──
+const RoutingCard = () => (
+  <div style={{ ...darkCardBase(), gridColumn: 'span 4' }}>
+    <TopHighlight />
+    <Eyebrow>04 · Routing</Eyebrow>
+    <SatTitle>A safety net so you never miss a customer.</SatTitle>
+    <Body>Active customers without a tech assigned automatically land in an Unrouted queue. A persistent warning sits on the Customers page until every active customer is on a route.</Body>
+
+    <div style={{ marginTop: 'auto', paddingTop: 18 }}>
+      <div style={{
+        background: 'color-mix(in oklab, var(--accent) 14%, transparent)',
+        border: '1px solid color-mix(in oklab, var(--accent) 36%, transparent)',
+        borderRadius: 12,
+        padding: '12px 14px',
+        display: 'flex', alignItems: 'center', gap: 10,
+      }}>
+        <span style={{
+          flexShrink: 0, width: 8, height: 8, borderRadius: '50%',
+          background: 'color-mix(in oklab, var(--accent) 80%, white)',
+          boxShadow: '0 0 12px color-mix(in oklab, var(--accent) 80%, transparent)',
+        }} />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: DARK.ink }}>3 customers unrouted</div>
+          <div style={{ fontSize: 11, color: DARK.ink4, marginTop: 1 }}>Tap to assign · Customers page</div>
+        </div>
+        <span style={{ fontSize: 10.5, color: 'color-mix(in oklab, var(--accent) 80%, white)', fontWeight: 600, fontFamily: "'Geist Mono', monospace" }}>WARN</span>
+      </div>
+    </div>
+  </div>
+);
+
+// ── 05 · Permissions ──
+const PermissionsCard = () => (
+  <div style={{ ...darkCardBase(), gridColumn: 'span 3' }}>
+    <TopHighlight />
+    <Eyebrow>05 · Permissions</Eyebrow>
+    <SatTitle>Hide what they shouldn't see.</SatTitle>
+    <Body>Per-tech visibility. Hide phone numbers, prices, payment info — anything.</Body>
+
+    <div style={{ marginTop: 'auto', paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 6 }}>
       {[
-        ['Apr 18', 'Tire rotation · TRK-02'],
-        ['Apr 14', 'Oil change · TRK-04'],
-        ['Apr 09', 'Interior photo · TRK-01'],
-      ].map(([d, m], i) => (
+        ['Phone numbers', false],
+        ['Pricing', false],
+        ['Payment info', false],
+        ['Service history', true],
+      ].map(([label, on], i) => (
         <div key={i} style={{
-          display: 'grid', gridTemplateColumns: '52px 1fr', gap: 10,
-          padding: '6px 0',
-          fontSize: 11.5,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '8px 12px',
+          background: DARK.tint,
+          border: `1px solid ${DARK.border}`,
+          borderRadius: 10,
+          fontSize: 12, color: DARK.ink2,
         }}>
-          <span style={{ fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)' }}>{d}</span>
-          <span style={{ color: 'var(--ink-2)' }}>{m}</span>
+          <span>{label}</span>
+          <span style={{
+            width: 24, height: 14, borderRadius: 999,
+            background: on ? 'var(--accent)' : 'rgba(255,255,255,.1)',
+            position: 'relative',
+            transition: 'background .2s',
+          }}>
+            <span style={{
+              position: 'absolute', top: 1.5, left: on ? 11 : 1.5,
+              width: 11, height: 11, borderRadius: '50%',
+              background: '#fff',
+              boxShadow: '0 1px 3px rgba(0,0,0,.4)',
+              transition: 'left .2s',
+            }} />
+          </span>
         </div>
       ))}
+    </div>
+  </div>
+);
+
+// ── 06 · Fleet tracker ──
+const FleetTrackerCard = () => (
+  <div style={{ ...darkCardBase(), gridColumn: 'span 5' }}>
+    <TopHighlight />
+    <Eyebrow>06 · Fleet tracker</Eyebrow>
+    <SatTitle>Your trucks, documented in the same app.</SatTitle>
+    <Body>Interior and exterior photos, mileage, oil changes, service history — uploaded by the tech who's already in the app. No separate fleet tool, no paper logs.</Body>
+
+    <div style={{ marginTop: 'auto', paddingTop: 18, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+      <div style={{
+        background: DARK.tint,
+        border: `1px solid ${DARK.border}`,
+        borderRadius: 12,
+        padding: 12,
+      }}>
+        <div style={{
+          aspectRatio: '4 / 3',
+          borderRadius: 8,
+          background: 'linear-gradient(135deg, #1e2330 0%, #0a0d12 100%)',
+          position: 'relative',
+          overflow: 'hidden',
+          marginBottom: 10,
+        }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,.12), transparent 55%)' }} />
+          <div style={{
+            position: 'absolute', bottom: 7, left: 9,
+            fontSize: 9.5, fontFamily: "'Geist Mono', monospace",
+            color: 'rgba(255,255,255,.6)',
+          }}>TRK-04 · Ford Transit</div>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
+          {[
+            ['Miles', '84,213'],
+            ['Last oil', 'Mar 12'],
+            ['Service', 'Jun 9'],
+          ].map(([k, v]) => (
+            <div key={k}>
+              <div style={{ fontSize: 9, fontFamily: "'Geist Mono', monospace", color: DARK.ink5, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{k}</div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: DARK.ink2, marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{v}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{
+        background: DARK.tint,
+        border: `1px solid ${DARK.border}`,
+        borderRadius: 12,
+        padding: 12,
+      }}>
+        <div style={{ fontSize: 10, fontFamily: "'Geist Mono', monospace", color: DARK.ink4, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 8 }}>Recent</div>
+        {[
+          ['Apr 18', 'Tire rotation'],
+          ['Apr 14', 'Oil change'],
+          ['Apr 09', 'Interior photo'],
+        ].map(([d, m], i) => (
+          <div key={i} style={{
+            display: 'grid', gridTemplateColumns: '48px 1fr', gap: 8,
+            padding: '5px 0', fontSize: 11.5,
+          }}>
+            <span style={{ fontFamily: "'Geist Mono', monospace", color: DARK.ink5 }}>{d}</span>
+            <span style={{ color: DARK.ink3 }}>{m}</span>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 );
