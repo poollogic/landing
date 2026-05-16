@@ -30,8 +30,8 @@ const Nav = ({ accent }) => {
           )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <a href="#" className="nav-signin" style={{ fontSize: 14, color: 'var(--ink-3)', padding: '8px 12px' }}>Sign in</a>
-          <button className="btn btn-primary btn-sm">Start free trial<I.arrowR /></button>
+          <a href="https://portal.poollogic.app" className="nav-signin" style={{ fontSize: 14, color: 'var(--ink-3)', padding: '8px 12px' }}>Sign in</a>
+          <a href="https://portal.poollogic.app" className="btn btn-primary btn-sm" style={{ textDecoration: 'none' }}>Start free trial<I.arrowR /></a>
         </div>
       </div>
     </nav>);
