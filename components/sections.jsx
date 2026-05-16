@@ -1085,17 +1085,15 @@ onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.curr
 
 
 const DirectoryMini = () =>
-<div style={{ background: '#fff', border: '1px solid #e4e4e7', borderRadius: 10, overflow: 'hidden', fontFamily: "'Geist', sans-serif" }}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', borderBottom: '1px solid #f1f1f3', fontSize: 12, color: '#71717a' }}>
+<div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, overflow: 'hidden', fontFamily: "'Geist', sans-serif" }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '14px 18px', borderBottom: '1px solid #f1f1f3', fontSize: 12, color: '#a1a1aa' }}>
       <I.search /> Search 1,208 customers
-      <span style={{ marginLeft: 'auto', fontFamily: 'Geist Mono, monospace', fontSize: 10, background: '#fafafa', border: '1px solid #e4e4e7', padding: '1px 5px', borderRadius: 4 }}>⌘K</span>
+      <span style={{ marginLeft: 'auto', fontFamily: 'Geist Mono, monospace', fontSize: 10, color: '#a1a1aa' }}>⌘K</span>
     </div>
-    {[['Marisol V.', 'Thursday', 'var(--brand-green)'], ['Devon Marsh', 'Wednesday', 'var(--brand-teal)'], ['Kai Rasmussen', 'Monday', 'var(--brand-orange)']].map(([n, d, c], i) =>
-  <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', borderBottom: i < 2 ? '1px solid #f4f4f5' : 'none', fontSize: 13 }}>
-        <span style={{ color: '#18181b' }}>{n}</span>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#71717a', fontSize: 12 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: c }}></span>{d}
-        </span>
+    {[['Marisol V.', 'Thursday'], ['Devon Marsh', 'Wednesday'], ['Kai Rasmussen', 'Monday']].map(([n, d], i) =>
+  <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 18px', borderBottom: i < 2 ? '1px solid #f4f4f5' : 'none', fontSize: 13 }}>
+        <span style={{ color: '#18181b', fontWeight: 500 }}>{n}</span>
+        <span style={{ color: '#a1a1aa', fontSize: 12 }}>{d}</span>
       </div>
   )}
   </div>;

@@ -756,144 +756,115 @@ const PoolLogicApp = ({ scale = 1, dimmedRows = 0, page = 'customers', animate =
 // Smaller fragments used in feature cards
 
 const RouteCard = () => (
-  <div style={{ background: '#fff', border: '1px solid #e4e4e7', borderRadius: 12, padding: 18, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+  <div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, padding: 22, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
+    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18, gap: 12 }}>
       <div>
-        <div style={{ fontSize: 11, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>Tuesday route</div>
-        <div style={{ fontSize: 17, fontWeight: 600, marginTop: 2 }}>South Tampa · 14 stops</div>
+        <div style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>Tuesday route</div>
+        <div style={{ fontSize: 16, fontWeight: 600, marginTop: 4, letterSpacing: '-0.01em' }}>South Tampa · 14 stops</div>
       </div>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--brand-green)', background: 'var(--green-soft)', padding: '4px 10px', borderRadius: 999, fontWeight: 500 }}>
-        <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--brand-green)' }}></span>
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#52525b', fontWeight: 500, whiteSpace: 'nowrap', marginTop: 2 }}>
+        <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--brand-green)' }}></span>
         Optimized · 38 min saved
       </div>
     </div>
     {/* tiny map visual */}
-    <div style={{
-      position: 'relative',
-      height: 150,
-      borderRadius: 9,
-      background: 'linear-gradient(180deg, #f0f9ff, #e0f2fe)',
-      overflow: 'hidden',
-      border: '1px solid #e0f2fe',
-    }}>
-      <svg viewBox="0 0 400 150" width="100%" height="100%" preserveAspectRatio="none">
-        <defs>
-          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#bae6fd" strokeWidth="0.5"/>
-          </pattern>
-        </defs>
-        <rect width="400" height="150" fill="url(#grid)"/>
-        <path d="M 20 120 Q 80 60, 140 80 T 260 50 T 380 90" strokeWidth="2" fill="none" strokeDasharray="0" style={{ stroke: 'var(--brand-teal)' }} />
-        <path d="M 20 120 Q 80 60, 140 80 T 260 50 T 380 90" strokeWidth="6" fill="none" opacity="0.15" style={{ stroke: 'var(--brand-teal)' }} />
+    <div style={{ position: 'relative', height: 130 }}>
+      <svg viewBox="0 0 400 130" width="100%" height="100%" preserveAspectRatio="none">
+        <path d="M 20 100 Q 80 50, 140 70 T 260 40 T 380 80" strokeWidth="1.25" fill="none" style={{ stroke: 'var(--brand-teal)' }} />
         {[
-          [20, 120], [70, 92], [140, 80], [200, 60], [260, 50], [320, 70], [380, 90]
+          [20, 100], [70, 76], [140, 70], [200, 52], [260, 40], [320, 58], [380, 80]
         ].map((p, i) => (
           <g key={i}>
-            <circle cx={p[0]} cy={p[1]} r="6" fill="white" strokeWidth="2" style={{ stroke: 'var(--brand-teal)' }}/>
-            <text x={p[0]} y={p[1] + 3} fontSize="8" textAnchor="middle" fontWeight="600" style={{ fill: 'color-mix(in oklab, var(--brand-teal) 70%, black)' }}>{i + 1}</text>
+            <circle cx={p[0]} cy={p[1]} r="4.5" fill="white" strokeWidth="1.25" style={{ stroke: 'var(--brand-teal)' }}/>
+            <text x={p[0]} y={p[1] + 2.5} fontSize="7" textAnchor="middle" fontWeight="600" style={{ fill: '#52525b' }}>{i + 1}</text>
           </g>
         ))}
       </svg>
     </div>
-    <div style={{ display: 'flex', gap: 16, marginTop: 14, fontSize: 12 }}>
-      <div><span style={{ color: '#71717a' }}>Drive time</span> <span style={{ fontWeight: 600, marginLeft: 4 }}>1h 42m</span></div>
-      <div><span style={{ color: '#71717a' }}>Distance</span> <span style={{ fontWeight: 600, marginLeft: 4 }}>38.2 mi</span></div>
-      <div><span style={{ color: '#71717a' }}>ETA</span> <span style={{ fontWeight: 600, marginLeft: 4 }}>4:14 PM</span></div>
+    <div style={{ display: 'flex', gap: 24, marginTop: 18, paddingTop: 16, borderTop: '1px solid #f1f1f3', fontSize: 12, fontVariantNumeric: 'tabular-nums' }}>
+      <div><span style={{ color: '#a1a1aa' }}>Drive time</span> <span style={{ fontWeight: 600, marginLeft: 6 }}>1h 42m</span></div>
+      <div><span style={{ color: '#a1a1aa' }}>Distance</span> <span style={{ fontWeight: 600, marginLeft: 6 }}>38.2 mi</span></div>
+      <div><span style={{ color: '#a1a1aa' }}>ETA</span> <span style={{ fontWeight: 600, marginLeft: 6 }}>4:14 PM</span></div>
     </div>
   </div>
 );
 
 const InvoiceCard = () => (
-  <div style={{ background: '#fff', border: '1px solid #e4e4e7', borderRadius: 12, padding: 18, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+  <div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, padding: 22, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
+    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18, gap: 12 }}>
       <div>
-        <div style={{ fontSize: 11, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>Invoice INV-1042</div>
-        <div style={{ fontSize: 17, fontWeight: 600, marginTop: 2 }}>Marisol Vega</div>
+        <div style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>Invoice INV-1042</div>
+        <div style={{ fontSize: 16, fontWeight: 600, marginTop: 4, letterSpacing: '-0.01em' }}>Marisol Vega</div>
       </div>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--brand-green)', background: 'var(--green-soft)', padding: '4px 10px', borderRadius: 999, fontWeight: 500 }}>
-        <I.check/> Paid · auto
+      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#52525b', fontWeight: 500, whiteSpace: 'nowrap', marginTop: 2 }}>
+        <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--brand-green)' }}></span>
+        Paid · auto
       </div>
     </div>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 13 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', fontSize: 13 }}>
       {[
         ['Weekly service · April', '$120.00'],
         ['Chlorine tablets (2)', '$28.00'],
         ['Filter cleaning', '$45.00'],
       ].map((row, i) => (
-        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px dashed #f1f1f3' }}>
-          <span style={{ color: '#3f3f46' }}>{row[0]}</span>
+        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderTop: '1px solid #f1f1f3' }}>
+          <span style={{ color: '#52525b' }}>{row[0]}</span>
           <span style={{ fontVariantNumeric: 'tabular-nums', fontWeight: 500 }}>{row[1]}</span>
         </div>
       ))}
-      <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 6, fontWeight: 600, fontSize: 14 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0 4px', borderTop: '1px solid #ececef', fontWeight: 600, fontSize: 14 }}>
         <span>Total charged</span>
         <span style={{ fontVariantNumeric: 'tabular-nums' }}>$193.00</span>
       </div>
     </div>
-    <div style={{ marginTop: 14, padding: 10, background: '#fafafa', borderRadius: 8, fontSize: 11.5, color: '#71717a', display: 'flex', alignItems: 'center', gap: 8 }}>
-      <I.zap/> Sent automatically when route stop completed · Apr 18 · 4:42 PM
+    <div style={{ marginTop: 14, fontSize: 11.5, color: '#a1a1aa' }}>
+      Sent automatically on stop close · Apr 18, 4:42 PM
     </div>
   </div>
 );
 
 const ServiceReportCard = () => (
-  <div style={{ background: '#fff', border: '1px solid #e4e4e7', borderRadius: 12, padding: 18, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-      <div>
-        <div style={{ fontSize: 11, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>Service report</div>
-        <div style={{ fontSize: 17, fontWeight: 600, marginTop: 2 }}>3204 Coquina Ct, Naples</div>
-      </div>
-      <div style={{ width: 38, height: 38, borderRadius: 8, background: 'linear-gradient(135deg, color-mix(in oklab, var(--brand-teal) 60%, white), var(--brand-teal))', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}><I.droplet/></div>
+  <div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, padding: 22, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
+    <div style={{ marginBottom: 18 }}>
+      <div style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>Service report</div>
+      <div style={{ fontSize: 16, fontWeight: 600, marginTop: 4, letterSpacing: '-0.01em' }}>3204 Coquina Ct, Naples</div>
     </div>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginTop: 8 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', borderTop: '1px solid #f1f1f3', borderBottom: '1px solid #f1f1f3' }}>
       {[
-        ['pH', '7.4', 'var(--brand-green)'],
-        ['Chlorine', '2.8', 'var(--brand-green)'],
+        ['pH', '7.4', '#09090b'],
+        ['Chlorine', '2.8', '#09090b'],
         ['Alkalinity', '92', 'var(--brand-orange)'],
       ].map(([label, val, color], i) => (
-        <div key={i} style={{ background: '#fafafa', borderRadius: 8, padding: 10, border: '1px solid #f1f1f3' }}>
-          <div style={{ fontSize: 10.5, color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 500 }}>{label}</div>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginTop: 4 }}>
-            <span style={{ fontSize: 18, fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>{val}</span>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: color }}></span>
-          </div>
+        <div key={i} style={{ padding: '14px 0', borderLeft: i === 0 ? 'none' : '1px solid #f1f1f3', paddingLeft: i === 0 ? 0 : 16 }}>
+          <div style={{ fontSize: 10.5, color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500 }}>{label}</div>
+          <div style={{ fontSize: 20, fontWeight: 600, fontVariantNumeric: 'tabular-nums', marginTop: 4, letterSpacing: '-0.01em', color }}>{val}</div>
         </div>
       ))}
     </div>
-    <div style={{ marginTop: 12, display: 'flex', gap: 6 }}>
-      {[1,2,3,4].map(i => (
-        <div key={i} style={{ width: 56, height: 40, borderRadius: 6, background: `linear-gradient(135deg, hsl(${190 + i*8}, 70%, ${75 - i*3}%), hsl(${200 + i*5}, 80%, ${55 - i*4}%))`, position: 'relative', overflow: 'hidden' }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,.4), transparent)' }}/>
-        </div>
-      ))}
-    </div>
-    <div style={{ marginTop: 12, fontSize: 12, color: '#71717a' }}>
-      <span style={{ color: '#3f3f46', fontWeight: 500 }}>Tech notes:</span> Skimmed surface, brushed walls, vacuumed floor. Added 1lb stabilizer.
+    <div style={{ marginTop: 16, fontSize: 12, color: '#71717a', lineHeight: 1.55 }}>
+      <span style={{ color: '#3f3f46', fontWeight: 500 }}>Tech notes</span> &nbsp;Skimmed surface, brushed walls, vacuumed floor. Added 1lb stabilizer.
     </div>
   </div>
 );
 
 const DashboardCard = () => (
-  <div style={{ background: '#fff', border: '1px solid #e4e4e7', borderRadius: 12, padding: 18, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
-    <div style={{ fontSize: 11, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>This month</div>
-    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 4 }}>
-      <span style={{ fontSize: 28, fontWeight: 600, letterSpacing: '-0.02em' }}>$14,820</span>
-      <span style={{ fontSize: 12, color: 'var(--brand-green)', display: 'inline-flex', alignItems: 'center', gap: 2 }}><I.arrowUp/> 12.4%</span>
+  <div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, padding: 22, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
+    <div style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>This month</div>
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 6 }}>
+      <span style={{ fontSize: 28, fontWeight: 600, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>$14,820</span>
+      <span style={{ fontSize: 12, color: '#52525b', fontWeight: 500 }}>+12.4%</span>
     </div>
-    <div style={{ marginTop: 14, height: 80, position: 'relative' }}>
-      <svg width="100%" height="80" viewBox="0 0 300 80" preserveAspectRatio="none">
+    <div style={{ marginTop: 18, height: 72, position: 'relative' }}>
+      <svg width="100%" height="72" viewBox="0 0 300 72" preserveAspectRatio="none">
         <defs>
           <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopOpacity="0.25" style={{ stopColor: 'var(--brand-teal)' }}/>
+            <stop offset="0%" stopOpacity="0.08" style={{ stopColor: 'var(--brand-teal)' }}/>
             <stop offset="100%" stopOpacity="0" style={{ stopColor: 'var(--brand-teal)' }}/>
           </linearGradient>
         </defs>
-        <path d="M 0 60 L 30 55 L 60 50 L 90 52 L 120 40 L 150 38 L 180 30 L 210 32 L 240 22 L 270 18 L 300 12 L 300 80 L 0 80 Z" fill="url(#area)"/>
-        <path d="M 0 60 L 30 55 L 60 50 L 90 52 L 120 40 L 150 38 L 180 30 L 210 32 L 240 22 L 270 18 L 300 12" strokeWidth="2" fill="none" style={{ stroke: 'var(--brand-teal)' }}/>
+        <path d="M 0 54 L 30 50 L 60 46 L 90 48 L 120 36 L 150 34 L 180 28 L 210 30 L 240 20 L 270 16 L 300 10 L 300 72 L 0 72 Z" fill="url(#area)"/>
+        <path d="M 0 54 L 30 50 L 60 46 L 90 48 L 120 36 L 150 34 L 180 28 L 210 30 L 240 20 L 270 16 L 300 10" strokeWidth="1.25" fill="none" style={{ stroke: 'var(--brand-teal)' }}/>
       </svg>
-    </div>
-    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#a1a1aa', marginTop: 4 }}>
-      <span>Apr 1</span><span>Apr 14</span><span>Apr 28</span>
     </div>
   </div>
 );
