@@ -967,35 +967,35 @@ const Features = () => {
         background: 'radial-gradient(720px 280px at 50% 0%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 65%)',
       }} />
       <div className="container">
-        <div style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto 56px' }}>
+        <div style={{ textAlign: 'center', maxWidth: 680, margin: '0 auto 40px' }}>
           <span className="eyebrow"><span className="dot"></span>Everything in one place</span>
           <h2 style={{
-            marginTop: 14,
-            fontSize: 'clamp(32px, 4vw, 48px)',
-            letterSpacing: '-0.028em',
-            lineHeight: 1.05,
+            marginTop: 12,
+            fontSize: 'clamp(24px, 3vw, 34px)',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.1,
             color: 'var(--ink)',
             textWrap: 'balance',
           }}>
             The operating system for pool service.
           </h2>
           <p style={{
-            marginTop: 20,
-            fontSize: 17,
+            marginTop: 14,
+            fontSize: 15.5,
             lineHeight: 1.55,
             color: 'var(--ink-4)',
-            maxWidth: 600,
+            maxWidth: 540,
             marginLeft: 'auto',
             marginRight: 'auto',
           }}>
             From the customer directory to the truck, every part of your day flows through PoolLogic. No spreadsheets. No paper tickets. No double-entry.
           </p>
 
-          {/* Small icon row previewing the bento — each pill is a brand-tinted feature glyph */}
+          {/* Small pill row previews the bento — brand-tinted glyphs */}
           <div style={{
-            marginTop: 28,
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            padding: '6px 8px',
+            marginTop: 22,
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            padding: '5px 7px',
             background: 'var(--bg)',
             border: '1px solid var(--line)',
             borderRadius: 999,
@@ -1009,19 +1009,19 @@ const Features = () => {
               ['Directory', 'var(--brand-teal)', <I.customers />],
             ].map(([label, color, icon]) => (
               <div key={label} style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-                padding: '4px 10px 4px 6px',
-                fontSize: 12, fontWeight: 500, color: 'var(--ink-3)',
+                display: 'inline-flex', alignItems: 'center', gap: 5,
+                padding: '3px 8px 3px 5px',
+                fontSize: 11.5, fontWeight: 500, color: 'var(--ink-3)',
                 background: 'var(--bg-soft)',
                 borderRadius: 999,
               }}>
                 <span style={{
-                  display: 'inline-flex', width: 18, height: 18, borderRadius: '50%',
+                  display: 'inline-flex', width: 14, height: 14, borderRadius: '50%',
                   background: `color-mix(in oklab, ${color} 14%, transparent)`,
                   color: color,
                   alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <span style={{ display: 'inline-flex', transform: 'scale(0.75)' }}>{icon}</span>
+                  <span style={{ display: 'inline-flex', transform: 'scale(0.6)' }}>{icon}</span>
                 </span>
                 {label}
               </div>
@@ -1029,7 +1029,7 @@ const Features = () => {
           </div>
         </div>
 
-        <div className="features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 20 }}>
+        <div className="features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 14 }}>
           {/* Big card — Routes */}
           <FeatureCard span={4} title="Routes that route themselves" body="Drag-and-drop optimization across stops, techs and trucks. Route insight scores every shift so you can see exactly where time and gas are leaking." icon={<I.map />}>
             <RouteCard />
@@ -1056,8 +1056,8 @@ const FeatureCard = ({ span, title, body, icon, children }) =>
 <div className="feature-card" style={{
   gridColumn: `span ${span}`,
   border: '1px solid var(--line)',
-  borderRadius: 18,
-  padding: 26,
+  borderRadius: 14,
+  padding: 20,
   background: 'var(--bg)',
   boxShadow: '0 1px 2px rgba(15, 23, 42, .03)',
   display: 'flex', flexDirection: 'column',
@@ -1065,20 +1065,20 @@ const FeatureCard = ({ span, title, body, icon, children }) =>
   position: 'relative',
   overflow: 'hidden',
 }}
-onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 30%, var(--line))'; e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 14px 32px -18px rgba(15, 23, 42, .14)'; }}
+onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 30%, var(--line))'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 24px -14px rgba(15, 23, 42, .12)'; }}
 onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, .03)'; }}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
       <span style={{
-        display: 'inline-flex', width: 36, height: 36, borderRadius: 10,
+        display: 'inline-flex', width: 30, height: 30, borderRadius: 8,
         background: 'color-mix(in oklab, var(--accent) 10%, transparent)',
         color: 'var(--accent)',
         border: '1px solid color-mix(in oklab, var(--accent) 18%, transparent)',
         alignItems: 'center', justifyContent: 'center',
       }}>{icon}</span>
     </div>
-    <h3 style={{ fontSize: 19, fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--ink)' }}>{title}</h3>
-    <p style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-4)' }}>{body}</p>
-    {children && <div style={{ marginTop: 22, flex: 1, display: 'flex', alignItems: 'flex-end' }}>
+    <h3 style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink)', lineHeight: 1.3 }}>{title}</h3>
+    <p style={{ marginTop: 6, fontSize: 13, lineHeight: 1.55, color: 'var(--ink-4)' }}>{body}</p>
+    {children && <div style={{ marginTop: 16, flex: 1, display: 'flex', alignItems: 'flex-end' }}>
       <div style={{ width: '100%' }}>{children}</div>
     </div>}
   </div>;
@@ -1491,34 +1491,41 @@ const Pricing = () => {
   return (
     <section className="section-divider" id="pricing">
       <div className="container">
-        <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 32px' }}>
+        <div style={{ textAlign: 'center', maxWidth: 680, margin: '0 auto 24px' }}>
           <span className="eyebrow"><span className="dot"></span>Pricing</span>
-          <h2 style={{ marginTop: 14 }}>Free to start. Pay only when you get paid.</h2>
-          <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>
-            Every tier includes a flat <strong style={{ color: 'var(--ink-2)' }}>0.5%</strong> platform fee on payments processed through Stripe. Check, cash, and external payments are always free. No per-stop, per-text, or setup fees.
+          <h2 style={{
+            marginTop: 12,
+            fontSize: 'clamp(24px, 3vw, 34px)',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.1,
+            color: 'var(--ink)',
+            textWrap: 'balance',
+          }}>Free to start. Pay only when you get paid.</h2>
+          <p style={{ marginTop: 14, fontSize: 15, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 540, marginLeft: 'auto', marginRight: 'auto' }}>
+            Every tier includes a flat <strong style={{ color: 'var(--ink-2)' }}>0.5%</strong> platform fee on payments processed through Stripe. Check, cash, and external payments are always free.
           </p>
 
           <div style={{
-            margin: '24px auto 0', maxWidth: 600,
-            padding: '12px 18px',
+            margin: '18px auto 0', maxWidth: 560,
+            padding: '10px 14px',
             background: 'color-mix(in oklab, var(--brand-green) 8%, var(--bg))',
             border: '1px solid color-mix(in oklab, var(--brand-green) 24%, transparent)',
-            borderRadius: 12,
-            display: 'flex', alignItems: 'center', gap: 12,
+            borderRadius: 10,
+            display: 'flex', alignItems: 'center', gap: 10,
             textAlign: 'left',
-            fontSize: 14, color: 'var(--ink-2)', lineHeight: 1.5,
+            fontSize: 13, color: 'var(--ink-2)', lineHeight: 1.5,
           }}>
             <span style={{
-              display: 'inline-flex', width: 26, height: 26,
+              display: 'inline-flex', width: 22, height: 22,
               alignItems: 'center', justifyContent: 'center',
               background: 'var(--brand-green)', color: '#fff',
               borderRadius: '50%', flexShrink: 0,
             }}>
-              <I.check />
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
             </span>
             <span>
-              <strong style={{ color: 'var(--ink)' }}>Charge your customers a credit card fee — built in, free.</strong>{' '}
-              <span style={{ color: 'var(--ink-4)' }}>Some competitors charge $1 per invoice for this. We don't.</span>
+              <strong style={{ color: 'var(--ink)' }}>Charge customers a credit card fee — built in, free.</strong>{' '}
+              <span style={{ color: 'var(--ink-4)' }}>Some competitors charge $1/invoice. We don't.</span>
             </span>
           </div>
         </div>
@@ -1567,8 +1574,8 @@ const Pricing = () => {
               onMouseLeave={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, .03)'; } }}
               style={{
               border: t.popular ? '1.5px solid var(--accent)' : '1px solid var(--line)',
-              borderRadius: 18,
-              padding: 26,
+              borderRadius: 14,
+              padding: 20,
               background: t.popular ? 'linear-gradient(180deg, color-mix(in oklab, var(--accent) 5%, var(--bg)) 0%, var(--bg) 55%)' : 'var(--bg)',
               position: 'relative',
               boxShadow: t.popular ? '0 24px 48px -24px color-mix(in oklab, var(--accent) 42%, transparent), 0 1px 0 rgba(255,255,255,.6) inset' : '0 1px 2px rgba(15, 23, 42, .03)',
@@ -1582,11 +1589,11 @@ const Pricing = () => {
 
               <div style={{ marginTop: 16, display: 'flex', alignItems: 'baseline', gap: 6, minHeight: 56 }}>
                 {t.price === 0 ?
-                <span style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>Free</span> :
+                <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>Free</span> :
                 t.price === null ?
                 <span style={{ fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink-4)' }}>Custom</span> :
                 <>
-                  <span style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>${t.price}</span>
+                  <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>${t.price}</span>
                   <span style={{ color: 'var(--ink-5)', fontSize: 13 }}>{t.priceUnit}</span>
                 </>
                 }
@@ -1641,8 +1648,15 @@ const FAQ = () => {
       <div id="faq-grid" className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60 }}>
         <div>
           <span className="eyebrow"><span className="dot"></span>FAQ</span>
-          <h2 style={{ marginTop: 14, letterSpacing: '-0.025em' }}>Questions, before you start.</h2>
-          <p style={{ marginTop: 18, fontSize: 16, lineHeight: 1.6, color: 'var(--ink-4)', maxWidth: 360 }}>
+          <h2 style={{
+            marginTop: 12,
+            fontSize: 'clamp(24px, 3vw, 34px)',
+            letterSpacing: '-0.025em',
+            lineHeight: 1.1,
+            color: 'var(--ink)',
+            textWrap: 'balance',
+          }}>Questions, before you start.</h2>
+          <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.6, color: 'var(--ink-4)', maxWidth: 340 }}>
             Still wondering about something? We usually answer within an hour during US business hours.
           </p>
           <a href="mailto:support@poollogic.app" style={{
@@ -1674,8 +1688,8 @@ const FAQ = () => {
           }}>
               <button onClick={() => setOpen(open === i ? -1 : i)} style={{
               width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16,
-              background: 'transparent', border: 'none', padding: '18px 22px',
-              fontSize: 16, fontWeight: 500, color: 'var(--ink)', textAlign: 'left',
+              background: 'transparent', border: 'none', padding: '14px 18px',
+              fontSize: 15, fontWeight: 500, color: 'var(--ink)', textAlign: 'left',
               cursor: 'pointer',
             }}>
                 <span>{it.q}</span>
@@ -1692,7 +1706,7 @@ const FAQ = () => {
                 </span>
               </button>
               <div style={{ maxHeight: open === i ? 400 : 0, overflow: 'hidden', transition: 'max-height .3s ease' }}>
-                <p style={{ padding: '0 22px 22px', fontSize: 14.5, lineHeight: 1.65, color: 'var(--ink-3)', margin: 0 }}>{it.a}</p>
+                <p style={{ padding: '0 18px 18px', fontSize: 14, lineHeight: 1.65, color: 'var(--ink-3)', margin: 0 }}>{it.a}</p>
               </div>
             </div>
           )}
@@ -2453,8 +2467,8 @@ const FinalCTA = () =>
     <div className="container">
       <div className="final-cta-card" style={{
       position: 'relative',
-      borderRadius: 24,
-      padding: '80px 64px',
+      borderRadius: 20,
+      padding: '56px 48px',
       background: 'radial-gradient(120% 100% at 0% 0%, #1C2B4A 0%, #132038 45%, #0A1628 100%)',
       color: 'white',
       overflow: 'hidden',
@@ -2486,9 +2500,9 @@ const FinalCTA = () =>
             <span style={{ display: 'inline-flex', width: 7, height: 7, borderRadius: '50%', background: 'var(--brand-green)', boxShadow: '0 0 0 4px color-mix(in oklab, var(--brand-green) 22%, transparent)' }}></span>
             14-day free trial · No credit card required
           </span>
-          <h2 style={{ color: 'white', fontSize: 'clamp(36px, 4.4vw, 56px)', marginTop: 20, letterSpacing: '-0.03em', lineHeight: 1.05 }}>Stop running your business<br />between the route and the desk.</h2>
-          <p style={{ marginTop: 22, fontSize: 18, color: 'rgba(255,255,255,.75)', lineHeight: 1.55, maxWidth: 560 }}>Bring your customers, routes, and invoices. We'll have you running by tomorrow morning — and we won't charge you a cent until you say so.</p>
-          <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
+          <h2 style={{ color: 'white', fontSize: 'clamp(26px, 3.6vw, 40px)', marginTop: 16, letterSpacing: '-0.028em', lineHeight: 1.1 }}>Stop running your business between the route and the desk.</h2>
+          <p style={{ marginTop: 16, fontSize: 15.5, color: 'rgba(255,255,255,.75)', lineHeight: 1.55, maxWidth: 520 }}>Bring your customers, routes, and invoices. We'll have you running by tomorrow morning — and we won't charge you a cent until you say so.</p>
+          <div style={{ display: 'flex', gap: 10, marginTop: 28, flexWrap: 'wrap' }}>
             <a href="https://portal.poollogic.app" className="btn btn-lg" style={{ background: 'white', color: '#0A1628', border: 'none', fontWeight: 600, textDecoration: 'none' }}>Start free trial<I.arrowR /></a>
             <a href="mailto:support@poollogic.app?subject=PoolLogic%20demo%20request" className="btn btn-lg" style={{ background: 'rgba(255,255,255,.06)', color: 'white', border: '1px solid rgba(255,255,255,.18)', textDecoration: 'none' }}>Book a 20-min demo</a>
           </div>
