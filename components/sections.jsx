@@ -1447,8 +1447,8 @@ const Pricing = () => {
               <I.check />
             </span>
             <span>
-              <strong style={{ color: 'var(--ink)' }}>Credit-card surcharging is built in — free.</strong>{' '}
-              <span style={{ color: 'var(--ink-4)' }}>Paythepoolman charges $1 per invoice for the same feature.</span>
+              <strong style={{ color: 'var(--ink)' }}>Charge your customers a credit card fee — built in, free.</strong>{' '}
+              <span style={{ color: 'var(--ink-4)' }}>Some competitors charge $1 per invoice for this. We don't.</span>
             </span>
           </div>
         </div>
