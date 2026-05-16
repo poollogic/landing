@@ -1418,11 +1418,11 @@ const Pricing = () => {
 const FAQ = () => {
   const [open, setOpen] = useState(0);
   const items = [
-  { q: 'How long does setup take?', a: 'Most shops are running their first route within an hour. Import customers from a CSV, QuickBooks, or your existing tool — we handle the mapping.' },
-  { q: 'Does it work without internet on the truck?', a: 'Yes. The on-truck app stores stops, chemistry readings, and photos locally and syncs the moment you\'re back on signal. No service report ever gets lost.' },
-  { q: 'Will you migrate my data from Skimmer or Pooltrackr?', a: 'Free migration is included on Vision and Fleet. Send us an export and we\'ll have your customers, routes, and recurring invoices live within 48 hours.' },
-  { q: 'Do you charge per stop, per service, or per text?', a: 'No. PoolLogic is one flat price per truck — including unlimited customer texts, service reports, and invoices.' },
-  { q: 'What payment processors do you support?', a: 'Stripe and ACH are built in. We also pass through to Square, QuickBooks Payments, and Authorize.net if you already have a relationship.' }];
+  { q: 'How long does setup take?', a: 'Setup is fast — as long as you have your customer info in some kind of document, you can usually be importing and have automated billing live within an hour. The quickest path is our provided spreadsheet template: many customers paste it into Claude or ChatGPT and have it fill in all of their customer information with no manual data entry. You can also upload a PDF or other document to our AI import, but it\'s limited to one document at a time — it can\'t stitch information together across multiple files.' },
+  { q: 'Does it work without internet on the truck?', a: 'The technician app works entirely offline. Every stop and every report is cached on the device and syncs the moment reception comes back.' },
+  { q: 'Will you migrate my data from Skimmer or Pooltrackr?', a: 'Free migration is included for every customer, on every tier. We\'ll handle importing all your customers and walk you through any questions you may have. The app is extremely intuitive — most teams are comfortable using it from day one.' },
+  { q: 'Do you charge per stop, per service, or per text?', a: 'We charge one flat rate per truck. SMS isn\'t available yet — when it launches it\'ll be included on the Vision tier, with a fair-use limit so your number doesn\'t get flagged as spam.' },
+  { q: 'What payment processors do you support?', a: 'Stripe. All payment processing in PoolLogic runs through Stripe — connect your Stripe account once and you\'re set.' }];
 
   return (
     <section className="section-divider">
