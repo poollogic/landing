@@ -1,9 +1,10 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Nav, Hero, Features, BuiltDifferently, Migration, Pricing, FAQ, FinalCTA, Footer } from './components/sections.jsx';
 
-// Legal pages are each split into their own chunks — only fetched when visited.
+// Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
 const PrivacyPage = lazy(() => import('./pages/privacy.jsx'));
+const TechAppPage = lazy(() => import('./pages/tech-app.jsx'));
 
 // Page defaults — accent color, hero layout, density, theme.
 // EDITMODE markers are preserved so the external prototype editor can still patch this object.
@@ -18,6 +19,7 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 const isTermsPath = (p) => p === '/terms' || p === '/terms/';
 const isPrivacyPath = (p) => p === '/privacy' || p === '/privacy/';
+const isTechAppPath = (p) => p === '/tech-app' || p === '/tech-app/';
 
 const App = () => {
   useEffect(() => {
@@ -51,6 +53,20 @@ const App = () => {
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PrivacyPage />
+          </Suspense>
+        </ErrorBoundary>
+        <Footer />
+      </>
+    );
+  }
+
+  if (isTechAppPath(path)) {
+    return (
+      <>
+        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <TechAppPage />
           </Suspense>
         </ErrorBoundary>
         <Footer />
