@@ -768,20 +768,20 @@ const RouteCard = () => {
       position: 'relative',
       background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
       border: '1px solid #ececef',
-      borderRadius: 14,
-      padding: 20,
+      borderRadius: 12,
+      padding: 16,
       fontFamily: "'Geist', sans-serif",
       color: '#09090b',
       overflow: 'hidden',
     }}>
       {/* header */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18, gap: 12 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14, gap: 10 }}>
         <div>
-          <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>Tuesday · South Tampa</div>
-          <div style={{ fontSize: 17, fontWeight: 600, marginTop: 6, letterSpacing: '-0.015em' }}>14 stops · Jamal Ortiz</div>
+          <div style={{ fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>Tuesday · South Tampa</div>
+          <div style={{ fontSize: 14.5, fontWeight: 600, marginTop: 5, letterSpacing: '-0.015em' }}>14 stops · Jamal Ortiz</div>
         </div>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#3f3f46', fontWeight: 500, whiteSpace: 'nowrap', marginTop: 4 }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)' }}></span>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 10.5, color: '#3f3f46', fontWeight: 500, whiteSpace: 'nowrap', marginTop: 3 }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--accent)' }}></span>
           Optimized · 38 min saved
         </div>
       </div>
@@ -789,60 +789,60 @@ const RouteCard = () => {
       {/* stop list with route line */}
       <div style={{ position: 'relative' }}>
         <div style={{
-          position: 'absolute', left: 19, top: 14, bottom: 14, width: 1.5,
+          position: 'absolute', left: 16, top: 10, bottom: 10, width: 1.5,
           background: 'linear-gradient(180deg, color-mix(in oklab, var(--accent) 35%, transparent), color-mix(in oklab, var(--accent) 12%, transparent))',
         }} />
         {stops.map(([time, name, addr, mins], i) => (
           <div key={i} style={{
             display: 'grid',
-            gridTemplateColumns: '40px 1fr auto',
+            gridTemplateColumns: '32px 1fr auto',
             alignItems: 'center',
-            gap: 14,
-            padding: '10px 0',
+            gap: 12,
+            padding: '7px 0',
             position: 'relative',
           }}>
             <div style={{
-              fontSize: 11, color: '#71717a', fontFamily: "'Geist Mono', monospace",
+              fontSize: 10, color: '#71717a', fontFamily: "'Geist Mono', monospace",
               fontVariantNumeric: 'tabular-nums', textAlign: 'right', position: 'relative', zIndex: 2,
             }}>{time}</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
               <div style={{
-                flexShrink: 0, width: 8, height: 8, borderRadius: '50%',
+                flexShrink: 0, width: 7, height: 7, borderRadius: '50%',
                 background: '#fff',
                 border: '1.5px solid var(--accent)',
-                boxShadow: '0 0 0 4px #fbfbfc',
+                boxShadow: '0 0 0 3px #fbfbfc',
                 position: 'relative', zIndex: 2,
               }} />
               <div style={{ minWidth: 0, flex: 1 }}>
-                <div style={{ fontSize: 13.5, fontWeight: 500, color: '#18181b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{name}</div>
-                <div style={{ fontSize: 11.5, color: '#a1a1aa', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{addr}</div>
+                <div style={{ fontSize: 12, fontWeight: 500, color: '#18181b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{name}</div>
+                <div style={{ fontSize: 10.5, color: '#a1a1aa', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{addr}</div>
               </div>
             </div>
             <div style={{
-              fontSize: 11, color: '#71717a', fontFamily: "'Geist Mono', monospace",
+              fontSize: 10, color: '#71717a', fontFamily: "'Geist Mono', monospace",
               fontVariantNumeric: 'tabular-nums',
             }}>{mins}m</div>
           </div>
         ))}
         {/* truncation hint */}
         <div style={{
-          display: 'grid', gridTemplateColumns: '40px 1fr auto', alignItems: 'center', gap: 14, paddingTop: 6,
+          display: 'grid', gridTemplateColumns: '32px 1fr auto', alignItems: 'center', gap: 12, paddingTop: 4,
         }}>
           <div />
-          <div style={{ fontSize: 11.5, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace", paddingLeft: 20 }}>+ 9 more stops</div>
+          <div style={{ fontSize: 10.5, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace", paddingLeft: 17 }}>+ 9 more stops</div>
           <div />
         </div>
       </div>
 
       {/* stats footer */}
       <div style={{
-        display: 'flex', gap: 28, marginTop: 18, paddingTop: 16,
-        fontSize: 12, fontVariantNumeric: 'tabular-nums',
+        display: 'flex', gap: 22, marginTop: 14, paddingTop: 12,
+        fontSize: 11, fontVariantNumeric: 'tabular-nums',
       }}>
         {[['Drive time', '1h 42m'], ['Distance', '38.2 mi'], ['ETA', '4:14 PM']].map(([k, v]) => (
           <div key={k}>
-            <div style={{ fontSize: 10.5, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace", letterSpacing: '0.06em', textTransform: 'uppercase' }}>{k}</div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#18181b', marginTop: 2, letterSpacing: '-0.01em' }}>{v}</div>
+            <div style={{ fontSize: 9.5, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace", letterSpacing: '0.06em', textTransform: 'uppercase' }}>{k}</div>
+            <div style={{ fontSize: 12.5, fontWeight: 600, color: '#18181b', marginTop: 2, letterSpacing: '-0.01em' }}>{v}</div>
           </div>
         ))}
       </div>
@@ -855,8 +855,8 @@ const InvoiceCard = () => (
     position: 'relative',
     background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
     border: '1px solid #ececef',
-    borderRadius: 14,
-    padding: 20,
+    borderRadius: 12,
+    padding: 16,
     fontFamily: "'Geist', sans-serif",
     color: '#09090b',
     overflow: 'hidden',
@@ -864,50 +864,50 @@ const InvoiceCard = () => (
     {/* PAID stamp */}
     <div aria-hidden="true" style={{
       position: 'absolute',
-      top: 18, right: 18,
+      top: 14, right: 14,
       transform: 'rotate(-8deg)',
-      padding: '4px 10px',
+      padding: '3px 8px',
       border: '1.5px solid color-mix(in oklab, var(--accent) 65%, white)',
       color: 'color-mix(in oklab, var(--accent) 80%, black)',
       borderRadius: 4,
       fontFamily: "'Geist Mono', monospace",
-      fontSize: 10,
+      fontSize: 9,
       letterSpacing: '0.16em',
       fontWeight: 600,
       opacity: 0.85,
     }}>PAID · AUTO</div>
 
-    <div style={{ marginBottom: 18 }}>
-      <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>Invoice · INV-1042</div>
-      <div style={{ fontSize: 17, fontWeight: 600, marginTop: 6, letterSpacing: '-0.015em' }}>Marisol Vega</div>
-      <div style={{ fontSize: 12, color: '#a1a1aa', marginTop: 2 }}>1402 Bayshore Blvd · Apr 18, 2026</div>
+    <div style={{ marginBottom: 14 }}>
+      <div style={{ fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>Invoice · INV-1042</div>
+      <div style={{ fontSize: 14.5, fontWeight: 600, marginTop: 5, letterSpacing: '-0.015em' }}>Marisol Vega</div>
+      <div style={{ fontSize: 11, color: '#a1a1aa', marginTop: 2 }}>1402 Bayshore Blvd · Apr 18, 2026</div>
     </div>
 
-    <div style={{ display: 'flex', flexDirection: 'column', fontSize: 13, gap: 12 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', fontSize: 11.5, gap: 9 }}>
       {[
         ['Weekly service · April', '4 visits', '$120.00'],
         ['Chlorine tablets', '2 × $14', '$28.00'],
         ['Filter cleaning', 'Apr 11', '$45.00'],
       ].map((row, i) => (
-        <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', alignItems: 'baseline', gap: 14 }}>
+        <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', alignItems: 'baseline', gap: 12 }}>
           <span style={{ color: '#18181b' }}>{row[0]}</span>
-          <span style={{ color: '#a1a1aa', fontSize: 11.5, fontFamily: "'Geist Mono', monospace" }}>{row[1]}</span>
+          <span style={{ color: '#a1a1aa', fontSize: 10.5, fontFamily: "'Geist Mono', monospace" }}>{row[1]}</span>
           <span style={{ fontVariantNumeric: 'tabular-nums', fontWeight: 500, fontFamily: "'Geist Mono', monospace", color: '#3f3f46' }}>{row[2]}</span>
         </div>
       ))}
     </div>
 
     <div style={{
-      marginTop: 18, paddingTop: 16,
+      marginTop: 14, paddingTop: 12,
       display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
-      fontWeight: 600, fontSize: 15,
+      fontWeight: 600, fontSize: 13,
       borderTop: '1px solid #f4f4f5',
     }}>
       <span style={{ color: '#09090b' }}>Charged</span>
-      <span style={{ fontVariantNumeric: 'tabular-nums', fontSize: 22, letterSpacing: '-0.02em' }}>$193.00</span>
+      <span style={{ fontVariantNumeric: 'tabular-nums', fontSize: 18, letterSpacing: '-0.02em' }}>$193.00</span>
     </div>
 
-    <div style={{ marginTop: 12, fontSize: 11.5, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>
+    <div style={{ marginTop: 10, fontSize: 10.5, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>
       Stripe · Visa ending 4242 · Apr 18, 4:42 PM
     </div>
   </div>
@@ -917,33 +917,33 @@ const ServiceReportCard = () => (
   <div style={{
     background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
     border: '1px solid #ececef',
-    borderRadius: 14,
-    padding: 20,
+    borderRadius: 12,
+    padding: 16,
     fontFamily: "'Geist', sans-serif",
     color: '#09090b',
     overflow: 'hidden',
   }}>
     {/* email envelope header */}
     <div style={{
-      display: 'flex', alignItems: 'center', gap: 10,
-      paddingBottom: 14, marginBottom: 16,
+      display: 'flex', alignItems: 'center', gap: 9,
+      paddingBottom: 12, marginBottom: 13,
     }}>
       <div style={{
-        width: 28, height: 28, borderRadius: 7,
+        width: 24, height: 24, borderRadius: 6,
         background: 'color-mix(in oklab, var(--accent) 10%, #fff)',
         color: 'var(--accent)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         border: '1px solid color-mix(in oklab, var(--accent) 16%, transparent)',
       }}><I.droplet/></div>
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ fontSize: 12, color: '#71717a', fontFamily: "'Geist Mono', monospace" }}>noreply@poollogic.io</div>
-        <div style={{ fontSize: 13, fontWeight: 500, color: '#18181b', marginTop: 1 }}>Service report — 3204 Coquina Ct</div>
+        <div style={{ fontSize: 10.5, color: '#71717a', fontFamily: "'Geist Mono', monospace" }}>noreply@poollogic.io</div>
+        <div style={{ fontSize: 11.5, fontWeight: 500, color: '#18181b', marginTop: 1 }}>Service report — 3204 Coquina Ct</div>
       </div>
-      <div style={{ fontSize: 11, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>4:42 PM</div>
+      <div style={{ fontSize: 10, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>4:42 PM</div>
     </div>
 
     {/* chemistry strip */}
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
       {[
         ['pH', '7.4', 'In range'],
         ['Chlorine', '2.8', 'In range'],
@@ -952,18 +952,18 @@ const ServiceReportCard = () => (
         <div key={i} style={{
           background: '#fbfbfc',
           border: '1px solid #f1f1f3',
-          borderRadius: 10,
-          padding: '12px 12px 10px',
+          borderRadius: 8,
+          padding: '10px 10px 8px',
         }}>
-          <div style={{ fontSize: 10.5, color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>{label}</div>
-          <div style={{ fontSize: 22, fontWeight: 600, fontVariantNumeric: 'tabular-nums', marginTop: 4, letterSpacing: '-0.02em', color: '#09090b' }}>{val}</div>
-          <div style={{ fontSize: 10.5, color: i === 2 ? 'var(--accent)' : '#a1a1aa', marginTop: 4, fontWeight: 500 }}>{status}</div>
+          <div style={{ fontSize: 9.5, color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>{label}</div>
+          <div style={{ fontSize: 18, fontWeight: 600, fontVariantNumeric: 'tabular-nums', marginTop: 3, letterSpacing: '-0.02em', color: '#09090b' }}>{val}</div>
+          <div style={{ fontSize: 9.5, color: i === 2 ? 'var(--accent)' : '#a1a1aa', marginTop: 3, fontWeight: 500 }}>{status}</div>
         </div>
       ))}
     </div>
 
     {/* photo strip */}
-    <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
+    <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 5 }}>
       {[
         'linear-gradient(135deg, #c7d2fe 0%, #818cf8 100%)',
         'linear-gradient(135deg, #bae6fd 0%, #38bdf8 100%)',
@@ -972,7 +972,7 @@ const ServiceReportCard = () => (
       ].map((bg, i) => (
         <div key={i} style={{
           aspectRatio: '1 / 1',
-          borderRadius: 6,
+          borderRadius: 5,
           background: bg,
           position: 'relative',
           overflow: 'hidden',
@@ -982,7 +982,7 @@ const ServiceReportCard = () => (
       ))}
     </div>
 
-    <div style={{ marginTop: 14, fontSize: 12, color: '#71717a', lineHeight: 1.55 }}>
+    <div style={{ marginTop: 12, fontSize: 11, color: '#71717a', lineHeight: 1.55 }}>
       <span style={{ color: '#3f3f46', fontWeight: 500 }}>Tech notes</span> &nbsp;Skimmed surface, brushed walls, vacuumed floor. Added 1 lb stabilizer.
     </div>
   </div>
@@ -992,36 +992,36 @@ const DashboardCard = () => (
   <div style={{
     background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
     border: '1px solid #ececef',
-    borderRadius: 14,
-    padding: 20,
+    borderRadius: 12,
+    padding: 16,
     fontFamily: "'Geist', sans-serif",
     color: '#09090b',
     overflow: 'hidden',
   }}>
     <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-      <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>Audit · Last night</div>
-      <div style={{ fontSize: 11, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>Apr 18 · 3:14 AM</div>
+      <div style={{ fontSize: 10, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>Audit · Last night</div>
+      <div style={{ fontSize: 10, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>Apr 18 · 3:14 AM</div>
     </div>
 
-    <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 8 }}>
       {[
         ['Stops missed', '0', null],
         ['Photos missing', '3', 'Crystal Pools'],
         ['Chemistry drift', '2', 'pH trending low'],
       ].map(([k, v, hint], i) => (
         <div key={i} style={{
-          display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'center', gap: 12,
+          display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'center', gap: 10,
         }}>
           <span style={{
-            width: 6, height: 6, borderRadius: '50%',
+            width: 5, height: 5, borderRadius: '50%',
             background: v === '0' ? '#d4d4d8' : 'var(--accent)',
           }} />
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>{k}</div>
-            {hint && <div style={{ fontSize: 11.5, color: '#a1a1aa', marginTop: 1 }}>{hint}</div>}
+            <div style={{ fontSize: 11.5, fontWeight: 500, color: '#18181b' }}>{k}</div>
+            {hint && <div style={{ fontSize: 10.5, color: '#a1a1aa', marginTop: 1 }}>{hint}</div>}
           </div>
           <div style={{
-            fontVariantNumeric: 'tabular-nums', fontWeight: 600, fontSize: 16,
+            fontVariantNumeric: 'tabular-nums', fontWeight: 600, fontSize: 14,
             color: v === '0' ? '#a1a1aa' : '#09090b',
             letterSpacing: '-0.01em',
           }}>{v}</div>
@@ -1030,9 +1030,9 @@ const DashboardCard = () => (
     </div>
 
     <div style={{
-      marginTop: 16, paddingTop: 14,
+      marginTop: 14, paddingTop: 12,
       borderTop: '1px solid #f4f4f5',
-      fontSize: 11.5, color: '#71717a', fontFamily: "'Geist Mono', monospace",
+      fontSize: 10.5, color: '#71717a', fontFamily: "'Geist Mono', monospace",
     }}>
       5 items resolved before 7 AM
     </div>

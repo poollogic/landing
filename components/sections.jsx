@@ -994,8 +994,8 @@ const Features = () => {
         <div className="features-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(12, 1fr)',
-          gridAutoRows: 'minmax(260px, auto)',
-          gap: 16,
+          gridAutoRows: 'minmax(220px, auto)',
+          gap: 14,
         }}>
           <FeatureCard
             span={8} rowSpan={2}
@@ -1048,46 +1048,46 @@ const FeatureCard = ({ span, rowSpan = 1, eyebrow, title, body, footnote, childr
   gridColumn: `span ${span}`,
   gridRow: `span ${rowSpan}`,
   border: '1px solid var(--line)',
-  borderRadius: 20,
+  borderRadius: 16,
   background: 'var(--bg)',
-  boxShadow: '0 1px 0 rgba(15, 23, 42, .02), 0 12px 32px -24px rgba(15, 23, 42, .12)',
+  boxShadow: '0 1px 0 rgba(15, 23, 42, .02), 0 10px 26px -22px rgba(15, 23, 42, .12)',
   display: 'flex', flexDirection: 'column',
   transition: 'transform .25s ease, box-shadow .25s ease, border-color .25s ease',
   position: 'relative',
   overflow: 'hidden',
   isolation: 'isolate',
 }}
-onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 22%, var(--line))'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 1px 0 rgba(15, 23, 42, .02), 0 24px 40px -24px rgba(15, 23, 42, .18)'; }}
-onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 0 rgba(15, 23, 42, .02), 0 12px 32px -24px rgba(15, 23, 42, .12)'; }}>
+onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 22%, var(--line))'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 1px 0 rgba(15, 23, 42, .02), 0 20px 32px -22px rgba(15, 23, 42, .18)'; }}
+onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 0 rgba(15, 23, 42, .02), 0 10px 26px -22px rgba(15, 23, 42, .12)'; }}>
     {/* subtle top highlight — Linear/Vercel trick */}
     <div aria-hidden="true" style={{
       position: 'absolute', inset: '0 0 auto 0', height: 1, zIndex: 1,
       background: 'linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent)',
     }} />
-    <div style={{ padding: '32px 32px 0', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ padding: '24px 24px 0', display: 'flex', flexDirection: 'column' }}>
       {eyebrow && <span style={{
         fontFamily: "'Geist Mono', monospace",
-        fontSize: 11,
+        fontSize: 10,
         letterSpacing: '0.12em',
         textTransform: 'uppercase',
         color: 'var(--accent)',
         fontWeight: 500,
       }}>{eyebrow}</span>}
       <h3 style={{
-        fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em',
-        color: 'var(--ink)', lineHeight: 1.2, marginTop: 12,
+        fontSize: 18, fontWeight: 600, letterSpacing: '-0.02em',
+        color: 'var(--ink)', lineHeight: 1.2, marginTop: 10,
         textWrap: 'balance',
       }}>{title}</h3>
       <p style={{
-        marginTop: 12, fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-4)',
-        maxWidth: 480,
+        marginTop: 10, fontSize: 13, lineHeight: 1.55, color: 'var(--ink-4)',
+        maxWidth: 460,
       }}>{body}</p>
       {footnote && <div style={{
-        marginTop: 14, fontSize: 12, color: 'var(--ink-5)',
+        marginTop: 12, fontSize: 11, color: 'var(--ink-5)',
         fontFamily: "'Geist Mono', monospace", letterSpacing: '-0.005em',
       }}>{footnote}</div>}
     </div>
-    {children && <div style={{ marginTop: 24, flex: 1, display: 'flex', alignItems: 'flex-end', padding: '0 32px 32px' }}>
+    {children && <div style={{ marginTop: 18, flex: 1, display: 'flex', alignItems: 'flex-end', padding: '0 24px 24px' }}>
       <div style={{ width: '100%' }}>{children}</div>
     </div>}
   </div>;
@@ -1105,42 +1105,42 @@ const DirectoryMini = () => {
     <div style={{
       background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
       border: '1px solid #ececef',
-      borderRadius: 14,
+      borderRadius: 12,
       overflow: 'hidden',
       fontFamily: "'Geist', sans-serif",
     }}>
       <div style={{
-        display: 'flex', alignItems: 'center', gap: 10,
-        padding: '14px 16px',
-        fontSize: 12, color: '#a1a1aa',
+        display: 'flex', alignItems: 'center', gap: 8,
+        padding: '11px 14px',
+        fontSize: 11.5, color: '#a1a1aa',
       }}>
         <I.search />
         <span style={{ flex: 1, color: '#71717a' }}>Search 1,208 customers</span>
         <span style={{
-          fontFamily: 'Geist Mono, monospace', fontSize: 10,
+          fontFamily: 'Geist Mono, monospace', fontSize: 9.5,
           color: '#a1a1aa',
-          padding: '2px 6px',
+          padding: '1px 5px',
           border: '1px solid #ececef',
           borderRadius: 4,
         }}>⌘K</span>
       </div>
       {rows.map(([initials, name, day], i) => (
         <div key={i} style={{
-          display: 'grid', gridTemplateColumns: '28px 1fr auto',
-          alignItems: 'center', gap: 12,
-          padding: '10px 16px',
-          fontSize: 13,
+          display: 'grid', gridTemplateColumns: '22px 1fr auto',
+          alignItems: 'center', gap: 10,
+          padding: '7px 14px',
+          fontSize: 12,
         }}>
           <div style={{
-            width: 28, height: 28, borderRadius: 7,
+            width: 22, height: 22, borderRadius: 6,
             background: 'color-mix(in oklab, var(--accent) 8%, #fff)',
             color: 'color-mix(in oklab, var(--accent) 75%, black)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 10.5, fontWeight: 600, letterSpacing: '0.02em',
+            fontSize: 9.5, fontWeight: 600, letterSpacing: '0.02em',
             fontFamily: "'Geist Mono', monospace",
           }}>{initials}</div>
           <span style={{ color: '#18181b', fontWeight: 500 }}>{name}</span>
-          <span style={{ color: '#a1a1aa', fontSize: 11.5, fontFamily: "'Geist Mono', monospace" }}>{day}</span>
+          <span style={{ color: '#a1a1aa', fontSize: 10.5, fontFamily: "'Geist Mono', monospace" }}>{day}</span>
         </div>
       ))}
     </div>
