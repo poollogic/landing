@@ -995,20 +995,29 @@ const FeatureCard = ({ span, title, body, icon, children }) =>
 <div className="feature-card" style={{
   gridColumn: `span ${span}`,
   border: '1px solid var(--line)',
-  borderRadius: 16,
-  padding: 24,
+  borderRadius: 18,
+  padding: 26,
   background: 'var(--bg)',
+  boxShadow: '0 1px 2px rgba(15, 23, 42, .03)',
   display: 'flex', flexDirection: 'column',
-  transition: 'all .2s'
+  transition: 'transform .2s ease, box-shadow .2s ease, border-color .2s ease',
+  position: 'relative',
+  overflow: 'hidden',
 }}
-onMouseEnter={(e) => {e.currentTarget.style.borderColor = 'var(--ink-6)';e.currentTarget.style.transform = 'translateY(-2px)';}}
-onMouseLeave={(e) => {e.currentTarget.style.borderColor = 'var(--line)';e.currentTarget.style.transform = 'none';}}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--accent)', marginBottom: 12 }}>
-      <span style={{ display: 'inline-flex', width: 32, height: 32, borderRadius: 8, background: 'color-mix(in oklab, var(--accent) 12%, transparent)', alignItems: 'center', justifyContent: 'center' }}>{icon}</span>
+onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 30%, var(--line))'; e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 14px 32px -18px rgba(15, 23, 42, .14)'; }}
+onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, .03)'; }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+      <span style={{
+        display: 'inline-flex', width: 36, height: 36, borderRadius: 10,
+        background: 'color-mix(in oklab, var(--accent) 10%, transparent)',
+        color: 'var(--accent)',
+        border: '1px solid color-mix(in oklab, var(--accent) 18%, transparent)',
+        alignItems: 'center', justifyContent: 'center',
+      }}>{icon}</span>
     </div>
-    <h3 style={{ fontSize: 19, fontWeight: 600, letterSpacing: '-0.02em' }}>{title}</h3>
+    <h3 style={{ fontSize: 19, fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--ink)' }}>{title}</h3>
     <p style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: 'var(--ink-4)' }}>{body}</p>
-    {children && <div style={{ marginTop: 20, flex: 1, display: 'flex', alignItems: 'flex-end' }}>
+    {children && <div style={{ marginTop: 22, flex: 1, display: 'flex', alignItems: 'flex-end' }}>
       <div style={{ width: '100%' }}>{children}</div>
     </div>}
   </div>;
@@ -1453,18 +1462,36 @@ const Pricing = () => {
           </div>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 36 }}>
-          <div style={{ display: 'inline-flex', padding: 4, background: 'var(--bg-muted)', borderRadius: 999, fontSize: 13 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
+          <div style={{
+            position: 'relative',
+            display: 'inline-flex', padding: 4,
+            background: 'var(--bg-muted)',
+            border: '1px solid var(--line-2)',
+            borderRadius: 999, fontSize: 13,
+          }}>
+            <span aria-hidden="true" style={{
+              position: 'absolute',
+              top: 4, bottom: 4,
+              left: annual ? 'calc(50% - 2px)' : 4,
+              right: annual ? 4 : 'calc(50% - 2px)',
+              background: 'var(--bg)',
+              borderRadius: 999,
+              boxShadow: '0 1px 3px rgba(15, 23, 42, .08), 0 1px 0 rgba(255,255,255,.6) inset',
+              transition: 'left .25s cubic-bezier(.2,.8,.2,1), right .25s cubic-bezier(.2,.8,.2,1)',
+            }} />
             {[['Monthly', false], ['Annual · save 20%', true]].map(([l, v]) =>
             <button key={l} onClick={() => setAnnual(v)} style={{
-              padding: '7px 16px',
-              background: annual === v ? 'var(--bg)' : 'transparent',
+              position: 'relative',
+              padding: '8px 18px',
+              background: 'transparent',
               color: annual === v ? 'var(--ink)' : 'var(--ink-5)',
               border: 'none',
               borderRadius: 999,
               fontWeight: 500,
-              boxShadow: annual === v ? '0 1px 2px rgba(0,0,0,.06)' : 'none',
-              transition: 'all .15s'
+              transition: 'color .15s',
+              cursor: 'pointer',
+              zIndex: 1,
             }}>{l}</button>
             )}
           </div>
@@ -1474,17 +1501,21 @@ const Pricing = () => {
           {tiers.map((t) => {
           const isEnterprise = t.ctaHref === null;
           return (
-            <div key={t.name} style={{
+            <div key={t.name}
+              onMouseEnter={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--ink-6)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 14px 32px -18px rgba(15, 23, 42, .14)'; } }}
+              onMouseLeave={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, .03)'; } }}
+              style={{
               border: t.popular ? '1.5px solid var(--accent)' : '1px solid var(--line)',
-              borderRadius: 16,
-              padding: 24,
-              background: 'var(--bg)',
+              borderRadius: 18,
+              padding: 26,
+              background: t.popular ? 'linear-gradient(180deg, color-mix(in oklab, var(--accent) 5%, var(--bg)) 0%, var(--bg) 55%)' : 'var(--bg)',
               position: 'relative',
-              boxShadow: t.popular ? '0 20px 40px -20px color-mix(in oklab, var(--accent) 35%, transparent)' : 'none',
+              boxShadow: t.popular ? '0 24px 48px -24px color-mix(in oklab, var(--accent) 42%, transparent), 0 1px 0 rgba(255,255,255,.6) inset' : '0 1px 2px rgba(15, 23, 42, .03)',
               opacity: isEnterprise ? 0.85 : 1,
-              display: 'flex', flexDirection: 'column'
+              display: 'flex', flexDirection: 'column',
+              transition: 'transform .2s ease, box-shadow .2s ease, border-color .2s ease'
             }}>
-              {t.popular && <div style={{ position: 'absolute', top: -11, left: 24, fontSize: 11, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', background: 'var(--accent)', color: 'white', padding: '3px 10px', borderRadius: 999 }}>Most popular</div>}
+              {t.popular && <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--accent)', color: 'white', padding: '5px 14px', borderRadius: 999, whiteSpace: 'nowrap', boxShadow: '0 4px 12px -4px color-mix(in oklab, var(--accent) 45%, transparent)' }}>Most popular</div>}
               <h3 style={{ fontSize: 18, fontWeight: 600 }}>{t.name}</h3>
               <p style={{ marginTop: 8, fontSize: 13, color: 'var(--ink-5)', lineHeight: 1.5, minHeight: 58 }}>{t.blurb}</p>
 
@@ -1505,14 +1536,24 @@ const Pricing = () => {
               </div>
 
               {isEnterprise ?
-              <div className="btn btn-outline btn-lg" style={{ width: '100%', justifyContent: 'center', cursor: 'default', color: 'var(--ink-5)' }}>{t.cta}</div> :
+              <div style={{ width: '100%', textAlign: 'center', padding: '11px 14px', borderRadius: 10, border: '1px dashed var(--line)', color: 'var(--ink-5)', fontSize: 14, fontWeight: 500, height: 46, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{t.cta}</div> :
               <a href={t.ctaHref} className={`btn ${t.popular ? 'btn-accent' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center', textDecoration: 'none' }}>{t.cta}</a>
               }
 
-              <div style={{ borderTop: '1px solid var(--line)', marginTop: 22, paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 11 }}>
+              <div style={{ borderTop: '1px solid var(--line)', marginTop: 22, paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {t.features.map((f) =>
-                <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--ink-3)' }}>
-                  <span style={{ color: 'var(--accent)', marginTop: 2, flexShrink: 0 }}><I.check /></span>{f}
+                <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--ink-3)', lineHeight: 1.5 }}>
+                  <span style={{
+                    display: 'inline-flex', flexShrink: 0,
+                    width: 18, height: 18, borderRadius: '50%',
+                    background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
+                    color: 'var(--accent)',
+                    alignItems: 'center', justifyContent: 'center',
+                    marginTop: 1,
+                  }}>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  {f}
                 </div>
                 )}
               </div>
@@ -1536,25 +1577,61 @@ const FAQ = () => {
 
   return (
     <section className="section-divider">
-      <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60 }}>
+      <div id="faq-grid" className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60 }}>
         <div>
           <span className="eyebrow"><span className="dot"></span>FAQ</span>
-          <h2 style={{ marginTop: 14 }}>Questions, before you start.</h2>
-          <p style={{ marginTop: 16 }}>Still wondering about something? <a href="#" style={{ color: 'var(--accent)', textDecoration: 'underline', textDecorationThickness: '1px', textUnderlineOffset: 3 }}>Talk to a real human</a> — usually answers within an hour during US business days.</p>
+          <h2 style={{ marginTop: 14, letterSpacing: '-0.025em' }}>Questions, before you start.</h2>
+          <p style={{ marginTop: 18, fontSize: 16, lineHeight: 1.6, color: 'var(--ink-4)', maxWidth: 360 }}>
+            Still wondering about something? We usually answer within an hour during US business hours.
+          </p>
+          <a href="mailto:support@poollogic.app" style={{
+            marginTop: 20,
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '10px 16px',
+            background: 'var(--bg)',
+            border: '1px solid var(--line)',
+            borderRadius: 999,
+            fontSize: 14, fontWeight: 500, color: 'var(--ink-2)',
+            textDecoration: 'none',
+            transition: 'border-color .15s ease, background .15s ease',
+          }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--ink-6)'; e.currentTarget.style.background = 'var(--bg-soft)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.background = 'var(--bg)'; }}>
+            Talk to a real human
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
         </div>
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {items.map((it, i) =>
-          <div key={i} style={{ borderTop: '1px solid var(--line)', borderBottom: i === items.length - 1 ? '1px solid var(--line)' : 'none' }}>
+          <div key={i} style={{
+            border: '1px solid var(--line)',
+            borderRadius: 12,
+            background: open === i ? 'var(--bg-soft)' : 'var(--bg)',
+            transition: 'background .2s ease, border-color .2s ease',
+            borderColor: open === i ? 'var(--ink-6)' : 'var(--line)',
+            overflow: 'hidden',
+          }}>
               <button onClick={() => setOpen(open === i ? -1 : i)} style={{
-              width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              background: 'transparent', border: 'none', padding: '20px 0',
-              fontSize: 17, fontWeight: 500, color: 'var(--ink)', textAlign: 'left'
+              width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16,
+              background: 'transparent', border: 'none', padding: '18px 22px',
+              fontSize: 16, fontWeight: 500, color: 'var(--ink)', textAlign: 'left',
+              cursor: 'pointer',
             }}>
-                {it.q}
-                <span style={{ color: 'var(--ink-5)', transform: open === i ? 'rotate(45deg)' : 'rotate(0)', transition: 'transform .2s' }}><I.plus /></span>
+                <span>{it.q}</span>
+                <span style={{
+                  display: 'inline-flex', flexShrink: 0,
+                  width: 24, height: 24, borderRadius: 6,
+                  background: open === i ? 'var(--accent)' : 'var(--bg-muted)',
+                  color: open === i ? '#fff' : 'var(--ink-4)',
+                  alignItems: 'center', justifyContent: 'center',
+                  transform: open === i ? 'rotate(45deg)' : 'rotate(0)',
+                  transition: 'transform .2s ease, background .2s ease, color .2s ease',
+                }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </span>
               </button>
-              <div style={{ maxHeight: open === i ? 200 : 0, overflow: 'hidden', transition: 'max-height .3s ease' }}>
-                <p style={{ paddingBottom: 20, fontSize: 15, lineHeight: 1.6, maxWidth: 580 }}>{it.a}</p>
+              <div style={{ maxHeight: open === i ? 400 : 0, overflow: 'hidden', transition: 'max-height .3s ease' }}>
+                <p style={{ padding: '0 22px 22px', fontSize: 14.5, lineHeight: 1.65, color: 'var(--ink-3)', margin: 0 }}>{it.a}</p>
               </div>
             </div>
           )}
@@ -2313,7 +2390,7 @@ const ImportModalMock = () => {
 const FinalCTA = () =>
 <section style={{ paddingTop: 60, paddingBottom: 96 }}>
     <div className="container">
-      <div style={{
+      <div className="final-cta-card" style={{
       position: 'relative',
       borderRadius: 24,
       padding: '80px 64px',
@@ -2344,8 +2421,8 @@ const FinalCTA = () =>
         </svg>
 
         <div style={{ position: 'relative', maxWidth: 680 }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 12px', border: '1px solid rgba(255,255,255,.18)', borderRadius: 999, fontSize: 12, color: 'rgba(255,255,255,.85)', background: 'rgba(255,255,255,.04)' }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--brand-green)' }}></span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '6px 14px', border: '1px solid rgba(255,255,255,.16)', borderRadius: 999, fontSize: 12.5, fontWeight: 500, letterSpacing: '0.01em', color: 'rgba(255,255,255,.9)', background: 'rgba(255,255,255,.06)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
+            <span style={{ display: 'inline-flex', width: 7, height: 7, borderRadius: '50%', background: 'var(--brand-green)', boxShadow: '0 0 0 4px color-mix(in oklab, var(--brand-green) 22%, transparent)' }}></span>
             14-day free trial · No credit card required
           </span>
           <h2 style={{ color: 'white', fontSize: 'clamp(36px, 4.4vw, 56px)', marginTop: 20, letterSpacing: '-0.03em', lineHeight: 1.05 }}>Stop running your business<br />between the route and the desk.</h2>

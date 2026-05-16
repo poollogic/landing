@@ -207,7 +207,7 @@
   }
 
   /* Pricing — 4-col desktop, 2-col tablet, single-col mobile */
-  @media (max-width: 1024px) {
+  @media (max-width: 1100px) {
     .pricing-grid {
       grid-template-columns: repeat(2, 1fr) !important;
       gap: 16px !important;
@@ -216,6 +216,29 @@
   @media (max-width: 640px) {
     .pricing-grid {
       grid-template-columns: 1fr !important;
+    }
+  }
+
+  /* FAQ — stack the 2-col layout (left intro + right accordion) on tablet down */
+  @media (max-width: 900px) {
+    #faq-grid {
+      grid-template-columns: 1fr !important;
+      gap: 32px !important;
+    }
+  }
+
+  /* FinalCTA — shrink the giant card padding on small viewports so the
+     dark card doesn't bleed wider than the container's safe zone. */
+  @media (max-width: 720px) {
+    .final-cta-card {
+      padding: 40px 24px !important;
+      border-radius: 18px !important;
+    }
+    .final-cta-card h2 {
+      font-size: clamp(28px, 8vw, 36px) !important;
+    }
+    .final-cta-card p {
+      font-size: 16px !important;
     }
   }
 
