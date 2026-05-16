@@ -1086,75 +1086,36 @@ onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.curr
   </div>;
 
 
-// "Built differently" — on a deep dark canvas, like apple.com/pro pages.
-// Tech App card is the visual hero; satellites support and breathe.
-const DARK = {
-  bg: '#08090c',
-  card: '#11131a',
-  cardHi: '#161924',
-  border: 'rgba(255,255,255,0.08)',
-  borderHi: 'rgba(255,255,255,0.14)',
-  ink: '#f4f5f7',
-  ink2: '#e2e4ea',
-  ink3: '#b6bac4',
-  ink4: '#8a8f9d',
-  ink5: '#5e6271',
-  tint: 'rgba(255,255,255,0.04)',
-  tint2: 'rgba(255,255,255,0.06)',
-};
-
+// "Built differently" — light surface, asymmetric bento, Tech App as hero.
 const BuiltDifferently = () => {
   return (
     <section style={{
       position: 'relative',
       overflow: 'hidden',
-      background: DARK.bg,
-      paddingBlock: 'clamp(96px, 12vw, 160px)',
-      // soft top/bottom fade lets the section sit cleanly against white above/below
-      borderTop: '1px solid rgba(255,255,255,.04)',
+      background: 'var(--bg)',
+      paddingBlock: 'clamp(80px, 10vw, 140px)',
     }}>
-      {/* atmospheric glow */}
       <div aria-hidden="true" style={{
         position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-        background: 'radial-gradient(1100px 540px at 50% -10%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 60%)',
-        opacity: 0.55,
-      }} />
-      <div aria-hidden="true" style={{
-        position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-        background: 'radial-gradient(800px 400px at 90% 90%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 70%)',
-        opacity: 0.35,
+        background: 'radial-gradient(1100px 520px at 50% -10%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 65%)',
       }} />
 
       <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-        {/* chapter marker — small "Vol. 02" beat between sections */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
-          marginBottom: 36,
-        }}>
-          <span aria-hidden="true" style={{ width: 28, height: 1, background: DARK.border }} />
-          <span style={{
-            fontFamily: "'Geist Mono', monospace",
-            fontSize: 10.5, letterSpacing: '0.24em',
-            textTransform: 'uppercase', color: DARK.ink4, fontWeight: 500,
-          }}>Vol. 02 — what no one else built</span>
-          <span aria-hidden="true" style={{ width: 28, height: 1, background: DARK.border }} />
-        </div>
-
-        <div style={{ maxWidth: 820, margin: '0 auto 80px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 820, margin: '0 auto 64px', textAlign: 'center' }}>
           <h2 style={{
-            fontSize: 'clamp(36px, 4.4vw, 60px)',
+            fontSize: 'clamp(32px, 3.8vw, 52px)',
             letterSpacing: '-0.035em',
-            lineHeight: 1.02,
-            color: DARK.ink,
+            lineHeight: 1.05,
+            color: 'var(--ink)',
             textWrap: 'balance',
           }}>
             Six things we built<br />because they should exist.
           </h2>
           <p style={{
-            marginTop: 22,
-            fontSize: 17,
+            marginTop: 20,
+            fontSize: 16.5,
             lineHeight: 1.55,
-            color: DARK.ink3,
+            color: 'var(--ink-4)',
             maxWidth: 580,
             marginInline: 'auto',
             textWrap: 'balance',
@@ -1163,9 +1124,7 @@ const BuiltDifferently = () => {
           </p>
         </div>
 
-        {/* Bento — true asymmetric rhythm.
-            Row 1: Tech app HERO (7 cols, 2 rows tall) · Fleet map (5 cols, 1 row) / Auto-billing (5 cols, 1 row)
-            Row 2: Routing (4) · Permissions (3) · Fleet tracker (5) */}
+        {/* Asymmetric bento — Tech app HERO 7×2, satellites fill the rest */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(12, 1fr)',
@@ -1184,26 +1143,26 @@ const BuiltDifferently = () => {
   );
 };
 
-// — shared card chrome (dark) —
-
-const darkCardBase = (hero = false) => ({
-  background: hero
-    ? `linear-gradient(180deg, ${DARK.cardHi} 0%, ${DARK.card} 60%)`
-    : DARK.card,
-  border: `1px solid ${hero ? DARK.borderHi : DARK.border}`,
-  borderRadius: 20,
+// — shared card chrome (light) — matches the Features bento family
+const lightCardBase = (hero = false) => ({
+  background: 'var(--bg)',
+  border: '1px solid var(--line)',
+  borderRadius: hero ? 20 : 16,
   padding: hero ? 32 : 24,
   position: 'relative',
   overflow: 'hidden',
   display: 'flex', flexDirection: 'column',
-  transition: 'border-color .3s ease, transform .3s ease',
+  boxShadow: hero
+    ? '0 1px 0 rgba(15, 23, 42, .02), 0 18px 40px -28px rgba(15, 23, 42, .14)'
+    : '0 1px 0 rgba(15, 23, 42, .02), 0 10px 26px -22px rgba(15, 23, 42, .10)',
+  transition: 'border-color .25s ease, transform .25s ease, box-shadow .25s ease',
 });
 
-// Subtle top edge highlight — the move from apple.com/macbook-pro / Linear feature pages
+// Subtle top edge highlight on light surface
 const TopHighlight = () => (
   <div aria-hidden="true" style={{
     position: 'absolute', inset: '0 0 auto 0', height: 1,
-    background: `linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent)`,
+    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent)',
     pointerEvents: 'none',
   }} />
 );
@@ -1212,10 +1171,10 @@ const Eyebrow = ({ children, hero = false }) => (
   <div style={{
     fontFamily: "'Geist Mono', monospace",
     fontSize: hero ? 11 : 10,
-    letterSpacing: '0.18em',
+    letterSpacing: '0.16em',
     textTransform: 'uppercase',
-    color: 'color-mix(in oklab, var(--accent) 80%, white)',
-    fontWeight: 500,
+    color: 'var(--accent)',
+    fontWeight: 600,
     marginBottom: hero ? 16 : 14,
   }}>{children}</div>
 );
@@ -1225,7 +1184,7 @@ const HeroTitle = ({ children }) => (
     fontSize: 'clamp(24px, 2.4vw, 30px)',
     fontWeight: 600,
     letterSpacing: '-0.025em',
-    color: DARK.ink,
+    color: 'var(--ink)',
     lineHeight: 1.1,
     textWrap: 'balance',
   }}>{children}</h3>
@@ -1236,7 +1195,7 @@ const SatTitle = ({ children }) => (
     fontSize: 19,
     fontWeight: 600,
     letterSpacing: '-0.02em',
-    color: DARK.ink,
+    color: 'var(--ink)',
     lineHeight: 1.2,
     textWrap: 'balance',
   }}>{children}</h3>
@@ -1247,14 +1206,14 @@ const Body = ({ children, hero = false, max = 480 }) => (
     marginTop: hero ? 14 : 10,
     fontSize: hero ? 15.5 : 13.5,
     lineHeight: 1.6,
-    color: DARK.ink3,
+    color: 'var(--ink-4)',
     maxWidth: max,
   }}>{children}</p>
 );
 
 // ── 01 · Tech app (HERO) ──
 const TechAppCard = () => (
-  <div style={{ ...darkCardBase(true), gridColumn: 'span 7', gridRow: 'span 2' }}>
+  <div style={{ ...lightCardBase(true), gridColumn: 'span 7', gridRow: 'span 2' }}>
     <TopHighlight />
     <Eyebrow hero>01 · The tech app</Eyebrow>
     <HeroTitle>The truck app, built like real software.</HeroTitle>
@@ -1272,31 +1231,31 @@ const TechAppCard = () => (
         ['Pressure alerts', 'Ping the tech at +8 PSI over baseline.'],
       ].map(([k, v]) => (
         <div key={k} style={{
-          background: DARK.tint,
-          border: `1px solid ${DARK.border}`,
+          background: 'var(--bg-soft)',
+          border: '1px solid var(--line-2)',
           borderRadius: 12,
           padding: '13px 14px',
         }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: DARK.ink2, letterSpacing: '-0.005em' }}>{k}</div>
-          <div style={{ fontSize: 12, color: DARK.ink4, marginTop: 4, lineHeight: 1.5 }}>{v}</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)', letterSpacing: '-0.005em' }}>{k}</div>
+          <div style={{ fontSize: 12, color: 'var(--ink-5)', marginTop: 4, lineHeight: 1.5 }}>{v}</div>
         </div>
       ))}
     </div>
 
     <div style={{ marginTop: 24 }}>
-      <a href="/tech-app" className="diff-cta" style={{
+      <a href="/tech-app" style={{
         display: 'inline-flex', alignItems: 'center', gap: 8,
         fontSize: 13.5, fontWeight: 500,
-        color: DARK.ink,
-        background: 'rgba(255,255,255,.06)',
-        border: `1px solid ${DARK.borderHi}`,
+        color: 'var(--ink)',
+        background: 'var(--bg-soft)',
+        border: '1px solid var(--line)',
         borderRadius: 999,
         padding: '9px 14px 9px 16px',
         textDecoration: 'none',
         transition: 'background .2s, border-color .2s',
       }}>
         See the tech app
-        <span aria-hidden="true" style={{ fontSize: 14, color: 'color-mix(in oklab, var(--accent) 80%, white)' }}>→</span>
+        <span aria-hidden="true" style={{ fontSize: 14, color: 'var(--accent)' }}>→</span>
       </a>
     </div>
   </div>
@@ -1305,36 +1264,34 @@ const TechAppCard = () => (
 // ── 02 · Fleet map ──
 const FleetMapCard = () => {
   const techs = [
-    { color: '#60a5fa', label: 'Jamal', pins: [[64, 28], [76, 22], [82, 38], [72, 44], [88, 30]] },
-    { color: '#34d399', label: 'Marisol', pins: [[22, 42], [30, 50], [18, 56], [34, 40]] },
-    { color: '#a78bfa', label: 'Theo', pins: [[26, 66], [36, 72], [42, 64]] },
-    { color: '#f472b6', label: 'Devon', pins: [[48, 78], [58, 80], [52, 86]] },
+    { color: 'var(--accent)', label: 'Jamal', pins: [[64, 28], [76, 22], [82, 38], [72, 44], [88, 30]] },
+    { color: 'var(--brand-green)', label: 'Marisol', pins: [[22, 42], [30, 50], [18, 56], [34, 40]] },
+    { color: 'var(--brand-violet)', label: 'Theo', pins: [[26, 66], [36, 72], [42, 64]] },
+    { color: 'var(--brand-pink)', label: 'Devon', pins: [[48, 78], [58, 80], [52, 86]] },
   ];
   return (
-    <div style={{ ...darkCardBase(), gridColumn: 'span 5' }}>
+    <div style={{ ...lightCardBase(), gridColumn: 'span 5' }}>
       <TopHighlight />
       <Eyebrow>02 · Fleet map</Eyebrow>
       <SatTitle>Every stop, every tech, one map.</SatTitle>
       <Body>Color-code by technician, or pick a tech and color-code by day. The kind of optimization that comes from seeing the full picture at once.</Body>
 
-      <div style={{
-        marginTop: 'auto', paddingTop: 18,
-      }}>
+      <div style={{ marginTop: 'auto', paddingTop: 18 }}>
         <div style={{
-          background: '#05070a',
-          border: `1px solid ${DARK.border}`,
+          background: 'var(--bg-soft)',
+          border: '1px solid var(--line-2)',
           borderRadius: 12,
           padding: 14,
           position: 'relative',
           overflow: 'hidden',
         }}>
           <div style={{ position: 'relative', aspectRatio: '5 / 3' }}>
-            <svg viewBox="0 0 100 60" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.16 }}>
+            <svg viewBox="0 0 100 60" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.5 }}>
               {Array.from({ length: 11 }).map((_, i) => (
-                <line key={`v${i}`} x1={i * 10} y1="0" x2={i * 10} y2="60" stroke="#cbd5e1" strokeWidth="0.15" />
+                <line key={`v${i}`} x1={i * 10} y1="0" x2={i * 10} y2="60" stroke="#e4e4e7" strokeWidth="0.2" />
               ))}
               {Array.from({ length: 7 }).map((_, i) => (
-                <line key={`h${i}`} x1="0" y1={i * 10} x2="100" y2={i * 10} stroke="#cbd5e1" strokeWidth="0.15" />
+                <line key={`h${i}`} x1="0" y1={i * 10} x2="100" y2={i * 10} stroke="#e4e4e7" strokeWidth="0.2" />
               ))}
             </svg>
             {techs.flatMap((t, ti) => t.pins.map(([x, y], pi) => (
@@ -1344,9 +1301,9 @@ const FleetMapCard = () => {
                 transform: 'translate(-50%, -50%)',
                 width: 13, height: 13, borderRadius: '50%',
                 background: t.color,
-                border: '1.25px solid rgba(255,255,255,.9)',
-                boxShadow: `0 0 12px ${t.color}66`,
-                fontSize: 7.5, fontWeight: 700, color: '#0b1020',
+                border: '1.5px solid #fff',
+                boxShadow: `0 0 0 3px color-mix(in oklab, ${t.color} 18%, transparent)`,
+                fontSize: 7.5, fontWeight: 700, color: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontFamily: "'Geist Mono', monospace",
               }}>{pi + 1}</div>
@@ -1357,10 +1314,10 @@ const FleetMapCard = () => {
               <div key={t.label} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 5,
                 padding: '3px 9px',
-                background: 'rgba(255,255,255,.04)',
-                border: '1px solid rgba(255,255,255,.06)',
+                background: 'var(--bg)',
+                border: '1px solid var(--line)',
                 borderRadius: 999,
-                fontSize: 10.5, color: DARK.ink3, fontWeight: 500,
+                fontSize: 10.5, color: 'var(--ink-3)', fontWeight: 500,
               }}>
                 <span style={{ width: 6, height: 6, borderRadius: '50%', background: t.color }} />
                 {t.label}
@@ -1375,24 +1332,22 @@ const FleetMapCard = () => {
 
 // ── 03 · Auto-billing ──
 const AutoBillingCard = () => (
-  <div style={{ ...darkCardBase(), gridColumn: 'span 5' }}>
+  <div style={{ ...lightCardBase(), gridColumn: 'span 5' }}>
     <TopHighlight />
     <Eyebrow>03 · Auto-billing</Eyebrow>
     <SatTitle>Bills on the day they signed up. Forever.</SatTitle>
     <Body>Sign a customer on the 21st, invoiced on the 21st — monthly, quarterly, or yearly. No proration, no calendar-month weirdness, no buttons to push.</Body>
 
-    <div style={{
-      marginTop: 'auto', paddingTop: 18,
-    }}>
+    <div style={{ marginTop: 'auto', paddingTop: 18 }}>
       <div style={{
-        background: DARK.tint,
-        border: `1px solid ${DARK.border}`,
+        background: 'var(--bg-soft)',
+        border: '1px solid var(--line-2)',
         borderRadius: 12,
         padding: '14px 16px',
       }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 10 }}>
-          <span style={{ fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: DARK.ink4, textTransform: 'uppercase', letterSpacing: '0.12em' }}>Anniversary</span>
-          <span style={{ fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: DARK.ink4 }}>The 21st · monthly</span>
+          <span style={{ fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Anniversary</span>
+          <span style={{ fontSize: 10.5, fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)' }}>The 21st · monthly</span>
         </div>
         {[
           ['Apr 21', 'Marisol Vega', '$165'],
@@ -1403,9 +1358,9 @@ const AutoBillingCard = () => (
             display: 'grid', gridTemplateColumns: '56px 1fr auto', alignItems: 'center', gap: 12,
             padding: '7px 0', fontSize: 12.5,
           }}>
-            <span style={{ fontFamily: "'Geist Mono', monospace", color: DARK.ink4, fontVariantNumeric: 'tabular-nums' }}>{d}</span>
-            <span style={{ color: DARK.ink2, fontWeight: 500 }}>{n}</span>
-            <span style={{ color: DARK.ink, fontWeight: 600, fontVariantNumeric: 'tabular-nums', fontFamily: "'Geist Mono', monospace" }}>{a}</span>
+            <span style={{ fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)', fontVariantNumeric: 'tabular-nums' }}>{d}</span>
+            <span style={{ color: 'var(--ink-2)', fontWeight: 500 }}>{n}</span>
+            <span style={{ color: 'var(--ink)', fontWeight: 600, fontVariantNumeric: 'tabular-nums', fontFamily: "'Geist Mono', monospace" }}>{a}</span>
           </div>
         ))}
       </div>
@@ -1415,7 +1370,7 @@ const AutoBillingCard = () => (
 
 // ── 04 · Routing safety net ──
 const RoutingCard = () => (
-  <div style={{ ...darkCardBase(), gridColumn: 'span 4' }}>
+  <div style={{ ...lightCardBase(), gridColumn: 'span 4' }}>
     <TopHighlight />
     <Eyebrow>04 · Routing</Eyebrow>
     <SatTitle>A safety net so you never miss a customer.</SatTitle>
@@ -1423,22 +1378,22 @@ const RoutingCard = () => (
 
     <div style={{ marginTop: 'auto', paddingTop: 18 }}>
       <div style={{
-        background: 'color-mix(in oklab, var(--accent) 14%, transparent)',
-        border: '1px solid color-mix(in oklab, var(--accent) 36%, transparent)',
+        background: 'color-mix(in oklab, var(--accent) 6%, var(--bg))',
+        border: '1px solid color-mix(in oklab, var(--accent) 22%, transparent)',
         borderRadius: 12,
         padding: '12px 14px',
         display: 'flex', alignItems: 'center', gap: 10,
       }}>
         <span style={{
-          flexShrink: 0, width: 8, height: 8, borderRadius: '50%',
-          background: 'color-mix(in oklab, var(--accent) 80%, white)',
-          boxShadow: '0 0 12px color-mix(in oklab, var(--accent) 80%, transparent)',
+          flexShrink: 0, width: 7, height: 7, borderRadius: '50%',
+          background: 'var(--accent)',
+          boxShadow: '0 0 0 4px color-mix(in oklab, var(--accent) 18%, transparent)',
         }} />
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: DARK.ink }}>3 customers unrouted</div>
-          <div style={{ fontSize: 11, color: DARK.ink4, marginTop: 1 }}>Tap to assign · Customers page</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink)' }}>3 customers unrouted</div>
+          <div style={{ fontSize: 11, color: 'var(--ink-5)', marginTop: 1 }}>Tap to assign · Customers page</div>
         </div>
-        <span style={{ fontSize: 10.5, color: 'color-mix(in oklab, var(--accent) 80%, white)', fontWeight: 600, fontFamily: "'Geist Mono', monospace" }}>WARN</span>
+        <span style={{ fontSize: 10.5, color: 'var(--accent)', fontWeight: 600, fontFamily: "'Geist Mono', monospace" }}>WARN</span>
       </div>
     </div>
   </div>
@@ -1446,7 +1401,7 @@ const RoutingCard = () => (
 
 // ── 05 · Permissions ──
 const PermissionsCard = () => (
-  <div style={{ ...darkCardBase(), gridColumn: 'span 3' }}>
+  <div style={{ ...lightCardBase(), gridColumn: 'span 3' }}>
     <TopHighlight />
     <Eyebrow>05 · Permissions</Eyebrow>
     <SatTitle>Hide what they shouldn't see.</SatTitle>
@@ -1462,15 +1417,15 @@ const PermissionsCard = () => (
         <div key={i} style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '8px 12px',
-          background: DARK.tint,
-          border: `1px solid ${DARK.border}`,
+          background: 'var(--bg-soft)',
+          border: '1px solid var(--line-2)',
           borderRadius: 10,
-          fontSize: 12, color: DARK.ink2,
+          fontSize: 12, color: 'var(--ink-2)',
         }}>
           <span>{label}</span>
           <span style={{
             width: 24, height: 14, borderRadius: 999,
-            background: on ? 'var(--accent)' : 'rgba(255,255,255,.1)',
+            background: on ? 'var(--accent)' : 'var(--line)',
             position: 'relative',
             transition: 'background .2s',
           }}>
@@ -1478,7 +1433,7 @@ const PermissionsCard = () => (
               position: 'absolute', top: 1.5, left: on ? 11 : 1.5,
               width: 11, height: 11, borderRadius: '50%',
               background: '#fff',
-              boxShadow: '0 1px 3px rgba(0,0,0,.4)',
+              boxShadow: '0 1px 2px rgba(0,0,0,.18)',
               transition: 'left .2s',
             }} />
           </span>
@@ -1490,7 +1445,7 @@ const PermissionsCard = () => (
 
 // ── 06 · Fleet tracker ──
 const FleetTrackerCard = () => (
-  <div style={{ ...darkCardBase(), gridColumn: 'span 5' }}>
+  <div style={{ ...lightCardBase(), gridColumn: 'span 5' }}>
     <TopHighlight />
     <Eyebrow>06 · Fleet tracker</Eyebrow>
     <SatTitle>Your trucks, documented in the same app.</SatTitle>
@@ -1498,24 +1453,25 @@ const FleetTrackerCard = () => (
 
     <div style={{ marginTop: 'auto', paddingTop: 18, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
       <div style={{
-        background: DARK.tint,
-        border: `1px solid ${DARK.border}`,
+        background: 'var(--bg-soft)',
+        border: '1px solid var(--line-2)',
         borderRadius: 12,
         padding: 12,
       }}>
         <div style={{
           aspectRatio: '4 / 3',
           borderRadius: 8,
-          background: 'linear-gradient(135deg, #1e2330 0%, #0a0d12 100%)',
+          background: 'linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%)',
           position: 'relative',
           overflow: 'hidden',
           marginBottom: 10,
         }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,.12), transparent 55%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,.4), transparent 60%)' }} />
           <div style={{
             position: 'absolute', bottom: 7, left: 9,
             fontSize: 9.5, fontFamily: "'Geist Mono', monospace",
-            color: 'rgba(255,255,255,.6)',
+            color: 'rgba(255,255,255,.95)',
+            fontWeight: 500,
           }}>TRK-04 · Ford Transit</div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
@@ -1525,19 +1481,19 @@ const FleetTrackerCard = () => (
             ['Service', 'Jun 9'],
           ].map(([k, v]) => (
             <div key={k}>
-              <div style={{ fontSize: 9, fontFamily: "'Geist Mono', monospace", color: DARK.ink5, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{k}</div>
-              <div style={{ fontSize: 11, fontWeight: 600, color: DARK.ink2, marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{v}</div>
+              <div style={{ fontSize: 9, fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>{k}</div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-2)', marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{v}</div>
             </div>
           ))}
         </div>
       </div>
       <div style={{
-        background: DARK.tint,
-        border: `1px solid ${DARK.border}`,
+        background: 'var(--bg-soft)',
+        border: '1px solid var(--line-2)',
         borderRadius: 12,
         padding: 12,
       }}>
-        <div style={{ fontSize: 10, fontFamily: "'Geist Mono', monospace", color: DARK.ink4, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 8 }}>Recent</div>
+        <div style={{ fontSize: 10, fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 8 }}>Recent</div>
         {[
           ['Apr 18', 'Tire rotation'],
           ['Apr 14', 'Oil change'],
@@ -1547,8 +1503,8 @@ const FleetTrackerCard = () => (
             display: 'grid', gridTemplateColumns: '48px 1fr', gap: 8,
             padding: '5px 0', fontSize: 11.5,
           }}>
-            <span style={{ fontFamily: "'Geist Mono', monospace", color: DARK.ink5 }}>{d}</span>
-            <span style={{ color: DARK.ink3 }}>{m}</span>
+            <span style={{ fontFamily: "'Geist Mono', monospace", color: 'var(--ink-5)' }}>{d}</span>
+            <span style={{ color: 'var(--ink-3)' }}>{m}</span>
           </div>
         ))}
       </div>
