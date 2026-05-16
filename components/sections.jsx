@@ -21,7 +21,9 @@ const Nav = ({ accent }) => {
       transition: 'all .2s ease'
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64, position: 'relative' }}>
-        <Logo size={38} gap={6} fontSize={scrolled ? 18 : 21} hideIcon={scrolled} />
+        <a href="/" aria-label="PoolLogic — home" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+          <Logo size={38} gap={6} fontSize={scrolled ? 18 : 21} hideIcon={scrolled} />
+        </a>
         <div className="nav-links" style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 14, position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
           {['Product', 'Solutions', 'Pricing', 'Customers', 'Resources'].map((l) =>
           <a key={l} href="#" style={{ padding: '8px 14px', color: 'var(--ink-3)', borderRadius: 7 }}
@@ -2246,12 +2248,48 @@ const FinalCTA = () =>
   </section>;
 
 
+const FooterLink = ({ label, href, soon }) => {
+  const baseStyle = {
+    fontSize: 13, lineHeight: 1.4,
+    transition: 'color .15s ease',
+    width: 'fit-content',
+  };
+  if (soon || href === '#') {
+    return (
+      <span style={{ ...baseStyle, color: 'var(--ink-6)', cursor: 'default', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+        {label}
+        <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-6)', background: 'var(--bg-muted)', padding: '2px 6px', borderRadius: 4 }}>Soon</span>
+      </span>
+    );
+  }
+  return (
+    <a href={href} style={{ ...baseStyle, color: 'var(--ink-5)', textDecoration: 'none' }}
+      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--ink-3)'}
+      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink-5)'}>{label}</a>
+  );
+};
+
 const Footer = () =>
-<footer style={{ borderTop: '1px solid var(--line)', padding: '48px 0 36px' }}>
+<footer style={{ borderTop: '1px solid var(--line)', padding: '56px 0 32px', background: 'var(--bg-soft)' }}>
     <div className="container footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr 1fr', gap: 32 }}>
       <div>
-        <Logo size={32} />
+        <a href="/" aria-label="PoolLogic — home" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+          <Logo size={32} />
+        </a>
         <p style={{ fontSize: 13, marginTop: 16, maxWidth: 280, lineHeight: 1.55, color: 'var(--ink-5)' }}>The operating system for pool service. Built in St. Petersburg, FL.</p>
+        <div style={{
+          marginTop: 18, display: 'inline-flex', alignItems: 'center', gap: 8,
+          padding: '6px 10px 6px 8px',
+          background: 'var(--bg)', border: '1px solid var(--line)', borderRadius: 999,
+          fontSize: 12, color: 'var(--ink-4)', fontWeight: 500,
+        }}>
+          <span style={{
+            display: 'inline-flex', width: 8, height: 8, borderRadius: '50%',
+            background: 'var(--brand-green)',
+            boxShadow: '0 0 0 3px color-mix(in oklab, var(--brand-green) 22%, transparent)',
+          }}/>
+          All systems operational
+        </div>
       </div>
       {[
     ['Product', [['Features', '#'], ['Pricing', '#'], ['Mobile app', '#'], ['Integrations', '#'], ['Changelog', '#']]],
@@ -2260,18 +2298,16 @@ const Footer = () =>
     ['Legal', [['Terms', '/terms'], ['Privacy', '/privacy']]]].
     map(([title, links]) =>
     <div key={title}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)', marginBottom: 14 }}>{title}</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>{title}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {links.map(([label, href]) =>
-        <a key={label} href={href} style={{ fontSize: 13, color: 'var(--ink-5)', transition: 'color .15s ease' }}
-          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--ink-3)'}
-          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink-5)'}>{label}</a>
+        <FooterLink key={label} label={label} href={href} />
         )}
           </div>
         </div>
     )}
     </div>
-    <div className="container footer-bottom" style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: 'var(--ink-5)', gap: 16, flexWrap: 'wrap' }}>
+    <div className="container footer-bottom" style={{ marginTop: 48, paddingTop: 24, borderTop: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: 'var(--ink-5)', gap: 16, flexWrap: 'wrap' }}>
       <span>© {new Date().getFullYear()} PoolLogic. All rights reserved.</span>
       <span>Made for pool pros, by pool pros.</span>
     </div>
