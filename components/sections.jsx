@@ -2248,29 +2248,20 @@ const FinalCTA = () =>
   </section>;
 
 
-const FooterLink = ({ label, href, soon }) => {
-  const baseStyle = {
+const FooterLink = ({ label, href }) => (
+  <a href={href} style={{
     fontSize: 13, lineHeight: 1.4,
+    color: 'var(--ink-5)',
+    textDecoration: 'none',
     transition: 'color .15s ease',
     width: 'fit-content',
-  };
-  if (soon || href === '#') {
-    return (
-      <span style={{ ...baseStyle, color: 'var(--ink-6)', cursor: 'default', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-        {label}
-        <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-6)', background: 'var(--bg-muted)', padding: '2px 6px', borderRadius: 4 }}>Soon</span>
-      </span>
-    );
-  }
-  return (
-    <a href={href} style={{ ...baseStyle, color: 'var(--ink-5)', textDecoration: 'none' }}
-      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--ink-3)'}
-      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink-5)'}>{label}</a>
-  );
-};
+  }}
+    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--ink-2)'}
+    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink-5)'}>{label}</a>
+);
 
 const Footer = () =>
-<footer style={{ borderTop: '1px solid var(--line)', padding: '56px 0 32px', background: 'var(--bg-soft)' }}>
+<footer style={{ borderTop: '1px solid var(--line)', padding: '56px 0 32px' }}>
     <div className="container footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr 1fr', gap: 32 }}>
       <div>
         <a href="/" aria-label="PoolLogic — home" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
