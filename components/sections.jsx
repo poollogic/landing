@@ -961,89 +961,80 @@ const ProductShowcase = ({ compact = false }) => {
 const Features = () => {
   return (
     <section className="section-divider" style={{ position: 'relative', overflow: 'hidden' }}>
-      {/* Soft radial wash anchors the section visually */}
       <div aria-hidden="true" style={{
-        position: 'absolute', inset: '0 0 auto 0', height: 320, zIndex: -1, pointerEvents: 'none',
-        background: 'radial-gradient(720px 280px at 50% 0%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 65%)',
+        position: 'absolute', inset: '0 0 auto 0', height: 420, zIndex: -1, pointerEvents: 'none',
+        background: 'radial-gradient(900px 320px at 50% 0%, color-mix(in oklab, var(--accent) 4%, transparent), transparent 70%)',
       }} />
       <div className="container">
-        <div style={{ textAlign: 'center', maxWidth: 680, margin: '0 auto 40px' }}>
-          <span className="eyebrow"><span className="dot"></span>Everything in one place</span>
+        <div style={{ maxWidth: 760, margin: '0 auto 64px', textAlign: 'center' }}>
+          <span className="eyebrow"><span className="dot"></span>The platform</span>
           <h2 style={{
-            marginTop: 12,
-            fontSize: 'clamp(24px, 3vw, 34px)',
-            letterSpacing: '-0.025em',
-            lineHeight: 1.1,
+            marginTop: 14,
+            fontSize: 'clamp(30px, 3.4vw, 44px)',
+            letterSpacing: '-0.03em',
+            lineHeight: 1.05,
             color: 'var(--ink)',
             textWrap: 'balance',
           }}>
-            The operating system for pool service.
+            One system for every part of the route.
           </h2>
           <p style={{
-            marginTop: 14,
-            fontSize: 15.5,
+            marginTop: 18,
+            fontSize: 17,
             lineHeight: 1.55,
             color: 'var(--ink-4)',
-            maxWidth: 540,
-            marginLeft: 'auto',
-            marginRight: 'auto',
+            maxWidth: 620,
+            marginInline: 'auto',
+            textWrap: 'balance',
           }}>
-            From the customer directory to the truck, every part of your day flows through PoolLogic. No spreadsheets. No paper tickets. No double-entry.
+            PoolLogic replaces the patchwork of spreadsheets, paper tickets, and three different apps your techs swipe between every stop. Quote, route, service, report, bill — one record, one source of truth, from the first call to the autopay receipt.
           </p>
-
-          {/* Small pill row previews the bento — brand-tinted glyphs */}
-          <div style={{
-            marginTop: 22,
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            padding: '5px 7px',
-            background: 'var(--bg)',
-            border: '1px solid var(--line)',
-            borderRadius: 999,
-            boxShadow: '0 1px 2px rgba(15, 23, 42, .04)',
-          }}>
-            {[
-              ['Routes', 'var(--brand-blue)', <I.map />],
-              ['Reports', 'var(--brand-green)', <I.droplet />],
-              ['Invoices', 'var(--brand-orange)', <I.receipt />],
-              ['Audit', 'var(--brand-violet)', <I.shield />],
-              ['Directory', 'var(--brand-teal)', <I.customers />],
-            ].map(([label, color, icon]) => (
-              <div key={label} style={{
-                display: 'inline-flex', alignItems: 'center', gap: 5,
-                padding: '3px 8px 3px 5px',
-                fontSize: 11.5, fontWeight: 500, color: 'var(--ink-3)',
-                background: 'var(--bg-soft)',
-                borderRadius: 999,
-              }}>
-                <span style={{
-                  display: 'inline-flex', width: 14, height: 14, borderRadius: '50%',
-                  background: `color-mix(in oklab, ${color} 14%, transparent)`,
-                  color: color,
-                  alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <span style={{ display: 'inline-flex', transform: 'scale(0.6)' }}>{icon}</span>
-                </span>
-                {label}
-              </div>
-            ))}
-          </div>
         </div>
 
-        <div className="features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 14 }}>
-          {/* Big card — Routes */}
-          <FeatureCard span={4} title="Routes that route themselves" body="Drag-and-drop optimization across stops, techs and trucks. Route insight scores every shift so you can see exactly where time and gas are leaking." icon={<I.map />}>
+        <div className="features-grid" style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(12, 1fr)',
+          gridAutoRows: 'minmax(260px, auto)',
+          gap: 16,
+        }}>
+          <FeatureCard
+            span={8} rowSpan={2}
+            eyebrow="Routing"
+            title="A route plan that re-optimizes overnight."
+            body="Drop a stop, swap a tech, mark a pool closed — PoolLogic re-flows the day around it. The optimizer learns your actual time-on-stop, balances mileage against customer windows, and re-runs at 5 AM so every tech opens the app to a route already built."
+            footnote="Auto-runs nightly · learns per-tech minutes · supports 12+ trucks">
             <RouteCard />
           </FeatureCard>
-          <FeatureCard span={2} title="Service reports your customers actually read" body="Auto-attached photos, water chemistry, tech notes — sent the moment a stop is closed." icon={<I.droplet />}>
+          <FeatureCard
+            span={4} rowSpan={2}
+            eyebrow="Service reports"
+            title="Reports your customers actually open."
+            body="The moment a stop closes, a branded report goes out — chemistry, dosages, photos, tech notes. No end-of-month digest, no chasing, no doubt the pool was serviced."
+            footnote="96% open rate · auto-sent on stop close">
             <ServiceReportCard />
           </FeatureCard>
-          <FeatureCard span={2} title="Invoices on autopilot" body="Recurring billing fires the moment a stop is closed — not at end-of-month. Get paid faster without chasing." icon={<I.receipt />}>
+          <FeatureCard
+            span={5}
+            eyebrow="Billing"
+            title="Invoices that fire themselves."
+            body="Recurring billing triggers on service completion, not the 30th. Cards on file, Stripe-backed, with a customer portal — so you stop being your own collections department."
+            footnote="11 days faster on average">
             <InvoiceCard />
           </FeatureCard>
-          <FeatureCard span={2} title="Service audit, daily" body="Stops missed, photos missing, chemistry drift — surfaced before a customer notices." icon={<I.shield />}>
+          <FeatureCard
+            span={4}
+            eyebrow="Daily audit"
+            title="Catches what the day missed."
+            body="An overnight audit surfaces stops missed, photos absent, and chemistry drifting toward out-of-range — before a customer ever notices."
+            footnote="Runs every night · zero setup">
             <DashboardCard />
           </FeatureCard>
-          <FeatureCard span={2} title="A directory that scales" body="Search 10,000+ customers in under a second. Routed and unrouted views. One-tap profile to ticket." icon={<I.customers />}>
+          <FeatureCard
+            span={3}
+            eyebrow="Directory"
+            title="10,000 customers, one keystroke."
+            body="Search by name, address, route, or pool type. One tap from profile to ticket."
+            footnote="⌘K from anywhere">
             <DirectoryMini />
           </FeatureCard>
         </div>
@@ -1052,51 +1043,109 @@ const Features = () => {
 
 };
 
-const FeatureCard = ({ span, title, body, icon, children }) =>
+const FeatureCard = ({ span, rowSpan = 1, eyebrow, title, body, footnote, children }) =>
 <div className="feature-card" style={{
   gridColumn: `span ${span}`,
+  gridRow: `span ${rowSpan}`,
   border: '1px solid var(--line)',
-  borderRadius: 14,
-  padding: 20,
+  borderRadius: 20,
   background: 'var(--bg)',
-  boxShadow: '0 1px 2px rgba(15, 23, 42, .03)',
+  boxShadow: '0 1px 0 rgba(15, 23, 42, .02), 0 12px 32px -24px rgba(15, 23, 42, .12)',
   display: 'flex', flexDirection: 'column',
-  transition: 'transform .2s ease, box-shadow .2s ease, border-color .2s ease',
+  transition: 'transform .25s ease, box-shadow .25s ease, border-color .25s ease',
   position: 'relative',
   overflow: 'hidden',
+  isolation: 'isolate',
 }}
-onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 30%, var(--line))'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 10px 24px -14px rgba(15, 23, 42, .12)'; }}
-onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, .03)'; }}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-      <span style={{
-        display: 'inline-flex', width: 30, height: 30, borderRadius: 8,
-        background: 'color-mix(in oklab, var(--accent) 10%, transparent)',
+onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'color-mix(in oklab, var(--accent) 22%, var(--line))'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 1px 0 rgba(15, 23, 42, .02), 0 24px 40px -24px rgba(15, 23, 42, .18)'; }}
+onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 0 rgba(15, 23, 42, .02), 0 12px 32px -24px rgba(15, 23, 42, .12)'; }}>
+    {/* subtle top highlight — Linear/Vercel trick */}
+    <div aria-hidden="true" style={{
+      position: 'absolute', inset: '0 0 auto 0', height: 1, zIndex: 1,
+      background: 'linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent)',
+    }} />
+    <div style={{ padding: '32px 32px 0', display: 'flex', flexDirection: 'column' }}>
+      {eyebrow && <span style={{
+        fontFamily: "'Geist Mono', monospace",
+        fontSize: 11,
+        letterSpacing: '0.12em',
+        textTransform: 'uppercase',
         color: 'var(--accent)',
-        border: '1px solid color-mix(in oklab, var(--accent) 18%, transparent)',
-        alignItems: 'center', justifyContent: 'center',
-      }}>{icon}</span>
+        fontWeight: 500,
+      }}>{eyebrow}</span>}
+      <h3 style={{
+        fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em',
+        color: 'var(--ink)', lineHeight: 1.2, marginTop: 12,
+        textWrap: 'balance',
+      }}>{title}</h3>
+      <p style={{
+        marginTop: 12, fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-4)',
+        maxWidth: 480,
+      }}>{body}</p>
+      {footnote && <div style={{
+        marginTop: 14, fontSize: 12, color: 'var(--ink-5)',
+        fontFamily: "'Geist Mono', monospace", letterSpacing: '-0.005em',
+      }}>{footnote}</div>}
     </div>
-    <h3 style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink)', lineHeight: 1.3 }}>{title}</h3>
-    <p style={{ marginTop: 6, fontSize: 13, lineHeight: 1.55, color: 'var(--ink-4)' }}>{body}</p>
-    {children && <div style={{ marginTop: 16, flex: 1, display: 'flex', alignItems: 'flex-end' }}>
+    {children && <div style={{ marginTop: 24, flex: 1, display: 'flex', alignItems: 'flex-end', padding: '0 32px 32px' }}>
       <div style={{ width: '100%' }}>{children}</div>
     </div>}
   </div>;
 
 
-const DirectoryMini = () =>
-<div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, overflow: 'hidden', fontFamily: "'Geist', sans-serif" }}>
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '14px 18px', borderBottom: '1px solid #f1f1f3', fontSize: 12, color: '#a1a1aa' }}>
-      <I.search /> Search 1,208 customers
-      <span style={{ marginLeft: 'auto', fontFamily: 'Geist Mono, monospace', fontSize: 10, color: '#a1a1aa' }}>⌘K</span>
-    </div>
-    {[['Marisol V.', 'Thursday'], ['Devon Marsh', 'Wednesday'], ['Kai Rasmussen', 'Monday']].map(([n, d], i) =>
-  <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 18px', borderBottom: i < 2 ? '1px solid #f4f4f5' : 'none', fontSize: 13 }}>
-        <span style={{ color: '#18181b', fontWeight: 500 }}>{n}</span>
-        <span style={{ color: '#a1a1aa', fontSize: 12 }}>{d}</span>
+const DirectoryMini = () => {
+  const rows = [
+    ['MV', 'Marisol Vega', 'Thu'],
+    ['DM', 'Devon Marsh', 'Wed'],
+    ['KR', 'Kai Rasmussen', 'Mon'],
+    ['PA', 'Priya Anand', 'Tue'],
+    ['TA', 'Theo Albright', 'Fri'],
+  ];
+  return (
+    <div style={{
+      background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
+      border: '1px solid #ececef',
+      borderRadius: 14,
+      overflow: 'hidden',
+      fontFamily: "'Geist', sans-serif",
+    }}>
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '14px 16px',
+        fontSize: 12, color: '#a1a1aa',
+      }}>
+        <I.search />
+        <span style={{ flex: 1, color: '#71717a' }}>Search 1,208 customers</span>
+        <span style={{
+          fontFamily: 'Geist Mono, monospace', fontSize: 10,
+          color: '#a1a1aa',
+          padding: '2px 6px',
+          border: '1px solid #ececef',
+          borderRadius: 4,
+        }}>⌘K</span>
       </div>
-  )}
-  </div>;
+      {rows.map(([initials, name, day], i) => (
+        <div key={i} style={{
+          display: 'grid', gridTemplateColumns: '28px 1fr auto',
+          alignItems: 'center', gap: 12,
+          padding: '10px 16px',
+          fontSize: 13,
+        }}>
+          <div style={{
+            width: 28, height: 28, borderRadius: 7,
+            background: 'color-mix(in oklab, var(--accent) 8%, #fff)',
+            color: 'color-mix(in oklab, var(--accent) 75%, black)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 10.5, fontWeight: 600, letterSpacing: '0.02em',
+            fontFamily: "'Geist Mono', monospace",
+          }}>{initials}</div>
+          <span style={{ color: '#18181b', fontWeight: 500 }}>{name}</span>
+          <span style={{ color: '#a1a1aa', fontSize: 11.5, fontFamily: "'Geist Mono', monospace" }}>{day}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 
 // Deep-dive tabs — feature exploration without cluttering the bento grid above.

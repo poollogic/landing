@@ -755,116 +755,286 @@ const PoolLogicApp = ({ scale = 1, dimmedRows = 0, page = 'customers', animate =
 
 // Smaller fragments used in feature cards
 
-const RouteCard = () => (
-  <div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, padding: 22, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
-    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18, gap: 12 }}>
-      <div>
-        <div style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>Tuesday route</div>
-        <div style={{ fontSize: 16, fontWeight: 600, marginTop: 4, letterSpacing: '-0.01em' }}>South Tampa · 14 stops</div>
+const RouteCard = () => {
+  const stops = [
+    ['8:42', 'Marisol Vega', '1402 Bayshore Blvd', 18],
+    ['9:08', 'Devon Marsh', '3119 W Azeele St', 22],
+    ['9:34', 'Kai Rasmussen', '614 S Rome Ave', 16],
+    ['10:02', 'Priya Anand', '2208 W Swann Ave', 24],
+    ['10:31', 'Theo Albright', '907 S Boulevard', 19],
+  ];
+  return (
+    <div style={{
+      position: 'relative',
+      background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
+      border: '1px solid #ececef',
+      borderRadius: 14,
+      padding: 20,
+      fontFamily: "'Geist', sans-serif",
+      color: '#09090b',
+      overflow: 'hidden',
+    }}>
+      {/* header */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18, gap: 12 }}>
+        <div>
+          <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>Tuesday · South Tampa</div>
+          <div style={{ fontSize: 17, fontWeight: 600, marginTop: 6, letterSpacing: '-0.015em' }}>14 stops · Jamal Ortiz</div>
+        </div>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#3f3f46', fontWeight: 500, whiteSpace: 'nowrap', marginTop: 4 }}>
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)' }}></span>
+          Optimized · 38 min saved
+        </div>
       </div>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#52525b', fontWeight: 500, whiteSpace: 'nowrap', marginTop: 2 }}>
-        <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--brand-green)' }}></span>
-        Optimized · 38 min saved
-      </div>
-    </div>
-    {/* tiny map visual */}
-    <div style={{ position: 'relative', height: 130 }}>
-      <svg viewBox="0 0 400 130" width="100%" height="100%" preserveAspectRatio="none">
-        <path d="M 20 100 Q 80 50, 140 70 T 260 40 T 380 80" strokeWidth="1.25" fill="none" style={{ stroke: 'var(--brand-teal)' }} />
-        {[
-          [20, 100], [70, 76], [140, 70], [200, 52], [260, 40], [320, 58], [380, 80]
-        ].map((p, i) => (
-          <g key={i}>
-            <circle cx={p[0]} cy={p[1]} r="4.5" fill="white" strokeWidth="1.25" style={{ stroke: 'var(--brand-teal)' }}/>
-            <text x={p[0]} y={p[1] + 2.5} fontSize="7" textAnchor="middle" fontWeight="600" style={{ fill: '#52525b' }}>{i + 1}</text>
-          </g>
+
+      {/* stop list with route line */}
+      <div style={{ position: 'relative' }}>
+        <div style={{
+          position: 'absolute', left: 19, top: 14, bottom: 14, width: 1.5,
+          background: 'linear-gradient(180deg, color-mix(in oklab, var(--accent) 35%, transparent), color-mix(in oklab, var(--accent) 12%, transparent))',
+        }} />
+        {stops.map(([time, name, addr, mins], i) => (
+          <div key={i} style={{
+            display: 'grid',
+            gridTemplateColumns: '40px 1fr auto',
+            alignItems: 'center',
+            gap: 14,
+            padding: '10px 0',
+            position: 'relative',
+          }}>
+            <div style={{
+              fontSize: 11, color: '#71717a', fontFamily: "'Geist Mono', monospace",
+              fontVariantNumeric: 'tabular-nums', textAlign: 'right', position: 'relative', zIndex: 2,
+            }}>{time}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, minWidth: 0 }}>
+              <div style={{
+                flexShrink: 0, width: 8, height: 8, borderRadius: '50%',
+                background: '#fff',
+                border: '1.5px solid var(--accent)',
+                boxShadow: '0 0 0 4px #fbfbfc',
+                position: 'relative', zIndex: 2,
+              }} />
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{ fontSize: 13.5, fontWeight: 500, color: '#18181b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{name}</div>
+                <div style={{ fontSize: 11.5, color: '#a1a1aa', marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{addr}</div>
+              </div>
+            </div>
+            <div style={{
+              fontSize: 11, color: '#71717a', fontFamily: "'Geist Mono', monospace",
+              fontVariantNumeric: 'tabular-nums',
+            }}>{mins}m</div>
+          </div>
         ))}
-      </svg>
+        {/* truncation hint */}
+        <div style={{
+          display: 'grid', gridTemplateColumns: '40px 1fr auto', alignItems: 'center', gap: 14, paddingTop: 6,
+        }}>
+          <div />
+          <div style={{ fontSize: 11.5, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace", paddingLeft: 20 }}>+ 9 more stops</div>
+          <div />
+        </div>
+      </div>
+
+      {/* stats footer */}
+      <div style={{
+        display: 'flex', gap: 28, marginTop: 18, paddingTop: 16,
+        fontSize: 12, fontVariantNumeric: 'tabular-nums',
+      }}>
+        {[['Drive time', '1h 42m'], ['Distance', '38.2 mi'], ['ETA', '4:14 PM']].map(([k, v]) => (
+          <div key={k}>
+            <div style={{ fontSize: 10.5, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace", letterSpacing: '0.06em', textTransform: 'uppercase' }}>{k}</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#18181b', marginTop: 2, letterSpacing: '-0.01em' }}>{v}</div>
+          </div>
+        ))}
+      </div>
     </div>
-    <div style={{ display: 'flex', gap: 24, marginTop: 18, paddingTop: 16, borderTop: '1px solid #f1f1f3', fontSize: 12, fontVariantNumeric: 'tabular-nums' }}>
-      <div><span style={{ color: '#a1a1aa' }}>Drive time</span> <span style={{ fontWeight: 600, marginLeft: 6 }}>1h 42m</span></div>
-      <div><span style={{ color: '#a1a1aa' }}>Distance</span> <span style={{ fontWeight: 600, marginLeft: 6 }}>38.2 mi</span></div>
-      <div><span style={{ color: '#a1a1aa' }}>ETA</span> <span style={{ fontWeight: 600, marginLeft: 6 }}>4:14 PM</span></div>
-    </div>
-  </div>
-);
+  );
+};
 
 const InvoiceCard = () => (
-  <div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, padding: 22, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
-    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18, gap: 12 }}>
-      <div>
-        <div style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>Invoice INV-1042</div>
-        <div style={{ fontSize: 16, fontWeight: 600, marginTop: 4, letterSpacing: '-0.01em' }}>Marisol Vega</div>
-      </div>
-      <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11.5, color: '#52525b', fontWeight: 500, whiteSpace: 'nowrap', marginTop: 2 }}>
-        <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--brand-green)' }}></span>
-        Paid · auto
-      </div>
+  <div style={{
+    position: 'relative',
+    background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
+    border: '1px solid #ececef',
+    borderRadius: 14,
+    padding: 20,
+    fontFamily: "'Geist', sans-serif",
+    color: '#09090b',
+    overflow: 'hidden',
+  }}>
+    {/* PAID stamp */}
+    <div aria-hidden="true" style={{
+      position: 'absolute',
+      top: 18, right: 18,
+      transform: 'rotate(-8deg)',
+      padding: '4px 10px',
+      border: '1.5px solid color-mix(in oklab, var(--accent) 65%, white)',
+      color: 'color-mix(in oklab, var(--accent) 80%, black)',
+      borderRadius: 4,
+      fontFamily: "'Geist Mono', monospace",
+      fontSize: 10,
+      letterSpacing: '0.16em',
+      fontWeight: 600,
+      opacity: 0.85,
+    }}>PAID · AUTO</div>
+
+    <div style={{ marginBottom: 18 }}>
+      <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>Invoice · INV-1042</div>
+      <div style={{ fontSize: 17, fontWeight: 600, marginTop: 6, letterSpacing: '-0.015em' }}>Marisol Vega</div>
+      <div style={{ fontSize: 12, color: '#a1a1aa', marginTop: 2 }}>1402 Bayshore Blvd · Apr 18, 2026</div>
     </div>
-    <div style={{ display: 'flex', flexDirection: 'column', fontSize: 13 }}>
+
+    <div style={{ display: 'flex', flexDirection: 'column', fontSize: 13, gap: 12 }}>
       {[
-        ['Weekly service · April', '$120.00'],
-        ['Chlorine tablets (2)', '$28.00'],
-        ['Filter cleaning', '$45.00'],
+        ['Weekly service · April', '4 visits', '$120.00'],
+        ['Chlorine tablets', '2 × $14', '$28.00'],
+        ['Filter cleaning', 'Apr 11', '$45.00'],
       ].map((row, i) => (
-        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderTop: '1px solid #f1f1f3' }}>
-          <span style={{ color: '#52525b' }}>{row[0]}</span>
-          <span style={{ fontVariantNumeric: 'tabular-nums', fontWeight: 500 }}>{row[1]}</span>
+        <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', alignItems: 'baseline', gap: 14 }}>
+          <span style={{ color: '#18181b' }}>{row[0]}</span>
+          <span style={{ color: '#a1a1aa', fontSize: 11.5, fontFamily: "'Geist Mono', monospace" }}>{row[1]}</span>
+          <span style={{ fontVariantNumeric: 'tabular-nums', fontWeight: 500, fontFamily: "'Geist Mono', monospace", color: '#3f3f46' }}>{row[2]}</span>
         </div>
       ))}
-      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '14px 0 4px', borderTop: '1px solid #ececef', fontWeight: 600, fontSize: 14 }}>
-        <span>Total charged</span>
-        <span style={{ fontVariantNumeric: 'tabular-nums' }}>$193.00</span>
-      </div>
     </div>
-    <div style={{ marginTop: 14, fontSize: 11.5, color: '#a1a1aa' }}>
-      Sent automatically on stop close · Apr 18, 4:42 PM
+
+    <div style={{
+      marginTop: 18, paddingTop: 16,
+      display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
+      fontWeight: 600, fontSize: 15,
+      borderTop: '1px solid #f4f4f5',
+    }}>
+      <span style={{ color: '#09090b' }}>Charged</span>
+      <span style={{ fontVariantNumeric: 'tabular-nums', fontSize: 22, letterSpacing: '-0.02em' }}>$193.00</span>
+    </div>
+
+    <div style={{ marginTop: 12, fontSize: 11.5, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>
+      Stripe · Visa ending 4242 · Apr 18, 4:42 PM
     </div>
   </div>
 );
 
 const ServiceReportCard = () => (
-  <div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, padding: 22, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
-    <div style={{ marginBottom: 18 }}>
-      <div style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>Service report</div>
-      <div style={{ fontSize: 16, fontWeight: 600, marginTop: 4, letterSpacing: '-0.01em' }}>3204 Coquina Ct, Naples</div>
+  <div style={{
+    background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
+    border: '1px solid #ececef',
+    borderRadius: 14,
+    padding: 20,
+    fontFamily: "'Geist', sans-serif",
+    color: '#09090b',
+    overflow: 'hidden',
+  }}>
+    {/* email envelope header */}
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 10,
+      paddingBottom: 14, marginBottom: 16,
+    }}>
+      <div style={{
+        width: 28, height: 28, borderRadius: 7,
+        background: 'color-mix(in oklab, var(--accent) 10%, #fff)',
+        color: 'var(--accent)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        border: '1px solid color-mix(in oklab, var(--accent) 16%, transparent)',
+      }}><I.droplet/></div>
+      <div style={{ minWidth: 0, flex: 1 }}>
+        <div style={{ fontSize: 12, color: '#71717a', fontFamily: "'Geist Mono', monospace" }}>noreply@poollogic.io</div>
+        <div style={{ fontSize: 13, fontWeight: 500, color: '#18181b', marginTop: 1 }}>Service report — 3204 Coquina Ct</div>
+      </div>
+      <div style={{ fontSize: 11, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>4:42 PM</div>
     </div>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', borderTop: '1px solid #f1f1f3', borderBottom: '1px solid #f1f1f3' }}>
+
+    {/* chemistry strip */}
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
       {[
-        ['pH', '7.4', '#09090b'],
-        ['Chlorine', '2.8', '#09090b'],
-        ['Alkalinity', '92', 'var(--brand-orange)'],
-      ].map(([label, val, color], i) => (
-        <div key={i} style={{ padding: '14px 0', borderLeft: i === 0 ? 'none' : '1px solid #f1f1f3', paddingLeft: i === 0 ? 0 : 16 }}>
-          <div style={{ fontSize: 10.5, color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500 }}>{label}</div>
-          <div style={{ fontSize: 20, fontWeight: 600, fontVariantNumeric: 'tabular-nums', marginTop: 4, letterSpacing: '-0.01em', color }}>{val}</div>
+        ['pH', '7.4', 'In range'],
+        ['Chlorine', '2.8', 'In range'],
+        ['Alkalinity', '92', 'Trending low'],
+      ].map(([label, val, status], i) => (
+        <div key={i} style={{
+          background: '#fbfbfc',
+          border: '1px solid #f1f1f3',
+          borderRadius: 10,
+          padding: '12px 12px 10px',
+        }}>
+          <div style={{ fontSize: 10.5, color: '#a1a1aa', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>{label}</div>
+          <div style={{ fontSize: 22, fontWeight: 600, fontVariantNumeric: 'tabular-nums', marginTop: 4, letterSpacing: '-0.02em', color: '#09090b' }}>{val}</div>
+          <div style={{ fontSize: 10.5, color: i === 2 ? 'var(--accent)' : '#a1a1aa', marginTop: 4, fontWeight: 500 }}>{status}</div>
         </div>
       ))}
     </div>
-    <div style={{ marginTop: 16, fontSize: 12, color: '#71717a', lineHeight: 1.55 }}>
-      <span style={{ color: '#3f3f46', fontWeight: 500 }}>Tech notes</span> &nbsp;Skimmed surface, brushed walls, vacuumed floor. Added 1lb stabilizer.
+
+    {/* photo strip */}
+    <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6 }}>
+      {[
+        'linear-gradient(135deg, #c7d2fe 0%, #818cf8 100%)',
+        'linear-gradient(135deg, #bae6fd 0%, #38bdf8 100%)',
+        'linear-gradient(135deg, #a7f3d0 0%, #34d399 100%)',
+        'linear-gradient(135deg, #ddd6fe 0%, #a78bfa 100%)',
+      ].map((bg, i) => (
+        <div key={i} style={{
+          aspectRatio: '1 / 1',
+          borderRadius: 6,
+          background: bg,
+          position: 'relative',
+          overflow: 'hidden',
+        }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 30% 25%, rgba(255,255,255,.35), transparent 60%)' }}/>
+        </div>
+      ))}
+    </div>
+
+    <div style={{ marginTop: 14, fontSize: 12, color: '#71717a', lineHeight: 1.55 }}>
+      <span style={{ color: '#3f3f46', fontWeight: 500 }}>Tech notes</span> &nbsp;Skimmed surface, brushed walls, vacuumed floor. Added 1 lb stabilizer.
     </div>
   </div>
 );
 
 const DashboardCard = () => (
-  <div style={{ background: '#fff', border: '1px solid #ececef', borderRadius: 12, padding: 22, fontFamily: "'Geist', sans-serif", color: '#09090b' }}>
-    <div style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500 }}>This month</div>
-    <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 6 }}>
-      <span style={{ fontSize: 28, fontWeight: 600, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>$14,820</span>
-      <span style={{ fontSize: 12, color: '#52525b', fontWeight: 500 }}>+12.4%</span>
+  <div style={{
+    background: 'linear-gradient(180deg, #fbfbfc 0%, #ffffff 100%)',
+    border: '1px solid #ececef',
+    borderRadius: 14,
+    padding: 20,
+    fontFamily: "'Geist', sans-serif",
+    color: '#09090b',
+    overflow: 'hidden',
+  }}>
+    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+      <div style={{ fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#a1a1aa', fontWeight: 500, fontFamily: "'Geist Mono', monospace" }}>Audit · Last night</div>
+      <div style={{ fontSize: 11, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>Apr 18 · 3:14 AM</div>
     </div>
-    <div style={{ marginTop: 18, height: 72, position: 'relative' }}>
-      <svg width="100%" height="72" viewBox="0 0 300 72" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopOpacity="0.08" style={{ stopColor: 'var(--brand-teal)' }}/>
-            <stop offset="100%" stopOpacity="0" style={{ stopColor: 'var(--brand-teal)' }}/>
-          </linearGradient>
-        </defs>
-        <path d="M 0 54 L 30 50 L 60 46 L 90 48 L 120 36 L 150 34 L 180 28 L 210 30 L 240 20 L 270 16 L 300 10 L 300 72 L 0 72 Z" fill="url(#area)"/>
-        <path d="M 0 54 L 30 50 L 60 46 L 90 48 L 120 36 L 150 34 L 180 28 L 210 30 L 240 20 L 270 16 L 300 10" strokeWidth="1.25" fill="none" style={{ stroke: 'var(--brand-teal)' }}/>
-      </svg>
+
+    <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {[
+        ['Stops missed', '0', null],
+        ['Photos missing', '3', 'Crystal Pools'],
+        ['Chemistry drift', '2', 'pH trending low'],
+      ].map(([k, v, hint], i) => (
+        <div key={i} style={{
+          display: 'grid', gridTemplateColumns: 'auto 1fr auto', alignItems: 'center', gap: 12,
+        }}>
+          <span style={{
+            width: 6, height: 6, borderRadius: '50%',
+            background: v === '0' ? '#d4d4d8' : 'var(--accent)',
+          }} />
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#18181b' }}>{k}</div>
+            {hint && <div style={{ fontSize: 11.5, color: '#a1a1aa', marginTop: 1 }}>{hint}</div>}
+          </div>
+          <div style={{
+            fontVariantNumeric: 'tabular-nums', fontWeight: 600, fontSize: 16,
+            color: v === '0' ? '#a1a1aa' : '#09090b',
+            letterSpacing: '-0.01em',
+          }}>{v}</div>
+        </div>
+      ))}
+    </div>
+
+    <div style={{
+      marginTop: 16, paddingTop: 14,
+      borderTop: '1px solid #f4f4f5',
+      fontSize: 11.5, color: '#71717a', fontFamily: "'Geist Mono', monospace",
+    }}>
+      5 items resolved before 7 AM
     </div>
   </div>
 );
