@@ -40,7 +40,6 @@ const App = () => {
           </Suspense>
         </ErrorBoundary>
         <Footer />
-        <ConstructionBanner />
       </>
     );
   }
@@ -55,7 +54,6 @@ const App = () => {
           </Suspense>
         </ErrorBoundary>
         <Footer />
-        <ConstructionBanner />
       </>
     );
   }
@@ -74,7 +72,6 @@ const App = () => {
       <FAQ />
       <FinalCTA />
       <Footer />
-      <ConstructionBanner />
     </>
   );
 };
@@ -124,42 +121,6 @@ const RouteFallback = () => (
       animation: 'spin 0.8s linear infinite',
     }}/>
     <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-  </div>
-);
-
-const ConstructionBanner = () => (
-  <div role="status" style={{
-    position: 'fixed',
-    left: 0, right: 0, bottom: 0,
-    zIndex: 60,
-    background: 'color-mix(in oklab, var(--brand-orange) 14%, var(--bg))',
-    borderTop: '1px solid color-mix(in oklab, var(--brand-orange) 32%, transparent)',
-    boxShadow: '0 -10px 28px -14px rgba(15, 23, 42, .14)',
-    backdropFilter: 'saturate(160%) blur(10px)',
-    WebkitBackdropFilter: 'saturate(160%) blur(10px)',
-    color: 'var(--ink-2)',
-    padding: '18px 24px',
-    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
-    textAlign: 'center',
-    lineHeight: 1.4,
-  }}>
-    <span aria-hidden="true" style={{
-      display: 'inline-flex',
-      width: 10, height: 10, borderRadius: '50%',
-      background: 'var(--brand-orange)',
-      boxShadow: '0 0 0 4px color-mix(in oklab, var(--brand-orange) 22%, transparent)',
-      flexShrink: 0,
-      animation: 'pulse-dot 2s ease-in-out infinite',
-    }}/>
-    <span style={{ fontSize: 15, fontWeight: 600 }}>Site under maintenance</span>
-    <span aria-hidden="true" style={{ width: 1, height: 16, background: 'color-mix(in oklab, var(--brand-orange) 30%, transparent)', display: 'inline-block' }} />
-    <span style={{ fontSize: 14, color: 'var(--ink-4)', fontWeight: 500 }}>Check back soon.</span>
-    <style>{`
-      @keyframes pulse-dot {
-        0%, 100% { box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-orange) 22%, transparent); }
-        50%      { box-shadow: 0 0 0 8px color-mix(in oklab, var(--brand-orange) 6%, transparent); }
-      }
-    `}</style>
   </div>
 );
 
