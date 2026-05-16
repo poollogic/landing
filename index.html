@@ -206,6 +206,19 @@
     body[data-density="airy"] section { padding: 88px 0; }
   }
 
+  /* Pricing — 4-col desktop, 2-col tablet, single-col mobile */
+  @media (max-width: 1024px) {
+    .pricing-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 16px !important;
+    }
+  }
+  @media (max-width: 640px) {
+    .pricing-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
   /* Footer — 5-col on desktop, 2-col on tablet, single column on mobile */
   @media (max-width: 880px) {
     .footer-grid {

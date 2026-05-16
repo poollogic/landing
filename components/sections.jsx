@@ -1348,20 +1348,84 @@ const Testimonial = () => {
 
 };
 
-// Pricing
+// Pricing — Core/Insight/Vision tiers + Enterprise (coming soon).
+// Every tier carries the same 0.5% platform fee on Stripe-processed payments;
+// check/cash/external payments are always free.
 const Pricing = () => {
   const [annual, setAnnual] = useState(true);
   const tiers = [
-  { name: 'Starter', price: annual ? 39 : 49, blurb: 'For solo techs and 1-truck shops finding their feet.', features: ['Up to 80 customers', 'Routes, reports & invoicing', 'On-truck app', 'Email support'], cta: 'Start free trial' },
-  { name: 'Vision', price: annual ? 89 : 109, blurb: 'For growing operations that need every day to add up.', features: ['Unlimited customers', 'Route insight + service audit', 'Recurring autopay & ACH', 'AI-drafted reports', 'Priority support'], cta: 'Start free trial', popular: true },
-  { name: 'Fleet', price: annual ? 199 : 239, blurb: 'For multi-route, multi-tech, multi-region businesses.', features: ['Everything in Vision', 'Multi-region routing', 'Custom roles & approvals', 'API + webhooks', 'Dedicated success manager'], cta: 'Talk to sales' }];
+  {
+    name: 'Core',
+    price: 0,
+    priceUnit: null,
+    blurb: 'Everything you need to run the business. Free until you get paid.',
+    features: [
+      'Unlimited customers & technicians',
+      'Routes, scheduling & on-truck app',
+      'Service reports with photos & chemistry',
+      'Recurring invoices & Stripe autopay',
+      'Customer portal',
+    ],
+    cta: 'Get started',
+    ctaHref: 'https://portal.poollogic.app',
+  },
+  {
+    name: 'Insight',
+    price: annual ? 15 : 19,
+    priceUnit: '/tech/mo',
+    blurb: 'See exactly where time and gas are leaking.',
+    features: [
+      'Everything in Core',
+      'Route insight scoring',
+      'Daily service audit',
+      'Operations dashboard',
+      'Revenue & MRR analytics',
+    ],
+    cta: 'Start free trial',
+    ctaHref: 'https://portal.poollogic.app',
+    popular: true,
+  },
+  {
+    name: 'Vision',
+    price: annual ? 31 : 39,
+    priceUnit: '/tech/mo',
+    blurb: 'Let the AI write the reports, schedule the calls, catch the drift.',
+    features: [
+      'Everything in Insight',
+      'AI-drafted service reports',
+      'AI document import (PDF / screenshot)',
+      'Customer SMS (when shipped)',
+      'Predictive chemistry alerts',
+      'Priority support',
+    ],
+    cta: 'Start free trial',
+    ctaHref: 'https://portal.poollogic.app',
+  },
+  {
+    name: 'Enterprise',
+    price: null,
+    priceUnit: null,
+    blurb: 'Multi-region operations, custom roles, deep integrations.',
+    features: [
+      'Everything in Vision',
+      'Multi-region routing',
+      'Custom roles & approvals',
+      'API + webhooks',
+      'Dedicated success manager',
+    ],
+    cta: 'Coming soon',
+    ctaHref: null,
+  }];
 
   return (
     <section className="section-divider" id="pricing">
       <div className="container">
-        <div style={{ textAlign: 'center', maxWidth: 700, margin: '0 auto 40px' }}>
+        <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 32px' }}>
           <span className="eyebrow"><span className="dot"></span>Pricing</span>
-          <h2 style={{ marginTop: 14 }}>One flat price per truck. No per-stop nickel-and-diming.</h2>
+          <h2 style={{ marginTop: 14 }}>Free to start. Pay only when you get paid.</h2>
+          <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>
+            Every tier includes a flat <strong style={{ color: 'var(--ink-2)' }}>0.5%</strong> platform fee on payments processed through Stripe. Check, cash, and external payments are always free. No per-stop, per-text, or setup fees.
+          </p>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 36 }}>
@@ -1381,33 +1445,54 @@ const Pricing = () => {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
-          {tiers.map((t) =>
-          <div key={t.name} style={{
-            border: t.popular ? '1.5px solid var(--accent)' : '1px solid var(--line)',
-            borderRadius: 16,
-            padding: 28,
-            background: 'var(--bg)',
-            position: 'relative',
-            boxShadow: t.popular ? '0 20px 40px -20px color-mix(in oklab, var(--accent) 35%, transparent)' : 'none'
-          }}>
-              {t.popular && <div style={{ position: 'absolute', top: -11, left: 28, fontSize: 11, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', background: 'var(--accent)', color: 'white', padding: '3px 10px', borderRadius: 999 }}>Most popular</div>}
+        <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+          {tiers.map((t) => {
+          const isEnterprise = t.ctaHref === null;
+          return (
+            <div key={t.name} style={{
+              border: t.popular ? '1.5px solid var(--accent)' : '1px solid var(--line)',
+              borderRadius: 16,
+              padding: 24,
+              background: 'var(--bg)',
+              position: 'relative',
+              boxShadow: t.popular ? '0 20px 40px -20px color-mix(in oklab, var(--accent) 35%, transparent)' : 'none',
+              opacity: isEnterprise ? 0.85 : 1,
+              display: 'flex', flexDirection: 'column'
+            }}>
+              {t.popular && <div style={{ position: 'absolute', top: -11, left: 24, fontSize: 11, fontWeight: 600, letterSpacing: '0.04em', textTransform: 'uppercase', background: 'var(--accent)', color: 'white', padding: '3px 10px', borderRadius: 999 }}>Most popular</div>}
               <h3 style={{ fontSize: 18, fontWeight: 600 }}>{t.name}</h3>
-              <p style={{ marginTop: 8, fontSize: 13.5, color: 'var(--ink-5)', lineHeight: 1.5, minHeight: 42 }}>{t.blurb}</p>
-              <div style={{ marginTop: 22, display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                <span style={{ fontSize: 44, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>${t.price}</span>
-                <span style={{ color: 'var(--ink-5)', fontSize: 14 }}>/truck/mo</span>
+              <p style={{ marginTop: 8, fontSize: 13, color: 'var(--ink-5)', lineHeight: 1.5, minHeight: 58 }}>{t.blurb}</p>
+
+              <div style={{ marginTop: 16, display: 'flex', alignItems: 'baseline', gap: 6, minHeight: 56 }}>
+                {t.price === 0 ?
+                <span style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>Free</span> :
+                t.price === null ?
+                <span style={{ fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink-4)' }}>Custom</span> :
+                <>
+                  <span style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>${t.price}</span>
+                  <span style={{ color: 'var(--ink-5)', fontSize: 13 }}>{t.priceUnit}</span>
+                </>
+                }
               </div>
-              <button className={`btn ${t.popular ? 'btn-accent' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center', marginTop: 18 }}>{t.cta}</button>
+
+              <div style={{ fontSize: 12, color: 'var(--ink-5)', marginBottom: 16, minHeight: 18 }}>
+                {isEnterprise ? ' ' : <>+ 0.5% on Stripe payments</>}
+              </div>
+
+              {isEnterprise ?
+              <div className="btn btn-outline btn-lg" style={{ width: '100%', justifyContent: 'center', cursor: 'default', color: 'var(--ink-5)' }}>{t.cta}</div> :
+              <a href={t.ctaHref} className={`btn ${t.popular ? 'btn-accent' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center', textDecoration: 'none' }}>{t.cta}</a>
+              }
+
               <div style={{ borderTop: '1px solid var(--line)', marginTop: 22, paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 11 }}>
                 {t.features.map((f) =>
-              <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13.5, color: 'var(--ink-3)' }}>
-                    <span style={{ color: 'var(--accent)', marginTop: 2 }}><I.check /></span>{f}
-                  </div>
-              )}
+                <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--ink-3)' }}>
+                  <span style={{ color: 'var(--accent)', marginTop: 2, flexShrink: 0 }}><I.check /></span>{f}
+                </div>
+                )}
               </div>
-            </div>
-          )}
+            </div>);
+          })}
         </div>
       </div>
     </section>);
@@ -1421,7 +1506,7 @@ const FAQ = () => {
   { q: 'How long does setup take?', a: 'Setup is fast — as long as you have your customer info in some kind of document, you can usually be importing and have automated billing live within an hour. The quickest path is our provided spreadsheet template: many customers paste it into Claude or ChatGPT and have it fill in all of their customer information with no manual data entry. You can also upload a PDF or other document to our AI import, but it\'s limited to one document at a time — it can\'t stitch information together across multiple files.' },
   { q: 'Does it work without internet on the truck?', a: 'The technician app works entirely offline. Every stop and every report is cached on the device and syncs the moment reception comes back.' },
   { q: 'Will you migrate my data from Skimmer or Pooltrackr?', a: 'Free migration is included for every customer, on every tier. We\'ll handle importing all your customers and walk you through any questions you may have. The app is extremely intuitive — most teams are comfortable using it from day one.' },
-  { q: 'Do you charge per stop, per service, or per text?', a: 'We charge one flat rate per truck. SMS isn\'t available yet — when it launches it\'ll be included on the Vision tier, with a fair-use limit so your number doesn\'t get flagged as spam.' },
+  { q: 'Do you charge per stop, per service, or per text?', a: 'No per-stop, per-service, or per-text fees. Core is free — you only pay a flat 0.5% on payments processed through Stripe. Check, cash, and external payments are always free. Insight ($19/tech/mo) and Vision ($39/tech/mo) add features like service audits and AI reports. SMS isn\'t available yet — when it launches it\'ll be included on Vision with a fair-use limit so your number doesn\'t get flagged as spam.' },
   { q: 'What payment processors do you support?', a: 'Stripe. All payment processing in PoolLogic runs through Stripe — connect your Stripe account once and you\'re set.' }];
 
   return (
