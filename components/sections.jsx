@@ -960,12 +960,73 @@ const ProductShowcase = ({ compact = false }) => {
 // Features grid — bento-style
 const Features = () => {
   return (
-    <section className="section-divider">
+    <section className="section-divider" style={{ position: 'relative', overflow: 'hidden' }}>
+      {/* Soft radial wash anchors the section visually */}
+      <div aria-hidden="true" style={{
+        position: 'absolute', inset: '0 0 auto 0', height: 320, zIndex: -1, pointerEvents: 'none',
+        background: 'radial-gradient(720px 280px at 50% 0%, color-mix(in oklab, var(--accent) 5%, transparent), transparent 65%)',
+      }} />
       <div className="container">
-        <div style={{ maxWidth: 720, marginBottom: 56 }}>
+        <div style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto 56px' }}>
           <span className="eyebrow"><span className="dot"></span>Everything in one place</span>
-          <h2 style={{ marginTop: 14 }}>The operating system for pool service.</h2>
-          <p style={{ marginTop: 16, fontSize: 17, lineHeight: 1.55 }}>From the customer directory to the truck, every part of your day flows through PoolLogic. No spreadsheets. No paper tickets. No double-entry.</p>
+          <h2 style={{
+            marginTop: 14,
+            fontSize: 'clamp(32px, 4vw, 48px)',
+            letterSpacing: '-0.028em',
+            lineHeight: 1.05,
+            color: 'var(--ink)',
+            textWrap: 'balance',
+          }}>
+            The operating system for pool service.
+          </h2>
+          <p style={{
+            marginTop: 20,
+            fontSize: 17,
+            lineHeight: 1.55,
+            color: 'var(--ink-4)',
+            maxWidth: 600,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}>
+            From the customer directory to the truck, every part of your day flows through PoolLogic. No spreadsheets. No paper tickets. No double-entry.
+          </p>
+
+          {/* Small icon row previewing the bento — each pill is a brand-tinted feature glyph */}
+          <div style={{
+            marginTop: 28,
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '6px 8px',
+            background: 'var(--bg)',
+            border: '1px solid var(--line)',
+            borderRadius: 999,
+            boxShadow: '0 1px 2px rgba(15, 23, 42, .04)',
+          }}>
+            {[
+              ['Routes', 'var(--brand-blue)', <I.map />],
+              ['Reports', 'var(--brand-green)', <I.droplet />],
+              ['Invoices', 'var(--brand-orange)', <I.receipt />],
+              ['Audit', 'var(--brand-violet)', <I.shield />],
+              ['Directory', 'var(--brand-teal)', <I.customers />],
+            ].map(([label, color, icon]) => (
+              <div key={label} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                padding: '4px 10px 4px 6px',
+                fontSize: 12, fontWeight: 500, color: 'var(--ink-3)',
+                background: 'var(--bg-soft)',
+                borderRadius: 999,
+              }}>
+                <span style={{
+                  display: 'inline-flex', width: 18, height: 18, borderRadius: '50%',
+                  background: `color-mix(in oklab, ${color} 14%, transparent)`,
+                  color: color,
+                  alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <span style={{ display: 'inline-flex', transform: 'scale(0.75)' }}>{icon}</span>
+                </span>
+                {label}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 20 }}>
