@@ -1365,6 +1365,7 @@ const Pricing = () => {
       'Service reports with photos & chemistry',
       'Recurring invoices & Stripe autopay',
       'Customer portal',
+      'Card surcharge built in — pass card fees to customers, free',
     ],
     cta: 'Get started',
     ctaHref: 'https://portal.poollogic.app',
@@ -1426,6 +1427,30 @@ const Pricing = () => {
           <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto' }}>
             Every tier includes a flat <strong style={{ color: 'var(--ink-2)' }}>0.5%</strong> platform fee on payments processed through Stripe. Check, cash, and external payments are always free. No per-stop, per-text, or setup fees.
           </p>
+
+          <div style={{
+            margin: '24px auto 0', maxWidth: 600,
+            padding: '12px 18px',
+            background: 'color-mix(in oklab, var(--brand-green) 8%, var(--bg))',
+            border: '1px solid color-mix(in oklab, var(--brand-green) 24%, transparent)',
+            borderRadius: 12,
+            display: 'flex', alignItems: 'center', gap: 12,
+            textAlign: 'left',
+            fontSize: 14, color: 'var(--ink-2)', lineHeight: 1.5,
+          }}>
+            <span style={{
+              display: 'inline-flex', width: 26, height: 26,
+              alignItems: 'center', justifyContent: 'center',
+              background: 'var(--brand-green)', color: '#fff',
+              borderRadius: '50%', flexShrink: 0,
+            }}>
+              <I.check />
+            </span>
+            <span>
+              <strong style={{ color: 'var(--ink)' }}>Credit-card surcharging is built in — free.</strong>{' '}
+              <span style={{ color: 'var(--ink-4)' }}>Paythepoolman charges $1 per invoice for the same feature.</span>
+            </span>
+          </div>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 36 }}>
