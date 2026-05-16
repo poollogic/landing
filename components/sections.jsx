@@ -967,9 +967,7 @@ const Features = () => {
       }} />
       <div className="container">
         <div style={{ maxWidth: 760, margin: '0 auto 64px', textAlign: 'center' }}>
-          <span className="eyebrow"><span className="dot"></span>The platform</span>
           <h2 style={{
-            marginTop: 14,
             fontSize: 'clamp(30px, 3.4vw, 44px)',
             letterSpacing: '-0.03em',
             lineHeight: 1.05,
@@ -999,7 +997,6 @@ const Features = () => {
         }}>
           <FeatureCard
             span={8} rowSpan={2}
-            eyebrow="Routing"
             title="A route plan that re-optimizes overnight."
             body="Drop a stop, swap a tech, mark a pool closed — PoolLogic re-flows the day around it. The optimizer learns your actual time-on-stop, balances mileage against customer windows, and re-runs at 5 AM so every tech opens the app to a route already built."
             footnote="Auto-runs nightly · learns per-tech minutes · supports 12+ trucks">
@@ -1007,7 +1004,6 @@ const Features = () => {
           </FeatureCard>
           <FeatureCard
             span={4} rowSpan={2}
-            eyebrow="Service reports"
             title="Reports your customers actually open."
             body="The moment a stop closes, a branded report goes out — chemistry, dosages, photos, tech notes. No end-of-month digest, no chasing, no doubt the pool was serviced."
             footnote="96% open rate · auto-sent on stop close">
@@ -1015,7 +1011,6 @@ const Features = () => {
           </FeatureCard>
           <FeatureCard
             span={5}
-            eyebrow="Billing"
             title="Invoices that fire themselves."
             body="Recurring billing triggers on service completion, not the 30th. Cards on file, Stripe-backed, with a customer portal — so you stop being your own collections department."
             footnote="11 days faster on average">
@@ -1023,7 +1018,6 @@ const Features = () => {
           </FeatureCard>
           <FeatureCard
             span={4}
-            eyebrow="Daily audit"
             title="Catches what the day missed."
             body="An overnight audit surfaces stops missed, photos absent, and chemistry drifting toward out-of-range — before a customer ever notices."
             footnote="Runs every night · zero setup">
@@ -1031,7 +1025,6 @@ const Features = () => {
           </FeatureCard>
           <FeatureCard
             span={3}
-            eyebrow="Directory"
             title="10,000 customers, one keystroke."
             body="Search by name, address, route, or pool type. One tap from profile to ticket."
             footnote="⌘K from anywhere">
@@ -1255,8 +1248,7 @@ const DeepDive = () => {
     <section className="section-divider" style={{ background: 'var(--bg-soft)' }}>
       <div className="container">
         <div style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 48px' }}>
-          <span className="eyebrow"><span className="dot"></span>Deep dive</span>
-          <h2 style={{ marginTop: 14 }}>Look closer at what actually runs your day.</h2>
+          <h2>Look closer at what actually runs your day.</h2>
           <p style={{ marginTop: 16 }}>The bento above is the headline. Here's what each piece really does — pick a feature.</p>
         </div>
 
@@ -1369,8 +1361,7 @@ const HowItWorks = () => {
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 60 }}>
           <div>
-            <span className="eyebrow"><span className="dot"></span>A day on PoolLogic</span>
-            <h2 style={{ marginTop: 14 }}>From route plan to deposit, without you in the loop.</h2>
+            <h2>From route plan to deposit, without you in the loop.</h2>
             <p style={{ marginTop: 16, fontSize: 16, lineHeight: 1.55 }}>The fewer apps, sticky notes and group texts between you and a clean pool, the more pools you can serve. PoolLogic collapses the day into one flow.</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -1539,9 +1530,7 @@ const Pricing = () => {
     <section className="section-divider" id="pricing">
       <div className="container">
         <div style={{ textAlign: 'center', maxWidth: 680, margin: '0 auto 24px' }}>
-          <span className="eyebrow"><span className="dot"></span>Pricing</span>
           <h2 style={{
-            marginTop: 12,
             fontSize: 'clamp(24px, 3vw, 34px)',
             letterSpacing: '-0.025em',
             lineHeight: 1.1,
@@ -1694,9 +1683,7 @@ const FAQ = () => {
     <section className="section-divider">
       <div id="faq-grid" className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60 }}>
         <div>
-          <span className="eyebrow"><span className="dot"></span>FAQ</span>
           <h2 style={{
-            marginTop: 12,
             fontSize: 'clamp(24px, 3vw, 34px)',
             letterSpacing: '-0.025em',
             lineHeight: 1.1,
