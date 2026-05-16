@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { Nav, Hero, Migration } from './components/sections.jsx';
+import { Nav, Hero, Migration, Footer } from './components/sections.jsx';
 
 // Legal pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -39,6 +39,7 @@ const App = () => {
             <TermsPage />
           </Suspense>
         </ErrorBoundary>
+        <Footer />
         <ConstructionBanner />
       </>
     );
@@ -53,6 +54,7 @@ const App = () => {
             <PrivacyPage />
           </Suspense>
         </ErrorBoundary>
+        <Footer />
         <ConstructionBanner />
       </>
     );
@@ -67,6 +69,7 @@ const App = () => {
         subhead={TWEAK_DEFAULTS.subhead}
       />
       <Migration />
+      <Footer />
       <ConstructionBanner />
     </>
   );

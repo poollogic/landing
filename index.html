@@ -206,6 +206,26 @@
     body[data-density="airy"] section { padding: 88px 0; }
   }
 
+  /* Footer — 5-col on desktop, 2-col on tablet, single column on mobile */
+  @media (max-width: 880px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 28px !important;
+    }
+    .footer-grid > div:first-child {
+      grid-column: 1 / -1;
+      margin-bottom: 8px;
+    }
+  }
+  @media (max-width: 520px) {
+    .footer-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .footer-bottom {
+      justify-content: flex-start !important;
+    }
+  }
+
   /* Legal pages (/terms, /privacy) — tighten body rhythm so sections read
      as connected blocks instead of separate cards floating in whitespace. */
   .terms-body { line-height: 1.65; }

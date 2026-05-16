@@ -2248,27 +2248,31 @@ const FinalCTA = () =>
 
 const Footer = () =>
 <footer style={{ borderTop: '1px solid var(--line)', padding: '48px 0 36px' }}>
-    <div className="container" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr 1fr', gap: 32 }}>
+    <div className="container footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr 1fr', gap: 32 }}>
       <div>
         <Logo size={32} />
-        <p style={{ fontSize: 13, marginTop: 16, maxWidth: 280, lineHeight: 1.55 }}>The operating system for pool service. Built in St. Petersburg, FL.</p>
+        <p style={{ fontSize: 13, marginTop: 16, maxWidth: 280, lineHeight: 1.55, color: 'var(--ink-5)' }}>The operating system for pool service. Built in St. Petersburg, FL.</p>
       </div>
       {[
-    ['Product', ['Features', 'Pricing', 'Mobile app', 'Integrations', 'Changelog']],
-    ['Company', ['About', 'Customers', 'Careers', 'Press', 'Contact']],
-    ['Resources', ['Blog', 'Help center', 'Migration', 'Status', 'Security']],
-    ['Legal', ['Terms', 'Privacy', 'DPA', 'Cookies']]].
+    ['Product', [['Features', '#'], ['Pricing', '#'], ['Mobile app', '#'], ['Integrations', '#'], ['Changelog', '#']]],
+    ['Company', [['About', '#'], ['Customers', '#'], ['Careers', '#'], ['Press', '#'], ['Contact', 'mailto:support@poollogic.app']]],
+    ['Resources', [['Blog', '#'], ['Help center', '#'], ['Migration', '#'], ['Status', '#'], ['Security', '#']]],
+    ['Legal', [['Terms', '/terms'], ['Privacy', '/privacy']]]].
     map(([title, links]) =>
     <div key={title}>
-          <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 14 }}>{title}</div>
+          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-2)', marginBottom: 14 }}>{title}</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-            {links.map((l) => <a key={l} href="#" style={{ fontSize: 13, color: 'var(--ink-5)' }}>{l}</a>)}
+            {links.map(([label, href]) =>
+        <a key={label} href={href} style={{ fontSize: 13, color: 'var(--ink-5)', transition: 'color .15s ease' }}
+          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--ink-3)'}
+          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink-5)'}>{label}</a>
+        )}
           </div>
         </div>
     )}
     </div>
-    <div className="container" style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: 'var(--ink-5)' }}>
-      <span>© 2026 PoolLogic, Inc.</span>
+    <div className="container footer-bottom" style={{ marginTop: 40, paddingTop: 24, borderTop: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: 'var(--ink-5)', gap: 16, flexWrap: 'wrap' }}>
+      <span>© {new Date().getFullYear()} PoolLogic. All rights reserved.</span>
       <span>Made for pool pros, by pool pros.</span>
     </div>
   </footer>;
