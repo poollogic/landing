@@ -32,8 +32,8 @@ const Nav = ({ accent }) => {
           )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <a href="https://portal.poollogic.app" className="nav-signin" style={{ fontSize: 14, color: 'var(--ink-3)', padding: '8px 12px' }}>Sign in</a>
-          <a href="https://portal.poollogic.app" className="btn btn-primary btn-sm" style={{ textDecoration: 'none' }}>Start free trial<I.arrowR /></a>
+          {/* Sign in hidden until portal is live */}
+          <a href="/contact" className="btn btn-primary btn-sm" style={{ textDecoration: 'none' }}>Get a demo<I.arrowR /></a>
         </div>
       </div>
     </nav>);
@@ -573,8 +573,7 @@ onMouseLeave={(e) => {e.currentTarget.style.borderColor = 'var(--line)';e.curren
 
 const HeroCTAs = () =>
 <div style={{ display: 'flex', gap: 12, marginTop: 32, flexWrap: 'wrap' }}>
-    <button className="btn btn-primary btn-lg">Start 14-day free trial<I.arrowR /></button>
-    <button className="btn btn-outline btn-lg">Watch 2-min tour</button>
+    <a href="/contact" className="btn btn-primary btn-lg" style={{ textDecoration: 'none' }}>Get a demo<I.arrowR /></a>
   </div>;
 
 
@@ -768,7 +767,7 @@ const HeroProof = ({ centered }) => {
   // Three buckets so the trio always reads as: [trial terms] · [product truth] · [outcome]
   // Phrases trimmed to keep slot widths compact.
   const pools = [
-  ['No credit card needed', 'Cancel any time', '14-day free trial', 'Setup in 10 minutes'],
+  ['Live human support', 'Cancel any time', 'Onboarding included', 'Setup in 10 minutes'],
   ['6 nav tabs, not 23', 'Works offline', 'Photos & readings baked in', 'Tickets → quotes in 1 tap'],
   ['Paid 11 days faster', 'Reports clients read', 'Auto chemistry alerts', 'Quotes auto-route to techs']];
 
@@ -1902,8 +1901,8 @@ const Pricing = () => {
       'Customer portal',
       'Card surcharge built in — pass card fees to customers, free',
     ],
-    cta: 'Get started',
-    ctaHref: 'https://portal.poollogic.app',
+    cta: 'Get a demo',
+    ctaHref: '/contact',
   },
   {
     name: 'Insight',
@@ -1917,8 +1916,8 @@ const Pricing = () => {
       'Operations dashboard',
       'Revenue & MRR analytics',
     ],
-    cta: 'Start free trial',
-    ctaHref: 'https://portal.poollogic.app',
+    cta: 'Get a demo',
+    ctaHref: '/contact',
     popular: true,
   },
   {
@@ -1934,8 +1933,8 @@ const Pricing = () => {
       'Predictive chemistry alerts',
       'Priority support',
     ],
-    cta: 'Start free trial',
-    ctaHref: 'https://portal.poollogic.app',
+    cta: 'Get a demo',
+    ctaHref: '/contact',
   },
   {
     name: 'Enterprise',
@@ -2959,13 +2958,12 @@ const FinalCTA = () =>
         <div style={{ position: 'relative', maxWidth: 680 }}>
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '6px 14px', border: '1px solid rgba(255,255,255,.16)', borderRadius: 999, fontSize: 12.5, fontWeight: 500, letterSpacing: '0.01em', color: 'rgba(255,255,255,.9)', background: 'rgba(255,255,255,.06)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
             <span style={{ display: 'inline-flex', width: 7, height: 7, borderRadius: '50%', background: 'var(--brand-green)', boxShadow: '0 0 0 4px color-mix(in oklab, var(--brand-green) 22%, transparent)' }}></span>
-            14-day free trial · No credit card required
+            Built for pool service businesses
           </span>
           <h2 style={{ color: 'white', fontSize: 'clamp(26px, 3.6vw, 40px)', marginTop: 16, letterSpacing: '-0.028em', lineHeight: 1.1 }}>Stop running your business between the route and the desk.</h2>
-          <p style={{ marginTop: 16, fontSize: 15.5, color: 'rgba(255,255,255,.75)', lineHeight: 1.55, maxWidth: 520 }}>Bring your customers, routes, and invoices. We'll have you running by tomorrow morning — and we won't charge you a cent until you say so.</p>
+          <p style={{ marginTop: 16, fontSize: 15.5, color: 'rgba(255,255,255,.75)', lineHeight: 1.55, maxWidth: 520 }}>Bring your customers, routes, and invoices. We'll walk you through PoolLogic on your setup and have you running by the end of the week.</p>
           <div style={{ display: 'flex', gap: 10, marginTop: 28, flexWrap: 'wrap' }}>
-            <a href="https://portal.poollogic.app" className="btn btn-lg" style={{ background: 'white', color: '#0A1628', border: 'none', fontWeight: 600, textDecoration: 'none' }}>Start free trial<I.arrowR /></a>
-            <a href="mailto:support@poollogic.app?subject=PoolLogic%20demo%20request" className="btn btn-lg" style={{ background: 'rgba(255,255,255,.06)', color: 'white', border: '1px solid rgba(255,255,255,.18)', textDecoration: 'none' }}>Book a 20-min demo</a>
+            <a href="/contact" className="btn btn-lg" style={{ background: 'white', color: '#0A1628', border: 'none', fontWeight: 600, textDecoration: 'none' }}>Get a demo<I.arrowR /></a>
           </div>
         </div>
       </div>

@@ -205,7 +205,7 @@ const TermsPage = () => {
               <p>Subscriber fees, billing cycles, and any applicable taxes are presented before purchase and are charged automatically through Stripe to the payment method you provide. By subscribing, you authorize PoolLogic to charge that payment method on each renewal date.</p>
               <p>You may cancel your subscription at any time from your account settings. Cancellation takes effect at the end of the then-current billing period. Access to paid features continues until that date.</p>
               <p>Except where required by law, fees already paid are <strong>non-refundable</strong>, including for partial months or unused portions of a billing period. We may, at our sole discretion, offer prorated refunds in exceptional circumstances.</p>
-              <p>Free trial periods (currently 14 days) automatically convert to a paid subscription at the end of the trial unless canceled beforehand.</p>
+              <p>Where PoolLogic offers a free trial, the trial length and any conversion behavior will be disclosed at sign-up. Unless we expressly state otherwise at sign-up, a free trial automatically converts to a paid subscription at the end of the trial period unless canceled beforehand.</p>
             </Section>
 
             <Section id="data" title="11. Data Ownership & Feedback">

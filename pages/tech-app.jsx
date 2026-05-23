@@ -112,7 +112,7 @@ const Hero = () => (
             Most pool software hands the tech a form and hopes for the best. PoolLogic's app enforces what matters, calculates what's tedious, and surfaces what's drifting — so a new hire runs the route like a ten-year vet, and the report writes itself.
           </p>
           <div style={{ display: 'flex', gap: 12, marginTop: 32 }}>
-            <a href="/#cta" className="btn btn-accent">Start free trial</a>
+            <a href="/contact" className="btn btn-accent">Get a demo</a>
             <a href="/" className="btn btn-outline">Back to overview</a>
           </div>
           <div style={{
@@ -300,10 +300,10 @@ const FinalCTA = () => (
         Put it in front of a tech today.
       </h2>
       <p style={{ marginTop: 18, fontSize: 16, lineHeight: 1.55, color: 'var(--ink-4)' }}>
-        Free trial. Import your real routes. The tech app is in the App Store and Play Store the moment your account is live.
+        Import your real routes. The tech app is in the App Store and Play Store the moment your account is live.
       </p>
       <div style={{ display: 'inline-flex', gap: 12, marginTop: 28 }}>
-        <a href="/#cta" className="btn btn-accent">Start free trial</a>
+        <a href="/contact" className="btn btn-accent">Get a demo</a>
         <a href="/" className="btn btn-outline">Back to overview</a>
       </div>
     </div>
