@@ -25,8 +25,14 @@ const Nav = ({ accent }) => {
           <Logo size={38} gap={6} fontSize={scrolled ? 18 : 21} hideIcon={scrolled} />
         </a>
         <div className="nav-links" style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 14, position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
-          {['Product', 'Solutions', 'Pricing', 'Customers', 'Resources'].map((l) =>
-          <a key={l} href="#" style={{ padding: '8px 14px', color: 'var(--ink-3)', borderRadius: 7 }}
+          {[
+          ['Product', '/#features'],
+          ['Solutions', '/#solutions'],
+          ['Pricing', '/#pricing'],
+          ['Customers', '/#switching'],
+          ['Resources', '/#faq']].
+          map(([l, href]) =>
+          <a key={l} href={href} style={{ padding: '8px 14px', color: 'var(--ink-3)', borderRadius: 7, textDecoration: 'none' }}
           onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-muted)'}
           onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>{l}</a>
           )}
@@ -959,7 +965,7 @@ const ProductShowcase = ({ compact = false }) => {
 // Features grid — bento-style
 const Features = () => {
   return (
-    <section className="section-divider" style={{ position: 'relative', overflow: 'hidden' }}>
+    <section id="features" className="section-divider" style={{ position: 'relative', overflow: 'hidden' }}>
       <div aria-hidden="true" style={{
         position: 'absolute', inset: '0 0 auto 0', height: 420, zIndex: -1, pointerEvents: 'none',
         background: 'radial-gradient(900px 320px at 50% 0%, color-mix(in oklab, var(--accent) 4%, transparent), transparent 70%)',
@@ -1088,7 +1094,7 @@ onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--line)'; e.curr
 // "Built differently" — light surface, asymmetric bento, Tech App as hero.
 const BuiltDifferently = () => {
   return (
-    <section style={{
+    <section id="solutions" style={{
       position: 'relative',
       overflow: 'hidden',
       background: 'var(--bg)',
@@ -2106,7 +2112,7 @@ const FAQ = () => {
   { q: 'What payment processors do you support?', a: 'Stripe. All payment processing in PoolLogic runs through Stripe — connect your Stripe account once and you\'re set.' }];
 
   return (
-    <section className="section-divider">
+    <section id="faq" className="section-divider">
       <div id="faq-grid" className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60 }}>
         <div>
           <h2 style={{
