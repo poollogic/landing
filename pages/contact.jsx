@@ -15,8 +15,8 @@ const SIZE_OPTIONS = [
 
 const TIER_OPTIONS = [
   'Core — free until you get paid',
-  'Insight — $15–19/tech/mo',
-  'Vision — $31–39/tech/mo',
+  'Insight — $29–39/tech/mo',
+  'Vision — $59–79/tech/mo',
   'Enterprise',
   'Not sure yet — help me pick',
 ];

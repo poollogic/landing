@@ -1906,7 +1906,7 @@ const Pricing = () => {
   },
   {
     name: 'Insight',
-    price: annual ? 15 : 19,
+    price: annual ? 29 : 39,
     priceUnit: '/tech/mo',
     blurb: 'See exactly where time and gas are leaking.',
     features: [
@@ -1922,7 +1922,7 @@ const Pricing = () => {
   },
   {
     name: 'Vision',
-    price: annual ? 31 : 39,
+    price: annual ? 59 : 79,
     priceUnit: '/tech/mo',
     blurb: 'Let the AI write the reports, schedule the calls, catch the drift.',
     features: [
@@ -2102,7 +2102,7 @@ const FAQ = () => {
   { q: 'How long does setup take?', a: 'Setup is fast — as long as you have your customer info in some kind of document, you can usually be importing and have automated billing live within an hour. The quickest path is our provided spreadsheet template: many customers paste it into Claude or ChatGPT and have it fill in all of their customer information with no manual data entry. You can also upload a PDF or other document to our AI import, but it\'s limited to one document at a time — it can\'t stitch information together across multiple files.' },
   { q: 'Does it work without internet on the truck?', a: 'The technician app works entirely offline. Every stop and every report is cached on the device and syncs the moment reception comes back.' },
   { q: 'Will you migrate my data from Skimmer or Pooltrackr?', a: 'Free migration is included for every customer, on every tier. We\'ll handle importing all your customers and walk you through any questions you may have. The app is extremely intuitive — most teams are comfortable using it from day one.' },
-  { q: 'Do you charge per stop, per service, or per text?', a: 'No per-stop, per-service, or per-text fees. Core is free — you only pay a flat 0.5% on payments processed through Stripe. Check, cash, and external payments are always free. Insight ($19/tech/mo) and Vision ($39/tech/mo) add features like service audits and AI reports. SMS isn\'t available yet — when it launches it\'ll be included on Vision with a fair-use limit so your number doesn\'t get flagged as spam.' },
+  { q: 'Do you charge per stop, per service, or per text?', a: 'No per-stop, per-service, or per-text fees. Core is free — you only pay a flat 0.5% on payments processed through Stripe. Check, cash, and external payments are always free. Insight ($39/tech/mo) and Vision ($79/tech/mo) add features like service audits and AI reports. SMS isn\'t available yet — when it launches it\'ll be included on Vision with a fair-use limit so your number doesn\'t get flagged as spam.' },
   { q: 'What payment processors do you support?', a: 'Stripe. All payment processing in PoolLogic runs through Stripe — connect your Stripe account once and you\'re set.' }];
 
   return (
