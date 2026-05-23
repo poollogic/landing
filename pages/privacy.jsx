@@ -65,6 +65,7 @@ const PrivacyPage = () => {
             How PoolLogic collects, uses, and protects information from the pool service businesses that use our software and the customers they serve.
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> May 23, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
           </div>

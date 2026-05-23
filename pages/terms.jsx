@@ -67,6 +67,7 @@ const TermsPage = () => {
             These terms govern your use of PoolLogic. Please read them carefully — by creating an account or using the service, you agree to them, including the binding arbitration and class-action waiver in Section 16.
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> May 23, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
           </div>
