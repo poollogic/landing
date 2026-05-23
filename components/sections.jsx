@@ -2983,7 +2983,15 @@ const FooterLink = ({ label, href }) => (
     onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink-5)'}>{label}</a>
 );
 
-const Footer = () => null; // temporarily hidden — restore by removing this line
+// Link grid temporarily hidden until destinations are wired. Bottom bar still renders.
+const Footer = () =>
+<footer style={{ borderTop: '1px solid var(--line)', padding: '24px 0' }}>
+    <div className="container footer-bottom" style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: 'var(--ink-5)', gap: 16, flexWrap: 'wrap' }}>
+      <span>© {new Date().getFullYear()} PoolLogic. All rights reserved.</span>
+      <span>Made for pool pros, by pool pros.</span>
+    </div>
+  </footer>;
+
 const _Footer = () =>
 <footer style={{ borderTop: '1px solid var(--line)', padding: '56px 0 32px' }}>
     <div className="container footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr 1fr', gap: 32 }}>
