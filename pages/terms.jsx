@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 // Find-and-replace placeholders if needed:
 //   PoolLogic          legal entity name
 //   Florida                 governing state
-//   May 15, 2026            effective date
+//   May 23, 2026            effective date
 //   legal@poollogic.app     general legal contact email
 //   copyright@poollogic.app DMCA designated agent email
 //   [mailing address]       physical address for DMCA notices — fill before publishing
@@ -14,6 +14,7 @@ const SECTIONS = [
   { id: 'eligibility', title: 'Eligibility & Account Security' },
   { id: 'service', title: 'The Service' },
   { id: 'payments', title: 'Payment Processing (Stripe)' },
+  { id: 'surcharge', title: 'Card Surcharging & Pass-Through Fees' },
   { id: 'autopay', title: 'Autopay & Saved Cards' },
   { id: 'subscriber', title: 'Subscriber Responsibilities' },
   { id: 'acceptable-use', title: 'Acceptable Use' },
@@ -63,10 +64,10 @@ const TermsPage = () => {
             Terms of Service
           </h1>
           <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.6, maxWidth: 640 }}>
-            These terms govern your use of PoolLogic. Please read them carefully — by creating an account or using the service, you agree to them, including the binding arbitration and class-action waiver in Section 15.
+            These terms govern your use of PoolLogic. Please read them carefully — by creating an account or using the service, you agree to them, including the binding arbitration and class-action waiver in Section 16.
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 23, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
           </div>
         </header>
@@ -120,31 +121,60 @@ const TermsPage = () => {
             </Section>
 
             <Section id="payments" title="4. Payment Processing (Stripe)">
-              <p><strong>Payments are processed by Stripe, not by PoolLogic.</strong> To send invoices or accept payments through PoolLogic, you must connect a Stripe account. By doing so, you agree to be bound by the <a href="https://stripe.com/connect-account/legal" target="_blank" rel="noreferrer noopener">Stripe Connected Account Agreement</a> and any other Stripe terms applicable to your account.</p>
-              <p>PoolLogic is not a party to the underlying payment transaction. Funds flow directly from your customer to your connected Stripe account. PoolLogic facilitates the request and the record-keeping, but does not handle, hold, or transfer funds on your behalf.</p>
+              <p><strong>Payments are processed by Stripe, not by PoolLogic.</strong> To send invoices or accept payments through PoolLogic, the Subscriber must onboard a <strong>Stripe Connect Express</strong> account through the PoolLogic application. As part of that onboarding, the Subscriber agrees to be bound by the <a href="https://stripe.com/legal/ssa" target="_blank" rel="noreferrer noopener">Stripe Services Agreement</a> and the <a href="https://stripe.com/legal/connect-account" target="_blank" rel="noreferrer noopener">Stripe Connected Account Agreement</a> (together, the "Stripe Agreements"). PoolLogic operates as the Connect platform; the Subscriber's relationship with Stripe is governed by the Stripe Agreements, not by these Terms.</p>
+
+              <p>PoolLogic is not a bank, money transmitter, or payment processor. Depending on the transaction, a charge may be created on PoolLogic's platform Stripe account and the proceeds transferred to the Subscriber's connected Express account, or created directly on the connected account. In either case, PoolLogic does not hold, custody, or invest Subscriber funds beyond the brief processing window required by Stripe to settle the transaction.</p>
+
               <p>Stripe handles all cardholder data in a PCI-compliant environment. <strong>PoolLogic never sees, receives, or stores full card numbers, CVV codes, or other sensitive payment information.</strong></p>
-              <p>All disputes, chargebacks, refunds, and reversals are between the Subscriber, the End Customer, and Stripe. PoolLogic is not responsible for resolving payment disputes and will not refund Subscriber fees on the basis of a chargeback.</p>
+
+              <h3>Stripe Controls Verification, Payouts, Holds, and Reserves</h3>
+              <p>Stripe — not PoolLogic — controls identity verification (KYC/KYB), payout timing and method, eligibility, holds, reserves, and account restrictions on the Subscriber's connected Express account. PoolLogic is not responsible for delays, holds, reserves, payout failures, or account terminations imposed by Stripe, and is not able to override or shorten them. The Subscriber's ability to accept payments through PoolLogic depends on Stripe's continued verification and acceptance of the Subscriber's connected account.</p>
+
+              <h3>Disputes, Chargebacks, and Refunds</h3>
+              <p>All disputes, chargebacks, refunds, and reversals are between the Subscriber, the End Customer, and Stripe. PoolLogic is not responsible for resolving payment disputes, evidencing chargebacks, or recovering disputed amounts, and will not refund Subscriber fees on the basis of a chargeback.</p>
 
               <h3>Subscriber Liability for Stripe-Imposed Amounts</h3>
-              <p>If Stripe charges, fines, holds back, reverses, or imposes a negative balance on a Subscriber's connected Stripe account — for example due to chargebacks, refunds, fraud investigations, or regulatory action — those amounts are the sole responsibility of the Subscriber. If Stripe collects any such amounts from PoolLogic's platform balance or otherwise causes PoolLogic to bear those amounts, the Subscriber will reimburse PoolLogic in full within ten (10) days of written notice. The Subscriber indemnifies PoolLogic against any such amounts and any related fees, costs, and reasonable attorneys' fees.</p>
+              <p>If Stripe charges, fines, holds back, reverses, or causes a negative balance on the Subscriber's connected Express account — for example due to chargebacks, refunds, ACH returns, fraud investigations, regulatory action, or termination of the connected account — those amounts are the sole responsibility of the Subscriber. Because PoolLogic operates the Connect platform, Stripe may collect those amounts from PoolLogic's platform balance, debit PoolLogic's bank account, or otherwise cause PoolLogic to bear those amounts. The Subscriber will reimburse PoolLogic in full for any such amount, together with any related fees, costs, and reasonable attorneys' fees, within ten (10) days of written notice.</p>
+
+              <p>To secure that reimbursement obligation, the Subscriber expressly authorizes PoolLogic, without further consent and to the maximum extent permitted by law and the Stripe Agreements, to: (a) <strong>charge the Subscriber's payment method on file</strong> (including the card used to pay PoolLogic subscription fees) for the amount owed; (b) <strong>withhold, offset, or recoup against any payouts or amounts otherwise payable to the Subscriber through Stripe</strong>, including by instructing Stripe to delay, hold, or apply payouts toward the amount owed; and (c) <strong>set off the amount owed against any credit, refund, or balance otherwise owed by PoolLogic to the Subscriber</strong>. These remedies are cumulative and in addition to any other remedy available to PoolLogic. The Subscriber indemnifies PoolLogic against any Stripe-imposed amount described in this Section and any related claim.</p>
 
               <h3>PCI-DSS and Card Data</h3>
               <p>Subscribers may not collect, transmit, or store full card numbers, CVV codes, or other sensitive cardholder data outside of Stripe's UI and APIs. Subscribers may not request or accept card data through email, SMS, or any channel within PoolLogic that is not specifically designed for Stripe-mediated card capture. To the extent the Payment Card Industry Data Security Standard ("PCI-DSS") applies to a Subscriber's business, the Subscriber is responsible for its own PCI-DSS compliance.</p>
             </Section>
 
-            <Section id="autopay" title="5. Autopay & Saved Cards">
+            <Section id="surcharge" title="5. Card Surcharging & Pass-Through Fees">
+              <p>PoolLogic offers an optional feature that lets a Subscriber pass credit-card processing costs through to the End Customer as a separate line item ("surcharge") on the invoice. Whether to enable this feature, and on which invoices, is the Subscriber's choice. <strong>PoolLogic provides the technical capability only; the Subscriber is solely responsible for using the feature lawfully.</strong></p>
+
+              <p>Card surcharging is regulated by card-network rules (including Visa, Mastercard, American Express, and Discover), federal law, and the laws of certain U.S. states and jurisdictions, which may prohibit surcharging, cap the surcharge amount, require advance notice to the card networks and the acquirer, require specific disclosures to the cardholder at the point of sale and on the receipt, or otherwise restrict the practice. The applicable rules change over time and vary by jurisdiction and card brand.</p>
+
+              <p>By enabling the surcharge feature, the Subscriber represents and warrants, on each transaction, that:</p>
+              <ul>
+                <li>Surcharging credit-card transactions is lawful in the jurisdiction where the transaction occurs and is permitted by the Subscriber's agreements with Stripe and the card networks;</li>
+                <li>The Subscriber has provided any advance notice to the card networks and acquirer required by applicable network rules before enabling surcharging;</li>
+                <li>The surcharge does not exceed the lesser of the Subscriber's actual cost of card acceptance or the cap set by the applicable card-network rules;</li>
+                <li>The Subscriber will not surcharge debit-card transactions, prepaid-card transactions, or any other transaction for which surcharging is prohibited;</li>
+                <li>The Subscriber clearly and conspicuously discloses the surcharge to the End Customer before the End Customer authorizes the transaction, and the surcharge is shown as a separate line item on the invoice and any receipt; and</li>
+                <li>The Subscriber has configured the feature accurately, including the surcharge rate and the invoices to which it applies.</li>
+              </ul>
+
+              <p>The Subscriber is solely responsible for any fine, penalty, chargeback, dispute, refund, network-rule violation, regulatory action, or claim by an End Customer or governmental authority arising out of or related to the Subscriber's use of the surcharge feature, and indemnifies PoolLogic against any such amount and any related fees, costs, and reasonable attorneys' fees. PoolLogic does not provide legal or tax advice on whether surcharging is permitted in any particular transaction, and the Subscriber should consult its own counsel.</p>
+
+              <p>Separately, certain Subscriber-imposed fees other than card surcharges (for example, late fees, convenience fees, trip fees, or service-call fees) may also be regulated by state law or by the Subscriber's agreements with the End Customer. The Subscriber is solely responsible for the legality, accuracy, and disclosure of any such fee charged through PoolLogic.</p>
+            </Section>
+
+            <Section id="autopay" title="6. Autopay & Saved Cards">
               <p>End Customers may save a payment method to enable automatic recurring charges. When an End Customer saves a card through the PoolLogic invoice flow, they consent to recurring charges initiated by the Subscriber for services rendered.</p>
               <p>If a Subscriber adds a card on an End Customer's behalf, the Subscriber attests that they have obtained the End Customer's express permission and have read and accepted the in-app consent confirmation. Misrepresenting this consent is a material breach of these Terms and may result in account termination.</p>
               <p>End Customers may update or remove their saved payment method at any time through the Stripe Customer Portal. After <strong>three consecutive declined charges</strong>, autopay is automatically disabled for that customer and the Subscriber is notified.</p>
             </Section>
 
-            <Section id="subscriber" title="6. Subscriber Responsibilities">
+            <Section id="subscriber" title="7. Subscriber Responsibilities">
               <p>Subscribers are solely responsible for the accuracy and legitimacy of invoices, estimates, and service records they send to their customers through PoolLogic.</p>
               <p>You are responsible for complying with all applicable laws in the jurisdictions where you operate, including consumer-protection regulations, sales tax obligations, late-fee rules, refund-policy disclosures, and any licensing requirements for pool service work.</p>
               <p>You must have explicit permission to charge an End Customer. You may not use PoolLogic to bill for illegal services, to defraud customers, to harass or intimidate, or to send unsolicited communications.</p>
             </Section>
 
-            <Section id="acceptable-use" title="7. Acceptable Use">
+            <Section id="acceptable-use" title="8. Acceptable Use">
               <p>You agree not to:</p>
               <ul>
                 <li>Resell, sublicense, or otherwise commercially exploit the service except as expressly permitted.</li>
@@ -158,20 +188,20 @@ const TermsPage = () => {
               </ul>
             </Section>
 
-            <Section id="communications" title="8. Communications & SMS Consent">
+            <Section id="communications" title="9. Communications & SMS Consent">
               <p>By providing a phone number, email address, or other contact information through PoolLogic, you agree that we (and the Subscriber, where applicable) may contact you about the Service using the channels you provide, including email, phone, and SMS.</p>
               <p>When you enable SMS or push notifications for invoice reminders, payment receipts, route updates, or other Service-related messages, <strong>you expressly consent to receive those messages, which may be sent using automated technology.</strong> Message and data rates may apply. You can opt out of non-essential SMS at any time by replying <strong>STOP</strong>; reply <strong>HELP</strong> for support. Opting out does not affect transactional or account-security messages reasonably required to operate the Service.</p>
               <p>Subscribers are responsible for obtaining all consents required by the Telephone Consumer Protection Act ("TCPA"), the CAN-SPAM Act, and any other applicable communications law <em>before</em> using PoolLogic to send marketing or non-transactional messages to their customers. The Subscriber represents and warrants that every recipient added to PoolLogic has provided the consents required for the messages the Subscriber sends to them. The Subscriber indemnifies PoolLogic against any claim or fine arising from a failure to obtain those consents.</p>
             </Section>
 
-            <Section id="fees" title="9. Fees, Cancellation & Refunds">
+            <Section id="fees" title="10. Fees, Cancellation & Refunds">
               <p>Subscriber fees, billing cycles, and any applicable taxes are presented before purchase and are charged automatically through Stripe to the payment method you provide. By subscribing, you authorize PoolLogic to charge that payment method on each renewal date.</p>
               <p>You may cancel your subscription at any time from your account settings. Cancellation takes effect at the end of the then-current billing period. Access to paid features continues until that date.</p>
               <p>Except where required by law, fees already paid are <strong>non-refundable</strong>, including for partial months or unused portions of a billing period. We may, at our sole discretion, offer prorated refunds in exceptional circumstances.</p>
               <p>Free trial periods (currently 14 days) automatically convert to a paid subscription at the end of the trial unless canceled beforehand.</p>
             </Section>
 
-            <Section id="data" title="10. Data Ownership & Feedback">
+            <Section id="data" title="11. Data Ownership & Feedback">
               <p><strong>You own your data.</strong> Customer records, invoices, estimates, service reports, photos, and any other content you upload to PoolLogic remain your property.</p>
               <p>You grant PoolLogic a limited, non-exclusive, royalty-free license to host, process, transmit, and display your data solely for the purpose of operating and improving the service for you.</p>
               <p>You may export your data at any time during your subscription. On account closure or termination, you have <strong>30 days</strong> to export your data. After that period, we may delete it, subject to any legal or financial-record retention obligations (for example, Stripe transaction records, which are retained per Stripe's own policies).</p>
@@ -183,7 +213,7 @@ const TermsPage = () => {
               <p>If you send us suggestions, comments, ideas, bug reports, or other feedback about the Service ("Feedback"), you grant PoolLogic a perpetual, worldwide, royalty-free, irrevocable, sublicensable license to use, modify, and incorporate that Feedback into the Service or our other offerings without obligation or compensation. We may use Feedback freely, and you retain no rights in or claim to that Feedback once submitted.</p>
             </Section>
 
-            <Section id="termination" title="11. Termination & Suspension">
+            <Section id="termination" title="12. Termination & Suspension">
               <h3>Suspension</h3>
               <p>We may suspend your account, or specific features of your account, at any time — with or without prior notice — if (a) a payment to PoolLogic fails or is reversed, (b) we reasonably suspect fraud, abuse, or a security risk, (c) you exceed reasonable usage limits, or (d) we need to investigate a potential breach of these Terms. Suspension is a temporary measure and may be lifted once the underlying issue is resolved. If a suspended account is not restored within a reasonable period, we may terminate it under the section below.</p>
 
@@ -192,22 +222,23 @@ const TermsPage = () => {
               <p>On termination, your right to access the service ends immediately. Records related to historical transactions, invoices, or other financial activity may be retained as required by law or by Stripe's record-keeping rules. Sections of these Terms that by their nature should survive termination (including ownership, our intellectual property, indemnification, disclaimers, limitation of liability, arbitration, and general provisions) will survive.</p>
             </Section>
 
-            <Section id="disclaimers" title="12. Disclaimers & Limitation of Liability">
+            <Section id="disclaimers" title="13. Disclaimers & Limitation of Liability">
               <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR UNINTERRUPTED OPERATION.</p>
               <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, POOLLOGIC'S TOTAL CUMULATIVE LIABILITY ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE WILL NOT EXCEED THE GREATER OF (A) THE TOTAL FEES YOU PAID TO POOLLOGIC IN THE TWELVE (12) MONTHS PRECEDING THE EVENT GIVING RISE TO THE CLAIM, OR (B) ONE HUNDRED U.S. DOLLARS ($100).</p>
               <p>POOLLOGIC WILL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOST PROFITS, LOST REVENUE, LOST DATA, OR BUSINESS INTERRUPTION, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
               <p>Some jurisdictions do not allow the exclusion or limitation of certain warranties or damages, so these limits may not apply to you in full.</p>
+              <p><strong>Carve-out.</strong> The limitations and exclusions in this Section do <strong>not</strong> apply to: (a) the Subscriber's payment, reimbursement, set-off, and offset obligations under Section 4 (Payment Processing); (b) the Subscriber's obligations under Section 5 (Card Surcharging & Pass-Through Fees); (c) the Subscriber's indemnification obligations under these Terms; or (d) any liability that cannot be limited or excluded under applicable law.</p>
             </Section>
 
-            <Section id="indemnification" title="13. Indemnification">
+            <Section id="indemnification" title="14. Indemnification">
               <p>You agree to defend, indemnify, and hold harmless PoolLogic, its officers, employees, and contractors from and against any claims, damages, losses, liabilities, and expenses (including reasonable attorneys' fees) arising out of or related to (a) your use of the service, (b) your breach of these Terms, (c) your violation of any law or the rights of any third party, or (d) any dispute between you and an End Customer, including billing disputes, service complaints, or refund claims.</p>
             </Section>
 
-            <Section id="force-majeure" title="14. Force Majeure">
+            <Section id="force-majeure" title="15. Force Majeure">
               <p>Neither party will be liable for any failure or delay in performance of these Terms caused by events beyond its reasonable control, including acts of God, natural disasters, severe weather, fire, flood, war, terrorism, pandemic, epidemic, public-health emergency, civil unrest, embargo, sanctions, government action or order, labor dispute, internet or telecommunications outage, power failure, or the failure of a third-party service provider on which the affected party relies (including Stripe, Supabase, Resend, Cloudflare, or any successor or replacement provider).</p>
             </Section>
 
-            <Section id="disputes" title="15. Dispute Resolution & Arbitration">
+            <Section id="disputes" title="16. Dispute Resolution & Arbitration">
               <p><strong>Please read this section carefully — it affects your legal rights, including your right to file a lawsuit in court and to participate in a class action.</strong></p>
 
               <h3>Informal Resolution</h3>
@@ -232,7 +263,7 @@ const TermsPage = () => {
               <p>If the class-action waiver is held unenforceable, the entire arbitration agreement will be void. If any other portion of this Section is held unenforceable, the remainder will continue in effect. If the arbitration agreement as a whole is held unenforceable, any Dispute must be brought exclusively in the state or federal courts located in Florida, and the parties consent to the personal jurisdiction of those courts. These Terms are governed by the laws of the State of Florida, without regard to its conflict-of-laws principles. You and PoolLogic each waive any right to a jury trial in any proceeding arising out of or related to these Terms.</p>
             </Section>
 
-            <Section id="dmca" title="16. Copyright Complaints (DMCA)">
+            <Section id="dmca" title="17. Copyright Complaints (DMCA)">
               <p>We respect intellectual property rights. If you believe content available through PoolLogic infringes your copyright, please send a notice complying with 17 U.S.C. § 512(c)(3) to our designated agent:</p>
               <p style={{ marginTop: 10 }}>
                 <strong style={{ color: 'var(--ink-2)' }}>PoolLogic — Copyright Agent</strong><br/>
@@ -242,7 +273,7 @@ const TermsPage = () => {
               <p>Your notice must include: (a) a physical or electronic signature of the copyright owner or authorized agent; (b) identification of the copyrighted work claimed to have been infringed; (c) identification of the allegedly infringing material and information sufficient to locate it; (d) your contact information; (e) a statement of good-faith belief that the use is not authorized; and (f) a statement under penalty of perjury that the information in the notice is accurate and that you are authorized to act. We may remove or disable access to allegedly infringing material and may terminate repeat infringers in accordance with our policies.</p>
             </Section>
 
-            <Section id="general" title="17. General Provisions">
+            <Section id="general" title="18. General Provisions">
               <p><strong>Entire agreement.</strong> These Terms (together with any policies referenced, including the Privacy Policy) constitute the entire agreement between you and PoolLogic regarding the Service and supersede any prior or contemporaneous agreements, communications, or proposals on the subject.</p>
               <p><strong>No oral modification; waiver.</strong> No oral or informal modification of these Terms will be binding. Any waiver or modification must be in a writing signed by an authorized representative of PoolLogic. Our failure to enforce any provision is not a waiver of our right to do so later.</p>
               <p><strong>Severability.</strong> If any provision is held invalid or unenforceable, that provision will be enforced to the maximum extent permitted by law and the remaining provisions will continue in full force and effect.</p>
@@ -252,12 +283,12 @@ const TermsPage = () => {
               <p><strong>Headings.</strong> Headings are for convenience only and do not affect interpretation.</p>
             </Section>
 
-            <Section id="changes" title="18. Changes to These Terms">
+            <Section id="changes" title="19. Changes to These Terms">
               <p>We may update these Terms from time to time. If we make material changes, we will notify you by email and post the updated Terms on this page with a new effective date. Material changes will take effect <strong>30 days</strong> after notice. Your continued use of the service after that period constitutes acceptance of the updated Terms.</p>
               <p>For non-material changes (such as clarifications or typo corrections), we may update these Terms without individual notice.</p>
             </Section>
 
-            <Section id="contact" title="19. Contact">
+            <Section id="contact" title="20. Contact">
               <p>For questions about these Terms or to send a legal notice, contact us at:</p>
               <p style={{ marginTop: 12 }}>
                 <strong style={{ color: 'var(--ink-2)' }}>PoolLogic</strong><br/>
