@@ -13,6 +13,14 @@ const SIZE_OPTIONS = [
   '16+ technicians',
 ];
 
+const TIER_OPTIONS = [
+  'Core — free until you get paid',
+  'Insight — $15–19/tech/mo',
+  'Vision — $31–39/tech/mo',
+  'Enterprise',
+  'Not sure yet — help me pick',
+];
+
 const ContactPage = () => {
   const [status, setStatus] = useState('idle'); // idle | submitting | success | error
   const [errorMessage, setErrorMessage] = useState('');
@@ -89,7 +97,10 @@ const ContactPage = () => {
               <Field label="Phone (optional)" name="phone" type="tel" autoComplete="tel" />
             </Row>
 
-            <SelectField label="How many technicians?" name="size" options={SIZE_OPTIONS} required />
+            <Row>
+              <SelectField label="How many technicians?" name="size" options={SIZE_OPTIONS} required />
+              <SelectField label="Which plan looks right?" name="tier" options={TIER_OPTIONS} required />
+            </Row>
 
             <TextareaField
               label="What's frustrating you about your current setup?"
