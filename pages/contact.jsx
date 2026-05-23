@@ -61,16 +61,16 @@ const ContactPage = () => {
 
   return (
     <main style={{ background: 'var(--bg)', color: 'var(--ink-2)', minHeight: '100vh' }}>
-      <div className="container" style={{ paddingTop: 56, paddingBottom: 96, maxWidth: 880 }}>
-        <header style={{ marginBottom: 40 }}>
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '56px 24px 96px' }}>
+        <header style={{ marginBottom: 32, textAlign: 'center' }}>
           <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-5)', fontFamily: "'Geist Mono', ui-monospace, monospace" }}>
             Get a demo
           </div>
-          <h1 style={{ marginTop: 12, fontSize: 'clamp(36px, 4.4vw, 56px)', letterSpacing: '-0.035em', lineHeight: 1.05, color: 'var(--ink)' }}>
+          <h1 style={{ marginTop: 12, fontSize: 'clamp(32px, 3.8vw, 48px)', letterSpacing: '-0.035em', lineHeight: 1.1, color: 'var(--ink)' }}>
             See PoolLogic on your routes.
           </h1>
-          <p style={{ marginTop: 16, fontSize: 17, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 640 }}>
-            Tell us a little about your business and we'll get back to you within one business day to walk you through PoolLogic on your routes, your customers, and your billing setup.
+          <p style={{ marginTop: 14, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
+            Tell us a little about your business and we'll get back within one business day to walk you through PoolLogic on your routes, customers, and billing.
           </p>
         </header>
 
