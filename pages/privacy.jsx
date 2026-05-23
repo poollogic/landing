@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 // Find-and-replace placeholders if needed:
 //   PoolLogic          legal entity name
 //   Florida                 governing state
-//   May 15, 2026            effective date
+//   May 23, 2026            effective date
 //   privacy@poollogic.app   contact email
 //
 // Subprocessors listed below reflect the current stack — confirm before going live
@@ -65,7 +65,7 @@ const PrivacyPage = () => {
             How PoolLogic collects, uses, and protects information from the pool service businesses that use our software and the customers they serve.
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 23, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
           </div>
         </header>
@@ -104,7 +104,11 @@ const PrivacyPage = () => {
                 <li><strong>For Subscribers</strong> — the pool service businesses who hold accounts with us — PoolLogic acts as a <em>data controller</em>. We decide how and why your account information is collected and used.</li>
                 <li><strong>For End Customers</strong> — the homeowners and property managers whose information is entered into PoolLogic by a Subscriber — PoolLogic acts as a <em>data processor</em>. The Subscriber is the data controller and decides how that information is used. We process End Customer data only on the Subscriber's behalf and according to their instructions.</li>
               </ul>
-              <p>If you are an End Customer with a privacy question or request, please contact the pool service company that holds your account. We forward any direct requests we receive to the relevant Subscriber.</p>
+              <p>If you are an End Customer with a privacy question or request, please contact the pool service company that holds your account. We forward any direct requests we receive to the relevant Subscriber. To stop receiving non-essential SMS messages sent through PoolLogic on a Subscriber's behalf, reply <strong>STOP</strong> to any such message (reply <strong>HELP</strong> for support); we will honor the opt-out and forward it to the Subscriber.</p>
+
+              <h3 style={subHeadStyle}>Our Role Under U.S. State Privacy Laws (CCPA / CPRA and Similar)</h3>
+              <p>For purposes of the California Consumer Privacy Act, as amended ("CCPA"), and analogous comprehensive privacy laws in other U.S. states, each Subscriber is the "business" with respect to the personal information of its End Customers, and PoolLogic is a "service provider" (or, where the applicable state uses different terminology, a "processor" or "contractor"). We process End Customer personal information only on the Subscriber's documented instructions and only for the limited and specified purposes set out in our agreement with the Subscriber and this Privacy Policy.</p>
+              <p>As a service provider, we will not: (a) sell or share End Customer personal information; (b) retain, use, or disclose it for any purpose other than the business purposes specified in our agreement or as otherwise permitted by the CCPA; (c) retain, use, or disclose it outside of the direct business relationship between PoolLogic and the Subscriber; or (d) combine it with personal information we receive from or on behalf of any other source, except as permitted by Cal. Civ. Code § 1798.140(ag)(1) (for example, to detect security incidents or fraud). We will assist Subscribers, by reasonable means, in responding to verified consumer rights requests they receive from their End Customers.</p>
             </Section>
 
             <Section id="data-collected" title="2. What Data We Collect">
@@ -165,8 +169,8 @@ const PrivacyPage = () => {
               <div style={{ marginTop: 18, border: '1px solid var(--line)', borderRadius: 10, overflow: 'hidden' }}>
                 <SubprocessorRow
                   name="Stripe"
-                  purpose="Payment processing, customer card storage, payouts."
-                  shared="Full payment method data, customer name, billing/service address, charge amounts, invoice metadata."
+                  purpose="Payment processing, customer card storage, payouts, and Subscriber identity verification (KYC/KYB) for Stripe Connect Express accounts. Stripe acts as an independent controller for personal information it collects to comply with its own anti-money-laundering, sanctions, fraud-prevention, and regulatory obligations; that processing is governed by Stripe's own privacy policy and the Stripe Services Agreement and Stripe Connected Account Agreement, not by this Privacy Policy."
+                  shared="Full payment method data, customer name, billing/service address, charge amounts, invoice metadata; for Subscribers, the identity-verification information Stripe requires for Connect Express onboarding."
                   link="https://stripe.com/privacy"
                 />
                 <SubprocessorRow
@@ -250,6 +254,21 @@ const PrivacyPage = () => {
 
             <Section id="state-rights" title="13. Your State-Specific Privacy Rights">
               <p>Depending on where you live, you may have additional rights under your state's privacy law. These rights typically include the right to access, correct, delete, and port the personal information we hold about you, and the right to opt out of certain processing.</p>
+
+              <h3 style={subHeadStyle}>Categories of Personal Information We Collect (CCPA / CPRA Notice at Collection)</h3>
+              <p>In the past twelve months, we have collected the following categories of personal information as defined under Cal. Civ. Code § 1798.140(v). The categories below apply to Subscribers and, where data is entered by a Subscriber, to End Customers. We have not "sold" or "shared" personal information in those terms' CCPA sense.</p>
+              <ul>
+                <li><strong>Identifiers</strong> — name, email address, postal address, phone number, IP address, account identifiers. <em>Sources:</em> directly from Subscribers; from Subscribers on behalf of End Customers; automatically from server logs. <em>Purposes:</em> account creation, service delivery, billing, communications, security. <em>Disclosed to:</em> the subprocessors listed in Section 6.</li>
+                <li><strong>Customer records / contact and account information</strong> (Cal. Civ. Code § 1798.80(e)) — billing contact, business name, service addresses. <em>Sources, purposes, and disclosures:</em> same as Identifiers.</li>
+                <li><strong>Commercial information</strong> — invoices, estimates, payment history, services purchased or provided. <em>Sources:</em> Subscribers; Stripe (payment status). <em>Purposes:</em> service delivery, billing, record-keeping. <em>Disclosed to:</em> Stripe; database and email subprocessors.</li>
+                <li><strong>Internet or other electronic network activity</strong> — browser type, device, pages visited, request metadata, sign-in timestamps. <em>Sources:</em> automatically from your interactions with the service. <em>Purposes:</em> security, fraud prevention, operations, basic analytics. <em>Disclosed to:</em> hosting and CDN subprocessors.</li>
+                <li><strong>Geolocation information</strong> (approximate, derived from IP address) — used for security, fraud prevention, and analytics. We do not collect precise geolocation.</li>
+                <li><strong>Professional or employment-related information</strong> — limited to the business identity of the Subscriber and its staff (organization name, role).</li>
+                <li><strong>Inferences</strong> — limited operational inferences (for example, payment-failure patterns used to trigger autopay suspension). We do not build advertising or behavioral profiles.</li>
+              </ul>
+              <p>We do not knowingly collect "sensitive personal information" as defined under the CCPA, other than financial-account identifiers required to process payment, which Stripe handles directly. We do not use personal information for cross-context behavioral advertising.</p>
+              <p><strong>Retention.</strong> We retain each category of personal information for the periods described in Section 10 (Data Retention), or for the criteria described in that Section where a fixed period cannot be stated in advance (for example, "for as long as the Subscriber's account is active"). These periods are based on the operational need to provide the service, applicable legal and tax record-keeping obligations, and the criteria set out in Cal. Civ. Code § 1798.100(a)(3).</p>
+
               <p>If you are a resident of <strong>California, Colorado, Connecticut, Delaware, Florida, Indiana, Iowa, Kentucky, Maryland, Montana, Nebraska, New Hampshire, New Jersey, Oregon, Rhode Island, Tennessee, Texas, Utah, or Virginia</strong>, you have rights under your state's comprehensive privacy law. To exercise these rights, contact <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a>. We will verify your identity before fulfilling a request and respond within the timeframe required by applicable law.</p>
               <p>For End Customer data entered by a Subscriber, the Subscriber is the controller. Direct your requests to them; we will assist where required by law.</p>
               <p><strong>We do not sell personal information.</strong> We do not engage in cross-context behavioral advertising or in "sharing" of personal information as those terms are defined under California law (Cal. Civ. Code § 1798.140).</p>

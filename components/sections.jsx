@@ -2985,7 +2985,8 @@ const FooterLink = ({ label, href }) => (
     onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink-5)'}>{label}</a>
 );
 
-const Footer = () =>
+const Footer = () => null; // temporarily hidden — restore by removing this line
+const _Footer = () =>
 <footer style={{ borderTop: '1px solid var(--line)', padding: '56px 0 32px' }}>
     <div className="container footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr 1fr', gap: 32 }}>
       <div>
