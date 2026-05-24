@@ -2004,38 +2004,57 @@ const PricingCards = () => {
       <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
         {tiers.map((t) => {
         const isEnterprise = t.ctaHref === null;
+        const popularBorder = 'color-mix(in oklab, var(--accent) 38%, var(--line))';
         return (
           <div key={t.name}
-            onMouseEnter={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--ink-6)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 14px 32px -18px rgba(15, 23, 42, .14)'; } }}
-            onMouseLeave={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, .03)'; } }}
+            onMouseEnter={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--ink-6)'; } }}
+            onMouseLeave={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--line)'; } }}
             style={{
-            border: t.popular ? '1.5px solid var(--accent)' : '1px solid var(--line)',
+            border: t.popular ? `1.5px solid ${popularBorder}` : '1px solid var(--line)',
             borderRadius: 14,
-            padding: 20,
-            background: t.popular ? 'linear-gradient(180deg, color-mix(in oklab, var(--accent) 5%, var(--bg)) 0%, var(--bg) 55%)' : 'var(--bg)',
+            padding: '28px 22px',
+            background: 'var(--bg)',
             position: 'relative',
-            boxShadow: t.popular ? '0 24px 48px -24px color-mix(in oklab, var(--accent) 42%, transparent), 0 1px 0 rgba(255,255,255,.6) inset' : '0 1px 2px rgba(15, 23, 42, .03)',
             opacity: isEnterprise ? 0.85 : 1,
             display: 'flex', flexDirection: 'column',
-            transition: 'transform .2s ease, box-shadow .2s ease, border-color .2s ease'
+            transition: 'border-color .2s ease'
           }}>
-            {t.popular && <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--accent)', color: 'white', padding: '5px 14px', borderRadius: 999, whiteSpace: 'nowrap', boxShadow: '0 4px 12px -4px color-mix(in oklab, var(--accent) 45%, transparent)' }}>Most popular</div>}
-            <h3 style={{ fontSize: 18, fontWeight: 600 }}>{t.name}</h3>
-            <p style={{ marginTop: 8, fontSize: 13, color: 'var(--ink-5)', lineHeight: 1.5, minHeight: 58 }}>{t.blurb}</p>
+            {t.popular && (
+              <div style={{
+                alignSelf: 'flex-start',
+                fontSize: 10.5, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
+                background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
+                color: 'color-mix(in oklab, var(--accent) 75%, black)',
+                padding: '4px 10px', borderRadius: 999,
+                marginBottom: 14,
+              }}>Most popular</div>
+            )}
+            <h3 style={{ fontSize: 17, fontWeight: 600, color: 'var(--ink)' }}>{t.name}</h3>
 
-            <div style={{ marginTop: 16, display: 'flex', alignItems: 'baseline', gap: 6, minHeight: 56 }}>
+            <div style={{ marginTop: 18, display: 'flex', alignItems: 'baseline', gap: 8, minHeight: 44, flexWrap: 'wrap' }}>
               {t.price === 0 ?
-              <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>Free</span> :
+              <span style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.035em', color: 'var(--ink)' }}>$0</span> :
               t.price === null ?
-              <span style={{ fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink-4)' }}>Custom</span> :
+              <span style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink-4)' }}>Custom</span> :
               <>
-                <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>${t.price}</span>
+                <span style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.035em', color: 'var(--ink)' }}>${t.price}</span>
                 <span style={{ color: 'var(--ink-5)', fontSize: 13 }}>{t.priceUnit}</span>
+                {annual && (
+                  <span style={{
+                    fontSize: 11, fontWeight: 600,
+                    background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
+                    color: 'color-mix(in oklab, var(--accent) 75%, black)',
+                    padding: '3px 8px', borderRadius: 999,
+                    marginLeft: 2,
+                  }}>Save 20%</span>
+                )}
               </>
               }
             </div>
 
-            <div style={{ fontSize: 12, color: 'var(--ink-5)', marginBottom: 16, minHeight: 18 }}>
+            <p style={{ marginTop: 10, fontSize: 13, color: 'var(--ink-5)', lineHeight: 1.55, minHeight: 56 }}>{t.blurb}</p>
+
+            <div style={{ fontSize: 12, color: 'var(--ink-5)', marginTop: 8, marginBottom: 20, minHeight: 18 }}>
               {isEnterprise ? ' ' : <>+ 0.5% on Stripe payments</>}
             </div>
 
