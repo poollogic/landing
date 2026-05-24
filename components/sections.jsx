@@ -1963,52 +1963,42 @@ const PricingCards = () => {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginBottom: 40, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
         <div style={{
           position: 'relative',
-          display: 'inline-flex', padding: 4,
+          display: 'inline-flex', padding: 3,
           background: 'var(--bg-muted)',
-          border: '1px solid var(--line-2)',
-          borderRadius: 999, fontSize: 13,
+          border: '1px solid var(--line)',
+          borderRadius: 8, fontSize: 13,
         }}>
           <span aria-hidden="true" style={{
             position: 'absolute',
-            top: 4, bottom: 4,
-            left: annual ? '50%' : 4,
-            width: 'calc(50% - 4px)',
+            top: 3, bottom: 3,
+            left: annual ? '50%' : 3,
+            width: 'calc(50% - 3px)',
             background: 'var(--bg)',
-            borderRadius: 999,
-            boxShadow: '0 1px 3px rgba(15, 23, 42, .08), 0 1px 0 rgba(255,255,255,.6) inset',
-            transition: 'left .25s cubic-bezier(.2,.8,.2,1)',
+            borderRadius: 6,
+            boxShadow: '0 1px 2px rgba(15, 23, 42, .06), 0 0 0 1px rgba(15, 23, 42, .04)',
+            transition: 'left .22s cubic-bezier(.2,.8,.2,1)',
           }} />
           {[['Monthly', false], ['Annual', true]].map(([l, v]) =>
           <button key={l} onClick={() => setAnnual(v)} style={{
             position: 'relative',
             flex: 1,
-            minWidth: 92,
-            padding: '8px 18px',
+            minWidth: 84,
+            padding: '6px 16px',
             background: 'transparent',
-            color: annual === v ? 'var(--ink)' : 'var(--ink-5)',
+            color: annual === v ? 'var(--ink)' : 'var(--ink-4)',
             border: 'none',
-            borderRadius: 999,
+            borderRadius: 6,
             fontWeight: 500,
+            fontSize: 13,
             transition: 'color .15s',
             cursor: 'pointer',
             zIndex: 1,
           }}>{l}</button>
           )}
         </div>
-        <span style={{
-          display: 'inline-flex', alignItems: 'center',
-          padding: '4px 10px',
-          background: 'color-mix(in oklab, var(--brand-green) 12%, transparent)',
-          color: 'color-mix(in oklab, var(--brand-green) 75%, black)',
-          border: '1px solid color-mix(in oklab, var(--brand-green) 26%, transparent)',
-          borderRadius: 999,
-          fontSize: 11.5, fontWeight: 600, letterSpacing: '0.02em',
-          opacity: annual ? 1 : 0.55,
-          transition: 'opacity .2s ease',
-        }}>Save 20%</span>
       </div>
 
       <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
