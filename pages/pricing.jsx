@@ -37,7 +37,7 @@ const FAQ_ITEMS = [
 const PricingPage = () => {
   return (
     <main style={{ background: 'var(--bg)', color: 'var(--ink-2)', minHeight: '100vh' }}>
-      <div className="container" style={{ paddingTop: 56, paddingBottom: 96 }}>
+      <div className="container" style={{ paddingTop: 'var(--page-top)', paddingBottom: 'var(--page-bottom)' }}>
         {/* Header */}
         <header style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 48px' }}>
           <h1 style={{ fontSize: 'clamp(36px, 4.4vw, 56px)', letterSpacing: '-0.035em', lineHeight: 1.05, color: 'var(--ink)', textWrap: 'balance' }}>

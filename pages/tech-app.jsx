@@ -78,7 +78,7 @@ const TechAppPage = () => (
 // ───────── hero ─────────
 
 const Hero = () => (
-  <section style={{ position: 'relative', overflow: 'hidden', paddingTop: 80, paddingBottom: 96 }}>
+  <section style={{ position: 'relative', overflow: 'hidden', paddingTop: 'var(--page-top)', paddingBottom: 'var(--page-bottom)' }}>
     <div aria-hidden="true" style={{
       position: 'absolute', inset: '0 0 auto 0', height: 480, zIndex: -1, pointerEvents: 'none',
       background: 'radial-gradient(900px 360px at 50% 0%, color-mix(in oklab, var(--accent) 4%, transparent), transparent 70%)',
