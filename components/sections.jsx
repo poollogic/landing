@@ -1903,7 +1903,6 @@ const buildTiers = (annual) => [
     'Service reports with photos & chemistry',
     'Recurring invoices & Stripe autopay',
     'Customer portal',
-    'Card surcharge built in — pass card fees to customers, free',
   ],
   cta: 'Get a demo',
   ctaHref: '/contact',
@@ -2081,30 +2080,6 @@ const Pricing = () => {
           <p style={{ marginTop: 14, fontSize: 15, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 540, marginLeft: 'auto', marginRight: 'auto' }}>
             Every tier includes a flat <strong style={{ color: 'var(--ink-2)' }}>0.5%</strong> platform fee on payments processed through Stripe. Check, cash, and external payments are always free.
           </p>
-
-          <div style={{
-            margin: '18px auto 0', maxWidth: 560,
-            padding: '10px 14px',
-            background: 'color-mix(in oklab, var(--brand-green) 8%, var(--bg))',
-            border: '1px solid color-mix(in oklab, var(--brand-green) 24%, transparent)',
-            borderRadius: 10,
-            display: 'flex', alignItems: 'center', gap: 10,
-            textAlign: 'left',
-            fontSize: 13, color: 'var(--ink-2)', lineHeight: 1.5,
-          }}>
-            <span style={{
-              display: 'inline-flex', width: 22, height: 22,
-              alignItems: 'center', justifyContent: 'center',
-              background: 'var(--brand-green)', color: '#fff',
-              borderRadius: '50%', flexShrink: 0,
-            }}>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            <span>
-              <strong style={{ color: 'var(--ink)' }}>Charge customers a credit card fee — built in, free.</strong>{' '}
-              <span style={{ color: 'var(--ink-4)' }}>Some competitors charge $1/invoice. We don't.</span>
-            </span>
-          </div>
         </div>
 
         <PricingCards />
@@ -2214,7 +2189,7 @@ const Migration = () => {
             <ol style={{ marginTop: 32, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 20 }}>
               {[
               ['Bring your list', 'CSV up to 16,000 customers, or let our AI extract data from a PDF or screenshot.'],
-              ['Set billing rules', 'Set first invoice date, payment terms, optional credit card fees & chemical billing.'],
+              ['Set billing rules', 'Set first invoice date, payment terms, and chemical billing.'],
               ['You’re live', 'Customers, routes, and automated invoicing is ready to go!']].
               map(([t, d], i) =>
               <li key={i} style={{
@@ -2866,20 +2841,7 @@ const ImportModalMock = () => {
               <div style={{ marginTop: 3, fontSize: 11, color: 'var(--ink-5)' }}>Days after invoice is sent before payment is due</div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 8 }}>
-              <div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 10, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 3 }}>
-                  CC Processing Fee
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
-                  </svg>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ width: 13, height: 13, border: '1.5px solid var(--line)', borderRadius: 3, background: 'var(--bg)', flexShrink: 0 }} />
-                  <span style={{ fontSize: 12.5, color: 'var(--ink-2)' }}>Pass 2.9% fee</span>
-                </div>
-                <div style={{ marginTop: 2, fontSize: 11.5, color: 'var(--accent)', fontWeight: 500, cursor: 'pointer' }}>Change rate</div>
-              </div>
+            <div style={{ marginTop: 8 }}>
               <div>
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 10, fontWeight: 600, color: 'var(--ink-5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 3 }}>
                   Chemical Charges

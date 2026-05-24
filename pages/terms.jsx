@@ -57,10 +57,7 @@ const TermsPage = () => {
       <div className="container" style={{ paddingTop: 56, paddingBottom: 72 }}>
         {/* Title block */}
         <header style={{ maxWidth: 880, marginBottom: 40 }}>
-          <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-5)', fontFamily: "'Geist Mono', ui-monospace, monospace" }}>
-            Legal
-          </div>
-          <h1 style={{ marginTop: 12, fontSize: 'clamp(36px, 4.4vw, 56px)', letterSpacing: '-0.035em', lineHeight: 1.05, color: 'var(--ink)' }}>
+          <h1 style={{ fontSize: 'clamp(36px, 4.4vw, 56px)', letterSpacing: '-0.035em', lineHeight: 1.05, color: 'var(--ink)' }}>
             Terms of Service
           </h1>
           <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.6, maxWidth: 640 }}>

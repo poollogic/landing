@@ -32,10 +32,6 @@ const FAQ_ITEMS = [
     q: 'What payment processor do you use?',
     a: 'Stripe — specifically Stripe Connect Express. You\'ll onboard your own Stripe account through PoolLogic, and payments flow directly into that account. We never hold your money.',
   },
-  {
-    q: 'Can I charge a credit card surcharge to customers?',
-    a: 'Yes, on every tier, at no extra cost. PoolLogic\'s surcharge feature passes the card processing cost to the customer as a separate line item. You\'re responsible for making sure surcharging is lawful in your jurisdiction and properly disclosed — most U.S. states permit it with notice.',
-  },
 ];
 
 const PricingPage = () => {
@@ -44,10 +40,7 @@ const PricingPage = () => {
       <div className="container" style={{ paddingTop: 56, paddingBottom: 96 }}>
         {/* Header */}
         <header style={{ textAlign: 'center', maxWidth: 720, margin: '0 auto 48px' }}>
-          <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-5)', fontFamily: "'Geist Mono', ui-monospace, monospace" }}>
-            Pricing
-          </div>
-          <h1 style={{ marginTop: 12, fontSize: 'clamp(36px, 4.4vw, 56px)', letterSpacing: '-0.035em', lineHeight: 1.05, color: 'var(--ink)', textWrap: 'balance' }}>
+          <h1 style={{ fontSize: 'clamp(36px, 4.4vw, 56px)', letterSpacing: '-0.035em', lineHeight: 1.05, color: 'var(--ink)', textWrap: 'balance' }}>
             From your first pool to your fiftieth route.
           </h1>
           <p style={{ marginTop: 18, fontSize: 17, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
@@ -57,30 +50,6 @@ const PricingPage = () => {
 
         {/* Pricing cards */}
         <PricingCards />
-
-        {/* Surcharge callout */}
-        <div style={{
-          margin: '48px auto 0', maxWidth: 720,
-          padding: '14px 18px',
-          background: 'color-mix(in oklab, var(--brand-green) 8%, var(--bg))',
-          border: '1px solid color-mix(in oklab, var(--brand-green) 24%, transparent)',
-          borderRadius: 12,
-          display: 'flex', alignItems: 'center', gap: 12,
-          fontSize: 13.5, color: 'var(--ink-2)', lineHeight: 1.5,
-        }}>
-          <span style={{
-            display: 'inline-flex', width: 24, height: 24,
-            alignItems: 'center', justifyContent: 'center',
-            background: 'var(--brand-green)', color: '#fff',
-            borderRadius: '50%', flexShrink: 0,
-          }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
-          </span>
-          <span>
-            <strong style={{ color: 'var(--ink)' }}>Pass card processing fees to your customers, on every tier.</strong>{' '}
-            <span style={{ color: 'var(--ink-4)' }}>Built in, free. Some competitors charge $1/invoice. We don't.</span>
-          </span>
-        </div>
 
         {/* FAQ */}
         <section style={{ marginTop: 112, maxWidth: 760, marginInline: 'auto' }}>
