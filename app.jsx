@@ -6,6 +6,7 @@ const TermsPage = lazy(() => import('./pages/terms.jsx'));
 const PrivacyPage = lazy(() => import('./pages/privacy.jsx'));
 const TechAppPage = lazy(() => import('./pages/tech-app.jsx'));
 const ContactPage = lazy(() => import('./pages/contact.jsx'));
+const PricingPage = lazy(() => import('./pages/pricing.jsx'));
 
 // Page defaults — accent color, hero layout, density, theme.
 // EDITMODE markers are preserved so the external prototype editor can still patch this object.
@@ -22,6 +23,7 @@ const isTermsPath = (p) => p === '/terms' || p === '/terms/';
 const isPrivacyPath = (p) => p === '/privacy' || p === '/privacy/';
 const isTechAppPath = (p) => p === '/tech-app' || p === '/tech-app/';
 const isContactPath = (p) => p === '/contact' || p === '/contact/';
+const isPricingPath = (p) => p === '/pricing' || p === '/pricing/';
 
 const App = () => {
   useEffect(() => {
@@ -83,6 +85,20 @@ const App = () => {
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <ContactPage />
+          </Suspense>
+        </ErrorBoundary>
+        <Footer />
+      </>
+    );
+  }
+
+  if (isPricingPath(path)) {
+    return (
+      <>
+        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <PricingPage />
           </Suspense>
         </ErrorBoundary>
         <Footer />

@@ -28,7 +28,7 @@ const Nav = ({ accent }) => {
           {[
           ['Product', '/#features'],
           ['Solutions', '/#solutions'],
-          ['Pricing', '/#pricing'],
+          ['Pricing', '/pricing'],
           ['Customers', '/#switching'],
           ['Resources', '/#faq']].
           map(([l, href]) =>
@@ -1891,73 +1891,182 @@ const Testimonial = () => {
 // Pricing — Core/Insight/Vision tiers + Enterprise (coming soon).
 // Every tier carries the same 0.5% platform fee on Stripe-processed payments;
 // check/cash/external payments are always free.
-const Pricing = () => {
-  const [annual, setAnnual] = useState(true);
-  const tiers = [
-  {
-    name: 'Core',
-    price: 0,
-    priceUnit: null,
-    blurb: 'Everything you need to run the business. Free until you get paid.',
-    features: [
-      'Unlimited customers & technicians',
-      'Routes, scheduling & on-truck app',
-      'Service reports with photos & chemistry',
-      'Recurring invoices & Stripe autopay',
-      'Customer portal',
-      'Card surcharge built in — pass card fees to customers, free',
-    ],
-    cta: 'Get a demo',
-    ctaHref: '/contact',
-  },
-  {
-    name: 'Insight',
-    price: annual ? 29 : 39,
-    priceUnit: '/tech/mo',
-    blurb: 'See exactly where time and gas are leaking.',
-    features: [
-      'Everything in Core',
-      'Route insight scoring',
-      'Daily service audit',
-      'Operations dashboard',
-      'Revenue & MRR analytics',
-    ],
-    cta: 'Get a demo',
-    ctaHref: '/contact',
-    popular: true,
-  },
-  {
-    name: 'Vision',
-    price: annual ? 59 : 79,
-    priceUnit: '/tech/mo',
-    blurb: 'Let the AI write the reports, schedule the calls, catch the drift.',
-    features: [
-      'Everything in Insight',
-      'AI-drafted service reports',
-      'AI document import (PDF / screenshot)',
-      'Customer SMS (when shipped)',
-      'Predictive chemistry alerts',
-      'Priority support',
-    ],
-    cta: 'Get a demo',
-    ctaHref: '/contact',
-  },
-  {
-    name: 'Enterprise',
-    price: null,
-    priceUnit: null,
-    blurb: 'Multi-region operations, custom roles, deep integrations.',
-    features: [
-      'Everything in Vision',
-      'Multi-region routing',
-      'Custom roles & approvals',
-      'API + webhooks',
-      'Dedicated success manager',
-    ],
-    cta: 'Coming soon',
-    ctaHref: null,
-  }];
+const buildTiers = (annual) => [
+{
+  name: 'Core',
+  price: 0,
+  priceUnit: null,
+  blurb: 'Everything you need to run the business. Free until you get paid.',
+  features: [
+    'Unlimited customers & technicians',
+    'Routes, scheduling & on-truck app',
+    'Service reports with photos & chemistry',
+    'Recurring invoices & Stripe autopay',
+    'Customer portal',
+    'Card surcharge built in — pass card fees to customers, free',
+  ],
+  cta: 'Get a demo',
+  ctaHref: '/contact',
+},
+{
+  name: 'Insight',
+  price: annual ? 29 : 39,
+  priceUnit: '/tech/mo',
+  blurb: 'See exactly where time and gas are leaking.',
+  features: [
+    'Everything in Core',
+    'Route insight scoring',
+    'Daily service audit',
+    'Operations dashboard',
+    'Revenue & MRR analytics',
+  ],
+  cta: 'Get a demo',
+  ctaHref: '/contact',
+  popular: true,
+},
+{
+  name: 'Vision',
+  price: annual ? 59 : 79,
+  priceUnit: '/tech/mo',
+  blurb: 'Let the AI write the reports, schedule the calls, catch the drift.',
+  features: [
+    'Everything in Insight',
+    'AI-drafted service reports',
+    'AI document import (PDF / screenshot)',
+    'Customer SMS (when shipped)',
+    'Predictive chemistry alerts',
+    'Priority support',
+  ],
+  cta: 'Get a demo',
+  ctaHref: '/contact',
+},
+{
+  name: 'Enterprise',
+  price: null,
+  priceUnit: null,
+  blurb: 'Multi-region operations, custom roles, deep integrations.',
+  features: [
+    'Everything in Vision',
+    'Multi-region routing',
+    'Custom roles & approvals',
+    'API + webhooks',
+    'Dedicated success manager',
+  ],
+  cta: 'Coming soon',
+  ctaHref: null,
+}];
 
+// Shared pricing cards — used on the homepage Pricing section and on /pricing.
+// Owns its own annual/monthly state and toggle so it's drop-in anywhere.
+const PricingCards = () => {
+  const [annual, setAnnual] = useState(true);
+  const tiers = buildTiers(annual);
+
+  return (
+    <>
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
+        <div style={{
+          position: 'relative',
+          display: 'inline-flex', padding: 4,
+          background: 'var(--bg-muted)',
+          border: '1px solid var(--line-2)',
+          borderRadius: 999, fontSize: 13,
+        }}>
+          <span aria-hidden="true" style={{
+            position: 'absolute',
+            top: 4, bottom: 4,
+            left: annual ? 'calc(50% - 2px)' : 4,
+            right: annual ? 4 : 'calc(50% - 2px)',
+            background: 'var(--bg)',
+            borderRadius: 999,
+            boxShadow: '0 1px 3px rgba(15, 23, 42, .08), 0 1px 0 rgba(255,255,255,.6) inset',
+            transition: 'left .25s cubic-bezier(.2,.8,.2,1), right .25s cubic-bezier(.2,.8,.2,1)',
+          }} />
+          {[['Monthly', false], ['Annual · save 20%', true]].map(([l, v]) =>
+          <button key={l} onClick={() => setAnnual(v)} style={{
+            position: 'relative',
+            padding: '8px 18px',
+            background: 'transparent',
+            color: annual === v ? 'var(--ink)' : 'var(--ink-5)',
+            border: 'none',
+            borderRadius: 999,
+            fontWeight: 500,
+            transition: 'color .15s',
+            cursor: 'pointer',
+            zIndex: 1,
+          }}>{l}</button>
+          )}
+        </div>
+      </div>
+
+      <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+        {tiers.map((t) => {
+        const isEnterprise = t.ctaHref === null;
+        return (
+          <div key={t.name}
+            onMouseEnter={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--ink-6)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 14px 32px -18px rgba(15, 23, 42, .14)'; } }}
+            onMouseLeave={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, .03)'; } }}
+            style={{
+            border: t.popular ? '1.5px solid var(--accent)' : '1px solid var(--line)',
+            borderRadius: 14,
+            padding: 20,
+            background: t.popular ? 'linear-gradient(180deg, color-mix(in oklab, var(--accent) 5%, var(--bg)) 0%, var(--bg) 55%)' : 'var(--bg)',
+            position: 'relative',
+            boxShadow: t.popular ? '0 24px 48px -24px color-mix(in oklab, var(--accent) 42%, transparent), 0 1px 0 rgba(255,255,255,.6) inset' : '0 1px 2px rgba(15, 23, 42, .03)',
+            opacity: isEnterprise ? 0.85 : 1,
+            display: 'flex', flexDirection: 'column',
+            transition: 'transform .2s ease, box-shadow .2s ease, border-color .2s ease'
+          }}>
+            {t.popular && <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--accent)', color: 'white', padding: '5px 14px', borderRadius: 999, whiteSpace: 'nowrap', boxShadow: '0 4px 12px -4px color-mix(in oklab, var(--accent) 45%, transparent)' }}>Most popular</div>}
+            <h3 style={{ fontSize: 18, fontWeight: 600 }}>{t.name}</h3>
+            <p style={{ marginTop: 8, fontSize: 13, color: 'var(--ink-5)', lineHeight: 1.5, minHeight: 58 }}>{t.blurb}</p>
+
+            <div style={{ marginTop: 16, display: 'flex', alignItems: 'baseline', gap: 6, minHeight: 56 }}>
+              {t.price === 0 ?
+              <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>Free</span> :
+              t.price === null ?
+              <span style={{ fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink-4)' }}>Custom</span> :
+              <>
+                <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>${t.price}</span>
+                <span style={{ color: 'var(--ink-5)', fontSize: 13 }}>{t.priceUnit}</span>
+              </>
+              }
+            </div>
+
+            <div style={{ fontSize: 12, color: 'var(--ink-5)', marginBottom: 16, minHeight: 18 }}>
+              {isEnterprise ? ' ' : <>+ 0.5% on Stripe payments</>}
+            </div>
+
+            {isEnterprise ?
+            <div style={{ width: '100%', textAlign: 'center', padding: '11px 14px', borderRadius: 10, border: '1px dashed var(--line)', color: 'var(--ink-5)', fontSize: 14, fontWeight: 500, height: 46, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{t.cta}</div> :
+            <a href={t.ctaHref} className={`btn ${t.popular ? 'btn-accent' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center', textDecoration: 'none' }}>{t.cta}</a>
+            }
+
+            <div style={{ borderTop: '1px solid var(--line)', marginTop: 22, paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {t.features.map((f) =>
+              <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--ink-3)', lineHeight: 1.5 }}>
+                <span style={{
+                  display: 'inline-flex', flexShrink: 0,
+                  width: 18, height: 18, borderRadius: '50%',
+                  background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
+                  color: 'var(--accent)',
+                  alignItems: 'center', justifyContent: 'center',
+                  marginTop: 1,
+                }}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                {f}
+              </div>
+              )}
+            </div>
+          </div>);
+        })}
+      </div>
+    </>
+  );
+};
+
+const Pricing = () => {
   return (
     <section className="section-divider" id="pricing">
       <div className="container">
@@ -1998,104 +2107,7 @@ const Pricing = () => {
           </div>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 40 }}>
-          <div style={{
-            position: 'relative',
-            display: 'inline-flex', padding: 4,
-            background: 'var(--bg-muted)',
-            border: '1px solid var(--line-2)',
-            borderRadius: 999, fontSize: 13,
-          }}>
-            <span aria-hidden="true" style={{
-              position: 'absolute',
-              top: 4, bottom: 4,
-              left: annual ? 'calc(50% - 2px)' : 4,
-              right: annual ? 4 : 'calc(50% - 2px)',
-              background: 'var(--bg)',
-              borderRadius: 999,
-              boxShadow: '0 1px 3px rgba(15, 23, 42, .08), 0 1px 0 rgba(255,255,255,.6) inset',
-              transition: 'left .25s cubic-bezier(.2,.8,.2,1), right .25s cubic-bezier(.2,.8,.2,1)',
-            }} />
-            {[['Monthly', false], ['Annual · save 20%', true]].map(([l, v]) =>
-            <button key={l} onClick={() => setAnnual(v)} style={{
-              position: 'relative',
-              padding: '8px 18px',
-              background: 'transparent',
-              color: annual === v ? 'var(--ink)' : 'var(--ink-5)',
-              border: 'none',
-              borderRadius: 999,
-              fontWeight: 500,
-              transition: 'color .15s',
-              cursor: 'pointer',
-              zIndex: 1,
-            }}>{l}</button>
-            )}
-          </div>
-        </div>
-
-        <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
-          {tiers.map((t) => {
-          const isEnterprise = t.ctaHref === null;
-          return (
-            <div key={t.name}
-              onMouseEnter={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--ink-6)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 14px 32px -18px rgba(15, 23, 42, .14)'; } }}
-              onMouseLeave={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--line)'; e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(15, 23, 42, .03)'; } }}
-              style={{
-              border: t.popular ? '1.5px solid var(--accent)' : '1px solid var(--line)',
-              borderRadius: 14,
-              padding: 20,
-              background: t.popular ? 'linear-gradient(180deg, color-mix(in oklab, var(--accent) 5%, var(--bg)) 0%, var(--bg) 55%)' : 'var(--bg)',
-              position: 'relative',
-              boxShadow: t.popular ? '0 24px 48px -24px color-mix(in oklab, var(--accent) 42%, transparent), 0 1px 0 rgba(255,255,255,.6) inset' : '0 1px 2px rgba(15, 23, 42, .03)',
-              opacity: isEnterprise ? 0.85 : 1,
-              display: 'flex', flexDirection: 'column',
-              transition: 'transform .2s ease, box-shadow .2s ease, border-color .2s ease'
-            }}>
-              {t.popular && <div style={{ position: 'absolute', top: -12, left: '50%', transform: 'translateX(-50%)', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: 'var(--accent)', color: 'white', padding: '5px 14px', borderRadius: 999, whiteSpace: 'nowrap', boxShadow: '0 4px 12px -4px color-mix(in oklab, var(--accent) 45%, transparent)' }}>Most popular</div>}
-              <h3 style={{ fontSize: 18, fontWeight: 600 }}>{t.name}</h3>
-              <p style={{ marginTop: 8, fontSize: 13, color: 'var(--ink-5)', lineHeight: 1.5, minHeight: 58 }}>{t.blurb}</p>
-
-              <div style={{ marginTop: 16, display: 'flex', alignItems: 'baseline', gap: 6, minHeight: 56 }}>
-                {t.price === 0 ?
-                <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>Free</span> :
-                t.price === null ?
-                <span style={{ fontSize: 22, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink-4)' }}>Custom</span> :
-                <>
-                  <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)' }}>${t.price}</span>
-                  <span style={{ color: 'var(--ink-5)', fontSize: 13 }}>{t.priceUnit}</span>
-                </>
-                }
-              </div>
-
-              <div style={{ fontSize: 12, color: 'var(--ink-5)', marginBottom: 16, minHeight: 18 }}>
-                {isEnterprise ? ' ' : <>+ 0.5% on Stripe payments</>}
-              </div>
-
-              {isEnterprise ?
-              <div style={{ width: '100%', textAlign: 'center', padding: '11px 14px', borderRadius: 10, border: '1px dashed var(--line)', color: 'var(--ink-5)', fontSize: 14, fontWeight: 500, height: 46, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{t.cta}</div> :
-              <a href={t.ctaHref} className={`btn ${t.popular ? 'btn-accent' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center', textDecoration: 'none' }}>{t.cta}</a>
-              }
-
-              <div style={{ borderTop: '1px solid var(--line)', marginTop: 22, paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {t.features.map((f) =>
-                <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--ink-3)', lineHeight: 1.5 }}>
-                  <span style={{
-                    display: 'inline-flex', flexShrink: 0,
-                    width: 18, height: 18, borderRadius: '50%',
-                    background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
-                    color: 'var(--accent)',
-                    alignItems: 'center', justifyContent: 'center',
-                    marginTop: 1,
-                  }}>
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  </span>
-                  {f}
-                </div>
-                )}
-              </div>
-            </div>);
-          })}
-        </div>
+        <PricingCards />
       </div>
     </section>);
 
@@ -3043,4 +3055,4 @@ const _Footer = () =>
   </footer>;
 
 
-export { Nav, Hero, Features, BuiltDifferently, HowItWorks, Stats, Testimonial, Migration, Pricing, FAQ, FinalCTA, Footer };
+export { Nav, Hero, Features, BuiltDifferently, HowItWorks, Stats, Testimonial, Migration, Pricing, PricingCards, FAQ, FinalCTA, Footer };
