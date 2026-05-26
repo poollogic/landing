@@ -3,9 +3,131 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PoolLogic — Run your pool service business on autopilot</title>
+<title>PoolLogic — Pool service software for routes, billing, and reports</title>
+<meta name="description" content="PoolLogic is pool service software for routes, chemistry tracking, branded service reports, and billing — one app your techs can run from day one.">
+<link rel="canonical" href="https://poollogic.app/">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#3b82f6">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PoolLogic">
+<meta property="og:title" content="PoolLogic — Pool service software for routes, billing, and reports">
+<meta property="og:description" content="Routes, chemistry, branded service reports, and billing — one app your techs can run from day one.">
+<meta property="og:url" content="https://poollogic.app/">
+<meta property="og:image" content="https://poollogic.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PoolLogic — pool service software dashboard">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PoolLogic — Pool service software">
+<meta name="twitter:description" content="Routes, chemistry, branded service reports, and billing — one app your techs can run from day one.">
+<meta name="twitter:image" content="https://poollogic.app/og-image.png">
+
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preload" as="font" type="font/woff2" href="/fonts/Geist.woff2" crossorigin>
+
+<!-- Structured data: Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "PoolLogic",
+  "url": "https://poollogic.app",
+  "logo": "https://poollogic.app/favicon.svg",
+  "email": "support@poollogic.app",
+  "sameAs": []
+}
+</script>
+
+<!-- Structured data: SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "PoolLogic",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, iOS, Android",
+  "url": "https://poollogic.app",
+  "description": "Pool service software for routes, chemistry tracking, branded service reports, and billing — one app your techs can run from day one.",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Core",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Routes, scheduling, on-truck app, service reports, recurring invoicing with Stripe autopay. Free until you get paid."
+    },
+    {
+      "@type": "Offer",
+      "name": "Insight",
+      "price": "39",
+      "priceCurrency": "USD",
+      "description": "Everything in Core plus route insight scoring, daily service audit, operations dashboard, and revenue analytics. Per tech, per month."
+    },
+    {
+      "@type": "Offer",
+      "name": "Vision",
+      "price": "79",
+      "priceCurrency": "USD",
+      "description": "Everything in Insight plus AI-drafted service reports, AI document import, predictive chemistry alerts, and priority support. Per tech, per month."
+    }
+  ]
+}
+</script>
+
+<!-- Structured data: FAQ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How long does setup take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Setup is fast — as long as you have your customer info in some kind of document, you can usually be importing and have automated billing live within an hour. The quickest path is our provided spreadsheet template: many customers paste it into Claude or ChatGPT and have it fill in all of their customer information with no manual data entry. You can also upload a PDF or other document to our AI import, but it's limited to one document at a time — it can't stitch information together across multiple files."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work without internet on the truck?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The technician app works entirely offline. Every stop and every report is cached on the device and syncs the moment reception comes back."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will you migrate my data from Skimmer or Pooltrackr?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Free migration is included for every customer, on every tier. We'll handle importing all your customers and walk you through any questions you may have. The app is extremely intuitive — most teams are comfortable using it from day one."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you charge per stop, per service, or per text?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No per-stop, per-service, or per-text fees. Core is free — you only pay a flat 0.5% on payments processed through Stripe. Check, cash, and external payments are always free. Insight ($39/tech/mo) and Vision ($79/tech/mo) add features like service audits and AI reports."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What payment processors do you support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stripe. All payment processing in PoolLogic runs through Stripe — connect your Stripe account once and you're set."
+      }
+    }
+  ]
+}
+</script>
 
 <style>
   @font-face {
@@ -211,6 +333,55 @@
     body[data-density="airy"] section { padding: 88px 0; }
   }
 
+  /* Features section — anchor lands below page-level nav */
+  #features { scroll-margin-top: 64px; }
+
+  /* Features section — hide background gutters on mobile (rows un-stick from grid) */
+  @media (max-width: 760px) {
+    .features-gutter-bg { display: none !important; }
+  }
+
+  /* Features rows — Attio-style stacked rows.
+     Desktop: hatched-gutter | text | flow | side | hatched-gutter.
+     Tablet: drop side panel under text + flow. Mobile: full stack. */
+  @media (max-width: 1080px) {
+    .feature-row {
+      grid-template-columns: 32px minmax(220px, 1fr) minmax(360px, 1.4fr) 32px !important;
+      min-height: 0 !important;
+    }
+    .feature-row .feature-row-right {
+      grid-column: 2 / 4 !important;
+      border-top: 1px solid var(--line);
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 24px !important;
+    }
+    .feature-row .feature-row-right > div:first-child {
+      flex: 1;
+    }
+  }
+  @media (max-width: 760px) {
+    .feature-row {
+      grid-template-columns: 1fr !important;
+    }
+    .feature-row .feature-row-gutter { display: none !important; }
+    .feature-row .feature-row-left,
+    .feature-row .feature-row-center,
+    .feature-row .feature-row-right {
+      border-right: 0 !important;
+      grid-column: 1 / -1 !important;
+      padding: 32px 16px !important;
+    }
+    .feature-row .feature-row-center,
+    .feature-row .feature-row-right {
+      border-top: 1px solid var(--line);
+    }
+    .feature-row .feature-row-right {
+      flex-direction: column !important;
+      align-items: stretch !important;
+    }
+  }
+
   /* Pricing — 4-col desktop, 2-col tablet, single-col mobile */
   @media (max-width: 1100px) {
     .pricing-grid {
@@ -403,18 +574,6 @@
   }
   @media (max-width: 1280px) {
     .product-showcase-anno { display: none !important; }
-  }
-
-  /* Product showcase orange wash — single localized spot, off to one side.
-     Same treatment on mobile and desktop. */
-  .product-wash {
-    position: absolute;
-    top: -280px; left: 0; right: 0; bottom: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: radial-gradient(600px 420px at 16% 72%, color-mix(in oklab, var(--brand-orange) 12%, transparent), transparent 65%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 92%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 28%, black 92%, transparent 100%);
   }
 
   /* Logo strip: collapse 6-col grid */

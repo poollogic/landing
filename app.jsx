@@ -25,6 +25,70 @@ const isTechAppPath = (p) => p === '/tech-app' || p === '/tech-app/';
 const isContactPath = (p) => p === '/contact' || p === '/contact/';
 const isPricingPath = (p) => p === '/pricing' || p === '/pricing/';
 
+const SITE_ORIGIN = 'https://poollogic.app';
+
+const ROUTE_META = {
+  home: {
+    title: 'PoolLogic — Pool service software for routes, billing, and reports',
+    description: 'PoolLogic is pool service software for routes, chemistry tracking, branded service reports, and billing — one app your techs can run from day one.',
+    path: '/',
+  },
+  pricing: {
+    title: 'Pricing — PoolLogic',
+    description: 'Simple per-tech pricing for pool service software. Routes, chemistry, branded reports, and billing in every plan.',
+    path: '/pricing',
+  },
+  techApp: {
+    title: 'Tech app — PoolLogic',
+    description: 'The PoolLogic tech app: routes, chemistry logging, GPS-verified service reports, and equipment notes from the field.',
+    path: '/tech-app',
+  },
+  contact: {
+    title: 'Get a demo — PoolLogic',
+    description: 'Talk to PoolLogic. Book a demo or ask a question about pool service software for your route.',
+    path: '/contact',
+  },
+  terms: {
+    title: 'Terms of Service — PoolLogic',
+    description: 'PoolLogic terms of service.',
+    path: '/terms',
+  },
+  privacy: {
+    title: 'Privacy Policy — PoolLogic',
+    description: 'PoolLogic privacy policy.',
+    path: '/privacy',
+  },
+};
+
+const setMeta = (selector, attr, value) => {
+  let el = document.head.querySelector(selector);
+  if (!el) {
+    el = document.createElement('meta');
+    const [, key, name] = selector.match(/^meta\[(name|property)="([^"]+)"\]$/) || [];
+    if (key && name) el.setAttribute(key, name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute(attr, value);
+};
+
+const applyRouteMeta = (meta) => {
+  const url = SITE_ORIGIN + meta.path;
+  document.title = meta.title;
+  setMeta('meta[name="description"]', 'content', meta.description);
+  setMeta('meta[property="og:title"]', 'content', meta.title);
+  setMeta('meta[property="og:description"]', 'content', meta.description);
+  setMeta('meta[property="og:url"]', 'content', url);
+  setMeta('meta[name="twitter:title"]', 'content', meta.title);
+  setMeta('meta[name="twitter:description"]', 'content', meta.description);
+  let canonical = document.head.querySelector('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.setAttribute('rel', 'canonical');
+    document.head.appendChild(canonical);
+  }
+  canonical.setAttribute('href', url);
+};
+
 const App = () => {
   useEffect(() => {
     const root = document.documentElement;
@@ -35,6 +99,16 @@ const App = () => {
   }, []);
 
   const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+
+  useEffect(() => {
+    let meta = ROUTE_META.home;
+    if (isTermsPath(path)) meta = ROUTE_META.terms;
+    else if (isPrivacyPath(path)) meta = ROUTE_META.privacy;
+    else if (isTechAppPath(path)) meta = ROUTE_META.techApp;
+    else if (isContactPath(path)) meta = ROUTE_META.contact;
+    else if (isPricingPath(path)) meta = ROUTE_META.pricing;
+    applyRouteMeta(meta);
+  }, [path]);
 
   if (isTermsPath(path)) {
     return (
