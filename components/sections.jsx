@@ -3398,7 +3398,7 @@ const InvoiceContent = ({ onChoosePayment }) => {
         </div>
 
         {/* Bill To */}
-        <div style={{ padding: '10px 14px 14px', borderTop: '1px solid #f5f5f4' }}>
+        <div style={{ padding: '10px 14px 14px' }}>
           <div style={{
             fontSize: 8, fontWeight: 700, color: '#a8a29e',
             textTransform: 'uppercase', letterSpacing: '0.08em',
@@ -3416,7 +3416,6 @@ const InvoiceContent = ({ onChoosePayment }) => {
         {/* Invoice meta row */}
         <div style={{
           padding: '10px 14px',
-          borderTop: '1px solid #f5f5f4',
           display: 'flex', justifyContent: 'space-between',
         }}>
           {[
@@ -3450,7 +3449,6 @@ const InvoiceContent = ({ onChoosePayment }) => {
           <div style={{
             padding: '10px 0 8px',
             textAlign: 'center',
-            borderTop: detailsOpen ? '1px solid #f5f5f4' : 'none',
           }}>
             <button
               type="button"
@@ -3483,7 +3481,6 @@ const InvoiceContent = ({ onChoosePayment }) => {
         {detailsOpen && (
           <div style={{
             padding: '12px 14px 14px',
-            borderTop: '1px solid #f5f5f4',
           }}>
             <div style={{
               fontSize: 12, fontWeight: 600, color: '#1c1917',
@@ -3511,7 +3508,7 @@ const InvoiceContent = ({ onChoosePayment }) => {
         )}
 
         {/* Totals */}
-        <div style={{ padding: '10px 14px 14px', borderTop: '1px solid #f5f5f4' }}>
+        <div style={{ padding: '10px 14px 14px' }}>
           <div style={{
             display: 'flex', justifyContent: 'space-between',
             fontSize: 11, color: '#57534e',
