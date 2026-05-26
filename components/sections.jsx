@@ -4169,7 +4169,7 @@ const ServiceReportContent = ({ onOpenMap }) => (
       </div>
       <div style={{ padding: '0 16px' }}>
         <img
-          src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=600&q=80&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80&auto=format&fit=crop"
           alt="Pool service photo"
           loading="lazy"
           style={{
