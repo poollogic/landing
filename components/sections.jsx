@@ -3377,7 +3377,7 @@ const InvoiceContent = ({ onChoosePayment }) => {
           </div>
 
           {/* Company info — header + address */}
-          <div style={{ flex: 1, minWidth: 0, paddingTop: 2 }}>
+          <div style={{ flex: 1, minWidth: 0, paddingTop: 2, marginLeft: 4 }}>
             <div style={{
               fontSize: 12,
               fontWeight: 800,
@@ -3404,8 +3404,8 @@ const InvoiceContent = ({ onChoosePayment }) => {
             textTransform: 'uppercase', letterSpacing: '0.08em',
             marginBottom: 4,
           }}>Bill To</div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#1c1917' }}>Carter Holloway</div>
-          <div style={{ fontSize: 10, color: '#78716c', lineHeight: 1.45, marginTop: 1 }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: '#1c1917', letterSpacing: '-0.005em', lineHeight: 1.2 }}>Carter Holloway</div>
+          <div style={{ fontSize: 10.5, color: '#78716c', lineHeight: 1.55, marginTop: 1 }}>
             <div>3204 Coquina Court</div>
             <div>Tampa, FL 33611</div>
             <div>carter.h@gmail.com</div>
