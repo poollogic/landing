@@ -38,7 +38,7 @@ const Nav = ({ accent }) => {
           )}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {/* Sign in hidden until portal is live */}
+          <a href="https://app.poollogic.app" className="btn btn-ghost btn-sm nav-signin" style={{ textDecoration: 'none' }}>Sign in</a>
           <a href="/contact" className="btn btn-primary btn-sm" style={{ textDecoration: 'none' }}>Get a demo<I.arrowR /></a>
         </div>
       </div>
