@@ -117,76 +117,6 @@ const Hero = ({ layout, headline, subhead }) => {
           }
         </div>
       </section>
-
-      {/* Big product screenshot — separate from hero so it sits below the fold */}
-      {!isSplit &&
-      <section className="product-section" style={{ paddingTop: 80, paddingBottom: 96, position: 'relative' }}>
-        <div className="container">
-          {/* Section intro — section header + two parallel claims, then the demo */}
-          <div className="product-intro" style={{ maxWidth: 980, margin: '0 auto 56px' }}>
-            <h2 style={{ marginTop: 0, textAlign: 'center', maxWidth: 760, marginLeft: 'auto', marginRight: 'auto' }}>
-              Pool service software where every answer is a few clicks away.
-            </h2>
-
-            <div className="intro-cols" style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr',
-              gap: 48, marginTop: 36,
-              maxWidth: 880, marginLeft: 'auto', marginRight: 'auto',
-            }}>
-              <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  Built for any size
-                </div>
-                <p style={{ marginTop: 10, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55 }}>
-                  From 100 customers to 15,000, finding what you need stays a few keystrokes away. Every customer, every invoice, every photo — searchable instantly.
-                </p>
-              </div>
-              <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                  Never a tradeoff
-                </div>
-                <p style={{ marginTop: 10, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55 }}>
-                  Customer management, billing &amp; invoicing, route planning, service audits — every feature your team relies on lives in one place, built around how real pool companies work.
-                </p>
-              </div>
-            </div>
-
-            {/* Rhetorical question — single search field that types through scenarios one by one */}
-            <div style={{
-              marginTop: 40,
-              display: 'flex', justifyContent: 'center',
-            }}>
-              <TypingSearchQuery queries={[
-                'How many accounts does each technician manage?',
-                'Who are my lowest paying customers?',
-                'How much recurring revenue is each technician responsible for?',
-              ]} />
-            </div>
-
-            {/* Kicker — divider lines flanking the answer */}
-            <div className="intro-kicker" style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14,
-              marginTop: 24,
-            }}>
-              <span className="intro-kicker-rule" style={{ flex: 1, maxWidth: 60, height: 1, background: 'linear-gradient(to right, transparent, var(--bg-muted))' }}/>
-              <span className="intro-kicker-text" style={{ fontSize: 12.5, color: 'var(--accent)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
-                No searching. No spreadsheets. No math. Just answers.
-              </span>
-              <span className="intro-kicker-rule" style={{ flex: 1, maxWidth: 60, height: 1, background: 'linear-gradient(to left, transparent, var(--bg-muted))' }}/>
-            </div>
-          </div>
-        </div>
-        {/* Showcase breaks out of .container (1200) up to ~1320 so the dashboard reads larger but not oversized */}
-        <div style={{
-          display: 'flex', justifyContent: 'center',
-          maxWidth: 1320,
-          marginInline: 'auto',
-          paddingInline: 'clamp(16px, 3vw, 40px)',
-        }}>
-          <ProductShowcase />
-        </div>
-      </section>
-      }
     </>);
 
 };
@@ -1126,14 +1056,14 @@ const FeatureRow = ({ title, body, ctaLabel, ctaHref = '/contact', flow, sidePan
   return (
     <div className="feature-row" style={{
       position: 'relative',
-      borderTop: isFirst ? rule : 'none',
-      borderBottom: rule,
       display: 'grid',
       // outer transparent gutters (wrapper paints the hatch) | text | flow | side
       gridTemplateColumns: 'clamp(48px, 6vw, 96px) minmax(240px, 0.95fr) minmax(440px, 1.6fr) minmax(280px, 1.1fr) clamp(48px, 6vw, 96px)',
       minHeight: 560,
     }}>
-      {/* LEFT gutter — transparent spacer with vertical rule */}
+      {/* LEFT gutter — transparent spacer with vertical rule only. The
+          horizontal rule stops at this vertical rule and doesn't enter
+          the hatched area. */}
       <div aria-hidden="true" className="feature-row-gutter" style={{
         borderRight: rule,
       }} />
@@ -1143,10 +1073,12 @@ const FeatureRow = ({ title, body, ctaLabel, ctaHref = '/contact', flow, sidePan
         padding: '40px 36px 40px 28px',
         display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24,
         borderRight: rule,
+        borderTop: isFirst ? rule : 'none',
+        borderBottom: rule,
       }}>
         <div>
           <h3 style={{
-            fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em',
+            fontSize: 18, fontWeight: 600, letterSpacing: '-0.02em',
             color: 'var(--ink)', lineHeight: 1.2,
             textWrap: 'balance',
           }}>{title}</h3>
@@ -1173,6 +1105,8 @@ const FeatureRow = ({ title, body, ctaLabel, ctaHref = '/contact', flow, sidePan
         padding: '48px 36px',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         borderRight: rule,
+        borderTop: isFirst ? rule : 'none',
+        borderBottom: rule,
         background: tex.bg || 'var(--bg)',
         overflow: 'hidden',
       }}>
@@ -1195,6 +1129,8 @@ const FeatureRow = ({ title, body, ctaLabel, ctaHref = '/contact', flow, sidePan
         padding: '36px 28px 36px 28px',
         display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24,
         background: 'var(--bg)',
+        borderTop: isFirst ? rule : 'none',
+        borderBottom: rule,
       }}>
         <div style={{ position: 'relative', zIndex: 1 }}>{sidePanel}</div>
         <div style={{
@@ -1224,7 +1160,7 @@ const FeatureRow = ({ title, body, ctaLabel, ctaHref = '/contact', flow, sidePan
         </div>
       </div>
 
-      {/* RIGHT gutter — transparent spacer with vertical rule */}
+      {/* RIGHT gutter — transparent spacer with vertical rule only. */}
       <div aria-hidden="true" className="feature-row-gutter" style={{
         borderLeft: rule,
       }} />
@@ -1920,7 +1856,7 @@ const RoutingFlow = () => {
           <div className="routing-anim-pill" data-delay={0} style={{ position: 'absolute', top: -22, left: 10, zIndex: 0 }}>
             <TriggerTag />
           </div>
-          <div className="routing-anim-pill" data-delay={0} style={{ position: 'absolute', top: -10, right: 14, zIndex: 3 }}>
+          <div className="routing-anim-pill" data-delay={0} style={{ position: 'absolute', top: -22, right: 14, zIndex: 3 }}>
             <StatusBadge>Added</StatusBadge>
           </div>
           <Card
@@ -1938,7 +1874,7 @@ const RoutingFlow = () => {
 
         {/* Billing locked in */}
         <div style={{ position: 'absolute', left: billing.x, top: billing.y }}>
-          <div className="routing-anim-pill" data-delay={2800} style={{ position: 'absolute', top: -10, right: 14, zIndex: 3 }}>
+          <div className="routing-anim-pill" data-delay={2800} style={{ position: 'absolute', top: -22, right: 14, zIndex: 3 }}>
             <StatusBadge>Set</StatusBadge>
           </div>
           <Card
@@ -1956,7 +1892,7 @@ const RoutingFlow = () => {
 
         {/* Assigned to route */}
         <div style={{ position: 'absolute', left: route.x, top: route.y }}>
-          <div className="routing-anim-pill" data-delay={5600} style={{ position: 'absolute', top: -10, right: 14, zIndex: 3 }}>
+          <div className="routing-anim-pill" data-delay={5600} style={{ position: 'absolute', top: -22, right: 14, zIndex: 3 }}>
             <StatusBadge>Assigned</StatusBadge>
           </div>
           <Card
@@ -2357,7 +2293,7 @@ const ReportsFlow = () => {
           <div style={{ position: 'absolute', top: -22, left: 10, zIndex: 0 }}>
             <TriggerTag />
           </div>
-          <div style={{ position: 'absolute', top: -10, right: 14, zIndex: 3 }}>
+          <div style={{ position: 'absolute', top: -22, right: 14, zIndex: 3 }}>
             <StatusBadge>Triggered</StatusBadge>
           </div>
           <Card
@@ -2399,7 +2335,7 @@ const ReportsFlow = () => {
 
         {/* Build branded report */}
         <div style={{ position: 'absolute', left: build.x, top: build.y }}>
-          <div style={{ position: 'absolute', top: -10, right: 14, zIndex: 3 }}>
+          <div style={{ position: 'absolute', top: -22, right: 14, zIndex: 3 }}>
             <StatusBadge>Completed</StatusBadge>
           </div>
           <Card
@@ -2416,7 +2352,7 @@ const ReportsFlow = () => {
 
         {/* Switch — Anything off-range? */}
         <div style={{ position: 'absolute', left: switchC.x, top: switchC.y }}>
-          <div style={{ position: 'absolute', top: -10, right: 14, zIndex: 3 }}>
+          <div style={{ position: 'absolute', top: -22, right: 14, zIndex: 3 }}>
             <StatusBadge>Checked</StatusBadge>
           </div>
           <Card
@@ -4406,7 +4342,7 @@ const RoutingSidePanel = () => (
     title="Carter Holloway"
     handle="1402 Bayshore Blvd, Tampa, FL"
     rows={[
-      { icon: 'dollar',    label: 'Billing',    value: <><Pill tone="success">Active</Pill><Pill tone="neutral">Monthly</Pill><Pill tone="link">17th</Pill></> },
+      { icon: 'dollar',    label: 'Billing',    value: <><Pill tone="neutral">Active</Pill><Pill tone="neutral">Monthly</Pill><Pill tone="neutral">17th</Pill></> },
       { icon: 'dollar',    label: 'MRR',        value: <><span style={{ fontFamily: "'Geist Mono', monospace", fontVariantNumeric: 'tabular-nums' }}>$165</span><span style={{ color: 'var(--ink-5)', fontWeight: 500, marginLeft: 6 }}>/ mo</span></> },
       { icon: 'droplet',   label: 'Pool',       value: '18,000 gal · saltwater' },
       { icon: 'badge',     label: 'Filter',     value: <>Cartridge filter <span style={{ color: 'var(--ink-5)' }}>· #C200S</span></> },
@@ -4504,17 +4440,17 @@ const RecordCard = ({ title, handle, avatar, rows }) => (
           }}>
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 7,
-              fontSize: 11.5,
+              fontSize: 12.5,
               color: isHighlight ? 'color-mix(in oklab, var(--accent) 75%, black)' : 'var(--ink-5)',
-              fontWeight: isHighlight ? 600 : 500,
+              fontWeight: 500,
             }}>
               <RecordIcon name={r.icon} />
               {r.label}
             </div>
             <div style={{
-              fontSize: isHighlight ? 13 : 12.5,
+              fontSize: 12.5,
               color: 'var(--ink)',
-              fontWeight: isHighlight ? 600 : 500,
+              fontWeight: 500,
               minWidth: 0,
               display: 'flex', alignItems: 'center', flexWrap: 'wrap', rowGap: 4,
             }}>
@@ -4916,16 +4852,17 @@ const BillingSettingsPanel = () => {
         boxShadow: '0 1px 0 rgba(15, 23, 42, 0.02), 0 10px 22px -18px rgba(15, 23, 42, 0.18)',
         overflow: 'hidden',
       }}>
-        {/* Header row — title + subtitle with a soft accent-tinted bg */}
+        {/* Header row — title + subtitle on a soft neutral background that
+            matches the tab strip below. */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: 9,
           padding: '12px 12px',
-          background: 'color-mix(in oklab, var(--accent) 4%, var(--bg))',
+          background: 'var(--bg-soft, #f7f8fa)',
         }}>
           <span aria-hidden="true" style={{
             width: 22, height: 22, borderRadius: 6,
-            background: 'color-mix(in oklab, var(--accent) 12%, white)',
-            color: 'color-mix(in oklab, var(--accent) 75%, black)',
+            background: 'color-mix(in oklab, var(--ink-6) 10%, white)',
+            color: 'var(--ink-3)',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             flexShrink: 0,
             boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.6)',
@@ -5198,8 +5135,8 @@ const ShortkeyChip = ({ children }) => (
     display: 'inline',
     padding: '1px 5px',
     borderRadius: 3,
-    background: 'color-mix(in oklab, var(--accent) 9%, white)',
-    color: 'color-mix(in oklab, var(--accent) 72%, black)',
+    background: 'color-mix(in oklab, var(--ink-6) 8%, white)',
+    color: 'var(--ink-3)',
     fontFamily: "'Geist Mono', monospace",
     fontSize: 11,
     fontWeight: 500,
@@ -5258,8 +5195,12 @@ const ZoneLabel = ({ children, right }) => (
 // eslint-disable-next-line no-unused-vars
 const FilterTile = ({ icon, label, active, iconTone }) => (
   <div style={{
-    display: 'inline-flex', alignItems: 'center', gap: 10,
-    padding: '4px 4px',
+    display: 'inline-flex', alignItems: 'center', gap: 8,
+    padding: '6px 12px',
+    background: 'var(--bg)',
+    border: '1px solid var(--line)',
+    borderRadius: 8,
+    boxShadow: '0 1px 0 rgba(15, 23, 42, 0.02), 0 6px 16px -12px rgba(15, 23, 42, 0.18)',
   }}>
     <span aria-hidden="true" style={{
       color: 'var(--ink-3)',
@@ -5267,7 +5208,7 @@ const FilterTile = ({ icon, label, active, iconTone }) => (
       flexShrink: 0,
     }}>{icon}</span>
     <span style={{
-      fontSize: 15, fontWeight: 500,
+      fontSize: 13, fontWeight: 500,
       color: 'var(--ink)',
       letterSpacing: '-0.015em',
       whiteSpace: 'nowrap',
@@ -5403,8 +5344,8 @@ const BulkMessageFlow = () => {
               display: 'inline-flex', alignItems: 'center', gap: 5,
               padding: '2px 7px',
               borderRadius: 999,
-              background: 'color-mix(in oklab, var(--accent) 10%, transparent)',
-              color: 'color-mix(in oklab, var(--accent) 72%, black)',
+              background: 'color-mix(in oklab, var(--ink-6) 8%, transparent)',
+              color: 'var(--ink-3)',
               fontSize: 10, fontWeight: 600,
               letterSpacing: '-0.005em',
             }}>
@@ -5421,6 +5362,103 @@ const BulkMessageFlow = () => {
             letterSpacing: '-0.005em',
           }}>Draft · auto-saved</span>
         </div>
+
+        {/* Formatting toolbar — mirrors the actual composer's rich-text
+            controls (bold / italic / underline / lists / size / source). */}
+        {(() => {
+          const ToolBtn = ({ title, children, last }) => (
+            <button type="button" aria-label={title} title={title} style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: 26, height: 26,
+              padding: 0,
+              background: 'transparent',
+              border: 'none',
+              borderRadius: 5,
+              color: 'var(--ink-5)',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              marginRight: last ? 0 : 1,
+            }}>{children}</button>
+          );
+          const Divider = () => (
+            <span aria-hidden="true" style={{
+              width: 1, height: 18, background: 'var(--line)',
+              margin: '0 6px',
+            }} />
+          );
+          const iconProps = {
+            width: 14, height: 14, viewBox: '0 0 24 24',
+            fill: 'none', stroke: 'currentColor',
+            strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round',
+            'aria-hidden': true,
+          };
+          return (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 2,
+              padding: '6px 10px',
+              borderBottom: '1px solid var(--line)',
+              background: 'var(--bg)',
+            }}>
+              <ToolBtn title="Bold (Ctrl+B)">
+                <svg {...iconProps} strokeWidth={2.5}>
+                  <path d="M6 12h9a4 4 0 0 1 0 8H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h7a4 4 0 0 1 0 8" />
+                </svg>
+              </ToolBtn>
+              <ToolBtn title="Italic (Ctrl+I)">
+                <svg {...iconProps}>
+                  <line x1="19" x2="10" y1="4" y2="4" />
+                  <line x1="14" x2="5" y1="20" y2="20" />
+                  <line x1="15" x2="9" y1="4" y2="20" />
+                </svg>
+              </ToolBtn>
+              <ToolBtn title="Underline (Ctrl+U)">
+                <svg {...iconProps}>
+                  <path d="M6 4v6a6 6 0 0 0 12 0V4" />
+                  <line x1="4" x2="20" y1="20" y2="20" />
+                </svg>
+              </ToolBtn>
+              <Divider />
+              <ToolBtn title="Bullet list">
+                <svg {...iconProps}>
+                  <path d="M3 5h.01" /><path d="M3 12h.01" /><path d="M3 19h.01" />
+                  <path d="M8 5h13" /><path d="M8 12h13" /><path d="M8 19h13" />
+                </svg>
+              </ToolBtn>
+              <ToolBtn title="Numbered list">
+                <svg {...iconProps}>
+                  <path d="M11 5h10" /><path d="M11 12h10" /><path d="M11 19h10" />
+                  <path d="M4 4h1v5" /><path d="M4 9h2" />
+                  <path d="M6.5 20H3.4c0-1 2.6-1.925 2.6-3.5a1.5 1.5 0 0 0-2.6-1.02" />
+                </svg>
+              </ToolBtn>
+              <Divider />
+              <button type="button" title="Font size" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 2,
+                height: 26, padding: '0 6px',
+                background: 'transparent',
+                border: 'none',
+                borderRadius: 5,
+                color: 'var(--ink-5)',
+                fontSize: 11,
+                fontFamily: "'Geist Mono', monospace",
+                cursor: 'pointer',
+              }}>
+                —
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+              <div style={{ flex: 1 }} />
+              <ToolBtn title="HTML source view" last>
+                <svg {...iconProps}>
+                  <path d="m16 18 6-6-6-6" />
+                  <path d="m8 6-6 6 6 6" />
+                </svg>
+              </ToolBtn>
+            </div>
+          );
+        })()}
 
         {/* Compose area */}
         <div style={{ padding: '16px 18px 14px' }}>
