@@ -702,116 +702,85 @@ const ProofChecklist = () => {
 };
 
 const HeroProof = ({ centered }) => {
-  // Three buckets so the trio always reads as: [trial terms] · [product truth] · [outcome]
-  // Phrases trimmed to keep slot widths compact.
-  const pools = [
-  ['Live human support', 'Cancel any time', 'Onboarding included', 'Setup in 10 minutes'],
-  ['6 nav tabs, not 23', 'Works offline', 'Photos & readings baked in', 'Tickets → quotes in 1 tap'],
-  ['Paid 11 days faster', 'Reports clients read', 'Auto chemistry alerts', 'Quotes auto-route to techs']];
+  // "By the numbers" trio — three outcome metrics that count up once on mount.
+  // Replaces the old rotating checkmark ticker with a calmer, more authoritative
+  // proof strip. Figures reuse claims already made elsewhere on the page.
+  const stats = [
+  { value: 10, unit: 'min', caption: 'Up and running' },
+  { value: 6, unit: '', caption: 'Nav tabs, not 23' },
+  { value: 11, unit: 'days', caption: 'Faster to get paid' }];
 
-
-  const [tick, setTick] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  useEffect(() => {
-    if (paused) return;
-    const id = setInterval(() => setTick((t) => t + 1), 2600);
-    return () => clearInterval(id);
-  }, [paused]);
-
-  const Check = () =>
-  <span style={{
-    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-    width: 18, height: 18, borderRadius: '50%',
-    background: 'var(--brand-green)', color: '#fff', flexShrink: 0
-  }}>
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M5 12l5 5L20 6" />
-      </svg>
-    </span>;
-
-
-  // A single slot — current phrase rolls in from the right, previous rolls out to the left
-  const Slot = ({ pool, offset }) => {
-    const i = (tick + offset) % pool.length;
-    const prevIRef = useRef(i);
-    const isFirstRef = useRef(true);
-    const outI = isFirstRef.current ? null : prevIRef.current;
-
-    useEffect(() => {
-      isFirstRef.current = false;
-      prevIRef.current = i;
-    }, [i]);
-
-    const longest = pool.reduce((a, b) => a.length >= b.length ? a : b);
-
-    return (
-      <span style={{
-        display: 'inline-flex', alignItems: 'center', gap: 8,
-        fontSize: 13.5, color: 'var(--ink-3)',
-        whiteSpace: 'nowrap'
-      }}>
-        <Check />
-        <span style={{ position: 'relative', display: 'inline-block', overflow: 'hidden', verticalAlign: 'middle' }}>
-          {/* invisible sizer keeps the slot width stable across phrase changes */}
-          <span aria-hidden="true" style={{ display: 'block', visibility: 'hidden' }}>{longest}</span>
-          {outI !== null && (
-            <span
-              key={`out-${i}`}
-              style={{
-                position: 'absolute', inset: 0,
-                animation: 'hp-slide-out .55s cubic-bezier(.32,.72,.18,1) forwards'
-              }}>
-              {pool[outI]}
-            </span>
-          )}
-          <span
-            key={`in-${i}`}
-            style={{
-              position: 'absolute', inset: 0,
-              animation: 'hp-slide-in .55s cubic-bezier(.32,.72,.18,1) forwards'
-            }}>
-            {pool[i]}
-          </span>
-        </span>
-      </span>);
-
-  };
 
   return (
     <div
       className="hero-proof"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
       style={{
-        marginTop: 28,
+        marginTop: 32,
         display: 'flex',
         alignItems: 'center',
         justifyContent: centered ? 'center' : 'flex-start',
         flexWrap: 'wrap',
-        rowGap: 10
+        rowGap: 16
       }}>
-
-      <Slot pool={pools[0]} offset={0} />
-      <span className="hero-proof-sep" style={{ width: 1, height: 14, background: 'var(--line)', margin: '0 18px', display: 'inline-block' }} />
-      <Slot pool={pools[1]} offset={1} />
-      <span className="hero-proof-sep" style={{ width: 1, height: 14, background: 'var(--line)', margin: '0 18px', display: 'inline-block' }} />
-      <Slot pool={pools[2]} offset={2} />
-      <style>{`
-        /* full-width slide: text actually exits the slot, not a tiny shift + fade */
-        @keyframes hp-slide-in {
-          0%   { opacity: 0; transform: translateX(100%); }
-          15%  { opacity: 0.4; }
-          100% { opacity: 1; transform: translateX(0); }
+      {stats.map((s, i) =>
+      <React.Fragment key={s.caption}>
+          {i > 0 &&
+        <span
+          className="hero-proof-sep"
+          aria-hidden="true"
+          style={{ width: 1, height: 34, background: 'var(--line)', margin: '0 26px', display: 'inline-block' }} />
         }
-        @keyframes hp-slide-out {
-          0%   { opacity: 1; transform: translateX(0); }
-          85%  { opacity: 0.4; }
-          100% { opacity: 0; transform: translateX(-100%); }
-        }
-      `}</style>
+          <div style={{
+          display: 'flex', flexDirection: 'column', gap: 4,
+          textAlign: centered ? 'center' : 'left'
+        }}>
+            <span style={{
+            fontSize: 27, fontWeight: 600, letterSpacing: '-0.03em',
+            color: 'var(--ink)', lineHeight: 1,
+            fontVariantNumeric: 'tabular-nums', fontFeatureSettings: '"tnum"'
+          }}>
+              <CountUp to={s.value} />
+              {s.unit &&
+            <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink-4)', marginLeft: 3, letterSpacing: '-0.01em' }}>
+                  {s.unit}
+                </span>
+            }
+            </span>
+            <span style={{ fontSize: 12.5, fontWeight: 500, color: 'var(--ink-5)' }}>
+              {s.caption}
+            </span>
+          </div>
+        </React.Fragment>
+      )}
     </div>);
 
+};
+
+// Animated integer that eases from 0 → `to` once on mount (cubic ease-out),
+// honoring reduced-motion by jumping straight to the final value.
+const CountUp = ({ to }) => {
+  const [n, setN] = useState(0);
+
+  useEffect(() => {
+    const reduce = typeof window !== 'undefined' &&
+    window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {setN(to);return;}
+
+    let raf;
+    const start = performance.now();
+    const dur = 850;
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setN(Math.round(eased * to));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to]);
+
+  return <>{n}</>;
 };
 
 // Side-by-side bloated-vs-simple nav illustration to make the "doesn't fight you back" claim concrete
