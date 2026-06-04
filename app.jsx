@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { Nav, Hero, Features, BuiltDifferently, Migration, Pricing, FAQ, FinalCTA, Footer } from './components/sections.jsx';
+import { Nav, Hero, Features, Pricing, FAQ, FinalCTA, Footer } from './components/sections.jsx';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -189,8 +189,6 @@ const App = () => {
         subhead={TWEAK_DEFAULTS.subhead}
       />
       <Features />
-      <BuiltDifferently />
-      <Migration />
       <Pricing />
       <FAQ />
       <FinalCTA />
