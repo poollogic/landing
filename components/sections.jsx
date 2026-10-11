@@ -6644,7 +6644,6 @@ const Testimonial = () => {
 // Pricing — Core/Insight/Vision tiers + Enterprise (coming soon).
 // Core (office & billing) carries a 1% platform fee on Stripe-processed payments;
 // paid plans cut it to 0.5%. Check/cash/external payments are always free.
-const PLATFORM_FEE = { Core: 0.01, Insight: 0.005, Vision: 0.005 };
 
 const buildTiers = (annual) => [
 {
@@ -6653,7 +6652,7 @@ const buildTiers = (annual) => [
   badge: 'Office & billing',
   price: 0,
   blurb: 'Customer management and automated billing. Free until you get paid.',
-  fee: '1% fee on Stripe payments',
+  fee: '1% fee on card & bank payments',
   cta: 'Start free',
   ctaHref: 'https://app.poollogic.app',
   listLabel: 'Includes',
@@ -6674,7 +6673,7 @@ const buildTiers = (annual) => [
   badge: 'Office + field',
   price: annual ? 29 : 39,
   blurb: 'Put your techs on it. Routes, the on-truck app, and reports your customers can trust.',
-  fee: '0.5% fee on Stripe payments',
+  fee: '0.5% fee on card & bank payments',
   cta: 'Get a demo',
   ctaHref: '/contact',
   popular: true,
@@ -6697,7 +6696,7 @@ const buildTiers = (annual) => [
   badge: 'Office + field + AI',
   price: annual ? 59 : 79,
   blurb: 'Let the AI write the reports, schedule the calls, catch the drift.',
-  fee: '0.5% fee on Stripe payments',
+  fee: '0.5% fee on card & bank payments',
   cta: 'Get a demo',
   ctaHref: '/contact',
   listLabel: 'Everything in Insight, plus',
@@ -6745,8 +6744,6 @@ const PricingCheck = ({ size = 18 }) => (
     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </span>
 );
-
-const formatUSD = (n) => `$${Math.round(n).toLocaleString('en-US')}`;
 
 // One card. Its seven children are the seven subgrid rows (see .pricing-card
 // in index.html), so badge / name / price / blurb / fee / CTA / list line up
@@ -6819,7 +6816,7 @@ const PricingCard = ({ t, annual }) => {
       <p style={{ marginTop: 12, fontSize: 13.5, color: 'var(--ink-4)', lineHeight: 1.55 }}>{t.blurb}</p>
 
       {/* 5. Fee line */}
-      <div style={{ marginTop: 12, fontSize: 13, color: 'var(--ink-5)', whiteSpace: 'nowrap' }}>{t.fee}</div>
+      <div style={{ marginTop: 12, fontSize: 13, color: 'var(--ink-5)', lineHeight: 1.45 }}>{t.fee}</div>
 
       {/* 6. CTA */}
       <div style={{ marginTop: 18 }}>
@@ -6871,63 +6868,6 @@ const TRUST_POINTS = [
   'Check, cash & external payments always free',
   'Unlimited customers on every plan',
 ];
-
-const PricingSlider = ({ label, value, display, min, max, step, onChange }) => (
-  <label style={{ display: 'block' }}>
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, fontSize: 13.5, color: 'var(--ink-3)', fontWeight: 500 }}>
-      <span>{label}</span>
-      <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)', fontVariantNumeric: 'tabular-nums' }}>{display}</span>
-    </div>
-    <input type="range" min={min} max={max} step={step} value={value}
-      onChange={(e) => onChange(Number(e.target.value))}
-      style={{ width: '100%', marginTop: 10, accentColor: 'var(--accent)' }} />
-  </label>
-);
-
-const CostEstimator = ({ tiers }) => {
-  const [techs, setTechs] = useState(3);
-  const [volume, setVolume] = useState(30000);
-  const rows = tiers.filter((t) => PLATFORM_FEE[t.name] !== undefined).map((t) => {
-    const rate = PLATFORM_FEE[t.name];
-    const plan = t.price * techs;
-    const fee = volume * rate;
-    return { name: t.name, rate, plan, fee, total: plan + fee };
-  });
-
-  return (
-    <div className="pricing-estimator" style={{
-      maxWidth: 980, margin: '56px auto 0',
-      border: '1px solid var(--line)', borderRadius: 16, overflow: 'hidden',
-      display: 'grid', gridTemplateColumns: '1fr 1fr', background: 'var(--bg)',
-    }}>
-      <div style={{ background: 'var(--bg-soft)', padding: '28px 28px 24px', display: 'flex', flexDirection: 'column', gap: 22 }}>
-        <div>
-          <div style={{ ...pricingLabel, color: 'var(--accent)' }}>Estimate your cost</div>
-          <h3 style={{ marginTop: 8, fontSize: 18, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink)', lineHeight: 1.3 }}>See what PoolLogic costs for your company.</h3>
-        </div>
-        <PricingSlider label="Technicians" value={techs} display={techs} min={1} max={25} step={1} onChange={setTechs} />
-        <PricingSlider label="Collected through Stripe each month" value={volume} display={formatUSD(volume)} min={0} max={200000} step={1000} onChange={setVolume} />
-        <p style={{ fontSize: 12.5, color: 'var(--ink-5)', lineHeight: 1.55 }}>
-          Uses the plan prices shown above. Platform fee is 1% on Core and 0.5% on paid plans. Stripe's own processing fees are separate.
-        </p>
-      </div>
-      <div style={{ padding: '12px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        {rows.map((r, i) =>
-        <div key={r.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '18px 0', borderTop: i === 0 ? 'none' : '1px solid var(--line)' }}>
-            <div>
-              <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)' }}>{r.name}</div>
-              <div style={{ marginTop: 3, fontSize: 12.5, color: 'var(--ink-5)', fontVariantNumeric: 'tabular-nums' }}>
-                {r.plan === 0 ? 'No plan fee' : `${formatUSD(r.plan)} plan`} + {formatUSD(r.fee)} platform fee ({r.rate * 100}%)
-              </div>
-            </div>
-            <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--ink)', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>
-              {formatUSD(r.total)}<span style={{ fontSize: 13, fontWeight: 400, color: 'var(--ink-5)', letterSpacing: 0 }}>/mo</span>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>);
-};
 
 // Compare table rows. Cells: true = included, false = not, string = text.
 const COMPARE_GROUPS = [
@@ -7013,7 +6953,7 @@ const ComparePlans = () => {
 };
 
 // Shared pricing block — used on the homepage Pricing section and on /pricing.
-// Owns the annual/monthly state so the cards and the estimator stay in sync.
+// Owns its own annual/monthly state and toggle so it's drop-in anywhere.
 const PricingCards = () => {
   const [annual, setAnnual] = useState(true);
   const tiers = buildTiers(annual);
@@ -7074,7 +7014,6 @@ const PricingCards = () => {
         Payment processing by Stripe, on every plan: <strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>2.9% + 30¢</strong> per card payment, <strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>0.8%</strong> per bank (ACH) payment (max $5). By default these come out of the payment you receive. Turn on the card processing fee setting to pass card costs on to your customer instead.
       </p>
 
-      <CostEstimator tiers={tiers} />
       <ComparePlans />
     </>
   );
