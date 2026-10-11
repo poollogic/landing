@@ -6642,74 +6642,378 @@ const Testimonial = () => {
 };
 
 // Pricing — Core/Insight/Vision tiers + Enterprise (coming soon).
-// Every tier carries the same 0.5% platform fee on Stripe-processed payments;
-// check/cash/external payments are always free.
+// Core (office & billing) carries a 1% platform fee on Stripe-processed payments;
+// paid plans cut it to 0.5%. Check/cash/external payments are always free.
+const PLATFORM_FEE = { Core: 0.01, Insight: 0.005, Vision: 0.005 };
+
 const buildTiers = (annual) => [
 {
+  id: 'core',
   name: 'Core',
+  badge: 'Office & billing',
   price: 0,
-  priceUnit: null,
-  blurb: 'Everything you need to run the business. Free until you get paid.',
+  blurb: 'Customer management and automated billing. Free until you get paid.',
+  fee: '1% fee on Stripe payments',
+  cta: 'Start free',
+  ctaHref: 'https://app.poollogic.app',
+  listLabel: 'Includes',
   features: [
-    'Unlimited customers & technicians',
-    'Routes, scheduling & on-truck app',
-    'Service reports with photos & chemistry',
-    'Recurring invoices & Stripe autopay',
+    'Unlimited customers',
+    'Automatic invoicing: monthly, quarterly, or yearly',
+    'Stripe autopay: card, ACH, or check',
+    'Overdue reminders & late fees',
     'Customer portal',
+    'Free data migration',
   ],
-  cta: 'Get a demo',
-  ctaHref: '/contact',
+  notIncluded: ['Routes & scheduling', 'Technician app', 'Service reports'],
+  bestFor: 'Owner-operators who want billing on autopilot.',
 },
 {
+  id: 'insight',
   name: 'Insight',
+  badge: 'Office + field',
   price: annual ? 29 : 39,
-  priceUnit: '/tech/mo',
-  blurb: 'See exactly where time and gas are leaking.',
+  blurb: 'Put your techs on it. Routes, the on-truck app, and reports your customers can trust.',
+  fee: '0.5% fee on Stripe payments',
+  cta: 'Get a demo',
+  ctaHref: '/contact',
+  popular: true,
+  listLabel: 'Everything in Core, plus',
   features: [
-    'Everything in Core',
+    { t: 'Platform fee cut to 0.5%', bold: true },
+    { t: 'Routes & scheduling', bold: true },
+    { t: 'Technician app, works offline', bold: true },
+    { t: 'GPS-verified service reports with photos & chemistry', bold: true },
     'Route insight scoring',
     'Daily service audit',
     'Operations dashboard',
     'Revenue & MRR analytics',
   ],
-  cta: 'Get a demo',
-  ctaHref: '/contact',
-  popular: true,
+  bestFor: 'Companies with techs running routes every day.',
 },
 {
+  id: 'vision',
   name: 'Vision',
+  badge: 'Office + field + AI',
   price: annual ? 59 : 79,
-  priceUnit: '/tech/mo',
   blurb: 'Let the AI write the reports, schedule the calls, catch the drift.',
+  fee: '0.5% fee on Stripe payments',
+  cta: 'Get a demo',
+  ctaHref: '/contact',
+  listLabel: 'Everything in Insight, plus',
   features: [
-    'Everything in Insight',
     'AI-drafted service reports',
     'AI document import (PDF / screenshot)',
     'Customer SMS (when shipped)',
     'Predictive chemistry alerts',
     'Priority support',
   ],
-  cta: 'Get a demo',
-  ctaHref: '/contact',
+  bestFor: 'Teams that want reports and admin work automated.',
 },
 {
+  id: 'enterprise',
   name: 'Enterprise',
+  badge: 'Multi-region',
   price: null,
-  priceUnit: null,
   blurb: 'Multi-region operations, custom roles, deep integrations.',
+  fee: 'Fees negotiated',
+  cta: 'Talk to sales',
+  ctaHref: null,
+  listLabel: 'Everything in Vision, plus',
   features: [
-    'Everything in Vision',
     'Multi-region routing',
     'Custom roles & approvals',
     'API + webhooks',
     'Dedicated success manager',
   ],
-  cta: 'Coming soon',
-  ctaHref: null,
+  bestFor: 'Operators with several branches or regions.',
 }];
 
-// Shared pricing cards — used on the homepage Pricing section and on /pricing.
-// Owns its own annual/monthly state and toggle so it's drop-in anywhere.
+const PRICING_BLUE_SOFT = 'color-mix(in oklab, var(--accent) 12%, transparent)';
+const PRICING_BLUE_INK = 'color-mix(in oklab, var(--accent) 75%, black)';
+const pricingLabel = { fontSize: 10.5, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' };
+
+const PricingCheck = ({ size = 18 }) => (
+  <span style={{
+    display: 'inline-flex', flexShrink: 0,
+    width: size, height: size, borderRadius: '50%',
+    background: PRICING_BLUE_SOFT,
+    color: 'var(--accent)',
+    alignItems: 'center', justifyContent: 'center',
+    marginTop: 1,
+  }}>
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </span>
+);
+
+const formatUSD = (n) => `$${Math.round(n).toLocaleString('en-US')}`;
+
+// One card. Its seven children are the seven subgrid rows (see .pricing-card
+// in index.html), so badge / name / price / blurb / fee / CTA / list line up
+// across every card in a row.
+const PricingCard = ({ t, annual }) => {
+  const isEnterprise = t.ctaHref === null;
+  const scrollToInsight = (e) => {
+    const el = document.getElementById('plan-insight');
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  return (
+    <div
+      id={`plan-${t.id}`}
+      className="pricing-card"
+      onMouseEnter={(e) => { if (!t.popular) e.currentTarget.style.borderColor = 'var(--ink-6)'; }}
+      onMouseLeave={(e) => { if (!t.popular) e.currentTarget.style.borderColor = 'var(--line)'; }}
+      style={{
+        border: t.popular ? '1px solid var(--accent)' : '1px solid var(--line)',
+        boxShadow: t.popular ? '0 12px 32px -12px rgba(59,130,246,.35)' : 'none',
+        borderRadius: 16,
+        padding: '28px 24px',
+        background: 'var(--bg)',
+        position: 'relative',
+        transition: 'border-color .2s ease',
+      }}>
+      {t.popular && (
+        <div style={{
+          ...pricingLabel,
+          position: 'absolute', top: -11, left: '50%', transform: 'translateX(-50%)',
+          background: 'var(--accent)', color: 'white',
+          padding: '4px 10px', borderRadius: 999, whiteSpace: 'nowrap', lineHeight: 1.3,
+        }}>Most popular</div>
+      )}
+
+      {/* 1. Scope badge */}
+      <div>
+        <span style={{
+          ...pricingLabel,
+          display: 'inline-block',
+          background: 'var(--bg-muted)', color: 'var(--ink-4)',
+          padding: '4px 9px', borderRadius: 999,
+        }}>{t.badge}</span>
+      </div>
+
+      {/* 2. Plan name */}
+      <h3 style={{ marginTop: 14, fontSize: 18, fontWeight: 600, color: 'var(--ink)' }}>{t.name}</h3>
+
+      {/* 3. Price */}
+      <div style={{ marginTop: 14, display: 'flex', alignItems: 'baseline', gap: 6, flexWrap: 'wrap' }}>
+        {t.price === null ?
+        <span style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)', lineHeight: 1.2 }}>Custom</span> :
+        <>
+          <span style={{ fontSize: 40, fontWeight: 600, letterSpacing: '-0.03em', color: 'var(--ink)', lineHeight: 1 }}>${t.price}</span>
+          {t.price > 0 && <span style={{ color: 'var(--ink-5)', fontSize: 14 }}>/tech/mo</span>}
+          {t.price > 0 && annual && (
+            <span style={{
+              fontSize: 11, fontWeight: 600,
+              background: PRICING_BLUE_SOFT, color: PRICING_BLUE_INK,
+              padding: '3px 8px', borderRadius: 999, marginLeft: 2, alignSelf: 'center',
+            }}>Save 20%</span>
+          )}
+        </>
+        }
+      </div>
+
+      {/* 4. Description */}
+      <p style={{ marginTop: 12, fontSize: 13.5, color: 'var(--ink-4)', lineHeight: 1.55 }}>{t.blurb}</p>
+
+      {/* 5. Fee line */}
+      <div style={{ marginTop: 12, fontSize: 13, color: 'var(--ink-5)', whiteSpace: 'nowrap' }}>{t.fee}</div>
+
+      {/* 6. CTA */}
+      <div style={{ marginTop: 18 }}>
+        {isEnterprise ?
+        <button type="button" disabled className="btn btn-outline btn-lg" style={{ width: '100%', justifyContent: 'center', opacity: 0.55, cursor: 'not-allowed' }}>{t.cta}</button> :
+        <a href={t.ctaHref} className={`btn ${t.popular ? 'btn-accent' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center', textDecoration: 'none' }}>{t.cta}</a>
+        }
+      </div>
+
+      {/* 7. Feature list + Best for */}
+      <div style={{ borderTop: '1px solid var(--line)', marginTop: 22, paddingTop: 22, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ ...pricingLabel, color: 'var(--ink-5)', marginBottom: 12 }}>{t.listLabel}</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+          {t.features.map((f) => {
+            const item = typeof f === 'string' ? { t: f } : f;
+            return (
+              <div key={item.t} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13.5, color: item.bold ? 'var(--ink-2)' : 'var(--ink-3)', fontWeight: item.bold ? 600 : 400, lineHeight: 1.45 }}>
+                <PricingCheck />
+                {item.t}
+              </div>);
+          })}
+        </div>
+
+        {t.notIncluded && (
+          <div style={{ marginTop: 18, paddingTop: 14, borderTop: '1px dashed var(--line)' }}>
+            <div style={{ ...pricingLabel, color: 'var(--ink-6)', marginBottom: 10 }}>Not in Core</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+              {t.notIncluded.map((f) =>
+              <div key={f} style={{ fontSize: 13, color: 'var(--ink-5)' }}>– {f}</div>
+              )}
+            </div>
+            <a href="#plan-insight" onClick={scrollToInsight} style={{ display: 'inline-block', marginTop: 10, fontSize: 13, fontWeight: 500, color: 'var(--accent)', textDecoration: 'none' }}>Included from Insight →</a>
+          </div>
+        )}
+
+        <div style={{ marginTop: 'auto', paddingTop: 22 }}>
+          <div style={{ borderTop: '1px solid var(--line)', paddingTop: 14 }}>
+            <div style={{ ...pricingLabel, color: 'var(--ink)' }}>Best for</div>
+            <div style={{ marginTop: 5, fontSize: 12.5, color: 'var(--ink-5)', lineHeight: 1.5 }}>{t.bestFor}</div>
+          </div>
+        </div>
+      </div>
+    </div>);
+};
+
+const TRUST_POINTS = [
+  'Free migration on every tier',
+  'No per-stop, per-service, or per-text fees',
+  'Check, cash & external payments always free',
+  'Unlimited customers on every plan',
+];
+
+const PricingSlider = ({ label, value, display, min, max, step, onChange }) => (
+  <label style={{ display: 'block' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, fontSize: 13.5, color: 'var(--ink-3)', fontWeight: 500 }}>
+      <span>{label}</span>
+      <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)', fontVariantNumeric: 'tabular-nums' }}>{display}</span>
+    </div>
+    <input type="range" min={min} max={max} step={step} value={value}
+      onChange={(e) => onChange(Number(e.target.value))}
+      style={{ width: '100%', marginTop: 10, accentColor: 'var(--accent)' }} />
+  </label>
+);
+
+const CostEstimator = ({ tiers }) => {
+  const [techs, setTechs] = useState(3);
+  const [volume, setVolume] = useState(30000);
+  const rows = tiers.filter((t) => PLATFORM_FEE[t.name] !== undefined).map((t) => {
+    const rate = PLATFORM_FEE[t.name];
+    const plan = t.price * techs;
+    const fee = volume * rate;
+    return { name: t.name, rate, plan, fee, total: plan + fee };
+  });
+
+  return (
+    <div className="pricing-estimator" style={{
+      maxWidth: 980, margin: '56px auto 0',
+      border: '1px solid var(--line)', borderRadius: 16, overflow: 'hidden',
+      display: 'grid', gridTemplateColumns: '1fr 1fr', background: 'var(--bg)',
+    }}>
+      <div style={{ background: 'var(--bg-soft)', padding: '28px 28px 24px', display: 'flex', flexDirection: 'column', gap: 22 }}>
+        <div>
+          <div style={{ ...pricingLabel, color: 'var(--accent)' }}>Estimate your cost</div>
+          <h3 style={{ marginTop: 8, fontSize: 18, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink)', lineHeight: 1.3 }}>See what PoolLogic costs for your company.</h3>
+        </div>
+        <PricingSlider label="Technicians" value={techs} display={techs} min={1} max={25} step={1} onChange={setTechs} />
+        <PricingSlider label="Collected through Stripe each month" value={volume} display={formatUSD(volume)} min={0} max={200000} step={1000} onChange={setVolume} />
+        <p style={{ fontSize: 12.5, color: 'var(--ink-5)', lineHeight: 1.55 }}>
+          Uses the plan prices shown above. Platform fee is 1% on Core and 0.5% on paid plans. Stripe's own processing fees are separate.
+        </p>
+      </div>
+      <div style={{ padding: '12px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        {rows.map((r, i) =>
+        <div key={r.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '18px 0', borderTop: i === 0 ? 'none' : '1px solid var(--line)' }}>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--ink)' }}>{r.name}</div>
+              <div style={{ marginTop: 3, fontSize: 12.5, color: 'var(--ink-5)', fontVariantNumeric: 'tabular-nums' }}>
+                {r.plan === 0 ? 'No plan fee' : `${formatUSD(r.plan)} plan`} + {formatUSD(r.fee)} platform fee ({r.rate * 100}%)
+              </div>
+            </div>
+            <div style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--ink)', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>
+              {formatUSD(r.total)}<span style={{ fontSize: 13, fontWeight: 400, color: 'var(--ink-5)', letterSpacing: 0 }}>/mo</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>);
+};
+
+// Compare table rows. Cells: true = included, false = not, string = text.
+const COMPARE_GROUPS = [
+  ['Office & billing', [
+    ['Customer management', true, true, true, true],
+    ['Platform fee on Stripe payments', '1%', '0.5%', '0.5%', '0.5%'],
+    ["Automatic invoices (monthly, quarterly, yearly) on each customer's own day", true, true, true, true],
+    ['Stripe autopay: card, ACH, or check', true, true, true, true],
+    ['Overdue reminders, late fees & card surcharge', true, true, true, true],
+    ['Customer portal', true, true, true, true],
+    ['Free data migration', true, true, true, true],
+  ]],
+  ['Field', [
+    ['Routes & scheduling', false, true, true, true],
+    ['Technician app, works offline', false, true, true, true],
+    ['GPS-verified service reports', false, true, true, true],
+  ]],
+  ['Analytics', [
+    ['Route insight scoring', false, true, true, true],
+    ['Daily service audit', false, true, true, true],
+    ['Operations dashboard', false, true, true, true],
+    ['Revenue & MRR analytics', false, true, true, true],
+  ]],
+  ['AI', [
+    ['AI-drafted service reports', false, false, true, true],
+    ['AI document import', false, false, true, true],
+    ['Predictive chemistry alerts', false, false, true, true],
+    ['Priority support', false, false, true, true],
+  ]],
+  ['Scale', [
+    ['Multi-region routing', false, false, false, true],
+    ['Custom roles & approvals', false, false, false, true],
+    ['API + webhooks', false, false, false, true],
+  ]],
+];
+
+const COMPARE_COLS = [['Core', '$0'], ['Insight', 'per tech'], ['Vision', 'per tech'], ['Enterprise', 'Coming soon']];
+
+const ComparePlans = () => {
+  const cell = { padding: '12px 16px', borderTop: '1px solid var(--line)', fontSize: 13.5 };
+  return (
+    <div style={{ maxWidth: 980, margin: '56px auto 0' }}>
+      <h3 style={{ textAlign: 'center', fontSize: 22, fontWeight: 600, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: 20 }}>Compare plans</h3>
+      <div style={{ border: '1px solid var(--line)', borderRadius: 16, overflowX: 'auto', background: 'var(--bg)' }}>
+        <table style={{ width: '100%', minWidth: 640, borderCollapse: 'collapse' }}>
+          <thead>
+            <tr>
+              <th style={{ ...cell, borderTop: 'none', textAlign: 'left', fontWeight: 500, color: 'var(--ink-5)', width: '40%' }}>Feature</th>
+              {COMPARE_COLS.map(([name, sub]) =>
+              <th key={name} style={{ ...cell, borderTop: 'none', textAlign: 'center' }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink)' }}>{name}</div>
+                  <div style={{ marginTop: 2, fontSize: 12, fontWeight: 400, color: 'var(--ink-5)' }}>{sub}</div>
+                </th>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {COMPARE_GROUPS.map(([group, rows]) =>
+            <React.Fragment key={group}>
+                <tr>
+                  <td colSpan={5} style={{ ...cell, ...pricingLabel, background: 'var(--bg-soft)', color: 'var(--ink-4)', padding: '9px 16px' }}>{group}</td>
+                </tr>
+                {rows.map(([label, ...vals]) =>
+              <tr key={label}>
+                    <td style={{ ...cell, color: 'var(--ink-3)' }}>{label}</td>
+                    {vals.map((v, i) =>
+                <td key={i} style={{ ...cell, textAlign: 'center' }}>
+                        {v === true ?
+                  <span aria-label="Included" style={{ color: 'var(--accent)', fontWeight: 600 }}>✓</span> :
+                  v === false ?
+                  <span aria-label="Not included" style={{ color: 'var(--ink-6)', opacity: 0.6 }}>–</span> :
+                  <strong style={{ fontWeight: 600, color: 'var(--ink)' }}>{v}</strong>}
+                      </td>
+                )}
+                  </tr>
+              )}
+              </React.Fragment>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>);
+};
+
+// Shared pricing block — used on the homepage Pricing section and on /pricing.
+// Owns the annual/monthly state so the cards and the estimator stay in sync.
 const PricingCards = () => {
   const [annual, setAnnual] = useState(true);
   const tiers = buildTiers(annual);
@@ -6754,92 +7058,24 @@ const PricingCards = () => {
         </div>
       </div>
 
-      <div className="pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
-        {tiers.map((t) => {
-        const isEnterprise = t.ctaHref === null;
-        const popularBorder = 'color-mix(in oklab, var(--accent) 38%, var(--line))';
-        return (
-          <div key={t.name}
-            onMouseEnter={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--ink-6)'; } }}
-            onMouseLeave={(e) => { if (!t.popular && !isEnterprise) { e.currentTarget.style.borderColor = 'var(--line)'; } }}
-            style={{
-            border: t.popular ? `1.5px solid ${popularBorder}` : '1px solid var(--line)',
-            borderRadius: 14,
-            padding: '28px 22px',
-            background: 'var(--bg)',
-            position: 'relative',
-            opacity: isEnterprise ? 0.85 : 1,
-            display: 'flex', flexDirection: 'column',
-            transition: 'border-color .2s ease'
-          }}>
-            {t.popular && (
-              <div style={{
-                alignSelf: 'flex-start',
-                fontSize: 10.5, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase',
-                background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
-                color: 'color-mix(in oklab, var(--accent) 75%, black)',
-                padding: '4px 10px', borderRadius: 999,
-                marginBottom: 14,
-              }}>Most popular</div>
-            )}
-            <h3 style={{ fontSize: 17, fontWeight: 600, color: 'var(--ink)' }}>{t.name}</h3>
-
-            <div style={{ marginTop: 18, display: 'flex', alignItems: 'baseline', gap: 8, minHeight: 44, flexWrap: 'wrap' }}>
-              {t.price === 0 ?
-              <span style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.035em', color: 'var(--ink)' }}>$0</span> :
-              t.price === null ?
-              <span style={{ fontSize: 24, fontWeight: 600, letterSpacing: '-0.015em', color: 'var(--ink-4)' }}>Custom</span> :
-              <>
-                <span style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.035em', color: 'var(--ink)' }}>${t.price}</span>
-                <span style={{ color: 'var(--ink-5)', fontSize: 13 }}>{t.priceUnit}</span>
-                {annual && (
-                  <span style={{
-                    fontSize: 11, fontWeight: 600,
-                    background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
-                    color: 'color-mix(in oklab, var(--accent) 75%, black)',
-                    padding: '3px 8px', borderRadius: 999,
-                    marginLeft: 2,
-                  }}>Save 20%</span>
-                )}
-              </>
-              }
-            </div>
-
-            <p style={{ marginTop: 10, fontSize: 13, color: 'var(--ink-5)', lineHeight: 1.55, minHeight: 56 }}>{t.blurb}</p>
-
-            <div style={{ fontSize: 12, color: 'var(--ink-5)', marginTop: 8, marginBottom: 20, minHeight: 18 }}>
-              {isEnterprise ? ' ' : <>+ 0.5% on Stripe payments</>}
-            </div>
-
-            {isEnterprise ?
-            <div style={{ width: '100%', textAlign: 'center', padding: '11px 14px', borderRadius: 10, border: '1px dashed var(--line)', color: 'var(--ink-5)', fontSize: 14, fontWeight: 500, height: 46, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{t.cta}</div> :
-            <a href={t.ctaHref} className={`btn ${t.popular ? 'btn-accent' : 'btn-outline'} btn-lg`} style={{ width: '100%', justifyContent: 'center', textDecoration: 'none' }}>{t.cta}</a>
-            }
-
-            <div style={{ borderTop: '1px solid var(--line)', marginTop: 22, paddingTop: 18, display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {t.features.map((f) =>
-              <div key={f} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--ink-3)', lineHeight: 1.5 }}>
-                <span style={{
-                  display: 'inline-flex', flexShrink: 0,
-                  width: 18, height: 18, borderRadius: '50%',
-                  background: 'color-mix(in oklab, var(--accent) 12%, transparent)',
-                  color: 'var(--accent)',
-                  alignItems: 'center', justifyContent: 'center',
-                  marginTop: 1,
-                }}>
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                </span>
-                {f}
-              </div>
-              )}
-            </div>
-          </div>);
-        })}
+      <div className="pricing-grid">
+        {tiers.map((t) => <PricingCard key={t.id} t={t} annual={annual} />)}
       </div>
 
-      <p style={{ marginTop: 28, fontSize: 13.5, color: 'var(--ink-5)', lineHeight: 1.6, textAlign: 'center', maxWidth: 640, marginLeft: 'auto', marginRight: 'auto', textWrap: 'pretty' }}>
-        Payment processing by Stripe, on every plan: <strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>2.9% + 30¢</strong> per card payment, <strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>0.8%</strong> per bank (ACH) payment (max $5). Both fees come out of the payment, never added to your customer's bill. Pass card costs on to customers with PoolLogic's card processing fee setting.
+      <div style={{ marginTop: 12, display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px 24px' }}>
+        {TRUST_POINTS.map((p) =>
+        <span key={p} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--ink-3)' }}>
+            <PricingCheck size={16} />{p}
+          </span>
+        )}
+      </div>
+
+      <p style={{ marginTop: 20, fontSize: 13, color: 'var(--ink-5)', lineHeight: 1.6, textAlign: 'center', maxWidth: 660, marginLeft: 'auto', marginRight: 'auto', textWrap: 'pretty' }}>
+        Payment processing by Stripe, on every plan: <strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>2.9% + 30¢</strong> per card payment, <strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>0.8%</strong> per bank (ACH) payment (max $5). By default these come out of the payment you receive. Turn on the card processing fee setting to pass card costs on to your customer instead.
       </p>
+
+      <CostEstimator tiers={tiers} />
+      <ComparePlans />
     </>
   );
 };
@@ -6849,15 +7085,17 @@ const Pricing = () => {
     <section className="section-divider" id="pricing">
       <div className="container">
         <div style={{ textAlign: 'center', maxWidth: 680, margin: '0 auto 24px' }}>
+          <div style={{ ...pricingLabel, color: 'var(--accent)' }}>Pricing</div>
           <h2 style={{
+            marginTop: 12,
             fontSize: 'clamp(24px, 3vw, 34px)',
             letterSpacing: '-0.025em',
             lineHeight: 1.1,
             color: 'var(--ink)',
             textWrap: 'balance',
-          }}>Free to start. Pay only when you get paid.</h2>
-          <p style={{ marginTop: 14, fontSize: 15, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 540, marginLeft: 'auto', marginRight: 'auto' }}>
-            Every tier includes a flat <strong style={{ color: 'var(--ink-2)' }}>0.5%</strong> platform fee on payments processed through Stripe. Check, cash, and external payments are always free.
+          }}>Free for the office. Pay per tech when you put them on a route.</h2>
+          <p style={{ marginTop: 14, fontSize: 15, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 580, marginLeft: 'auto', marginRight: 'auto' }}>
+            <PricingLede />
           </p>
         </div>
 
@@ -6867,14 +7105,21 @@ const Pricing = () => {
 
 };
 
+// Shared with the /pricing page header.
+const PricingLede = () => (
+  <>
+    Core runs your customers and billing for $0 with a <strong style={{ color: 'var(--ink-2)' }}>1%</strong> platform fee on Stripe payments. Paid plans drop that to <strong style={{ color: 'var(--ink-2)' }}>0.5%</strong> and add routes and the technician app. Check, cash, and external payments are always free.
+  </>
+);
+
 // FAQ
 const FAQ = () => {
   const [open, setOpen] = useState(0);
   const items = [
   { q: 'How long does setup take?', a: 'Setup is fast — as long as you have your customer info in some kind of document, you can usually be importing and have automated billing live within an hour. The quickest path is our provided spreadsheet template: many customers paste it into Claude or ChatGPT and have it fill in all of their customer information with no manual data entry. You can also upload a PDF or other document to our AI import, but it\'s limited to one document at a time — it can\'t stitch information together across multiple files.' },
-  { q: 'Does it work without internet on the truck?', a: 'The technician app works entirely offline. Every stop and every report is cached on the device and syncs the moment reception comes back.' },
+  { q: 'Does it work without internet on the truck?', a: 'The technician app (Insight and up) works entirely offline. Every stop and every report is cached on the device and syncs the moment reception comes back.' },
   { q: 'Will you migrate my data from Skimmer or Pooltrackr?', a: 'Free migration is included for every customer, on every tier. We\'ll handle importing all your customers and walk you through any questions you may have. The app is extremely intuitive — most teams are comfortable using it from day one.' },
-  { q: 'Do you charge per stop, per service, or per text?', a: 'No per-stop, per-service, or per-text fees. Core is free — you only pay a flat 0.5% on payments processed through Stripe. Check, cash, and external payments are always free. Insight ($39/tech/mo) and Vision ($79/tech/mo) add features like service audits and AI reports. SMS isn\'t available yet — when it launches it\'ll be included on Vision with a fair-use limit so your number doesn\'t get flagged as spam.' },
+  { q: 'Do you charge per stop, per service, or per text?', a: 'No per-stop, per-service, or per-text fees. Core is free and covers customers and billing — you only pay a flat 1% on payments processed through Stripe. Check, cash, and external payments are always free. Insight adds routes, the technician app, and service reports, priced per tech, and cuts the platform fee to 0.5%. Vision adds AI reports and import. SMS isn\'t available yet — when it launches it\'ll be included on Vision with a fair-use limit so your number doesn\'t get flagged as spam.' },
   { q: 'What payment processors do you support?', a: 'Stripe. All payment processing in PoolLogic runs through Stripe — connect your Stripe account once and you\'re set.' }];
 
   return (
@@ -7796,4 +8041,4 @@ const _Footer = () =>
   </footer>;
 
 
-export { Nav, Hero, Features, BuiltDifferently, HowItWorks, Stats, Testimonial, Migration, Pricing, PricingCards, FAQ, FinalCTA, Footer };
+export { Nav, Hero, Features, BuiltDifferently, HowItWorks, Stats, Testimonial, Migration, Pricing, PricingCards, PricingLede, FAQ, FinalCTA, Footer };

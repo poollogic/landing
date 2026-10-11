@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { PricingCards } from '../components/sections.jsx';
+import { PricingCards, PricingLede } from '../components/sections.jsx';
 
 // Pricing-page-specific FAQs. Kept narrower than the homepage FAQ — these are
 // the questions a buyer who's already on /pricing is actually asking.
 const FAQ_ITEMS = [
   {
     q: 'What does "free until you get paid" mean?',
-    a: 'Core is $0/month with no per-tech fee. We make money on a flat 0.5% platform fee on payments processed through Stripe. Check, cash, and external payments are always free. If you never collect a dollar through PoolLogic, you never pay us a dollar.',
+    a: 'Core is $0/month with no per-tech fee. It runs your customers and billing, and we make money on a 1% platform fee on payments processed through Stripe. Check, cash, and external payments are always free. On Core, if you never collect a dollar through PoolLogic, you never pay us a dollar. Insight and Vision are priced per tech and cut the platform fee to 0.5%.',
   },
   {
     q: 'How does the per-tech pricing work on Insight and Vision?',
@@ -14,7 +14,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'What\'s the difference between Insight and Vision?',
-    a: 'Insight gives you the visibility layer — route insight scoring, daily service audits, operations dashboard, revenue and MRR analytics. Vision adds the AI layer on top — AI-drafted service reports, AI document import, predictive chemistry alerts, and Customer SMS when it launches.',
+    a: 'Insight puts your techs on PoolLogic — routes and scheduling, the offline technician app, and GPS-verified service reports — plus the visibility layer: route insight scoring, daily service audits, operations dashboard, revenue and MRR analytics. It also cuts the platform fee to 0.5%. Vision adds the AI layer on top — AI-drafted service reports, AI document import, predictive chemistry alerts, and Customer SMS when it launches.',
   },
   {
     q: 'Can I switch tiers later?',
@@ -44,7 +44,7 @@ const PricingPage = () => {
             From your first pool to your fiftieth route.
           </h1>
           <p style={{ marginTop: 18, fontSize: 17, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
-            Free to start, paid only when you collect. Every tier includes a flat <strong style={{ color: 'var(--ink-2)' }}>0.5%</strong> platform fee on Stripe-processed payments. Check, cash, and external payments are always free.
+            <PricingLede />
           </p>
         </header>
 

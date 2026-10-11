@@ -35,7 +35,7 @@ const ROUTE_META = {
   },
   pricing: {
     title: 'Pricing — PoolLogic',
-    description: 'Simple per-tech pricing for pool service software. Routes, chemistry, branded reports, and billing in every plan.',
+    description: 'Pool service software pricing: Core runs customers and billing free with a 1% fee on Stripe payments. Insight and Vision add routes, the technician app, and reports per tech at 0.5%.',
     path: '/pricing',
   },
   techApp: {

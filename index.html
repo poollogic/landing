@@ -59,14 +59,14 @@
       "name": "Core",
       "price": "0",
       "priceCurrency": "USD",
-      "description": "Routes, scheduling, on-truck app, service reports, recurring invoicing with Stripe autopay. Free until you get paid."
+      "description": "Customer management, automatic invoicing, Stripe autopay, overdue reminders, and customer portal. Free until you get paid; 1% platform fee on Stripe payments."
     },
     {
       "@type": "Offer",
       "name": "Insight",
       "price": "39",
       "priceCurrency": "USD",
-      "description": "Everything in Core plus route insight scoring, daily service audit, operations dashboard, and revenue analytics. Per tech, per month."
+      "description": "Everything in Core plus routes and scheduling, the offline technician app, GPS-verified service reports, route insight scoring, daily service audit, operations dashboard, and revenue analytics. Platform fee cut to 0.5%. Per tech, per month."
     },
     {
       "@type": "Offer",
@@ -98,7 +98,7 @@
       "name": "Does it work without internet on the truck?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The technician app works entirely offline. Every stop and every report is cached on the device and syncs the moment reception comes back."
+        "text": "The technician app (Insight and up) works entirely offline. Every stop and every report is cached on the device and syncs the moment reception comes back."
       }
     },
     {
@@ -114,7 +114,7 @@
       "name": "Do you charge per stop, per service, or per text?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No per-stop, per-service, or per-text fees. Core is free — you only pay a flat 0.5% on payments processed through Stripe. Check, cash, and external payments are always free. Insight ($39/tech/mo) and Vision ($79/tech/mo) add features like service audits and AI reports."
+        "text": "No per-stop, per-service, or per-text fees. Core is free and covers customers and billing — you only pay a flat 1% on payments processed through Stripe. Check, cash, and external payments are always free. Insight adds routes, the technician app, and service reports, priced per tech, and cuts the platform fee to 0.5%. Vision adds AI reports and import. SMS isn't available yet — when it launches it'll be included on Vision with a fair-use limit so your number doesn't get flagged as spam."
       }
     },
     {
@@ -382,17 +382,32 @@
     }
   }
 
-  /* Pricing — 4-col desktop, 2-col tablet, single-col mobile */
-  @media (max-width: 1100px) {
-    .pricing-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 16px !important;
+  /* Pricing — 4-col desktop, 2-col tablet, single-col mobile.
+     Each .pricing-card spans 7 rows of the parent grid and adopts them via
+     subgrid, so badge / name / price / blurb / fee / CTA / list align across cards. */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 16px;
+    row-gap: 0;
+  }
+  .pricing-card { display: flex; flex-direction: column; margin-bottom: 24px; }
+  @supports (grid-template-rows: subgrid) {
+    .pricing-card {
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span 7;
+      row-gap: 0;
     }
   }
-  @media (max-width: 640px) {
-    .pricing-grid {
-      grid-template-columns: 1fr !important;
-    }
+  @media (max-width: 1000px) {
+    .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 620px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 760px) {
+    .pricing-estimator { grid-template-columns: 1fr !important; }
   }
 
   /* FAQ — stack the 2-col layout (left intro + right accordion) on tablet down */
