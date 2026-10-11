@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 // Find-and-replace placeholders if needed:
 //   PoolLogic          legal entity name
 //   Florida                 governing state
-//   May 23, 2026            effective date
+//   October 11, 2026        updated date
 //   legal@poollogic.app     general legal contact email
 //   copyright@poollogic.app DMCA designated agent email
 //   [mailing address]       physical address for DMCA notices — fill before publishing
@@ -65,7 +65,7 @@ const TermsPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> May 23, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> October 11, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
           </div>
         </header>
@@ -207,6 +207,12 @@ const TermsPage = () => {
 
             <Section id="fees" title="10. Fees, Cancellation & Refunds">
               <p>Subscriber fees, billing cycles, and any applicable taxes are presented before purchase and are charged automatically through Stripe to the payment method you provide. By subscribing, you authorize PoolLogic to charge that payment method on each renewal date.</p>
+
+              <h3>Platform Fee</h3>
+              <p>For each payment an End Customer makes to the Subscriber through the Service by card or bank account (ACH), whether on a PoolLogic-hosted invoice or payment page, by autopay, or entered by the Subscriber's staff, PoolLogic charges the Subscriber a platform fee equal to the percentage of the payment amount shown for the Subscriber's plan on our <a href="/pricing" style={{ color: 'var(--accent)' }}>pricing page</a> at the time of the payment. As of the Updated date of these Terms, the platform fee is <strong>0.5% on every plan</strong>. The platform fee is deducted automatically from the payment through Stripe before the funds reach the Subscriber's connected account balance; it is not added to the End Customer's invoice. Checks, cash, and other payments the Subscriber records in the Service without processing them through Stripe carry no platform fee. When the Subscriber refunds a payment through the Service, the platform fee on the refunded amount is returned; platform fees are not returned when a payment is disputed or charged back. Changes to the platform fee follow the notice terms for fee changes in these Terms.</p>
+
+              <h3>Stripe Fees</h3>
+              <p>Stripe's payment processing fees are separate from the platform fee. They are set by Stripe under the Stripe Agreements the Subscriber accepts when connecting its Stripe account, are deducted by Stripe from each payment, and are shown on <a href="https://stripe.com/pricing" target="_blank" rel="noreferrer noopener">Stripe's pricing page</a> and on each payment in the Subscriber's Stripe Dashboard. PoolLogic does not set, receive, or control Stripe's fees.</p>
               <p>You may cancel your subscription at any time from your account settings. Cancellation takes effect at the end of the then-current billing period. Access to paid features continues until that date.</p>
               <p>Except where required by law, fees already paid are <strong>non-refundable</strong>, including for partial months or unused portions of a billing period. We may, at our sole discretion, offer prorated refunds in exceptional circumstances.</p>
               <p>Where PoolLogic offers a free trial, the trial length and any conversion behavior will be disclosed at sign-up. Unless we expressly state otherwise at sign-up, a free trial automatically converts to a paid subscription at the end of the trial period unless canceled beforehand.</p>

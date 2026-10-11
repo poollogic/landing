@@ -6836,6 +6836,10 @@ const PricingCards = () => {
           </div>);
         })}
       </div>
+
+      <p style={{ marginTop: 28, fontSize: 13.5, color: 'var(--ink-5)', lineHeight: 1.6, textAlign: 'center', maxWidth: 640, marginLeft: 'auto', marginRight: 'auto', textWrap: 'pretty' }}>
+        Payment processing by Stripe, on every plan: <strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>2.9% + 30¢</strong> per card payment, <strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>0.8%</strong> per bank (ACH) payment (max $5). Both fees come out of the payment, never added to your customer's bill. Pass card costs on to customers with PoolLogic's card processing fee setting.
+      </p>
     </>
   );
 };
