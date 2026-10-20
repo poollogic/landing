@@ -69,51 +69,51 @@ function SanitizerDropdown() {
   );
 }
 
-/** dashboard/LiveRouteProgress.tsx, at rest: no hover tips, no draw-in. */
+/**
+ * dashboard/LiveRouteProgress.tsx, at rest: no hover tips, no draw-in. Every
+ * track spans the same width whatever its stop count: each route lays out its
+ * own N stops between a 2.5% inset at either end. The ring is the stop in
+ * progress, or a finished route's last stop.
+ */
+const ROUTE_INSET = 2.5;
+
 function LiveRoutes() {
-  const x = (i) => ((i + 0.5) / ROUTES.cells) * 100;
   return (
     <div className="pl-routes" aria-hidden="true">
       <div className="pl-card-head"><span className="pl-card-title">Live route progress</span></div>
       <div className="pl-routes-body">
         {ROUTES.techs.map((t) => {
-          const finished = t.done >= t.total;
-          const status = (i) => (i < t.done ? 'completed' : i === t.done ? 'in_progress' : 'upcoming');
-          const stops = Array.from({ length: t.total }, (_, i) => ({
-            x: x(i),
-            status: status(i),
-            // liveRoute.ts: the stop in progress, or a finished route's last stop, is the ring.
-            ring: status(i) === 'in_progress' || (finished && i === t.total - 1),
-          }));
+          const n = t.total;
+          const span = 100 - 2 * ROUTE_INSET;
+          const step = span / (n - 1);
+          const pos = (i) => ROUTE_INSET + i * step;
+          const ring = Math.min(t.done, n - 1);
+          const finished = t.done >= n;
           return (
             <div key={t.name} className="pl-route-row">
               <span className="pl-route-name">{t.name}</span>
               <div className="pl-route-track">
-                {stops.slice(1).map((s, i) => {
-                  const filled = s.status !== 'upcoming';
-                  return (
+                {Array.from({ length: n - 1 }, (_, i) => (
+                  <span
+                    key={`s${i}`}
+                    className="pl-route-seg"
+                    style={{
+                      left: `${pos(i)}%`,
+                      width: i < ring ? `calc(${step}% + 1px)` : `${step}%`,
+                      background: i < ring ? 'var(--chart-accent)' : 'var(--neutral-fill-hover)',
+                    }}
+                  />
+                ))}
+                {Array.from({ length: n }, (_, i) =>
+                  i === ring ? null : (
                     <span
-                      key={i}
-                      className="pl-route-seg"
-                      style={{
-                        left: `${stops[i].x}%`,
-                        width: filled ? `calc(${s.x - stops[i].x}% + 1px)` : `${s.x - stops[i].x}%`,
-                        background: filled ? 'var(--chart-accent)' : 'var(--neutral-fill-hover)',
-                      }}
-                    />
-                  );
-                })}
-                {stops.map((s, i) =>
-                  s.ring ? (
-                    <span key={i} className="pl-route-ring" style={{ left: `${s.x}%` }} />
-                  ) : (
-                    <span
-                      key={i}
+                      key={`t${i}`}
                       className="pl-route-tick"
-                      style={{ left: `${s.x}%`, background: s.status === 'completed' ? 'var(--chart-accent)' : 'var(--route-stop-upcoming)' }}
+                      style={{ left: `${pos(i)}%`, background: i <= ring ? 'var(--chart-accent)' : 'var(--route-stop-upcoming)' }}
                     />
                   ),
                 )}
+                <span className="pl-route-ring" style={{ left: `${pos(ring)}%` }} />
               </div>
               {finished ? (
                 <span className="pl-route-count is-done">
@@ -122,10 +122,10 @@ function LiveRoutes() {
                       <path d="M1.5 4.2 3.2 5.8 6.5 2.3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
-                  {t.done}/{t.total}
+                  {t.done}/{n}
                 </span>
               ) : (
-                <span className="pl-route-count">{t.done}/{t.total}</span>
+                <span className="pl-route-count">{t.done}/{n}</span>
               )}
             </div>
           );

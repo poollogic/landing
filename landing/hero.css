@@ -255,6 +255,11 @@
 }
 @keyframes shaftBreathe { 0%, 100% { opacity: var(--o, 1); } 50% { opacity: calc(var(--o, 1) * .4); } }
 @keyframes sourceGlow   { 0%, 100% { opacity: .9; transform: scale(1); } 50% { opacity: .6; transform: scale(1.08); } }
+@keyframes raySway {
+  0%, 100% { transform: rotate(-33deg) translateX(-40px); }
+  33%      { transform: rotate(-25deg) translateX(60px); }
+  66%      { transform: rotate(-29deg) translateX(100px); }
+}
 
 .light-shaft {
   position: absolute;
@@ -262,33 +267,58 @@
   height: 125%;
   border-radius: 999px;
   transform-origin: top left;
-  filter: blur(38px);
+  filter: blur(28px);
   will-change: transform, opacity;
-  background: linear-gradient(180deg, rgba(214, 224, 240, .12), rgba(148, 163, 184, .05) 40%, transparent 72%);
+  background: linear-gradient(rgba(226, 236, 255, .19), rgba(165, 190, 230, .055) 34%, rgba(148, 163, 184, .015) 52%, transparent 68%);
 }
-.light-shaft.s1 { left: 3%;  width: 240px; --o: 1;  animation: shaftSway 9s ease-in-out infinite, shaftBreathe 5.5s ease-in-out infinite; }
-.light-shaft.s2 { left: 19%; width: 120px; --o: .8; animation: shaftSway 7s ease-in-out infinite, shaftBreathe 4.5s ease-in-out infinite; animation-delay: -3s, -2s; }
-.light-shaft.s3 { left: 30%; width: 320px; --o: .5; animation: shaftSway 10.5s ease-in-out infinite, shaftBreathe 6.5s ease-in-out infinite; animation-delay: -6s, -4s; }
-.light-shaft.s4 { left: -6%; width: 160px; --o: .6; animation: shaftSway 12s ease-in-out infinite, shaftBreathe 7s ease-in-out infinite; animation-delay: -9s, -5s; }
+.light-shaft.s1 { left: -8%;  width: 260px; --o: 1;  animation: shaftSway 12.6s ease-in-out infinite, shaftBreathe 7.7s ease-in-out infinite; }
+.light-shaft.s2 { left: 8%;   width: 120px; --o: .8; animation: shaftSway 9.8s ease-in-out infinite, shaftBreathe 6.3s ease-in-out infinite; animation-delay: -3s, -2s; }
+.light-shaft.s3 { left: 19%;  width: 320px; --o: .5; animation: shaftSway 14.7s ease-in-out infinite, shaftBreathe 9.1s ease-in-out infinite; animation-delay: -6s, -4s;
+  background: linear-gradient(rgba(214, 224, 240, .14), rgba(148, 163, 184, .035) 36%, transparent 64%); }
+.light-shaft.s4 { left: -17%; width: 190px; --o: .6; animation: shaftSway 16.8s ease-in-out infinite, shaftBreathe 9.8s ease-in-out infinite; animation-delay: -9s, -5s;
+  background: linear-gradient(rgba(236, 243, 255, .24), rgba(165, 190, 230, .065) 32%, transparent 64%); }
+
+/* Thin, sharper rays among the soft beams: their own sway (raySway) plus the
+   beams' breathe, each with its own opacity (--o), sway (--d), breathe (--b)
+   and offset (--dl, on both). */
+.light-line {
+  position: absolute;
+  top: -25%;
+  height: 118%;
+  border-radius: 999px;
+  transform-origin: left top;
+  will-change: transform, opacity;
+  opacity: var(--o, 1);
+  background: linear-gradient(rgba(255, 255, 255, .40), rgba(232, 240, 255, .12) 20%, rgba(200, 218, 250, .035) 40%, transparent 60%);
+  animation: raySway var(--d) ease-in-out infinite, shaftBreathe var(--b) ease-in-out infinite;
+  animation-delay: var(--dl), var(--dl);
+}
+.light-line.l1 { left: -14%; width: 6px;  filter: blur(4px);   --o: .45; --d: 19.6s; --dl: -5s; --b: 10.5s; }
+.light-line.l2 { left: -10%; width: 3px;  filter: blur(2.5px); --o: .55; --d: 15.4s; --dl: -2s; --b: 8.4s; }
+.light-line.l3 { left: -5%;  width: 10px; filter: blur(5.5px); --o: .40; --d: 18.2s; --dl: -7s; --b: 9.8s; }
+.light-line.l4 { left: 0%;   width: 2px;  filter: blur(2px);   --o: .50; --d: 13.3s; --dl: -4s; --b: 7s; }
+.light-line.l5 { left: 4%;   width: 18px; filter: blur(8.5px); --o: .30; --d: 16.8s; --dl: -9s; --b: 11.2s; }
+.light-line.l6 { left: 10%;  width: 2px;  filter: blur(2px);   --o: .35; --d: 14.7s; --dl: -1s; --b: 9.1s; }
 
 .light-source {
   position: absolute;
-  left: -8%;
-  top: -22%;
-  width: 620px;
-  height: 420px;
+  left: -180px;
+  top: -220px;
+  width: 720px;
+  height: 520px;
   border-radius: 50%;
-  filter: blur(60px);
+  filter: blur(20px);
   animation: sourceGlow 9s ease-in-out infinite;
-  background: radial-gradient(closest-side, rgba(203, 213, 225, .09), rgba(96, 165, 250, .03) 60%, transparent);
+  background: radial-gradient(closest-side, rgba(205, 222, 255, .14), rgba(147, 180, 240, .055) 45%, transparent 75%);
 }
 
 @media (max-width: 767.98px) {
-  .light-shaft, .light-source { display: none; }
+  .light-shaft, .light-line, .light-source { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   /* .hero-decor prefix outranks the .light-shaft.s1–s4 animation rules */
-  .hero-decor .light-shaft, .hero-decor .light-source { animation: none; }
+  .hero-decor .light-shaft, .hero-decor .light-line, .hero-decor .light-source { animation: none; }
+  .hero-decor .light-line { transform: rotate(-29deg); }
 }
 @media (prefers-contrast: more) {
   .hero { background: #111318; }
@@ -316,9 +346,10 @@
 }
 
 .hero-eyebrow {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: .02em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
   color: #93A4BF;
 }
 .hero-title {
@@ -417,6 +448,39 @@
     drop-shadow(0 0 28px rgba(59, 130, 246, .35));
   clip-path: inset(-60px -60px 50% -60px); /* shine upward only, never onto the dashboard */
 }
+/* One glint travelling along the top line, once, after load. */
+.mockup-holder > .preview-glint {
+  position: absolute;
+  left: 3%;
+  right: 3%;
+  top: -21px;
+  height: 42px;
+  z-index: 5; /* over ::before and the preview, under the toast */
+  pointer-events: none;
+  box-shadow: none;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+.preview-glint::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  height: 2px;
+  left: 0;
+  width: 22%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(147, 197, 253, 0), rgba(191, 219, 254, .9) 40%, #fff 50%, rgba(191, 219, 254, .9) 60%, rgba(147, 197, 253, 0));
+  filter: drop-shadow(0 0 4px rgba(191, 219, 254, .9)) drop-shadow(0 0 10px rgba(96, 165, 250, .6));
+  animation: preview-glint 11s cubic-bezier(.4, 0, .3, 1) 1.2s 1 both;
+}
+@keyframes preview-glint {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(460%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mockup-holder > .preview-glint { display: none; }
+}
+
 .mockup-holder::after { /* reflection blooming up from that edge */
   content: '';
   position: absolute;

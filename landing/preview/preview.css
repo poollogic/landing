@@ -148,7 +148,21 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .pl-preview svg { display: inline-block; }
 
 @media (min-width: 1024px) {
-  .pl-preview { height: 734px; }
+  /* Full height, profile in place; the bottom 150px of the whole preview
+     (rail, profile and panel together) fades out instead of ending in an edge. */
+  .pl-preview {
+    height: 734px;
+    -webkit-mask-image: linear-gradient(to bottom,
+      #000 calc(100% - 150px),
+      rgba(0, 0, 0, .55) calc(100% - 80px),
+      rgba(0, 0, 0, .18) calc(100% - 30px),
+      transparent 100%);
+    mask-image: linear-gradient(to bottom,
+      #000 calc(100% - 150px),
+      rgba(0, 0, 0, .55) calc(100% - 80px),
+      rgba(0, 0, 0, .18) calc(100% - 30px),
+      transparent 100%);
+  }
 }
 
 .pl-frame {

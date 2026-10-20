@@ -13,13 +13,14 @@ const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 const Hero = () => {
   const theme = usePreviewTheme();
   return (
-  <section className="hero relative overflow-x-clip pb-24 lg:pb-32">
+  <section className="hero relative overflow-x-clip pb-24 lg:pb-[120px]">
     <div className="hero-decor" aria-hidden="true">
       <div className="light-source" />
       <div className="light-shaft s1" />
       <div className="light-shaft s2" />
       <div className="light-shaft s3" />
       <div className="light-shaft s4" />
+      {[1, 2, 3, 4, 5, 6].map((n) => <div key={n} className={`light-line l${n}`} />)}
     </div>
 
     <div className="mktg-container">
@@ -57,6 +58,7 @@ const Hero = () => {
       <div className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
         <div className="mockup-holder">
           <DashboardPreview />
+          <div className="preview-glint" aria-hidden="true" />
           <PreviewToast />
           <PreviewThemeUnder />
         </div>
