@@ -148,10 +148,12 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .pl-preview svg { display: inline-block; }
 
 @media (min-width: 1024px) {
-  /* Full height, profile in place; the bottom 150px of the whole preview
-     (rail, profile and panel together) fades out instead of ending in an edge. */
-  .pl-preview {
-    height: 734px;
+  /* Full height (the panel ends just under the second route row), profile in
+     place. In dark the bottom 150px of the whole preview (rail, profile and
+     panel together) fades into the page; in light it ends on its clean
+     rounded edge, since white fading into the dark page turns muddy grey. */
+  .pl-preview { height: 754px; }
+  .pl-preview.dark {
     -webkit-mask-image: linear-gradient(to bottom,
       #000 calc(100% - 150px),
       rgba(0, 0, 0, .55) calc(100% - 80px),
