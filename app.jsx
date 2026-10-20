@@ -7,6 +7,7 @@ const PrivacyPage = lazy(() => import('./pages/privacy.jsx'));
 const TechAppPage = lazy(() => import('./pages/tech-app.jsx'));
 const ContactPage = lazy(() => import('./pages/contact.jsx'));
 const PricingPage = lazy(() => import('./pages/pricing.jsx'));
+const LandingPage = lazy(() => import('./pages/landing.jsx'));
 
 // Page defaults — accent color, hero layout, density, theme.
 // EDITMODE markers are preserved so the external prototype editor can still patch this object.
@@ -24,6 +25,7 @@ const isPrivacyPath = (p) => p === '/privacy' || p === '/privacy/';
 const isTechAppPath = (p) => p === '/tech-app' || p === '/tech-app/';
 const isContactPath = (p) => p === '/contact' || p === '/contact/';
 const isPricingPath = (p) => p === '/pricing' || p === '/pricing/';
+const isLandingPath = (p) => p === '/landing' || p === '/landing/';
 
 const SITE_ORIGIN = 'https://poollogic.app';
 
@@ -57,6 +59,11 @@ const ROUTE_META = {
     title: 'Privacy Policy — PoolLogic',
     description: 'PoolLogic privacy policy.',
     path: '/privacy',
+  },
+  landing: {
+    title: 'PoolLogic',
+    description: 'Pool service software for routes, chemistry tracking, service reports, and billing.',
+    path: '/landing',
   },
 };
 
@@ -107,6 +114,7 @@ const App = () => {
     else if (isTechAppPath(path)) meta = ROUTE_META.techApp;
     else if (isContactPath(path)) meta = ROUTE_META.contact;
     else if (isPricingPath(path)) meta = ROUTE_META.pricing;
+    else if (isLandingPath(path)) meta = ROUTE_META.landing;
     applyRouteMeta(meta);
   }, [path]);
 
@@ -177,6 +185,17 @@ const App = () => {
         </ErrorBoundary>
         <Footer />
       </>
+    );
+  }
+
+  // Standalone page with its own design — no site Nav/Footer.
+  if (isLandingPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <LandingPage />
+        </Suspense>
+      </ErrorBoundary>
     );
   }
 

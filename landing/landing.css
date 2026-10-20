@@ -1,0 +1,100 @@
+/* /landing marketing page — Tailwind entry. Loaded only by pages/landing.jsx. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Geist';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/Geist.woff2') format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'Geist Mono';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/GeistMono.woff2') format('woff2-variations');
+  }
+
+  body {
+    background: var(--mktg-bg-page);
+    color: var(--mktg-text-muted);
+    font-family: theme('fontFamily.sans');
+  }
+
+  /* Cancel the site-wide element rules in index.html (heading sizes/colors,
+     paragraph color, section padding). :where() keeps these at the same
+     specificity as a utility, so any Tailwind class still wins. */
+  .mktg :where(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    color: var(--mktg-text-primary);
+  }
+  .mktg :where(p) {
+    margin: 0;
+    color: inherit;
+  }
+  .mktg :where(section) {
+    padding: 0;
+  }
+}
+
+@layer components {
+  /* Central wrapper: sections stay full-bleed, content caps at 1280px. */
+  .mktg-container {
+    width: 100%;
+    max-width: theme('maxWidth.mktg');
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+  @screen md {
+    .mktg-container { padding-inline: 32px; }
+  }
+
+  /* Type scale — mobile first, scaling up at md (768px) and lg (1024px). */
+  .text-mktg-hero {
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+  .text-mktg-h2 {
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+  .text-mktg-h3 {
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+  }
+  .text-mktg-body {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+  .text-mktg-caption {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  @screen md {
+    .text-mktg-hero { font-size: 56px; }
+    .text-mktg-h2 { font-size: 40px; }
+    .text-mktg-h3 { font-size: 28px; }
+    .text-mktg-body { font-size: 20px; }
+  }
+  @screen lg {
+    .text-mktg-hero { font-size: 72px; }
+    .text-mktg-h2 { font-size: 48px; }
+    .text-mktg-h3 { font-size: 32px; }
+  }
+}
