@@ -335,6 +335,10 @@
   .hero-toggle { margin-top: clamp(72px, 11vh, 128px); }
   .hero-mockup { margin-top: 2.5rem; }
 }
+/* Phones: the preview runs edge to edge, out through the container's 24px gutters. */
+@media (max-width: 767.98px) {
+  .hero-mockup { margin-inline: -24px; }
+}
 
 /* lg and up: the copy block is centred in (about) the first screen, under the
    absolute nav; the preview starts one nav-height above that block's foot,

@@ -445,6 +445,10 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 @media (min-width: 1024px) {
   .pl-panel { border: 1px solid var(--panel-edge); }
 }
+/* Edge to edge on a phone, square like the app's own panel there. */
+@media (max-width: 767.98px) {
+  .pl-preview, .pl-panel { border-radius: 0; }
+}
 .dark .pl-panel::after { /* .panel-sheen::after */
   content: '';
   position: absolute;
