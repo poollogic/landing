@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import DashboardPreview, { PreviewThemeToggle, PreviewThemeUnder } from './preview/DashboardPreview.jsx';
 import PreviewToast from './preview/PreviewToast.jsx';
 import { trialHref, usePreviewTheme } from './preview/previewTheme.js';
+import useHeroScrollFx from './useHeroScrollFx.js';
 
 // Hero for /landing. Background, light beams, type and CTA styling live in
-// landing/hero.css; layout and the entrance animation stay in Tailwind.
+// landing/hero.css; layout and the entrance animation stay in Tailwind. On
+// desktop, useHeroScrollFx adds the scroll effect (fixed, fading headline).
 
 // Staggered entrance: 300ms fade-up (ease-mktg), skipped under reduced motion.
 const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 
 const Hero = () => {
   const theme = usePreviewTheme();
+  const heroRef = useRef(null);
+  useHeroScrollFx(heroRef);
   return (
-  <section className="hero relative overflow-x-clip">
+  <section ref={heroRef} className="hero relative overflow-x-clip">
     <div className="hero-decor" aria-hidden="true">
       <div className="light-source" />
       <div className="light-shaft s1" />

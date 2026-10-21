@@ -337,6 +337,48 @@
   .hero-decor { display: none; }
 }
 
+/* ---------- Desktop scroll effect (useHeroScrollFx.js) ----------
+   Only while the hook has added .has-hero-fx (≥1024px, no reduced motion);
+   without it, everything above applies unchanged. The hook sets the
+   transforms, the headline's opacity/blur and the container's padding-top. */
+.has-hero-fx .lp-nav { position: fixed; left: 0; right: 0; z-index: 50; }
+.has-hero-fx .hero {
+  isolation: auto; /* lets the dashboard pass over the nav */
+  background:
+    radial-gradient(70% 35% at 50% 62%, rgba(30, 41, 59, .85), transparent 70%),
+    linear-gradient(#141a26 0%, #111318 60%);
+}
+/* Above the nav so the dashboard covers it; clicks fall through to the nav. */
+.has-hero-fx .hero > .container { z-index: 60; pointer-events: none; }
+.has-hero-fx .hero-copy {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  transform-origin: 50% 45%;
+  pointer-events: none;
+  animation: none; /* the entrance's transform would override the hook's */
+  will-change: transform, opacity, filter;
+}
+.has-hero-fx .hero-copy > * { pointer-events: auto; }
+.has-hero-fx .hero-toggle { display: none; }
+.has-hero-fx .hero-mockup { position: relative; z-index: 2; pointer-events: auto; animation: none; opacity: 1; }
+/* Rays: one viewport tall, fixed, from the top-left (no mirror). The shafts
+   and lines keep their old rendered length, which was a share of the hero. */
+.has-hero-fx .hero-decor {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 100vh;
+  z-index: 0;
+  transform: none;
+}
+.has-hero-fx .hero-decor .light-shaft { top: -50vh; height: 250vh; }
+.has-hero-fx .hero-decor .light-line { top: -50vh; height: 235vh; }
+@media (prefers-contrast: more) {
+  .has-hero-fx .hero { background: #111318; }
+}
+
 /* Hero copy */
 .hero-copy { font-family: Satoshi, ui-sans-serif, system-ui, sans-serif; }
 

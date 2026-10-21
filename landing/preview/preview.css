@@ -896,6 +896,25 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   .mockup-holder > .pl-toast .pl-toast-check { animation: none; }
 }
 
+/* Desktop scroll entrance (PreviewToast.jsx, ≥1024px without reduced motion):
+   hidden 40px to the right until the dashboard nears the top of the window,
+   then slides in as the figures count up. `translate` composes with the
+   resting transform. The figures keep their final width while counting. */
+.mockup-holder > .pl-toast.is-scroll-entry {
+  animation: none;
+  opacity: 0;
+  translate: 40px 0;
+  transition:
+    opacity .7s cubic-bezier(.22, 1, .36, 1),
+    translate .7s cubic-bezier(.22, 1, .36, 1),
+    background-color .25s, color .25s;
+}
+.mockup-holder > .pl-toast.is-scroll-entry.is-in { opacity: 1; translate: 0 0; }
+.mockup-holder > .pl-toast.is-scroll-entry .pl-toast-check { animation: none; }
+.pl-toast.is-scroll-entry .pl-toast-name,
+.pl-toast.is-scroll-entry .pl-toast-amount { display: inline-block; font-variant-numeric: tabular-nums; }
+.pl-toast.is-scroll-entry .pl-toast-name { text-align: right; } /* the count grows leftward; the words stay put */
+
 /* ---------- Mobile theme toggle (below lg, above the preview) ---------- */
 
 .pl-theme-toggle {
