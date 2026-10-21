@@ -2,22 +2,18 @@
 
 .fq {
   background: #f5f5f7;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 .fq-inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 40px;
+  gap: var(--section-head-gap);
 }
 @media (min-width: 1024px) {
   .fq-inner { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); gap: 96px; align-items: start; }
   .fq-intro { position: sticky; top: 48px; }
 }
-.fq-eyebrow { font-size: 17px; font-weight: 600; letter-spacing: .02em; color: #86868b; }
-/* Forced: the landing's base styles make headings white. */
-.fq .fq-h2 { margin-top: 10px; font-size: clamp(30px, 2.2vw + 12px, 44px); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; color: #1d1d1f; }
-.fq-sub { margin-top: 16px; font-size: 17px; color: #6e6e73; }
+/* Header: SectionHeader. */
 .fq-sub a { color: #3570c0; }
 .fq-sub a:hover { text-decoration: underline; }
 

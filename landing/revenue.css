@@ -2,15 +2,11 @@
 
 .rv {
   background: #111318; /* the hero's base colour (and the page's) */
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
 
-/* ---------- Copy ---------- */
-.rv-copy { text-align: center; }
-.rv-eyebrow { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .18em; color: #FF0036; } /* the app's red (--destructive, dark) */
-.rv-h2 { margin-top: 18px; font-size: 52px; font-weight: 600; line-height: 1.05; letter-spacing: -0.035em; }
+/* ---------- Copy (header: SectionHeader; eyebrow in the app's red) ---------- */
 .rv-h2-a { display: block; color: #fff; }
 .rv-h2-b {
   display: block;
@@ -19,10 +15,9 @@
   background-clip: text;
   color: transparent;
 }
-.rv-lede { max-width: 620px; margin: 24px auto 0; font-size: 18px; line-height: 1.6; color: #94a3b8; font-feature-settings: normal; }
 
 /* ---------- Features ---------- */
-.rv-features { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rv-features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .rv-feature { padding: 4px 28px 4px 36px; box-sizing: border-box; }
 .rv-feature + .rv-feature { border-left: 1px solid rgba(255, 255, 255, .07); }
 .rv-feature:first-child { padding-left: 0; }
@@ -32,6 +27,7 @@
 /* ---------- Dashboard snippet (fades into the page) ---------- */
 .rv-snippet {
   margin-top: 72px;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; /* the app copy keeps the app's font */
   -webkit-mask-image: linear-gradient(180deg, #000 45%, rgba(0, 0, 0, .55) 75%, transparent 100%);
   mask-image: linear-gradient(180deg, #000 45%, rgba(0, 0, 0, .55) 75%, transparent 100%);
 }

@@ -1,10 +1,33 @@
-/* /landing marketing page — Tailwind entry. Loaded only by pages/landing.jsx. */
+/* Marketing pages (homepage, /pricing): Tailwind entry. Loaded by pages/landing.jsx and pages/pricing.jsx. */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /* Satoshi: the marketing pages' one family (headings, nav, body). Geist
+     stays for mockups drawn in it; the app copies bring their own Inter. */
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('/fonts/Satoshi-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('/fonts/Satoshi-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Satoshi';
+    src: url('/fonts/Satoshi-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
   @font-face {
     font-family: 'Geist';
     font-style: normal;
@@ -50,6 +73,42 @@
 }
 
 @layer components {
+  /* The brand pill: the billing switch's selected state and plan badges. */
+  .brand-pill {
+    border: 0;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, #4f86f7, #2f62e0);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 6px 18px -6px rgba(59, 130, 246, .7);
+  }
+
+  /* Section headers (SectionHeader.jsx), the same on every marketing section. */
+  .section-head { margin-bottom: var(--section-head-gap); }
+  .section-head--center { text-align: center; }
+  .section-head--center .section-sub { margin-inline: auto; }
+  .section-eyebrow {
+    margin-bottom: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .section-title {
+    font-size: 30px;
+    line-height: 36px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  @screen sm {
+    .section-title { font-size: 36px; line-height: 40px; }
+  }
+  .section-sub {
+    margin-top: 16px;
+    max-width: 42rem; /* a readable measure; the section's content runs full width */
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
   /* Type scale — mobile first, scaling up at md (768px) and lg (1024px). */
   .text-mktg-hero {
     font-size: 40px;

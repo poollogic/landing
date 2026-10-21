@@ -2,16 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { trialHref, usePreviewTheme } from './preview/previewTheme.js';
 
-// Top nav for /landing. Absolutely positioned over the hero (not sticky).
-// Styles live in landing/hero.css.
+// Top nav for the homepage and /pricing. Absolutely positioned over the hero
+// (not sticky). Styles live in landing/hero.css.
 
 const APP_URL = 'https://app.poollogic.app';
 
-// The page's own sections, then the pricing page.
+// The homepage's sections (rooted at / so they also work from /pricing), then pricing.
 const LINKS = [
-  ['Billing', '#billing'],
-  ['Collections', '#collections'],
-  ['Switching', '#switching'],
+  ['Billing', '/#billing'],
+  ['Collections', '/#collections'],
+  ['Switching', '/#switching'],
   ['Pricing', '/pricing'],
 ];
 

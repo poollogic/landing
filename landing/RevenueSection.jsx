@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import {
   Bell, ChevronUp, CreditCard, FileText, LayoutDashboard, Package, Plus, Route, Search, Settings, Ticket, UserCog, Users,
 } from 'lucide-react';
+import SectionHeader from './SectionHeader.jsx';
 import './revenue.css';
 
 // Section 3: revenue protection. Centred copy, three numbered features, then a
@@ -137,18 +138,17 @@ export default function RevenueSection() {
   return (
     <section id="collections" className="rv section" aria-labelledby="revenue-heading">
       <div className="rv-inner container">
-        <div className="rv-copy">
-          <p className="rv-eyebrow">Revenue protection</p>
-          <h2 id="revenue-heading" className="rv-h2">
+        <SectionHeader
+          id="revenue-heading"
+          eyebrow="Revenue protection"
+          title={<>
             <span className="rv-h2-a">Stop working for free.</span>
             <span className="rv-h2-b">Plug your revenue leaks.</span>
-          </h2>
-          <p className="rv-lede">
-            You cannot collect what you cannot see. Pool companies bleed thousands of dollars a month because expired
-            credit cards and forgotten chemical charges get lost in messy spreadsheets. PoolLogic acts as your automated
-            financial watchdog.
-          </p>
-        </div>
+          </>}
+          subtitle="You cannot collect what you cannot see. Pool companies bleed thousands of dollars a month because expired credit cards and forgotten chemical charges get lost in messy spreadsheets. PoolLogic acts as your automated financial watchdog."
+          eyebrowClassName="text-[#FF0036]"
+          subtitleClassName="text-[#94a3b8]"
+        />
 
         <div className="rv-features">
           {FEATURES.map((f) => (

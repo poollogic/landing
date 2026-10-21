@@ -1,0 +1,231 @@
+/* /pricing (pages/pricing.jsx): the customer slider and the billing switch.
+   The brand pill (.brand-pill) and type scale (text-badge … text-display)
+   come from landing.css and tailwind.config.js. */
+
+/* ---------- Customer slider card ---------- */
+.pr-card {
+  padding: 24px 20px 22px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(30, 41, 59, .55), rgba(15, 23, 42, .35));
+  border: 1px solid rgba(148, 163, 184, .14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05);
+}
+@media (min-width: 640px) {
+  .pr-card { padding: 28px 32px 26px; }
+}
+
+/* Track, fill and stop dots are drawn behind a transparent range input. The
+   thumb is 24px, so stop i sits at 12px + (100% − 24px) × i/6. */
+.pr-slider { position: relative; height: 24px; }
+.pr-track,
+.pr-fill {
+  position: absolute;
+  top: 50%;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 999px;
+}
+.pr-track { left: 0; right: 0; background: rgba(255, 255, 255, .08); }
+.pr-fill {
+  left: 0;
+  width: calc(12px + (100% - 24px) * var(--fill, 0));
+  overflow: hidden;
+  background: linear-gradient(90deg, #2f6ff0 0%, #3b82f6 60%, #60a5fa 100%);
+  transition: width .35s cubic-bezier(.22, 1, .36, 1);
+}
+/* A soft highlight that runs along the filled bar, then rests (the last 30%). */
+.pr-sweep {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 40%;
+  background: linear-gradient(90deg, rgba(186, 220, 255, 0), rgba(186, 220, 255, .45) 50%, rgba(186, 220, 255, 0));
+  transform: translateX(-100%);
+  animation: pr-sweep 4.5s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+@keyframes pr-sweep {
+  0% { transform: translateX(-100%); }
+  70%, 100% { transform: translateX(250%); }
+}
+.pr-dot {
+  position: absolute;
+  top: 50%;
+  left: calc(12px + (100% - 24px) * var(--at));
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .22);
+  pointer-events: none;
+}
+
+.pr-range {
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 24px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.pr-range::-webkit-slider-runnable-track { height: 24px; background: transparent; }
+.pr-range::-moz-range-track { height: 24px; background: transparent; }
+.pr-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, .28), 0 0 24px 4px rgba(59, 130, 246, .35), 0 3px 10px rgba(0, 0, 0, .5);
+  transition: transform .15s ease;
+}
+.pr-range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 5px rgba(59, 130, 246, .28), 0 0 24px 4px rgba(59, 130, 246, .35), 0 3px 10px rgba(0, 0, 0, .5);
+  transition: transform .15s ease;
+}
+.pr-range:active::-webkit-slider-thumb { transform: scale(1.08); }
+.pr-range:active::-moz-range-thumb { transform: scale(1.08); }
+.pr-range:focus { outline: none; }
+.pr-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px #0f172a, 0 0 0 6px #60a5fa, 0 3px 10px rgba(0, 0, 0, .5); }
+.pr-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px #0f172a, 0 0 0 6px #60a5fa, 0 3px 10px rgba(0, 0, 0, .5); }
+
+/* Step labels, centred under each stop. */
+.pr-ticks { position: relative; height: 22px; margin-top: 14px; }
+.pr-tick {
+  position: absolute;
+  top: 0;
+  left: calc(12px + (100% - 24px) * var(--at));
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  font-size: 12px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
+  color: #5f6f88;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .15s, background-color .15s;
+}
+.pr-tick:hover { color: #cbd5e1; }
+.pr-tick[data-on] { color: #fff; font-weight: 600; background: rgba(59, 130, 246, .18); }
+/* Phones: every other label, so they never collide. */
+@media (max-width: 479.98px) {
+  .pr-tick:nth-child(even) { display: none; }
+}
+
+/* ---------- Billing switch ---------- */
+/* Centred on the page; the nudge hangs off its right side (below it on
+   smaller screens), so it never moves the switch. */
+.pr-toggle-wrap { position: relative; display: flex; flex-direction: column; align-items: center; }
+.pr-toggle {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, .6);
+  border: 1px solid rgba(148, 163, 184, .14);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .35);
+}
+.pr-toggle-pill {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  transition: left .35s cubic-bezier(.22, 1, .36, 1), width .35s cubic-bezier(.22, 1, .36, 1);
+}
+.pr-toggle[data-yearly] .pr-toggle-pill { left: 50%; }
+.pr-toggle label { position: relative; cursor: pointer; }
+.pr-toggle-opt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 112px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #94a3b8;
+  transition: color .2s;
+}
+.pr-toggle-opt:hover { color: #e2e8f0; }
+.pr-toggle input:checked + .pr-toggle-opt { color: #fff; font-weight: 600; }
+.pr-toggle input:focus-visible + .pr-toggle-opt { outline: 2px solid #60a5fa; outline-offset: 2px; }
+.pr-nudge { margin-top: 12px; font-size: 14px; line-height: 20px; text-align: center; }
+@media (min-width: 1024px) {
+  .pr-nudge {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 16px);
+    margin-top: 0;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    text-align: left;
+  }
+}
+
+/* ---------- Tier table: compact billing switch ---------- */
+.pr-mini {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  align-self: flex-start;
+  min-width: 0;
+  margin: 0;
+  padding: 3px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+@media (min-width: 640px) {
+  .pr-mini { align-self: auto; }
+}
+.pr-mini-pill {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .08), 0 2px 8px -2px rgba(15, 23, 42, .12);
+  transition: left .3s cubic-bezier(.22, 1, .36, 1), width .3s cubic-bezier(.22, 1, .36, 1);
+}
+.pr-mini[data-yearly] .pr-mini-pill { left: 50%; }
+.pr-mini label { position: relative; cursor: pointer; }
+.pr-mini-opt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 92px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+}
+.pr-mini input:checked + .pr-mini-opt { color: #0f172a; font-weight: 600; }
+.pr-mini input:focus-visible + .pr-mini-opt { outline: 2px solid #3b82f6; outline-offset: 1px; }
+.pr-mini-save { font-size: 11px; font-weight: 700; color: #16a34a; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pr-sweep { display: none; }
+  .pr-fill, .pr-toggle-pill, .pr-mini-pill { transition: none; }
+  .pr-range::-webkit-slider-thumb, .pr-range::-moz-range-thumb { transition: none; }
+  .pr-range:active::-webkit-slider-thumb, .pr-range:active::-moz-range-thumb { transform: none; }
+}

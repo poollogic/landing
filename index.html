@@ -56,24 +56,17 @@
   "offers": [
     {
       "@type": "Offer",
-      "name": "Core",
-      "price": "0",
-      "priceCurrency": "USD",
-      "description": "Customer management, automatic invoicing, Stripe autopay and overdue reminders."
-    },
-    {
-      "@type": "Offer",
       "name": "Insight",
-      "price": "39",
+      "price": "99",
       "priceCurrency": "USD",
-      "description": "Everything in Core plus routes and scheduling, the offline technician app, GPS-verified service reports, route insight scoring, daily service audit, operations dashboard, and revenue analytics. Per tech, per month."
+      "description": "Per month for up to 100 active customers, or 25% less billed yearly. Priced by active customers, up to $1,299/mo for 2,500; custom above. Unlimited technicians, zero-click billing and autopay, the offline technician app and free white-glove migration."
     },
     {
       "@type": "Offer",
       "name": "Vision",
-      "price": "79",
+      "price": "159",
       "priceCurrency": "USD",
-      "description": "Everything in Insight plus AI-drafted service reports, AI document import, predictive chemistry alerts, and priority support. Per tech, per month."
+      "description": "Per month for up to 100 active customers, or 25% less billed yearly. Priced by active customers, up to $2,079/mo for 2,500; custom above. Everything in Insight plus texting from your business number, automated SMS lead follow-ups and pausing service for overdue accounts."
     }
   ]
 }
@@ -147,6 +140,9 @@
     --gutter: clamp(16px, 4vw, 32px);
     --section-y: clamp(64px, 10vw, 128px);
     --section-y-tight: clamp(48px, 6vw, 80px);
+    --section-head-gap: 48px; /* section header → its content */
+    /* First section under the absolute marketing nav: its height, then a gap. */
+    --page-hero-top: calc(var(--header-h, 64px) + clamp(72px, 11vh, 128px));
     /* Vertical breathing room between the sticky Nav (~64px) and the first thing on every sub-page.
        This is total padding from the page top — the nav consumes the first ~64px, so the visible
        gap below the nav is (page-top − 64px). Bump page-top to widen that gap. */

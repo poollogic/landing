@@ -3,6 +3,7 @@ import {
   ArrowRightLeft, ChartColumn, Check, Clock, Download, FileText, Lock, User,
 } from 'lucide-react';
 import CompanyMark from './CompanyMark.jsx';
+import SectionHeader from './SectionHeader.jsx';
 import './route.css';
 
 // Route acquisition, dark: how a route changes hands on PoolLogic
@@ -145,17 +146,16 @@ export default function RouteSection() {
   return (
     <section className="ra-section section bg-mktg-page" aria-labelledby="route-heading">
       <div className="container">
-        <div className="text-center">
-          <p className="ra-eyebrow mb-4">Route acquisition</p>
-          <h2 id="route-heading" className="ra-h2 text-3xl font-semibold lg:text-4xl">
-            Buy, sell, and transfer routes in seconds.
-          </h2>
-          <p className="ra-sub mx-auto mt-5 max-w-2xl text-lg">
-            Selling a route on PoolLogic takes one code. And because every number lives in one place, you walk into the
-            sale knowing exactly what your route is worth.
-          </p>
-        </div>
-        <div className="ra-panels mx-auto mt-16 grid max-w-[1000px] grid-cols-1 gap-4 lg:grid-cols-2">
+        <SectionHeader
+          id="route-heading"
+          eyebrow="Route acquisition"
+          title="Buy, sell, and transfer routes in seconds."
+          subtitle="Selling a route on PoolLogic takes one code. And because every number lives in one place, you walk into the sale knowing exactly what your route is worth."
+          eyebrowClassName="ra-eyebrow"
+          titleClassName="ra-h2"
+          subtitleClassName="ra-sub"
+        />
+        <div className="ra-panels mx-auto grid max-w-[1000px] grid-cols-1 gap-4 lg:grid-cols-2">
           <Handover />
           <RouteReport />
         </div>

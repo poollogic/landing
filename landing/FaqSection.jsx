@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
+import SectionHeader from './SectionHeader.jsx';
 import './faq.css';
 
 // The homepage FAQ. Every answer is confirmed against the app (October 2026).
@@ -65,31 +66,54 @@ const FAQS = [
   },
 ];
 
-export default function FaqSection() {
+/**
+ * The FAQ layout: header on the left, questions on the right. Defaults are the
+ * homepage's; /pricing passes its own items, title and background. Only the
+ * homepage publishes the questions as Google FAQ data.
+ */
+export default function FaqSection({
+  items = FAQS,
+  id = 'faq',
+  eyebrow = 'FAQ',
+  title = 'Questions, answered.',
+  subtitle = <>Can’t find yours? <a href="/contact">Ask us anything</a>.</>,
+  background,
+  structuredData = true,
+}) {
   // Google's FAQ data, matching the questions on the page, only while it shows.
   useEffect(() => {
+    if (!structuredData) return undefined;
     const el = document.createElement('script');
     el.type = 'application/ld+json';
     el.id = 'faq-ld';
     el.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: FAQS.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+      mainEntity: items.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
     });
     document.head.appendChild(el);
     return () => el.remove();
-  }, []);
+  }, [items, structuredData]);
 
   return (
-    <section id="faq" className="fq section" aria-labelledby="faq-heading">
+    <section id={id} className="fq section" style={background ? { background } : undefined} aria-labelledby={`${id}-heading`}>
       <div className="fq-inner container">
         <div className="fq-intro">
-          <p className="fq-eyebrow">FAQ</p>
-          <h2 id="faq-heading" className="fq-h2">Questions, answered.</h2>
-          <p className="fq-sub">Can’t find yours? <a href="/contact">Ask us anything</a>.</p>
+          {/* The grid's gap separates header and questions, so no header margin. */}
+          <SectionHeader
+            align="left"
+            className="mb-0"
+            id={`${id}-heading`}
+            eyebrow={eyebrow}
+            title={title}
+            subtitle={subtitle}
+            eyebrowClassName="text-[#86868b]"
+            titleClassName="text-[#1d1d1f]"
+            subtitleClassName="fq-sub text-[#6e6e73]"
+          />
         </div>
         <div className="fq-list">
-          {FAQS.map((f, i) => (
+          {items.map((f, i) => (
             <details key={f.q} className="fq-item" open={i === 0}>
               <summary>
                 <span>{f.q}</span>

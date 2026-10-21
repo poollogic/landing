@@ -26,15 +26,9 @@
   pointer-events: none;
 }
 
-.ra-eyebrow {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: #93a4bf; /* .hero-eyebrow */
-}
+/* Header colours (sizes: SectionHeader). */
+.ra-eyebrow { color: #93a4bf; } /* .hero-eyebrow */
 .ra-section .ra-h2 {
-  letter-spacing: -0.022em;
   background: linear-gradient(180deg, #fff 30%, rgba(255, 255, 255, .62));
   -webkit-background-clip: text;
   background-clip: text;
@@ -59,6 +53,7 @@
   overflow: hidden;
   color: var(--ra-ink);
   text-align: left;
+  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; /* the cards keep the font they were drawn in */
   transition: border-color .2s, transform .2s;
 }
 /* Thin highlight along the top edge. */

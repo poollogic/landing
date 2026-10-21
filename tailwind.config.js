@@ -1,8 +1,8 @@
 import plugin from 'tailwindcss/plugin';
 
-// Tailwind is used only by the /landing marketing page. Its CSS is imported by
-// pages/landing.jsx, so it loads with that route alone and never touches the
-// rest of the site.
+// Tailwind is used only by the homepage and /pricing. Its CSS is imported by
+// pages/landing.jsx and pages/pricing.jsx, so it loads with those routes alone
+// and never touches the rest of the site.
 
 // Marketing palette — single source of truth. Exposed both as Tailwind colors
 // (bg-mktg-base, text-mktg-muted, bg-mktg-accent/20, …) and as --mktg-* CSS
@@ -20,7 +20,7 @@ const MKTG_GLOW = '0 0 80px -20px rgba(37, 99, 235, 0.25)';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./pages/landing.jsx', './landing/**/*.{js,jsx}'],
+  content: ['./pages/landing.jsx', './pages/pricing.jsx', './landing/**/*.{js,jsx}'],
   corePlugins: {
     // index.html already defines a global `.container`; avoid the collision.
     container: false,
@@ -39,8 +39,19 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Satoshi', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        geist: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'Menlo', 'monospace'],
+      },
+      // Marketing type scale (used across /pricing's top section).
+      fontSize: {
+        badge: ['11px', '16px'],
+        caption: ['12px', '16px'],
+        meta: ['14px', '20px'],
+        body: ['16px', '24px'],
+        lead: ['18px', '28px'],
+        title: ['20px', '28px'],
+        display: ['44px', '1'],
       },
       // Match the app: rounded-md = buttons, rounded-lg = feature cards.
       borderRadius: {

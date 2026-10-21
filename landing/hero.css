@@ -2,28 +2,6 @@
    cleanly (layered gradients, keyframes, pseudo-elements, the conic ring).
    Imported by pages/landing.jsx after landing.css. */
 
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Satoshi';
-  src: url('/fonts/Satoshi-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 @property --ang {
   syntax: '<angle>';
   initial-value: 0deg;
@@ -38,7 +16,6 @@
   left: 0;
   right: 0;
   z-index: 100;
-  font-family: Satoshi, ui-sans-serif, system-ui, sans-serif;
 }
 .lp-nav-bar { /* width and gutters come from .container */
   height: 64px;
@@ -214,7 +191,7 @@
   position: relative;
   isolation: isolate;
   /* The absolute nav's height, then the same gap the mockup gets below the copy. */
-  padding-top: calc(var(--header-h, 64px) + clamp(72px, 11vh, 128px));
+  padding-top: var(--page-hero-top);
   padding-bottom: var(--section-y);
   /* Light from the top-right, where the rays start. */
   background:
@@ -380,7 +357,6 @@
 }
 
 /* Hero copy */
-.hero-copy { font-family: Satoshi, ui-sans-serif, system-ui, sans-serif; }
 
 /* Copy → mockup gap, equal to the gap above the copy. Below lg the theme
    toggle sits between them, so it takes the gap and the mockup follows it. */

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { CalendarDays, Check, ChevronDown, ChevronRight, ChevronsUpDown, Lock } from 'lucide-react';
 import StripeWordmark from './StripeWordmark.jsx';
 import CompanyMark from './CompanyMark.jsx';
+import SectionHeader from './SectionHeader.jsx';
 import './billing.css';
 
 // Section 2: zero-click billing. A light, Apple-style section after the dark
@@ -249,12 +250,16 @@ export default function BillingSection() {
     <section id="billing" className="bz section" aria-labelledby="billing-heading">
       <div className="bz-inner container" ref={innerRef}>
         <div className="bz-copy">
-          <p className="bz-eyebrow">Billing on autopilot</p>
-          <h2 id="billing-heading" className="bz-h2">Zero-click billing.<br />Effortless collections.</h2>
-          <p className="bz-body">
-            Set the next invoice date once. PoolLogic adds the base rate, chemicals and card fees, then emails every
-            invoice on schedule. No batches. No “Send” button.
-          </p>
+          <SectionHeader
+            align="left"
+            id="billing-heading"
+            eyebrow="Billing on autopilot"
+            title={<>Zero-click billing.<br />Effortless collections.</>}
+            subtitle="Set the next invoice date once. PoolLogic adds the base rate, chemicals and card fees, then emails every invoice on schedule. No batches. No “Send” button."
+            eyebrowClassName="text-[#86868b]"
+            titleClassName="text-[#1d1d1f]"
+            subtitleClassName="text-[#6e6e73]"
+          />
           <ul className="bz-list">
             {FEATURES.map((f) => (
               <li key={f.title}>

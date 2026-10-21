@@ -5,7 +5,7 @@
    dark button #232325. */
 
 .im-section { overflow-x: clip; }
-.im-demo-slot { max-width: 1040px; width: 100%; margin: 56px auto 0; text-align: left; }
+.im-demo-slot { max-width: 1040px; width: 100%; margin: 0 auto; text-align: left; }
 
 /* ---------- The import demo (a 1040px design, scaled to fit) ---------- */
 

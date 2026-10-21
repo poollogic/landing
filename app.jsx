@@ -39,7 +39,7 @@ const ROUTE_META = {
   },
   pricing: {
     title: 'Pricing — PoolLogic',
-    description: 'Pool service software pricing: Core runs customers and billing free with a 1% fee on Stripe payments. Insight and Vision add routes, the technician app, and reports per tech at 0.5%.',
+    description: 'PoolLogic pricing: Insight from $99/mo and Vision from $159/mo (25% off billed yearly), priced by active customers with unlimited technicians and office staff. 30-day free trial, no card required.',
     path: '/pricing',
   },
   techApp: {
@@ -179,17 +179,14 @@ const App = () => {
     );
   }
 
+  // Pricing brings its own dark nav and the footer, like the homepage.
   if (isPricingPath(path)) {
     return (
-      <>
-        <Nav accent={TWEAK_DEFAULTS.accent} />
-        <ErrorBoundary>
-          <Suspense fallback={<RouteFallback />}>
-            <PricingPage />
-          </Suspense>
-        </ErrorBoundary>
-        <Footer />
-      </>
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0F172A' }} />}>
+          <PricingPage />
+        </Suspense>
+      </ErrorBoundary>
     );
   }
 
