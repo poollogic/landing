@@ -447,7 +447,7 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
   const t2Y = useTransform([t2In, drift], ([a, d]) => a - 14 * d);
 
   // Element A — phone: background → foreground
-  const phoneScale = useTransform(p, [0.3, 0.7], [0.85, 0.9], E);
+  const phoneScale = useTransform(p, [0.3, 0.7], [0.94, 0.9], E); // a little bigger in the owner view
   const phoneX = 180; // already at its final x in the owner view, so the morph only lifts it
   // Rises slightly so its base lands just above the laptop deck
   const phoneRise = useTransform(p, [0.3, 0.7], [85, -48], E); // starts lower, rises into place
