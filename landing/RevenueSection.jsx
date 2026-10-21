@@ -7,8 +7,8 @@ import './revenue.css';
 // Section 3: revenue protection. Centred copy, three numbered features, then a
 // decorative dashboard snippet whose red billing banner opens as it scrolls
 // into view and fades into the page at the bottom. All figures are MOCK data:
-// 6 billing problems = 2 + 3 + 1, all money (the app's critical rows), each
-// with a short reason beside it.
+// 5 billing problems = 2 + 3 (the red, critical rows) plus 2 estimates
+// waiting (not a billing problem, so no red dot); 7 in all.
 
 const FEATURES = [
   {
@@ -38,7 +38,7 @@ const NAV = [
 const ROWS = [
   { label: 'Payments to fix', hint: 'Card declined · ACH returned', count: 2, critical: true },
   { label: 'Invoices past due', hint: 'Late fees applied', count: 3, critical: true },
-  { label: 'Invoice this week that won’t go through', hint: 'Card expires Nov 30', count: 1, critical: true },
+  { label: 'Estimates awaiting approval', hint: 'Sent to customers', count: 2 },
 ];
 
 const TILES = [
@@ -103,10 +103,10 @@ function DashboardSnippet() {
             <div className="rv-banner-top">
               <span className="rv-mark">!</span>
               <p className="rv-banner-text">
-                <b>6 billing problems</b>
+                <b>5 billing problems</b>
                 <span className="rv-banner-more"> · $3,710 at risk</span>
               </p>
-              <span className="rv-ghost">Review all 6 <ChevronUp size={14} strokeWidth={2} className="rv-chev" /></span>
+              <span className="rv-ghost">Review all 7 <ChevronUp size={14} strokeWidth={2} className="rv-chev" /></span>
               <span className="rv-fix">Fix 2 payments <span>→</span></span>
             </div>
             <ul className="rv-rows">

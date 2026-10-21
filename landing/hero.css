@@ -517,19 +517,3 @@
   filter: blur(22px);
   background: radial-gradient(closest-side, rgba(96, 165, 250, .4), rgba(59, 130, 246, .14) 55%, transparent);
 }
-
-/* ---------- Cursor-following light (top of page only) ---------- */
-
-.cursor-light {
-  position: fixed;
-  inset: 0;
-  z-index: 90; /* below the nav (z 100) */
-  pointer-events: none;
-  mix-blend-mode: screen; /* lightens dark areas only; white stays white */
-  opacity: 0;
-  background: radial-gradient(240px 240px at var(--lx, 50%) var(--ly, 40%),
-    rgba(147, 197, 253, .065), rgba(96, 165, 250, .025) 40%, transparent 70%);
-}
-@media (hover: none), (prefers-reduced-motion: reduce) {
-  .cursor-light { display: none; }
-}
