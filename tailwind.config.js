@@ -39,7 +39,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Satoshi', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Satoshi', '"Satoshi Fallback"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         geist: ['Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         mono: ['"Geist Mono"', 'ui-monospace', 'Menlo', 'monospace'],
       },

@@ -1,29 +1,13 @@
-import React, { useEffect, useRef } from 'react';
-import { CalendarDays, Check, ChevronDown, ChevronRight, ChevronsUpDown, Lock } from 'lucide-react';
+import React from 'react';
+import { CalendarDays, Check, ChevronDown, ChevronsUpDown, Lock } from 'lucide-react';
 import StripeWordmark from './StripeWordmark.jsx';
 import CompanyMark from './CompanyMark.jsx';
-import SectionHeader from './SectionHeader.jsx';
 import './billing.css';
 
-// Section 2: zero-click billing. A light, Apple-style section after the dark
-// hero. On the right, an iPhone showing the customer's invoice in the
-// customer portal, and in front of it the dark customer settings card from
-// the app. All names, addresses and amounts are MOCK data.
-
-const FEATURES = [
-  {
-    title: 'Card fees covered',
-    body: 'Set your own card surcharge. PoolLogic keeps it within your state’s cap, and turns it off in states that don’t allow surcharges. Bank transfers (ACH) carry no surcharge and cost you far less than cards.',
-  },
-  {
-    title: 'Self-serve receipts',
-    body: 'Clients see their full payment history and download a receipt for every payment, for taxes or HOA boards, on their own.',
-  },
-  {
-    title: 'Any date, any cadence',
-    body: 'Monthly, quarterly or yearly. Join on the 14th, billed on the 14th.',
-  },
-];
+// The Billing section's two mockups, shown by BillingScrollMorph: an iPhone with
+// the customer's invoice in the customer portal, and the dark customer settings
+// card from the app. All names, addresses and amounts are MOCK data
+// (Bayside Pool Co. / Avery Collins, matching the laptop invoice).
 
 /* ---------- iPhone: the customer's invoice in the portal ---------- */
 
@@ -116,9 +100,10 @@ function InvoiceScreen() {
   );
 }
 
-function Phone() {
+/** `embedded`: a plain block at its natural 262×586 size, for a parent that positions it (BillingScrollMorph). */
+export function BillingPhone({ embedded = false }) {
   return (
-    <div className="bz-phone">
+    <div className={`bz-phone${embedded ? ' bz-phone--embedded' : ''}`}>
       <div className="bz-screen">
         <InvoiceScreen />
         <span className="bz-island" />
@@ -132,9 +117,10 @@ function Phone() {
 
 const Toggle = ({ on }) => <span className={`bz-tg${on ? ' is-on' : ''}`}><span /></span>;
 
-function SettingsCard() {
+/** `embedded`: a plain block at its natural 330px width, for a parent that positions it (BillingScrollMorph). */
+export function BillingSettingsCard({ embedded = false }) {
   return (
-    <div className="bz-settings">
+    <div className={`bz-settings${embedded ? ' bz-settings--embedded' : ''}`}>
       <div className="bz-st-head">
         <div className="bz-st-who">
           <div className="bz-st-name">Avery Collins</div>
@@ -177,110 +163,5 @@ function SettingsCard() {
         <Toggle on />
       </div>
     </div>
-  );
-}
-
-/** A gentle scroll parallax: the card drifts a little more than the phone. */
-function useStageParallax(stageRef) {
-  useEffect(() => {
-    const stage = stageRef.current;
-    if (!stage) return undefined;
-    const card = stage.querySelector('.bz-settings');
-    const phone = stage.querySelector('.bz-phone');
-    const floor = stage.querySelector('.bz-floor-card');
-    let raf = 0;
-    const update = () => {
-      raf = 0;
-      if (window.innerWidth < 760 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        card.style.translate = '';
-        phone.style.translate = '';
-        if (floor) floor.style.opacity = '';
-        return;
-      }
-      const r = stage.getBoundingClientRect();
-      const vh = window.innerHeight;
-      let p = ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2);
-      p = Math.max(-1, Math.min(1, p));
-      // `translate`, not `transform`: the card keeps its scale(.82).
-      card.style.translate = `0 ${(p * 24).toFixed(1)}px`;
-      phone.style.translate = `0 ${(p * -10).toFixed(1)}px`;
-      if (floor) floor.style.opacity = (1 - Math.abs(p) * 0.3).toFixed(2);
-    };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    update();
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      cancelAnimationFrame(raf);
-    };
-  }, [stageRef]);
-}
-
-/** Scale the phone + settings group (491px design) to its column. */
-const STAGE_W = 491;
-
-function useStageScale(innerRef, stageRef) {
-  useEffect(() => {
-    const inner = innerRef.current;
-    const stage = stageRef.current;
-    if (!inner || !stage) return undefined;
-    const fit = () => {
-      const cs = getComputedStyle(inner);
-      const contentW = inner.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-      const twoCol = cs.gridTemplateColumns.trim().split(/\s+/).length > 1;
-      const avail = twoCol ? (contentW - parseFloat(cs.columnGap)) / 2 : contentW;
-      const s = Math.min(1.08, Math.max(0.62, (avail / STAGE_W) * 0.92));
-      stage.style.setProperty('--s', s.toFixed(4));
-    };
-    fit();
-    const ro = new ResizeObserver(fit);
-    ro.observe(inner);
-    return () => ro.disconnect();
-  }, [innerRef, stageRef]);
-}
-
-export default function BillingSection() {
-  const innerRef = useRef(null);
-  const stageRef = useRef(null);
-  useStageScale(innerRef, stageRef);
-  useStageParallax(stageRef);
-  return (
-    <section id="billing" className="bz section" aria-labelledby="billing-heading">
-      <div className="bz-inner container" ref={innerRef}>
-        <div className="bz-copy">
-          <SectionHeader
-            align="left"
-            id="billing-heading"
-            eyebrow="Billing on autopilot"
-            title={<>Zero-click billing.<br />Effortless collections.</>}
-            subtitle="Set the next invoice date once. PoolLogic adds the base rate, chemicals and card fees, then emails every invoice on schedule. No batches. No “Send” button."
-            eyebrowClassName="text-[#86868b]"
-            titleClassName="text-[#1d1d1f]"
-            subtitleClassName="text-[#6e6e73]"
-          />
-          <ul className="bz-list">
-            {FEATURES.map((f) => (
-              <li key={f.title}>
-                <Check size={16} strokeWidth={2.5} className="bz-check" aria-hidden="true" />
-                <div>
-                  <div className="bz-ft">{f.title}</div>
-                  <p className="bz-fd">{f.body}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <a className="bz-link" href="/pricing">See how billing works <ChevronRight size={14} strokeWidth={2.2} aria-hidden="true" /></a>
-        </div>
-
-        <div className="bz-stage" ref={stageRef} aria-hidden="true">
-          <span className="bz-floor bz-floor-phone" />
-          <span className="bz-floor bz-floor-card" />
-          <Phone />
-          <SettingsCard />
-        </div>
-      </div>
-    </section>
   );
 }

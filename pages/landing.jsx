@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import '../landing/landing.css';
 import '../landing/hero.css';
 import Nav from '../landing/Nav.jsx';
 import Hero from '../landing/Hero.jsx';
-import BillingSection from '../landing/BillingSection.jsx';
-import RevenueSection from '../landing/RevenueSection.jsx';
-import ImportSection from '../landing/ImportSection.jsx';
-import RouteSection from '../landing/RouteSection.jsx';
-import FaqSection from '../landing/FaqSection.jsx';
-import { Footer } from '../components/sections.jsx';
+import { Footer } from '../components/site-chrome.jsx';
+
+// Everything below the hero is its own chunk. The request starts as soon as
+// this module runs, but the hero renders without waiting for it. The hero is
+// taller than the window, so the sections arriving never move anything in view.
+const belowFold = import('../landing/BelowFold.jsx');
+
+// A reload starts at the top. The browser's own restore would land after the lazy sections load, as
+// one big jump through the pinned billing section. Links to a section (/#billing …) still go there
+// (BelowFold scrolls to the hash).
+if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual';
+}
+const BelowFold = lazy(() => belowFold);
 
 // The homepage (/). Built on Tailwind with the --mktg-* tokens (see
 // tailwind.config.js and landing/landing.css), with its own nav; section
@@ -19,11 +27,9 @@ const LandingPage = () => (
     <Nav />
     <main>
       <Hero />
-      <BillingSection />
-      <RevenueSection />
-      <ImportSection />
-      <RouteSection />
-      <FaqSection />
+      <Suspense fallback={<div style={{ minHeight: '100vh' }} />}>
+        <BelowFold />
+      </Suspense>
     </main>
     {/* On the site's own light background, as on every other page. */}
     <div style={{ background: 'var(--bg)' }}>

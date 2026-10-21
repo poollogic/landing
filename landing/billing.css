@@ -1,59 +1,7 @@
-/* Section 2 (BillingSection.jsx): light, Apple-style, after the dark hero.
-   A straight edge at the seam — no curve, fade or glow. */
-
-.bz {
-  background: #f5f5f7;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
-}
-.bz-inner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 64px;
-  align-items: center;
-}
-@media (min-width: 1024px) {
-  .bz-inner { grid-template-columns: 1fr 1fr; gap: 96px; }
-}
-
-/* ---------- Copy (header: SectionHeader) ---------- */
-.bz-list { display: grid; gap: 24px; }
-.bz-list li { display: flex; gap: 12px; }
-.bz-check { flex: none; margin-top: 4px; color: #3570c0; }
-.bz-ft { font-size: 17px; font-weight: 600; color: #1d1d1f; }
-.bz-fd { margin-top: 4px; font-size: 15px; line-height: 1.625; color: #6e6e73; }
-.bz-link { margin-top: 32px; display: inline-flex; align-items: center; gap: 2px; font-size: 17px; font-weight: 400; color: #3570c0; }
-.bz-link:hover { text-decoration: underline; }
-.bz-link:focus-visible { outline: 2px solid #3570c0; outline-offset: 3px; border-radius: 4px; }
-
-/* ---------- Composition ---------- */
-/* The phone + settings group: a fixed 491px design, scaled as one with the
-   page (--s, set from the column's width in BillingSection.jsx; .92 until then).
-   margin-block keeps its layout height equal to its scaled height. */
-.bz-stage {
-  --s: .92;
-  /* The phone and settings card keep the system font they were drawn in. */
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, system-ui, sans-serif;
-  position: relative;
-  width: 491px;
-  max-width: none;
-  height: 540px;
-  margin-left: auto;
-  justify-self: end;
-  transform: scale(var(--s));
-  transform-origin: 100% 50%;
-  margin-block: calc((var(--s) - 1) * 270px);
-}
-.bz-floor {
-  position: absolute;
-  z-index: 0;
-  height: 34px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(0, 0, 0, .38), rgba(0, 0, 0, .12) 55%, transparent);
-  filter: blur(16px);
-}
-.bz-floor-phone { right: 26px; width: 222px; top: 522px; }
-.bz-floor-card { left: -9px; width: 250px; top: 512px; }
+/* The Billing section's mockups (BillingMockups.jsx): the iPhone with the
+   customer's invoice and the dark customer settings card. The section itself
+   is BillingScrollMorph.jsx, which positions and animates them; they render
+   with the --embedded modifiers below. */
 
 /* iPhone */
 .bz-phone {
@@ -222,9 +170,7 @@
   color: #1c1917;
 }
 
-/* ---------- Customer settings card (dark) ----------
-   Rendered at 82% scale, so its shadow is deliberately strong: lighter ones
-   vanish against the light section. */
+/* ---------- Customer settings card (dark) ---------- */
 .bz-settings {
   position: absolute;
   z-index: 2;
@@ -300,10 +246,26 @@
 .bz-visa-chip { position: absolute; left: 6px; top: 8px; width: 9px; height: 7px; border-radius: 2px; background: linear-gradient(135deg, #e7c86b, #b8913a); }
 .bz-visa-mark { position: absolute; right: 5px; bottom: 3px; font-size: 9px; font-weight: 800; font-style: italic; letter-spacing: .02em; color: #fff; }
 
-/* ---------- Below lg: stacked, unscaled, phone centred ---------- */
-@media (max-width: 1023.98px) {
-  /* Centred even when the 491px design box is wider than the column
-     (auto margins fall back to 0 there). */
-  .bz-stage { justify-self: center; margin-inline: calc((100% - 491px) / 2); transform-origin: 50% 50%; }
-  .bz-floor { display: none; }
+/* ---------- Embedded in BillingScrollMorph ----------
+   Plain blocks at their natural size (phone 262×586, card 330 wide): no
+   stage positioning, scaling, parallax or animation, since the morph moves
+   them. It also adds the phone's drop-shadow and the card's shadow, so the
+   heavy shadows here are dropped; the phone keeps its metal-edge rings. */
+.bz-phone--embedded,
+.bz-settings--embedded {
+  position: relative; /* still the containing block for the phone's side buttons */
+  inset: auto;
+  z-index: auto;
+  margin: 0;
+  transform: none;
+  translate: none;
+  animation: none;
 }
+.bz-phone--embedded {
+  box-shadow:
+    0 0 0 2px #2c2c2e,
+    0 0 0 3.5px #8e8e93,
+    0 0 0 4.5px #3a3a3c,
+    inset 0 0 0 1px rgba(255, 255, 255, .06);
+}
+.bz-settings--embedded { box-shadow: 0 1px 0 rgba(255, 255, 255, .06) inset; }

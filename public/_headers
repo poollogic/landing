@@ -4,3 +4,10 @@
   X-Robots-Tag: noindex
 /landing/
   X-Robots-Tag: noindex
+
+# Built JS and CSS have content hashes in their names: cache them for a year.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+# Fonts keep fixed names, so a shorter cache.
+/fonts/*
+  Cache-Control: public, max-age=2592000

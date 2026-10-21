@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
-import { Nav, Hero, Features, Pricing, FAQ, FinalCTA, Footer } from './components/sections.jsx';
+import { Nav, Footer } from './components/site-chrome.jsx';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -8,6 +8,7 @@ const TechAppPage = lazy(() => import('./pages/tech-app.jsx'));
 const ContactPage = lazy(() => import('./pages/contact.jsx'));
 const PricingPage = lazy(() => import('./pages/pricing.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
+const OldHomePage = lazy(() => import('./pages/old-home.jsx'));
 
 // Page defaults — accent color, hero layout, density, theme.
 // EDITMODE markers are preserved so the external prototype editor can still patch this object.
@@ -195,15 +196,15 @@ const App = () => {
     return (
       <>
         <Nav accent={TWEAK_DEFAULTS.accent} />
-        <Hero
-          layout={TWEAK_DEFAULTS.heroLayout}
-          headline={TWEAK_DEFAULTS.headline}
-          subhead={TWEAK_DEFAULTS.subhead}
-        />
-        <Features />
-        <Pricing />
-        <FAQ />
-        <FinalCTA />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <OldHomePage
+              heroLayout={TWEAK_DEFAULTS.heroLayout}
+              headline={TWEAK_DEFAULTS.headline}
+              subhead={TWEAK_DEFAULTS.subhead}
+            />
+          </Suspense>
+        </ErrorBoundary>
         <Footer />
       </>
     );

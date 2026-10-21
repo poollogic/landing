@@ -111,6 +111,7 @@
   background: none;
   font-size: 12px;
   line-height: 16px;
+  font-family: Satoshi, 'Satoshi Tnum Fallback', 'Satoshi Fallback', ui-sans-serif, system-ui, sans-serif; /* .font-tnum */
   font-variant-numeric: tabular-nums;
   color: #5f6f88;
   white-space: nowrap;

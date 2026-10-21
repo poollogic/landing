@@ -1,9 +1,23 @@
-import React, { useRef } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import DashboardPreview, { PreviewThemeToggle, PreviewThemeUnder } from './preview/DashboardPreview.jsx';
-import PreviewToast from './preview/PreviewToast.jsx';
 import { trialHref, usePreviewTheme } from './preview/previewTheme.js';
 import useHeroScrollFx from './useHeroScrollFx.js';
+
+// The billing-run toast is decoration: absolutely positioned (it can't move
+// anything), hidden on phones, and only loaded once the page has painted.
+const PreviewToast = lazy(() => import('./preview/PreviewToast.jsx'));
+function useAfterPaint() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 767.98px)').matches) return undefined; // display:none there anyway
+    const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 200));
+    const cancel = window.cancelIdleCallback || clearTimeout;
+    const id = idle(() => setReady(true), { timeout: 1500 });
+    return () => cancel(id);
+  }, []);
+  return ready;
+}
 
 // Hero for /landing. Background, light beams, type and CTA styling live in
 // landing/hero.css; layout and the entrance animation stay in Tailwind. On
@@ -16,6 +30,7 @@ const Hero = () => {
   const theme = usePreviewTheme();
   const heroRef = useRef(null);
   useHeroScrollFx(heroRef);
+  const showToast = useAfterPaint();
   return (
   <section ref={heroRef} className="hero relative overflow-x-clip">
     <div className="hero-decor" aria-hidden="true">
@@ -63,7 +78,7 @@ const Hero = () => {
         <div className="mockup-holder">
           <DashboardPreview />
           <div className="preview-glint" aria-hidden="true" />
-          <PreviewToast />
+          {showToast && <Suspense fallback={null}><PreviewToast /></Suspense>}
           <PreviewThemeUnder />
         </div>
 

@@ -7,7 +7,7 @@ import Nav from '../landing/Nav.jsx';
 import SectionHeader from '../landing/SectionHeader.jsx';
 import FaqSection from '../landing/FaqSection.jsx';
 import { trialHref, usePreviewTheme } from '../landing/preview/previewTheme.js';
-import { Footer } from '../components/sections.jsx';
+import { Footer } from '../components/site-chrome.jsx';
 
 // /pricing: a dark top section (hero, customer slider, billing switch, plan
 // cards), then the comparison, the tier table and the FAQ on alternating light
@@ -121,7 +121,7 @@ function PlanCard({ name, price, yearly, maxCustomers, featured, lead, features,
       <h2 className="text-title font-semibold tracking-[-0.01em] text-white">{name}</h2>
       {price ? (
         <>
-          <p className="mt-4 flex flex-wrap items-baseline tabular-nums">
+          <p className="mt-4 flex flex-wrap items-baseline font-tnum">
             <span className="text-display font-bold tracking-[-0.025em] text-white">{usd(perMonth(price, yearly))}</span>
             <span className="ml-1.5 text-body text-slate-400">/mo</span>
             {yearly && (
@@ -132,7 +132,7 @@ function PlanCard({ name, price, yearly, maxCustomers, featured, lead, features,
             )}
           </p>
           {yearly ? (
-            <p className="mt-3 text-meta tabular-nums text-slate-300">
+            <p className="mt-3 text-meta font-tnum text-slate-300">
               Billed {usd(yearlyTotal(price))} yearly
               <span className="text-slate-500">{'  ·  '}</span>
               <span className="font-semibold text-[#4ade80]">Save {usd(yearlySaving(price))}/yr</span>
@@ -140,12 +140,12 @@ function PlanCard({ name, price, yearly, maxCustomers, featured, lead, features,
           ) : (
             <>
               <p className="mt-3 text-meta text-slate-300">Billed monthly.</p>
-              <p className="text-meta tabular-nums text-[#64748b]">
+              <p className="text-meta font-tnum text-[#64748b]">
                 or <span className="font-semibold text-[#93b4ff]">{usd(perMonth(price, true))}/mo</span> billed yearly
               </p>
             </>
           )}
-          <p className="mt-1 border-b border-slate-700/50 pb-6 text-meta tabular-nums text-slate-400">Includes up to {num(maxCustomers)} active customers.</p>
+          <p className="mt-1 border-b border-slate-700/50 pb-6 text-meta font-tnum text-slate-400">Includes up to {num(maxCustomers)} active customers.</p>
         </>
       ) : (
         <>
@@ -249,7 +249,7 @@ export default function PricingPage() {
                   <p className="mt-1 text-meta text-slate-400">Paused customers don’t count.</p>
                 </div>
                 <p className="flex items-baseline gap-2" aria-hidden="true">
-                  <span className="text-[32px] font-bold leading-none tracking-[-0.025em] text-white tabular-nums">
+                  <span className="text-[32px] font-bold leading-none tracking-[-0.025em] text-white font-tnum">
                     {stop === CUSTOM ? '2,500+' : num(STOPS[stop])}
                   </span>
                   <span className="text-body text-[#94a3b8]">active customers</span>
@@ -443,7 +443,7 @@ export default function PricingPage() {
                       {/* Phones: one step down the type scale (two under 360px) so the longest yearly price ($1,559.25/mo) stays on one line. */}
                       <th scope="row" className="whitespace-nowrap py-3.5 pl-4 pr-1 text-left text-meta font-medium text-[#0f172a] max-[359px]:pl-3 max-[359px]:text-caption sm:px-6 sm:text-body">{size}</th>
                       {prices.map((price, i) => (
-                        <td key={i} className="whitespace-nowrap px-1 py-3.5 text-center tabular-nums sm:px-2">
+                        <td key={i} className="whitespace-nowrap px-1 py-3.5 text-center font-tnum sm:px-2">
                           <span className="text-body font-semibold tracking-[-0.01em] text-[#0f172a] max-[359px]:text-meta sm:text-lead">{usd(perMonth(price, yearly))}</span>
                           <span className="text-caption text-[#94a3b8] sm:text-meta">/mo</span>
                         </td>
