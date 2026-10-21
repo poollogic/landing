@@ -67,7 +67,7 @@ const THEME_OPTIONS = [
 export function PreviewThemeUnder() {
   const theme = usePreviewTheme();
   return (
-    <div className="pl-theme-under">
+    <div className="pl-theme-under" data-theme={theme}>
       <span className="pl-theme-under-label" aria-hidden="true">Preview in</span>
       <div className="pl-theme-under-seg" role="radiogroup" aria-label="Preview theme">
         {THEME_OPTIONS.map(({ value, label, Icon }) => (

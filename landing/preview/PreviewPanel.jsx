@@ -8,6 +8,37 @@ import { COST, GREETING, KPI_TILES, REVENUE, ROUTES, SANITIZER_OPTIONS, TODAY, m
 // greeting, KPI row and the two Trends cards. Only the Sanitizer dropdown is
 // live, and it is look-only: the selection stays on All.
 
+const usd = (v) => `$${Math.round(v).toLocaleString('en-US')}`;
+const usdCents = (v) => `$${v.toFixed(2)}`;
+
+/** Revenue hover: recurring + repairs & extras, which always add up to the month's total. */
+function revenueTip(i) {
+  const total = REVENUE.bars[i];
+  const recurring = REVENUE.recurring[i];
+  const current = i === REVENUE.bars.length - 1;
+  return {
+    title: REVENUE.months[i],
+    sub: current ? 'Month to date · Oct 1–20' : null,
+    rows: [
+      { key: 'rec', label: 'Recurring', value: usd(recurring), swatch: 'var(--foreground)' },
+      { key: 'extra', label: 'Repairs & extras', value: usd(total - recurring), swatch: 'var(--muted-foreground)' },
+      { key: 'total', label: 'Total invoiced', value: usd(total), swatch: 'var(--chart-accent)', kind: 'bar', rule: true },
+    ],
+  };
+}
+
+/** Cost per visit hover: each tech, highest first, then the team average. */
+function costTip(i) {
+  const techs = COST.techs
+    .filter((t) => t.values[i] != null)
+    .sort((a, b) => b.values[i] - a.values[i])
+    .map((t) => ({ key: t.key, label: t.name, value: usdCents(t.values[i]), swatch: t.color }));
+  return {
+    title: COST.months[i],
+    rows: [...techs, { key: 'team', label: 'Team average', value: usdCents(COST.team[i]), swatch: 'var(--series-baseline)', kind: 'dash', gap: true }],
+  };
+}
+
 /** ui/SegmentedControl.tsx, drawn at rest. */
 function Segmented({ options, value }) {
   return (
@@ -173,7 +204,8 @@ export default function PreviewPanel() {
               top={REVENUE.top}
               axis={moneyAxis}
               bars={{ color: 'var(--chart-accent)', values: REVENUE.bars }}
-              lines={[{ key: 'recurring', color: 'var(--foreground)', values: REVENUE.recurring }]}
+              lines={[{ key: 'recurring', color: 'var(--foreground)', values: REVENUE.recurring, smooth: true }]}
+              tooltip={revenueTip}
             />
           </div>
         </div>
@@ -195,6 +227,7 @@ export default function PreviewPanel() {
               lines={COST.techs}
               baseline={COST.team}
               baselineArea
+              tooltip={costTip}
             />
           </div>
         </div>

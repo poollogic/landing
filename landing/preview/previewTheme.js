@@ -48,6 +48,16 @@ export const trialHref = (t) => `${APP_URL}/?theme=${t}`;
  * Transitions API where supported (the page itself is told not to animate),
  * CSS colour transitions otherwise, and instantly under reduced motion.
  */
+/** Replays the preview's short soften-and-settle on a theme switch (plSwap). */
+function playSwap() {
+  const el = document.querySelector('.pl-preview');
+  if (!el) return;
+  el.classList.remove('is-swapping');
+  void el.offsetWidth; // restart the animation
+  el.classList.add('is-swapping');
+  el.addEventListener('animationend', () => el.classList.remove('is-swapping'), { once: true });
+}
+
 export function transitionPreviewTheme(next) {
   if (next === theme) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -59,7 +69,10 @@ export function transitionPreviewTheme(next) {
   if (typeof document.startViewTransition === 'function') {
     html.classList.add('pl-vt');
     try {
-      const vt = document.startViewTransition(() => flushSync(() => setPreviewTheme(next)));
+      const vt = document.startViewTransition(() => {
+        flushSync(() => setPreviewTheme(next));
+        playSwap();
+      });
       vt.finished.finally(() => html.classList.remove('pl-vt'));
       return;
     } catch {
@@ -69,5 +82,6 @@ export function transitionPreviewTheme(next) {
   const scope = document.querySelector('.theme-scope');
   scope?.classList.add('theme-animating');
   setPreviewTheme(next);
+  playSwap();
   window.setTimeout(() => scope?.classList.remove('theme-animating'), 320);
 }

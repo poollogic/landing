@@ -155,16 +155,33 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   .pl-preview { height: 754px; }
   .pl-preview.dark {
     -webkit-mask-image: linear-gradient(to bottom,
-      #000 calc(100% - 150px),
-      rgba(0, 0, 0, .55) calc(100% - 80px),
-      rgba(0, 0, 0, .18) calc(100% - 30px),
+      #000 calc(100% - 170px),
+      rgba(0, 0, 0, .55) calc(100% - 95px),
+      rgba(0, 0, 0, .18) calc(100% - 40px),
       transparent 100%);
     mask-image: linear-gradient(to bottom,
-      #000 calc(100% - 150px),
-      rgba(0, 0, 0, .55) calc(100% - 80px),
-      rgba(0, 0, 0, .18) calc(100% - 30px),
+      #000 calc(100% - 170px),
+      rgba(0, 0, 0, .55) calc(100% - 95px),
+      rgba(0, 0, 0, .18) calc(100% - 40px),
       transparent 100%);
   }
+}
+
+/* Light: no fade, a hairline ring and a soft blue halo; the swap animation. */
+.pl-preview.light {
+  -webkit-mask-image: none;
+  mask-image: none;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 0 80px -20px rgba(147, 197, 253, .25);
+}
+.pl-preview.light .pl-frame { background: #f4f5f7; }
+
+@keyframes plSwap {
+  from { opacity: .55; filter: blur(1.5px); }
+  to { opacity: 1; filter: none; }
+}
+.pl-preview.is-swapping { animation: plSwap .35s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .pl-preview.is-swapping { animation: none; }
 }
 
 .pl-frame {
@@ -664,6 +681,46 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 /* Chart (ui/TrendChart.tsx) */
 .pl-chart { position: relative; }
 .pl-chart svg { display: block; }
+/* The charts are the one live surface in the picture: hover only. */
+.pl-preview .pl-chart svg { pointer-events: auto; cursor: crosshair; }
+.pl-bar { transition: opacity 150ms ease; }
+.pl-guide { stroke: rgba(226, 232, 240, .35); stroke-width: 1; }
+.light .pl-guide { stroke: rgba(15, 23, 42, .22); }
+
+/* Tooltip card (TrendChart's ChartTooltip, dark) */
+.pl-tip {
+  position: absolute;
+  top: 34px;
+  z-index: 5;
+  min-width: 196px;
+  padding: 14px 16px 12px;
+  border-radius: 12px;
+  background: rgba(19, 21, 27, .96);
+  border: 1px solid rgba(255, 255, 255, .06);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, .7);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+.pl-tip.is-on { opacity: 1; }
+.pl-tip-title { font-size: 12px; font-weight: 600; color: #fff; }
+.pl-tip-sub { margin-top: 2px; font-size: 11.5px; color: rgba(203, 213, 225, .62); }
+.pl-tip-rows { margin-top: 8px; }
+.pl-tip-row { height: 22px; display: flex; align-items: center; gap: 8px; }
+.pl-tip-row.is-gap { margin-top: 4px; }
+.pl-tip-row.is-rule { margin-top: 4px; padding-top: 4px; height: 27px; border-top: 1px solid rgba(255, 255, 255, .07); }
+.pl-tip-sw { width: 9px; height: 2px; flex: none; border-radius: 1px; }
+.pl-tip-sw.is-bar { height: 9px; border-radius: 2px; }
+.pl-tip-sw.is-dash { background: none !important; border-top: 2px dashed var(--series-baseline); height: 0; }
+.pl-tip-label { flex: 1; font-size: 11.5px; color: rgba(203, 213, 225, .62); }
+.pl-tip-value { margin-left: 12px; font-size: 12px; font-weight: 600; color: #fff; font-variant-numeric: tabular-nums; text-align: right; }
+/* Light preview: the app's light tooltip. */
+.light .pl-tip { background: rgba(255, 255, 255, .98); border-color: rgba(0, 0, 0, .08); box-shadow: 0 16px 40px -12px rgba(15, 23, 42, .25); }
+.light .pl-tip-title, .light .pl-tip-value { color: #1d1d1f; }
+.light .pl-tip-sub, .light .pl-tip-label { color: #6e6e73; }
+.light .pl-tip-row.is-rule { border-top-color: rgba(0, 0, 0, .08); }
 @keyframes pl-pulse {
   from { opacity: 0.5; stroke-width: 2px; }
   to { opacity: 0; stroke-width: 9px; }
@@ -684,18 +741,31 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .mockup-holder > .pl-theme-under {
   position: absolute;
   left: 50%;
-  top: calc(100% + 28px);
-  z-index: 4;
+  top: calc(100% - 30px); /* on the preview's bottom edge */
+  z-index: 8;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 12px;
-  box-shadow: none;
+  /* Same box in both themes, so nothing shifts on a switch. */
+  padding: 6px 6px 6px 16px;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: 0 0 0 1px transparent;
+  transition: background-color .25s ease, box-shadow .25s ease;
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 @media (max-width: 1023.98px) {
   .mockup-holder > .pl-theme-under { display: none; }
+}
+.mockup-holder > .pl-theme-under[data-theme='light'] {
+  background: #0b0c0f;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, .08),
+    inset 0 1px 0 rgba(255, 255, 255, .06),
+    0 18px 40px -12px rgba(0, 0, 0, .45),
+    0 4px 10px -4px rgba(0, 0, 0, .3);
 }
 .pl-theme-under-label { font-size: 13px; color: rgba(226, 232, 240, .45); white-space: nowrap; }
 .pl-theme-under-seg {

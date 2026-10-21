@@ -13,7 +13,7 @@ const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 const Hero = () => {
   const theme = usePreviewTheme();
   return (
-  <section className="hero relative overflow-x-clip pb-24 lg:pb-[120px]">
+  <section className="hero relative overflow-x-clip pb-24 lg:pb-16">
     <div className="hero-decor" aria-hidden="true">
       <div className="light-source" />
       <div className="light-shaft s1" />

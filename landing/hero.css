@@ -218,12 +218,13 @@
   isolation: isolate;
   /* The absolute nav's height, then the same gap the mockup gets below the copy. */
   padding-top: calc(var(--header-h, 64px) + clamp(72px, 11vh, 128px));
+  /* Light from the top-right, where the rays start. */
   background:
-    radial-gradient(75% 60% at 50% -10%, rgba(51, 65, 85, .75), transparent 70%),    /* slate-blue wash from top */
-    radial-gradient(90% 60% at 12% -5%, rgba(255, 255, 255, .07), transparent 60%), /* light from top-left */
-    radial-gradient(55% 45% at 90% -5%, rgba(96, 165, 250, .09), transparent 65%),  /* cool hint top-right */
+    radial-gradient(70% 58% at 66% -10%, rgba(51, 65, 85, .78), transparent 70%),   /* slate-blue wash */
+    radial-gradient(80% 58% at 90% -5%, rgba(255, 255, 255, .075), transparent 60%), /* light from top-right */
+    radial-gradient(55% 45% at 10% -5%, rgba(96, 165, 250, .045), transparent 65%), /* cool hint top-left */
     radial-gradient(70% 35% at 50% 62%, rgba(30, 41, 59, .85), transparent 70%),    /* slate pool behind product */
-    linear-gradient(180deg, #141a26 0%, #111318 60%);
+    linear-gradient(#141a26 0%, #111318 60%);
 }
 .hero > :not(.hero-decor) {
   position: relative;
@@ -237,6 +238,12 @@
   overflow: hidden;
   z-index: 0;
   pointer-events: none;
+  /* Softer, and fading out away from the corner the rays come from. Mirrored,
+     so the rays, their angles, sway and this fade all start top-right. */
+  opacity: .66;
+  transform: scaleX(-1);
+  -webkit-mask-image: radial-gradient(ellipse 85% 95% at 0% 0%, #000 40%, rgba(0, 0, 0, .6) 68%, rgba(0, 0, 0, .25) 100%);
+  mask-image: radial-gradient(ellipse 85% 95% at 0% 0%, #000 40%, rgba(0, 0, 0, .6) 68%, rgba(0, 0, 0, .25) 100%);
 }
 .hero-decor::before { /* thin glass edge at the very top */
   content: '';
@@ -269,14 +276,17 @@
   transform-origin: top left;
   filter: blur(28px);
   will-change: transform, opacity;
-  background: linear-gradient(rgba(226, 236, 255, .19), rgba(165, 190, 230, .055) 34%, rgba(148, 163, 184, .015) 52%, transparent 68%);
+  background: linear-gradient(rgba(240, 245, 255, .20), rgba(120, 165, 240, .07) 30%, rgba(96, 140, 220, .02) 52%, transparent 68%);
 }
 .light-shaft.s1 { left: -8%;  width: 260px; --o: 1;  animation: shaftSway 12.6s ease-in-out infinite, shaftBreathe 7.7s ease-in-out infinite; }
 .light-shaft.s2 { left: 8%;   width: 120px; --o: .8; animation: shaftSway 9.8s ease-in-out infinite, shaftBreathe 6.3s ease-in-out infinite; animation-delay: -3s, -2s; }
 .light-shaft.s3 { left: 19%;  width: 320px; --o: .5; animation: shaftSway 14.7s ease-in-out infinite, shaftBreathe 9.1s ease-in-out infinite; animation-delay: -6s, -4s;
   background: linear-gradient(rgba(214, 224, 240, .14), rgba(148, 163, 184, .035) 36%, transparent 64%); }
 .light-shaft.s4 { left: -17%; width: 190px; --o: .6; animation: shaftSway 16.8s ease-in-out infinite, shaftBreathe 9.8s ease-in-out infinite; animation-delay: -9s, -5s;
-  background: linear-gradient(rgba(236, 243, 255, .24), rgba(165, 190, 230, .065) 32%, transparent 64%); }
+  background: linear-gradient(rgba(248, 250, 255, .26), rgba(120, 165, 240, .08) 30%, transparent 64%); }
+/* The outermost beam stays quiet. Its breathe animation drives opacity from
+   --o, so that is lowered too; the plain .35 holds under reduced motion. */
+.hero-decor .light-shaft.s3 { opacity: .35; --o: .35; }
 
 /* Thin, sharper rays among the soft beams: their own sway (raySway) plus the
    beams' breathe, each with its own opacity (--o), sway (--d), breathe (--b)
@@ -289,9 +299,13 @@
   transform-origin: left top;
   will-change: transform, opacity;
   opacity: var(--o, 1);
-  background: linear-gradient(rgba(255, 255, 255, .40), rgba(232, 240, 255, .12) 20%, rgba(200, 218, 250, .035) 40%, transparent 60%);
+  background: linear-gradient(rgba(255, 255, 255, .42), rgba(235, 242, 255, .14) 20%, rgba(200, 220, 255, .04) 40%, transparent 60%); /* white: l2, l4, l6 */
   animation: raySway var(--d) ease-in-out infinite, shaftBreathe var(--b) ease-in-out infinite;
   animation-delay: var(--dl), var(--dl);
+}
+/* Blue lines among the white ones. */
+.light-line.l1, .light-line.l3, .light-line.l5 {
+  background: linear-gradient(rgba(170, 205, 255, .42), rgba(110, 160, 245, .14) 20%, rgba(96, 150, 240, .045) 40%, transparent 60%);
 }
 .light-line.l1 { left: -14%; width: 6px;  filter: blur(4px);   --o: .45; --d: 19.6s; --dl: -5s; --b: 10.5s; }
 .light-line.l2 { left: -10%; width: 3px;  filter: blur(2.5px); --o: .55; --d: 15.4s; --dl: -2s; --b: 8.4s; }
@@ -309,7 +323,7 @@
   border-radius: 50%;
   filter: blur(20px);
   animation: sourceGlow 9s ease-in-out infinite;
-  background: radial-gradient(closest-side, rgba(205, 222, 255, .14), rgba(147, 180, 240, .055) 45%, transparent 75%);
+  background: radial-gradient(closest-side, rgba(235, 242, 255, .15), rgba(96, 150, 240, .06) 50%, transparent 75%);
 }
 
 @media (max-width: 767.98px) {
@@ -484,6 +498,10 @@
 @media (prefers-reduced-motion: reduce) {
   .mockup-holder > .preview-glint { display: none; }
 }
+
+/* Dimmer top glow over the light preview. */
+.mockup-holder:has(.pl-preview.light)::before { opacity: .6; }
+.mockup-holder:has(.pl-preview.light)::after { opacity: .55; }
 
 .mockup-holder::after { /* reflection blooming up from that edge */
   content: '';

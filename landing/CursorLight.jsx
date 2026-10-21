@@ -14,23 +14,21 @@ const CursorLight = () => {
     const root = document.documentElement;
     let tx = 0, ty = 0, x = 0, y = 0, k = 0;
     let inside = false;
-    let seen = false;
     let raf;
 
+    // Real time: the light is placed under the pointer on every move, no easing.
     const onMove = (e) => {
       tx = e.clientX;
       ty = e.clientY;
-      if (!seen) { x = tx; y = ty; seen = true; } // start at the cursor, not mid-screen
+      x = tx;
+      y = ty;
+      el.style.setProperty('--lx', `${x}px`);
+      el.style.setProperty('--ly', `${y}px`);
       inside = true;
     };
     const onLeave = () => { inside = false; };
 
     const tick = () => {
-      x += (tx - x) * 0.08;
-      y += (ty - y) * 0.08;
-      el.style.setProperty('--lx', `${x}px`);
-      el.style.setProperty('--ly', `${y}px`);
-
       let target = 0;
       const holder = document.querySelector('.mockup-holder');
       if (inside && holder) {

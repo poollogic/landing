@@ -21,6 +21,8 @@
   }
 
   body {
+    /* index.html pads the site's body for its own footer; not needed here. */
+    padding-bottom: 0;
     background: var(--mktg-bg-page);
     color: var(--mktg-text-muted);
     font-family: theme('fontFamily.sans');

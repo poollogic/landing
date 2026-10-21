@@ -3,6 +3,8 @@ import '../landing/landing.css';
 import '../landing/hero.css';
 import Nav from '../landing/Nav.jsx';
 import Hero from '../landing/Hero.jsx';
+import BillingSection from '../landing/BillingSection.jsx';
+import RevenueSection from '../landing/RevenueSection.jsx';
 import CursorLight from '../landing/CursorLight.jsx';
 
 // /landing — marketing page, built on Tailwind with the --mktg-* tokens
@@ -31,6 +33,8 @@ const LandingPage = () => {
       <CursorLight />
       <main>
         <Hero />
+        <BillingSection />
+        <RevenueSection />
       </main>
     </div>
   );
