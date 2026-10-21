@@ -55,6 +55,15 @@ r.css.forEach(function(f){l('preload',f,'style');});r.js.forEach(function(f){l('
 export default defineConfig({
   plugins: [react(), routePreloads()],
   build: {
+    // ".r2" in every built file name: new URLs for all JS and CSS, so nothing
+    // cached under an old name (see public/_headers) can be served for them.
+    rollupOptions: {
+      output: {
+        entryFileNames: 'assets/[name]-[hash].r2.js',
+        chunkFileNames: 'assets/[name]-[hash].r2.js',
+        assetFileNames: 'assets/[name]-[hash].r2[extname]',
+      },
+    },
     target: 'es2020',
     cssMinify: true,
     chunkSizeWarningLimit: 600,
