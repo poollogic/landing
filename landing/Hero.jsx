@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import DashboardPreview, { PreviewThemeToggle, PreviewThemeUnder } from './preview/DashboardPreview.jsx';
 import PreviewToast from './preview/PreviewToast.jsx';
+import HeroRipples from './HeroRipples.jsx';
 import { trialHref, usePreviewTheme } from './preview/previewTheme.js';
 
 // Hero for /landing. Background, light beams, type and CTA styling live in
@@ -14,6 +15,7 @@ const Hero = () => {
   const theme = usePreviewTheme();
   return (
   <section className="hero relative overflow-x-clip pb-24 lg:pb-16">
+    <HeroRipples />
     <div className="hero-decor" aria-hidden="true">
       <div className="light-source" />
       <div className="light-shaft s1" />
@@ -40,7 +42,12 @@ const Hero = () => {
           href={trialHref(theme)}
           className="hero-cta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
         >
-          <span>
+          {/* Water that fills the button on hover: two rolling waves. */}
+          <span className="hero-cta-water" aria-hidden="true">
+            <svg className="hero-wave is-back" viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 10 Q 25 0 50 10 T 100 10 T 150 10 T 200 10 V 60 H 0 Z" /></svg>
+            <svg className="hero-wave is-front" viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 10 Q 25 0 50 10 T 100 10 T 150 10 T 200 10 V 60 H 0 Z" /></svg>
+          </span>
+          <span className="hero-cta-label">
             Put Your Route on Autopilot <span className="hero-cta-trial"><span className="paren">(</span>Start 30-Day Trial<span className="paren">)</span></span>
           </span>
           <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />

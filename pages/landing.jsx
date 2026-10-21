@@ -5,6 +5,7 @@ import Nav from '../landing/Nav.jsx';
 import Hero from '../landing/Hero.jsx';
 import BillingSection from '../landing/BillingSection.jsx';
 import RevenueSection from '../landing/RevenueSection.jsx';
+import ImportSection from '../landing/ImportSection.jsx';
 
 // /landing — marketing page, built on Tailwind with the --mktg-* tokens
 // (see tailwind.config.js and landing/landing.css). Rendered without the site
@@ -33,6 +34,7 @@ const LandingPage = () => {
         <Hero />
         <BillingSection />
         <RevenueSection />
+        <ImportSection />
       </main>
     </div>
   );
