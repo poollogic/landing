@@ -612,7 +612,7 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
               <motion.div className={center} style={{ zIndex: phoneZ }}>
                 <motion.div
                   style={{ x: phoneX, y: phoneY, scale: phoneScale }}
-                  className="will-change-transform [filter:drop-shadow(0_26px_40px_rgba(15,23,42,.28))]"
+                  className="will-change-transform [filter:drop-shadow(0_3px_6px_rgba(15,23,42,.16))_drop-shadow(0_30px_48px_rgba(15,23,42,.38))]"
                 >
                   {phone ?? <PhoneFallback />}
                 </motion.div>
@@ -686,7 +686,7 @@ function OwnerVisual({ phone, setupCard }) {
       <FitToWidth w={470} h={610}>
         {/* Scale on the wrapper: the drift's inline transform would replace a scale on the same element. */}
         <div className="absolute left-[222px] top-[96px] origin-top-left scale-[.85]">
-          <motion.div className="[filter:drop-shadow(0_26px_40px_rgba(15,23,42,.28))]" style={{ y: drift }}>
+          <motion.div className="[filter:drop-shadow(0_3px_6px_rgba(15,23,42,.16))_drop-shadow(0_30px_48px_rgba(15,23,42,.38))]" style={{ y: drift }}>
             {phone ?? <PhoneFallback />}
           </motion.div>
         </div>
@@ -709,7 +709,7 @@ function CustomerVisual({ phone }) {
           <DesktopInvoice />
         </div>
         <div className="absolute left-[548px] top-[8px] origin-top-left scale-[.72]">
-          <motion.div className="[filter:drop-shadow(0_26px_40px_rgba(15,23,42,.28))]" style={{ y: drift }}>
+          <motion.div className="[filter:drop-shadow(0_3px_6px_rgba(15,23,42,.16))_drop-shadow(0_30px_48px_rgba(15,23,42,.38))]" style={{ y: drift }}>
             {phone ?? <PhoneFallback />}
           </motion.div>
         </div>
