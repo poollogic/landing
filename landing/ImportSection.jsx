@@ -9,7 +9,8 @@ import './import.css';
 // Section 4: instant migration. Copy, the looping import demo, a closing
 // line, then Route Acquisition: how a route changes hands on PoolLogic
 // (customers/handover in the app) and the route report a buyer sees. All
-// names, figures and the PIN are MOCK data.
+// names, figures and the transfer code are MOCK data. The code's shape is the
+// app's: 8 letters and numbers, XXXX-XXXX, with no 0, O, 1, I or L.
 
 /** Bars for the report's tiny charts: heights 0–1, the `accent` index in blue. */
 function Bars({ values, accent }) {
@@ -81,22 +82,22 @@ function Handover() {
       </div>
 
       <div className="ra-pin">
-        <span className="ra-pin-label">Transfer PIN</span>
+        <span className="ra-pin-label">Transfer code</span>
         <span className="ra-pin-digits">
-          {['4', '8', '2', '·', '9', '1', '3'].map((d, i) => (d === '·' ? <i key={i}>·</i> : <span key={i}>{d}</span>))}
+          {['K', '7', 'Q', '4', '-', '9', 'W', 'X', 'H'].map((d, i) => (d === '-' ? <i key={i}>–</i> : <span key={i}>{d}</span>))}
         </span>
       </div>
 
       <div className="ra-moves">
         <div>
           <div className="ra-moves-title">Moves with the route</div>
-          {['48 customers', 'Service history & reports', 'Billing history'].map((t) => (
+          {['48 customers', 'Prices & service days', 'Every visit report'].map((t) => (
             <div key={t} className="ra-item"><span className="ra-dot is-on"><Check size={11} strokeWidth={3} /></span>{t}</div>
           ))}
         </div>
         <div>
-          <div className="ra-moves-title">Stays private</div>
-          {['Saved cards', 'Bank accounts'].map((t) => (
+          <div className="ra-moves-title">Stays with you</div>
+          {['Billing history', 'Saved cards', 'Bank accounts'].map((t) => (
             <div key={t} className="ra-item"><span className="ra-dot"><Lock size={10} strokeWidth={2.4} /></span>{t}</div>
           ))}
           <p className="ra-moves-note">One bulk request asks every customer to add a payment method again.</p>
@@ -105,7 +106,7 @@ function Handover() {
 
       <div className="ra-foot">
         <FileText size={16} strokeWidth={1.75} />
-        Customers see the same familiar emails and invoices they already know. Nothing about their service feels different.
+        Customers keep their prices, service days and visit history, so nothing about their service changes.
       </div>
     </div>
   );
@@ -143,7 +144,7 @@ function RouteReport() {
 
 export default function ImportSection() {
   return (
-    <section className="im-section bg-white py-24" aria-labelledby="import-heading">
+    <section id="switching" className="im-section bg-white py-24" aria-labelledby="import-heading">
       <div className="mx-auto max-w-[1280px] px-6 text-center">
         <p className="text-[13px] font-semibold uppercase tracking-widest text-slate-500">Instant migration</p>
         <h2 id="import-heading" className="mt-4 text-3xl font-semibold tracking-tight text-slate-900 lg:text-4xl">
@@ -168,7 +169,7 @@ export default function ImportSection() {
             <p className="ra-eyebrow"><span className="ra-eyebrow-icon"><ArrowRightLeft size={13} strokeWidth={2.2} /></span>Route acquisition</p>
             <h3 className="ra-h3">Think this is cool? Wait until you see how routes change hands.</h3>
             <p className="ra-lede">
-              Selling a route on PoolLogic takes one PIN. And because every number lives in one place, you walk into the
+              Selling a route on PoolLogic takes one code. And because every number lives in one place, you walk into the
               sale knowing exactly what your route is worth.
             </p>
           </div>

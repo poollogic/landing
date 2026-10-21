@@ -15,7 +15,7 @@ export default function PreviewToast() {
         <div className="pl-toast-title">
           <span className="pl-toast-name">163 invoices sent</span>
           <span className="pl-toast-sep"> · </span>
-          <span className="pl-toast-amount">$48,930</span>
+          <span className="pl-toast-amount">$26,409</span>
         </div>
         <div className="pl-toast-detail">
           <span>Recurring billing run</span> · <span>just now</span>

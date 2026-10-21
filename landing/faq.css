@@ -1,0 +1,59 @@
+/* Homepage FAQ (FaqSection.jsx): light, in the billing section's style. */
+
+.fq {
+  background: #f5f5f7;
+  padding: 96px 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+@media (min-width: 1024px) {
+  .fq { padding: 128px 0; }
+}
+.fq-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+}
+@media (min-width: 1024px) {
+  .fq-inner { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); gap: 96px; align-items: start; }
+  .fq-intro { position: sticky; top: 48px; }
+}
+.fq-eyebrow { font-size: 17px; font-weight: 600; letter-spacing: .02em; color: #86868b; }
+/* Forced: the landing's base styles make headings white. */
+.fq .fq-h2 { margin-top: 10px; font-size: clamp(30px, 2.2vw + 12px, 44px); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; color: #1d1d1f; }
+.fq-sub { margin-top: 16px; font-size: 17px; color: #6e6e73; }
+.fq-sub a { color: #3570c0; }
+.fq-sub a:hover { text-decoration: underline; }
+
+.fq-list { border-top: 1px solid #e3e3e8; }
+.fq-item { border-bottom: 1px solid #e3e3e8; }
+.fq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0;
+  list-style: none;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  color: #1d1d1f;
+}
+.fq-item summary::-webkit-details-marker { display: none; }
+.fq-item summary svg { flex: none; color: #86868b; transition: transform .2s ease; }
+.fq-item[open] summary svg { transform: rotate(180deg); }
+.fq-item summary:hover span { color: #3570c0; }
+.fq-item summary:focus-visible { outline: 2px solid #3570c0; outline-offset: 4px; border-radius: 6px; }
+.fq-item p { margin: -6px 0 0; padding: 0 40px 24px 0; font-size: 16px; line-height: 1.65; color: #6e6e73; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fq-item summary svg { transition: none; }
+}
+@media (max-width: 639.98px) {
+  .fq-item summary { font-size: 16.5px; padding: 18px 0; }
+  .fq-item p { padding-right: 0; font-size: 15.5px; }
+}

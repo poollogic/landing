@@ -19,7 +19,7 @@ const FEATURES = [
   {
     n: '02',
     title: 'Automated Account Enforcement',
-    body: 'Get a prioritized list of past-due accounts. The system automatically sends late notices, applies late fees, and pauses service.',
+    body: 'Get a prioritized list of past-due accounts. Late notices go out automatically, and PoolLogic can add late fees and pause service for you.',
   },
   {
     n: '03',
@@ -104,7 +104,6 @@ function DashboardSnippet() {
               <span className="rv-mark">!</span>
               <p className="rv-banner-text">
                 <b>5 billing problems</b>
-                <span className="rv-banner-more"> · $3,710 at risk</span>
               </p>
               <span className="rv-ghost">Review all 7 <ChevronUp size={14} strokeWidth={2} className="rv-chev" /></span>
               <span className="rv-fix">Fix 2 payments <span>→</span></span>
@@ -136,7 +135,7 @@ function DashboardSnippet() {
 
 export default function RevenueSection() {
   return (
-    <section className="rv" aria-labelledby="revenue-heading">
+    <section id="collections" className="rv" aria-labelledby="revenue-heading">
       <div className="rv-inner">
         <div className="rv-copy">
           <p className="rv-eyebrow">Revenue protection</p>
@@ -154,7 +153,6 @@ export default function RevenueSection() {
         <div className="rv-features">
           {FEATURES.map((f) => (
             <div key={f.n} className="rv-feature">
-              <div className="rv-num">{f.n}</div>
               <h3 className="rv-ft">{f.title}</h3>
               <p className="rv-fd">{f.body}</p>
             </div>

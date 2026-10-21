@@ -53,7 +53,7 @@ const Hero = () => {
           <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
         </a>
 
-        <p className="hero-fine">No credit card required. Import your Skimmer or Excel route in under 5 minutes.</p>
+        <p className="hero-fine">No credit card required. Import your Skimmer or Excel route in minutes.</p>
       </div>
 
       {/* Below lg the rail and its account menu are hidden: the theme lives here instead. */}

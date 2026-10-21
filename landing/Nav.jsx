@@ -7,12 +7,12 @@ import { trialHref, usePreviewTheme } from './preview/previewTheme.js';
 
 const APP_URL = 'https://app.poollogic.app';
 
-// Pricing has a real page; the rest point at landing sections still to be built.
+// The page's own sections, then the pricing page.
 const LINKS = [
-  ['Features', '#features'],
+  ['Billing', '#billing'],
+  ['Collections', '#collections'],
+  ['Switching', '#switching'],
   ['Pricing', '/pricing'],
-  ['Customers', '#customers'],
-  ['Resources', '#resources'],
 ];
 
 const Nav = () => {

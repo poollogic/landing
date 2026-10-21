@@ -16,7 +16,7 @@ const FEATURES = [
   },
   {
     title: 'Self-serve receipts',
-    body: 'Clients see their payment history and download Stripe receipts for taxes or HOA boards on their own.',
+    body: 'Clients see their full payment history and download a receipt for every payment, for taxes or HOA boards, on their own.',
   },
   {
     title: 'Any date, any cadence',
@@ -127,17 +127,9 @@ function Phone() {
   );
 }
 
-/* ---------- The app's customer settings card (dark) ---------- */
+/* ---------- The customer settings card (dark) ---------- */
 
-const VisaCard = () => (
-  <span className="bz-visa">
-    <span className="bz-visa-chip" />
-    <svg className="bz-visa-nfc" width="7" height="8" viewBox="0 0 7 8" fill="none" stroke="rgba(255,255,255,.75)" strokeWidth=".9" strokeLinecap="round" aria-hidden="true">
-      <path d="M1 2.2c.9 1.1.9 2.5 0 3.6M3 1.2c1.5 1.7 1.5 4 0 5.6M5 .4c2 2.3 2 4.9 0 7.2" />
-    </svg>
-    <span className="bz-visa-mark">VISA</span>
-  </span>
-);
+const Toggle = ({ on }) => <span className={`bz-tg${on ? ' is-on' : ''}`}><span /></span>;
 
 function SettingsCard() {
   return (
@@ -145,45 +137,84 @@ function SettingsCard() {
       <div className="bz-st-head">
         <div className="bz-st-who">
           <div className="bz-st-name">Avery Collins</div>
-          <div className="bz-st-sub">2148 Palmetto Dr · Weekly</div>
+          <div className="bz-st-sub">2148 Palmetto Dr <span className="bz-st-sep" /> Weekly service</div>
         </div>
-        <div className="bz-st-rate">$145.00<small>per month</small></div>
+        <div className="bz-st-rate">$145<small>per month</small></div>
       </div>
 
-      <div className="bz-st-div" />
-
-      <div className="bz-st-k">Next invoice</div>
-      <div className="bz-st-field">
-        <CalendarDays size={14} strokeWidth={1.75} />
-        <span className="bz-st-date">Dec 14, 2026</span>
-        <span className="bz-st-fdiv" />
-        <span className="bz-st-cycle">Monthly <ChevronsUpDown size={12} strokeWidth={2} /></span>
-      </div>
-      <div className="bz-st-help">Charges <b>$149.21</b> automatically on the 14th</div>
-
-      <div className="bz-st-div" />
-
-      <div className="bz-st-rows">
-        <span className="bz-st-l">Payment terms</span>
-        <span className="bz-st-v">Net 15 — 15 days<small>Days after invoice is sent</small></span>
-        <span className="bz-st-l">CC surcharge</span>
-        <span className="bz-st-v"><span className="bz-st-check"><span className="bz-st-box" /> Exempt from 2.9% surcharge</span><a>Change rate</a></span>
-        <span className="bz-st-l">Chemicals</span>
-        <span className="bz-st-v"><span className="bz-st-check"><span className="bz-st-box" /> Add chemicals to invoice</span><a>Set markup %</a></span>
+      <div className="bz-st-next">
+        <div className="bz-st-k">Next invoice</div>
+        <div className="bz-st-field">
+          <CalendarDays size={16} strokeWidth={1.75} />
+          <span className="bz-st-date">Dec 14, 2026</span>
+          <span className="bz-st-cycle">Monthly <ChevronsUpDown size={13} strokeWidth={2} /></span>
+        </div>
+        <div className="bz-st-help">Charges <b>$149.21</b> automatically on the 14th</div>
       </div>
 
-      <div className="bz-st-div" />
+      <div className="bz-st-list">
+        <div className="bz-st-row">
+          <span className="bz-st-l">Payment terms</span>
+          <span className="bz-st-pill">Net 15 <ChevronsUpDown size={12} strokeWidth={2} /></span>
+        </div>
+        <div className="bz-st-row">
+          <span className="bz-st-l">Card surcharge<small>2.9% passed to customer</small></span>
+          <Toggle on />
+        </div>
+        <div className="bz-st-row">
+          <span className="bz-st-l">Bill chemicals<small>Add usage to each invoice</small></span>
+          <Toggle />
+        </div>
+      </div>
 
       <div className="bz-st-auto">
-        <VisaCard />
+        <span className="bz-visa"><span className="bz-visa-chip" /><span className="bz-visa-mark">VISA</span></span>
         <div className="bz-st-auto-text">
           <div className="bz-st-auto-title">Autopay ···· 4242</div>
-          <div className="bz-st-auto-sub">Auto-charge on · <span>+2.9% fee</span></div>
+          <div className="bz-st-auto-sub">Auto-charge on</div>
         </div>
-        <span className="bz-st-toggle"><span /></span>
+        <Toggle on />
       </div>
     </div>
   );
+}
+
+/** A gentle scroll parallax: the card drifts a little more than the phone. */
+function useStageParallax(stageRef) {
+  useEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return undefined;
+    const card = stage.querySelector('.bz-settings');
+    const phone = stage.querySelector('.bz-phone');
+    const floor = stage.querySelector('.bz-floor-card');
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      if (window.innerWidth < 760 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        card.style.translate = '';
+        phone.style.translate = '';
+        if (floor) floor.style.opacity = '';
+        return;
+      }
+      const r = stage.getBoundingClientRect();
+      const vh = window.innerHeight;
+      let p = ((r.top + r.height / 2) - vh / 2) / (vh / 2 + r.height / 2);
+      p = Math.max(-1, Math.min(1, p));
+      // `translate`, not `transform`: the card keeps its scale(.82).
+      card.style.translate = `0 ${(p * 24).toFixed(1)}px`;
+      phone.style.translate = `0 ${(p * -10).toFixed(1)}px`;
+      if (floor) floor.style.opacity = (1 - Math.abs(p) * 0.3).toFixed(2);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    update();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [stageRef]);
 }
 
 /** Scale the phone + settings group (491px design) to its column. */
@@ -213,8 +244,9 @@ export default function BillingSection() {
   const innerRef = useRef(null);
   const stageRef = useRef(null);
   useStageScale(innerRef, stageRef);
+  useStageParallax(stageRef);
   return (
-    <section className="bz" aria-labelledby="billing-heading">
+    <section id="billing" className="bz" aria-labelledby="billing-heading">
       <div className="bz-inner" ref={innerRef}>
         <div className="bz-copy">
           <p className="bz-eyebrow">Billing on autopilot</p>

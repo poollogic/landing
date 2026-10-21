@@ -26,12 +26,10 @@
 
 /* ---------- Features ---------- */
 .rv-features { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.rv-feature { padding: 4px 36px; }
+.rv-feature { padding: 4px 28px 4px 36px; box-sizing: border-box; }
 .rv-feature + .rv-feature { border-left: 1px solid rgba(255, 255, 255, .07); }
 .rv-feature:first-child { padding-left: 0; }
-.rv-feature:last-child { padding-right: 0; }
-.rv-num { font-size: 12px; font-weight: 600; letter-spacing: .12em; color: #FF0036; font-variant-numeric: tabular-nums; }
-.rv-ft { margin-top: 12px; font-size: 17px; font-weight: 600; color: #fff; }
+.rv-ft { margin-top: 0; font-size: 17px; font-weight: 600; color: #fff; }
 .rv-fd { margin-top: 8px; font-size: 14.5px; line-height: 1.6; color: #94a3b8; font-feature-settings: normal; }
 
 /* ---------- Dashboard snippet (fades into the page) ---------- */
@@ -175,7 +173,6 @@
 }
 .rv-banner-text { flex: 1; min-width: 0; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rv-banner-text b { font-weight: 600; }
-.rv-banner-more { color: rgba(203, 213, 225, .6); }
 .rv-ghost,
 .rv-fix {
   height: 32px;
@@ -241,12 +238,12 @@
 @media (max-width: 899.98px) {
   .rv-h2 { font-size: 36px; }
   .rv-features { grid-template-columns: minmax(0, 1fr); }
-  .rv-feature { padding: 24px 0; }
+  .rv-feature { padding: 24px 28px 24px 0; }
   .rv-feature + .rv-feature { border-left: 0; border-top: 1px solid rgba(255, 255, 255, .07); }
   .rv-frame { grid-template-columns: minmax(0, 1fr); }
   .rv-side { display: none; }
   .rv-main { margin: 0; padding: 20px 20px 56px; border-radius: 12px 12px 0 0; }
-  .rv-banner-more, .rv-ghost, .rv-row-hint { display: none; }
+  .rv-ghost, .rv-row-hint { display: none; }
   /* The count reads whole; the button drops under it. */
   .rv-banner-top { flex-wrap: wrap; row-gap: 10px; }
   .rv-banner-text { flex: 1 1 calc(100% - 44px); overflow: visible; }

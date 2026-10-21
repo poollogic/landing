@@ -31,8 +31,10 @@ const SITE_ORIGIN = 'https://poollogic.app';
 
 const ROUTE_META = {
   home: {
-    title: 'PoolLogic — Pool service software for routes, billing, and reports',
-    description: 'PoolLogic is pool service software for routes, chemistry tracking, branded service reports, and billing — one app your techs can run from day one.',
+    title: 'PoolLogic — Pool Service Software That Runs on Autopilot',
+    description: 'Pool service software that bills on schedule, collects by autopay and flags failed payments before they cost you. Switch from Skimmer or QuickBooks in minutes.',
+    ogTitle: 'PoolLogic — The End of Pool Company Chaos',
+    ogDescription: 'Routes, autopay billing and revenue protection in one app built for pool pros. Import your customer list in under 2 minutes.',
     path: '/',
   },
   pricing: {
@@ -60,10 +62,12 @@ const ROUTE_META = {
     description: 'PoolLogic privacy policy.',
     path: '/privacy',
   },
+  // The previous homepage, kept at /landing and out of search results.
   landing: {
-    title: 'PoolLogic',
-    description: 'Pool service software for routes, chemistry tracking, service reports, and billing.',
+    title: 'PoolLogic — Pool service software for routes, billing, and reports',
+    description: 'PoolLogic is pool service software for routes, chemistry tracking, branded service reports, and billing — one app your techs can run from day one.',
     path: '/landing',
+    robots: 'noindex,follow',
   },
 };
 
@@ -82,11 +86,12 @@ const applyRouteMeta = (meta) => {
   const url = SITE_ORIGIN + meta.path;
   document.title = meta.title;
   setMeta('meta[name="description"]', 'content', meta.description);
-  setMeta('meta[property="og:title"]', 'content', meta.title);
-  setMeta('meta[property="og:description"]', 'content', meta.description);
+  setMeta('meta[name="robots"]', 'content', meta.robots || 'index,follow,max-image-preview:large');
+  setMeta('meta[property="og:title"]', 'content', meta.ogTitle || meta.title);
+  setMeta('meta[property="og:description"]', 'content', meta.ogDescription || meta.description);
   setMeta('meta[property="og:url"]', 'content', url);
-  setMeta('meta[name="twitter:title"]', 'content', meta.title);
-  setMeta('meta[name="twitter:description"]', 'content', meta.description);
+  setMeta('meta[name="twitter:title"]', 'content', meta.ogTitle || meta.title);
+  setMeta('meta[name="twitter:description"]', 'content', meta.ogDescription || meta.description);
   let canonical = document.head.querySelector('link[rel="canonical"]');
   if (!canonical) {
     canonical = document.createElement('link');
@@ -188,31 +193,34 @@ const App = () => {
     );
   }
 
-  // Standalone page with its own design — no site Nav/Footer.
+  // The previous homepage, kept at /landing (noindex, see ROUTE_META.landing).
   if (isLandingPath(path)) {
     return (
-      <ErrorBoundary>
-        <Suspense fallback={null}>
-          <LandingPage />
-        </Suspense>
-      </ErrorBoundary>
+      <>
+        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <Hero
+          layout={TWEAK_DEFAULTS.heroLayout}
+          headline={TWEAK_DEFAULTS.headline}
+          subhead={TWEAK_DEFAULTS.subhead}
+        />
+        <Features />
+        <Pricing />
+        <FAQ />
+        <FinalCTA />
+        <Footer />
+      </>
     );
   }
 
+  // The homepage: its own design, nav and styles (pages/landing.jsx). Lazy, so
+  // its Tailwind CSS only ever loads here, never on the site's other pages;
+  // the fallback holds the hero's colour so nothing flashes white.
   return (
-    <>
-      <Nav accent={TWEAK_DEFAULTS.accent} />
-      <Hero
-        layout={TWEAK_DEFAULTS.heroLayout}
-        headline={TWEAK_DEFAULTS.headline}
-        subhead={TWEAK_DEFAULTS.subhead}
-      />
-      <Features />
-      <Pricing />
-      <FAQ />
-      <FinalCTA />
-      <Footer />
-    </>
+    <ErrorBoundary>
+      <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
+        <LandingPage />
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 
