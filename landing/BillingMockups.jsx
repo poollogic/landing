@@ -7,7 +7,7 @@ import './billing.css';
 // The Billing section's two mockups, shown by BillingScrollMorph: an iPhone with
 // the customer's invoice in the customer portal, and the dark customer settings
 // card from the app. All names, addresses and amounts are MOCK data
-// (Bayside Pool Co. / Avery Collins, matching the laptop invoice).
+// (Bayside Pool Co. / Melissa Tater, matching the laptop invoice).
 
 /* ---------- iPhone: the customer's invoice in the portal ---------- */
 
@@ -79,9 +79,9 @@ function InvoiceScreen() {
           </div>
 
           <div className="bz-inv-k">Bill to</div>
-          <div className="bz-inv-name">Avery Collins</div>
-          <div className="bz-inv-addr">2148 Palmetto Dr</div>
-          <div className="bz-inv-addr">Dunedin, FL 34698</div>
+          <div className="bz-inv-name">Melissa Tater</div>
+          <div className="bz-inv-addr">123 Fake Street</div>
+          <div className="bz-inv-addr">Wilmington, NC 28401</div>
 
           <div className="bz-inv-meta">
             <div><div className="bz-inv-mh">Invoice number</div><div className="bz-inv-mv">INV - 1024</div></div>
@@ -123,8 +123,8 @@ export function BillingSettingsCard({ embedded = false }) {
     <div className={`bz-settings${embedded ? ' bz-settings--embedded' : ''}`}>
       <div className="bz-st-head">
         <div className="bz-st-who">
-          <div className="bz-st-name">Avery Collins</div>
-          <div className="bz-st-sub">2148 Palmetto Dr <span className="bz-st-sep" /> Weekly service</div>
+          <div className="bz-st-name">Melissa Tater</div>
+          <div className="bz-st-sub">123 Fake Street <span className="bz-st-sep" /> Weekly service</div>
         </div>
         <div className="bz-st-rate">$145<small>per month</small></div>
       </div>

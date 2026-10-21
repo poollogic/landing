@@ -96,8 +96,8 @@ function InvoiceCard() {
           </div>
           <div>
             <div className="text-[9px] font-bold tracking-wider text-slate-400">TO</div>
-            <div className="my-0.5 text-[13px] font-bold text-slate-900">Avery Collins</div>
-            2148 Palmetto Dr<br />Dunedin, FL 34698
+            <div className="my-0.5 text-[13px] font-bold text-slate-900">Melissa Tater</div>
+            123 Fake Street<br />Wilmington, NC 28401
           </div>
         </div>
 
