@@ -482,10 +482,9 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
   const stageRef = useRef(null);
 
   /* Stage size: the visuals stay in proportion to the copy (a little taller than its taller block)
-     and always fit the window, with room for the view pill above. The composition spans
-     COMP_TOP…COMP_BOTTOM px around the stage centre at scale 1 (measured across the whole morph,
-     drift included). The pill sits just above it. */
-  const COMP_TOP = -370, COMP_BOTTOM = 395, OVER_TEXT = 80, PILL_SPACE = 52, EDGE = 32;
+     and always fit the window. The composition spans COMP_TOP…COMP_BOTTOM px around the stage
+     centre at scale 1 (measured across the whole morph, drift included). */
+  const COMP_TOP = -370, COMP_BOTTOM = 395, OVER_TEXT = 80, EDGE = 32;
   const [stageScale, setStageScale] = useState(1);
   useLayoutEffect(() => {
     const fit = () => {
@@ -498,7 +497,7 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
       const span = COMP_BOTTOM - COMP_TOP;
       const byWidth = window.innerWidth < 1280 ? 0.75 : 1;
       const byText = textH ? (textH + OVER_TEXT) / span : 1;
-      const byWindow = (window.innerHeight - 2 * EDGE - PILL_SPACE) / span;
+      const byWindow = (window.innerHeight - 2 * EDGE) / span;
       setStageScale(Math.max(0.5, Math.min(byWidth, byText, byWindow)));
     };
     fit();
@@ -541,12 +540,6 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
   const floorSettle = useTransform(p, [0.3, 0.7], [250, 275], E);
   const floorY = useTransform([floorSettle, drift], ([a, d]) => a - 22 * d);
 
-  // Owner / Customer view pill
-  const pillK = useTransform(p, [0.38, 0.52], [0, 1], E);
-  const pillX = useTransform(pillK, (k) => `${k * 100}%`);
-  const ownerColor = useTransform(pillK, [0, 1], ["#ffffff", "#64748B"]);
-  const customerColor = useTransform(pillK, [0, 1], ["#64748B", "#ffffff"]);
-
   const center = "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2";
 
   return (
@@ -572,17 +565,6 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
 
           {/* RIGHT — visual morph (scaled down on smaller screens) */}
           <div ref={rightRef} className="relative h-[520px] [perspective:1600px] lg:h-[640px]">
-            {/* View indicator */}
-            <div
-              style={{ top: `calc(50% + ${Math.round(COMP_TOP * stageScale - PILL_SPACE)}px)` }}
-              className="absolute left-1/2 z-40 flex -translate-x-1/2 rounded-full border border-slate-900/5 bg-white/75 p-1 text-xs font-semibold shadow-[0_1px_2px_rgba(15,23,42,.06),0_8px_24px_-10px_rgba(15,23,42,.25)] backdrop-blur-md">
-              <motion.span
-                style={{ x: pillX }}
-                className="absolute bottom-1 left-1 top-1 w-[calc(50%-4px)] rounded-full bg-slate-900"
-              />
-              <motion.span style={{ color: ownerColor }} className="relative w-[118px] py-[7px] text-center">Owner view</motion.span>
-              <motion.span style={{ color: customerColor }} className="relative w-[118px] py-[7px] text-center">Customer view</motion.span>
-            </div>
             <div ref={stageRef} className="absolute inset-0 origin-center" style={{ transform: `scale(${stageScale})` }}>
 
               {/* Contact shadow */}
