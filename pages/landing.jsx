@@ -6,6 +6,7 @@ import Hero from '../landing/Hero.jsx';
 import BillingSection from '../landing/BillingSection.jsx';
 import RevenueSection from '../landing/RevenueSection.jsx';
 import ImportSection from '../landing/ImportSection.jsx';
+import RouteSection from '../landing/RouteSection.jsx';
 import FaqSection from '../landing/FaqSection.jsx';
 import { Footer } from '../components/sections.jsx';
 
@@ -21,6 +22,7 @@ const LandingPage = () => (
       <BillingSection />
       <RevenueSection />
       <ImportSection />
+      <RouteSection />
       <FaqSection />
     </main>
     {/* On the site's own light background, as on every other page. */}

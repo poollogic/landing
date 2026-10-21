@@ -7931,7 +7931,10 @@ const Footer = () =>
 <footer style={{ borderTop: '1px solid var(--line)', padding: '24px 0' }}>
     <div className="container footer-bottom" style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: 'var(--ink-5)', gap: 16, flexWrap: 'wrap' }}>
       <span>© {new Date().getFullYear()} PoolLogic. All rights reserved.</span>
-      <span>Made for pool pros, by pool pros.</span>
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+        <FooterLink label="Terms" href="/terms" />
+        <FooterLink label="Privacy" href="/privacy" />
+      </span>
     </div>
   </footer>;
 

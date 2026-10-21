@@ -1,0 +1,6 @@
+# Keep the previous homepage out of search results (it also sets a robots
+# meta tag once its script runs; this header works without JavaScript).
+/landing
+  X-Robots-Tag: noindex
+/landing/
+  X-Robots-Tag: noindex

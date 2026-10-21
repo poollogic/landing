@@ -52,7 +52,7 @@ const PricingPage = () => {
         <PricingCards />
 
         {/* FAQ */}
-        <section style={{ marginTop: 112, maxWidth: 760, marginInline: 'auto' }}>
+        <section className="section" style={{ maxWidth: 760, marginInline: 'auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <h2 style={{ fontSize: 'clamp(24px, 2.8vw, 32px)', letterSpacing: '-0.025em', lineHeight: 1.15, color: 'var(--ink)' }}>
               Pricing questions, answered.
@@ -69,7 +69,7 @@ const PricingPage = () => {
         </section>
 
         {/* Final nudge */}
-        <div style={{ textAlign: 'center', marginTop: 96, padding: '40px 32px', border: '1px solid var(--line)', borderRadius: 16, background: 'var(--bg-muted, var(--bg))' }}>
+        <div style={{ textAlign: 'center', padding: '40px 32px', border: '1px solid var(--line)', borderRadius: 16, background: 'var(--bg-muted, var(--bg))' }}>
           <h2 style={{ fontSize: 'clamp(22px, 2.4vw, 28px)', letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: 10 }}>
             Want to see it on your routes first?
           </h2>

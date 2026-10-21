@@ -47,15 +47,6 @@ export default {
         md: '8px',
         lg: '12px',
       },
-      maxWidth: {
-        mktg: '1280px',
-      },
-      // Macro rhythm: gaps between entirely different sections.
-      spacing: {
-        'mktg-section-sm': '96px',
-        'mktg-section': '128px',
-        'mktg-section-lg': '160px',
-      },
       boxShadow: {
         'mktg-glow': MKTG_GLOW,
       },

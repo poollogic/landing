@@ -61,7 +61,8 @@ const ContactPage = () => {
 
   return (
     <main style={{ background: 'var(--bg)', color: 'var(--ink-2)', minHeight: '100vh' }}>
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: 'var(--page-top) 24px var(--page-bottom)' }}>
+      <div className="container" style={{ paddingTop: 'var(--page-top)', paddingBottom: 'var(--page-bottom)' }}>
+      <div style={{ maxWidth: 720, marginInline: 'auto' }}>
         <header style={{ marginBottom: 32, textAlign: 'center' }}>
           <h1 style={{ fontSize: 'clamp(32px, 3.8vw, 48px)', letterSpacing: '-0.035em', lineHeight: 1.1, color: 'var(--ink)' }}>
             See PoolLogic on your routes.
@@ -136,6 +137,7 @@ const ContactPage = () => {
             </div>
           </form>
         )}
+      </div>
       </div>
     </main>
   );

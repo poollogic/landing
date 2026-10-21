@@ -40,11 +40,8 @@
   z-index: 100;
   font-family: Satoshi, ui-sans-serif, system-ui, sans-serif;
 }
-.lp-nav-bar {
-  max-width: 1200px;
+.lp-nav-bar { /* width and gutters come from .container */
   height: 64px;
-  margin: 0 auto;
-  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -218,6 +215,7 @@
   isolation: isolate;
   /* The absolute nav's height, then the same gap the mockup gets below the copy. */
   padding-top: calc(var(--header-h, 64px) + clamp(72px, 11vh, 128px));
+  padding-bottom: var(--section-y);
   /* Light from the top-right, where the rays start. */
   background:
     radial-gradient(70% 58% at 66% -10%, rgba(51, 65, 85, .78), transparent 70%),   /* slate-blue wash */
@@ -226,7 +224,7 @@
     radial-gradient(70% 35% at 50% 62%, rgba(30, 41, 59, .85), transparent 70%),    /* slate pool behind product */
     linear-gradient(#141a26 0%, #111318 60%);
 }
-.hero > :not(.hero-decor):not(.hero-ripples) {
+.hero > :not(.hero-decor) {
   position: relative;
   z-index: 1;
 }
@@ -349,9 +347,9 @@
   .hero-toggle { margin-top: clamp(72px, 11vh, 128px); }
   .hero-mockup { margin-top: 2.5rem; }
 }
-/* Phones: the preview runs edge to edge, out through the container's 24px gutters. */
+/* Phones: the preview runs edge to edge, out through the container's gutters. */
 @media (max-width: 767.98px) {
-  .hero-mockup { margin-inline: -24px; }
+  .hero-mockup { margin-inline: calc(-1 * var(--gutter)); }
 }
 
 /* lg and up: the copy block is centred in (about) the first screen, under the
@@ -423,64 +421,6 @@
 .hero-cta-trial { opacity: .75; font-weight: 400; }
 .hero-cta > svg { flex: none; transition: transform .25s; }
 .hero-cta:hover > svg { transform: translateX(3px); }
-
-/* Water fill on hover: two rolling sine waves rise to about halfway and
-   drain on mouse-out. Text and arrow stay on top. */
-.hero-cta { position: relative; isolation: isolate; }
-.hero-cta > :not(.hero-cta-water) { position: relative; z-index: 1; }
-.hero-cta-water {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  pointer-events: none;
-}
-.hero-wave {
-  position: absolute;
-  left: 0;
-  top: 105%;
-  width: 200%;
-  height: 100%;
-  transition: top .8s cubic-bezier(.2, .8, .2, 1);
-}
-.hero-wave.is-back { fill: rgba(186, 230, 253, .35); animation: hero-wave-roll 4s linear infinite reverse; }
-.hero-wave.is-front { fill: rgba(14, 165, 233, .75); animation: hero-wave-roll 2.6s linear infinite; }
-.hero-cta:hover .hero-wave.is-back,
-.hero-cta:focus-visible .hero-wave.is-back { top: 34%; }
-.hero-cta:hover .hero-wave.is-front,
-.hero-cta:focus-visible .hero-wave.is-front { top: 42%; }
-@keyframes hero-wave-roll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-/* A faint shimmer while hovered. */
-.hero-cta-water::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, .5) 50%, transparent 70%);
-  background-size: 250% 100%;
-  opacity: 0;
-  transition: opacity .4s ease;
-  animation: hero-cta-shimmer 2.8s ease-in-out infinite;
-}
-.hero-cta:hover .hero-cta-water::after { opacity: .35; }
-@keyframes hero-cta-shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .hero-wave, .hero-cta-water::after { animation: none; transition: none; }
-}
-
-/* Mouse-trail ripples on the hero background (HeroRipples.jsx), under everything. */
-.hero-ripples {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  filter: blur(4px);
-}
-@media (hover: none), (prefers-reduced-motion: reduce) {
-  .hero-ripples { display: none; }
-}
 
 @media (max-width: 559.98px) {
   .hero-cta { width: 100%; max-width: 360px; padding: 14px 20px; justify-content: center; gap: 10px; }

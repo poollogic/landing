@@ -135,8 +135,8 @@ function DashboardSnippet() {
 
 export default function RevenueSection() {
   return (
-    <section id="collections" className="rv" aria-labelledby="revenue-heading">
-      <div className="rv-inner">
+    <section id="collections" className="rv section" aria-labelledby="revenue-heading">
+      <div className="rv-inner container">
         <div className="rv-copy">
           <p className="rv-eyebrow">Revenue protection</p>
           <h2 id="revenue-heading" className="rv-h2">

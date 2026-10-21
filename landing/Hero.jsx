@@ -2,7 +2,6 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import DashboardPreview, { PreviewThemeToggle, PreviewThemeUnder } from './preview/DashboardPreview.jsx';
 import PreviewToast from './preview/PreviewToast.jsx';
-import HeroRipples from './HeroRipples.jsx';
 import { trialHref, usePreviewTheme } from './preview/previewTheme.js';
 
 // Hero for /landing. Background, light beams, type and CTA styling live in
@@ -14,8 +13,7 @@ const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 const Hero = () => {
   const theme = usePreviewTheme();
   return (
-  <section className="hero relative overflow-x-clip pb-24 lg:pb-16">
-    <HeroRipples />
+  <section className="hero relative overflow-x-clip">
     <div className="hero-decor" aria-hidden="true">
       <div className="light-source" />
       <div className="light-shaft s1" />
@@ -25,7 +23,7 @@ const Hero = () => {
       {[1, 2, 3, 4, 5, 6].map((n) => <div key={n} className={`light-line l${n}`} />)}
     </div>
 
-    <div className="mktg-container">
+    <div className="container">
       {/* Text block */}
       <div className={`hero-copy mx-auto flex max-w-4xl flex-col items-center text-center ${ENTER}`}>
         <p className="hero-eyebrow">The next-generation pool service software</p>
@@ -42,11 +40,6 @@ const Hero = () => {
           href={trialHref(theme)}
           className="hero-cta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
         >
-          {/* Water that fills the button on hover: two rolling waves. */}
-          <span className="hero-cta-water" aria-hidden="true">
-            <svg className="hero-wave is-back" viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 10 Q 25 0 50 10 T 100 10 T 150 10 T 200 10 V 60 H 0 Z" /></svg>
-            <svg className="hero-wave is-front" viewBox="0 0 200 60" preserveAspectRatio="none"><path d="M0 10 Q 25 0 50 10 T 100 10 T 150 10 T 200 10 V 60 H 0 Z" /></svg>
-          </span>
           <span className="hero-cta-label">
             Put Your Route on Autopilot <span className="hero-cta-trial"><span className="paren">(</span>Start 30-Day Trial<span className="paren">)</span></span>
           </span>

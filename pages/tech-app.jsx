@@ -78,13 +78,13 @@ const TechAppPage = () => (
 // ───────── hero ─────────
 
 const Hero = () => (
-  <section style={{ position: 'relative', overflow: 'hidden', paddingTop: 'var(--page-top)', paddingBottom: 'var(--page-bottom)' }}>
+  <section className="section" style={{ position: 'relative', overflow: 'hidden', paddingTop: 'var(--page-top)' }}>
     <div aria-hidden="true" style={{
       position: 'absolute', inset: '0 0 auto 0', height: 480, zIndex: -1, pointerEvents: 'none',
       background: 'radial-gradient(900px 360px at 50% 0%, color-mix(in oklab, var(--accent) 4%, transparent), transparent 70%)',
     }} />
     <div className="container">
-      <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: 64, alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '48px 64px', alignItems: 'center' }}>
         <div>
           <a href="/" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -136,7 +136,7 @@ const Hero = () => (
 // ───────── problem strip ─────────
 
 const ProblemStrip = () => (
-  <section style={{ paddingBlock: 32 }}>
+  <section className="section--tight">
     <div className="container">
       <div style={{
         border: '1px solid var(--line)',
@@ -171,10 +171,11 @@ const ProblemStrip = () => (
 // ───────── capability block ─────────
 
 const Capability = ({ index, eyebrow, title, body, bullets, visual, reverse }) => (
-  <section style={{ paddingBlock: 80 }}>
+  <section className="section">
     <div className="container">
       <div style={{
-        display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center',
+        // Two columns while each gets 300px, stacked on phones.
+        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '48px 80px', alignItems: 'center',
         direction: reverse ? 'rtl' : 'ltr',
       }}>
         <div style={{ direction: 'ltr' }}>
@@ -217,7 +218,7 @@ const Capability = ({ index, eyebrow, title, body, bullets, visual, reverse }) =
 // ───────── workflow ─────────
 
 const Workflow = () => (
-  <section style={{ paddingBlock: 80, background: 'var(--bg-soft)' }}>
+  <section className="section" style={{ background: 'var(--bg-soft)' }}>
     <div className="container">
       <div style={{ textAlign: 'center', maxWidth: 640, marginInline: 'auto', marginBottom: 48 }}>
         <h2 style={{ fontSize: 'clamp(24px, 2.6vw, 32px)', letterSpacing: '-0.025em', lineHeight: 1.1, color: 'var(--ink)' }}>
@@ -257,7 +258,7 @@ const Workflow = () => (
 // ───────── reliability ─────────
 
 const Reliability = () => (
-  <section style={{ paddingBlock: 80 }}>
+  <section className="section">
     <div className="container">
       <div style={{
         border: '1px solid var(--line)',
@@ -294,8 +295,9 @@ const Reliability = () => (
 // ───────── final cta ─────────
 
 const FinalCTA = () => (
-  <section style={{ paddingBlock: 96 }}>
-    <div className="container" style={{ textAlign: 'center', maxWidth: 640, marginInline: 'auto' }}>
+  <section className="section">
+    <div className="container">
+    <div style={{ textAlign: 'center', maxWidth: 640, marginInline: 'auto' }}>
       <h2 style={{ fontSize: 'clamp(28px, 3.2vw, 40px)', letterSpacing: '-0.03em', lineHeight: 1.05, color: 'var(--ink)', textWrap: 'balance' }}>
         Put it in front of a tech today.
       </h2>
@@ -306,6 +308,7 @@ const FinalCTA = () => (
         <a href="/contact" className="btn btn-accent">Get a demo</a>
         <a href="/" className="btn btn-outline">Back to overview</a>
       </div>
+    </div>
     </div>
   </section>
 );

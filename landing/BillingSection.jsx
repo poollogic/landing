@@ -246,8 +246,8 @@ export default function BillingSection() {
   useStageScale(innerRef, stageRef);
   useStageParallax(stageRef);
   return (
-    <section id="billing" className="bz" aria-labelledby="billing-heading">
-      <div className="bz-inner" ref={innerRef}>
+    <section id="billing" className="bz section" aria-labelledby="billing-heading">
+      <div className="bz-inner container" ref={innerRef}>
         <div className="bz-copy">
           <p className="bz-eyebrow">Billing on autopilot</p>
           <h2 id="billing-heading" className="bz-h2">Zero-click billing.<br />Effortless collections.</h2>

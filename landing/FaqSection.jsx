@@ -81,8 +81,8 @@ export default function FaqSection() {
   }, []);
 
   return (
-    <section id="faq" className="fq" aria-labelledby="faq-heading">
-      <div className="fq-inner">
+    <section id="faq" className="fq section" aria-labelledby="faq-heading">
+      <div className="fq-inner container">
         <div className="fq-intro">
           <p className="fq-eyebrow">FAQ</p>
           <h2 id="faq-heading" className="fq-h2">Questions, answered.</h2>

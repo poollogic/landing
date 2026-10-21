@@ -43,23 +43,13 @@
     margin: 0;
     color: inherit;
   }
-  .mktg :where(section) {
+  /* Sections opt in to the shared rhythm with .section / .section--tight. */
+  .mktg :where(section:not(.section, .section--tight)) {
     padding: 0;
   }
 }
 
 @layer components {
-  /* Central wrapper: sections stay full-bleed, content caps at 1280px. */
-  .mktg-container {
-    width: 100%;
-    max-width: theme('maxWidth.mktg');
-    margin-inline: auto;
-    padding-inline: 24px;
-  }
-  @screen md {
-    .mktg-container { padding-inline: 32px; }
-  }
-
   /* Type scale — mobile first, scaling up at md (768px) and lg (1024px). */
   .text-mktg-hero {
     font-size: 40px;

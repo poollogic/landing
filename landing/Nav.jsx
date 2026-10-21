@@ -41,7 +41,7 @@ const Nav = () => {
 
   return (
     <header className="lp-nav" ref={ref}>
-      <div className="lp-nav-bar">
+      <div className="lp-nav-bar container">
         <a href="/" className="lp-nav-wordmark">PoolLogic</a>
 
         <nav className="nav-links" aria-label="Primary">
