@@ -45,14 +45,16 @@ const Hero = () => {
     <div className="container">
       {/* Text block */}
       <div className={`hero-copy mx-auto flex max-w-4xl flex-col items-center text-center ${ENTER}`}>
-        <p className="hero-eyebrow">The next-generation pool service software</p>
+        <p className="hero-eyebrow">All-in-one pool route management software</p>
 
-        <h1 className="hero-title">The End of Pool Company Chaos.</h1>
+        <h1 className="hero-title">
+          <span className="hero-title-line">Run your pool route.</span>{' '}
+          <span className="hero-title-line">Don’t let it run you.</span>
+        </h1>
 
         <h2 className="hero-sub">
-          You didn’t start a business to become a full-time data entry clerk. PoolLogic is the all-in-one{' '}
-          <strong>pool service software</strong> built to erase your daily friction—from Sunday billing runs to the
-          6:00 AM sick-tech scramble.
+          Route your techs, track every chemical, and get paid on time, without lifting a finger. Automated SOPs for
+          your whole <strong>pool service</strong> business.
         </h2>
 
         <a

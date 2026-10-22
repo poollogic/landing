@@ -393,9 +393,10 @@
   letter-spacing: -.035em;
   color: #F8FAFC;
   margin-top: 1.25rem;
-  max-width: 14ch;
-  text-wrap: balance; /* "The End of Pool / Company Chaos." */
+  text-wrap: balance;
 }
+/* "Run your pool route. / Don't let it run you." – one sentence per line (each may wrap on phones) */
+.hero-title-line { display: block; }
 .hero-sub {
   font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
   line-height: 1.65;
@@ -404,7 +405,7 @@
   color: #97A3B6;
   max-width: 40rem;
   margin-top: 1.75rem;
-  text-wrap: pretty;
+  text-wrap: balance; /* two even lines, no word left dangling */
 }
 .hero-sub strong { color: #E2E8F0; font-weight: 500; }
 
