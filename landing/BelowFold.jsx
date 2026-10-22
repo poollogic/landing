@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import BillingScrollMorph from './BillingScrollMorph.jsx';
-import { BillingPhone, BillingSettingsCard } from './BillingMockups.jsx';
+import { BillingPhone } from './BillingMockups.jsx';
 import RevenueSection from './RevenueSection.jsx';
 import ImportSection from './ImportSection.jsx';
 import RouteSection from './RouteSection.jsx';
@@ -23,7 +23,7 @@ export default function BelowFold() {
 
   return (
     <>
-      <BillingScrollMorph id="billing" phone={<BillingPhone embedded />} setupCard={<BillingSettingsCard embedded />} />
+      <BillingScrollMorph id="billing" phone={<BillingPhone embedded />} />
       <RevenueSection />
       <ImportSection />
       <RouteSection />

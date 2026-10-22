@@ -1,6 +1,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
 import PreviewChart from './PreviewChart.jsx';
+import Segmented from './Segmented.jsx';
 import { COST, GREETING, KPI_TILES, REVENUE, ROUTES, SANITIZER_OPTIONS, TODAY, moneyAxis, moneyAxisCents } from './data.js';
 
 // The dashboard's main panel (poollogic-web-app: Dashboard.tsx, ui/PagePanel,
@@ -37,24 +38,6 @@ function costTip(i) {
     title: COST.months[i],
     rows: [...techs, { key: 'team', label: 'Team average', value: usdCents(COST.team[i]), swatch: 'var(--series-baseline)', kind: 'dash', gap: true }],
   };
-}
-
-/** ui/SegmentedControl.tsx, drawn at rest. */
-function Segmented({ options, value }) {
-  return (
-    <div className="pl-seg" aria-hidden="true">
-      {options.map((o, i) => {
-        const prev = options[i - 1];
-        const divider = i > 0 && o !== value && prev !== value;
-        return (
-          <React.Fragment key={o}>
-            {i > 0 && <span className="pl-seg-divider" style={{ opacity: divider ? 1 : 0 }} />}
-            <span className={`pl-seg-item${o === value ? ' is-active' : ''}`}>{o}</span>
-          </React.Fragment>
-        );
-      })}
-    </div>
-  );
 }
 
 /** ui/FilterChip.tsx "Sanitizer": opens and closes; its options only highlight. */

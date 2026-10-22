@@ -193,8 +193,14 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   .pl-frame { background: var(--shell-bg); }
 }
 
+/* The rail outside the hero preview (BillingScrollMorph's laptop): always shown. */
+.pl-rail-host *, .pl-rail-host *::before, .pl-rail-host *::after { box-sizing: border-box; }
+.pl-rail-host svg { display: inline-block; }
+.pl-rail-host .pl-rail { display: flex; }
+
 /* ink at an opacity — the app's `text-[var(--sidebar-ink)]/66` etc. */
-.pl-preview {
+.pl-preview,
+.pl-rail-host {
   --ink-4: color-mix(in oklab, var(--sidebar-ink) 4%, transparent);
   --ink-5: color-mix(in oklab, var(--sidebar-ink) 5%, transparent);
   --ink-7: color-mix(in oklab, var(--sidebar-ink) 7%, transparent);

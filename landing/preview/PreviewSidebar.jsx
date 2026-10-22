@@ -7,8 +7,12 @@ import { IDENTITY } from './data.js';
 
 // The app's desktop rail (poollogic-web-app: Sidebar.tsx SidebarRail,
 // sidebar/SidebarWorkspace, SidebarNewMenu, SidebarAccount, navItem.ts) with
-// a made-up account. Only the account chip, its menu and the Dark mode switch
-// are live; everything else is aria-hidden and takes no pointer or focus.
+// a made-up account. Shared by the hero's dashboard preview and the Billing
+// section's laptop (BillingScrollMorph.jsx).
+//   active      the highlighted nav item (the hero: Dashboard)
+//   decorative  no live controls: the account chip is a picture, with no menu
+//               or Dark mode switch (the laptop). Otherwise only the chip, its
+//               menu and the switch are live; the rest is aria-hidden.
 
 const ICON = { size: 16, strokeWidth: 1.25, absoluteStrokeWidth: true, 'aria-hidden': true };
 
@@ -30,14 +34,14 @@ const PanelIcon = () => (
 );
 
 const NAV = [
-  { label: 'Operations', items: [['Dashboard', LayoutDashboard, true], ['Requests', Ticket], ['Customers', Users], ['Routes', Route], ['Staff', UserCog], ['Settings', Settings]] },
+  { label: 'Operations', items: [['Dashboard', LayoutDashboard], ['Requests', Ticket], ['Customers', Users], ['Routes', Route], ['Staff', UserCog], ['Settings', Settings]] },
   { label: 'Money', items: [['Invoices', null], ['Payments', CreditCard]] },
   { label: 'Catalog', items: [['Services & Parts', Package]] },
 ];
 
-export default function PreviewSidebar({ menuOpen, onToggleMenu, flash, chipRef, menuRef, switchRef, dark, onThemeChange }) {
+export default function PreviewSidebar({ menuOpen, onToggleMenu, flash, chipRef, menuRef, switchRef, dark, onThemeChange, active = 'Dashboard', decorative = false }) {
   return (
-    <aside className="pl-rail">
+    <aside className="pl-rail" aria-hidden={decorative || undefined}>
       <div className="pl-rail-top" aria-hidden="true">
         <div className="pl-workspace">{IDENTITY.company}</div>
         <div className="pl-rail-actions">
@@ -51,8 +55,8 @@ export default function PreviewSidebar({ menuOpen, onToggleMenu, flash, chipRef,
         {NAV.map((group) => (
           <div key={group.label} className="pl-nav-group">
             <div className="pl-nav-label">{group.label}</div>
-            {group.items.map(([label, Icon, active]) => (
-              <div key={label} className={`pl-nav-item${active ? ' is-active' : ''}`}>
+            {group.items.map(([label, Icon]) => (
+              <div key={label} className={`pl-nav-item${label === active ? ' is-active' : ''}`}>
                 <span className="pl-nav-icon">{Icon ? <Icon {...ICON} /> : <InvoiceIcon />}</span>
                 <span>{label}</span>
               </div>
@@ -61,6 +65,19 @@ export default function PreviewSidebar({ menuOpen, onToggleMenu, flash, chipRef,
         ))}
       </div>
 
+      {decorative ? (
+        <div className="pl-rail-foot">
+          <div className="pl-account">
+            <span className="pl-avatar"><User size={14} strokeWidth={2} /></span>
+            <span className="pl-account-text">
+              <span className="pl-account-name">{IDENTITY.name}</span>
+              <span className="pl-account-company">{IDENTITY.company}</span>
+            </span>
+            <ChevronsUpDown size={14} strokeWidth={1.75} className="pl-account-chevrons" />
+          </div>
+          <div className="pl-rail-control"><PanelIcon /></div>
+        </div>
+      ) : (
       <div className="pl-rail-foot">
         <button
           ref={chipRef}
@@ -119,6 +136,7 @@ export default function PreviewSidebar({ menuOpen, onToggleMenu, flash, chipRef,
           <div className="pl-menu-powered" aria-hidden="true">Powered by PoolLogic</div>
         </div>
       </div>
+      )}
     </aside>
   );
 }

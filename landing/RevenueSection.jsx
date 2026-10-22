@@ -3,29 +3,32 @@ import {
   Bell, ChevronUp, CreditCard, FileText, LayoutDashboard, Package, Plus, Route, Search, Settings, Ticket, UserCog, Users,
 } from 'lucide-react';
 import SectionHeader from './SectionHeader.jsx';
+import { useRevenueStory, RevenueStoryStyles, FeatureBar, RevenueSettingsLayer, StoryCursor } from './RevenueStory.jsx';
 import './revenue.css';
 
 // Section 3: revenue protection. Centred copy, three numbered features, then a
 // decorative dashboard snippet whose red billing banner opens as it scrolls
-// into view and fades into the page at the bottom. All figures are MOCK data:
+// into view and fades into the page at the bottom. On desktop (≥ 1024px) the
+// features row and the dashboard pin while the app "plays" a scroll story:
+// overdue notices → late fees → automatic pause (RevenueStory.jsx). All figures are MOCK data:
 // 5 billing problems = 2 + 3 (the red, critical rows) plus 2 estimates
 // waiting (not a billing problem, so no red dot); 7 in all.
 
 const FEATURES = [
   {
     n: '01',
-    title: 'Instant Error Catching',
-    body: 'Stop waiting 60 days to realize a payment bounced. The dashboard flags failed auto-pays front-and-center the second you log in.',
+    title: 'Overdue Notices, Sent for You',
+    body: 'Past-due invoices are flagged front-and-center the second you log in, and reminder notices go out to customers automatically.',
   },
   {
     n: '02',
-    title: 'Automated Account Enforcement',
-    body: 'Get a prioritized list of past-due accounts. Late notices go out automatically, and PoolLogic can add late fees and pause service for you.',
+    title: 'Late Fees on Autopilot',
+    body: 'Set a flat or percentage fee and a grace period once. PoolLogic adds it in the daily billing run. No awkward phone calls.',
   },
   {
     n: '03',
-    title: 'No More Free Chemicals',
-    body: 'Techs log specialty chemicals in the app, and the system automatically tags them for the next invoice run.',
+    title: 'Automatic Pause & Resume',
+    body: 'Customers who stop paying are paused, billing and service, and resume the moment they pay. Their route slot is held.',
   },
 ];
 
@@ -97,6 +100,7 @@ function DashboardSnippet() {
         </aside>
 
         <div className="rv-main">
+          <div className="rvs-dash">
           <div className="rv-hello">Good evening, Alex</div>
           <div className="rv-date">Monday, November 2, 2026</div>
 
@@ -128,38 +132,49 @@ function DashboardSnippet() {
               </div>
             ))}
           </div>
+          </div>
+          <RevenueSettingsLayer />
         </div>
+        <StoryCursor />
       </div>
     </div>
   );
 }
 
 export default function RevenueSection() {
+  const sectionRef = useRef(null);
+  useRevenueStory(sectionRef);
   return (
-    <section id="collections" className="rv section" aria-labelledby="revenue-heading">
+    <section ref={sectionRef} id="collections" className="rv section" aria-labelledby="revenue-heading">
+      <RevenueStoryStyles />
       <div className="rv-inner container">
         <SectionHeader
           id="revenue-heading"
-          eyebrow="Revenue protection"
+          eyebrow="Financial watchdog"
           title={<>
-            <span className="rv-h2-a">Stop working for free.</span>
-            <span className="rv-h2-b">Plug your revenue leaks.</span>
+            <span className="rv-h2-a">Stop trading your free time</span>
+            <span className="rv-h2-b">to customers who choose to ignore their invoices.</span>
           </>}
-          subtitle="You cannot collect what you cannot see. Pool companies bleed thousands of dollars a month because expired credit cards and forgotten chemical charges get lost in messy spreadsheets. PoolLogic acts as your automated financial watchdog."
+          subtitle="You didn’t start a business to act as a full-time debt collector—so let PoolLogic play the bad guy. Automate your financial SOPs so everyone is treated fairly and you get your time back. From tracking forgotten chemical charges to automatically deploying late fees and pausing service for non-payers, the system enforces your rules flawlessly. Stop sending awkward texts and let the software get your accounts in line."
           eyebrowClassName="text-[#FF0036]"
           subtitleClassName="text-[#94a3b8]"
         />
 
-        <div className="rv-features">
-          {FEATURES.map((f) => (
-            <div key={f.n} className="rv-feature">
-              <h3 className="rv-ft">{f.title}</h3>
-              <p className="rv-fd">{f.body}</p>
+        <div className="rvs-track">
+          <div className="rvs-sticky">
+            <div className="rv-features">
+              {FEATURES.map((f) => (
+                <div key={f.n} className="rv-feature">
+                  <FeatureBar />
+                  <h3 className="rv-ft">{f.title}</h3>
+                  <p className="rv-fd">{f.body}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <DashboardSnippet />
+            <DashboardSnippet />
+          </div>
+        </div>
       </div>
     </section>
   );

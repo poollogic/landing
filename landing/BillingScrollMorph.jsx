@@ -4,21 +4,22 @@ import {
   motion,
   useMotionValue,
   useReducedMotion,
-  useScroll,
-  useSpring,
   useTransform,
 } from "framer-motion";
-import CompanyMark from "./CompanyMark.jsx";
+import PreviewSidebar from "./preview/PreviewSidebar.jsx";
+import Segmented from "./preview/Segmented.jsx";
+import "./preview/preview.css";
 
 /**
- * BillingScrollMorph — Apple-style pinned section with a scroll-TRIGGERED morph.
- * Owner Setup  ──(scroll past 30%: plays 0.9s)──►  Customer Experience; scroll back reverses.
- * Light parallax drift stays scroll-linked.
+ * BillingScrollMorph — pinned "Billing on autopilot" section.
+ *   You set it:  a MacBook shows the owner's Billing tab in the PoolLogic web app (light theme).
+ *   They get it: scrolling into the pinned section plays a 1.9s morph — the invoices are "sent", the laptop switches to the
+ *                customer's invoice page and the phone pops in with the same unpaid invoice.
+ * The section is scroll-gated while the morph plays; anchor/nav links bypass the gate.
  *
  * Usage:
- *   <BillingScrollMorph id="billing" phone={<PhoneMockup />} setupCard={<SetupCard />} />
- * `phone` and `setupCard` are your existing mockups (the .bz-phone / .bz-settings UIs).
- * If omitted, lightweight placeholders render instead.
+ *   <BillingScrollMorph id="billing" phone={<BillingPhone />} />
+ * Requires framer-motion ≥ 10 and the Inter font (300–800).
  */
 
 const Check = () => (
@@ -42,112 +43,218 @@ const Bullets = ({ items }) => (
   </ul>
 );
 
-// Copy shared by the pinned (desktop) and stacked (phone/tablet) layouts.
-const OWNER_COPY = {
-  eyebrow: "BILLING ON AUTOPILOT",
-  title: "Zero-click billing. Effortless collections.",
-  body: "Set the next invoice date once. PoolLogic adds the base rate, chemicals and card fees, then emails every invoice on schedule. No batches. No “Send” button.",
-};
-const CUSTOMER_COPY = {
-  eyebrow: "THE CUSTOMER EXPERIENCE",
-  title: "Your customers automatically receive a beautiful invoice on their billing day. Without you doing anything!",
-  body: "Zero manual sending, no messy PDF attachments. Just a clean breakdown of their weekly service and a giant button to pay instantly via Stripe.",
-};
-
 const SETUP_BULLETS = [
-  ["Card fees covered", "Surcharges stay within your state’s cap, automatically."],
-  ["Self-serve receipts", "Customers download their own history and receipts."],
-  ["Any date, any cadence", "Monthly, quarterly or yearly — billed on the day you pick."],
+  ["Each customer, their own cadence", "Monthly, quarterly or yearly — on the day you choose for each account."],
+  ["Nothing slips through", "Chemicals your techs log and card fees are added automatically."],
+  ["Paid without asking", "Saved cards are charged automatically on autopay accounts."],
 ];
 const RESULT_BULLETS = [
-  ["Seamless Stripe Checkouts", "Card, Apple Pay or ACH in a single tap."],
-  ["Digital Service History", "Every visit, chemical reading and photo, logged."],
-  ["Any Device, Anywhere", "Looks perfect on a phone, tablet or desktop."],
+  ["One-tap Stripe checkout", "Card, Apple Pay or ACH — no logins, no PDFs."],
+  ["Self-serve receipts & history", "Every invoice, payment and visit report in one place."],
+  ["Any device, anywhere", "Looks perfect on a phone, tablet or desktop."],
 ];
 
-/* ---------- Laptop showing the desktop invoice (modeled on the live PoolLogic portal invoice) ----------
-   Branded like the phone's invoice (BillingMockups.jsx): the same Bayside mark and wordmark
-   (.bz-inv-logo / .bz-inv-wm, billing.css), the same "INVOICE" heading, blue #2676b6 and Inter. */
-function InvoiceCard() {
-  return (
-    <div className="overflow-hidden rounded-[14px] border border-[#EDF0F4] bg-white text-slate-900 shadow-[0_1px_2px_rgba(15,23,42,.06),0_14px_30px_-12px_rgba(15,23,42,.18)] [font-family:Inter,ui-sans-serif,system-ui,sans-serif] [font-feature-settings:'tnum','cv11']">
-      <div className="px-[26px] pb-5 pt-[18px]">
-        <div className="flex items-start justify-between">
-          <span className="bz-inv-logo">
-            <CompanyMark size={52} />
-            <span className="bz-inv-wm">BAYSIDE</span>
-            <span className="bz-inv-wm2">POOL CO.</span>
-          </span>
-          <div className="text-right">
-            <div className="bz-inv-title leading-none">Invoice</div>
-            <div className="mt-2 text-[10.5px] leading-relaxed text-slate-500">
-              INV - 1025<br />
-              <b className="text-slate-400">DATE:</b> 12/14/2026<br />
-              <b className="text-slate-400">DUE DATE:</b> 12/29/2026
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-3 grid grid-cols-2 gap-4 text-[10px] leading-normal text-slate-600">
-          <div>
-            <div className="text-[9px] font-bold tracking-wider text-slate-400">FROM</div>
-            <div className="my-0.5 text-[13px] font-bold text-slate-900">BAYSIDE POOL CO.</div>
-            1180 Harbor Blvd<br />Clearwater, FL 33755
-          </div>
-          <div>
-            <div className="text-[9px] font-bold tracking-wider text-slate-400">TO</div>
-            <div className="my-0.5 text-[13px] font-bold text-slate-900">Melissa Tater</div>
-            123 Fake Street<br />Wilmington, NC 28401
-          </div>
-        </div>
-
-        <div className="-mx-[26px] mt-3.5 grid grid-cols-[1fr_40px_60px_64px] bg-[#2676b6] px-[26px] py-2 text-[9px] font-bold tracking-wider text-white">
-          <span>DESCRIPTION</span><span className="text-center">QTY</span>
-          <span className="text-right">PRICE</span><span className="text-right">TOTAL</span>
-        </div>
-        <div className="grid grid-cols-[1fr_40px_60px_64px] items-center border-b border-slate-100 py-2.5 text-[11px]">
-          <div>
-            <div className="text-xs font-semibold">Weekly Pool Service - Monthly Billing</div>
-            <div className="mt-0.5 text-[9.5px] leading-snug text-slate-500">
-              4 visits · chemistry testing &amp; balancing, surface cleaning, equipment check
-            </div>
-          </div>
-          <span className="text-center text-slate-600">1</span>
-          <span className="text-right text-slate-600">$145.00</span>
-          <b className="text-right">$145.00</b>
-        </div>
-
-        <div className="mt-2 flex justify-end">
-          <div className="w-[220px] text-[11px] leading-[1.9]">
-            <div className="flex justify-between text-slate-600"><span>Subtotal</span><span>$145.00</span></div>
-            <div className="flex justify-between text-slate-600"><span>Card fee (2.9%)</span><span>$4.21</span></div>
-            <div className="mt-0.5 flex justify-between border-t border-slate-200 pt-0.5 text-sm font-bold">
-              <span>Total</span><span>$149.21</span>
-            </div>
-          </div>
-        </div>
-
-        <button className="mt-3 h-[46px] w-full rounded-[10px] bg-[#2676b6] text-[15px] font-bold text-white shadow-[0_12px_24px_-8px_rgba(38,118,182,.65)]">
-          Pay now · $149.21
-        </button>
-      </div>
-    </div>
-  );
-}
-
+/* ---------- Laptop showing the desktop invoice (modeled on the live PoolLogic portal invoice) ---------- */
 const AppleLogo = () => (
   <svg width="10" height="12" viewBox="0 0 10 12">
     <path fill="#111" d="M8.3 6.4c0-1.5 1.2-2.2 1.3-2.3-.7-1-1.8-1.2-2.2-1.2-.9-.1-1.8.6-2.3.6s-1.2-.5-2-.5C2 3 1 3.6.5 4.6c-1.1 1.9-.3 4.7.8 6.2.5.8 1.1 1.6 1.9 1.6.8 0 1-.5 2-.5s1.2.5 2 .5 1.3-.8 1.8-1.5c.6-.8.8-1.6.8-1.7 0 0-1.5-.6-1.5-2.8zM6.8 1.9C7.2 1.4 7.5.7 7.4 0c-.6 0-1.4.4-1.8.9-.4.4-.7 1.1-.6 1.8.7 0 1.4-.4 1.8-.8z" />
   </svg>
 );
 
+/* ---------- Pixel-faithful replica of the live PoolLogic customer portal (portal.poollogic.app) ----------
+   Rendered at a real desktop size (1680×1050) and scaled into the laptop screen, so proportions,
+   whitespace and type match the actual page. Tokens copied from the live portal's computed styles.
+   Requires the Inter font (Google Fonts or @fontsource/inter). Demo data is fictional. */
+const PORTAL = {
+  blue: "rgb(38,118,182)",
+  ink: "oklch(0.216 0.006 56.043)", // stone-900
+  body: "oklch(0.444 0.011 73.639)", // stone-600
+  muted: "oklch(0.553 0.013 58.071)", // stone-500
+  label: "oklch(0.709 0.01 56.259)", // stone-400
+  line: "oklch(0.923 0.003 48.717)", // stone-200
+};
+const DESK_W = 1680, DESK_H = 1050, MENU_H = 24, TOOLBAR_H = 53;
+const SF = "-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',system-ui,sans-serif";
+
+const Ico = ({ d, c = "#6E6E73", s = 18 }) => (
+  <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{d}</svg>
+);
+const Lock = ({ c }) => (
+  <svg width="11" height="13" viewBox="0 0 10 12"><rect y="5" width="10" height="7" rx="1.6" fill={c} /><path d="M2.4 5V3.5a2.6 2.6 0 0 1 5.2 0V5" stroke={c} strokeWidth="1.4" fill="none" /></svg>
+);
+// Official Bayside mark — identical to the logo in the site's phone mockup (.bz-inv-logo)
+const BaysideLogo = ({ size = 66 }) => (
+  <svg width={size} height={size} viewBox="0 0 100 100" fill="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="lp-circle" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#1f4f7e" /><stop offset="100%" stopColor="#0e3556" /></linearGradient>
+      <linearGradient id="lp-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#7fc4ec" /><stop offset="100%" stopColor="#3b8fd1" /></linearGradient>
+      <clipPath id="lp-top"><path d="M 41 32 L 56 32 C 61.4 32 65.5 36.1 65.5 41.5 C 65.5 46.9 61.4 51 56 51 L 41 51 Z" /></clipPath>
+      <clipPath id="lp-bottom"><path d="M 41 55 L 58 55 C 63.8 55 68.5 59.6 68.5 65.5 C 68.5 71.4 63.8 76 58 76 L 41 76 Z" /></clipPath>
+    </defs>
+    <circle cx="50" cy="50" r="48" fill="url(#lp-circle)" />
+    <circle cx="50" cy="50" r="44" fill="none" stroke="#fff" strokeWidth="0.8" opacity="0.18" />
+    <path fillRule="evenodd" clipRule="evenodd" fill="#fff" d="M 30 22 L 56 22 C 65.4 22 73 29.6 73 39 C 73 43.8 71 48.2 67.7 51.4 C 72.4 54.3 75.5 59.5 75.5 65.5 C 75.5 75.2 67.7 83 58 83 L 30 83 Z M 41 32 L 56 32 C 61.4 32 65.5 36.1 65.5 41.5 C 65.5 46.9 61.4 51 56 51 L 41 51 Z M 41 55 L 58 55 C 63.8 55 68.5 59.6 68.5 65.5 C 68.5 71.4 63.8 76 58 76 L 41 76 Z" />
+    <g clipPath="url(#lp-top)">
+      <rect x="41" y="32" width="25" height="19" fill="url(#lp-water)" />
+      <path d="M 39 43 Q 47 39 53 43 T 67 43" stroke="#fff" strokeWidth="1.1" strokeLinecap="round" fill="none" opacity="0.7" />
+    </g>
+    <g clipPath="url(#lp-bottom)">
+      <rect x="41" y="55" width="28" height="21" fill="url(#lp-water)" />
+      <path d="M 39 67 Q 49 62 56 67 T 71 67" stroke="#fff" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.75" />
+    </g>
+  </svg>
+);
+const CARD_W = 766;
+const At = ({ top, left, right, style, children }) => (
+  <div style={{ position: "absolute", top, left, right, ...style }}>{children}</div>
+);
+const META_LABEL = { fontWeight: 600, color: PORTAL.label, letterSpacing: 0.4 };
+const COLS = { display: "grid", gridTemplateColumns: "430px 72px 102px 1fr" }; // QTY / PRICE / TOTAL columns as on the portal
+const Party = ({ left, label, name, lines }) => (
+  <>
+    <At top={221} left={left} style={{ fontSize: 12, lineHeight: "16px", fontWeight: 700, letterSpacing: 0.6, color: PORTAL.label }}>{label}</At>
+    <At top={248} left={left} style={{ width: 330, fontSize: 18.5, lineHeight: "24px", fontWeight: 700, letterSpacing: -0.3 }}>{name}</At>
+    <At top={280.6} left={left} style={{ width: 330, fontSize: 12.6, lineHeight: "17.8px", color: PORTAL.body }}>
+      {lines.map((l) => <div key={l}>{l}</div>)}
+    </At>
+  </>
+);
+const TotalRow = ({ top, label, value }) => (
+  <At top={top} left={495} style={{ width: 223, display: "flex", justifyContent: "space-between", fontSize: 14, lineHeight: "20px", color: PORTAL.body }}>
+    <span>{label}</span><span>{value}</span>
+  </At>
+);
+const TrafficLight = ({ c }) => (
+  <span style={{ width: 12, height: 12, borderRadius: 999, background: c, boxShadow: "inset 0 0 0 .5px rgba(0,0,0,.18)" }} />
+);
+
+function MacSafariInvoice() {
+  return (
+    <div
+      style={{
+        position: "absolute", left: 0, top: 0, width: DESK_W, height: DESK_H, overflow: "hidden",
+        transform: `scale(${592 / DESK_W})`, transformOrigin: "0 0",
+        fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif", WebkitFontSmoothing: "antialiased",
+        letterSpacing: -0.16, color: PORTAL.ink,
+      }}
+    >
+      {/* macOS menu bar */}
+      <div style={{ height: MENU_H, background: "#EDEDF0", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 16px 0 18px", font: `500 13px/1 ${SF}`, color: "#1d1d1f", letterSpacing: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          <AppleLogo /><b style={{ fontWeight: 700 }}>Safari</b>
+          {["File", "Edit", "View", "History", "Bookmarks", "Window", "Help"].map((m) => <span key={m}>{m}</span>)}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 16, fontWeight: 400 }}>
+          <Ico c="#1d1d1f" s={15} d={<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0" />} />
+          <span style={{ position: "relative", display: "inline-block", width: 24, height: 11, border: "1.4px solid #1d1d1f", borderRadius: 3 }}>
+            <span style={{ position: "absolute", top: 1.5, bottom: 1.5, left: 1.5, right: 6, background: "#1d1d1f", borderRadius: 1 }} />
+          </span>
+          <span>Mon Dec 14&nbsp;&nbsp;9:41 AM</span>
+        </div>
+      </div>
+
+      {/* Safari toolbar */}
+      <div style={{ height: TOOLBAR_H - 1, background: "#F6F6F6", borderBottom: "1px solid #D9D9DB", display: "flex", alignItems: "center", padding: "0 16px", gap: 14 }}>
+        <span style={{ display: "flex", gap: 8 }}><TrafficLight c="#FF5F57" /><TrafficLight c="#FEBC2E" /><TrafficLight c="#28C840" /></span>
+        <span style={{ marginLeft: 14, display: "flex" }}><Ico d={<><rect x="3" y="4" width="18" height="16" rx="3" /><path d="M9 4v16" /></>} /></span>
+        <span style={{ display: "flex", gap: 10 }}><Ico d={<path d="M15 6l-6 6 6 6" />} /><Ico c="#C7C7CC" d={<path d="M9 6l6 6-6 6" />} /></span>
+        <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+          <div style={{ width: 560, height: 34, borderRadius: 9, background: "#E8E8EA", display: "flex", alignItems: "center", justifyContent: "center", gap: 7, font: `400 14px/1 ${SF}`, color: "#1d1d1f", letterSpacing: 0 }}>
+            <Lock c="#6E6E73" />portal.poollogic.app
+          </div>
+        </div>
+        <span style={{ display: "flex", gap: 18 }}>
+          <Ico d={<><path d="M12 3v12M7.5 7.5L12 3l4.5 4.5" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" /></>} />
+          <Ico d={<path d="M12 5v14M5 12h14" />} />
+          <Ico d={<><rect x="7" y="7" width="13" height="13" rx="2.5" /><path d="M4 16V6a2 2 0 0 1 2-2h10" /></>} />
+        </span>
+      </div>
+
+      {/* Page viewport — layout measured from the live portal (every value is relative to the 766px card) */}
+      <div style={{ position: "relative", height: DESK_H - MENU_H - TOOLBAR_H, overflow: "hidden", background: "#F5F5F5" }}>
+        <div style={{ position: "absolute", left: 0, top: 0, width: DESK_W, color: PORTAL.ink, background: "linear-gradient(180deg,#fff 0px,#fff 300px,#F4F4F5 1000px)" }}>
+          {/* Stripe bar (top of page) */}
+          <div style={{ height: 40, background: "#000", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontSize: 14, fontWeight: 500, letterSpacing: 0.1 }}>
+            <Lock c="#fff" />Secure checkout by <b style={{ fontWeight: 800, fontSize: 15, letterSpacing: -0.4 }}>stripe</b>
+          </div>
+
+          <div style={{ position: "relative", width: CARD_W, height: 896, margin: "54px auto 80px" }}>
+            {/* Zoom controls (round, 61px right of the card) */}
+            <div style={{ position: "absolute", left: CARD_W + 61, top: 1, display: "flex", flexDirection: "column", gap: 10 }}>
+              {[<path key="p" d="M12 5v14M5 12h14" />, <path key="m" d="M5 12h14" />].map((d, i) => (
+                <span key={i} style={{ width: 37, height: 37, borderRadius: 999, background: "#fff", boxShadow: `0 0 0 1px ${PORTAL.line},0 2px 6px rgba(0,0,0,.06)`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1c1917" strokeWidth="2.6" strokeLinecap="round">{d}</svg>
+                </span>
+              ))}
+            </div>
+
+            {/* Invoice card */}
+            <div style={{ position: "absolute", inset: 0, background: "#fff", border: `1px solid ${PORTAL.line}`, borderRadius: 20, boxShadow: "0 1px 2px rgba(0,0,0,.03),0 6px 28px rgba(0,0,0,.06)", overflow: "hidden" }}>
+              <At top={23} left={703}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={PORTAL.label} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
+              </At>
+
+              {/* Logo */}
+              <At top={66} left={54} style={{ width: 106, display: "flex", flexDirection: "column", alignItems: "center", gap: 7, color: "rgb(28,91,145)" }}>
+                <BaysideLogo />
+                <span style={{ fontSize: 15, lineHeight: "15px", fontWeight: 800, letterSpacing: 0.6 }}>BAYSIDE</span>
+                <span style={{ fontSize: 10, lineHeight: "10px", fontWeight: 600, letterSpacing: 3.4, marginRight: -3.4 }}>POOL CO.</span>
+              </At>
+
+              {/* Title + meta */}
+              <At top={44} right={48} style={{ textAlign: "right", fontSize: 44, lineHeight: "44px", fontWeight: 300, letterSpacing: -0.9, color: PORTAL.blue }}>Invoice</At>
+              <At top={103} right={48} style={{ textAlign: "right", fontSize: 14.5, lineHeight: "24px", color: PORTAL.muted }}>
+                <div>INV - 1056</div>
+                <div><b style={META_LABEL}>DATE:</b> 12/14/2026</div>
+                <div><b style={META_LABEL}>DUE DATE:</b> 12/29/2026</div>
+              </At>
+
+              {/* From / To */}
+              <Party left={48} label="FROM" name="BAYSIDE POOL CO." lines={["1180 Harbor Blvd", "Clearwater, FL 33755", "billing@baysidepool.example", "(248) 434-5508"]} />
+              <Party left={407} label="TO" name="Melissa Tater" lines={["123 Fake Street", "Wilmington, NC 28401", "melissa.tater@example.com", "(505) 842-5662"]} />
+
+              {/* Table header */}
+              <At top={399} left={0} style={{ ...COLS, right: 0, height: 44.5, padding: "0 48px", alignItems: "center", background: PORTAL.blue, color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: 0.55 }}>
+                <span>DESCRIPTION</span><span style={{ textAlign: "center" }}>QTY</span><span style={{ textAlign: "center" }}>PRICE</span><span style={{ textAlign: "right" }}>TOTAL</span>
+              </At>
+
+              {/* Line item */}
+              <At top={492.5} left={48} style={{ width: 398, fontSize: 14.5, lineHeight: "20px", fontWeight: 600 }}>Weekly Pool Service - Monthly Billing</At>
+              <At top={518.5} left={48} style={{ width: 398, fontSize: 12.6, lineHeight: "18.3px", color: PORTAL.body }}>
+                Comprehensive weekly pool service provided throughout the month and billed monthly. Service includes water chemistry testing and balancing, cleaning of pool surfaces, debris removal, and proactive inspection of pool equipment to maintain optimal performance .
+              </At>
+              <At top={532} left={48} style={{ ...COLS, width: 670, fontSize: 14.5, lineHeight: "20px" }}>
+                <span /><span style={{ textAlign: "center", color: PORTAL.body }}>1</span>
+                <span style={{ textAlign: "center", color: PORTAL.body }}>$145.00</span>
+                <b style={{ textAlign: "right", fontWeight: 700 }}>$145.00</b>
+              </At>
+
+              {/* Totals */}
+              <TotalRow top={638.6} label="Subtotal" value="$145.00" />
+              <TotalRow top={671.3} label="Card fee (2.9%)" value="$4.21" />
+              <At top={703} left={495} style={{ width: 223, height: 1, background: PORTAL.line }} />
+              <At top={716} left={495} style={{ width: 223, display: "flex", justifyContent: "space-between", alignItems: "baseline", fontWeight: 700, lineHeight: "28px", fontSize: 22 }}>
+                <span>Total</span><span style={{ letterSpacing: -0.4 }}>$149.21</span>
+              </At>
+
+              {/* Pay */}
+              <At top={800} left={48} style={{ width: 670, height: 48, borderRadius: 8, background: PORTAL.blue, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, fontWeight: 500 }}>Pay now</At>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Keyboard deck, seen slightly from above ----------
-   A flat 616×300 deck tilted back 78° with a 1400px perspective.
-   Projected depth ≈ 300·cos78°·f and the front edge widens by f = 1400 / (1400 − 300·sin78°) ≈ 1.265. */
-const DECK_W = 616, DECK_L = 300, DECK_TILT = 78, DECK_PERSP = 1400;
-const _f = DECK_PERSP / (DECK_PERSP - DECK_L * Math.sin((DECK_TILT * Math.PI) / 180));
-const DECK_H = Math.round(DECK_L * Math.cos((DECK_TILT * Math.PI) / 180) * _f); // ≈ 79
-const FRONT_W = Math.round(DECK_W * _f); // ≈ 779
+   A flat 616×300 deck tilted back in the laptop's 3D scene (1400px perspective). The tilt is animated:
+   79° in "You set it" → 84° in "They get it".
+   Projected depth = 300·cos θ·f and the front edge widens by f = 1400 / (1400 − 300·sin θ). */
+const DECK_W = 616, DECK_L = 300, DECK_PERSP = 1400;
+const deckF = (deg) => DECK_PERSP / (DECK_PERSP - DECK_L * Math.sin((deg * Math.PI) / 180));
+const deckH = (deg) => DECK_L * Math.cos((deg * Math.PI) / 180) * deckF(deg);
+const FRONT_W = Math.round(DECK_W * deckF(78)); // ≈ 779 (final pose; used for the "16px from the copy" rule)
 
 const Key = ({ w = 1 }) => (
   <span
@@ -161,144 +268,328 @@ const KeyRow = ({ widths, h = 22 }) => (
   </div>
 );
 const ones = (n) => Array(n).fill(1);
-const easeInOutSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
 
-function KeyboardDeck() {
+function KeyboardDeck({ tilt, flat }) {
+  // The deck lives in the laptop's shared 3D scene (see <Laptop/>), so it turns together with the screen.
+  // Its front edge and the table shadows are 3D children of the deck. When the laptop faces straight ahead
+  // the scene drops its camera (so the screen renders sharp) and the deck takes over the exact same one.
+  const h = useTransform(tilt, (d) => deckH(d)); // layout space for the deck
+  const rot = useTransform(tilt, (d) => `rotateX(${d}deg)`);
+  const perspective = useTransform(flat, (f) => (f ? `${SCENE_PERSP}px` : "none"));
+  const perspectiveOrigin = useTransform(tilt, (d) => `50% ${SCENE_OY * (LID_H + deckH(d)) - LID_H}px`);
   return (
-    <>
-      <div className="relative" style={{ width: DECK_W, height: DECK_H, perspective: DECK_PERSP, perspectiveOrigin: "50% 0" }}>
-        <div
-          className="absolute left-0 top-0 rounded-b-[26px] bg-[linear-gradient(180deg,#6E7177_0%,#8A8D93_18%,#93969C_60%,#868990_100%)] shadow-[inset_0_2px_0_rgba(0,0,0,.35),inset_0_-1px_0_rgba(255,255,255,.25)]"
-          style={{ width: DECK_W, height: DECK_L, transformOrigin: "50% 0", transform: `rotateX(${DECK_TILT}deg)` }}
-        >
-          {/* Hinge */}
-          <div className="absolute left-1/2 top-0 h-2 w-[560px] -translate-x-1/2 rounded-b bg-gradient-to-b from-[#2B2F36] to-[#555B64]" />
-          {/* Keyboard well */}
-          <div className="absolute left-9 right-9 top-[22px] flex flex-col gap-[5px] rounded-lg bg-[#4E5157] p-[7px] shadow-[inset_0_1px_3px_rgba(0,0,0,.5)]">
-            <KeyRow widths={ones(14)} h={13} />
-            <KeyRow widths={[...ones(13), 1.5]} />
-            <KeyRow widths={[1.5, ...ones(13)]} />
-            <KeyRow widths={[1.8, ...ones(11), 1.8]} />
-            <KeyRow widths={[2.3, ...ones(10), 2.3]} />
-            <KeyRow widths={[1, 1, 1, 1.3, 6, 1.3, 1, 3]} />
-          </div>
-          {/* Trackpad */}
-          <div className="absolute bottom-3.5 left-1/2 h-24 w-[230px] -translate-x-1/2 rounded-xl bg-gradient-to-b from-[#868990] to-[#8E9197] shadow-[inset_0_0_0_1px_rgba(0,0,0,.22),inset_0_1px_2px_rgba(0,0,0,.12)]" />
+    <motion.div className="relative" style={{ width: DECK_W, height: h, transformStyle: "preserve-3d", perspective, perspectiveOrigin, zoom: SS }}>
+      <motion.div
+        className="absolute left-0 top-0 rounded-b-[26px] bg-[linear-gradient(180deg,#6E7177_0%,#8A8D93_18%,#93969C_60%,#868990_100%)] shadow-[inset_0_2px_0_rgba(0,0,0,.35),inset_0_-1px_0_rgba(255,255,255,.25)]"
+        style={{ width: DECK_W, height: DECK_L, transformOrigin: "50% 0", transform: rot, transformStyle: "preserve-3d" }}
+      >
+        {/* Table shadow (on the table plane, just under the deck) */}
+        <div className="pointer-events-none absolute rounded-[50%] blur-[22px]"
+          style={{ left: -70, right: -70, top: 60, bottom: -260, transform: "translateZ(-1px)", background: "radial-gradient(50% 50% at 50% 46%, rgba(15,23,42,.55), rgba(15,23,42,.24) 50%, transparent 78%)" }} />
+        {/* Contact shadow along the front edge */}
+        <div className="pointer-events-none absolute rounded-[50%] blur-[5px]"
+          style={{ left: 6, right: 6, bottom: -40, height: 64, transform: "translateZ(-0.5px)", background: "radial-gradient(closest-side, rgba(15,23,42,.65), rgba(15,23,42,.25) 65%, transparent)" }} />
+        {/* Hinge */}
+        <div className="absolute left-1/2 top-0 h-2 w-[560px] -translate-x-1/2 rounded-b bg-gradient-to-b from-[#2B2F36] to-[#555B64]" />
+        {/* Keyboard well */}
+        <div className="absolute left-9 right-9 top-[22px] flex flex-col gap-[5px] rounded-lg bg-[#4E5157] p-[7px] shadow-[inset_0_1px_3px_rgba(0,0,0,.5)]">
+          <KeyRow widths={ones(14)} h={13} />
+          <KeyRow widths={[...ones(13), 1.5]} />
+          <KeyRow widths={[1.5, ...ones(13)]} />
+          <KeyRow widths={[1.8, ...ones(11), 1.8]} />
+          <KeyRow widths={[2.3, ...ones(10), 2.3]} />
+          <KeyRow widths={[1, 1, 1, 1.3, 6, 1.3, 1, 3]} />
         </div>
-      </div>
-      {/* Front lip */}
-      <div
-        className="relative h-[9px] rounded-b-[14px_9px] bg-gradient-to-b from-[#8A8D93] to-[#4F5258] shadow-[inset_0_1px_0_rgba(255,255,255,.35)]"
-        style={{ width: FRONT_W, marginLeft: (DECK_W - FRONT_W) / 2 }}
-      />
-      {/* Feet / contact shadow */}
-      <div
-        className="h-3 rounded-[50%] bg-[radial-gradient(closest-side,rgba(15,23,42,.38),transparent)] blur-[3px]"
-        style={{ width: FRONT_W * 0.94, marginLeft: (DECK_W - FRONT_W * 0.94) / 2 }}
-      />
-    </>
+        {/* Trackpad */}
+        <div className="absolute bottom-3.5 left-1/2 h-24 w-[230px] -translate-x-1/2 rounded-xl bg-gradient-to-b from-[#868990] to-[#8E9197] shadow-[inset_0_0_0_1px_rgba(0,0,0,.22),inset_0_1px_2px_rgba(0,0,0,.12)]" />
+        {/* Front edge: a real 3D face, inset from the rounded corners (no curl) */}
+        <div className="absolute"
+          style={{ left: 12, right: 12, bottom: 0, height: 8, transformOrigin: "50% 100%", transform: "rotateX(-90deg)", borderRadius: "0 0 14px 14px / 0 0 6px 6px", background: "linear-gradient(180deg,#9A9DA3 0%,#6E7177 45%,#4B4E54 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,.4)" }} />
+      </motion.div>
+    </motion.div>
   );
 }
 
-/* ---------- Realistic space-gray laptop: aluminium rim, notch, glass bezel, hinge, deck ---------- */
-function DesktopInvoice() {
+/* ---------- Owner view: the PoolLogic web app (light theme) on app.poollogic.app ----------
+   Drawn as a 1280×800 Mac desktop scaled into the 592×370 screen. The web page itself is shown at
+   Safari's 112% page zoom (browser chrome stays normal size) so the UI is readable at landing-page scale. */
+const APP = {
+  ink: "#1C1917", muted: "#78716C", dim: "#A8A29E", line: "rgba(15,23,42,.07)",
+  side: "#F8F8F9", tabs: "#F4F4F5", link: "rgb(38,118,182)", green: "#34C77B", toggle: "#3B82F6",
+};
+const APP_ZOOM = 1.12;
+const OWNER_INVOICES = [
+  ["Nov 14", "Paid", "Nov 14th"],
+  ["Oct 14", "Paid", "Oct 14th"],
+  ["Sep 14", "Paid", "Sep 15th"],
+  ["Aug 14", "Paid", "Aug 14th"],
+  ["Jul 14", "Paid", "Jul 16th"],
+];
+const Toggle = ({ on }) => (
+  <span style={{ position: "relative", width: 42, height: 24, borderRadius: 999, background: on ? APP.toggle : "#D4D4D8", flex: "none" }}>
+    <span style={{ position: "absolute", top: 3, [on ? "right" : "left"]: 3, width: 18, height: 18, borderRadius: 999, background: "#fff", boxShadow: "0 1px 2px rgba(0,0,0,.2)" }} />
+  </span>
+);
+const CheckBox = () => (
+  <span style={{ width: 18, height: 18, borderRadius: 4, border: "1.5px solid #D6D3D1", background: "#fff", flex: "none" }} />
+);
+const Field = ({ label, children, sub }) => (
+  <div style={{ display: "grid", gridTemplateColumns: "150px 1fr", gap: 16, padding: "8px 0", alignItems: "start" }}>
+    <div style={{ color: APP.muted, fontSize: 14, paddingTop: 4 }}>{label}</div>
+    <div>
+      {children}
+      {sub && <div style={{ color: APP.dim, fontSize: 12.5, marginTop: 6, lineHeight: 1.45 }}>{sub}</div>}
+    </div>
+  </div>
+);
+
+function OwnerRows() {
+  return OWNER_INVOICES.map(([d, st, when]) => (
+    <div key={d} style={{ display: "grid", gridTemplateColumns: "62px 1fr auto", alignItems: "center", padding: "8px 0", fontSize: 14 }}>
+      <span style={{ color: APP.muted }}>{d}</span>
+      <span style={{ display: "flex", alignItems: "center", gap: 9, whiteSpace: "nowrap" }}>
+        <span style={{ width: 7, height: 7, borderRadius: 999, background: APP.green }} />
+        <span style={{ color: APP.ink }}>{st}</span>
+        <span style={{ color: APP.muted }}>{when}</span>
+      </span>
+      <span style={{ color: APP.ink, fontWeight: 600 }}>$149.21</span>
+    </div>
+  ));
+}
+
+const SENT_TODAY = [
+  ["Melissa Tater", "Monthly", "$149.21"],
+  ["Avery Collins", "Quarterly", "$435.00"],
+  ["Priya Raman", "Monthly", "$162.50"],
+];
+function SentNotification({ opacity, y }) {
   return (
-    <div className="w-[616px] scale-90" style={{ translate: "22px 0px" }}>
+    <motion.div style={{ opacity, y, position: "absolute", right: 30, top: 18, width: 372, padding: "14px 16px 12px", borderRadius: 14, background: "#fff", boxShadow: "0 12px 32px -8px rgba(15,23,42,.25), 0 0 0 1px rgba(15,23,42,.08)", zIndex: 3 }}>
+      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+        <span style={{ flex: "none", width: 30, height: 30, borderRadius: 999, background: APP.green, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+        </span>
+        <span>
+          <div style={{ fontSize: 15, fontWeight: 600, color: APP.ink }}>12 invoices sent today</div>
+          <div style={{ fontSize: 13, color: APP.muted, marginTop: 2 }}>Melissa Tater and 11 others · $1,842.60</div>
+        </span>
+      </div>
+      <div style={{ marginTop: 10, borderTop: `1px solid ${APP.line}`, paddingTop: 9, display: "grid", gap: 7, fontSize: 13 }}>
+        {SENT_TODAY.map(([name, cadence, amount]) => (
+          <div key={name} style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 12, alignItems: "center" }}>
+            <span style={{ color: APP.ink, fontWeight: 500 }}>{name}</span>
+            <span style={{ fontSize: 11.5, fontWeight: 600, color: APP.muted, background: APP.tabs, borderRadius: 999, padding: "2px 8px" }}>{cadence}</span>
+            <span style={{ color: APP.ink, fontWeight: 600, minWidth: 62, textAlign: "right" }}>{amount}</span>
+          </div>
+        ))}
+        <div style={{ color: APP.muted, fontSize: 12 }}>+ 9 more, each on their own schedule</div>
+      </div>
+    </motion.div>
+  );
+}
+
+function OwnerDesktopApp({ toastOpacity, toastY }) {
+  return (
+    <div style={{ width: 1280, height: 800, transform: `scale(${592 / 1280})`, transformOrigin: "0 0", fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif", WebkitFontSmoothing: "antialiased", letterSpacing: -0.16, color: APP.ink, background: "#fff" }}>
+      {/* macOS menu bar */}
+      <div style={{ height: 24, background: "#EDEDF0", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 16px 0 18px", font: `500 13px/1 ${SF}`, color: "#1d1d1f", letterSpacing: 0 }}>
+        <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+          <AppleLogo /><b>Safari</b>
+          {["File", "Edit", "View", "History", "Bookmarks", "Window", "Help"].map((m) => <span key={m}>{m}</span>)}
+        </div>
+        <span style={{ fontWeight: 400 }}>Mon Dec 14&nbsp;&nbsp;9:41 AM</span>
+      </div>
+      {/* Safari toolbar */}
+      <div style={{ height: 51, background: "#F6F6F6", borderBottom: "1px solid #D9D9DB", display: "flex", alignItems: "center", padding: "0 16px", gap: 14 }}>
+        <span style={{ display: "flex", gap: 8 }}><TrafficLight c="#FF5F57" /><TrafficLight c="#FEBC2E" /><TrafficLight c="#28C840" /></span>
+        <span style={{ marginLeft: 12, display: "flex", gap: 10 }}><Ico s={17} d={<path d="M15 6l-6 6 6 6" />} /><Ico s={17} c="#C7C7CC" d={<path d="M9 6l6 6-6 6" />} /></span>
+        <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
+          <div style={{ width: 480, height: 32, borderRadius: 9, background: "#E8E8EA", display: "flex", alignItems: "center", justifyContent: "center", gap: 7, font: `400 14px/1 ${SF}`, color: "#1d1d1f", letterSpacing: 0 }}>
+            <Lock c="#6E6E73" />app.poollogic.app
+          </div>
+        </div>
+        <Ico s={17} d={<path d="M12 5v14M5 12h14" />} />
+      </div>
+
+      {/* Web app at 112% page zoom */}
+      <div style={{ display: "flex", zoom: APP_ZOOM, width: 1280 / APP_ZOOM, height: 725 / APP_ZOOM }}>
+        {/* Sidebar: the app's real rail, shared with the hero's dashboard preview; always light here */}
+        <div className="theme-scope light pl-rail-host" style={{ display: "flex", flex: "none" }}>
+          <PreviewSidebar active="Customers" decorative />
+        </div>
+
+        {/* Main */}
+        <div style={{ flex: 1, padding: "18px 28px", position: "relative" }}>
+          <div style={{ color: APP.link, fontSize: 13.5, display: "flex", alignItems: "center", gap: 4 }}><Ico s={14} c={APP.link} d={<path d="M15 6l-6 6 6 6" />} />Customers</div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginTop: 6 }}>
+            <span style={{ fontSize: 26, fontWeight: 700, letterSpacing: -0.5 }}>Melissa Tater</span>
+            <span style={{ color: APP.muted, fontSize: 14 }}>123 Fake Street · Weekly service</span>
+          </div>
+          {/* The app's segmented tabs, shared with the hero's dashboard preview (light theme) */}
+          <div className="theme-scope light pl-rail-host" style={{ display: "flex", marginTop: 16 }}>
+            <Segmented options={["Overview", "Service & Notes", "Billing", "Reports"]} value="Billing" />
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 32, marginTop: 16 }}>
+            {/* Settings column */}
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 600 }}>Subscription</div>
+              <div style={{ fontSize: 21, fontWeight: 700, marginTop: 2 }}>$145.00 <span style={{ fontSize: 14, fontWeight: 400, color: APP.muted }}>/ month</span></div>
+              <div style={{ marginTop: 8 }}>
+                <Field label="Rate" sub="invoices $145.00 every month">
+                  <span style={{ display: "flex", justifyContent: "space-between", width: 220, fontSize: 15 }}><span><span style={{ color: APP.muted }}>$</span> 145</span><span style={{ color: APP.muted, fontSize: 13 }}>/ mo ⌄</span></span>
+                </Field>
+                <Field label="Billing cycle"><span style={{ fontSize: 15 }}>Monthly</span></Field>
+                <Field label="Invoice delivery"><span style={{ fontSize: 15 }}>Email only</span></Field>
+                <Field
+                  label="Next invoice date"
+                  sub={<>On Dec 14, <span style={{ color: APP.ink }}>Melissa Tater</span> is emailed a <b style={{ color: APP.ink, fontWeight: 600 }}>$149.21</b> invoice automatically, then every month.</>}
+                >
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 9, fontSize: 15 }}>
+                    <Ico s={15} c={APP.muted} d={<><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></>} />Dec 14, 2026
+                  </span>
+                </Field>
+                <Field label="Payment terms" sub="Days after invoice is sent"><span style={{ fontSize: 15 }}>Net 15 — 15 days</span></Field>
+                <Field label="CC surcharge exemption"><span style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14.5 }}><CheckBox />Exempt from 2.9% surcharge</span></Field>
+                <Field label="Chemical charges"><span style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 14.5 }}><CheckBox />Add chemicals to invoice</span></Field>
+              </div>
+            </div>
+
+            {/* Activity column */}
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: 15, fontWeight: 600 }}>Pending Charges <span style={{ color: APP.muted, fontWeight: 400, marginLeft: 6 }}>None</span></span>
+                <span style={{ color: APP.muted, fontSize: 14 }}>+ Add</span>
+              </div>
+              <div style={{ fontSize: 15, fontWeight: 600, marginTop: 30 }}>Recent invoices</div>
+              <div style={{ marginTop: 4 }}><OwnerRows /></div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 26 }}>
+                <span style={{ fontSize: 15, fontWeight: 600 }}>Autopay <span style={{ marginLeft: 8, fontSize: 11.5, fontWeight: 600, color: APP.green, background: "rgba(52,199,123,.13)", borderRadius: 999, padding: "2px 9px" }}>● Active</span></span>
+                <span style={{ color: APP.muted, fontSize: 13.5 }}>Replace&nbsp;&nbsp;&nbsp;&nbsp;Remove</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 14 }}>
+                <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <span style={{ width: 50, height: 30, borderRadius: 7, background: "#fff", color: "#1a1f71", font: "800 13px/30px Inter, sans-serif", textAlign: "center", boxShadow: "0 0 0 1px rgba(15,23,42,.12)" }}>VISA</span>
+                  <span style={{ fontSize: 15 }}>•••• 4242</span>
+                </span>
+                <span style={{ color: APP.muted, font: "13px ui-monospace, monospace" }}>03/30</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 18 }}>
+                <span><div style={{ fontSize: 15, fontWeight: 500 }}>Charge automatically</div><div style={{ color: APP.muted, fontSize: 13, marginTop: 2 }}>Apply card to each recurring invoice</div></span>
+                <Toggle on />
+              </div>
+            </div>
+          </div>
+
+          {/* "Invoices sent" notification — shows scale + each customer's own cadence */}
+          <SentNotification opacity={toastOpacity} y={toastY} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Realistic space-gray laptop: aluminium rim, notch, glass bezel, hinge, deck ----------
+   Screen = customer invoice page (portal) underneath, owner app on top; the owner app crossfades away.
+
+   Sharpness: Chrome rasterizes a layer that has a perspective transform at 1x and stretches it, so the
+   screen text went blurry on retina displays. Two fixes, both leaving the geometry pixel-identical:
+   - the lid and deck are drawn at SS× size (CSS zoom) and the scene scales them back down by 1/SS, so the
+     1x raster has SS× the pixels (the turned owner view and the transition);
+   - when the laptop faces straight ahead (turn 0, the customer view at rest) the scene has no perspective
+     at all and the deck gets the identical camera of its own, so the screen is a plain 2D layer.
+   The box grows around its centre, so the origins and the translate below compensate for the SS× size. */
+const SS = 2; // supersampling factor
+const LID_H = 398; // lid height: rim 2 + bezel 11 + screen 370 + bezel 13 + rim 2
+const SCENE_PERSP = 1400, SCENE_OY = 0.46; // camera distance and its height (46% down the laptop)
+function Laptop({ tilt, turn, owner }) {
+  // Screen + keyboard are projected by ONE camera, so the owner-view turn looks physically right.
+  // Nothing between this root and the deck may set overflow, opacity, filter or will-change (it would flatten the 3D).
+  const flat = useTransform(turn, (t) => Math.abs(t) < 0.001);
+  const shrink = `scale3d(${0.9 / SS}, ${0.9 / SS}, ${1 / SS})`;
+  const sceneTransform = useTransform(turn, (t) => (Math.abs(t) < 0.001 ? shrink : `perspective(${SCENE_PERSP}px) rotateY(${t}deg) ${shrink}`));
+  const translate = useTransform(tilt, (d) => `22px ${(SS - 1) * (0.5 - SCENE_OY) * (LID_H + deckH(d))}px`);
+  return (
+    <motion.div style={{ width: DECK_W * SS, translate, transform: sceneTransform, transformOrigin: `50% ${SCENE_OY * 100}%`, transformStyle: "preserve-3d" }}>
       {/* Lid — aluminium rim */}
-      <div className="relative rounded-b-[6px] rounded-t-[22px] bg-[linear-gradient(180deg,#8E9197_0%,#6C6F75_45%,#55585E_100%)] p-[2px] shadow-[0_18px_40px_-16px_rgba(15,23,42,.30),0_46px_90px_-34px_rgba(15,23,42,.42)]">
+      <div
+        className="relative rounded-b-[6px] rounded-t-[22px] bg-[linear-gradient(180deg,#8E9197_0%,#6C6F75_45%,#55585E_100%)] p-[2px]"
+        style={{ zoom: SS, boxShadow: "0 2px 4px rgba(15,23,42,.12), 0 28px 56px -18px rgba(15,23,42,.42), 0 60px 110px -40px rgba(15,23,42,.30)" }}
+      >
         {/* Black glass bezel */}
         <div className="relative rounded-b-[4px] rounded-t-[20px] bg-[#050608] px-[10px] pb-[13px] pt-[11px] shadow-[inset_0_0_0_1px_rgba(255,255,255,.07),inset_0_1px_0_rgba(255,255,255,.12)]">
           {/* Notch + camera */}
           <div className="absolute left-1/2 top-[11px] z-10 flex h-[13px] w-[84px] -translate-x-1/2 items-center justify-center rounded-b-lg bg-[#050608]">
             <span className="h-[5px] w-[5px] rounded-full bg-[radial-gradient(circle_at_35%_35%,#3B4A66,#0B0F18_70%)] ring-1 ring-[#111722]" />
           </div>
-          {/* Screen: an 800×500 desktop scaled to 592×370 */}
-          <div className="relative h-[370px] w-[592px] overflow-hidden rounded-b-[2px] rounded-t-[8px] bg-[#F7F8FA]">
-            <div className="h-[500px] w-[800px] origin-top-left scale-[.74] bg-gradient-to-b from-[#F7F8FA] to-[#EEF1F5]">
-              {/* macOS menu bar */}
-              <div className="flex h-5 items-center justify-between bg-[#F0F2F6]/95 px-3.5 text-[10px] font-semibold text-gray-800">
-                <div className="flex items-center gap-3.5">
-                  <AppleLogo /><span>Safari</span>
-                  <span className="font-medium">File</span><span className="font-medium">Edit</span><span className="font-medium">View</span>
-                </div>
-                <div className="flex gap-2.5 font-medium"><span>Mon Dec 14</span><span>9:41 AM</span></div>
-              </div>
-              {/* Safari toolbar */}
-              <div className="flex h-[34px] items-center gap-[7px] border-b border-[#E3E6EB] bg-[#FBFBFC] px-3">
-                <span className="h-[11px] w-[11px] rounded-full bg-[#FF5F57]" />
-                <span className="h-[11px] w-[11px] rounded-full bg-[#FEBC2E]" />
-                <span className="h-[11px] w-[11px] rounded-full bg-[#28C840]" />
-                <div className="mx-auto flex h-[22px] w-[330px] items-center justify-center gap-1.5 rounded-[7px] bg-[#EEF0F3] text-[11px] text-gray-700">
-                  🔒 portal.poollogic.app
-                </div>
-                <span className="w-[47px]" />
-              </div>
-              {/* Stripe bar */}
-              <div className="flex h-[28px] items-center justify-center gap-1.5 bg-black text-[10px] text-white">
-                🔒 Secure checkout by <b className="font-extrabold tracking-tight">stripe</b>
-              </div>
-              <div className="mx-auto mt-3 w-[560px] origin-top scale-90">
-                <InvoiceCard />
-              </div>
-            </div>
+          {/* Screen */}
+          <div className="relative h-[370px] w-[592px] overflow-hidden rounded-b-[2px] rounded-t-[8px] bg-[#F5F5F5]">
+            <MacSafariInvoice />
+            {/* Owner app on top: crossfades away like a page navigation */}
+            <motion.div className="absolute inset-0 z-[5] overflow-hidden bg-white" style={{ opacity: owner.opacity, scale: owner.scale, visibility: owner.visibility }}>
+              <OwnerDesktopApp toastOpacity={owner.toastOpacity} toastY={owner.toastY} />
+            </motion.div>
             {/* Glass glare + inner edge */}
-            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(118deg,rgba(255,255,255,.22)_0%,rgba(255,255,255,.04)_34%,rgba(255,255,255,0)_35%)]" />
-            <div className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.35),inset_0_0_18px_rgba(0,0,0,.08)]" />
+            <div className="pointer-events-none absolute inset-0 z-[6] bg-[linear-gradient(118deg,rgba(255,255,255,.22)_0%,rgba(255,255,255,.04)_34%,rgba(255,255,255,0)_35%)]" />
+            <div className="pointer-events-none absolute inset-0 z-[6] rounded-[inherit] shadow-[inset_0_0_0_1px_rgba(0,0,0,.35),inset_0_0_18px_rgba(0,0,0,.08)]" />
           </div>
         </div>
       </div>
-      <KeyboardDeck />
-    </div>
+      <KeyboardDeck tilt={tilt} flat={flat} />
+    </motion.div>
   );
 }
 
-/* ---------- Fallbacks (swap for your real mockups) ---------- */
+/* ---------- Fallback (swap for your real phone mockup) ---------- */
 const PhoneFallback = () => (
   <div className="h-[586px] w-[262px] overflow-hidden rounded-[2rem] border-8 border-slate-900 bg-white shadow-2xl" />
 );
-const SetupCardFallback = () => (
-  <div className="h-[487px] w-[330px] rounded-2xl bg-slate-800 shadow-2xl ring-1 ring-white/10" />
-);
+
+/* ---------- Easing + timeline helpers ---------- */
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+const seg = (P, a, b) => clamp01((P - a) / (b - a));
+const eCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const eOut = (t) => 1 - Math.pow(1 - t, 3);
+const eSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
+const eBack = (t) => { const c = 1.4; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+const lerp = (a, b, t) => a + (b - a) * t;
+
+/* Owner-view pose of the laptop (stage px). LAP_Y0 is tuned so the bottom of the laptop sits on the
+   same horizontal line in both views (the larger scale + steeper keyboard are offset by moving it down). */
+const LAP_X0 = -62, LAP_Y0 = 119, LAP_S0 = 1.08;
+const LAP_Y1 = 170;
+/* Fine-tuned poses (stage px; the stage scales with the column, and the column's right edge IS the container edge,
+   so these hold at every width). Laptop transform-origin is 72% 55% of the laptop (LAP_ORIGIN). The dx values are tuned for the 1120 container
+   (measured from the lid/deck edges and the phone's outer ring). */
+const OWNER = { dx: 88, grow: 0.1235, turn: -10, deck: 79 };          // "You set it": bigger, centered between copy+16px and container edge, turned 10°
+const CUSTOMER = { dx: 101, dy: -128, grow: 0.213, deck: 84 };          // "They get it": laptop 21% bigger, higher, 16px from the copy
+// 72% 55% of the laptop, expressed in its SS×-size layout box (which grows around its centre)
+const LAP_ORIGIN = `${50 + 22 / SS}% ${50 + 5 / SS}%`;
+const PHONE = { dx: 66, dy: 190, grow: 0.1025 };                        // phone: right edge on the container edge, standing lower/in front
 
 /* ---------- Main component ---------- */
-// ≥1024px: the pinned section with the scroll-triggered morph and scroll gate.
-// Narrower screens can't fit the pinned layout, so they get BillingStacked (below).
-const PINNED_QUERY = "(min-width: 1024px)";
-
-export default function BillingScrollMorph(props) {
-  const [pinned, setPinned] = useState(() => typeof window === "undefined" || window.matchMedia(PINNED_QUERY).matches);
-  useEffect(() => {
-    const mq = window.matchMedia(PINNED_QUERY);
-    const onChange = () => setPinned(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-  return pinned ? <BillingPinned {...props} /> : <BillingStacked {...props} />;
-}
-
-function BillingPinned({ phone, setupCard, id = "billing" }) {
+export default function BillingScrollMorph({ phone, id = "billing" }) {
   const trackRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start start", "end end"] });
 
   /* HYBRID: the section stays pinned; crossing a scroll threshold PLAYS the owner→customer
-     morph as a timed animation (reverses when scrolling back). Only the gentle drift is scroll-linked. */
-  const TRIGGER_IN = 0.3; // morph forward once 30% through the pinned section
-  const TRIGGER_OUT = 0.22; // reverse below 22% (hysteresis prevents flicker at the boundary)
-  const MORPH_MS = 900;
-  const REVERSE_MS = 600; // back to the owner view: quicker, so scrolling up stays light
-  const REVERSE_FROM = 0.95; // scrolling up anywhere in the pinned customer view (above 95%) shifts back
-  const REVERSE_HOLD = 0.05; // …held near the top of the pinned stretch, so the next scroll moves the page
+     morph as a timed animation (reverses when scrolling back). Nothing is scroll-linked.
+     The section is 132vh tall, i.e. pinned for 32vh of scrolling. A small scroll into the pin
+     triggers the morph, and the page is held at the far end of the pin in the direction of travel
+     (the end going down, the start going up). Because the section is pinned the jump can't be seen,
+     and once the morph is done the very next scroll moves the page: no dead scrolling either way. */
+  const TRIGGER_IN = 0.1; // going down: morph forward ≈3vh into the pin
+  const TRIGGER_OUT = 0.9; // going up: reverse ≈3vh back from the end of the pin
+  const MORPH_MS = 1900;
   const reduceMotion = useReducedMotion();
 
-  const [phase, setPhase] = useState(0); // 0 = owner view, 1 = customer view
-  const morph = useMotionValue(0); // 0 → 1, time-driven
-  const gateRef = useRef({ phase: 0, locked: false, animating: false, quick: false, doneAt: 0, holdY: 0, lastY: 0, lastInput: 0, bypassUntil: 0 });
+  const [phase, setPhase] = useState(0); // 0 = "You set it" (owner), 1 = "They get it" (customer)
+  const morph = useMotionValue(0); // 0 → 1, time-driven (linear; each beat below has its own easing)
+  const gateRef = useRef({ phase: 0, locked: false, animating: false, holdY: 0, lastInput: 0, bypassUntil: 0 });
 
   /* SCROLL GATE — the visitor can't scroll past the section (even with a fast fling) until the morph
-     has finished. Crossing the trigger snaps the page back to the trigger point and holds it there
+     has finished. Crossing the trigger moves the page to the far end of the pin and holds it there
      while the morph plays; trackpad inertia is swallowed too. Anchor / nav links (#billing, /#faq …)
-     bypass the gate so site navigation always works. Scrolling back up shifts straight back to the owner
-     view (a short 0.6s hold), then lets the same swipe keep scrolling. */
+     bypass the gate so site navigation always works. Works the same in reverse. */
   useEffect(() => {
     const G = gateRef.current;
     const KEYS = new Set([" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"]);
@@ -307,7 +598,7 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
       const el = trackRef.current;
       const top = el.getBoundingClientRect().top + window.scrollY;
       const span = Math.max(1, el.offsetHeight - window.innerHeight);
-      return { top, span, gIn: top + TRIGGER_IN * span, gOut: top + TRIGGER_OUT * span };
+      return { top, span, end: top + span, gIn: top + TRIGGER_IN * span, gOut: top + TRIGGER_OUT * span };
     };
     const progress = () => {
       const g = geo();
@@ -326,54 +617,29 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
 
     let raf = 0;
     const watchRelease = () => {
-      // Forward: once the morph is done, unlock when input has been quiet for 160ms (the rest of a
-      // fling's momentum), or at most 350ms after it finished, so a slow, steady scroll that never
-      // pauses isn't held forever. Reverse ("quick"): unlock as soon as the morph is done, so the
-      // same swipe carries on scrolling up.
-      const now = performance.now();
-      if (G.locked && !G.animating) {
-        if (!G.doneAt) G.doneAt = now;
-        if (G.quick || now - G.lastInput > 160 || now - G.doneAt > 350) G.locked = false;
-      }
+      // Unlock once the morph is done AND input has been quiet for 160ms (kills trackpad momentum)
+      if (G.locked && !G.animating && performance.now() - G.lastInput > 160) G.locked = false;
       if (G.locked) raf = requestAnimationFrame(watchRelease);
     };
-    const gate = (target, y, quick = false) => {
+    const gate = (target, y) => {
       setTo(target);
       G.locked = true;
       G.animating = true;
-      G.quick = quick;
-      G.doneAt = 0;
       G.holdY = y;
       jump(y);
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(watchRelease);
     };
 
-    G.lastY = window.scrollY;
     const onScroll = () => {
-      const y = window.scrollY;
-      const up = y < G.lastY;
-      G.lastY = y;
       if (performance.now() < G.bypassUntil) return;
       if (G.locked) {
-        if (Math.abs(y - G.holdY) > 1) jump(G.holdY); // also catches scrollbar drags
+        if (Math.abs(window.scrollY - G.holdY) > 1) jump(G.holdY); // also catches scrollbar drags
         return;
       }
       const g = geo();
-      // A jump that skips the whole section (scrollbar drag, End key, a restored position): nothing to
-      // show, so settle the view without holding the page there.
-      if (G.phase === 0 && y > g.top + g.span) {
-        morph.set(1);
-        setTo(1);
-      } else if (G.phase === 0 && y > g.gIn) gate(1, g.gIn);
-      // Scrolling up while the customer view is pinned shifts straight back to the owner view, held
-      // only while it plays, so the view changes before the page moves. The hold sits near the top of
-      // the pinned stretch (an invisible jump while pinned).
-      // Already above the section (a big jump past it): just reset, no hold.
-      else if (G.phase === 1 && up && y < g.top + REVERSE_FROM * g.span) {
-        if (y >= g.top) gate(0, Math.min(y, g.top + REVERSE_HOLD * g.span), true);
-        else setTo(0);
-      }
+      if (G.phase === 0 && window.scrollY > g.gIn) gate(1, g.end);
+      else if (G.phase === 1 && window.scrollY < g.gOut) gate(0, g.top);
     };
     const block = (e) => {
       G.lastInput = performance.now();
@@ -394,6 +660,14 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
     };
     const onClick = (e) => e.target.closest?.('a[href*="#"]') && bypass();
 
+    // The toggle: play the morph to the chosen view and move the page to the matching point of the
+    // pinned section (invisible while it's pinned), so the next scroll doesn't flip it straight back.
+    G.goTo = (target) => {
+      if (G.phase === target || G.locked) return;
+      const g = geo();
+      gate(target, target === 1 ? g.end : g.top);
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("wheel", block, { passive: false });
     window.addEventListener("touchmove", block, { passive: false });
@@ -409,6 +683,7 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("hashchange", bypass);
       document.removeEventListener("click", onClick, true);
+      G.goTo = null;
     };
   }, [morph]);
 
@@ -422,90 +697,79 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
     }
     const dist = Math.abs(phase - morph.get());
     const controls = animate(morph, phase, {
-      duration: ((phase === 1 ? MORPH_MS : REVERSE_MS) / 1000) * Math.max(0.35, dist), // shorter if reversing mid-way
-      ease: [0.65, 0, 0.35, 1], // smooth cubic in-out
+      duration: (MORPH_MS / 1000) * Math.max(0.35, dist), // shorter if reversing mid-way
+      ease: "linear", // the beats below carry their own easing
       onComplete: () => (G.animating = false),
     });
     return () => controls.stop();
   }, [phase, morph, reduceMotion]);
 
-  // The choreography below was tuned on a 0.18 → 0.7 timeline; map the 0 → 1 morph onto it.
-  const p = useTransform(morph, (m) => 0.18 + 0.52 * m);
-  const E = { ease: easeInOutSine };
-
-  // Scroll-linked drift so the pinned section never feels frozen (nearer layers move more)
-  const sp = useSpring(scrollYProgress, { stiffness: 300, damping: 40, restDelta: 0.0005 });
-  const ownerDrift = useTransform(sp, [0, TRIGGER_IN], [0, 1]);
-  const drift = useTransform(sp, [0.35, 1], [0, 1]);
-
-  // Left column — teleprompter
-  const t1Opacity = useTransform(p, [0.22, 0.4], [1, 0], E);
-  const t1Out = useTransform(p, [0.18, 0.42], [0, -50], E);
-  const t1Y = useTransform([t1Out, ownerDrift], ([a, d]) => a - 8 * d);
-  const t2Opacity = useTransform(p, [0.46, 0.66], [0, 1], E);
-  const t2In = useTransform(p, [0.44, 0.7], [50, 0], E);
-  const t2Y = useTransform([t2In, drift], ([a, d]) => a - 14 * d);
-
-  // Element A — phone: background → foreground
-  const phoneScale = useTransform(p, [0.3, 0.7], [0.94, 0.9], E); // a little bigger in the owner view
-  const phoneX = 180; // already at its final x in the owner view, so the morph only lifts it
-  // Rises slightly so its base lands just above the laptop deck
-  const phoneRise = useTransform(p, [0.3, 0.7], [85, -48], E); // starts lower, rises into place
-  // Parallax: through the customer view the phone keeps drifting up faster than the laptop
-  const phoneParallax = useTransform(drift, (d) => -40 * d);
-  const phoneY = useTransform([phoneRise, phoneParallax, ownerDrift], ([a, b, d]) => a + b - 16 * d);
-  const phoneZ = useTransform(p, (v) => (v > 0.34 ? 30 : 5));
-
-  // Element B — dark setup card: fades, drops, shrinks
-  // Act 1 — setup card leaves on its own (blur + fade + sink), fully gone by 0.45
-  const cardOpacity = useTransform(p, [0.3, 0.45], [1, 0], E);
-  const cardBlur = useTransform(p, [0.32, 0.45], [0, 10], E);
-  const cardFilter = useTransform(cardBlur, (b) => (b > 0.05 ? `blur(${b}px)` : "none"));
-  const cardVisibility = useTransform(p, (v) => (v > 0.46 ? "hidden" : "visible"));
-  const cardSink = useTransform(p, [0.3, 0.5], [-24, 46], E); // owner view: sits a little higher
-  const cardY = useTransform([cardSink, ownerDrift], ([a, d]) => a - 12 * d);
-  const cardScale = useTransform(p, [0.3, 0.5], [1, 0.94], E);
-
-  // Element C — desktop invoice: rises into place
-  // Act 2 — laptop arrives only as the card is gone (unblur + fade + rise) → no see-through overlap
-  const invOpacity = useTransform(p, [0.42, 0.6], [0, 1], E);
-  const invBlur = useTransform(p, [0.42, 0.6], [10, 0], E);
-  const invFilter = useTransform(invBlur, (b) => (b > 0.05 ? `blur(${b}px)` : "none"));
-  const invVisibility = useTransform(p, (v) => (v < 0.41 ? "hidden" : "visible"));
-  const invRise = useTransform(p, [0.36, 0.7], [240, 170], E); // laptop settles low, behind the phone
-  const invParallax = useTransform(drift, (d) => -22 * d); // slower than the phone → depth
-  const invY = useTransform([invRise, invParallax], ([a, b]) => a + b);
-
-  // Push the laptop as far left as the copy allows: its front lip stops GAP px from the text.
+  /* ---------- Choreography ----------
+     P runs 0.40 → 1.00 over the morph:
+       0.43–0.48  "12 invoices sent today" notification drops in (≈0.8s on screen before the switch)
+       0.62–0.96  laptop eases from its owner pose to its customer pose (scale, keyboard tilt)
+       0.68–0.80  the screen switches to the customer's invoice + the toggle slides to "They get it"
+       0.76–1.00  the phone pops in with a slight overshoot
+       0.62–0.74 / 0.78–0.94  left copy out / in                                                    */
+  const P = useTransform(morph, (m) => 0.4 + 0.6 * m);
   const textRef = useRef(null);
   const rightRef = useRef(null);
   const stageRef = useRef(null);
 
-  /* Stage size: the visuals stay in proportion to the copy (a little taller than its taller block)
-     and always fit the window. The composition spans COMP_TOP…COMP_BOTTOM px around the stage
-     centre at scale 1 (measured across the whole morph, drift included). */
-  const COMP_TOP = -370, COMP_BOTTOM = 395, OVER_TEXT = 80, EDGE = 32;
-  const [stageScale, setStageScale] = useState(1);
+
+  // Left column
+  const t1Opacity = useTransform(P, (v) => 1 - eCubic(seg(v, 0.62, 0.74)));
+  const t1Y = useTransform(P, (v) => -40 * eCubic(seg(v, 0.62, 0.78)));
+  const t2Opacity = useTransform(P, (v) => eCubic(seg(v, 0.78, 0.94)));
+  const t2Y = useTransform(P, (v) => lerp(40, 0, eCubic(seg(v, 0.76, 0.97))));
+  const t1Events = useTransform(P, (v) => (v < 0.78 ? "auto" : "none"));
+  const t2Events = useTransform(P, (v) => (v < 0.78 ? "none" : "auto"));
+
+  // Owner screen beat: the "invoices sent" notification drops in
+  const toastIn = useTransform(P, (v) => eOut(seg(v, 0.43, 0.48)));
+  const toastY = useTransform(toastIn, (t) => lerp(-14, 0, t));
+
+  // Screen switch: the owner app crossfades to the customer's invoice page
+  const sw = useTransform(P, (v) => eCubic(seg(v, 0.68, 0.8)));
+  const ownerOpacity = useTransform(sw, (t) => 1 - t);
+  const ownerScale = useTransform(sw, (t) => lerp(1, 1.015, t));
+  const ownerVisibility = useTransform(sw, (t) => (t >= 1 ? "hidden" : "visible"));
+
+  // Toggle
+  const pillX = useTransform(sw, (k) => `${k * 100}%`);
+  const ownerColor = useTransform(sw, [0, 1], ["#ffffff", "#64748B"]);
+  const customerColor = useTransform(sw, [0, 1], ["#64748B", "#ffffff"]);
+
+  // Laptop: owner pose → customer pose (same baseline)
+  const mv = useTransform(P, (v) => eSine(seg(v, 0.62, 0.96)));
+  const invX = useMotionValue(-105); // customer-view X (measured below)
+  // One continuous path: every laptop property is driven by the same progress (mv)
+  const lapX = useTransform([mv, invX], ([t, x]) => lerp(LAP_X0, x, t) + lerp(OWNER.dx, CUSTOMER.dx, t));
+  const lapY = useTransform(mv, (t) => lerp(LAP_Y0, LAP_Y1, t) + CUSTOMER.dy * t);
+  const lapScale = useTransform(mv, (t) => lerp(LAP_S0, 1, t) * (1 + CUSTOMER.grow * t) * (1 + OWNER.grow * (1 - t)));
+  const ownerAmt = useTransform(mv, (t) => { const k = 1 - t; return k * k * (3 - 2 * k); }); // smoothstep: 1 owner → 0 customer
+  const turn = useTransform(ownerAmt, (e) => OWNER.turn * e);
+  const tilt = useTransform(ownerAmt, (e) => lerp(CUSTOMER.deck, OWNER.deck, e));
+
+  // Phone: hidden in the owner view, pops in after the screen switch
+  const phoneOpacity = useTransform(P, (v) => eCubic(seg(v, 0.76, 0.88)));
+  const phoneY = useTransform(P, (v) => -48 + PHONE.dy + lerp(40, 0, eOut(seg(v, 0.76, 1))));
+  const phoneScale = useTransform(P, (v) => lerp(0.82, 0.9, eBack(seg(v, 0.76, 1))) * (1 + PHONE.grow));
+
+  // Scale the device stage to fit the right column (composition is ~760×700 stage px)
+  const stageScale = useMotionValue(0.75);
   useLayoutEffect(() => {
     const fit = () => {
-      const blocks = rightRef.current?.previousElementSibling?.children;
-      let textH = 0;
-      for (const b of blocks ?? []) {
-        const kids = b.children;
-        if (kids.length) textH = Math.max(textH, kids[kids.length - 1].getBoundingClientRect().bottom - kids[0].getBoundingClientRect().top);
-      }
-      const span = COMP_BOTTOM - COMP_TOP;
-      const byWidth = window.innerWidth < 1280 ? 0.75 : 1;
-      const byText = textH ? (textH + OVER_TEXT) / span : 1;
-      const byWindow = (window.innerHeight - 2 * EDGE) / span;
-      setStageScale(Math.max(0.5, Math.min(byWidth, byText, byWindow)));
+      const r = rightRef.current?.getBoundingClientRect();
+      if (r) stageScale.set(Math.min(1, r.width / 760, r.height / 700));
     };
     fit();
     const ro = new ResizeObserver(fit);
-    ro.observe(document.documentElement);
+    rightRef.current && ro.observe(rightRef.current);
     return () => ro.disconnect();
-  }, []);
-  const invX = useMotionValue(-105);
+  }, [stageScale]);
+
+  // Push the laptop (customer view) as far left as the copy allows: its front lip stops GAP px from the text.
   useLayoutEffect(() => {
     const GAP = 16, LIP_HALF = FRONT_W / 2, LAPTOP_SCALE = 0.9, LAPTOP_NUDGE = 22;
     const measure = () => {
@@ -523,194 +787,96 @@ function BillingPinned({ phone, setupCard, id = "billing" }) {
       const s = stageRef.current.getBoundingClientRect().width / stageRef.current.offsetWidth || 1;
       const cx = col.left + col.width / 2;
       const x = (textRight + GAP - cx) / s - LAPTOP_NUDGE + LAPTOP_SCALE * LIP_HALF;
-      // Upper bound -30 (was -60, tuned for a 1280px layout): on the site's 1120px container the
-      // laptop needs ~23px more room to keep its GAP from the copy at ≥1280px.
-      invX.set(Math.min(-30, Math.max(-230, x)));
+      invX.set(Math.min(-60, Math.max(-230, x)));
     };
     measure();
+    document.fonts?.ready.then(measure); // the copy wraps differently once the web font has loaded
     const ro = new ResizeObserver(measure);
     ro.observe(document.documentElement);
     return () => ro.disconnect();
-  }, [invX, stageScale]);
-  const invScale = useTransform(p, [0.36, 0.7], [0.92, 1], E);
-  const invRotX = useTransform(p, [0.36, 0.7], [10, 0], E);
-
-  // Contact shadow drift
-  const floorX = useTransform(p, [0.3, 0.7], [-10, -40], E);
-  const floorSettle = useTransform(p, [0.3, 0.7], [250, 275], E);
-  const floorY = useTransform([floorSettle, drift], ([a, d]) => a - 22 * d);
+  }, [invX]);
 
   const center = "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2";
+  const owner = { opacity: ownerOpacity, scale: ownerScale, visibility: ownerVisibility, toastOpacity: toastIn, toastY };
 
   return (
-    <section id={id} ref={trackRef} className="relative h-[200vh] bg-white">
+    <section id={id} ref={trackRef} className="relative h-[132vh] bg-white">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden bg-white">
         <div className="container grid w-full grid-cols-1 items-center gap-16 lg:grid-cols-2">
-          {/* LEFT — teleprompter */}
+          {/* LEFT — copy */}
           <div className="relative h-[420px] lg:h-[560px]">
-            <motion.div style={{ opacity: t1Opacity, y: t1Y }} className="absolute inset-0 flex flex-col justify-center">
-              <p className="text-xs font-bold tracking-[.14em] text-slate-500">{OWNER_COPY.eyebrow}</p>
-              <h2 className="mt-3.5 text-4xl font-bold leading-tight tracking-tight text-slate-900">{OWNER_COPY.title}</h2>
-              <p className="mt-4 max-w-[500px] text-[17px] leading-relaxed text-slate-500">{OWNER_COPY.body}</p>
+            <motion.div style={{ opacity: t1Opacity, y: t1Y, pointerEvents: t1Events }} className="absolute inset-0 flex flex-col justify-center">
+              <p className="text-xs font-bold tracking-[.14em] text-slate-500">BILLING ON AUTOPILOT</p>
+              <h2 className="mt-3.5 text-4xl font-bold leading-tight tracking-tight text-slate-900">
+                Set it once. Every customer billed on their own schedule.
+              </h2>
+              <p className="mt-4 max-w-[500px] text-[17px] leading-relaxed text-slate-500">
+                Give each customer a rate, a first invoice date and a cadence. PoolLogic builds every recurring
+                invoice, adds chemicals and card fees, and emails it on the right day — every time. No billing runs.
+                No “Send” button.
+              </p>
               <Bullets items={SETUP_BULLETS} />
             </motion.div>
 
-            <motion.div ref={textRef} style={{ opacity: t2Opacity, y: t2Y }} className="absolute inset-0 flex flex-col justify-center">
-              <p className="text-xs font-bold tracking-[.14em] text-blue-500">{CUSTOMER_COPY.eyebrow}</p>
-              <h2 className="mt-3.5 text-4xl font-bold leading-tight tracking-tight text-slate-900">{CUSTOMER_COPY.title}</h2>
-              <p className="mt-4 max-w-[500px] text-[17px] leading-relaxed text-slate-500">{CUSTOMER_COPY.body}</p>
+            <motion.div ref={textRef} style={{ opacity: t2Opacity, y: t2Y, pointerEvents: t2Events }} className="absolute inset-0 flex flex-col justify-center">
+              <p className="text-xs font-bold tracking-[.14em] text-blue-500">THE CUSTOMER EXPERIENCE</p>
+              <h2 className="mt-3.5 text-4xl font-bold leading-tight tracking-tight text-slate-900">
+                They get a clean invoice — and pay in one tap.
+              </h2>
+              <p className="mt-4 max-w-[500px] text-[17px] leading-relaxed text-slate-500">
+                Every invoice arrives on schedule with a clear breakdown and a Pay now button: card, Apple Pay or ACH
+                through Stripe. Receipts and service history are always there when they need them.
+              </p>
               <Bullets items={RESULT_BULLETS} />
             </motion.div>
           </div>
 
-          {/* RIGHT — visual morph (scaled down on smaller screens) */}
+          {/* RIGHT — devices (scaled down on smaller screens) */}
           <div ref={rightRef} className="relative h-[520px] [perspective:1600px] lg:h-[640px]">
-            <div ref={stageRef} className="absolute inset-0 origin-center" style={{ transform: `scale(${stageScale})` }}>
+            {/* "You set it | They get it" toggle — fixed position in both views; clicking plays the morph */}
+            <div className="absolute left-1/2 top-6 z-[70] flex -translate-x-1/2 rounded-full border border-slate-900/[.07] bg-white/80 p-1 text-[12.5px] font-semibold tracking-[-.1px] shadow-[0_1px_2px_rgba(15,23,42,.06),0_10px_28px_-12px_rgba(15,23,42,.3)] backdrop-blur-md">
+              <motion.span style={{ x: pillX }} className="absolute bottom-1 left-1 top-1 w-[calc(50%-4px)] rounded-full bg-slate-900" />
+              <motion.button
+                type="button"
+                aria-pressed={phase === 0}
+                onClick={() => gateRef.current.goTo?.(0)}
+                style={{ color: ownerColor }}
+                className="relative flex w-[124px] cursor-pointer items-center justify-center gap-1.5 rounded-full py-[9px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6" /></svg>
+                You set it
+              </motion.button>
+              <motion.button
+                type="button"
+                aria-pressed={phase === 1}
+                onClick={() => gateRef.current.goTo?.(1)}
+                style={{ color: customerColor }}
+                className="relative flex w-[124px] cursor-pointer items-center justify-center gap-1.5 rounded-full py-[9px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
+                They get it
+              </motion.button>
+            </div>
 
-              {/* Contact shadow */}
-              <motion.div
-                style={{ x: floorX, y: floorY }}
-                className={`${center} pointer-events-none h-[60px] w-[520px] rounded-[50%] bg-[radial-gradient(closest-side,rgba(15,23,42,.18),transparent)] blur-[10px]`}
-              />
-
-              {/* C — invoice */}
+            <motion.div ref={stageRef} className="absolute inset-0 origin-center" style={{ scale: stageScale }}>
+              {/* Laptop: owner app → customer invoice */}
               <div className={center} style={{ zIndex: 10 }}>
-                <motion.div style={{ opacity: invOpacity, filter: invFilter, visibility: invVisibility, y: invY, x: invX, scale: invScale, rotateX: invRotX }}>
-                  <DesktopInvoice />
+                <motion.div style={{ x: lapX, y: lapY, scale: lapScale, transformOrigin: LAP_ORIGIN }}>
+                  <Laptop tilt={tilt} turn={turn} owner={owner} />
                 </motion.div>
               </div>
 
-              {/* B — setup card */}
-              <div className={center} style={{ zIndex: 20 }}>
+              {/* Phone: customer invoice, pops in after the switch */}
+              <div className={center} style={{ zIndex: 30 }}>
                 <motion.div
-                  style={{ opacity: cardOpacity, filter: cardFilter, visibility: cardVisibility, y: cardY, x: -70, scale: cardScale }}
-                  className="rounded-2xl shadow-[0_1px_2px_rgba(15,23,42,.10),0_12px_24px_-8px_rgba(15,23,42,.22),0_36px_72px_-28px_rgba(15,23,42,.45)]"
-                >
-                  {setupCard ?? <SetupCardFallback />}
-                </motion.div>
-              </div>
-
-              {/* A — phone */}
-              <motion.div className={center} style={{ zIndex: phoneZ }}>
-                <motion.div
-                  style={{ x: phoneX, y: phoneY, scale: phoneScale }}
-                  className="will-change-transform [filter:drop-shadow(0_3px_6px_rgba(15,23,42,.16))_drop-shadow(0_30px_48px_rgba(15,23,42,.38))]"
+                  style={{ x: 180 + PHONE.dx, y: phoneY, scale: phoneScale, opacity: phoneOpacity }}
+                  className="will-change-transform [filter:drop-shadow(0_1px_1.5px_rgba(15,23,42,.22))_drop-shadow(0_10px_14px_rgba(15,23,42,.18))_drop-shadow(0_30px_40px_rgba(15,23,42,.20))]"
                 >
                   {phone ?? <PhoneFallback />}
                 </motion.div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ---------- Phones and tablets (< 1024px): the two views stacked, no pinning or scroll gate ----------
-   Each block (label, copy, mockup) fades and slides up as it scrolls into view; the phone drifts a
-   little. Each mockup is laid out at a fixed design size and scaled to fit the column's width. */
-
-/** Scale a fixed-size design (w × h) down to its container's width; the wrapper keeps the scaled height. */
-function FitToWidth({ w, h, children }) {
-  const ref = useRef(null);
-  const [scale, setScale] = useState(1);
-  useLayoutEffect(() => {
-    const el = ref.current;
-    const fit = () => setScale(Math.min(1, el.clientWidth / w));
-    fit();
-    const ro = new ResizeObserver(fit);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [w]);
-  return (
-    <div ref={ref} className="relative w-full" style={{ height: h * scale }}>
-      <div className="absolute left-1/2 top-0" style={{ width: w, height: h, marginLeft: -w / 2, transform: `scale(${scale})`, transformOrigin: "50% 0" }}>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-/** A small parallax drift (±px) for the phone while its block crosses the viewport. */
-function useDrift(ref, px) {
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [px, -px]);
-  return reduce ? 0 : y;
-}
-
-function StackedBlock({ label, copy, eyebrowClass, bullets, children }) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.div
-      initial={reduce ? false : { opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <span className="inline-flex rounded-full bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white">{label}</span>
-      <p className={`mt-6 text-xs font-bold tracking-[.14em] ${eyebrowClass}`}>{copy.eyebrow}</p>
-      <h2 className="mt-3.5 text-3xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl">{copy.title}</h2>
-      <p className="mt-4 max-w-[560px] text-[17px] leading-relaxed text-slate-500">{copy.body}</p>
-      <Bullets items={bullets} />
-      <div className="mt-10">{children}</div>
-    </motion.div>
-  );
-}
-
-// Owner: the setup card in front, the phone peeking out behind it, lower and to the right.
-function OwnerVisual({ phone, setupCard }) {
-  const ref = useRef(null);
-  const drift = useDrift(ref, 18);
-  return (
-    <div ref={ref}>
-      <FitToWidth w={470} h={610}>
-        {/* Scale on the wrapper: the drift's inline transform would replace a scale on the same element. */}
-        <div className="absolute left-[222px] top-[96px] origin-top-left scale-[.85]">
-          <motion.div className="[filter:drop-shadow(0_3px_6px_rgba(15,23,42,.16))_drop-shadow(0_30px_48px_rgba(15,23,42,.38))]" style={{ y: drift }}>
-            {phone ?? <PhoneFallback />}
-          </motion.div>
-        </div>
-        <div className="absolute left-0 top-[40px] rounded-2xl shadow-[0_1px_2px_rgba(15,23,42,.10),0_12px_24px_-8px_rgba(15,23,42,.22),0_36px_72px_-28px_rgba(15,23,42,.45)]">
-          {setupCard ?? <SetupCardFallback />}
-        </div>
-      </FitToWidth>
-    </div>
-  );
-}
-
-// Customer: the laptop, with the phone in front of its right side, above the base.
-function CustomerVisual({ phone }) {
-  const ref = useRef(null);
-  const drift = useDrift(ref, 22);
-  return (
-    <div ref={ref}>
-      <FitToWidth w={760} h={520}>
-        <div className="absolute left-[2px] top-[-12px]">
-          <DesktopInvoice />
-        </div>
-        <div className="absolute left-[548px] top-[8px] origin-top-left scale-[.72]">
-          <motion.div className="[filter:drop-shadow(0_3px_6px_rgba(15,23,42,.16))_drop-shadow(0_30px_48px_rgba(15,23,42,.38))]" style={{ y: drift }}>
-            {phone ?? <PhoneFallback />}
-          </motion.div>
-        </div>
-      </FitToWidth>
-    </div>
-  );
-}
-
-function BillingStacked({ phone, setupCard, id = "billing" }) {
-  return (
-    <section id={id} className="section relative overflow-x-clip bg-white">
-      <div className="container">
-        <StackedBlock label="Owner view" copy={OWNER_COPY} eyebrowClass="text-slate-500" bullets={SETUP_BULLETS}>
-          <OwnerVisual phone={phone} setupCard={setupCard} />
-        </StackedBlock>
-        <div className="mt-20">
-          <StackedBlock label="Customer view" copy={CUSTOMER_COPY} eyebrowClass="text-blue-500" bullets={RESULT_BULLETS}>
-            <CustomerVisual phone={phone} />
-          </StackedBlock>
         </div>
       </div>
     </section>

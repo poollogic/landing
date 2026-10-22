@@ -19,7 +19,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
@@ -27,6 +27,11 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      # Homepage hero SEO guardrails (see CLAUDE.md): crawlable text, asset weight, no layout shift.
+      # Uses the Chrome that ships on ubuntu-latest. A failure stops the deploy.
+      - name: Check homepage hero SEO guardrails
+        run: npm run check:seo
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3

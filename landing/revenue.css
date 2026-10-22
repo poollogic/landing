@@ -8,6 +8,8 @@
 
 /* ---------- Copy (header: SectionHeader; eyebrow in the app's red) ---------- */
 .rv-h2-a { display: block; color: #fff; }
+.rv-h2-a,
+.rv-h2-b { text-wrap: balance; } /* even line breaks, no one-word last line */
 .rv-h2-b {
   display: block;
   background: linear-gradient(180deg, #94a3b8, #64748b);
@@ -221,6 +223,21 @@
 .rv-tile-label span { width: 6px; height: 6px; border-radius: 999px; }
 .rv-tile-value { margin-top: 6px; font-size: 26px; font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; }
 .rv-tile-value small { margin-left: 5px; font-size: 13.5px; font-weight: 400; letter-spacing: normal; color: rgba(203, 213, 225, .62); }
+
+/* Below 1024px the scroll story is off and the section must look exactly as it did before it.
+   RevenueStory.jsx's own small-screen rules come before the base rules they mean to override,
+   so they lose; these restate them with enough specificity to win. */
+@media (max-width: 1023.98px) {
+  .rv .rvs-sticky .rv-snippet { margin-top: 72px; }
+  .rv .rv-feature.rvs-dim { opacity: 1; }
+  .rv .rvs-set,
+  .rv .rvs-toast { display: none; }
+  .rv .rvs-dash { will-change: auto; }
+}
+
+/* The scroll story (RevenueStory.jsx) sets its own transition on these rows for the
+   "Invoices past due" highlight; keep the rows' reveal animation alongside it. */
+.rv .rv-rows li { transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1), background-color .4s ease; }
 
 @media (prefers-reduced-motion: reduce) {
   .rv-mark::after { animation: none; }
