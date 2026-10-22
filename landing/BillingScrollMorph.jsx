@@ -574,11 +574,13 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   /* HYBRID: the section stays pinned; crossing a scroll threshold PLAYS the owner→customer
      morph as a timed animation (reverses when scrolling back). Nothing is scroll-linked.
      The section is 132vh tall, i.e. pinned for 32vh of scrolling. A small scroll into the pin
-     triggers the morph, and the page is held at the far end of the pin in the direction of travel
-     (the end going down, the start going up). Because the section is pinned the jump can't be seen,
-     and once the morph is done the very next scroll moves the page: no dead scrolling either way. */
-  const TRIGGER_IN = 0.1; // going down: morph forward ≈3vh into the pin
-  const TRIGGER_OUT = 0.9; // going up: reverse ≈3vh back from the end of the pin
+     (ZONE px) triggers the morph, and the page is held just inside the far end of the pin in the
+     direction of travel (EDGE px from the end going down, from the start going up). Because the
+     section is pinned the jump can't be seen, and once the morph is done the next scroll moves the
+     page: no dead scrolling either way. Order: top < holdOut < gIn … gOut < holdIn < end, so the
+     pin must be at least 2 × ZONE of scroll — don't make the section shorter. */
+  const EDGE = 24; // hold this far inside the pin's edges (absorbs momentum without moving the section)
+  const ZONE = 56; // triggers sit beyond the hold points, so holding never re-triggers the other direction
   const MORPH_MS = 1900;
   const reduceMotion = useReducedMotion();
 
@@ -598,18 +600,21 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
       const el = trackRef.current;
       const top = el.getBoundingClientRect().top + window.scrollY;
       const span = Math.max(1, el.offsetHeight - window.innerHeight);
-      return { top, span, end: top + span, gIn: top + TRIGGER_IN * span, gOut: top + TRIGGER_OUT * span };
-    };
-    const progress = () => {
-      const g = geo();
-      return Math.min(1, Math.max(0, (window.scrollY - g.top) / g.span));
+      const end = top + span;
+      return {
+        top, span, end,
+        gIn: top + ZONE, // forward once you're ZONE px into the pin
+        gOut: end - ZONE, // reverse once you're ZONE px back from the end
+        holdIn: end - EDGE, // forward hold: near the end, but inside the pin
+        holdOut: top + EDGE, // reverse hold: near the start, but inside the pin
+      };
     };
     const setTo = (target) => {
       G.phase = target;
       setPhase(target);
     };
     // Initial state matches where the page loaded (e.g. refresh mid-page)
-    if (progress() > TRIGGER_IN) {
+    if (window.scrollY > geo().gIn) {
       G.phase = 1;
       morph.set(1);
       setPhase(1);
@@ -638,8 +643,8 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
         return;
       }
       const g = geo();
-      if (G.phase === 0 && window.scrollY > g.gIn) gate(1, g.end);
-      else if (G.phase === 1 && window.scrollY < g.gOut) gate(0, g.top);
+      if (G.phase === 0 && window.scrollY > g.gIn) gate(1, g.holdIn);
+      else if (G.phase === 1 && window.scrollY < g.gOut) gate(0, g.holdOut);
     };
     const block = (e) => {
       G.lastInput = performance.now();
@@ -653,7 +658,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
       clearTimeout(bypassTimer);
       bypassTimer = setTimeout(() => {
         // Settle instantly to wherever navigation landed (the section is usually off-screen by then)
-        const t = progress() > TRIGGER_IN ? 1 : 0;
+        const t = window.scrollY > geo().gIn ? 1 : 0;
         morph.set(t);
         setTo(t);
       }, 1550);
@@ -665,7 +670,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
     G.goTo = (target) => {
       if (G.phase === target || G.locked) return;
       const g = geo();
-      gate(target, target === 1 ? g.end : g.top);
+      gate(target, target === 1 ? g.holdIn : g.holdOut);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
