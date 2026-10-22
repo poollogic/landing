@@ -2,28 +2,23 @@ import React, { useState } from 'react';
 import { ChevronDown, User } from 'lucide-react';
 
 // Founder's story (#founder): light, Apple-style. Centred header, then the letter
-// (left) beside the photo + stats (right); on phones the photo comes first.
+// (left) beside the photo (right); on phones the photo comes first.
 // The letter shows three paragraphs; the rest sits in #founder-more, which is
 // always in the DOM (search engines read it) and opens with "Read the full story".
 // Apple neutrals: page #F5F5F7, text #1D1D1F, secondary #6E6E73, muted #86868B,
 // hairlines #D2D2D7; accent #2676B6.
 
 const INTRO = [
-  'After working professionally in web development, systems, and conversion optimization back in South Carolina, I moved to the coast planning to settle down. Instead, I found myself buying a pool cleaning route—and almost immediately, the time I had planned on fishing and enjoying family time was gone.',
-  'I was spending 40 hours a week just doing admin work and chasing people to pay their invoices. I couldn’t even get a clear look at my real numbers because the software options out there were so bad. I knew 50% of my customers were drastically below market rate, but I had no effective way to actually execute and enforce a price increase.',
+  'After working professionally in web development, systems, and conversion optimization back in South Carolina, I moved to the coast planning to slow down. Instead, I found myself buying a pool cleaning route—and almost immediately, the time I had planned on fishing and enjoying family time was gone.',
+  'I was spending hours every evening just doing admin work and chasing people to pay their invoices. I couldn’t even get a clear look at my real numbers because the software options out there were so bad. I knew 50% of my customers were drastically below market rate, but I had no effective way to actually execute and enforce a price increase.',
+  'To top it off, I didn’t know what a single stop truly cost me on each account, so I had no idea which accounts actually needed an increase to make things fair. There was no real breakdown of where we stood financially. All I had was the balance in the bank and a rough guess at what it should be if every outstanding invoice got paid that month. That’s a terrible way to run a business.',
   'On top of the financial chaos, technicians were skipping service reports, and I was catching guys uploading old photos from their camera roll to bypass the system. Every issue you encounter on a daily basis, I’ve been there.',
 ];
 const MORE = [
-  'Because of my background, I knew what good software should look and feel like. I found myself navigating through 40 different open tabs, duct-taping Zapier, n8n, and messy spreadsheets together just to keep the lights on.',
+  'Because of my background, I knew what good software should look and feel like. I found myself navigating through 17 different open tabs, duct-taping Zapier, n8n, and messy spreadsheets together just to keep the lights on.',
   'But as I built a real solution to save my own business, my perspective shifted. I realized my true value wasn’t in running a pool route—it was in building the systems that allow pool companies to actually scale and breathe. The route was just the journey I had to take to realize this industry was starving for real technology.',
-  'Today, my route runs so flawlessly that I manage it in just 2 hours a week, allowing me to focus entirely on PoolLogic. And honestly, it is the most rewarding work I’ve ever done. There is no better feeling than hearing an owner tell me how much their business has improved, or that they finally get to spend their evenings with their kids instead of fighting with invoices.',
+  'Today, I get to focus entirely on PoolLogic. And honestly, it is the most rewarding work I’ve ever done. There is no better feeling than hearing an owner tell me how much their business has improved, or that they finally get to spend their evenings with their kids instead of fighting with invoices.',
 ];
-const STATS = [
-  { value: '40', unit: 'hrs', label: 'a week, before' },
-  { value: '2', unit: 'hrs', label: 'a week, now' },
-  { value: '0', label: 'office staff' },
-];
-
 /* The photo is public/brand/founder.jpg. Until that file exists (or if it ever fails),
    onError swaps in a neutral placeholder, so there's never a broken-image icon.
    The 4:5 frame reserves the space, so the photo loading never shifts the page. */
@@ -52,22 +47,6 @@ function FounderPhoto() {
   );
 }
 
-function Stats() {
-  return (
-    <dl className="mt-7 grid grid-cols-3 divide-x divide-[#D2D2D7] text-center">
-      {STATS.map((s) => (
-        <div key={s.label} className="flex flex-col-reverse px-2">
-          <dt className="mt-1.5 text-[13px] text-[#6E6E73]">{s.label}</dt>
-          <dd className="text-[34px] font-bold leading-[1.1] tracking-[-0.03em] text-[#1D1D1F]">
-            {s.value}
-            {s.unit && <small className="ml-[3px] text-[16px] font-medium tracking-normal text-[#86868B]">{s.unit}</small>}
-          </dd>
-        </div>
-      ))}
-    </dl>
-  );
-}
-
 export default function FounderSection() {
   const [open, setOpen] = useState(false);
   const last = INTRO.length - 1;
@@ -87,7 +66,6 @@ export default function FounderSection() {
         <div className="mt-14 grid grid-cols-1 gap-16 lg:mt-[72px] lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)]">
           <div className="mx-auto w-full max-w-[420px] lg:order-2 lg:max-w-none lg:self-center">
             <FounderPhoto />
-            <Stats />
           </div>
 
           <div className="lg:order-1 lg:self-center">
