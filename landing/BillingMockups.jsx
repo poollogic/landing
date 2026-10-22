@@ -7,7 +7,7 @@ import './billing.css';
 // The Billing section's phone mockup, shown by BillingScrollMorph: an iPhone with
 // the customer's unpaid invoice in the customer portal (as portal.poollogic.app
 // shows it at 390px wide). All names, addresses and amounts are MOCK data
-// (Bayside Pool Co. / Melissa Tater, matching the laptop invoice).
+// (Bayside Pool Co. / Jimmy McGill, matching the laptop invoice).
 
 /* ---------- iPhone: the customer's invoice in the portal ---------- */
 
@@ -55,18 +55,18 @@ function InvoiceScreen() {
             </span>
             <div className="bz-inv-co">
               <div className="bz-inv-coname">BAYSIDE POOL CO.</div>
-              <div>1180 Harbor Blvd</div>
-              <div>Clearwater, FL 33755</div>
+              <div>9800 Montgomery Blvd NE</div>
+              <div>Albuquerque, NM 87111</div>
               <div>Phone: <span className="bz-inv-phone">(248) 434-5508</span></div>
               <div>billing@baysidepool.example</div>
             </div>
           </div>
 
           <div className="bz-inv-k">Bill to</div>
-          <div className="bz-inv-name">Melissa Tater</div>
-          <div className="bz-inv-addr">123 Fake Street</div>
-          <div className="bz-inv-addr">Wilmington, NC 28401</div>
-          <div className="bz-inv-addr">melissa.tater@example.com</div>
+          <div className="bz-inv-name">Jimmy McGill</div>
+          <div className="bz-inv-addr">160 Candelaria Rd NW</div>
+          <div className="bz-inv-addr">Albuquerque, NM 87107</div>
+          <div className="bz-inv-addr">j.mcgill@ice-station-zebra.com</div>
           <div className="bz-inv-addr">(505) 842-5662</div>
 
           <div className="bz-inv-meta">

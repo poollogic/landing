@@ -13,8 +13,8 @@ import "./preview/preview.css";
 /**
  * BillingScrollMorph — pinned "Billing on autopilot" section.
  *   You set it:  a MacBook shows the owner's Billing tab in the PoolLogic web app (light theme).
- *   They get it: scrolling into the pinned section plays a 1.9s morph — the invoices are "sent", the laptop switches to the
- *                customer's invoice page and the phone pops in with the same unpaid invoice.
+ *   They get it: scrolling into the pinned section plays a 0.9s morph — the laptop switches to the
+ *                customer's invoice page and the phone rises in with the same unpaid invoice.
  * The section is scroll-gated while the morph plays; anchor/nav links bypass the gate.
  *
  * Usage:
@@ -210,8 +210,8 @@ function MacSafariInvoice() {
               </At>
 
               {/* From / To */}
-              <Party left={48} label="FROM" name="BAYSIDE POOL CO." lines={["1180 Harbor Blvd", "Clearwater, FL 33755", "billing@baysidepool.example", "(248) 434-5508"]} />
-              <Party left={407} label="TO" name="Melissa Tater" lines={["123 Fake Street", "Wilmington, NC 28401", "melissa.tater@example.com", "(505) 842-5662"]} />
+              <Party left={48} label="FROM" name="BAYSIDE POOL CO." lines={["9800 Montgomery Blvd NE", "Albuquerque, NM 87111", "billing@baysidepool.example", "(248) 434-5508"]} />
+              <Party left={407} label="TO" name="Jimmy McGill" lines={["160 Candelaria Rd NW", "Albuquerque, NM 87107", "j.mcgill@ice-station-zebra.com", "(505) 842-5662"]} />
 
               {/* Table header */}
               <At top={399} left={0} style={{ ...COLS, right: 0, height: 44.5, padding: "0 48px", alignItems: "center", background: PORTAL.blue, color: "#fff", fontSize: 11, fontWeight: 700, letterSpacing: 0.55 }}>
@@ -357,38 +357,7 @@ function OwnerRows() {
   ));
 }
 
-const SENT_TODAY = [
-  ["Melissa Tater", "Monthly", "$149.21"],
-  ["Avery Collins", "Quarterly", "$435.00"],
-  ["Priya Raman", "Monthly", "$162.50"],
-];
-function SentNotification({ opacity, y }) {
-  return (
-    <motion.div style={{ opacity, y, position: "absolute", right: 30, top: 18, width: 372, padding: "14px 16px 12px", borderRadius: 14, background: "#fff", boxShadow: "0 12px 32px -8px rgba(15,23,42,.25), 0 0 0 1px rgba(15,23,42,.08)", zIndex: 3 }}>
-      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-        <span style={{ flex: "none", width: 30, height: 30, borderRadius: 999, background: APP.green, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-        </span>
-        <span>
-          <div style={{ fontSize: 15, fontWeight: 600, color: APP.ink }}>12 invoices sent today</div>
-          <div style={{ fontSize: 13, color: APP.muted, marginTop: 2 }}>Melissa Tater and 11 others · $1,842.60</div>
-        </span>
-      </div>
-      <div style={{ marginTop: 10, borderTop: `1px solid ${APP.line}`, paddingTop: 9, display: "grid", gap: 7, fontSize: 13 }}>
-        {SENT_TODAY.map(([name, cadence, amount]) => (
-          <div key={name} style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: 12, alignItems: "center" }}>
-            <span style={{ color: APP.ink, fontWeight: 500 }}>{name}</span>
-            <span style={{ fontSize: 11.5, fontWeight: 600, color: APP.muted, background: APP.tabs, borderRadius: 999, padding: "2px 8px" }}>{cadence}</span>
-            <span style={{ color: APP.ink, fontWeight: 600, minWidth: 62, textAlign: "right" }}>{amount}</span>
-          </div>
-        ))}
-        <div style={{ color: APP.muted, fontSize: 12 }}>+ 9 more, each on their own schedule</div>
-      </div>
-    </motion.div>
-  );
-}
-
-function OwnerDesktopApp({ toastOpacity, toastY }) {
+function OwnerDesktopApp() {
   return (
     <div style={{ width: 1280, height: 800, transform: `scale(${592 / 1280})`, transformOrigin: "0 0", fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif", WebkitFontSmoothing: "antialiased", letterSpacing: -0.16, color: APP.ink, background: "#fff" }}>
       {/* macOS menu bar */}
@@ -422,8 +391,8 @@ function OwnerDesktopApp({ toastOpacity, toastY }) {
         <div style={{ flex: 1, padding: "18px 28px", position: "relative" }}>
           <div style={{ color: APP.link, fontSize: 13.5, display: "flex", alignItems: "center", gap: 4 }}><Ico s={14} c={APP.link} d={<path d="M15 6l-6 6 6 6" />} />Customers</div>
           <div style={{ display: "flex", alignItems: "baseline", gap: 14, marginTop: 6 }}>
-            <span style={{ fontSize: 26, fontWeight: 700, letterSpacing: -0.5 }}>Melissa Tater</span>
-            <span style={{ color: APP.muted, fontSize: 14 }}>123 Fake Street · Weekly service</span>
+            <span style={{ fontSize: 26, fontWeight: 700, letterSpacing: -0.5 }}>Jimmy McGill</span>
+            <span style={{ color: APP.muted, fontSize: 14 }}>160 Candelaria Rd NW · Weekly service</span>
           </div>
           {/* The app's segmented tabs, shared with the hero's dashboard preview (light theme) */}
           <div className="theme-scope light pl-rail-host" style={{ display: "flex", marginTop: 16 }}>
@@ -443,7 +412,7 @@ function OwnerDesktopApp({ toastOpacity, toastY }) {
                 <Field label="Invoice delivery"><span style={{ fontSize: 15 }}>Email only</span></Field>
                 <Field
                   label="Next invoice date"
-                  sub={<>On Dec 14, <span style={{ color: APP.ink }}>Melissa Tater</span> is emailed a <b style={{ color: APP.ink, fontWeight: 600 }}>$149.21</b> invoice automatically, then every month.</>}
+                  sub={<>On Dec 14, <span style={{ color: APP.ink }}>Jimmy McGill</span> is emailed a <b style={{ color: APP.ink, fontWeight: 600 }}>$149.21</b> invoice automatically, then every month.</>}
                 >
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 9, fontSize: 15 }}>
                     <Ico s={15} c={APP.muted} d={<><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></>} />Dec 14, 2026
@@ -480,9 +449,6 @@ function OwnerDesktopApp({ toastOpacity, toastY }) {
               </div>
             </div>
           </div>
-
-          {/* "Invoices sent" notification — shows scale + each customer's own cadence */}
-          <SentNotification opacity={toastOpacity} y={toastY} />
         </div>
       </div>
     </div>
@@ -527,7 +493,7 @@ function Laptop({ tilt, turn, owner }) {
             <MacSafariInvoice />
             {/* Owner app on top: crossfades away like a page navigation */}
             <motion.div className="absolute inset-0 z-[5] overflow-hidden bg-white" style={{ opacity: owner.opacity, scale: owner.scale, visibility: owner.visibility }}>
-              <OwnerDesktopApp toastOpacity={owner.toastOpacity} toastY={owner.toastY} />
+              <OwnerDesktopApp />
             </motion.div>
             {/* Glass glare + inner edge */}
             <div className="pointer-events-none absolute inset-0 z-[6] bg-[linear-gradient(118deg,rgba(255,255,255,.22)_0%,rgba(255,255,255,.04)_34%,rgba(255,255,255,0)_35%)]" />
@@ -551,7 +517,6 @@ const seg = (P, a, b) => clamp01((P - a) / (b - a));
 const eCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const eOut = (t) => 1 - Math.pow(1 - t, 3);
 const eSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
-const eBack = (t) => { const c = 1.4; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
 const lerp = (a, b, t) => a + (b - a) * t;
 
 /* Owner-view pose of the laptop (stage px). LAP_Y0 is tuned so the bottom of the laptop sits on the
@@ -581,7 +546,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
      pin must be at least 2 × ZONE of scroll — don't make the section shorter. */
   const EDGE = 24; // hold this far inside the pin's edges (absorbs momentum without moving the section)
   const ZONE = 56; // triggers sit beyond the hold points, so holding never re-triggers the other direction
-  const MORPH_MS = 1900;
+  const MORPH_MS = 900;
   const reduceMotion = useReducedMotion();
 
   const [phase, setPhase] = useState(0); // 0 = "You set it" (owner), 1 = "They get it" (customer)
@@ -622,8 +587,8 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
 
     let raf = 0;
     const watchRelease = () => {
-      // Unlock once the morph is done AND input has been quiet for 160ms (kills trackpad momentum)
-      if (G.locked && !G.animating && performance.now() - G.lastInput > 160) G.locked = false;
+      // Unlock once the morph is (nearly) done AND input has been quiet for 100ms (kills trackpad momentum)
+      if (G.locked && !G.animating && performance.now() - G.lastInput > 100) G.locked = false;
       if (G.locked) raf = requestAnimationFrame(watchRelease);
     };
     const gate = (target, y) => {
@@ -704,18 +669,20 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
     const controls = animate(morph, phase, {
       duration: (MORPH_MS / 1000) * Math.max(0.35, dist), // shorter if reversing mid-way
       ease: "linear", // the beats below carry their own easing
+      onUpdate: (v) => {
+        if (Math.abs(phase - v) < 0.25) G.animating = false; // unlock while the last bits settle
+      },
       onComplete: () => (G.animating = false),
     });
     return () => controls.stop();
   }, [phase, morph, reduceMotion]);
 
   /* ---------- Choreography ----------
-     P runs 0.40 → 1.00 over the morph:
-       0.43–0.48  "12 invoices sent today" notification drops in (≈0.8s on screen before the switch)
-       0.62–0.96  laptop eases from its owner pose to its customer pose (scale, keyboard tilt)
-       0.68–0.80  the screen switches to the customer's invoice + the toggle slides to "They get it"
-       0.76–1.00  the phone pops in with a slight overshoot
-       0.62–0.74 / 0.78–0.94  left copy out / in                                                    */
+     P runs 0.40 → 1.00 over the morph; everything starts the moment the trigger fires:
+       0.40–1.00  laptop eases from its owner pose to its customer pose (scale, turn, keyboard tilt)
+       0.49–0.73  the screen switches to the customer's invoice + the toggle slides to "They get it"
+       0.61–1.00  the phone fades in and rises into place (no overshoot)
+       0.40–0.61 / 0.61–0.91  left copy out / in                                                    */
   const P = useTransform(morph, (m) => 0.4 + 0.6 * m);
   const textRef = useRef(null);
   const rightRef = useRef(null);
@@ -723,19 +690,15 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
 
 
   // Left column
-  const t1Opacity = useTransform(P, (v) => 1 - eCubic(seg(v, 0.62, 0.74)));
-  const t1Y = useTransform(P, (v) => -40 * eCubic(seg(v, 0.62, 0.78)));
-  const t2Opacity = useTransform(P, (v) => eCubic(seg(v, 0.78, 0.94)));
-  const t2Y = useTransform(P, (v) => lerp(40, 0, eCubic(seg(v, 0.76, 0.97))));
-  const t1Events = useTransform(P, (v) => (v < 0.78 ? "auto" : "none"));
-  const t2Events = useTransform(P, (v) => (v < 0.78 ? "none" : "auto"));
-
-  // Owner screen beat: the "invoices sent" notification drops in
-  const toastIn = useTransform(P, (v) => eOut(seg(v, 0.43, 0.48)));
-  const toastY = useTransform(toastIn, (t) => lerp(-14, 0, t));
+  const t1Opacity = useTransform(P, (v) => 1 - eCubic(seg(v, 0.4, 0.58)));
+  const t1Y = useTransform(P, (v) => -40 * eCubic(seg(v, 0.4, 0.61)));
+  const t2Opacity = useTransform(P, (v) => eCubic(seg(v, 0.64, 0.88)));
+  const t2Y = useTransform(P, (v) => lerp(40, 0, eCubic(seg(v, 0.61, 0.91))));
+  const t1Events = useTransform(P, (v) => (v < 0.64 ? "auto" : "none"));
+  const t2Events = useTransform(P, (v) => (v < 0.64 ? "none" : "auto"));
 
   // Screen switch: the owner app crossfades to the customer's invoice page
-  const sw = useTransform(P, (v) => eCubic(seg(v, 0.68, 0.8)));
+  const sw = useTransform(P, (v) => eCubic(seg(v, 0.49, 0.73)));
   const ownerOpacity = useTransform(sw, (t) => 1 - t);
   const ownerScale = useTransform(sw, (t) => lerp(1, 1.015, t));
   const ownerVisibility = useTransform(sw, (t) => (t >= 1 ? "hidden" : "visible"));
@@ -746,7 +709,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   const customerColor = useTransform(sw, [0, 1], ["#64748B", "#ffffff"]);
 
   // Laptop: owner pose → customer pose (same baseline)
-  const mv = useTransform(P, (v) => eSine(seg(v, 0.62, 0.96)));
+  const mv = useTransform(P, (v) => eSine(seg(v, 0.4, 1)));
   const invX = useMotionValue(-105); // customer-view X (measured below)
   // One continuous path: every laptop property is driven by the same progress (mv)
   const lapX = useTransform([mv, invX], ([t, x]) => lerp(LAP_X0, x, t) + lerp(OWNER.dx, CUSTOMER.dx, t));
@@ -757,9 +720,9 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   const tilt = useTransform(ownerAmt, (e) => lerp(CUSTOMER.deck, OWNER.deck, e));
 
   // Phone: hidden in the owner view, pops in after the screen switch
-  const phoneOpacity = useTransform(P, (v) => eCubic(seg(v, 0.76, 0.88)));
-  const phoneY = useTransform(P, (v) => -48 + PHONE.dy + lerp(40, 0, eOut(seg(v, 0.76, 1))));
-  const phoneScale = useTransform(P, (v) => lerp(0.82, 0.9, eBack(seg(v, 0.76, 1))) * (1 + PHONE.grow));
+  const phoneOpacity = useTransform(P, (v) => eCubic(seg(v, 0.61, 0.82)));
+  const phoneY = useTransform(P, (v) => -48 + PHONE.dy + lerp(40, 0, eOut(seg(v, 0.61, 1))));
+  const phoneScale = useTransform(P, (v) => lerp(0.86, 0.9, eOut(seg(v, 0.61, 1))) * (1 + PHONE.grow));
 
   // Scale the device stage to fit the right column (composition is ~760×700 stage px)
   const stageScale = useMotionValue(0.75);
@@ -802,7 +765,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   }, [invX]);
 
   const center = "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2";
-  const owner = { opacity: ownerOpacity, scale: ownerScale, visibility: ownerVisibility, toastOpacity: toastIn, toastY };
+  const owner = { opacity: ownerOpacity, scale: ownerScale, visibility: ownerVisibility };
 
   return (
     <section id={id} ref={trackRef} className="relative h-[132vh] bg-white">
