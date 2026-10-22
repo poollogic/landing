@@ -65,6 +65,7 @@ const Footer = () =>
     <div className="container footer-bottom" style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: 'var(--ink-5)', gap: 16, flexWrap: 'wrap' }}>
       <span>© {new Date().getFullYear()} PoolLogic. All rights reserved.</span>
       <span style={{ display: 'inline-flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
+        <FooterLink label="Partners" href="/partners" />
         <FooterLink label="Terms" href="/terms" />
         <FooterLink label="Privacy" href="/privacy" />
       </span>

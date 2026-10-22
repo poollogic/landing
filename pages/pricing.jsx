@@ -8,6 +8,7 @@ import SectionHeader from '../landing/SectionHeader.jsx';
 import FaqSection from '../landing/FaqSection.jsx';
 import { trialHref, usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { Footer } from '../components/site-chrome.jsx';
+import { BRACKETS } from '../pricingPlans.js';
 
 // /pricing: a dark top section (hero, customer slider, billing switch, plan
 // cards), then the comparison, the tier table and the FAQ on alternating light
@@ -32,17 +33,8 @@ const VISION_FEATURES = [
   'Route Handover Tool',
 ];
 
-// Price per month by active (not paused) customers:
-// [customers, Insight, Vision]. More than 2,500 customers is custom.
-// STOPS: each bracket's top, for the slider.
-const BRACKETS = [
-  ['0–100', 99, 159],
-  ['101–250', 199, 319],
-  ['251–500', 349, 559],
-  ['501–1,000', 599, 959],
-  ['1,001–1,500', 849, 1359],
-  ['1,501–2,500', 1299, 2079],
-];
+// Prices per month by active customers live in pricingPlans.js (the Partner Program
+// reads them too). STOPS: each bracket's top, for the slider.
 const STOPS = [100, 250, 500, 1000, 1500, 2500];
 const CUSTOM = STOPS.length; // the slider's last stop: more than 2,500
 const num = (n) => n.toLocaleString('en-US');

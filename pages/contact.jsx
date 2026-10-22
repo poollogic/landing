@@ -21,7 +21,13 @@ const TIER_OPTIONS = [
   'Not sure yet — help me pick',
 ];
 
+// /contact?topic=partner is the Partner Program's Apply button until its own
+// apply form ships: same form and endpoint, partner wording and fields.
+const isPartnerTopic = () =>
+  typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('topic') === 'partner';
+
 const ContactPage = () => {
+  const partner = isPartnerTopic();
   const [status, setStatus] = useState('idle'); // idle | submitting | success | error
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -65,15 +71,17 @@ const ContactPage = () => {
       <div style={{ maxWidth: 720, marginInline: 'auto' }}>
         <header style={{ marginBottom: 32, textAlign: 'center' }}>
           <h1 style={{ fontSize: 'clamp(32px, 3.8vw, 48px)', letterSpacing: '-0.035em', lineHeight: 1.1, color: 'var(--ink)' }}>
-            See PoolLogic on your routes.
+            {partner ? 'Apply to the Partner Program.' : 'See PoolLogic on your routes.'}
           </h1>
           <p style={{ marginTop: 14, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
-            Tell us a little about your business and we'll get back within one business day to walk you through PoolLogic on your routes, customers, and billing.
+            {partner
+              ? <>Tell us who you reach and how you'd share PoolLogic. We reply within 3 business days. <a href="/partners" style={{ color: 'var(--accent)' }}>How the program works</a>.</>
+              : "Tell us a little about your business and we'll get back within one business day to walk you through PoolLogic on your routes, customers, and billing."}
           </p>
         </header>
 
         {status === 'success' ? (
-          <SuccessPanel onReset={() => setStatus('idle')} />
+          <SuccessPanel partner={partner} onReset={() => setStatus('idle')} />
         ) : (
           <form
             onSubmit={onSubmit}
@@ -86,26 +94,39 @@ const ContactPage = () => {
               background: 'var(--bg-muted, var(--bg))',
             }}
           >
+            {partner && <input type="hidden" name="topic" value="partner" />}
             <Row>
               <Field label="Your name" name="name" required autoComplete="name" />
-              <Field label="Business name" name="business" required autoComplete="organization" />
+              <Field label={partner ? 'Channel, group or business' : 'Business name'} name="business" required autoComplete="organization" />
             </Row>
             <Row>
               <Field label="Email" name="email" type="email" required autoComplete="email" />
               <Field label="Phone (optional)" name="phone" type="tel" autoComplete="tel" />
             </Row>
 
-            <Row>
-              <SelectField label="How many technicians?" name="size" options={SIZE_OPTIONS} required />
-              <SelectField label="Which plan looks right?" name="tier" options={TIER_OPTIONS} required />
-            </Row>
+            {!partner && (
+              <Row>
+                <SelectField label="How many technicians?" name="size" options={SIZE_OPTIONS} required />
+                <SelectField label="Which plan looks right?" name="tier" options={TIER_OPTIONS} required />
+              </Row>
+            )}
 
-            <TextareaField
-              label="What's frustrating you about your current setup?"
-              name="message"
-              placeholder="A sentence or two is plenty — late invoices, missed chemistry, sticky paperwork, anything."
-              rows={5}
-            />
+            {partner ? (
+              <TextareaField
+                label="Where do you reach pool pros, and how would you share PoolLogic?"
+                name="message"
+                placeholder="Links to your channel, group or podcast (1–3), roughly how many people you reach, and whether they run pool companies."
+                rows={5}
+                required
+              />
+            ) : (
+              <TextareaField
+                label="What's frustrating you about your current setup?"
+                name="message"
+                placeholder="A sentence or two is plenty — late invoices, missed chemistry, sticky paperwork, anything."
+                rows={5}
+              />
+            )}
 
             {/* Honeypot — visually hidden, off the tab order */}
             <div style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }} aria-hidden="true">
@@ -129,7 +150,7 @@ const ContactPage = () => {
                 disabled={status === 'submitting'}
                 style={{ minWidth: 180 }}
               >
-                {status === 'submitting' ? 'Sending…' : 'Get a demo'}
+                {status === 'submitting' ? 'Sending…' : partner ? 'Apply' : 'Get a demo'}
               </button>
               <span style={{ fontSize: 13, color: 'var(--ink-5)' }}>
                 We reply within one business day. No spam, ever.
@@ -202,11 +223,12 @@ const SelectField = ({ label, name, options, required }) => (
   </label>
 );
 
-const TextareaField = ({ label, name, placeholder, rows = 4 }) => (
+const TextareaField = ({ label, name, placeholder, rows = 4, required }) => (
   <label style={{ display: 'block' }}>
-    <span style={labelStyle}>{label}</span>
+    <span style={labelStyle}>{label}{required && <span style={{ color: 'var(--accent)' }}> *</span>}</span>
     <textarea
       name={name}
+      required={required}
       placeholder={placeholder}
       rows={rows}
       style={{ ...inputStyle, resize: 'vertical', minHeight: 100 }}
@@ -216,14 +238,16 @@ const TextareaField = ({ label, name, placeholder, rows = 4 }) => (
   </label>
 );
 
-const SuccessPanel = ({ onReset }) => (
+const SuccessPanel = ({ partner, onReset }) => (
   <div style={{ padding: 40, border: '1px solid var(--line)', borderRadius: 14, background: 'var(--bg-muted, var(--bg))', textAlign: 'center' }}>
     <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'color-mix(in oklab, var(--brand-green) 20%, transparent)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-green, #22A06B)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
     </div>
     <h2 style={{ fontSize: 24, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: 8 }}>Got it — we'll be in touch.</h2>
     <p style={{ fontSize: 15.5, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 440, margin: '0 auto' }}>
-      We'll reply within one business day to set up your demo. If you need us sooner, email <a href="mailto:hello@poollogic.app" style={{ color: 'var(--accent)' }}>hello@poollogic.app</a>.
+      {partner
+        ? "We'll reply within 3 business days about joining the Partner Program. If you need us sooner, email"
+        : "We'll reply within one business day to set up your demo. If you need us sooner, email"} <a href="mailto:hello@poollogic.app" style={{ color: 'var(--accent)' }}>hello@poollogic.app</a>.
     </p>
     <button onClick={onReset} className="btn btn-outline" style={{ marginTop: 24 }}>Send another message</button>
   </div>

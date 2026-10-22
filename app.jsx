@@ -1,5 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Nav, Footer } from './components/site-chrome.jsx';
+import { payoutRange } from './partnerProgram.js';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -7,6 +8,9 @@ const PrivacyPage = lazy(() => import('./pages/privacy.jsx'));
 const TechAppPage = lazy(() => import('./pages/tech-app.jsx'));
 const ContactPage = lazy(() => import('./pages/contact.jsx'));
 const PricingPage = lazy(() => import('./pages/pricing.jsx'));
+const PartnersPage = lazy(() => import('./pages/partners.jsx'));
+const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
+const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 const OldHomePage = lazy(() => import('./pages/old-home.jsx'));
 
@@ -26,6 +30,9 @@ const isPrivacyPath = (p) => p === '/privacy' || p === '/privacy/';
 const isTechAppPath = (p) => p === '/tech-app' || p === '/tech-app/';
 const isContactPath = (p) => p === '/contact' || p === '/contact/';
 const isPricingPath = (p) => p === '/pricing' || p === '/pricing/';
+const isPartnersPath = (p) => p === '/partners' || p === '/partners/';
+const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/terms/';
+const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 const isLandingPath = (p) => p === '/landing' || p === '/landing/';
 
 const SITE_ORIGIN = 'https://poollogic.app';
@@ -62,6 +69,21 @@ const ROUTE_META = {
     title: 'Privacy Policy — PoolLogic',
     description: 'PoolLogic privacy policy.',
     path: '/privacy',
+  },
+  partners: {
+    title: 'Partner Program — PoolLogic',
+    description: `Get paid when pool pros switch to PoolLogic: a flat ${payoutRange()} for every company you refer, set by its plan and size.`,
+    path: '/partners',
+  },
+  partnerTerms: {
+    title: 'Partner Program Terms — PoolLogic',
+    description: 'The terms of the PoolLogic Partner Program: referrals, what you earn per paying technician, payouts, disclosure and what partners may not do.',
+    path: '/partners/terms',
+  },
+  partnerKit: {
+    title: 'Partner kit — PoolLogic',
+    description: 'The PoolLogic partner disclosure kit: the exact words to use on each platform, and what partners can and can\'t say.',
+    path: '/partners/kit',
   },
   // The previous homepage, kept at /landing and out of search results.
   landing: {
@@ -120,6 +142,9 @@ const App = () => {
     else if (isTechAppPath(path)) meta = ROUTE_META.techApp;
     else if (isContactPath(path)) meta = ROUTE_META.contact;
     else if (isPricingPath(path)) meta = ROUTE_META.pricing;
+    else if (isPartnersPath(path)) meta = ROUTE_META.partners;
+    else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
+    else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
     else if (isLandingPath(path)) meta = ROUTE_META.landing;
     applyRouteMeta(meta);
   }, [path]);
@@ -191,6 +216,34 @@ const App = () => {
     );
   }
 
+  if (isPartnersPath(path)) {
+    return (
+      <>
+        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <PartnersPage />
+          </Suspense>
+        </ErrorBoundary>
+        <Footer />
+      </>
+    );
+  }
+
+  if (isPartnerTermsPath(path)) {
+    return (
+      <>
+        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <PartnerTermsPage />
+          </Suspense>
+        </ErrorBoundary>
+        <Footer />
+      </>
+    );
+  }
+
   // The previous homepage, kept at /landing (noindex, see ROUTE_META.landing).
   if (isLandingPath(path)) {
     return (
@@ -203,6 +256,20 @@ const App = () => {
               headline={TWEAK_DEFAULTS.headline}
               subhead={TWEAK_DEFAULTS.subhead}
             />
+          </Suspense>
+        </ErrorBoundary>
+        <Footer />
+      </>
+    );
+  }
+
+  if (isPartnerKitPath(path)) {
+    return (
+      <>
+        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <PartnerKitPage />
           </Suspense>
         </ErrorBoundary>
         <Footer />
