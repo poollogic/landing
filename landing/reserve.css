@@ -88,12 +88,14 @@
 .rsv-price-plans small { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; }
 .rsv-price-plans b { font-size: 24px; font-weight: 700; letter-spacing: -.02em; color: #f8fafc; font-variant-numeric: tabular-nums; }
 .rsv-price-plans span { margin-left: 2px; font-size: 13.5px; color: #94a3b8; }
+.rsv-price .rsv-price-trial { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(96, 165, 250, .16); font-size: 14px; font-weight: 500; color: #e2e8f0; text-wrap: balance; }
 
 /* The buttons: the homepage hero CTA, full width */
 .rsv-hero .rsv-cta { width: 100%; max-width: none; margin-top: 20px; justify-content: center; padding: 14px 20px; }
 .rsv-hero .rsv-cta:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
 .rsv-hero .rsv-cta:disabled > svg { transform: none; }
-.rsv-fine { margin-top: 10px; text-align: center; font-size: 12.5px; color: #64748b; }
+.rsv-fine { margin-top: 10px; text-align: center; font-size: 12.5px; line-height: 1.5; color: #64748b; text-wrap: balance; }
+.rsv-fine b { font-weight: 500; color: #94a3b8; } /* the risk-free promise reads first */
 
 /* Step 2 */
 .rsv-recap {
@@ -144,6 +146,8 @@
 }
 @media (max-width: 559.98px) {
   .rsv-card { padding: 20px; }
+  .rsv-locked { display: block; } /* "Locked in today" and the yearly saving on their own lines */
+  .rsv-sep { display: none; }
   .rsv-sizes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .rsv-row { grid-template-columns: minmax(0, 1fr); }
 }

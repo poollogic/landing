@@ -74,17 +74,19 @@ function PricePanel({ size }) {
   if (!row) {
     return (
       <div className="rsv-price">
+        <p className="rsv-price-trial">Either way, you start with a 30-day free trial.</p>
         <p>Over 2,500 customers is priced individually. We’ll set your rate with you on the call.</p>
       </div>
     );
   }
   return (
     <div className="rsv-price">
+      <p className="rsv-price-trial">Insight or Vision? Your 30-day free trial gives you plenty of time to decide.</p>
       <div className="rsv-price-plans">
         <div><small>Insight</small><b>${row[1]}</b><span>/mo</span></div>
         <div><small>Vision</small><b>${row[2]}</b><span>/mo</span></div>
       </div>
-      <p>Locked in when you reserve. Save 25% paying yearly.</p>
+      <p><span className="rsv-locked">Locked in today</span><span className="rsv-sep"> · </span>Save an extra 25% paying yearly</p>
     </div>
   );
 }
@@ -236,7 +238,9 @@ export default function ReservePage() {
                           <span className="hero-cta-label">Next</span>
                           <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
                         </button>
-                        <p className="rsv-fine">Takes about 30 seconds. No credit card.</p>
+                        <p className="rsv-fine">
+                          <b>No credit card. Cancel within 30 days and you pay nothing.</b> Takes about 30 seconds.
+                        </p>
                       </div>
                     ) : (
                       <div key="details" className={`rsv-panel is-from-${dir}`}>
@@ -303,7 +307,9 @@ export default function ReservePage() {
                           <span className="hero-cta-label">{status === 'sending' ? 'Locking in…' : 'Lock in my rate'}</span>
                           <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
                         </button>
-                        <p className="rsv-fine">No credit card. We’ll only email you about your spot.</p>
+                        <p className="rsv-fine">
+                          <b>No credit card. Cancel within 30 days and you pay nothing.</b> We’ll only email you about your spot.
+                        </p>
                       </div>
                     )}
                   </form>
