@@ -17,7 +17,8 @@ const loadScript = () => {
   return scriptPromise;
 };
 
-export default function Turnstile({ onToken, theme = 'auto' }) {
+// appearance 'interaction-only' keeps the widget invisible unless Cloudflare needs a challenge.
+export default function Turnstile({ onToken, theme = 'auto', appearance = 'always' }) {
   const ref = useRef(null);
   useEffect(() => {
     if (!TURNSTILE_SITE_KEY) return undefined;
@@ -28,6 +29,7 @@ export default function Turnstile({ onToken, theme = 'auto' }) {
       id = window.turnstile.render(ref.current, {
         sitekey: TURNSTILE_SITE_KEY,
         theme,
+        appearance,
         size: 'flexible',
         callback: (token) => onToken(token),
         'expired-callback': () => onToken(null),
@@ -38,7 +40,8 @@ export default function Turnstile({ onToken, theme = 'auto' }) {
       cancelled = true;
       if (id !== undefined) window.turnstile?.remove(id);
     };
-  }, [onToken, theme]);
+  }, [onToken, theme, appearance]);
   if (!TURNSTILE_SITE_KEY) return null;
-  return <div ref={ref} className="min-h-[65px]" />;
+  // Space is reserved only for an always-visible widget; a challenge, if one appears, takes its own.
+  return <div ref={ref} className={`overflow-hidden rounded-[10px]${appearance === 'always' ? ' min-h-[65px]' : ''}`} />;
 }

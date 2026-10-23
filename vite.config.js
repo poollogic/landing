@@ -12,6 +12,9 @@ import react from '@vitejs/plugin-react';
 // text renders in a metric-matched fallback until they arrive (landing.css).
 const ROUTE_PAGES = { '/': 'pages/landing.jsx', '/pricing': 'pages/pricing.jsx', '/reserve': 'pages/reserve.jsx' };
 const MARKETING_FONTS = ['/fonts/Satoshi-Regular.woff2', '/fonts/Satoshi-Medium.woff2', '/fonts/Satoshi-Bold.woff2'];
+// Extra fonts a page's first screen uses: the homepage hero's dashboard preview is drawn in Inter
+// (preview/preview.css), which the browser would otherwise only find once that CSS applies.
+const PAGE_FONTS = { '/': ['/fonts/Inter-latin.woff2'] };
 const SITE_FONTS = ['/fonts/Geist.woff2']; // the rest of the site
 
 function routePreloads() {
@@ -38,10 +41,10 @@ function routePreloads() {
           };
           // Match on contents: a page chunk that others import from has no facade module.
           walk(chunks.find((c) => (c.moduleIds ?? Object.keys(c.modules)).some((id) => id.endsWith(page))));
-          return { js, css, font: MARKETING_FONTS };
+          return { js, css };
         };
         const routes = { '*': { js: [], css: [], font: SITE_FONTS } };
-        for (const [path, page] of Object.entries(ROUTE_PAGES)) routes[path] = depsOf(page);
+        for (const [path, page] of Object.entries(ROUTE_PAGES)) routes[path] = { ...depsOf(page), font: [...MARKETING_FONTS, ...(PAGE_FONTS[path] ?? [])] };
         const script = `(function(){var R=${JSON.stringify(routes)};var p=location.pathname.replace(/\\/+$/,'')||'/';var r=R[p]||R['*'],h=document.head;
 function l(rel,href,as,low){var e=document.createElement('link');e.rel=rel;e.href=href;if(as)e.as=as;if(as==='font')e.type='font/woff2';e.crossOrigin='';if(low)e.fetchPriority='low';h.appendChild(e);}
 r.css.forEach(function(f){l('preload',f,'style');});r.js.forEach(function(f){l('modulepreload',f);});var fonts=function(){r.font.forEach(function(f){l('preload',f,'font',1);});};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fonts):fonts();})();`;

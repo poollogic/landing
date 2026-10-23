@@ -1,0 +1,123 @@
+/* /reserve (pages/reserve.jsx): the homepage's look. Page colour is the shared --mktg-bg-page
+   token (tailwind.config.js), the section's light is the homepage hero's recipe, and the submit
+   button is the hero CTA. */
+
+/* The page stays dark whatever the OS theme (the site footer is dark everywhere: index.html). */
+.rsv-page { background: var(--mktg-bg-page); }
+
+/* Section: same atmosphere as the homepage hero */
+.rsv {
+  position: relative;
+  overflow: clip; /* clip, not hidden: hidden breaks the sticky column */
+  background:
+    radial-gradient(60% 40% at 30% 0%, rgba(96, 150, 240, .10), transparent 70%),
+    radial-gradient(70% 35% at 60% 55%, rgba(30, 41, 59, .55), transparent 70%),
+    linear-gradient(#141a26, var(--mktg-bg-page) 55%);
+}
+.rsv::before { /* soft light source, as .hero-decor .light-source */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -220px;
+  width: 720px;
+  height: 520px;
+  transform: translateX(-80%);
+  background: radial-gradient(closest-side, rgba(235, 242, 255, .12), rgba(96, 150, 240, .05) 50%, transparent 75%);
+  filter: blur(20px);
+  pointer-events: none;
+}
+.rsv > .container { position: relative; }
+
+/* Type */
+.rsv-eyebrow { color: rgb(147, 164, 191); letter-spacing: .14em; }
+.rsv h1 { color: #f8fafc; letter-spacing: -.035em; }
+.rsv-lead { color: rgb(151, 163, 182); }
+.rsv ol > li > span:first-child { border-color: rgba(148, 163, 184, .22); background: rgba(255, 255, 255, .03); color: #e2e8f0; }
+.rsv ol p:first-child { color: #f1f5f9; }
+.rsv ol p + p { color: rgb(148, 163, 184); }
+.rsv-next { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: rgb(147, 164, 191); }
+
+/* Form card (and the success card that replaces it) */
+.rsv form,
+.rsv .rsv-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .015));
+  border: 1px solid rgba(148, 163, 184, .14);
+  border-radius: 20px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 40px 80px -40px rgba(0, 0, 0, .8), 0 -20px 80px -40px rgba(59, 130, 246, .18);
+}
+.rsv label { color: #cbd5e1; font-size: 14px; font-weight: 500; }
+
+/* Fields */
+.rsv input,
+.rsv select,
+.rsv textarea {
+  background-color: rgba(148, 163, 184, .06);
+  border: 1px solid rgba(148, 163, 184, .16);
+  border-radius: 10px;
+  color: #f8fafc;
+  transition: border-color .15s, box-shadow .15s, background-color .15s;
+}
+.rsv input::placeholder,
+.rsv textarea::placeholder { color: rgba(148, 163, 184, .55); }
+.rsv input:hover,
+.rsv select:hover,
+.rsv textarea:hover { border-color: rgba(148, 163, 184, .28); }
+.rsv input:focus,
+.rsv select:focus,
+.rsv textarea:focus {
+  border-color: #3b82f6;
+  background-color: rgba(59, 130, 246, .06);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .22);
+  outline: none;
+}
+.rsv select option { background: #14171e; color: #f8fafc; }
+
+/* Submit = the homepage hero CTA (.hero-cta in hero.css), hover included */
+.rsv form button[type="submit"] {
+  height: 52px;
+  border-radius: 12px;
+  font-weight: 600;
+  background: linear-gradient(rgb(59, 130, 246), rgb(37, 99, 235));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .25),
+    inset 0 -1px 0 rgba(0, 0, 0, .2),
+    0 0 0 1px rgba(59, 130, 246, .6),
+    0 2px 6px rgba(0, 0, 0, .35),
+    0 10px 30px -10px rgba(59, 130, 246, .55);
+}
+.rsv form button[type="submit"]:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .3),
+    inset 0 -1px 0 rgba(0, 0, 0, .2),
+    0 0 0 1px rgba(96, 165, 250, .8),
+    0 6px 14px -4px rgba(0, 0, 0, .45);
+}
+
+/* Desktop: the intro and steps stay in view while filling in the form */
+@media (min-width: 1024px) {
+  .rsv > .container > div:first-child { position: sticky; top: 110px; align-self: start; }
+}
+
+/* Tablets: one column, the steps as a 3-up row, the form centred */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .rsv > .container { max-width: 680px; gap: 40px; }
+  .rsv ol { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .rsv ol > li { flex-direction: column; gap: 10px; }
+}
+
+/* Phones: the form right after the intro; the steps follow it as "What happens next" */
+@media (max-width: 767.98px) {
+  section.rsv { padding-top: 96px; padding-bottom: 56px; }
+  .rsv > .container { gap: 24px; }
+  .rsv-eyebrow { font-size: 11px; }
+  .rsv h1 { font-size: 34px; }
+  .rsv-lead { font-size: 16px; line-height: 1.55; }
+  .rsv form { padding: 20px; gap: 16px; }
+  .rsv input,
+  .rsv select { height: 48px; font-size: 16px; } /* 16px stops iOS zooming in on focus */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rsv form button[type="submit"]:not(:disabled):hover { transform: none; }
+}

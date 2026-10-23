@@ -50,8 +50,8 @@ const SETUP_BULLETS = [
 ];
 const RESULT_BULLETS = [
   ["One-tap Stripe checkout", "Card, Apple Pay or ACH — no logins, no PDFs."],
+  ["Autopay, if they want it", "They can choose to save their card or bank account as they pay. The next invoice pays itself."],
   ["Self-serve receipts & history", "Every invoice, payment and visit report in one place."],
-  ["Any device, anywhere", "Looks perfect on a phone, tablet or desktop."],
 ];
 
 /* ---------- Laptop showing the desktop invoice (modeled on the live PoolLogic portal invoice) ---------- */
@@ -854,8 +854,8 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   const owner = { opacity: ownerOpacity, scale: ownerScale, visibility: ownerVisibility };
 
   return (
-    <section id={id} ref={trackRef} className="relative h-[150svh] bg-white md:h-[132vh]">
-      <div className="sticky top-0 flex h-svh items-center overflow-hidden bg-white md:h-screen">
+    <section id={id} ref={trackRef} className="relative h-[150svh] bg-white md:h-[180svh] lg:h-[132vh]">
+      <div className="sticky top-0 flex h-svh items-center overflow-hidden bg-white lg:h-screen">
         <div className="container grid w-full grid-cols-1 items-center gap-16 lg:grid-cols-2">
           {/* LEFT — copy */}
           <div className="billing-copy relative h-[420px] lg:h-[560px]">
@@ -879,7 +879,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
               </h2>
               <p className="mt-4 max-w-[500px] text-[17px] leading-relaxed text-slate-500">
                 Every invoice arrives on schedule with a clear breakdown and a Pay now button: card, Apple Pay or ACH
-                through Stripe. Receipts and service history are always there when they need them.
+                through Stripe. They can opt in to autopay directly from the invoice.
               </p>
               <Bullets items={RESULT_BULLETS} />
             </motion.div>

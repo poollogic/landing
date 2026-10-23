@@ -396,6 +396,15 @@
       margin-bottom: 8px;
     }
   }
+  /* Site footer (components/site-chrome.jsx Footer): the same dark bar on every page. Links go
+     white on hover with the nav's glow (.nav-links a:hover in landing/hero.css). */
+  .site-footer { background: #0e1015; border-top: 1px solid rgba(148, 163, 184, .10); padding: 24px 0; }
+  .site-footer .footer-bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: rgb(148, 163, 184); }
+  .site-footer-links { display: inline-flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .site-footer-link { font-size: 13px; line-height: 1.4; color: rgb(148, 163, 184); text-decoration: none; transition: color .3s, text-shadow .3s; }
+  .site-footer-link:hover,
+  .site-footer-link:focus-visible { color: #F8FAFC; text-shadow: 0 0 18px rgba(147, 197, 253, .55); }
+
   @media (max-width: 520px) {
     .footer-grid {
       grid-template-columns: 1fr !important;

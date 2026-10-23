@@ -138,30 +138,73 @@
 }
 .bz-bal-due { font-size: 13px; color: oklch(0.553 0.013 58.071); margin-top: 4px; }
 
-/* ---------- Billing section (#billing) on phones: everything in one 100svh screen ----------
-   The section is 150svh on phones (132vh from md), its sticky frame 100svh (iOS Safari's
-   100vh is taller than what's visible). Scoped under #billing so it beats the component's
-   Tailwind heights without !important. .billing-devices already has a JS-driven transform,
-   so it uses the individual scale/translate properties. */
+/* ---------- Billing section (#billing): fit every screen ----------
+   The section is 150svh on phones, 180svh on tablets and narrow windows (so the switch isn't
+   instant) and 132vh from lg; its sticky frame is 100svh below lg (iOS Safari's 100vh is
+   taller than what's visible). Scoped under #billing so it beats the component's Tailwind
+   heights without !important. .billing-devices already has a JS-driven transform, so it uses
+   the individual scale/translate properties (they compose with it). */
+
+/* Phones (< 768px): single column, no bullets */
 @media (max-width: 767.98px) {
   #billing .container { gap: 8px; padding-top: 8px; }
-
   #billing .billing-copy { height: 250px; }
   #billing .billing-copy > div > p:first-child { font-size: 11px; } /* eyebrow */
   #billing .billing-copy h2 { font-size: 28px; line-height: 1.15; margin-top: 8px; text-wrap: balance; }
   #billing .billing-copy h2 + p { font-size: 15px; line-height: 1.55; margin-top: 10px; text-wrap: pretty; }
-  #billing .billing-copy ul { display: none; } /* bullets hidden on phones */
-
+  #billing .billing-copy ul { display: none; }
   #billing .billing-stage { height: 330px; }
   #billing .billing-toggle { top: 0; }
   #billing .billing-devices { scale: .9; translate: 0 -6px; }
 }
+/* short phones (iPhone with Safari bars, SE) */
 @media (max-width: 767.98px) and (max-height: 700px) {
   #billing .billing-copy { height: 236px; }
-  #billing .billing-copy h2 { font-size: 26px; } /* keeps the longer headline off the toggle on short screens */
-  #billing .billing-copy h2 + p { font-size: 14.5px; }
   #billing .billing-stage { height: 300px; }
   #billing .billing-devices { scale: .8; translate: 0 -10px; }
+}
+/* tall phones (Pro Max, Pixel XL) */
+@media (max-width: 767.98px) and (min-height: 860px) {
+  #billing .billing-stage { height: 400px; }
+  #billing .billing-devices { scale: 1; translate: 0 0; }
+}
+
+/* Tablets and narrow windows (768–1023px): two columns like desktop */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  #billing .container { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 28px; align-items: center; }
+  #billing .billing-copy { height: 460px; }
+  #billing .billing-copy h2 { font-size: 30px; line-height: 1.15; text-wrap: balance; }
+  #billing .billing-copy h2 + p { font-size: 15.5px; line-height: 1.55; }
+  #billing .billing-copy ul { margin-top: 20px; gap: 12px; }
+  #billing .billing-copy ul li div div { font-size: 14px; } /* bullet title and text */
+  #billing .billing-stage { height: 400px; }
+  #billing .billing-toggle { top: 0; }
+  #billing .billing-devices { scale: .74; translate: 0 -6px; }
+}
+/* tall tablets (iPad portrait) */
+@media (min-width: 768px) and (max-width: 1023.98px) and (min-height: 900px) {
+  #billing .billing-stage { height: 480px; }
+  #billing .billing-devices { scale: .86; }
+}
+/* short tablets and small laptop windows */
+@media (min-width: 768px) and (max-width: 1023.98px) and (max-height: 640px) {
+  #billing .billing-copy { height: 320px; }
+  #billing .billing-copy ul { display: none; }
+}
+/* landscape phones and very short windows */
+@media (min-width: 768px) and (max-width: 1023.98px) and (max-height: 480px) {
+  #billing .billing-copy { height: calc(100svh - 40px); }
+  #billing .billing-copy h2 { font-size: 24px; }
+  #billing .billing-copy h2 + p { font-size: 14px; }
+  #billing .billing-stage { height: calc(100svh - 40px); }
+  #billing .billing-devices { scale: .6; translate: 0 8px; }
+}
+
+/* Desktop (≥ 1024px): only short windows change. Below 720px tall, so 1280×720 stays as it is. */
+@media (min-width: 1024px) and (max-height: 719.98px) {
+  #billing .billing-copy { height: min(560px, calc(100svh - 40px)); }
+  #billing .billing-stage { height: min(640px, calc(100svh - 40px)); }
+  #billing .billing-devices { scale: .86; }
 }
 
 /* Touch screens: the phone's shadow as a plain box-shadow, with no filter and no permanent layer

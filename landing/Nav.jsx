@@ -84,8 +84,8 @@ const Nav = () => {
       </div>
     </header>
     {/* Dims the page behind the open menu; outside the header so it sits under it (z-index 99 < 100).
-        A tap on it closes the menu (the outside-tap handler above). */}
-    <div className={`nav-scrim${open ? ' is-open' : ''}`} aria-hidden="true" />
+        A tap on it closes the menu. */}
+    <div className={`nav-scrim${open ? ' is-open' : ''}`} onClick={close} aria-hidden="true" />
     </>
   );
 };

@@ -59,15 +59,17 @@ const FooterLink = ({ label, href }) => (
     onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink-5)'}>{label}</a>
 );
 
-// Link grid temporarily hidden until destinations are wired. Bottom bar still renders.
+// The site footer on every page: dark whatever the page or OS theme, links turning white on
+// hover like the nav's (.site-footer in index.html). Link grid hidden until destinations are
+// wired. (FooterLink above stays for the preserved v1 homepage's footer in sections.jsx.)
 const Footer = () =>
-<footer style={{ borderTop: '1px solid var(--line)', padding: '24px 0' }}>
-    <div className="container footer-bottom" style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: 'var(--ink-5)', gap: 16, flexWrap: 'wrap' }}>
+<footer className="site-footer">
+    <div className="container footer-bottom">
       <span>© {new Date().getFullYear()} PoolLogic. All rights reserved.</span>
-      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-        <FooterLink label="Partners" href="/partners" />
-        <FooterLink label="Terms" href="/terms" />
-        <FooterLink label="Privacy" href="/privacy" />
+      <span className="site-footer-links">
+        <a href="/partners" className="site-footer-link">Partners</a>
+        <a href="/terms" className="site-footer-link">Terms</a>
+        <a href="/privacy" className="site-footer-link">Privacy</a>
       </span>
     </div>
   </footer>;

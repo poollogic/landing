@@ -7,8 +7,6 @@ import usePhonePreviewScroll from './usePhonePreviewScroll.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import useHeroScrollFx from './useHeroScrollFx.js';
 
-// The billing-run toast is decoration: absolutely positioned (it can't move
-// anything), hidden on phones, and only loaded once the page has painted.
 // Phones (<768px). Read before the first render, so the right preview paints straight
 // away (no flash, no layout shift); updates if the window crosses the breakpoint.
 const PHONE_QUERY = '(max-width: 767.98px)';
@@ -19,11 +17,13 @@ const subscribePhone = (fn) => {
 };
 const useIsPhone = () => useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
 
+// The billing-run toast is decoration: absolutely positioned (it can't move
+// anything), hidden on phones, and only loaded once the page has painted.
 const PreviewToast = lazy(() => import('./preview/PreviewToast.jsx'));
 function useAfterPaint() {
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    if (window.matchMedia('(max-width: 767.98px)').matches) return undefined; // display:none there anyway
+    if (window.matchMedia(PHONE_QUERY).matches) return undefined; // display:none there anyway
     const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 200));
     const cancel = window.cancelIdleCallback || clearTimeout;
     const id = idle(() => setReady(true), { timeout: 1500 });
@@ -32,7 +32,7 @@ function useAfterPaint() {
   return ready;
 }
 
-// Hero for /landing. Background, light beams, type and CTA styling live in
+// The homepage hero. Background, light beams, type and CTA styling live in
 // landing/hero.css; layout and the entrance animation stay in Tailwind. On
 // desktop, useHeroScrollFx adds the scroll effect (fixed, fading headline).
 

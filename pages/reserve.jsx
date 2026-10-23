@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
+import '../landing/reserve.css';
 import Nav from '../landing/Nav.jsx';
 import Turnstile from '../landing/Turnstile.jsx';
 import { submitForm } from '../landing/forms.js';
@@ -21,7 +22,24 @@ const STEPS = [
 ];
 
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400';
-const INPUT = 'mt-1.5 w-full rounded-lg border border-slate-700/70 bg-slate-900/60 px-3.5 py-2.5 text-body text-white placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30';
+// Field colours, borders and focus ring come from landing/reserve.css (.rsv input/select/textarea).
+const INPUT = 'mt-1.5 w-full rounded-lg border px-3.5 py-2.5 text-body text-white focus:outline-none';
+
+function Steps({ className }) {
+  return (
+    <ol className={`gap-6 ${className}`}>
+      {STEPS.map(([title, body], i) => (
+        <li key={title} className="flex gap-4">
+          <span className="grid h-8 w-8 flex-none place-items-center rounded-full border font-tnum text-meta font-semibold">{i + 1}</span>
+          <div>
+            <p className="text-body font-semibold">{title}</p>
+            <p className="mt-0.5 text-meta">{body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
 function Field({ label, name, error, optional, children }) {
   return (
@@ -49,7 +67,7 @@ const Select = ({ name, options, error, placeholder = 'Choose one' }) => (
 function Success({ name, business, already }) {
   const first = (name || '').trim().split(' ')[0];
   return (
-    <div className="rounded-2xl border border-slate-700/50 bg-mktg-surface/60 p-8 text-center sm:p-10" role="status">
+    <div className="rsv-card rounded-2xl p-8 text-center sm:p-10" role="status">
       <span className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-emerald-500/15 text-emerald-400">
         <Check size={22} strokeWidth={2.5} aria-hidden="true" />
       </span>
@@ -101,32 +119,23 @@ export default function ReservePage() {
   };
 
   return (
-    <div className="mktg relative flex min-h-screen flex-col bg-mktg-base font-sans text-mktg-muted antialiased">
+    <div className="mktg rsv-page relative flex min-h-screen flex-col font-sans text-mktg-muted antialiased">
       <Nav />
       <main className="flex-1">
-        <section className="bg-mktg-base pb-24 pt-[var(--page-hero-top)]" aria-labelledby="reserve-heading">
+        <section className="rsv pb-24 pt-[var(--page-hero-top)]" aria-labelledby="reserve-heading">
           <div className="container grid grid-cols-1 gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
             {/* The why and what happens next */}
             <div className="lg:pt-4">
-              <p className="text-caption font-semibold uppercase tracking-[.14em] text-blue-500">Now onboarding in small groups</p>
+              <p className="rsv-eyebrow text-caption font-semibold uppercase tracking-[.14em]">Now onboarding in small groups</p>
               <h1 id="reserve-heading" className="mt-3.5 text-[clamp(34px,4.1vw,46px)] font-bold leading-[1.08] tracking-[-0.028em] text-white">
                 Reserve your spot.
               </h1>
-              <p className="mt-5 max-w-[480px] text-lead text-slate-400">
+              <p className="rsv-lead mt-5 max-w-[480px] text-lead">
                 We bring on new pool companies a few at a time, so we’re here to answer every question and make sure your
                 setup, and your whole experience, is perfect from day one.
               </p>
-              <ol className="mt-10 grid gap-6">
-                {STEPS.map(([title, body], i) => (
-                  <li key={title} className="flex gap-4">
-                    <span className="grid h-8 w-8 flex-none place-items-center rounded-full border border-slate-700 font-tnum text-meta font-semibold text-slate-300">{i + 1}</span>
-                    <div>
-                      <p className="text-body font-semibold text-white">{title}</p>
-                      <p className="mt-0.5 text-meta text-slate-400">{body}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              {/* md and up: the steps sit under the intro; phones get them after the form (below) */}
+              <Steps className="mt-10 hidden md:grid" />
             </div>
 
             {/* The form */}
@@ -134,7 +143,7 @@ export default function ReservePage() {
               {status === 'done' ? (
                 <Success {...result} />
               ) : (
-                <form onSubmit={onSubmit} noValidate className="grid gap-5 rounded-2xl border border-slate-700/50 bg-mktg-surface/60 p-6 sm:p-8">
+                <form onSubmit={onSubmit} noValidate className="grid gap-5 rounded-2xl p-6 sm:p-8">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <Field label="Your name" name="name" error={fields.name}>
                       <Input name="name" error={fields.name} required autoComplete="name" maxLength={100} />
@@ -169,7 +178,7 @@ export default function ReservePage() {
                     <label>Company website<input type="text" name="company_website" tabIndex={-1} autoComplete="off" /></label>
                   </div>
 
-                  <Turnstile key={checkKey} onToken={onToken} theme="dark" />
+                  <Turnstile key={checkKey} onToken={onToken} theme="dark" appearance="interaction-only" />
 
                   {status === 'error' && (
                     <p role="alert" className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-3 text-meta text-rose-300">
@@ -180,7 +189,7 @@ export default function ReservePage() {
                   <button
                     type="submit"
                     disabled={status === 'sending'}
-                    className={`flex h-12 items-center justify-center gap-2 rounded-lg bg-blue-600 text-body font-semibold text-white shadow-lg transition-colors hover:bg-blue-500 disabled:opacity-70 ${FOCUS}`}
+                    className={`flex h-12 items-center justify-center gap-2 rounded-lg text-body font-semibold text-white transition-[transform,box-shadow] disabled:opacity-70 ${FOCUS}`}
                   >
                     {status === 'sending' ? 'Reserving…' : <>Reserve my spot <ArrowRight size={17} strokeWidth={1.8} aria-hidden="true" /></>}
                   </button>
@@ -190,12 +199,16 @@ export default function ReservePage() {
                 </form>
               )}
             </div>
+
+            {/* Phones: what happens next, after the form */}
+            <div className="md:hidden">
+              <p className="rsv-next">What happens next</p>
+              <Steps className="mt-5 grid" />
+            </div>
           </div>
         </section>
       </main>
-      <div style={{ background: 'var(--bg)' }}>
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }
