@@ -1,80 +1,6 @@
-/* The Billing section's phone mockup (BillingMockups.jsx): the iPhone with the
-   customer's invoice. The section itself is BillingScrollMorph.jsx, which
-   positions and animates it; it renders with the --embedded modifier below. */
-
-/* iPhone */
-.bz-phone {
-  position: absolute;
-  z-index: 1;
-  top: -48px;
-  right: 6px;
-  width: 262px;
-  height: 586px;
-  padding: 9px;
-  border-radius: 42px;
-  background: #000;
-  box-shadow:
-    0 0 0 2px #2c2c2e,
-    0 0 0 3.5px #8e8e93,
-    0 0 0 4.5px #3a3a3c,
-    inset 0 0 0 1px rgba(255, 255, 255, .06),
-    0 2px 2px rgba(0, 0, 0, .08),
-    0 8px 8px rgba(0, 0, 0, .08),
-    0 24px 24px rgba(0, 0, 0, .08),
-    0 48px 60px -10px rgba(0, 0, 0, .25);
-}
-/* Side buttons: volume up/down on the left, power on the right. */
-.bz-phone::before,
-.bz-phone::after {
-  content: '';
-  position: absolute;
-  width: 3px;
-  border-radius: 2px;
-}
-.bz-phone::before {
-  left: -7.5px;
-  top: 110px;
-  height: 124px;
-  background:
-    linear-gradient(90deg, #6b6b70, #2c2c2e) 0 0 / 100% 54px no-repeat,
-    linear-gradient(90deg, #6b6b70, #2c2c2e) 0 70px / 100% 54px no-repeat;
-}
-.bz-phone::after {
-  right: -7.5px;
-  top: 150px;
-  height: 80px;
-  background: linear-gradient(270deg, #6b6b70, #2c2c2e);
-}
-.bz-screen {
-  position: relative;
-  width: 244px;
-  height: 568px;
-  border-radius: 33px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #fff 0%, #fff 25%, #f3f5f8 70%, #eef2f6 100%);
-}
-.bz-island {
-  position: absolute;
-  top: 11px;
-  left: 50%;
-  z-index: 2;
-  width: 80px;
-  height: 23px;
-  border-radius: 999px;
-  background: #000;
-  transform: translateX(-50%);
-}
-.bz-home {
-  position: absolute;
-  bottom: 6px;
-  left: 50%;
-  z-index: 2;
-  width: 96px;
-  height: 4px;
-  border-radius: 999px;
-  background: #111;
-  transform: translateX(-50%);
-}
+/* The Billing section's phone mockup (BillingMockups.jsx): the customer's invoice
+   inside the shared iPhone frame (PhoneFrame.jsx, phone.css). The section itself is
+   BillingScrollMorph.jsx, which positions and animates it. */
 
 /* Screen content: laid out at a 390px design width, scaled to the 244px screen. */
 .bz-screen-content {
@@ -93,7 +19,8 @@
   justify-content: space-between;
   padding: 4px 30px 0 46px;
 }
-.bz-sb-time { color: #fff; font-size: 17px; font-weight: 600; letter-spacing: -.3px; }
+.bz-statusbar { color: #fff; }
+.bz-sb-time { color: inherit; font-size: 17px; font-weight: 600; letter-spacing: -.3px; }
 .bz-sb-icons { display: inline-flex; align-items: center; gap: 6px; }
 .bz-stripebar {
   height: 36px;
@@ -211,24 +138,28 @@
 }
 .bz-bal-due { font-size: 13px; color: oklch(0.553 0.013 58.071); margin-top: 4px; }
 
-/* ---------- Embedded in BillingScrollMorph ----------
-   A plain block at its natural 262×586 size: no stage positioning, scaling,
-   parallax or animation, since the morph moves it. The morph also adds the
-   phone's drop-shadow, so the heavy shadow here is dropped; the phone keeps
-   its metal-edge rings. */
-.bz-phone--embedded {
-  position: relative; /* still the containing block for the phone's side buttons */
-  inset: auto;
-  z-index: auto;
-  margin: 0;
-  transform: none;
-  translate: none;
-  animation: none;
+/* ---------- Billing section (#billing) on phones: everything in one 100svh screen ----------
+   The section is 150svh on phones (132vh from md), its sticky frame 100svh (iOS Safari's
+   100vh is taller than what's visible). Scoped under #billing so it beats the component's
+   Tailwind heights without !important. .billing-devices already has a JS-driven transform,
+   so it uses the individual scale/translate properties. */
+@media (max-width: 767.98px) {
+  #billing .container { gap: 8px; padding-top: 8px; }
+
+  #billing .billing-copy { height: 250px; }
+  #billing .billing-copy > div > p:first-child { font-size: 11px; } /* eyebrow */
+  #billing .billing-copy h2 { font-size: 28px; line-height: 1.15; margin-top: 8px; text-wrap: balance; }
+  #billing .billing-copy h2 + p { font-size: 15px; line-height: 1.55; margin-top: 10px; text-wrap: pretty; }
+  #billing .billing-copy ul { display: none; } /* bullets hidden on phones */
+
+  #billing .billing-stage { height: 330px; }
+  #billing .billing-toggle { top: 0; }
+  #billing .billing-devices { scale: .9; translate: 0 -6px; }
 }
-.bz-phone--embedded {
-  box-shadow:
-    0 0 0 2px #2c2c2e,
-    0 0 0 3.5px #8e8e93,
-    0 0 0 4.5px #3a3a3c,
-    inset 0 0 0 1px rgba(255, 255, 255, .06);
+@media (max-width: 767.98px) and (max-height: 700px) {
+  #billing .billing-copy { height: 236px; }
+  #billing .billing-copy h2 { font-size: 26px; } /* keeps the longer headline off the toggle on short screens */
+  #billing .billing-copy h2 + p { font-size: 14.5px; }
+  #billing .billing-stage { height: 300px; }
+  #billing .billing-devices { scale: .8; translate: 0 -10px; }
 }

@@ -1,0 +1,118 @@
+/* The shared iPhone frame (PhoneFrame.jsx): the Billing section's phone and, on phones,
+   the hero's dashboard preview. At its natural size the frame is 262×586 with a 244×568
+   screen; callers scale it with CSS zoom. */
+
+.bz-phone {
+  position: absolute;
+  z-index: 1;
+  top: -48px;
+  right: 6px;
+  width: 262px;
+  height: 586px;
+  padding: 9px;
+  border-radius: 42px;
+  background: #000;
+  /* Space grey rim: dark band, a soft graphite edge, dark outline. Every phone's own
+     box-shadow (hero.css, revenue-mobile.css) starts with var(--bz-rim), so they all match. */
+  --bz-rim: 0 0 0 2px #1c1c1e, 0 0 0 3.5px #48484c, 0 0 0 4.5px #232325, inset 0 0 0 1px rgba(255, 255, 255, .06);
+  box-shadow:
+    var(--bz-rim),
+    0 2px 2px rgba(0, 0, 0, .08),
+    0 8px 8px rgba(0, 0, 0, .08),
+    0 24px 24px rgba(0, 0, 0, .08),
+    0 48px 60px -10px rgba(0, 0, 0, .25);
+}
+/* Side buttons: volume up/down on the left, power on the right. */
+.bz-phone::before,
+.bz-phone::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+}
+.bz-phone::before {
+  left: -7.5px;
+  top: 110px;
+  height: 124px;
+  background:
+    linear-gradient(90deg, #4a4a4e, #1f1f21) 0 0 / 100% 54px no-repeat,
+    linear-gradient(90deg, #4a4a4e, #1f1f21) 0 70px / 100% 54px no-repeat;
+}
+.bz-phone::after {
+  right: -7.5px;
+  top: 150px;
+  height: 80px;
+  background: linear-gradient(270deg, #4a4a4e, #1f1f21);
+}
+.bz-screen {
+  position: relative;
+  width: 244px;
+  height: 568px;
+  border-radius: 33px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fff 0%, #fff 25%, #f3f5f8 70%, #eef2f6 100%);
+}
+.bz-island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  z-index: 2;
+  width: 80px;
+  height: 23px;
+  border-radius: 999px;
+  background: #000;
+  transform: translateX(-50%);
+}
+.bz-home {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  z-index: 2;
+  width: 96px;
+  height: 4px;
+  border-radius: 999px;
+  background: #111;
+  transform: translateX(-50%);
+}
+
+/* ---------- Embedded: a plain block at its natural 262×586 size ----------
+   No stage positioning, scaling, parallax or animation: the parent places it (the
+   Billing morph, the hero). The heavy shadow is dropped (the parent adds its own);
+   the phone keeps its metal-edge rings. */
+.bz-phone--embedded {
+  position: relative; /* still the containing block for the phone's side buttons */
+  inset: auto;
+  z-index: auto;
+  margin: 0;
+  transform: none;
+  translate: none;
+  animation: none;
+}
+.bz-phone--embedded {
+  box-shadow:
+    var(--bz-rim);
+}
+
+
+/* Status bar over the screen (when the content doesn't draw its own): laid out at the
+   390px design width and scaled to the 244px screen, like the screens' content. */
+.bz-statusbar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 390px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 30px 0 46px;
+  transform: scale(calc(244 / 390));
+  transform-origin: top left;
+  pointer-events: none;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+.bz-statusbar-overlay.is-light { color: #fff; }
+.bz-statusbar-overlay.is-dark { color: #000; }
+.bz-statusbar-overlay .bz-sb-time { font-size: 17px; font-weight: 600; letter-spacing: -.3px; }
+.bz-sb-icons { display: inline-flex; align-items: center; gap: 6px; }

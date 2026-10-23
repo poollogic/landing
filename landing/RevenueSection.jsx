@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useSyncExternalStore } from 'react';
 import {
   Bell, ChevronUp, CreditCard, FileText, LayoutDashboard, Package, Plus, Route, Search, Settings, Ticket, UserCog, Users,
 } from 'lucide-react';
 import SectionHeader from './SectionHeader.jsx';
 import { useRevenueStory, RevenueStoryStyles, FeatureBar, RevenueSettingsLayer, StoryCursor } from './RevenueStory.jsx';
+import RevenueMobileStory from './RevenueMobileStory.jsx';
 import './revenue.css';
 
 // Section 3: revenue protection. Centred copy, three numbered features, then a
@@ -17,8 +18,8 @@ import './revenue.css';
 const FEATURES = [
   {
     n: '01',
-    title: 'Overdue Notices, Sent for You',
-    body: 'Past-due invoices are flagged front-and-center the second you log in, and reminder notices go out to customers automatically.',
+    title: 'Nothing Slips Through the Cracks',
+    body: 'A card fails on autopay? An invoice goes past due? PoolLogic puts it at the top of your dashboard with one tap to fix it, and automatically sends overdue reminders to customers for you.',
   },
   {
     n: '02',
@@ -40,8 +41,8 @@ const NAV = [
 
 // The app's own labels (dashboard/Dashboard.tsx attention sources).
 const ROWS = [
-  { label: 'Payments to fix', hint: 'Card declined · ACH returned', count: 2, critical: true },
-  { label: 'Invoices past due', hint: 'Late fees applied', count: 3, critical: true },
+  { label: 'Autopay declined', hint: 'Card declined · ACH returned', count: 2, critical: true },
+  { label: 'Invoices past due', note: '(overdue notices sent)', hint: 'Late fees applied', count: 3, critical: true },
   { label: 'Estimates awaiting approval', hint: 'Sent to customers', count: 2 },
 ];
 
@@ -117,7 +118,7 @@ function DashboardSnippet() {
               {ROWS.map((r) => (
                 <li key={r.label}>
                   <span className={`rv-dot${r.critical ? ' is-red' : ''}`} />
-                  <span className="rv-row-label">{r.label}{r.hint && <span className="rv-row-hint"> · {r.hint}</span>}</span>
+                  <span className="rv-row-label">{r.label}{r.note && <span className="rv-row-hint"> {r.note}</span>}{r.hint && <span className="rv-row-hint"> · {r.hint}</span>}</span>
                   <span className="rv-row-count">{r.count}</span>
                 </li>
               ))}
@@ -141,9 +142,18 @@ function DashboardSnippet() {
   );
 }
 
+// The desktop story runs from 1024px up (as RevenueStory.jsx does); below that the phone story.
+const WIDE = '(min-width: 1024px)';
+const useIsWide = () => useSyncExternalStore(
+  (cb) => { const mq = window.matchMedia(WIDE); mq.addEventListener('change', cb); return () => mq.removeEventListener('change', cb); },
+  () => window.matchMedia(WIDE).matches,
+  () => true,
+);
+
 export default function RevenueSection() {
   const sectionRef = useRef(null);
-  useRevenueStory(sectionRef);
+  const wide = useIsWide();
+  useRevenueStory(sectionRef, wide);
   return (
     <section ref={sectionRef} id="collections" className="rv section" aria-labelledby="revenue-heading">
       <RevenueStoryStyles />
@@ -160,21 +170,25 @@ export default function RevenueSection() {
           subtitleClassName="text-[#94a3b8]"
         />
 
-        <div className="rvs-track">
-          <div className="rvs-sticky">
-            <div className="rv-features">
-              {FEATURES.map((f) => (
-                <div key={f.n} className="rv-feature">
-                  <FeatureBar />
-                  <h3 className="rv-ft">{f.title}</h3>
-                  <p className="rv-fd">{f.body}</p>
-                </div>
-              ))}
-            </div>
+        {wide ? (
+          <div className="rvs-track">
+            <div className="rvs-sticky">
+              <div className="rv-features">
+                {FEATURES.map((f) => (
+                  <div key={f.n} className="rv-feature">
+                    <FeatureBar />
+                    <h3 className="rv-ft">{f.title}</h3>
+                    <p className="rv-fd">{f.body}</p>
+                  </div>
+                ))}
+              </div>
 
-            <DashboardSnippet />
+              <DashboardSnippet />
+            </div>
           </div>
-        </div>
+        ) : (
+          <RevenueMobileStory features={FEATURES} />
+        )}
       </div>
     </section>
   );

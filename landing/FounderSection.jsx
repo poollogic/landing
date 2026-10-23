@@ -25,7 +25,8 @@ const MORE = [
 function FounderPhoto() {
   const [failed, setFailed] = useState(false);
   return (
-    <div className="relative aspect-[4/5] overflow-hidden rounded-[28px]">
+    <figure className="m-0">
+    <div className="relative aspect-[4/5] overflow-hidden rounded-[24px] sm:rounded-[28px]">
       {failed ? (
         <div className="absolute inset-0 grid place-items-center bg-gradient-to-b from-[#E8E8ED] to-[#D2D2D7] text-[#86868B]" aria-hidden="true">
           <User size={72} strokeWidth={1} />
@@ -40,10 +41,15 @@ function FounderPhoto() {
           className="h-full w-full object-cover object-[60%_30%]"
         />
       )}
-      <p className="absolute bottom-4 left-4 rounded-full bg-white/70 px-3.5 py-2 text-[13px] text-[#6E6E73] backdrop-blur-md">
+      {/* From 640px the name sits on the photo; on phones the photo is smaller, so it goes underneath */}
+      <p className="absolute bottom-4 left-4 hidden rounded-full bg-white/70 px-3.5 py-2 text-[13px] text-[#6E6E73] backdrop-blur-md sm:block">
         <span className="font-semibold text-[#1D1D1F]">Jonathan Timms</span> – Founder of PoolLogic
       </p>
     </div>
+    <figcaption className="-mx-12 mt-3 whitespace-nowrap text-center text-[14px] text-[#6E6E73] sm:hidden">
+      <span className="font-semibold text-[#1D1D1F]">Jonathan Timms</span> – Founder of PoolLogic
+    </figcaption>
+    </figure>
   );
 }
 
@@ -63,8 +69,8 @@ export default function FounderSection() {
         </div>
 
         {/* Letter + photo */}
-        <div className="mt-14 grid grid-cols-1 gap-16 lg:mt-[72px] lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)]">
-          <div className="mx-auto w-full max-w-[420px] lg:order-2 lg:max-w-none lg:self-center">
+        <div className="mt-10 grid grid-cols-1 gap-10 sm:mt-14 sm:gap-16 lg:mt-[72px] lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)]">
+          <div className="mx-auto w-full max-w-[240px] sm:max-w-[420px] lg:order-2 lg:max-w-none lg:self-center">
             <FounderPhoto />
           </div>
 

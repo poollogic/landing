@@ -1,7 +1,7 @@
 /* RevenueStory.jsx — scroll story for the Revenue Protection section (#collections).
    The original section stays as-is (header, the three feature columns, the dashboard frame).
    While you scroll, the features row + dashboard pin in place and the app "plays":
-     Beat 1  Overdue Notices, Sent for You   dashboard: "Invoices past due" highlights, "Overdue notices sent" toast
+     Beat 1  Nothing Slips Through the Cracks   dashboard: "Invoices past due" highlights, "Overdue notices sent" toast
      Beat 2  Late Fees on Autopilot          cursor clicks Settings → Settings ▸ Billing, turns on
                                              "Charge late fees" then "Auto-apply late fees"
      Beat 3  Automatic Pause & Resume        page scrolls to Overdue, turns on "Automatic pause"
@@ -213,10 +213,10 @@ const seg = (p, a, b) => clamp((p - a) / (b - a));
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const lerp = (a, b, t) => a + (b - a) * t;
 
-export function useRevenueStory(sectionRef) {
+export function useRevenueStory(sectionRef, enabled = true) {
   useEffect(() => {
     const S = sectionRef.current;
-    if (!S) return;
+    if (!S || !enabled) return;
     const mq = window.matchMedia("(min-width: 1024px)");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const q = (s) => S.querySelector(s);
@@ -357,5 +357,5 @@ export function useRevenueStory(sectionRef) {
       window.removeEventListener("resize", layout);
       mq.removeEventListener("change", layout);
     };
-  }, [sectionRef]);
+  }, [sectionRef, enabled]);
 }

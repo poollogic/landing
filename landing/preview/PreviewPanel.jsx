@@ -149,6 +149,53 @@ function LiveRoutes() {
   );
 }
 
+/** The two Trends cards. Also shown in the Collections section's phone (RevenueMobileStory.jsx). */
+export function PreviewCharts() {
+  return (
+    <div className="pl-charts">
+      <div className="pl-card" aria-hidden="true">
+        <div className="pl-card-head">
+          <Segmented options={['Revenue', 'Customers']} value="Revenue" />
+          <Segmented options={['6M', '12M', '24M']} value="12M" />
+        </div>
+        <div className="pl-card-body">
+          <PreviewChart
+            labels={REVENUE.labels}
+            ticks={REVENUE.ticks}
+            top={REVENUE.top}
+            axis={moneyAxis}
+            bars={{ color: 'var(--chart-accent)', values: REVENUE.bars }}
+            lines={[{ key: 'recurring', color: 'var(--foreground)', values: REVENUE.recurring, smooth: true }]}
+            tooltip={revenueTip}
+          />
+        </div>
+      </div>
+
+      <div className="pl-card">
+        <div className="pl-card-head">
+          <div className="pl-card-title-row">
+            <span className="pl-card-title" aria-hidden="true">Cost per visit</span>
+            <SanitizerDropdown />
+          </div>
+          <Segmented options={['6M', '12M']} value="6M" />
+        </div>
+        <div className="pl-card-body" aria-hidden="true">
+          <PreviewChart
+            labels={COST.labels}
+            ticks={COST.ticks}
+            top={COST.top}
+            axis={moneyAxisCents}
+            lines={COST.techs}
+            baseline={COST.team}
+            baselineArea
+            tooltip={costTip}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PreviewPanel() {
   return (
     <div className="pl-panel">
@@ -174,47 +221,7 @@ export default function PreviewPanel() {
         </div>
       </div>
 
-      <div className="pl-charts">
-        <div className="pl-card" aria-hidden="true">
-          <div className="pl-card-head">
-            <Segmented options={['Revenue', 'Customers']} value="Revenue" />
-            <Segmented options={['6M', '12M', '24M']} value="12M" />
-          </div>
-          <div className="pl-card-body">
-            <PreviewChart
-              labels={REVENUE.labels}
-              ticks={REVENUE.ticks}
-              top={REVENUE.top}
-              axis={moneyAxis}
-              bars={{ color: 'var(--chart-accent)', values: REVENUE.bars }}
-              lines={[{ key: 'recurring', color: 'var(--foreground)', values: REVENUE.recurring, smooth: true }]}
-              tooltip={revenueTip}
-            />
-          </div>
-        </div>
-
-        <div className="pl-card">
-          <div className="pl-card-head">
-            <div className="pl-card-title-row">
-              <span className="pl-card-title" aria-hidden="true">Cost per visit</span>
-              <SanitizerDropdown />
-            </div>
-            <Segmented options={['6M', '12M']} value="6M" />
-          </div>
-          <div className="pl-card-body" aria-hidden="true">
-            <PreviewChart
-              labels={COST.labels}
-              ticks={COST.ticks}
-              top={COST.top}
-              axis={moneyAxisCents}
-              lines={COST.techs}
-              baseline={COST.team}
-              baselineArea
-              tooltip={costTip}
-            />
-          </div>
-        </div>
-      </div>
+      <PreviewCharts />
 
       <LiveRoutes />
     </div>

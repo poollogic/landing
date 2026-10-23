@@ -235,11 +235,11 @@
   .rv .rvs-dash { will-change: auto; }
 }
 
-/* No highlight on the "Invoices past due" row during the scroll story (RevenueStory.jsx toggles .rvs-hl). */
+/* No highlight on the "Invoices past due (overdue notices sent)" row during the scroll story (RevenueStory.jsx toggles .rvs-hl). */
 .rv .rv-rows li.rvs-hl { background: none; }
 
 /* The scroll story (RevenueStory.jsx) sets its own transition on these rows for the
-   "Invoices past due" highlight; keep the rows' reveal animation alongside it. */
+   "Invoices past due (overdue notices sent)" highlight; keep the rows' reveal animation alongside it. */
 .rv .rv-rows li { transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1), background-color .4s ease; }
 
 @media (prefers-reduced-motion: reduce) {

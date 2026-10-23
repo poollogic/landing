@@ -1,12 +1,24 @@
-import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowRight } from 'lucide-react';
 import DashboardPreview, { PreviewThemeToggle, PreviewThemeUnder } from './preview/DashboardPreview.jsx';
 import { usePreviewTheme } from './preview/previewTheme.js';
+import PhoneFrame from './PhoneFrame.jsx';
+import usePhonePreviewScroll from './usePhonePreviewScroll.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import useHeroScrollFx from './useHeroScrollFx.js';
 
 // The billing-run toast is decoration: absolutely positioned (it can't move
 // anything), hidden on phones, and only loaded once the page has painted.
+// Phones (<768px). Read before the first render, so the right preview paints straight
+// away (no flash, no layout shift); updates if the window crosses the breakpoint.
+const PHONE_QUERY = '(max-width: 767.98px)';
+const subscribePhone = (fn) => {
+  const mq = window.matchMedia(PHONE_QUERY);
+  mq.addEventListener('change', fn);
+  return () => mq.removeEventListener('change', fn);
+};
+const useIsPhone = () => useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
+
 const PreviewToast = lazy(() => import('./preview/PreviewToast.jsx'));
 function useAfterPaint() {
   const [ready, setReady] = useState(false);
@@ -29,6 +41,9 @@ const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 
 const Hero = () => {
   const theme = usePreviewTheme();
+  const isPhone = useIsPhone();
+  const holderRef = useRef(null);
+  usePhonePreviewScroll(holderRef, isPhone); // phones: the dashboard scrolls a little with the page
   const heroRef = useRef(null);
   useHeroScrollFx(heroRef);
   const showToast = useAfterPaint();
@@ -82,8 +97,15 @@ const Hero = () => {
 
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
       <div className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
-        <div className="mockup-holder">
-          <DashboardPreview />
+        <div className="mockup-holder" ref={holderRef}>
+          {/* Phones: the preview inside the shared iPhone frame (the Billing section's phone). */}
+          {isPhone ? (
+            <PhoneFrame className="bz-phone--embedded hero-phone" statusBar={theme === 'dark' ? 'light' : 'dark'}>
+              <DashboardPreview />
+            </PhoneFrame>
+          ) : (
+            <DashboardPreview />
+          )}
           <div className="preview-glint" aria-hidden="true" />
           {showToast && <Suspense fallback={null}><PreviewToast /></Suspense>}
           <PreviewThemeUnder />

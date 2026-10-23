@@ -534,3 +534,85 @@
   filter: blur(22px);
   background: radial-gradient(closest-side, rgba(96, 165, 250, .4), rgba(59, 130, 246, .14) 55%, transparent);
 }
+
+/* ---------- Phones (<768px): tighter hero copy, a labelled preview toggle ---------- */
+@media (max-width: 767.98px) {
+  .hero { padding-top: 112px; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: .14em; text-wrap: balance; line-height: 1.6; opacity: .85; } /* one line when it fits; two balanced lines when it doesn't */
+  .hero-title { font-size: clamp(34px, 10vw, 42px); line-height: 1.06; letter-spacing: -.025em; text-wrap: balance; margin-top: 14px; }
+  .hero-sub { font-size: 16px; line-height: 1.55; max-width: 34ch; margin-inline: auto; text-wrap: pretty; }
+  .hero-cta { margin-top: 28px; }
+  .hero-fine { font-size: 12.5px; max-width: 40ch; margin-inline: auto; text-wrap: balance; opacity: .8; }
+  .hero-toggle { margin-top: 52px; flex-direction: column; align-items: center; gap: 10px; }
+  .hero-toggle::before { content: "Live preview"; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .6; }
+}
+
+/* ---------- Phones: the dashboard preview inside an iPhone ----------
+   The iPhone is the shared frame (PhoneFrame.jsx / phone.css, the Billing section's phone),
+   scaled from its natural 262px to 342px wide (24px from each edge on a 390px screen).
+   .mockup-holder::before/::after stay the blue glow above it. The preview's theme (dark |
+   light) follows the visitor's device on phones (previewTheme.js). */
+@media (max-width: 767.98px) {
+  .hero-mockup { position: relative; margin-inline: auto; margin-top: 22px; padding-bottom: 40px; display: flex; justify-content: center; }
+  .hero-mockup .mockup-holder { position: relative; width: 342px; flex: none; }
+  .hero-mockup .preview-glint { display: none; }
+
+  /* The glow (.mockup-holder::before line, ::after bloom) sits behind the phone, never over it. */
+  .hero-mockup .mockup-holder::before { z-index: 0; }
+  .hero-mockup .hero-phone {
+    z-index: 1;
+    zoom: 1.3053; /* 342 / 262 */
+    box-shadow:
+      var(--bz-rim),
+      0 30px 60px -18px rgba(0, 0, 0, .85),
+      0 -8px 54px -8px rgba(59, 130, 246, .30);
+  }
+  /* The screen: the preview's own background (white in light, no grey strip). */
+  .hero-phone .bz-screen { background: rgb(17, 19, 24); }
+  .hero-phone .bz-screen:has(.pl-preview.light) { background: #fff; }
+  .hero-phone .pl-preview { height: 100%; border-radius: 0; box-shadow: none; }
+
+  /* The dashboard at phone scale: laid out 350px wide, zoomed into the 244px screen
+     (≈91% overall), clear of the status bar, fading out at the bottom. */
+  .hero-phone .pl-frame {
+    width: 350px; height: 815px; overflow: hidden; zoom: .6971; padding-top: 48px; /* 244 / 350; 815 × .6971 = the screen's height, so the fade lands at its foot */
+    /* Top: the dashboard slides under the status bar as it scrolls (usePhonePreviewScroll).
+       Bottom: it fades out above the home indicator. */
+    -webkit-mask-image: linear-gradient(transparent 34px, #000 54px, #000 88%, transparent 99%);
+            mask-image: linear-gradient(transparent 34px, #000 54px, #000 88%, transparent 99%);
+  }
+  /* The dashboard keeps its full height (the frame clips it at the screen), so scrolling
+     it reveals the rest of the cost chart rather than a cut-off panel. */
+  .hero-phone .pl-frame { align-items: flex-start; }
+  .hero-phone .pl-main { will-change: transform; }
+  /* Scroll-linked drift (usePhonePreviewScroll.js measures --pps-*): a CSS animation on
+     the phone's view timeline, so the compositor moves it in step with the scroll. */
+  .hero-phone { view-timeline: --hero-phone block; }
+  .hero-phone .pl-main.is-scroll-linked {
+    animation: hero-phone-drift linear both;
+    animation-timing-function: ease-in-out;
+    animation-timeline: --hero-phone;
+    animation-range: cover var(--pps-from) cover var(--pps-to);
+  }
+  .hero-phone .pl-preview:not(.dark) .pl-frame { background: #fff; }
+
+  /* dashboard tweaks inside the phone only */
+  .hero-mockup .pl-kpi-label,
+  .hero-mockup .pl-kpi-label *,
+  .hero-mockup .pl-kpi-label span:last-child { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.3; } /* beats .pl-kpi-label span:last-child */
+  .hero-mockup .pl-card-head { flex-wrap: nowrap; gap: 6px; justify-content: space-between; }
+  .hero-mockup .pl-card-head .pl-seg .pl-seg-item { padding-inline: 9px; }
+  .hero-mockup .pl-header { padding-top: 14px; }
+  .hero-mockup .pl-kpis { margin-top: 10px; padding-top: 16px; }
+  .hero-mockup .pl-charts { margin-top: 22px; }
+}
+/* very small phones (iPhone SE etc.) */
+@media (max-width: 369.98px) {
+  .hero-mockup .mockup-holder { width: 300px; }
+  .hero-mockup .hero-phone { zoom: 1.145; } /* 300 / 262 */
+}
+
+@keyframes hero-phone-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, calc(var(--pps-travel) * -1), 0); }
+}

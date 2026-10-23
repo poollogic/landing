@@ -551,15 +551,21 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
 
   const [phase, setPhase] = useState(0); // 0 = "You set it" (owner), 1 = "They get it" (customer)
   const morph = useMotionValue(0); // 0 → 1, time-driven (linear; each beat below has its own easing)
-  const gateRef = useRef({ phase: 0, locked: false, animating: false, holdY: 0, lastInput: 0, bypassUntil: 0 });
+  const gateRef = useRef({ phase: 0, locked: false, animating: false, holdY: 0, lastInput: 0, bypassUntil: 0, turnY: 0 });
 
   /* SCROLL GATE — the visitor can't scroll past the section (even with a fast fling) until the morph
      has finished. Crossing the trigger moves the page to the far end of the pin and holds it there
      while the morph plays; trackpad inertia is swallowed too. Anchor / nav links (#billing, /#faq …)
-     bypass the gate so site navigation always works. Works the same in reverse. */
+     bypass the gate so site navigation always works. Works the same in reverse.
+     Touch screens get no gate: a fling coasts on after the finger lifts, that momentum can't be
+     cancelled, and any scroll the page makes while it coasts fights it (the page bounces). There the
+     morph just plays as you scroll in and reverses once you scroll back TURN px; the page's scroll
+     position is never touched. */
   useEffect(() => {
     const G = gateRef.current;
     const KEYS = new Set([" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"]);
+    const TURN = 80; // touch: scroll back this far before the view flips back
+    const touch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
     const jump = (y) => window.scrollTo({ top: y, behavior: "instant" });
     const geo = () => {
       const el = trackRef.current;
@@ -577,8 +583,10 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
     const setTo = (target) => {
       G.phase = target;
       setPhase(target);
+      G.turnY = window.scrollY; // touch: where this view began (tracks the furthest point since)
     };
     // Initial state matches where the page loaded (e.g. refresh mid-page)
+    G.turnY = window.scrollY;
     if (window.scrollY > geo().gIn) {
       G.phase = 1;
       morph.set(1);
@@ -603,13 +611,25 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
 
     const onScroll = () => {
       if (performance.now() < G.bypassUntil) return;
+      const y = window.scrollY;
+      if (touch) {
+        const g = geo();
+        if (G.phase === 0) {
+          G.turnY = Math.min(G.turnY, y);
+          if (y > g.gIn && y > G.turnY + TURN) setTo(1);
+        } else {
+          G.turnY = Math.max(G.turnY, y);
+          if (y < g.gOut && y < G.turnY - TURN) setTo(0);
+        }
+        return;
+      }
       if (G.locked) {
-        if (Math.abs(window.scrollY - G.holdY) > 1) jump(G.holdY); // also catches scrollbar drags
+        if (Math.abs(y - G.holdY) > 1) jump(G.holdY); // also catches scrollbar drags
         return;
       }
       const g = geo();
-      if (G.phase === 0 && window.scrollY > g.gIn) gate(1, g.holdIn);
-      else if (G.phase === 1 && window.scrollY < g.gOut) gate(0, g.holdOut);
+      if (G.phase === 0 && y > g.gIn) gate(1, g.holdIn);
+      else if (G.phase === 1 && y < g.gOut) gate(0, g.holdOut);
     };
     const block = (e) => {
       G.lastInput = performance.now();
@@ -632,15 +652,20 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
 
     // The toggle: play the morph to the chosen view and move the page to the matching point of the
     // pinned section (invisible while it's pinned), so the next scroll doesn't flip it straight back.
+    // (A tap has already stopped any fling, so on touch the move is safe; there's just no hold.)
     G.goTo = (target) => {
       if (G.phase === target || G.locked) return;
       const g = geo();
-      gate(target, target === 1 ? g.holdIn : g.holdOut);
+      const y = target === 1 ? g.holdIn : g.holdOut;
+      if (touch) {
+        jump(y);
+        setTo(target);
+      } else gate(target, y);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("wheel", block, { passive: false });
-    window.addEventListener("touchmove", block, { passive: false });
+    if (!touch) window.addEventListener("touchmove", block, { passive: false });
     window.addEventListener("keydown", onKey);
     window.addEventListener("hashchange", bypass);
     document.addEventListener("click", onClick, true);
@@ -768,11 +793,11 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   const owner = { opacity: ownerOpacity, scale: ownerScale, visibility: ownerVisibility };
 
   return (
-    <section id={id} ref={trackRef} className="relative h-[132vh] bg-white">
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden bg-white">
+    <section id={id} ref={trackRef} className="relative h-[150svh] bg-white md:h-[132vh]">
+      <div className="sticky top-0 flex h-svh items-center overflow-hidden bg-white md:h-screen">
         <div className="container grid w-full grid-cols-1 items-center gap-16 lg:grid-cols-2">
           {/* LEFT — copy */}
-          <div className="relative h-[420px] lg:h-[560px]">
+          <div className="billing-copy relative h-[420px] lg:h-[560px]">
             <motion.div style={{ opacity: t1Opacity, y: t1Y, pointerEvents: t1Events }} className="absolute inset-0 flex flex-col justify-center">
               <p className="text-xs font-bold tracking-[.14em] text-slate-500">BILLING ON AUTOPILOT</p>
               <h2 className="mt-3.5 text-4xl font-bold leading-tight tracking-tight text-slate-900">
@@ -800,9 +825,9 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
           </div>
 
           {/* RIGHT — devices (scaled down on smaller screens) */}
-          <div ref={rightRef} className="relative h-[520px] [perspective:1600px] lg:h-[640px]">
+          <div ref={rightRef} className="billing-stage relative h-[520px] [perspective:1600px] lg:h-[640px]">
             {/* "You set it | They get it" toggle — fixed position in both views; clicking plays the morph */}
-            <div className="absolute left-1/2 top-6 z-[70] flex -translate-x-1/2 rounded-full border border-slate-900/[.07] bg-white/80 p-1 text-[12.5px] font-semibold tracking-[-.1px] shadow-[0_1px_2px_rgba(15,23,42,.06),0_10px_28px_-12px_rgba(15,23,42,.3)] backdrop-blur-md">
+            <div className="billing-toggle absolute left-1/2 top-6 z-[70] flex -translate-x-1/2 rounded-full border border-slate-900/[.07] bg-white/80 p-1 text-[12.5px] font-semibold tracking-[-.1px] shadow-[0_1px_2px_rgba(15,23,42,.06),0_10px_28px_-12px_rgba(15,23,42,.3)] backdrop-blur-md">
               <motion.span style={{ x: pillX }} className="absolute bottom-1 left-1 top-1 w-[calc(50%-4px)] rounded-full bg-slate-900" />
               <motion.button
                 type="button"
@@ -826,7 +851,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
               </motion.button>
             </div>
 
-            <motion.div ref={stageRef} className="absolute inset-0 origin-center" style={{ scale: stageScale }}>
+            <motion.div ref={stageRef} className="billing-devices absolute inset-0 origin-center" style={{ scale: stageScale }}>
               {/* Laptop: owner app → customer invoice */}
               <div className={center} style={{ zIndex: 10 }}>
                 <motion.div style={{ x: lapX, y: lapY, scale: lapScale, transformOrigin: LAP_ORIGIN }}>

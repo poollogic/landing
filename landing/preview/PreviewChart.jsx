@@ -1,4 +1,4 @@
-import React, { useId, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 
 // Copy of the app's TrendChart (poollogic-web-app src/components/ui/
 // TrendChart.tsx): same margins, bar geometry, hatch, dashed last segment,
@@ -130,6 +130,15 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
     return () => ro.disconnect();
   }, []);
 
+  // A tap keeps its tooltip up after the finger lifts; tapping anywhere else clears it.
+  const showing = hover != null;
+  useEffect(() => {
+    if (!showing) return undefined;
+    const away = (e) => { if (!svgRef.current?.contains(e.target)) setHover(null); };
+    document.addEventListener('pointerdown', away);
+    return () => document.removeEventListener('pointerdown', away);
+  }, [showing]);
+
   if (hover != null) lastHover.current = hover;
   const shown = lastHover.current;
   const tip = tooltip && shown != null ? tooltip(shown) : null;
@@ -162,7 +171,10 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
   const indexAt = (clientX) => {
     const svg = svgRef.current;
     if (!svg || n === 0) return null;
-    const local = clientX - svg.getBoundingClientRect().left - left;
+    // The chart can sit inside a scaled frame (the hero's iPhone), so convert the
+    // on-screen offset back to the chart's own pixels.
+    const r = svg.getBoundingClientRect();
+    const local = (clientX - r.left) / (r.width / width || 1) - left;
     const i = hasBars ? Math.floor(local / band) : Math.round(local / (plotW / Math.max(1, n - 1)));
     return Math.min(n - 1, Math.max(0, i));
   };
@@ -197,8 +209,9 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
           width={width}
           height={totalH}
           aria-hidden="true"
+          onPointerDown={(e) => setHover(indexAt(e.clientX))}
           onPointerMove={(e) => setHover(indexAt(e.clientX))}
-          onPointerLeave={() => setHover(null)}
+          onPointerLeave={(e) => { if (e.pointerType === 'mouse') setHover(null); }}
         >
           <defs>
             {hasBars && (

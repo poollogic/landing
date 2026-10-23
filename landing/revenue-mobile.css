@@ -1,0 +1,180 @@
+/* Collections scroll story below 1024px (RevenueMobileStory.jsx). The app inside the phone is
+   laid out at a real iPhone's 390px width with the app's own phone sizes and dark theme
+   (poollogic-web-app index.css, mobile-nav/, settings/), then scaled into the 244px screen. */
+
+.rvm-track { position: relative; height: 380svh; /* 100svh + RUN (RevenueMobileStory.jsx) */ margin-top: 36px; }
+.rvm-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 18px 20px;
+}
+
+/* The current step, above the phone */
+.rvm-copy { width: 100%; max-width: 460px; }
+.rvm-bars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
+.rvm-bars span { position: relative; height: 2px; border-radius: 2px; overflow: hidden; background: rgba(255, 255, 255, .1); }
+.rvm-bars i { position: absolute; inset: 0; transform-origin: 0 50%; border-radius: 2px; background: #FF0036; }
+.rvm-texts { display: grid; }
+.rvm-text { grid-area: 1 / 1; }
+.rvm-text h3 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: #fff; }
+.rvm-text p { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: #94a3b8; }
+
+/* The phone, scaled to fit */
+.rvm-fit { position: relative; flex: none; }
+.rvm-scale { position: absolute; left: 0; top: 0; width: 262px; height: 586px; transform-origin: 0 0; }
+.rvm-phone.bz-phone--embedded {
+  box-shadow:
+    var(--bz-rim),
+    0 30px 60px -18px rgba(0, 0, 0, .85),
+    0 -8px 54px -8px rgba(255, 0, 54, .16);
+}
+.rvm-phone .bz-screen { background: #111318; }
+
+/* ---------- The app (390 × 908 layout px, scaled 244/390) ---------- */
+.rvm-app {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 390px;
+  height: 908px;
+  overflow: hidden;
+  transform: scale(.62564);
+  transform-origin: 0 0;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #F8FAFC;
+  text-align: left;
+}
+.rvm-screen { position: absolute; inset: 0; background: #111318; }
+.rvm-shade { position: absolute; inset: 0; background: rgba(0, 0, 0, .45); pointer-events: none; }
+
+.rvm-top { display: flex; align-items: center; gap: 12px; height: 52px; margin-top: 47px; padding: 0 8px 0 16px; }
+.rvm-title { flex: 1; min-width: 0; font-size: 22px; font-weight: 590; letter-spacing: -.02em; white-space: nowrap; }
+.rvm-ic { display: grid; place-items: center; width: 44px; height: 44px; margin-left: -12px; color: rgba(226, 232, 240, .7); }
+.rvm-body { padding: 0 16px; }
+.rvm-date { margin: 16px 0 14px; font-size: 13px; color: rgba(203, 213, 225, .62); }
+
+/* Attention banner */
+.rvm-banner {
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: color-mix(in srgb, #FF0036 10%, transparent);
+  border: 1px solid color-mix(in srgb, #FF0036 20%, transparent);
+}
+.rvm-banner-top { display: flex; align-items: center; gap: 12px; }
+.rvm-mark { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 999px; background: #e60031; font-size: 15px; font-weight: 700; color: #fff; }
+.rvm-banner-top p { flex: 1; min-width: 0; margin: 0; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rvm-banner-top p b { font-weight: 600; }
+.rvm-banner-top p span { color: rgba(203, 213, 225, .62); }
+.rvm-chev { flex: none; color: rgba(226, 232, 240, .7); transition: transform .45s cubic-bezier(.32, .72, 0, 1); }
+.rvm-banner.open .rvm-chev { transform: rotate(180deg); }
+.rvm-rows { margin: 0; padding: 0; list-style: none; overflow: hidden; }
+.rvm-rows li { display: flex; align-items: center; gap: 12px; height: 48px; font-size: 13px; border-top: 1px solid color-mix(in srgb, #FF0036 18%, transparent); }
+.rvm-rows li:first-child { margin-top: 12px; }
+.rvm-rows b { font-weight: 600; }
+.rvm-row-label { flex: 1; min-width: 0; white-space: nowrap; }
+.rvm-row-note { color: rgba(203, 213, 225, .62); } /* the banner header's muted grey ("· 2 other alerts") */
+.rvm-dot { width: 8px; height: 8px; flex: none; border-radius: 999px; background: rgba(203, 213, 225, .35); }
+.rvm-dot.is-red { background: #FF0036; }
+
+/* KPI tiles: two columns, no card */
+.rvm-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; margin-top: 22px; }
+.rvm-tile { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.rvm-tile-l { display: flex; align-items: center; gap: 7px; font-size: 12px; color: rgba(203, 213, 225, .62); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rvm-tile-l i { width: 8px; height: 8px; flex: none; border-radius: 999px; }
+.rvm-tile-v { font-size: 22px; font-weight: 600; letter-spacing: -.44px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.rvm-tile-v small { margin-left: 4px; font-size: 13px; font-weight: 400; letter-spacing: normal; color: rgba(203, 213, 225, .62); }
+
+/* Trends cards (preview/PreviewPanel.jsx), laid out as the app's phone dashboard: one column,
+   no card boxes (preview.css adds boxes for tablet-width screens, which this phone isn't). */
+.rvm-charts .pl-charts { margin-top: 30px; grid-template-columns: minmax(0, 1fr); gap: 32px; }
+.rvm-charts .pl-card { border: 0; border-radius: 0; background: none; }
+.rvm-charts .pl-card-head { padding: 0; flex-wrap: nowrap; gap: 6px; }
+.rvm-charts .pl-card-body { padding: 8px 0 0; }
+.rvm-charts .pl-card-head .pl-seg .pl-seg-item { padding-inline: 9px; }
+
+/* Settings list and the More sheet's rows */
+.rvm-h1 { margin: 8px 0 4px; font-size: 22px; font-weight: 590; letter-spacing: -.02em; }
+.rvm-group { margin-top: 14px; }
+.rvm-glabel { padding: 8px 0 4px; font-size: 11px; font-weight: 600; letter-spacing: .07em; color: rgba(226, 232, 240, .55); }
+.rvm-link { position: relative; display: flex; align-items: center; gap: 12px; height: 48px; margin: 0 -10px; padding: 0 10px; border-radius: 10px; font-size: 15px; font-weight: 500; color: rgba(226, 232, 240, .85); transition: background-color .25s ease; }
+.rvm-link > span { flex: 1; }
+.rvm-link > svg:first-child { color: rgba(226, 232, 240, .7); }
+.rvm-link > svg:last-of-type:not(:first-child) { color: rgba(226, 232, 240, .45); }
+.rvm-link.is-sheet { height: 46px; }
+.rvm-link.is-pressed { background: rgba(255, 255, 255, .07); }
+
+/* Billing page */
+.rvm-clip { position: absolute; inset: 99px 0 0; overflow: hidden; }
+.rvm-scroll { position: relative; }
+.rvm-back { display: flex; align-items: center; gap: 2px; height: 44px; font-size: 15px; font-weight: 500; color: #3b82f6; }
+.rvm-back small { margin-left: auto; font-size: 13px; color: rgba(203, 213, 225, .62); }
+.rvm-sub { margin: 0 0 6px; font-size: 14px; line-height: 1.45; color: rgba(203, 213, 225, .62); }
+.rvm-sec { padding: 22px 0 2px; font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: rgba(226, 232, 240, .55); }
+.rvm-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 14px 0; transition: opacity .4s ease; }
+.rvm-row.is-switch { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 6px 16px; }
+.rvm-row.is-switch .rvm-row-d { grid-column: 1 / -1; }
+.rvm-row.dim { opacity: .4; }
+.rvm-row-t { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 500; }
+.rvm-row-t svg { color: rgba(203, 213, 225, .5); }
+.rvm-row-d { font-size: 13px; line-height: 1.45; color: rgba(203, 213, 225, .62); }
+.rvm-field { display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; border-radius: 8px; background: rgba(148, 163, 184, .09); font-size: 16px; }
+.rvm-field > span { flex: 1; }
+.rvm-field em { font-style: normal; color: rgba(203, 213, 225, .6); }
+.rvm-field svg { color: rgba(203, 213, 225, .7); }
+.rvm-btn { height: 34px; padding: 0 14px; display: inline-flex; align-items: center; border-radius: 8px; background: rgba(148, 163, 184, .12); font-size: 14px; font-weight: 500; }
+
+.rvm-sw-wrap { position: relative; display: inline-flex; }
+.rvm-sw { position: relative; width: 38px; height: 22px; border-radius: 999px; background: rgba(148, 163, 184, .28); transition: background-color .3s ease; }
+.rvm-sw i { position: absolute; left: 2px; top: 2px; width: 18px; height: 18px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .3); transition: transform .5s cubic-bezier(.34, 1.56, .64, 1); }
+.rvm-sw.on { background: #3b82f6; }
+.rvm-sw.on i { transform: translateX(16px); }
+
+/* A finger tap */
+.rvm-tap { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 999px; background: rgba(255, 255, 255, .5); pointer-events: none; }
+
+/* Bottom tab bar: floating pill */
+.rvm-tabs {
+  position: absolute;
+  z-index: 20;
+  left: 12px;
+  right: 12px;
+  bottom: 48px;
+  display: flex;
+  height: 64px;
+  padding: 6px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #2e2e32, #202023 40%, #19191b 70%, #141416);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+.rvm-cap { position: absolute; left: 6px; top: 6px; width: calc((100% - 12px) / 5); height: 52px; border-radius: 999px; background: #121214; box-shadow: inset 0 1px 3px rgba(0, 0, 0, .6); }
+.rvm-tab { position: relative; flex: 1; display: grid; place-items: center; color: rgba(245, 245, 245, .62); transition: color .3s ease; }
+.rvm-tab.on { color: #f5f5f5; }
+
+/* More sheet */
+.rvm-backdrop { position: absolute; inset: 0; z-index: 25; background: rgba(0, 0, 0, .5); }
+.rvm-sheet { position: absolute; z-index: 30; left: 0; right: 0; bottom: 0; padding: 8px 16px 64px; border-radius: 22px 22px 0 0; background: #171a20; box-shadow: 0 -10px 40px rgba(0, 0, 0, .5); }
+.rvm-grab { display: block; width: 36px; height: 5px; margin: 0 auto 10px; border-radius: 999px; background: rgba(255, 255, 255, .2); }
+.rvm-me { display: flex; align-items: center; gap: 12px; height: 64px; }
+.rvm-avatar { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 999px; background: #3b82f6; font-size: 16px; font-weight: 600; }
+.rvm-me-t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.rvm-me-t b { font-size: 15px; font-weight: 600; }
+.rvm-me-t small { font-size: 12px; color: rgba(203, 213, 225, .62); }
+.rvm-round { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 999px; background: rgba(255, 255, 255, .06); color: rgba(226, 232, 240, .8); }
+
+@media (min-width: 640px) {
+  .rvm-copy { max-width: 560px; }
+  .rvm-text h3 { font-size: 20px; }
+  .rvm-text p { font-size: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rvm-tap { display: none; }
+  .rvm-sw i, .rvm-chev { transition: none; }
+}

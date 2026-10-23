@@ -2,33 +2,15 @@ import React from 'react';
 import { ChevronDown, Lock } from 'lucide-react';
 import StripeWordmark from './StripeWordmark.jsx';
 import CompanyMark from './CompanyMark.jsx';
+import PhoneFrame, { StatusIcons } from './PhoneFrame.jsx';
 import './billing.css';
 
-// The Billing section's phone mockup, shown by BillingScrollMorph: an iPhone with
-// the customer's unpaid invoice in the customer portal (as portal.poollogic.app
+// The Billing section's phone mockup, shown by BillingScrollMorph: the shared iPhone
+// frame (PhoneFrame.jsx) with the customer's unpaid invoice in the customer portal (as portal.poollogic.app
 // shows it at 390px wide). All names, addresses and amounts are MOCK data
 // (Bayside Pool Co. / Jimmy McGill, matching the laptop invoice).
 
 /* ---------- iPhone: the customer's invoice in the portal ---------- */
-
-const StatusIcons = () => (
-  <span className="bz-sb-icons">
-    <svg width="18" height="12" viewBox="0 0 18 12" fill="#fff" aria-hidden="true">
-      <rect x="0" y="8" width="3" height="4" rx="1" /><rect x="5" y="5.5" width="3" height="6.5" rx="1" />
-      <rect x="10" y="3" width="3" height="9" rx="1" /><rect x="15" y="0" width="3" height="12" rx="1" />
-    </svg>
-    <svg width="16" height="12" viewBox="0 0 16 12" fill="#fff" aria-hidden="true">
-      <path d="M8 2.6c2.2 0 4.2.8 5.7 2.2l1.2-1.3C13 1.7 10.6.7 8 .7S3 1.7 1.1 3.5l1.2 1.3C3.8 3.4 5.8 2.6 8 2.6Z" />
-      <path d="M8 6.2c1.2 0 2.3.4 3.2 1.2l1.2-1.3C11.2 5 9.7 4.3 8 4.3S4.8 5 3.6 6.1l1.2 1.3C5.7 6.6 6.8 6.2 8 6.2Z" />
-      <path d="M8 9.8 9.7 8a2.6 2.6 0 0 0-3.4 0L8 9.8Z" />
-    </svg>
-    <svg width="27" height="13" viewBox="0 0 27 13" aria-hidden="true">
-      <rect x=".5" y=".5" width="23" height="12" rx="3.8" fill="none" stroke="#fff" strokeOpacity=".4" />
-      <rect x="2" y="2" width="20" height="9" rx="2.5" fill="#fff" />
-      <path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2Z" fill="#fff" fillOpacity=".45" />
-    </svg>
-  </span>
-);
 
 function InvoiceScreen() {
   return (
@@ -99,12 +81,8 @@ function InvoiceScreen() {
 /** `embedded`: a plain block at its natural 262×586 size, for a parent that positions it (BillingScrollMorph). */
 export function BillingPhone({ embedded = false }) {
   return (
-    <div className={`bz-phone${embedded ? ' bz-phone--embedded' : ''}`}>
-      <div className="bz-screen">
-        <InvoiceScreen />
-        <span className="bz-island" />
-        <span className="bz-home" />
-      </div>
-    </div>
+    <PhoneFrame className={embedded ? 'bz-phone--embedded' : ''}>
+      <InvoiceScreen />
+    </PhoneFrame>
   );
 }
