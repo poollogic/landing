@@ -14,7 +14,8 @@ import './reserve.css';
 // Requests go to /api/request (server/requestForm.js): the owner gets an email, the person gets a
 // personal confirmation, and they join the waitlist audience. Styles: reserve.css + the hero's classes.
 
-export function ReserveIntro({ as: Heading = 'h2', id }) {
+// context: one line saying what PoolLogic is, for visitors who haven't seen the homepage (/reserve).
+export function ReserveIntro({ as: Heading = 'h2', id, context = false }) {
   return (
     <div className="rsv-intro">
       <p className="hero-eyebrow">White-glove onboarding</p>
@@ -23,6 +24,9 @@ export function ReserveIntro({ as: Heading = 'h2', id }) {
         See your price now. We’ll move your customers over and <strong>set everything up with you</strong> on a
         10-minute call.
       </p>
+      {context && (
+        <p className="rsv-context">PoolLogic is all-in-one software for pool service companies: routing, billing and collections.</p>
+      )}
       <FeatureList />
     </div>
   );

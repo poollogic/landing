@@ -19,6 +19,18 @@
 @media (max-width: 999.98px) {
   .rsv-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; max-width: 600px; margin-inline: auto; }
 }
+/* /reserve on one-column screens: visitors came here to reserve, so the card follows the heading
+   straight away and the checked points come after it (the homepage section keeps intro first). */
+@media (max-width: 999.98px) {
+  .rsv-hero .rsv-grid { gap: 0; } /* the heading keeps its own spacing; the card and list get margins */
+  .rsv-hero .rsv-intro { display: contents; }
+  .rsv-hero .rsv-card { order: 1; margin-top: 28px; }
+  .rsv-hero .rsv-features { order: 2; margin-top: 36px; }
+}
+
+/* The focused header (/reserve): "Sign in" stays visible on phones too. !important only because the
+   site-wide stylesheet (index.html) hides it below 480px with !important. */
+.lp-nav.is-focused .nav-signin { display: inline-flex !important; }
 
 /* ---------- Left column ---------- */
 .rsv-intro { text-align: left; }
@@ -27,6 +39,7 @@
 
 /* The homepage's reserve section: dark, after the light founder section (the site's section padding) */
 .rsv-sec { position: relative; padding-block: var(--section-y); background: var(--mktg-bg-page); }
+.rsv-context { margin-top: 14px; max-width: 30rem; font-size: 14.5px; line-height: 1.55; color: #64748b; }
 .rsv-features { display: grid; gap: 20px; margin: 36px 0 0; padding: 0; list-style: none; }
 .rsv-features li { display: flex; gap: 12px; }
 .rsv-feature-t { font-size: 15.5px; font-weight: 600; color: #e2e8f0; }

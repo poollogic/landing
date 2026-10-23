@@ -16,7 +16,9 @@ const LINKS = [
   ['Pricing', '/pricing'],
 ];
 
-const Nav = () => {
+// focused: just the wordmark and "Sign in", for a page whose only job is its form (/reserve), so
+// nothing in the header leads away from it.
+const Nav = ({ focused = false }) => {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   const theme = usePreviewTheme();
@@ -46,6 +48,19 @@ const Nav = () => {
     document.documentElement.classList.remove('nav-locked');
     setOpen(false);
   };
+
+  if (focused) {
+    return (
+      <header className="lp-nav is-focused">
+        <div className="lp-nav-bar container">
+          <a href="/" className="lp-nav-wordmark">PoolLogic</a>
+          <div className="nav-right">
+            <a href={APP_URL} className="nav-signin">Sign in</a>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <>
