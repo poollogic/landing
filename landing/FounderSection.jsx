@@ -18,7 +18,7 @@ const INTRO = [
 const MORE = [
   'Because of my background, I knew what good software should look and feel like. I found myself navigating through 17 different open tabs, duct-taping Zapier, n8n, and messy spreadsheets together just to keep my sanity.',
   'But as I built a real solution to save my own business, my perspective shifted. I realized my true value wasn’t in running a pool route—it was in building the systems that allow pool companies to actually scale and breathe. The route was just the journey I had to take to realize this industry was starving for real technology.',
-  'Today, I get to focus entirely on PoolLogic. And honestly, it is the most rewarding work I’ve ever done. There is no better feeling than hearing an owner tell me how much their business has improved, or that they finally get to spend their evenings with their kids instead of fighting with invoices.',
+  'Today, I get to focus almost entirely on PoolLogic. And honestly, it is the most rewarding work I’ve ever done. There is no better feeling than hearing an owner tell me how much their business has improved, or that they finally get to spend their evenings with their kids instead of fighting with invoices.',
 ];
 /* The photo: public/brand/founder-480.webp and -960.webp (1× and 2×, a 4:5 crop of the original).
    If it ever fails, onError swaps in a neutral placeholder, so there's never a broken-image icon.
