@@ -1,6 +1,7 @@
-/* /reserve (pages/reserve.jsx). The section is the homepage hero (.hero: its background glow) with
-   its eyebrow, title, sub and CTA classes; this file adds the layout, the two-step card and the
-   form. Selectors that adjust hero classes are scoped under .rsv-hero (hero.css stays untouched). */
+/* The "Reserve your spot" layout and card: /reserve (pages/reserve.jsx, section .rsv-hero, the
+   homepage hero's glow) and the homepage's reserve section (ReserveSection.jsx, .rsv-sec). Both use
+   the hero's eyebrow, title, sub and CTA classes; this file adds the layout, the two-step card and
+   the form. Adjustments to hero classes are scoped under .rsv-hero / .rsv-sec (hero.css untouched). */
 
 /* The page stays dark whatever the OS theme (the site footer is dark everywhere: index.html). */
 .rsv-page { background: var(--mktg-bg-page); }
@@ -21,8 +22,11 @@
 
 /* ---------- Left column ---------- */
 .rsv-intro { text-align: left; }
-.rsv-hero .hero-title { font-size: clamp(2.5rem, 4.6vw, 3.6rem); }
-.rsv-hero .hero-sub { margin-inline: 0; max-width: 30rem; text-wrap: pretty; }
+.rsv-hero .hero-title, .rsv-sec .hero-title { font-size: clamp(2.5rem, 4.6vw, 3.6rem); }
+.rsv-hero .hero-sub, .rsv-sec .hero-sub { margin-inline: 0; max-width: 30rem; text-wrap: pretty; }
+
+/* The homepage's reserve section: dark, after the light founder section (the site's section padding) */
+.rsv-sec { position: relative; padding-block: var(--section-y); background: var(--mktg-bg-page); }
 .rsv-features { display: grid; gap: 20px; margin: 36px 0 0; padding: 0; list-style: none; }
 .rsv-features li { display: flex; gap: 12px; }
 .rsv-feature-t { font-size: 15.5px; font-weight: 600; color: #e2e8f0; }
@@ -88,12 +92,13 @@
 .rsv-price-plans small { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; }
 .rsv-price-plans b { font-size: 24px; font-weight: 700; letter-spacing: -.02em; color: #f8fafc; font-variant-numeric: tabular-nums; }
 .rsv-price-plans span { margin-left: 2px; font-size: 13.5px; color: #94a3b8; }
+.rsv-price-plans em { display: block; margin-top: 2px; font-size: 12.5px; font-style: normal; line-height: 1.4; color: #64748b; }
 .rsv-price .rsv-price-trial { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(96, 165, 250, .16); font-size: 14px; font-weight: 500; color: #e2e8f0; text-wrap: balance; }
 
 /* The buttons: the homepage hero CTA, full width */
-.rsv-hero .rsv-cta { width: 100%; max-width: none; margin-top: 20px; justify-content: center; padding: 14px 20px; }
-.rsv-hero .rsv-cta:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
-.rsv-hero .rsv-cta:disabled > svg { transform: none; }
+.rsv-card .rsv-cta { width: 100%; max-width: none; margin-top: 20px; justify-content: center; padding: 14px 20px; }
+.rsv-card .rsv-cta:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+.rsv-card .rsv-cta:disabled > svg { transform: none; }
 .rsv-fine { margin-top: 10px; text-align: center; font-size: 12.5px; line-height: 1.5; color: #64748b; text-wrap: balance; }
 .rsv-fine b { font-weight: 500; color: #94a3b8; } /* the risk-free promise reads first */
 

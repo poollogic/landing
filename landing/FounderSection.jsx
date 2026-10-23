@@ -59,7 +59,7 @@ export default function FounderSection() {
   const [open, setOpen] = useState(false);
   const last = INTRO.length - 1;
   return (
-    <section id="founder" className="bg-[#F5F5F7] py-16 md:py-20 lg:py-[120px]" aria-labelledby="founder-heading">
+    <section id="founder" className="section bg-[#F5F5F7]" aria-labelledby="founder-heading">
       <div className="container">
         {/* Header */}
         {/* Phones: left-aligned and smaller (editorial); md and up: centred */}

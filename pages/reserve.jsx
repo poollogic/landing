@@ -8,88 +8,15 @@ import Turnstile from '../landing/Turnstile.jsx';
 import { submitForm } from '../landing/forms.js';
 import { TURNSTILE_SITE_KEY } from '../landing/onboarding.js';
 import { SOFTWARE_OPTIONS, TIMING_OPTIONS } from '../formOptions.js';
-import { BRACKETS } from '../pricingPlans.js';
+import { CheckDot, FOCUS, FeatureList, SizeStep, Stepper, isSize, priceRow, sizeLabel } from '../landing/ReserveSize.jsx';
 import { Footer } from '../components/site-chrome.jsx';
 
 // /reserve: "Reserve your spot". While landing/onboarding.js is set to 'reserve', every sign-up
-// button on the site comes here. Two steps in one card: (1) their size, which shows their rate
+// button on the site comes here (the homepage's reserve section sends ?size=, so they land on
+// step 2 with their size picked). Two steps in one card: (1) their size, which shows their rate
 // straight away, then (2) their details. Requests go to /api/request (server/requestForm.js):
 // the owner gets an email, the person gets a personal confirmation, and they join the waitlist
 // audience. Styles: the homepage hero's classes (hero.css) plus landing/reserve.css.
-
-// [button label, submitted value]. Values are the form's existing customer options
-// (formOptions.js, from the pricing brackets), so the request is exactly what it was.
-const OVER = 'More than 2,500';
-const SIZES = [...BRACKETS.map(([customers]) => [customers, customers]), ['2,500+', OVER]];
-const sizeLabel = (value) => SIZES.find(([, v]) => v === value)?.[0] ?? value;
-const priceRow = (value) => BRACKETS.find(([customers]) => customers === value);
-
-const FEATURES = [
-  ['Price up front', 'Your rate shows the moment you pick a size.'],
-  ['We move your customers', 'We bring them over and set up your automations with you.'],
-  ['No credit card', 'Reserving is free. We reach out to schedule.'],
-];
-
-const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400';
-
-/** The homepage feature-list check: an 18px circle, rgba(59,130,246,.15), with a #3B82F6 tick. */
-const CheckDot = ({ size = 18, className = '' }) => (
-  <svg width={size} height={size} viewBox="0 0 20 20" fill="none" className={`flex-none ${className}`} aria-hidden="true">
-    <circle cx="10" cy="10" r="10" fill="rgba(59,130,246,.15)" />
-    <path d="M6 10.4l2.6 2.6L14 7.6" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-/** (1) Your size — line — (2) Your details. The line fills to 50% once a size is picked, 100% on step 2. */
-function Stepper({ step, size }) {
-  const fill = step === 2 ? 100 : size ? 50 : 0;
-  const Dot = ({ n, label, state }) => (
-    <span className={`rsv-stepper-item is-${state}`}>
-      <span className="rsv-stepper-dot">{state === 'done' ? <CheckDot size={22} /> : n}</span>
-      {label}
-    </span>
-  );
-  return (
-    <div className="rsv-stepper" aria-label={`Step ${step} of 2`}>
-      <Dot n={1} label="Your size" state={step === 2 ? 'done' : 'active'} />
-      <span className="rsv-stepper-line" aria-hidden="true"><i style={{ width: `${fill}%` }} /></span>
-      <Dot n={2} label="Your details" state={step === 2 ? 'active' : 'todo'} />
-    </div>
-  );
-}
-
-/** Slides open (grid rows 0fr → 1fr). */
-function Reveal({ open, children }) {
-  return (
-    <div className={`rsv-reveal${open ? ' is-open' : ''}`} aria-hidden={open ? undefined : 'true'}>
-      <div>{children}</div>
-    </div>
-  );
-}
-
-/** Their rate for the size picked (pricingPlans.js), locked in when they reserve. */
-function PricePanel({ size }) {
-  const row = priceRow(size);
-  if (!size) return null;
-  if (!row) {
-    return (
-      <div className="rsv-price">
-        <p className="rsv-price-trial">Either way, you start with a 30-day free trial.</p>
-        <p>Over 2,500 customers is priced individually. We’ll set your rate with you on the call.</p>
-      </div>
-    );
-  }
-  return (
-    <div className="rsv-price">
-      <p className="rsv-price-trial">Insight or Vision? Your 30-day free trial gives you plenty of time to decide.</p>
-      <div className="rsv-price-plans">
-        <div><small>Insight</small><b>${row[1]}</b><span>/mo</span></div>
-        <div><small>Vision</small><b>${row[2]}</b><span>/mo</span></div>
-      </div>
-      <p><span className="rsv-locked">Locked in today</span><span className="rsv-sep"> · </span>Save an extra 25% paying yearly</p>
-    </div>
-  );
-}
 
 function Field({ label, name, error, optional, children }) {
   return (
@@ -126,9 +53,14 @@ function Success({ name, already }) {
 export default function ReservePage() {
   const startedAt = useRef(Date.now());
   const formRef = useRef(null);
-  const [step, setStep] = useState(1);
-  const [dir, setDir] = useState('none'); // which way the step slides in: right (forward) | left (back)
-  const [size, setSize] = useState('');
+  // Arriving from the homepage's reserve section with a size: straight to step 2
+  const [initialSize] = useState(() => {
+    const v = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('size') : null;
+    return isSize(v) ? v : '';
+  });
+  const [step, setStep] = useState(initialSize ? 2 : 1);
+  const [dir, setDir] = useState(initialSize ? 'right' : 'none'); // which way the step slides in: right (forward) | left (back)
+  const [size, setSize] = useState(initialSize);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [status, setStatus] = useState('idle'); // idle | sending | done | error
   const [error, setError] = useState('');
@@ -191,17 +123,7 @@ export default function ReservePage() {
                   See your price now. We’ll move your customers over and <strong>set everything up with you</strong> on a
                   10-minute call.
                 </p>
-                <ul className="rsv-features">
-                  {FEATURES.map(([title, body]) => (
-                    <li key={title}>
-                      <CheckDot className="mt-[2px]" />
-                      <div>
-                        <p className="rsv-feature-t">{title}</p>
-                        <p className="rsv-feature-d">{body}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                <FeatureList />
               </div>
 
               {/* Right: the two-step card */}
@@ -215,33 +137,14 @@ export default function ReservePage() {
                     <input type="hidden" name="customers" value={size} />
 
                     {step === 1 ? (
-                      <div key="size" className={`rsv-panel is-from-${dir}`}>
-                        <h2 className="rsv-h2">How many active customers?</h2>
-                        <p className="rsv-h2-sub">Pick your size to see your rate.</p>
-                        <div className="rsv-sizes" role="radiogroup" aria-label="Active customers">
-                          {SIZES.map(([label, value]) => (
-                            <button
-                              key={value}
-                              type="button"
-                              role="radio"
-                              aria-checked={size === value}
-                              className={`rsv-size${size === value ? ' is-on' : ''}${value === OVER ? ' is-wide' : ''} ${FOCUS}`}
-                              onClick={() => setSize(value)}
-                            >
-                              {label}
-                            </button>
-                          ))}
-                        </div>
-                        {fields.customers && <p className="rsv-error">{fields.customers}</p>}
-                        <Reveal open={!!size}><PricePanel size={size} /></Reveal>
-                        <button type="button" className={`hero-cta rsv-cta ${FOCUS}`} disabled={!size} onClick={() => goTo(2)}>
-                          <span className="hero-cta-label">Next</span>
-                          <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
-                        </button>
-                        <p className="rsv-fine">
-                          <b>No credit card. Cancel within 30 days and you pay nothing.</b> Takes about 30 seconds.
-                        </p>
-                      </div>
+                      <SizeStep
+                        key="size"
+                        className={`rsv-panel is-from-${dir}`}
+                        size={size}
+                        onSize={setSize}
+                        onNext={() => goTo(2)}
+                        error={fields.customers}
+                      />
                     ) : (
                       <div key="details" className={`rsv-panel is-from-${dir}`}>
                         <div className="rsv-recap">

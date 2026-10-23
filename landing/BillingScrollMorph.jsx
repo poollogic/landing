@@ -664,7 +664,11 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
     const onResize = () => { if (folded) trackRef.current.style.height = `${trackRef.current.firstElementChild.offsetHeight}px`; };
 
     const onScroll = () => {
-      if (performance.now() < G.bypassUntil) return;
+      if (G.bypassUntil) {
+        clearTimeout(bypassTimer);
+        bypassTimer = setTimeout(settle, 300); // still scrolling: settle once it has been quiet for 300ms
+        return;
+      }
       const y = window.scrollY;
       if (touch) {
         const g = geo();
@@ -714,18 +718,22 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
       if (!touch) window[m]("touchmove", block, { passive: false });
     };
     let bypassTimer = 0;
+    // Settle instantly to wherever navigation landed (the section is usually off-screen by then)
+    const settle = () => {
+      G.bypassUntil = 0;
+      const t = window.scrollY > geo().gIn ? 1 : 0;
+      morph.set(t);
+      setTo(t);
+    };
+    // Links bypass the gate until their (smooth) scroll has finished: 1.5s, extended while the page
+    // is still moving (onScroll), so a long scroll can't run past the end of the bypass and be held.
     const bypass = () => {
-      G.bypassUntil = performance.now() + 1500;
+      G.bypassUntil = Infinity;
       G.locked = false;
       listen(false);
       if (folded) { folded = false; trackRef.current.style.height = ""; } // links land on the full section
       clearTimeout(bypassTimer);
-      bypassTimer = setTimeout(() => {
-        // Settle instantly to wherever navigation landed (the section is usually off-screen by then)
-        const t = window.scrollY > geo().gIn ? 1 : 0;
-        morph.set(t);
-        setTo(t);
-      }, 1550);
+      bypassTimer = setTimeout(settle, 1500);
     };
     const onClick = (e) => e.target.closest?.('a[href*="#"]') && bypass();
 

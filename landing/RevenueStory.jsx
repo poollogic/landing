@@ -257,6 +257,16 @@ export function useRevenueStory(sectionRef, enabled = true) {
     // still in view, and scrolling back up passes it at normal speed, showing the finished story.
     // Back above it, it re-arms (pinH) for the next pass down.
     let collapsed = false, pinH = 0, restH = 0;
+    // In-page links (/#founder …) scroll smoothly past this section; folding mid-way would cut that
+    // scroll short, so folding waits until the navigation has landed (as the billing section's does).
+    let navUntil = 0;
+    const onNav = () => { navUntil = performance.now() + 1500; };
+    const onScroll = () => {
+      // While a link's scroll is still moving, keep waiting (300ms past its last frame)
+      if (performance.now() < navUntil) navUntil = Math.max(navUntil, performance.now() + 300);
+      schedule();
+    };
+    const onLinkClick = (e) => { if (e.target.closest?.('a[href*="#"]')) onNav(); };
 
     function layout() {
       active = mq.matches;
@@ -278,7 +288,7 @@ export function useRevenueStory(sectionRef, enabled = true) {
     }
     function oneWay() {
       const r = track.getBoundingClientRect();
-      if (!collapsed && r.top + (pinH - restH) <= 0) {
+      if (!collapsed && r.top + (pinH - restH) <= 0 && performance.now() >= navUntil) {
         const y = window.scrollY, before = track.offsetHeight;
         collapsed = true;
         track.style.height = restH + "px";
@@ -375,12 +385,16 @@ export function useRevenueStory(sectionRef, enabled = true) {
     layout();
     render(0, -1);
     schedule();
-    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("hashchange", onNav);
+    document.addEventListener("click", onLinkClick, true);
     window.addEventListener("resize", layout);
     mq.addEventListener("change", layout);
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("hashchange", onNav);
+      document.removeEventListener("click", onLinkClick, true);
       window.removeEventListener("resize", layout);
       mq.removeEventListener("change", layout);
     };
