@@ -75,6 +75,13 @@ test('validation: bad email, unknown choice, missing field, overlong text', asyn
   assert.equal(sent.length, 0);
 });
 
+test('waitlist: current software and timing are optional, but must be real choices when given', async () => {
+  const ok = await call(good({ software: '', timing: '' }), env());
+  assert.equal(ok.status, 200);
+  assert.ok(!sent[0].body.text.includes('Current software'));
+  assert.equal(validate('waitlist', good({ software: 'Made up' })).errors.software, 'Pick one of the options.');
+});
+
 test('line breaks are stripped from single-line fields (no header injection)', () => {
   const { values } = validate('waitlist', good({ business: 'Evil\r\nBcc: x@y.z' }));
   assert.equal(values.business, 'Evil Bcc: x@y.z');

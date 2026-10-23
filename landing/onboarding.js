@@ -1,8 +1,8 @@
 import { trialHref } from './preview/previewTheme.js';
 
 // How new companies get in: one switch for every sign-up button on the site.
-//   'reserve'  the buttons say "Reserve your spot" and open /reserve (we bring
-//              companies on in small groups)
+//   'reserve'  the buttons say "Reserve your spot" and open /reserve (every
+//              account starts with a white-glove onboarding call)
 //   'open'     the buttons start the 30-day free trial in the app, as before
 export const ONBOARDING = 'reserve';
 export const isReserving = ONBOARDING === 'reserve';

@@ -57,7 +57,8 @@ const COMMON = {
 export const FORMS = {
   waitlist: {
     label: 'Spot request',
-    fields: { ...COMMON, customers: choice(CUSTOMER_OPTIONS), software: choice(SOFTWARE_OPTIONS), timing: choice(TIMING_OPTIONS), message: text(2000, false) },
+    // Only name, business, email and size are required: the rest is asked, not demanded (fewer drop-offs).
+    fields: { ...COMMON, customers: choice(CUSTOMER_OPTIONS), software: choice(SOFTWARE_OPTIONS, false), timing: choice(TIMING_OPTIONS, false), message: text(2000, false) },
   },
   demo: {
     label: 'Demo request',

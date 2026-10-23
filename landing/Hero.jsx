@@ -85,7 +85,7 @@ const Hero = () => {
 
         <p className="hero-fine">
           {isReserving
-            ? 'We bring on pool companies in small groups, so we’re here for every question and your setup is perfect.'
+            ? 'Every account starts with white-glove onboarding: we move your customers over and set everything up with you.'
             : 'No credit card required. Import your Skimmer or Excel route in minutes.'}
         </p>
       </div>

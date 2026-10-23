@@ -90,7 +90,7 @@ const FAQ = [
     'Zero setup fees, and our white-glove onboarding and data migration is 100% free.'],
   ['Do I need a credit card for the free trial?',
     isReserving
-      ? 'No. When your onboarding group opens, you sign up with just your email, and we import your route for you.'
+      ? 'No. When we onboard you, you sign up with just your email, and we import your route for you.'
       : 'No. Sign up with just your email and start importing your route immediately.'],
   ['Is there a discount for paying yearly?',
     `Yes. Pay for a year up front and save ${YEARLY_SAVING}.`],

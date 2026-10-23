@@ -1,123 +1,154 @@
-/* /reserve (pages/reserve.jsx): the homepage's look. Page colour is the shared --mktg-bg-page
-   token (tailwind.config.js), the section's light is the homepage hero's recipe, and the submit
-   button is the hero CTA. */
+/* /reserve (pages/reserve.jsx). The section is the homepage hero (.hero: its background glow) with
+   its eyebrow, title, sub and CTA classes; this file adds the layout, the two-step card and the
+   form. Selectors that adjust hero classes are scoped under .rsv-hero (hero.css stays untouched). */
 
 /* The page stays dark whatever the OS theme (the site footer is dark everywhere: index.html). */
 .rsv-page { background: var(--mktg-bg-page); }
 
-/* Section: same atmosphere as the homepage hero */
-.rsv {
+/* ---------- Section: centred in the screen when shorter than it (the footer is ~68px) ---------- */
+.hero.rsv-hero {
+  min-height: calc(100svh - 68px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 104px 0 48px; /* the nav is a 64px absolute header */
+}
+.rsv-hero > .container { width: 100%; } /* a flex item with auto margins would shrink to its content */
+.rsv-grid { display: grid; grid-template-columns: minmax(0, 1fr) 520px; gap: 80px; align-items: center; }
+@media (max-width: 999.98px) {
+  .rsv-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; max-width: 600px; margin-inline: auto; }
+}
+
+/* ---------- Left column ---------- */
+.rsv-intro { text-align: left; }
+.rsv-hero .hero-title { font-size: clamp(2.5rem, 4.6vw, 3.6rem); }
+.rsv-hero .hero-sub { margin-inline: 0; max-width: 30rem; text-wrap: pretty; }
+.rsv-features { display: grid; gap: 20px; margin: 36px 0 0; padding: 0; list-style: none; }
+.rsv-features li { display: flex; gap: 12px; }
+.rsv-feature-t { font-size: 15.5px; font-weight: 600; color: #e2e8f0; }
+.rsv-feature-d { margin-top: 2px; font-size: 14px; line-height: 1.5; color: #64748b; }
+
+/* ---------- The card ---------- */
+.rsv-card {
   position: relative;
-  overflow: clip; /* clip, not hidden: hidden breaks the sticky column */
-  background:
-    radial-gradient(60% 40% at 30% 0%, rgba(96, 150, 240, .10), transparent 70%),
-    radial-gradient(70% 35% at 60% 55%, rgba(30, 41, 59, .55), transparent 70%),
-    linear-gradient(#141a26, var(--mktg-bg-page) 55%);
-}
-.rsv::before { /* soft light source, as .hero-decor .light-source */
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: -220px;
-  width: 720px;
-  height: 520px;
-  transform: translateX(-80%);
-  background: radial-gradient(closest-side, rgba(235, 242, 255, .12), rgba(96, 150, 240, .05) 50%, transparent 75%);
-  filter: blur(20px);
-  pointer-events: none;
-}
-.rsv > .container { position: relative; }
-
-/* Type */
-.rsv-eyebrow { color: rgb(147, 164, 191); letter-spacing: .14em; }
-.rsv h1 { color: #f8fafc; letter-spacing: -.035em; }
-.rsv-lead { color: rgb(151, 163, 182); }
-.rsv ol > li > span:first-child { border-color: rgba(148, 163, 184, .22); background: rgba(255, 255, 255, .03); color: #e2e8f0; }
-.rsv ol p:first-child { color: #f1f5f9; }
-.rsv ol p + p { color: rgb(148, 163, 184); }
-.rsv-next { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: rgb(147, 164, 191); }
-
-/* Form card (and the success card that replaces it) */
-.rsv form,
-.rsv .rsv-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .015));
+  padding: 28px;
   border: 1px solid rgba(148, 163, 184, .14);
-  border-radius: 20px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 40px 80px -40px rgba(0, 0, 0, .8), 0 -20px 80px -40px rgba(59, 130, 246, .18);
-}
-.rsv label { color: #cbd5e1; font-size: 14px; font-weight: 500; }
-
-/* Fields */
-.rsv input,
-.rsv select,
-.rsv textarea {
-  background-color: rgba(148, 163, 184, .06);
-  border: 1px solid rgba(148, 163, 184, .16);
-  border-radius: 10px;
-  color: #f8fafc;
-  transition: border-color .15s, box-shadow .15s, background-color .15s;
-}
-.rsv input::placeholder,
-.rsv textarea::placeholder { color: rgba(148, 163, 184, .55); }
-.rsv input:hover,
-.rsv select:hover,
-.rsv textarea:hover { border-color: rgba(148, 163, 184, .28); }
-.rsv input:focus,
-.rsv select:focus,
-.rsv textarea:focus {
-  border-color: #3b82f6;
-  background-color: rgba(59, 130, 246, .06);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, .22);
-  outline: none;
-}
-.rsv select option { background: #14171e; color: #f8fafc; }
-
-/* Submit = the homepage hero CTA (.hero-cta in hero.css), hover included */
-.rsv form button[type="submit"] {
-  height: 52px;
-  border-radius: 12px;
-  font-weight: 600;
-  background: linear-gradient(rgb(59, 130, 246), rgb(37, 99, 235));
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .25),
-    inset 0 -1px 0 rgba(0, 0, 0, .2),
-    0 0 0 1px rgba(59, 130, 246, .6),
-    0 2px 6px rgba(0, 0, 0, .35),
-    0 10px 30px -10px rgba(59, 130, 246, .55);
-}
-.rsv form button[type="submit"]:not(:disabled):hover {
-  transform: translateY(-2px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, .3),
-    inset 0 -1px 0 rgba(0, 0, 0, .2),
-    0 0 0 1px rgba(96, 165, 250, .8),
-    0 6px 14px -4px rgba(0, 0, 0, .45);
+  border-radius: 16px;
+  background: rgba(17, 19, 24, .6);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  overflow: clip; /* the step slide-in stays inside the card */
 }
 
-/* Desktop: the intro and steps stay in view while filling in the form */
-@media (min-width: 1024px) {
-  .rsv > .container > div:first-child { position: sticky; top: 110px; align-self: start; }
+/* Step indicator: (1) Your size — line — (2) Your details */
+.rsv-stepper { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+.rsv-stepper-item { display: inline-flex; align-items: center; gap: 8px; flex: none; font-size: 13px; font-weight: 500; color: #64748b; }
+.rsv-stepper-dot {
+  display: grid; place-items: center; width: 22px; height: 22px; border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, .3); font-size: 12px; font-weight: 600; color: #64748b;
 }
+.rsv-stepper-item.is-active { color: #e2e8f0; }
+.rsv-stepper-item.is-active .rsv-stepper-dot { border-color: #3b82f6; background: #3b82f6; color: #fff; }
+.rsv-stepper-item.is-done { color: #94a3b8; }
+.rsv-stepper-item.is-done .rsv-stepper-dot { border: 0; }
+.rsv-stepper-line { position: relative; flex: 1; height: 2px; border-radius: 2px; background: rgba(148, 163, 184, .18); overflow: hidden; }
+.rsv-stepper-line i { position: absolute; inset: 0 auto 0 0; background: #3b82f6; transition: width .4s cubic-bezier(.2, .8, .2, 1); }
 
-/* Tablets: one column, the steps as a 3-up row, the form centred */
-@media (min-width: 768px) and (max-width: 1023.98px) {
-  .rsv > .container { max-width: 680px; gap: 40px; }
-  .rsv ol { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-  .rsv ol > li { flex-direction: column; gap: 10px; }
+/* Step panels slide in: from the right going forward, from the left going back */
+.rsv-panel.is-from-right { animation: rsvFromRight .35s cubic-bezier(.2, .8, .2, 1); }
+.rsv-panel.is-from-left { animation: rsvFromLeft .35s cubic-bezier(.2, .8, .2, 1); }
+@keyframes rsvFromRight { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes rsvFromLeft { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+
+.rsv-h2 { font-size: 20px; font-weight: 600; letter-spacing: -.01em; color: #f8fafc; }
+.rsv-h2-sub { margin-top: 4px; font-size: 14px; color: #94a3b8; }
+
+/* Step 1: the size picker */
+.rsv-sizes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 18px; }
+.rsv-size {
+  height: 40px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, .18); background: rgba(15, 23, 42, .5);
+  font-size: 14px; font-weight: 500; color: #cbd5e1; font-variant-numeric: tabular-nums; cursor: pointer;
+  transition: border-color .15s, background-color .15s, color .15s;
 }
+.rsv-size:hover { border-color: rgba(148, 163, 184, .38); color: #f1f5f9; }
+.rsv-size.is-on { border-color: #3b82f6; background: rgba(59, 130, 246, .14); color: #fff; }
+.rsv-size.is-wide { grid-column: span 2; }
 
-/* Phones: the form right after the intro; the steps follow it as "What happens next" */
+/* The price panel, opening once a size is picked */
+.rsv-reveal { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .45s cubic-bezier(.2, .8, .2, 1), opacity .3s ease; }
+.rsv-reveal.is-open { grid-template-rows: 1fr; opacity: 1; }
+.rsv-reveal > div { min-height: 0; overflow: hidden; }
+.rsv-price {
+  margin-top: 14px; padding: 14px 16px; border: 1px solid rgba(96, 165, 250, .22); border-radius: 12px;
+  background: linear-gradient(180deg, rgba(59, 130, 246, .10), rgba(59, 130, 246, .04));
+  font-size: 13.5px; line-height: 1.5; color: #94a3b8;
+}
+.rsv-price-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
+.rsv-price-plans small { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; }
+.rsv-price-plans b { font-size: 24px; font-weight: 700; letter-spacing: -.02em; color: #f8fafc; font-variant-numeric: tabular-nums; }
+.rsv-price-plans span { margin-left: 2px; font-size: 13.5px; color: #94a3b8; }
+
+/* The buttons: the homepage hero CTA, full width */
+.rsv-hero .rsv-cta { width: 100%; max-width: none; margin-top: 20px; justify-content: center; padding: 14px 20px; }
+.rsv-hero .rsv-cta:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+.rsv-hero .rsv-cta:disabled > svg { transform: none; }
+.rsv-fine { margin-top: 10px; text-align: center; font-size: 12.5px; color: #64748b; }
+
+/* Step 2 */
+.rsv-recap {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 10px 14px;
+  border: 1px solid rgba(96, 165, 250, .2); border-radius: 10px; background: rgba(59, 130, 246, .08);
+  font-size: 13.5px; color: #94a3b8;
+}
+.rsv-recap b { font-weight: 600; color: #e2e8f0; }
+.rsv-recap button { flex: none; border: 0; background: none; padding: 0; font: inherit; font-weight: 500; color: #60a5fa; cursor: pointer; }
+.rsv-recap button:hover { color: #93c5fd; text-decoration: underline; text-underline-offset: 3px; }
+
+.rsv-fields { display: grid; gap: 16px; margin-top: 20px; }
+.rsv-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rsv-field { display: block; }
+.rsv-label { display: block; margin-bottom: 6px; font-size: 13.5px; font-weight: 500; color: #cbd5e1; }
+.rsv-label span { font-weight: 400; color: #64748b; }
+.rsv-input {
+  display: block; width: 100%; height: 44px; padding: 0 14px; border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, .16); background-color: rgba(15, 23, 42, .5);
+  font-size: 15px; color: #f8fafc; transition: border-color .15s, box-shadow .15s;
+}
+.rsv-input::placeholder { color: rgba(148, 163, 184, .55); }
+.rsv-input:hover { border-color: rgba(148, 163, 184, .28); }
+.rsv-input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, .18); }
+.rsv-input[aria-invalid="true"] { border-color: #f87171; }
+.rsv-textarea { height: auto; padding: 10px 14px; line-height: 1.5; resize: vertical; }
+.rsv-select {
+  appearance: none; -webkit-appearance: none; padding-right: 36px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'><path d='m6 9 6 6 6-6'/></svg>");
+  background-repeat: no-repeat; background-position: right 14px center; background-size: 12px;
+}
+.rsv-select option { background: #14171e; color: #f8fafc; }
+.rsv-error { display: block; margin-top: 6px; font-size: 12.5px; color: #f87171; }
+.rsv-add { display: inline-flex; align-items: center; gap: 6px; justify-self: start; padding: 0; border: 0; background: none; font-size: 14px; font-weight: 500; color: #60a5fa; cursor: pointer; }
+.rsv-add span { font-weight: 400; color: #64748b; }
+.rsv-add:hover { color: #93c5fd; }
+.rsv-alert { margin-top: 16px; padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(248, 113, 113, .3); background: rgba(248, 113, 113, .08); font-size: 13.5px; line-height: 1.5; color: #fca5a5; }
+.rsv-alert a { font-weight: 600; color: #fecaca; text-decoration: underline; }
+
+/* Success */
+.rsv-success { display: grid; justify-items: center; gap: 12px; padding: 24px 8px; text-align: center; }
+.rsv-success h2 { margin-top: 6px; font-size: 22px; font-weight: 600; color: #f8fafc; }
+.rsv-success p { max-width: 24rem; font-size: 15px; line-height: 1.55; color: #94a3b8; }
+
+/* ---------- Phones ---------- */
 @media (max-width: 767.98px) {
-  section.rsv { padding-top: 96px; padding-bottom: 56px; }
-  .rsv > .container { gap: 24px; }
-  .rsv-eyebrow { font-size: 11px; }
-  .rsv h1 { font-size: 34px; }
-  .rsv-lead { font-size: 16px; line-height: 1.55; }
-  .rsv form { padding: 20px; gap: 16px; }
-  .rsv input,
-  .rsv select { height: 48px; font-size: 16px; } /* 16px stops iOS zooming in on focus */
+  .rsv-input { font-size: 16px; } /* 16px keeps iOS from zooming in on focus */
+}
+@media (max-width: 559.98px) {
+  .rsv-card { padding: 20px; }
+  .rsv-sizes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rsv-row { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rsv form button[type="submit"]:not(:disabled):hover { transform: none; }
+  .rsv-panel.is-from-right, .rsv-panel.is-from-left { animation: none; }
+  .rsv-reveal, .rsv-stepper-line i { transition: none; }
 }
