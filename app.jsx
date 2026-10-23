@@ -8,6 +8,7 @@ const PrivacyPage = lazy(() => import('./pages/privacy.jsx'));
 const TechAppPage = lazy(() => import('./pages/tech-app.jsx'));
 const ContactPage = lazy(() => import('./pages/contact.jsx'));
 const PricingPage = lazy(() => import('./pages/pricing.jsx'));
+const ReservePage = lazy(() => import('./pages/reserve.jsx'));
 const PartnersPage = lazy(() => import('./pages/partners.jsx'));
 const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
@@ -30,6 +31,7 @@ const isPrivacyPath = (p) => p === '/privacy' || p === '/privacy/';
 const isTechAppPath = (p) => p === '/tech-app' || p === '/tech-app/';
 const isContactPath = (p) => p === '/contact' || p === '/contact/';
 const isPricingPath = (p) => p === '/pricing' || p === '/pricing/';
+const isReservePath = (p) => p === '/reserve' || p === '/reserve/';
 const isPartnersPath = (p) => p === '/partners' || p === '/partners/';
 const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/terms/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
@@ -49,6 +51,11 @@ const ROUTE_META = {
     title: 'Pricing — PoolLogic',
     description: 'PoolLogic pricing: Insight from $99/mo and Vision from $159/mo (25% off billed yearly), priced by active customers with unlimited technicians and office staff. 30-day free trial, no card required.',
     path: '/pricing',
+  },
+  reserve: {
+    title: 'Reserve your spot — PoolLogic',
+    description: 'PoolLogic brings on new pool companies in small groups, so every route is set up right. Reserve your spot in the next group.',
+    path: '/reserve',
   },
   techApp: {
     title: 'Tech app — PoolLogic',
@@ -142,6 +149,7 @@ const App = () => {
     else if (isTechAppPath(path)) meta = ROUTE_META.techApp;
     else if (isContactPath(path)) meta = ROUTE_META.contact;
     else if (isPricingPath(path)) meta = ROUTE_META.pricing;
+    else if (isReservePath(path)) meta = ROUTE_META.reserve;
     else if (isPartnersPath(path)) meta = ROUTE_META.partners;
     else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
@@ -211,6 +219,15 @@ const App = () => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0F172A' }} />}>
           <PricingPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+  if (isReservePath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0F172A' }} />}>
+          <ReservePage />
         </Suspense>
       </ErrorBoundary>
     );

@@ -20,7 +20,7 @@ const MKTG_GLOW = '0 0 80px -20px rgba(37, 99, 235, 0.25)';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./pages/landing.jsx', './pages/pricing.jsx', './landing/**/*.{js,jsx}'],
+  content: ['./pages/landing.jsx', './pages/pricing.jsx', './pages/reserve.jsx', './landing/**/*.{js,jsx}'],
   corePlugins: {
     // index.html already defines a global `.container`; avoid the collision.
     container: false,

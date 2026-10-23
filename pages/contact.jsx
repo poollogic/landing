@@ -1,26 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
+import Turnstile from '../landing/Turnstile.jsx';
+import { submitForm } from '../landing/forms.js';
+import { TURNSTILE_SITE_KEY } from '../landing/onboarding.js';
+import { CUSTOMER_OPTIONS, PLAN_OPTIONS } from '../formOptions.js';
 
-// Contact / demo-request page. Form posts to Formspree.
-// PLACEHOLDER — replace with your real Formspree endpoint before going live.
-// Get one at https://formspree.io, copy the form URL (looks like
-// https://formspree.io/f/abcdwxyz), and paste it below.
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_ME';
-
-const SIZE_OPTIONS = [
-  '1 technician (just me)',
-  '2–5 technicians',
-  '6–15 technicians',
-  '16+ technicians',
-];
-
-const TIER_OPTIONS = [
-  'Core — free until you get paid',
-  'Insight — $29–39/tech/mo',
-  'Vision — $59–79/tech/mo',
-  'Enterprise',
-  'Not sure yet — help me pick',
-];
-
+// Contact / demo-request page. The form posts to /api/request (server/requestForm.js).
 // /contact?topic=partner is the Partner Program's Apply button until its own
 // apply form ships: same form and endpoint, partner wording and fields.
 const isPartnerTopic = () =>
@@ -31,37 +15,34 @@ const ContactPage = () => {
   const [status, setStatus] = useState('idle'); // idle | submitting | success | error
   const [errorMessage, setErrorMessage] = useState('');
 
+  const startedAt = useRef(Date.now());
+  const [token, setToken] = useState(null);
+  const onToken = useCallback((t) => setToken(t), []);
+  const [checkKey, setCheckKey] = useState(0); // remounts the bot check for a fresh one-time token
+  const [fields, setFields] = useState({});
+  const [already, setAlready] = useState(false);
+
+  // Sent to /api/request (server/requestForm.js): spam checks, then an email to us and a confirmation to them.
   const onSubmit = async (e) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
-    // Honeypot — bots fill hidden fields, humans don't. If filled, silently succeed.
-    if (data.get('company_website')) {
-      setStatus('success');
+    if (TURNSTILE_SITE_KEY && !token) {
+      setErrorMessage('One moment, we’re finishing a quick security check. Try again in a second.');
+      setStatus('error');
       return;
     }
-
     setStatus('submitting');
     setErrorMessage('');
-
-    try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        body: data,
-        headers: { Accept: 'application/json' },
-      });
-      if (res.ok) {
-        setStatus('success');
-        form.reset();
-      } else {
-        const body = await res.json().catch(() => ({}));
-        setErrorMessage(body?.error || 'Something went wrong. Please email us instead.');
-        setStatus('error');
-      }
-    } catch {
-      setErrorMessage('Network error. Please email us instead.');
+    setFields({});
+    const out = await submitForm(partner ? 'partner' : 'demo', e.currentTarget, { startedAt: startedAt.current, turnstileToken: token });
+    if (out.ok) {
+      setAlready(out.already);
+      setStatus('success');
+    } else {
+      setErrorMessage(Object.keys(out.fields).length ? `${out.error} ${Object.values(out.fields)[0]}` : out.error);
+      setFields(out.fields);
       setStatus('error');
+      setToken(null);
+      setCheckKey((k) => k + 1);
     }
   };
 
@@ -81,7 +62,7 @@ const ContactPage = () => {
         </header>
 
         {status === 'success' ? (
-          <SuccessPanel partner={partner} onReset={() => setStatus('idle')} />
+          <SuccessPanel partner={partner} already={already} onReset={() => setStatus('idle')} />
         ) : (
           <form
             onSubmit={onSubmit}
@@ -94,7 +75,6 @@ const ContactPage = () => {
               background: 'var(--bg-muted, var(--bg))',
             }}
           >
-            {partner && <input type="hidden" name="topic" value="partner" />}
             <Row>
               <Field label="Your name" name="name" required autoComplete="name" />
               <Field label={partner ? 'Channel, group or business' : 'Business name'} name="business" required autoComplete="organization" />
@@ -106,8 +86,8 @@ const ContactPage = () => {
 
             {!partner && (
               <Row>
-                <SelectField label="How many technicians?" name="size" options={SIZE_OPTIONS} required />
-                <SelectField label="Which plan looks right?" name="tier" options={TIER_OPTIONS} required />
+                <SelectField label="How many active customers?" name="customers" options={CUSTOMER_OPTIONS} required />
+                <SelectField label="Which plan looks right?" name="plan" options={PLAN_OPTIONS} required />
               </Row>
             )}
 
@@ -135,6 +115,8 @@ const ContactPage = () => {
                 <input type="text" name="company_website" tabIndex={-1} autoComplete="off" />
               </label>
             </div>
+
+            <Turnstile key={checkKey} onToken={onToken} theme="light" />
 
             {status === 'error' && (
               <div style={{ fontSize: 14, color: '#B91C1C', background: '#FEF2F2', border: '1px solid #FECACA', padding: '12px 14px', borderRadius: 10 }}>
@@ -238,16 +220,18 @@ const TextareaField = ({ label, name, placeholder, rows = 4, required }) => (
   </label>
 );
 
-const SuccessPanel = ({ partner, onReset }) => (
+const SuccessPanel = ({ partner, already, onReset }) => (
   <div style={{ padding: 40, border: '1px solid var(--line)', borderRadius: 14, background: 'var(--bg-muted, var(--bg))', textAlign: 'center' }}>
     <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'color-mix(in oklab, var(--brand-green) 20%, transparent)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-green, #22A06B)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
     </div>
     <h2 style={{ fontSize: 24, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: 8 }}>Got it — we'll be in touch.</h2>
     <p style={{ fontSize: 15.5, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 440, margin: '0 auto' }}>
-      {partner
-        ? "We'll reply within 3 business days about joining the Partner Program. If you need us sooner, email"
-        : "We'll reply within one business day to set up your demo. If you need us sooner, email"} <a href="mailto:hello@poollogic.app" style={{ color: 'var(--accent)' }}>hello@poollogic.app</a>.
+      {already
+        ? "We already have your request and we'll be in touch soon. If you need us sooner, email"
+        : partner
+          ? "We'll reply within 3 business days about joining the Partner Program. Check your inbox for a confirmation. If you need us sooner, email"
+          : "We'll reply within one business day to set up your demo. Check your inbox for a confirmation. If you need us sooner, email"} <a href="mailto:hello@poollogic.app" style={{ color: 'var(--accent)' }}>hello@poollogic.app</a>.
     </p>
     <button onClick={onReset} className="btn btn-outline" style={{ marginTop: 24 }}>Send another message</button>
   </div>

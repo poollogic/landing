@@ -10,7 +10,7 @@ import react from '@vitejs/plugin-react';
 // so the browser reuses these downloads. Fonts start once the main script
 // has run (DOMContentLoaded), so they don't share the connection with it; the
 // text renders in a metric-matched fallback until they arrive (landing.css).
-const ROUTE_PAGES = { '/': 'pages/landing.jsx', '/pricing': 'pages/pricing.jsx' };
+const ROUTE_PAGES = { '/': 'pages/landing.jsx', '/pricing': 'pages/pricing.jsx', '/reserve': 'pages/reserve.jsx' };
 const MARKETING_FONTS = ['/fonts/Satoshi-Regular.woff2', '/fonts/Satoshi-Medium.woff2', '/fonts/Satoshi-Bold.woff2'];
 const SITE_FONTS = ['/fonts/Geist.woff2']; // the rest of the site
 

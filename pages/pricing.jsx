@@ -6,7 +6,8 @@ import '../landing/pricing.css';
 import Nav from '../landing/Nav.jsx';
 import SectionHeader from '../landing/SectionHeader.jsx';
 import FaqSection from '../landing/FaqSection.jsx';
-import { trialHref, usePreviewTheme } from '../landing/preview/previewTheme.js';
+import { usePreviewTheme } from '../landing/preview/previewTheme.js';
+import { ctaHref, isReserving } from '../landing/onboarding.js';
 import { Footer } from '../components/site-chrome.jsx';
 import { BRACKETS } from '../pricingPlans.js';
 
@@ -88,7 +89,9 @@ const FAQ = [
   ['Is there a setup fee?',
     'Zero setup fees, and our white-glove onboarding and data migration is 100% free.'],
   ['Do I need a credit card for the free trial?',
-    'No. Sign up with just your email and start importing your route immediately.'],
+    isReserving
+      ? 'No. When your onboarding group opens, you sign up with just your email, and we import your route for you.'
+      : 'No. Sign up with just your email and start importing your route immediately.'],
   ['Is there a discount for paying yearly?',
     `Yes. Pay for a year up front and save ${YEARLY_SAVING}.`],
 ].map(([q, a]) => ({ q, a }));
@@ -165,7 +168,7 @@ function PlanCard({ name, price, yearly, maxCustomers, featured, lead, features,
             featured ? 'bg-blue-600 shadow-lg hover:bg-blue-500' : 'bg-slate-700 hover:bg-slate-600'
           }`}
         >
-          {price ? 'Start 30-Day Free Trial' : 'Talk to us'}
+          {price ? (isReserving ? 'Reserve your spot' : 'Start 30-Day Free Trial') : 'Talk to us'}
         </a>
       </div>
     </div>
@@ -203,7 +206,7 @@ function MiniBillingSwitch({ yearly, onChange }) {
 }
 
 export default function PricingPage() {
-  const trial = trialHref(usePreviewTheme());
+  const trial = ctaHref(usePreviewTheme());
   const [stop, setStop] = useState(0); // the slider: an index into STOPS, or CUSTOM
   const [yearly, setYearly] = useState(true);
   const bracket = stop === CUSTOM ? null : BRACKETS[stop];
@@ -480,7 +483,7 @@ export default function PricingPage() {
               href={trial}
               className={`inline-flex h-16 items-center justify-center rounded-xl bg-blue-600 px-12 text-lg font-semibold text-white transition-colors hover:bg-blue-500 ${FOCUS}`}
             >
-              Start Your 30-Day Free Trial
+              {isReserving ? 'Reserve your spot' : 'Start Your 30-Day Free Trial'}
             </a>
           </div>
         </section>

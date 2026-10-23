@@ -1,7 +1,8 @@
 import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import DashboardPreview, { PreviewThemeToggle, PreviewThemeUnder } from './preview/DashboardPreview.jsx';
-import { trialHref, usePreviewTheme } from './preview/previewTheme.js';
+import { usePreviewTheme } from './preview/previewTheme.js';
+import { ctaHref, isReserving } from './onboarding.js';
 import useHeroScrollFx from './useHeroScrollFx.js';
 
 // The billing-run toast is decoration: absolutely positioned (it can't move
@@ -58,16 +59,20 @@ const Hero = () => {
         </h2>
 
         <a
-          href={trialHref(theme)}
+          href={ctaHref(theme)}
           className="hero-cta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
         >
           <span className="hero-cta-label">
-            Put Your Route on Autopilot <span className="hero-cta-trial"><span className="paren">(</span>Start 30-Day Trial<span className="paren">)</span></span>
+            Put Your Route on Autopilot <span className="hero-cta-trial"><span className="paren">(</span>{isReserving ? 'Reserve Your Spot' : 'Start 30-Day Trial'}<span className="paren">)</span></span>
           </span>
           <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
         </a>
 
-        <p className="hero-fine">No credit card required. Import your Skimmer or Excel route in minutes.</p>
+        <p className="hero-fine">
+          {isReserving
+            ? 'We bring on pool companies in small groups, so we’re here for every question and your setup is perfect.'
+            : 'No credit card required. Import your Skimmer or Excel route in minutes.'}
+        </p>
       </div>
 
       {/* Below lg the rail and its account menu are hidden: the theme lives here instead. */}

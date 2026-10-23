@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
-import { trialHref, usePreviewTheme } from './preview/previewTheme.js';
+import { usePreviewTheme } from './preview/previewTheme.js';
+import { ctaHref, isReserving } from './onboarding.js';
 
 // Top nav for the homepage and /pricing. Absolutely positioned over the hero
 // (not sticky). Styles live in landing/hero.css.
@@ -50,8 +51,8 @@ const Nav = () => {
 
         <div className="nav-right">
           <a href={APP_URL} className="nav-signin">Sign in</a>
-          <a href={trialHref(theme)} className="nav-trial">
-            Start free trial
+          <a href={ctaHref(theme)} className="nav-trial">
+            {isReserving ? 'Reserve your spot' : 'Start free trial'}
             <ArrowRight size={15} strokeWidth={1.8} aria-hidden="true" />
           </a>
           <button
@@ -70,7 +71,7 @@ const Nav = () => {
           {LINKS.map(([label, href]) => <a key={label} href={href} onClick={close}>{label}</a>)}
           <hr />
           <a href={APP_URL} onClick={close}>Sign in</a>
-          <a href={trialHref(theme)} className="menu-trial" onClick={close}>Start free trial</a>
+          <a href={ctaHref(theme)} className="menu-trial" onClick={close}>{isReserving ? 'Reserve your spot' : 'Start free trial'}</a>
         </nav>
       </div>
     </header>

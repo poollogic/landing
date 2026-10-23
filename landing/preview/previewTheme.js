@@ -2,23 +2,47 @@ import { useSyncExternalStore } from 'react';
 import { flushSync } from 'react-dom';
 
 // The dashboard preview's theme (dark | light), shared by the preview, its
-// mobile toggle and every trial link on /landing. Persisted per browser;
-// falls back to dark whenever storage is unavailable.
+// mobile toggle and every trial link on the homepage. A choice made with the
+// toggle is saved per browser and always wins. Until then: desktop starts dark;
+// phones and tablets (a touch screen, no hover) follow the device's Light/Dark
+// appearance setting, live (e.g. iOS switching automatically at sunset).
 
 const KEY = 'pl-preview-theme';
 const APP_URL = 'https://app.poollogic.app';
 
-const read = () => {
+const media = (q) => {
   try {
-    const v = window.localStorage.getItem(KEY);
-    return v === 'light' || v === 'dark' ? v : 'dark';
+    return window.matchMedia(q);
   } catch {
-    return 'dark';
+    return null;
   }
 };
+const isTouchDevice = () => !!media('(hover: none) and (pointer: coarse)')?.matches;
+const systemTheme = () => (media('(prefers-color-scheme: dark)')?.matches ? 'dark' : 'light');
 
-let theme = typeof window === 'undefined' ? 'dark' : read();
+const saved = () => {
+  try {
+    const v = window.localStorage.getItem(KEY);
+    return v === 'light' || v === 'dark' ? v : null;
+  } catch {
+    return null;
+  }
+};
+const initial = () => saved() ?? (isTouchDevice() ? systemTheme() : 'dark');
+
+let theme = typeof window === 'undefined' ? 'dark' : initial();
 const listeners = new Set();
+
+// Follow the device's appearance while the page is open, until the visitor picks one.
+if (typeof window !== 'undefined') {
+  media('(prefers-color-scheme: dark)')?.addEventListener?.('change', () => {
+    if (saved() || !isTouchDevice()) return;
+    const next = systemTheme();
+    if (next === theme) return;
+    theme = next;
+    listeners.forEach((fn) => fn());
+  });
+}
 
 export const getPreviewTheme = () => theme;
 
