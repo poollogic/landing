@@ -79,7 +79,7 @@ export default function ReservePage() {
     e.preventDefault();
     const form = e.currentTarget;
     if (TURNSTILE_SITE_KEY && !token) {
-      setError('One moment, we’re finishing a quick security check. Try again in a second.');
+      setError('Please finish the quick security check above (tick the box if you see one), then try again.');
       setStatus('error');
       return;
     }

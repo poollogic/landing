@@ -26,7 +26,7 @@ const ContactPage = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (TURNSTILE_SITE_KEY && !token) {
-      setErrorMessage('One moment, we’re finishing a quick security check. Try again in a second.');
+      setErrorMessage('Please finish the quick security check above (tick the box if you see one), then try again.');
       setStatus('error');
       return;
     }
