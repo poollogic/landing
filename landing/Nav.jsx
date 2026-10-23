@@ -31,16 +31,24 @@ const Nav = () => {
     document.addEventListener('keydown', onKey);
     document.addEventListener('pointerdown', onDown);
     mq.addEventListener('change', onResize);
+    // The page behind the open menu doesn't scroll (html.nav-locked, hero.css).
+    document.documentElement.classList.add('nav-locked');
     return () => {
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('pointerdown', onDown);
       mq.removeEventListener('change', onResize);
+      document.documentElement.classList.remove('nav-locked');
     };
   }, [open]);
 
-  const close = () => setOpen(false);
+  // Unlock straight away (not after the re-render), so a /#section link can scroll the page.
+  const close = () => {
+    document.documentElement.classList.remove('nav-locked');
+    setOpen(false);
+  };
 
   return (
+    <>
     <header className="lp-nav" ref={ref}>
       <div className="lp-nav-bar container">
         <a href="/" className="lp-nav-wordmark">PoolLogic</a>
@@ -75,6 +83,10 @@ const Nav = () => {
         </nav>
       </div>
     </header>
+    {/* Dims the page behind the open menu; outside the header so it sits under it (z-index 99 < 100).
+        A tap on it closes the menu (the outside-tap handler above). */}
+    <div className={`nav-scrim${open ? ' is-open' : ''}`} aria-hidden="true" />
+    </>
   );
 };
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, MotionConfig, motion, useMotionValueEvent, useScroll, useTransform } from 'framer-motion';
 import {
-  Bell, Blocks, Building2, ChevronDown, ChevronLeft, ChevronRight, CircleUser, CreditCard, FileText, Info,
+  ArrowUpDown, Bell, Blocks, Building2, ChevronDown, ChevronLeft, ChevronRight, CircleUser, CreditCard, FileText, Info,
   LayoutDashboard, LogOut, Moon, MoreHorizontal, Package, Palette, Plus, ReceiptText, Route, Search, Settings,
-  Ticket, UserCog, Users,
+  SlidersHorizontal, Ticket, UserCog, Users,
 } from 'lucide-react';
 import PhoneFrame from './PhoneFrame.jsx';
 import { PreviewCharts } from './preview/PreviewPanel.jsx';
@@ -16,19 +16,22 @@ import './revenue-mobile.css';
 // short timed animation (taps, sheet, screen pushes, switches), so it reads like someone using
 // the app. Nothing here moves the page's scroll, so iPhone flings are never fought.
 //
-//   Beat 1  Overdue Notices   the phone is shown close up (top fixed, bottom running off the
-//                             screen) and the billing banner opens; it settles back at beat 2
+//   Beat 1  Nothing Slips     the phone is shown close up (top fixed, bottom running off the
+//                             screen); the billing banner opens, tap "Autopay declined" and the
+//                             app opens Invoices filtered to Payment failed (as the real app's
+//                             attention row does); the phone settles back at beat 2
 //   Beat 2  Late Fees         tap More → Settings → Billing, turn on Charge late fees, Auto-apply
 //   Beat 3  Automatic Pause   scroll to Overdue, turn on Automatic pause
 // All figures are the same MOCK data as the desktop dashboard.
 
 // The timeline, in % of the screen's height scrolled since the section pinned. The pin lasts
 // RUN of them (.rvm-track in revenue-mobile.css is 100svh + RUN svh tall).
-const RUN = 280;
-const STEPS = [14, 38, 42, 72, 76, 106, 110, 140, 170, 200, 234, 254].map((v) => v / RUN);
-//  step:      1 open  2 tap   3 sheet 4 tap  5 Settings 6 tap  7 Billing 8 ↓late 9 late 10 auto 11 ↓overdue 12 pause
-const TAPS = { 2: 'more', 4: 'settings', 6: 'billing', 9: 'late', 10: 'auto', 12: 'pause' };
-const BEATS = [[0, 33 / RUN], [33 / RUN, 230 / RUN], [230 / RUN, 1]];
+const RUN = 297;
+const STEPS = [14, 26, 30, 55, 59, 89, 93, 123, 127, 157, 187, 217, 251, 271].map((v) => v / RUN);
+//  step:      1 open  2 tap  3 Invoices  4 tap  5 sheet  6 tap  7 Settings  8 tap  9 Billing
+//             10 ↓late  11 late  12 auto  13 ↓overdue  14 pause
+const TAPS = { 2: 'autopay', 4: 'more', 6: 'settings', 8: 'billing', 11: 'late', 12: 'auto', 14: 'pause' };
+const BEATS = [[0, 50 / RUN], [50 / RUN, 247 / RUN], [247 / RUN, 1]];
 const stepAt = (p) => STEPS.filter((t) => p >= t).length;
 const beatAt = (p) => (p < BEATS[1][0] ? 0 : p < BEATS[2][0] ? 1 : 2);
 
@@ -37,7 +40,7 @@ const PUSH = { type: 'tween', duration: 0.5, ease: IOS };
 const I = { size: 20, strokeWidth: 1.75, 'aria-hidden': true };
 
 const ROWS = [
-  { label: 'Autopay declined', count: 2, red: true },
+  { label: 'Autopay declined', count: 2, red: true, tapId: 'autopay' },
   { label: 'Invoices past due', note: '(overdue notices sent)', count: 3, red: true },
   { label: 'Estimates awaiting approval', count: 2 },
 ];
@@ -91,11 +94,11 @@ function FieldRow({ t, d, v, pre, suf, chev, dim }) {
   );
 }
 
-function TopBar({ title }) {
+function TopBar({ title, count, more }) {
   return (
     <div className="rvm-top">
-      <span className="rvm-title">{title}</span>
-      <span className="rvm-ic"><Search {...I} /></span>
+      <span className="rvm-title">{title}{count != null && <small>{count}</small>}</span>
+      <span className="rvm-ic">{more ? <MoreHorizontal {...I} /> : <Search {...I} />}</span>
       <span className="rvm-ic"><Bell {...I} /></span>
     </div>
   );
@@ -112,7 +115,7 @@ function Screen({ index, current, children }) {
   );
 }
 
-function Dashboard({ open }) {
+function Dashboard({ open, tap }) {
   return (
     <>
       <TopBar title="Good evening, Alex" />
@@ -131,10 +134,15 @@ function Dashboard({ open }) {
             variants={{ open: { height: 'auto', transition: { duration: 0.45, ease: IOS, staggerChildren: 0.07, delayChildren: 0.08 } }, closed: { height: 0, transition: { duration: 0.35, ease: IOS } } }}
           >
             {ROWS.map((r) => (
-              <motion.li key={r.label} variants={{ open: { opacity: 1, y: 0 }, closed: { opacity: 0, y: -6 } }}>
+              <motion.li
+                key={r.label}
+                className={r.tapId && tap?.id === r.tapId ? 'is-pressed' : undefined}
+                variants={{ open: { opacity: 1, y: 0 }, closed: { opacity: 0, y: -6 } }}
+              >
                 <span className={`rvm-dot${r.red ? ' is-red' : ''}`} />
                 <span className="rvm-row-label">{r.label}{r.note && <span className="rvm-row-note"> {r.note}</span>}</span>
                 <b>{r.count}</b>
+                {r.tapId && <Tap on={tap?.id === r.tapId} n={tap?.n} />}
               </motion.li>
             ))}
           </motion.ul>
@@ -149,6 +157,56 @@ function Dashboard({ open }) {
         </div>
         {/* The app's phone dashboard continues with the Trends cards: the hero preview's own. */}
         <div className="rvm-charts theme-scope dark"><PreviewCharts /></div>
+      </div>
+    </>
+  );
+}
+
+// Invoices, filtered to Payment failed: where the dashboard's failed-payments row goes
+// (poollogic-web-app components/BillingInvoicing.tsx, phone layout). MOCK data.
+const INV_TILES = [
+  { label: 'Outstanding', dot: '#3b82f6', value: '$12,480' },
+  { label: 'Overdue', dot: '#fb923c', value: '$3,265' },
+  { label: 'Drafts', dot: 'rgba(203,213,225,.62)', value: '$1,150' },
+  { label: 'Paid', dot: '#34b864', value: '$40,240' },
+];
+const FAILED = [
+  { name: 'Kim Wexler', amount: '$210.00', no: '#11042', due: '9d overdue' },
+  { name: 'Howard Hamlin', amount: '$160.00', no: '#11055', due: '13d overdue' },
+];
+
+function Invoices() {
+  return (
+    <>
+      <TopBar title="Invoices" count={FAILED.length} more />
+      <div className="rvm-body">
+        <div className="rvm-tiles is-inv">
+          {INV_TILES.map((t) => (
+            <div key={t.label} className="rvm-tile">
+              <span className="rvm-tile-l"><i style={{ background: t.dot }} />{t.label}</span>
+              <span className="rvm-tile-v">{t.value}</span>
+            </div>
+          ))}
+        </div>
+        <div className="rvm-seg">
+          {['All', 'Invoices', 'Estimates', 'Added charges'].map((o) => <span key={o} className={o === 'Invoices' ? 'on' : undefined}>{o}</span>)}
+        </div>
+        <div className="rvm-search"><Search size={16} strokeWidth={1.75} aria-hidden />Search customer or invoice #</div>
+        <div className="rvm-chips">
+          <span className="rvm-chip is-icon"><SlidersHorizontal size={15} strokeWidth={1.75} aria-hidden /></span>
+          <span className="rvm-chip on">Date range<i>1</i></span>
+          <span className="rvm-chip on">Status<i>1</i></span>
+          <span className="rvm-chip">Amount</span>
+          <span className="rvm-chip is-icon"><ArrowUpDown size={15} strokeWidth={1.75} aria-hidden /></span>
+        </div>
+        <div className="rvm-groupbar"><span>Payment failed · {FAILED.length}</span><span>$370</span></div>
+        {FAILED.map((f) => (
+          <div key={f.no} className="rvm-inv">
+            <span className="rvm-inv-name">{f.name}</span>
+            <span className="rvm-inv-amt">{f.amount}</span>
+            <span className="rvm-inv-meta">{f.no} · <i /> Payment failed · {f.due}</span>
+          </div>
+        ))}
       </div>
     </>
   );
@@ -198,8 +256,8 @@ function Billing({ step, tap }) {
     measure();
     document.fonts?.ready.then(measure);
   }, []);
-  const late = step >= 9, auto = step >= 10, pause = step >= 12;
-  const y = step >= 11 ? -stops.overdue : step >= 8 ? -stops.late : 0;
+  const late = step >= 11, auto = step >= 12, pause = step >= 14;
+  const y = step >= 13 ? -stops.overdue : step >= 10 ? -stops.late : 0;
   return (
     <>
       <TopBar />
@@ -333,8 +391,8 @@ export default function RevenueMobileStory({ features }) {
   const b0 = useTransform(p, [BEATS[0][0], BEATS[0][1] - 0.02], [0, 1]);
   const b1 = useTransform(p, [BEATS[1][0], BEATS[1][1] - 0.02], [0, 1]);
   const b2 = useTransform(p, [BEATS[2][0], BEATS[2][1] - 0.06], [0, 1]);
-  const screen = step >= 7 ? 2 : step >= 5 ? 1 : 0;
-  const sheet = step >= 3 && step < 5;
+  const screen = step >= 9 ? 3 : step >= 7 ? 2 : step >= 3 ? 1 : 0;
+  const sheet = step >= 5 && step < 7;
 
   return (
     <MotionConfig reducedMotion="user">
@@ -371,11 +429,12 @@ export default function RevenueMobileStory({ features }) {
             <div className="rvm-scale" style={{ transform: `scale(${scale})` }}>
               <PhoneFrame className="bz-phone--embedded rvm-phone" statusBar="light">
                 <div className="rvm-app">
-                  <Screen index={0} current={screen}><Dashboard open={step >= 1} /></Screen>
-                  <Screen index={1} current={screen}><SettingsList tap={tap} /></Screen>
-                  <Screen index={2} current={screen}><Billing step={step} tap={tap} /></Screen>
+                  <Screen index={0} current={screen}><Dashboard open={step >= 1} tap={tap} /></Screen>
+                  <Screen index={1} current={screen}><Invoices /></Screen>
+                  <Screen index={2} current={screen}><SettingsList tap={tap} /></Screen>
+                  <Screen index={3} current={screen}><Billing step={step} tap={tap} /></Screen>
                   <MoreSheet show={sheet} tap={tap} />
-                  <TabBar active={screen === 0 && step < 3 ? 0 : 4} tap={tap} />
+                  <TabBar active={step < 3 ? 0 : step < 5 ? 1 : 4} tap={tap} />
                 </div>
               </PhoneFrame>
             </div>

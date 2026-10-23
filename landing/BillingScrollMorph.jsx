@@ -268,6 +268,9 @@ const KeyRow = ({ widths, h = 22 }) => (
   </div>
 );
 const ones = (n) => Array(n).fill(1);
+// Phones and tablets: lighter rendering for the same picture (see SS below and billing.css), because
+// pinch-zooming re-renders every layer here at the zoomed size and iOS reloads the tab when it runs out.
+const TOUCH = typeof window !== "undefined" && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
 
 function KeyboardDeck({ tilt, flat }) {
   // The deck lives in the laptop's shared 3D scene (see <Laptop/>), so it turns together with the screen.
@@ -284,10 +287,10 @@ function KeyboardDeck({ tilt, flat }) {
         style={{ width: DECK_W, height: DECK_L, transformOrigin: "50% 0", transform: rot, transformStyle: "preserve-3d" }}
       >
         {/* Table shadow (on the table plane, just under the deck) */}
-        <div className="pointer-events-none absolute rounded-[50%] blur-[22px]"
+        <div className={`pointer-events-none absolute rounded-[50%] ${TOUCH ? "" : "blur-[22px]"}`}
           style={{ left: -70, right: -70, top: 60, bottom: -260, transform: "translateZ(-1px)", background: "radial-gradient(50% 50% at 50% 46%, rgba(15,23,42,.55), rgba(15,23,42,.24) 50%, transparent 78%)" }} />
         {/* Contact shadow along the front edge */}
-        <div className="pointer-events-none absolute rounded-[50%] blur-[5px]"
+        <div className={`pointer-events-none absolute rounded-[50%] ${TOUCH ? "" : "blur-[5px]"}`}
           style={{ left: 6, right: 6, bottom: -40, height: 64, transform: "translateZ(-0.5px)", background: "radial-gradient(closest-side, rgba(15,23,42,.65), rgba(15,23,42,.25) 65%, transparent)" }} />
         {/* Hinge */}
         <div className="absolute left-1/2 top-0 h-2 w-[560px] -translate-x-1/2 rounded-b bg-gradient-to-b from-[#2B2F36] to-[#555B64]" />
@@ -307,6 +310,28 @@ function KeyboardDeck({ tilt, flat }) {
           style={{ left: 12, right: 12, bottom: 0, height: 8, transformOrigin: "50% 100%", transform: "rotateX(-90deg)", borderRadius: "0 0 14px 14px / 0 0 6px 6px", background: "linear-gradient(180deg,#9A9DA3 0%,#6E7177 45%,#4B4E54 100%)", boxShadow: "inset 0 1px 0 rgba(255,255,255,.4)" }} />
       </motion.div>
     </motion.div>
+  );
+}
+
+/* Touch screens: the keyboard deck as a picture of itself. The 3D deck is a thin strip on screen, but
+   its 3D layers cost their full flat size, multiplied again by pinch-zoom, and iOS reloaded the tab.
+   public/brand/laptop-deck.webp is the desktop deck captured in the straight-on "They get it" pose
+   (tilt CUSTOMER.deck, shadows included, transparent), in deck units at 2×; on touch screens the laptop
+   always stands in that pose. Recapture it if the deck's look or DECK_W / DECK_L / CUSTOMER.deck change. */
+const DECK_IMG = { left: -81.3, width: 778.3, height: 190.7 };
+function DeckPicture() {
+  return (
+    <div className="relative" style={{ width: DECK_W, height: deckH(CUSTOMER.deck) }}>
+      <img
+        src="/brand/laptop-deck.webp"
+        alt=""
+        aria-hidden="true"
+        loading="lazy"
+        decoding="async"
+        className="pointer-events-none absolute top-0 max-w-none"
+        style={{ left: DECK_IMG.left, width: DECK_IMG.width, height: DECK_IMG.height }}
+      />
+    </div>
   );
 }
 
@@ -465,18 +490,24 @@ function OwnerDesktopApp() {
    - when the laptop faces straight ahead (turn 0, the customer view at rest) the scene has no perspective
      at all and the deck gets the identical camera of its own, so the screen is a plain 2D layer.
    The box grows around its centre, so the origins and the translate below compensate for the SS× size. */
-const SS = 2; // supersampling factor
+// Touch screens get 1: their screens are already dense, and at 2 the laptop's layers were large
+// enough that pinch-zooming the page on an iPhone ran Safari out of memory and reloaded the tab.
+const SS = TOUCH ? 1 : 2; // supersampling factor
 const LID_H = 398; // lid height: rim 2 + bezel 11 + screen 370 + bezel 13 + rim 2
 const SCENE_PERSP = 1400, SCENE_OY = 0.46; // camera distance and its height (46% down the laptop)
-function Laptop({ tilt, turn, owner }) {
+function Laptop({ tilt, turn, owner, centre }) {
   // Screen + keyboard are projected by ONE camera, so the owner-view turn looks physically right.
   // Nothing between this root and the deck may set overflow, opacity, filter or will-change (it would flatten the 3D).
   const flat = useTransform(turn, (t) => Math.abs(t) < 0.001);
   const shrink = `scale3d(${0.9 / SS}, ${0.9 / SS}, ${1 / SS})`;
-  const sceneTransform = useTransform(turn, (t) => (Math.abs(t) < 0.001 ? shrink : `perspective(${SCENE_PERSP}px) rotateY(${t}deg) ${shrink}`));
-  const translate = useTransform(tilt, (d) => `22px ${(SS - 1) * (0.5 - SCENE_OY) * (LID_H + deckH(d))}px`);
+  const sceneTransform = useTransform(turn, (t) => (Math.abs(t) < 0.001 ? `scale(${0.9 / SS})` : `perspective(${SCENE_PERSP}px) rotateY(${t}deg) ${shrink}`));
+  // Facing straight ahead the scene is plain 2D (the deck keeps its own identical camera), so the
+  // screen is an ordinary layer the browser can tile, not one big 3D texture (pinch-zoom memory).
+  const sceneStyle = useTransform(flat, (f) => (f ? "flat" : "preserve-3d"));
+  // The 22px nudge suits the turned pose; touch screens never turn, so `centre` (0 to 1) fades it out there.
+  const translate = useTransform([tilt, centre], ([d, c]) => `${22 * (1 - c)}px ${(SS - 1) * (0.5 - SCENE_OY) * (LID_H + deckH(d))}px`);
   return (
-    <motion.div style={{ width: DECK_W * SS, translate, transform: sceneTransform, transformOrigin: `50% ${SCENE_OY * 100}%`, transformStyle: "preserve-3d" }}>
+    <motion.div style={{ width: DECK_W * SS, translate, transform: sceneTransform, transformOrigin: `50% ${SCENE_OY * 100}%`, transformStyle: sceneStyle }}>
       {/* Lid — aluminium rim */}
       <div
         className="relative rounded-b-[6px] rounded-t-[22px] bg-[linear-gradient(180deg,#8E9197_0%,#6C6F75_45%,#55585E_100%)] p-[2px]"
@@ -501,7 +532,7 @@ function Laptop({ tilt, turn, owner }) {
           </div>
         </div>
       </div>
-      <KeyboardDeck tilt={tilt} flat={flat} />
+      {TOUCH ? <DeckPicture /> : <KeyboardDeck tilt={tilt} flat={flat} />}
     </motion.div>
   );
 }
@@ -741,8 +772,14 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   const lapY = useTransform(mv, (t) => lerp(LAP_Y0, LAP_Y1, t) + CUSTOMER.dy * t);
   const lapScale = useTransform(mv, (t) => lerp(LAP_S0, 1, t) * (1 + CUSTOMER.grow * t) * (1 + OWNER.grow * (1 - t)));
   const ownerAmt = useTransform(mv, (t) => { const k = 1 - t; return k * k * (3 - 2 * k); }); // smoothstep: 1 owner → 0 customer
-  const turn = useTransform(ownerAmt, (e) => OWNER.turn * e);
-  const tilt = useTransform(ownerAmt, (e) => lerp(CUSTOMER.deck, OWNER.deck, e));
+  // Touch screens: the laptop stays straight on, no turn or deck tilt, so nothing in it is 3D (see DeckPicture)
+  const turn = useTransform(ownerAmt, (e) => (TOUCH ? 0 : OWNER.turn * e));
+  const tilt = useTransform(ownerAmt, (e) => (TOUCH ? CUSTOMER.deck : lerp(CUSTOMER.deck, OWNER.deck, e)));
+  const centre = useTransform(ownerAmt, (e) => (TOUCH ? e : 0)); // touch: the straight laptop is centred in the owner view
+  // Touch: "You set it" shows the laptop close up (its screen as wide as the column), growing down from
+  // its top edge; it shrinks back as the phone comes in. zoomTarget is measured below.
+  const zoomTarget = useMotionValue(1);
+  const ownerZoom = useTransform([ownerAmt, zoomTarget], ([e, z]) => 1 + (z - 1) * e);
 
   // Phone: hidden in the owner view, pops in after the screen switch
   const phoneOpacity = useTransform(P, (v) => eCubic(seg(v, 0.61, 0.82)));
@@ -756,11 +793,35 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
       const r = rightRef.current?.getBoundingClientRect();
       if (r) stageScale.set(Math.min(1, r.width / 760, r.height / 700));
     };
+    // Touch close-up: the zoom that makes the owner-view lid as wide as the column, measured a frame
+    // later so the stage's new scale has been applied. The lid's on-screen width per laptop px in the
+    // owner pose is stage scale × LAP_S0 × (1 + OWNER.grow) × the scene's 0.9.
+    let raf = 0;
+    let zH = Infinity;
+    const zoom = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const st = stageRef.current, col = rightRef.current;
+        if (!TOUCH || !st || !col) return;
+        const s = st.getBoundingClientRect().width / st.offsetWidth || 1;
+        const u = s * LAP_S0 * (1 + OWNER.grow) * 0.9; // screen px per laptop px, owner pose, no zoom
+        const zW = col.getBoundingClientRect().width / (616 * u);
+        // ...and no taller than the space under the lid's top (which the zoom keeps fixed), so the whole
+        // keyboard stays on screen: lid + deck front ≈ LID_H + 45. Measurable only in the owner pose.
+        if (ownerAmt.get() > 0.999) {
+          const lidTop = st.querySelector('[class*="rounded-t-[22px]"]')?.getBoundingClientRect().top;
+          const bottom = col.closest(".sticky")?.getBoundingClientRect().bottom;
+          if (lidTop != null && bottom != null) zH = (bottom - 10 - lidTop) / ((LID_H + 45) * u);
+        }
+        zoomTarget.set(Math.max(1, Math.min(1.6, zW, zH)));
+      });
+    };
     fit();
-    const ro = new ResizeObserver(fit);
+    zoom();
+    const ro = new ResizeObserver(() => { fit(); zoom(); });
     rightRef.current && ro.observe(rightRef.current);
-    return () => ro.disconnect();
-  }, [stageScale]);
+    return () => { ro.disconnect(); cancelAnimationFrame(raf); };
+  }, [stageScale, zoomTarget, ownerAmt]);
 
   // Push the laptop (customer view) as far left as the copy allows: its front lip stops GAP px from the text.
   useLayoutEffect(() => {
@@ -855,7 +916,11 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
               {/* Laptop: owner app → customer invoice */}
               <div className={center} style={{ zIndex: 10 }}>
                 <motion.div style={{ x: lapX, y: lapY, scale: lapScale, transformOrigin: LAP_ORIGIN }}>
-                  <Laptop tilt={tilt} turn={turn} owner={owner} />
+                  {/* Touch close-up, anchored at the lid's visible top: the scene's 0.9 scale (origin
+                      SCENE_OY down) leaves it 0.1 × SCENE_OY × the laptop's height below the box top */}
+                  <motion.div style={{ scale: ownerZoom, transformOrigin: `50% ${0.1 * SCENE_OY * (LID_H + deckH(CUSTOMER.deck))}px` }}>
+                    <Laptop tilt={tilt} turn={turn} owner={owner} centre={centre} />
+                  </motion.div>
                 </motion.div>
               </div>
 
@@ -863,7 +928,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
               <div className={center} style={{ zIndex: 30 }}>
                 <motion.div
                   style={{ x: 180 + PHONE.dx, y: phoneY, scale: phoneScale, opacity: phoneOpacity }}
-                  className="will-change-transform [filter:drop-shadow(0_1px_1.5px_rgba(15,23,42,.22))_drop-shadow(0_10px_14px_rgba(15,23,42,.18))_drop-shadow(0_30px_40px_rgba(15,23,42,.20))]"
+                  className="billing-phone will-change-transform [filter:drop-shadow(0_1px_1.5px_rgba(15,23,42,.22))_drop-shadow(0_10px_14px_rgba(15,23,42,.18))_drop-shadow(0_30px_40px_rgba(15,23,42,.20))]"
                 >
                   {phone ?? <PhoneFallback />}
                 </motion.div>

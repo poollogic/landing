@@ -66,7 +66,7 @@ export default function usePhonePreviewScroll(holderRef, enabled) {
       const y = Math.round(travel * ease(clamp01((START * vh - top) / ((START - END) * vh))) * 10) / 10;
       if (y === shown) return;
       shown = y;
-      main.style.transform = y ? `translate3d(0, ${-y}px, 0)` : '';
+      main.style.transform = y ? `translateY(${-y}px)` : '';
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
 

@@ -2,7 +2,7 @@
    laid out at a real iPhone's 390px width with the app's own phone sizes and dark theme
    (poollogic-web-app index.css, mobile-nav/, settings/), then scaled into the 244px screen. */
 
-.rvm-track { position: relative; height: 380svh; /* 100svh + RUN (RevenueMobileStory.jsx) */ margin-top: 36px; }
+.rvm-track { position: relative; height: 397svh; /* 100svh + RUN (RevenueMobileStory.jsx) */ margin-top: 36px; }
 .rvm-sticky {
   position: sticky;
   top: 0;
@@ -56,6 +56,7 @@
 
 .rvm-top { display: flex; align-items: center; gap: 12px; height: 52px; margin-top: 47px; padding: 0 8px 0 16px; }
 .rvm-title { flex: 1; min-width: 0; font-size: 22px; font-weight: 590; letter-spacing: -.02em; white-space: nowrap; }
+.rvm-title small { margin-left: 8px; font-size: 17px; font-weight: 500; letter-spacing: normal; color: rgba(203, 213, 225, .62); }
 .rvm-ic { display: grid; place-items: center; width: 44px; height: 44px; margin-left: -12px; color: rgba(226, 232, 240, .7); }
 .rvm-body { padding: 0 16px; }
 .rvm-date { margin: 16px 0 14px; font-size: 13px; color: rgba(203, 213, 225, .62); }
@@ -75,13 +76,16 @@
 .rvm-chev { flex: none; color: rgba(226, 232, 240, .7); transition: transform .45s cubic-bezier(.32, .72, 0, 1); }
 .rvm-banner.open .rvm-chev { transform: rotate(180deg); }
 .rvm-rows { margin: 0; padding: 0; list-style: none; overflow: hidden; }
-.rvm-rows li { display: flex; align-items: center; gap: 12px; height: 48px; font-size: 13px; border-top: 1px solid color-mix(in srgb, #FF0036 18%, transparent); }
+.rvm-rows li { position: relative; display: flex; align-items: center; gap: 12px; height: 48px; font-size: 13px; border-top: 1px solid color-mix(in srgb, #FF0036 18%, transparent); }
 .rvm-rows li:first-child { margin-top: 12px; }
 .rvm-rows b { font-weight: 600; }
 .rvm-row-label { flex: 1; min-width: 0; white-space: nowrap; }
 .rvm-row-note { color: rgba(203, 213, 225, .62); } /* the banner header's muted grey ("· 2 other alerts") */
 .rvm-dot { width: 8px; height: 8px; flex: none; border-radius: 999px; background: rgba(203, 213, 225, .35); }
 .rvm-dot.is-red { background: #FF0036; }
+
+.rvm-rows li { transition: background-color .25s ease; }
+.rvm-rows li.is-pressed { background: rgba(255, 255, 255, .06); }
 
 /* KPI tiles: two columns, no card */
 .rvm-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px; margin-top: 22px; }
@@ -98,6 +102,24 @@
 .rvm-charts .pl-card-head { padding: 0; flex-wrap: nowrap; gap: 6px; }
 .rvm-charts .pl-card-body { padding: 8px 0 0; }
 .rvm-charts .pl-card-head .pl-seg .pl-seg-item { padding-inline: 9px; }
+
+/* Invoices filtered to Payment failed */
+.rvm-tiles.is-inv { margin-top: 14px; }
+.rvm-seg { display: flex; height: 36px; margin-top: 22px; padding: 2px; border-radius: 9px; background: rgba(0, 0, 0, .32); }
+.rvm-seg span { flex: 1 1 auto; display: grid; place-items: center; padding: 0 8px; border-radius: 7px; font-size: 13px; color: rgba(226, 232, 240, .62); white-space: nowrap; }
+.rvm-seg span.on { background: rgba(148, 163, 184, .22); box-shadow: 0 1px 2px rgba(0, 0, 0, .35); color: #fff; font-weight: 500; }
+.rvm-search { display: flex; align-items: center; gap: 8px; height: 40px; margin-top: 12px; padding: 0 12px; border-radius: 8px; background: rgba(148, 163, 184, .09); font-size: 15px; color: rgba(203, 213, 225, .5); }
+.rvm-chips { display: flex; gap: 8px; margin-top: 12px; white-space: nowrap; overflow: hidden; }
+.rvm-chip { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 8px; background: rgba(148, 163, 184, .09); font-size: 13px; color: rgba(226, 232, 240, .85); }
+.rvm-chip.is-icon { padding: 0 9px; color: rgba(226, 232, 240, .7); }
+.rvm-chip.on { background: rgba(148, 163, 184, .2); color: #fff; }
+.rvm-chip i { display: grid; place-items: center; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 999px; background: #3b82f6; font-size: 11px; font-style: normal; font-weight: 600; color: #fff; }
+.rvm-groupbar { display: flex; justify-content: space-between; margin-top: 18px; padding: 6px 0; font-size: 12px; font-weight: 500; color: rgba(203, 213, 225, .62); }
+.rvm-inv { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name amount" "meta meta"; column-gap: 8px; row-gap: 2px; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.rvm-inv-name { grid-area: name; font-size: 14px; font-weight: 500; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rvm-inv-amt { grid-area: amount; font-size: 14px; font-weight: 600; line-height: 20px; font-variant-numeric: tabular-nums; }
+.rvm-inv-meta { grid-area: meta; display: flex; align-items: center; gap: 5px; font-size: 12px; color: rgba(203, 213, 225, .62); white-space: nowrap; }
+.rvm-inv-meta i { width: 6px; height: 6px; border-radius: 999px; background: #FF0036; }
 
 /* Settings list and the More sheet's rows */
 .rvm-h1 { margin: 8px 0 4px; font-size: 22px; font-weight: 590; letter-spacing: -.02em; }

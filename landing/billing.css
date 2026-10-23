@@ -163,3 +163,15 @@
   #billing .billing-stage { height: 300px; }
   #billing .billing-devices { scale: .8; translate: 0 -10px; }
 }
+
+/* Touch screens: the phone's shadow as a plain box-shadow, with no filter and no permanent layer
+   hint. Three stacked drop-shadow filters on an always-promoted layer cost a lot of memory once
+   the page is pinch-zoomed, enough for iOS Safari to reload the tab. Looks the same. */
+@media (hover: none) and (pointer: coarse) {
+  #billing .billing-phone { filter: none; will-change: auto; }
+  /* No visible effect (the laptop has its own camera), but it made the devices one 3D layer. */
+  #billing .billing-stage { perspective: none; }
+  #billing .billing-phone .bz-phone--embedded {
+    box-shadow: var(--bz-rim), 0 1px 1.5px rgba(15, 23, 42, .22), 0 10px 14px rgba(15, 23, 42, .18), 0 30px 40px rgba(15, 23, 42, .20);
+  }
+}
