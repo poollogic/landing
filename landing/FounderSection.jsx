@@ -66,7 +66,7 @@ export default function FounderSection() {
         <div className="founder-head mx-auto max-w-[1000px] md:text-center">
           <p className="text-[15px] font-semibold text-[#2676B6] md:text-[17px]">Built by an owner, not a tech company.</p>
           <h2 id="founder-heading" className="mt-2.5 text-[31px] font-bold leading-[1.12] tracking-[-0.025em] [text-wrap:pretty] md:mt-3.5 md:text-[40px] md:leading-[1.1] md:[text-wrap:balance] lg:text-[48px]">
-            <span className="block text-[#1D1D1F]">I didn’t set out to build a software company.</span>
+            <span className="block text-[#1D1D1F]">I didn’t set out to build a software company.</span>{' '}
             <span className="block text-[#86868B]">But the pool industry desperately needed one.</span>
           </h2>
         </div>

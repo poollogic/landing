@@ -43,16 +43,16 @@ const CSS = `
   .rvs-dash{transform-origin:50% 35%;will-change:transform,opacity,filter}
   .rvs-set{position:absolute;inset:0;opacity:0;pointer-events:none;display:flex;font-family:Inter,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#fff;border-radius:inherit;background:rgb(19,21,27)}
   .rvs-snav{width:190px;flex:none;padding:30px 12px;border-right:1px solid rgba(255,255,255,.05)}
-  .rvs-snav h4{margin:0 10px;font-size:17px;font-weight:600;letter-spacing:-.3px}
+  .rvs-snav .rvs-h4{margin:0 10px;font-size:17px;font-weight:600;letter-spacing:-.3px}
   .rvs-snav small{display:block;margin:18px 10px 6px;font-size:11px;font-weight:600;color:rgba(226,232,240,.5);letter-spacing:.07em}
   .rvs-snav div{height:32px;border-radius:8px;display:flex;align-items:center;gap:10px;padding:0 10px;font-size:13px;font-weight:500;color:rgba(226,232,240,.7)}
   .rvs-snav div.on{background:rgba(255,255,255,.06);color:#fff}
   .rvs-snav svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .rvs-body{position:relative;flex:1;overflow:hidden}
   .rvs-scroll{padding:30px 40px 40px 36px;will-change:transform}
-  .rvs-body h3{margin:0;font-size:20px;font-weight:600;letter-spacing:-.35px}
+  .rvs-body .rvs-h3{margin:0;font-size:20px;font-weight:600;letter-spacing:-.35px}
   .rvs-body .sub{margin-top:3px;font-size:12.5px;color:rgba(203,213,225,.62)}
-  .rvs-body h5{margin:22px 0 2px;font-size:14px;font-weight:600;letter-spacing:-.14px}
+  .rvs-body .rvs-h5{margin:22px 0 2px;font-size:14px;font-weight:600;letter-spacing:-.14px}
   .rvs-row{display:flex;align-items:center;gap:28px;padding:10px 0;transition:opacity .4s ease}
   .rvs-row.dim{opacity:.4}
   .rvs-row .l{flex:1;min-width:0}
@@ -168,7 +168,7 @@ export function RevenueSettingsLayer() {
   return (
     <div className="rvs-set" aria-hidden>
       <div className="rvs-snav">
-        <h4>Settings</h4>
+        <p className="rvs-h4">Settings</p>
         <small>BUSINESS</small>
         <div><Ico k="gen" />General</div>
         <div className="on"><Ico k="bill" />Billing</div>
@@ -181,21 +181,21 @@ export function RevenueSettingsLayer() {
       </div>
       <div className="rvs-body">
         <div className="rvs-scroll">
-          <h3>Billing</h3>
+          <p className="rvs-h3">Billing</p>
           <div className="sub">How you get paid, and what you add on top of the work.</div>
-          <h5>Rates and fees</h5>
+          <p className="rvs-h5">Rates and fees</p>
           <Row info t="Card processing fee" d="Added to credit card payments, never debit. Maximum 3% (the Visa/Mastercard cap)." c={<Field v="2.9" />} />
-          <h5 style={{ marginTop: 26 }} data-rvs="late">Late fees</h5>
+          <p className="rvs-h5" style={{ marginTop: 26 }} data-rvs="late">Late fees</p>
           <Row info t="Charge late fees" d="Add a fee to invoices that go past due. Nothing already overdue is charged." c={<Switch id="late" />} />
           <Row cls="dep-late dim" t="Fee type" d="A fixed dollar amount per invoice." c={<Field v="Flat amount ($)" chev />} />
           <Row cls="dep-late dim" t="Fee amount" d="e.g. 25 = $25.00 flat fee" c={<Field v="25" pre="$" />} />
           <Row cls="dep-late dim" t="Grace period" d="Days past the due date before a fee applies. 0 for none." c={<Field v="10" />} />
           <Row cls="dep-late dim" t="Auto-apply late fees" d="Applied in the daily billing run once the grace period is up. Off, you add them by hand." c={<Switch id="auto" />} />
-          <h5 style={{ marginTop: 26 }} data-rvs="overdue">Overdue</h5>
+          <p className="rvs-h5" style={{ marginTop: 26 }} data-rvs="overdue">Overdue</p>
           <Row info t="Automatic pause" d="Customers who stop paying are paused for you, billing and service, and resume by themselves once they pay. The route slot is held." c={<Switch id="pause" />} />
           <Row cls="dep-pause dim" t="Pause after" d="How many days past due an invoice can get before its customer is paused." c={<Field v="30" />} />
           {/* Shown for realism; the story never interacts with it. */}
-          <h5 style={{ marginTop: 26 }}>Chemical costs</h5>
+          <p className="rvs-h5" style={{ marginTop: 26 }}>Chemical costs</p>
           <Row t="Chemical pricing" d="Per-unit cost of what goes in the water." c={<span className="rvs-btn">Manage</span>} />
           <div style={{ height: 60 }} />
         </div>
@@ -251,6 +251,12 @@ export function useRevenueStory(sectionRef, enabled = true) {
     ];
     const state = { late: false, auto: false, pause: false, toast: false };
     let scaleNow = 1, topNow = 0, sp = 0, last = -1, raf = 0, active = false;
+    // One-way pin: the story plays pinned on the way down. As soon as it has finished and the pinned run
+    // (the empty scroll space above the section) is entirely above the screen, the run collapses (restH)
+    // and the scroll position moves by the same amount, so nothing on screen shifts, even with the section
+    // still in view, and scrolling back up passes it at normal speed, showing the finished story.
+    // Back above it, it re-arms (pinH) for the next pass down.
+    let collapsed = false, pinH = 0, restH = 0;
 
     function layout() {
       active = mq.matches;
@@ -265,7 +271,23 @@ export function useRevenueStory(sectionRef, enabled = true) {
         sticky.style.transform = `scale(${scaleNow})`;
         sticky.style.marginBottom = `${-(h * (1 - scaleNow))}px`;
       }
-      track.style.height = h * scaleNow + vh * 1.9 + "px"; // ≈ 1.9 screens of scroll for the story
+      restH = h * scaleNow;
+      pinH = restH + vh * 1.9; // ≈ 1.9 screens of scroll for the story
+      track.style.height = (collapsed ? restH : pinH) + "px";
+      schedule();
+    }
+    function oneWay() {
+      const r = track.getBoundingClientRect();
+      if (!collapsed && r.top + (pinH - restH) <= 0) {
+        const y = window.scrollY, before = track.offsetHeight;
+        collapsed = true;
+        track.style.height = restH + "px";
+        // An absolute target, so it's right whether or not the browser's scroll anchoring already moved it
+        window.scrollTo({ top: y - (before - track.offsetHeight), behavior: "instant" });
+      } else if (collapsed && r.top > window.innerHeight) {
+        collapsed = false;
+        track.style.height = pinH + "px"; // below the screen, so this moves nothing in view
+      }
     }
     function progress() {
       const r = track.getBoundingClientRect();
@@ -338,22 +360,27 @@ export function useRevenueStory(sectionRef, enabled = true) {
       cur.style.transform = `translate(${x - 5}px,${y - 3}px)`;
       if (prev >= 0) CLICKS.forEach((c) => { if (prev < c && p >= c) click(); });
     }
+    // Runs on scroll and while the smoothing catches up, then stops (no frame loop while idle).
     function tick() {
-      if (active) {
-        const target = progress();
-        sp = reduce ? target : sp + (target - sp) * 0.14; // spring-like smoothing
-        if (Math.abs(target - sp) < 0.0004) sp = target;
-        if (sp !== last) { render(sp, last); last = sp; }
-      }
-      raf = requestAnimationFrame(tick);
+      raf = 0;
+      if (!active) return;
+      oneWay();
+      const target = collapsed ? 1 : progress();
+      sp = reduce || collapsed ? target : sp + (target - sp) * 0.14; // spring-like smoothing
+      if (Math.abs(target - sp) < 0.0004) sp = target;
+      if (sp !== last) { render(sp, last); last = sp; }
+      if (sp !== target) schedule();
     }
+    function schedule() { if (!raf) raf = requestAnimationFrame(tick); }
     layout();
     render(0, -1);
-    raf = requestAnimationFrame(tick);
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", layout);
     mq.addEventListener("change", layout);
     return () => {
       cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", layout);
       mq.removeEventListener("change", layout);
     };

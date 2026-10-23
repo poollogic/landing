@@ -587,7 +587,8 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   /* SCROLL GATE — the visitor can't scroll past the section (even with a fast fling) until the morph
      has finished. Crossing the trigger moves the page to the far end of the pin and holds it there
      while the morph plays; trackpad inertia is swallowed too. Anchor / nav links (#billing, /#faq …)
-     bypass the gate so site navigation always works. Works the same in reverse.
+     bypass the gate so site navigation always works. Only going down: scrolling back up is never
+     held, the view just rewinds (a quick trip back to the top must stay free).
      Touch screens get no gate: a fling coasts on after the finger lifts, that momentum can't be
      cancelled, and any scroll the page makes while it coasts fights it (the page bounces). There the
      morph just plays as you scroll in and reverses once you scroll back TURN px; the page's scroll
@@ -595,7 +596,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   useEffect(() => {
     const G = gateRef.current;
     const KEYS = new Set([" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"]);
-    const TURN = 80; // touch: scroll back this far before the view flips back
+    const TURN = 80; // scroll back this far before the view flips back
     const touch = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
     const jump = (y) => window.scrollTo({ top: y, behavior: "instant" });
     const geo = () => {
@@ -629,16 +630,38 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
       // Unlock once the morph is (nearly) done AND input has been quiet for 100ms (kills trackpad momentum)
       if (G.locked && !G.animating && performance.now() - G.lastInput > 100) G.locked = false;
       if (G.locked) raf = requestAnimationFrame(watchRelease);
+      else listen(false);
     };
     const gate = (target, y) => {
       setTo(target);
       G.locked = true;
+      listen(true);
       G.animating = true;
       G.holdY = y;
       jump(y);
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(watchRelease);
     };
+
+    // Desktop one-way pin: once the switch has played and the pinned run is entirely above the screen,
+    // the section folds to its sticky frame's height and the scroll position moves by the same amount
+    // (nothing on screen shifts), so scrolling back up passes it like any section, showing "They get
+    // it". Back above it (off screen below) it unfolds and resets for the next pass down.
+    let folded = false;
+    const fold = () => {
+      const el = trackRef.current;
+      const y = window.scrollY, before = el.offsetHeight;
+      folded = true;
+      el.style.height = `${el.firstElementChild.offsetHeight}px`;
+      window.scrollTo({ top: y - (before - el.offsetHeight), behavior: "instant" }); // absolute: right with or without scroll anchoring
+    };
+    const unfold = () => {
+      folded = false;
+      trackRef.current.style.height = "";
+      morph.set(0);
+      setTo(0);
+    };
+    const onResize = () => { if (folded) trackRef.current.style.height = `${trackRef.current.firstElementChild.offsetHeight}px`; };
 
     const onScroll = () => {
       if (performance.now() < G.bypassUntil) return;
@@ -658,19 +681,44 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
         if (Math.abs(y - G.holdY) > 1) jump(G.holdY); // also catches scrollbar drags
         return;
       }
+      if (folded) {
+        if (trackRef.current.getBoundingClientRect().top > window.innerHeight) unfold(); // back above it
+        return;
+      }
+      // Desktop: held only on the way down (while the switch plays). Going back up is never held:
+      // the view just rewinds once you've scrolled TURN px back, so a quick trip to the top is free.
       const g = geo();
-      if (G.phase === 0 && y > g.gIn) gate(1, g.holdIn);
-      else if (G.phase === 1 && y < g.gOut) gate(0, g.holdOut);
+      if (G.phase === 1 && y >= g.end + 1) { fold(); return; } // past it: see fold()
+      if (G.phase === 0) {
+        G.turnY = Math.min(G.turnY, y);
+        if (y > g.gIn && y > G.turnY + TURN) gate(1, g.holdIn);
+      } else {
+        G.turnY = Math.max(G.turnY, y);
+        if (y < g.gOut && y < G.turnY - TURN) setTo(0);
+      }
     };
     const block = (e) => {
       G.lastInput = performance.now();
       if (G.locked && e.cancelable) e.preventDefault();
     };
     const onKey = (e) => KEYS.has(e.key) && block(e);
+    // The wheel/key/touchmove listeners (non-passive, so they can stop scrolling) exist only while the
+    // page is held: a page-wide non-passive wheel listener makes every scroll wait on the main thread.
+    let listening = false;
+    const listen = (on) => {
+      if (on === listening) return;
+      listening = on;
+      const m = on ? "addEventListener" : "removeEventListener";
+      window[m]("wheel", block, { passive: false });
+      window[m]("keydown", onKey);
+      if (!touch) window[m]("touchmove", block, { passive: false });
+    };
     let bypassTimer = 0;
     const bypass = () => {
       G.bypassUntil = performance.now() + 1500;
       G.locked = false;
+      listen(false);
+      if (folded) { folded = false; trackRef.current.style.height = ""; } // links land on the full section
       clearTimeout(bypassTimer);
       bypassTimer = setTimeout(() => {
         // Settle instantly to wherever navigation landed (the section is usually off-screen by then)
@@ -695,18 +743,15 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("wheel", block, { passive: false });
-    if (!touch) window.addEventListener("touchmove", block, { passive: false });
-    window.addEventListener("keydown", onKey);
+    if (!touch) window.addEventListener("resize", onResize);
     window.addEventListener("hashchange", bypass);
     document.addEventListener("click", onClick, true);
     return () => {
       cancelAnimationFrame(raf);
       clearTimeout(bypassTimer);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("wheel", block);
-      window.removeEventListener("touchmove", block);
-      window.removeEventListener("keydown", onKey);
+      listen(false);
+      window.removeEventListener("resize", onResize);
       window.removeEventListener("hashchange", bypass);
       document.removeEventListener("click", onClick, true);
       G.goTo = null;

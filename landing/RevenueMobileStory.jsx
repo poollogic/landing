@@ -222,7 +222,7 @@ function SettingsList({ tap }) {
     <>
       <TopBar />
       <div className="rvm-body">
-        <h2 className="rvm-h1">Settings</h2>
+        <p className="rvm-h1">Settings</p>
         {SETTINGS.map(([group, items]) => (
           <div key={group} className="rvm-group">
             <div className="rvm-glabel">{group}</div>
@@ -264,7 +264,7 @@ function Billing({ step, tap }) {
       <div className="rvm-clip" ref={clipRef}>
         <motion.div className="rvm-body rvm-scroll" initial={false} animate={{ y }} transition={{ type: 'tween', duration: 0.7, ease: IOS }}>
           <div className="rvm-back"><ChevronLeft size={18} strokeWidth={2} aria-hidden />Settings<small>{late ? 'Saved' : ''}</small></div>
-          <h2 className="rvm-h1">Billing</h2>
+          <p className="rvm-h1">Billing</p>
           <p className="rvm-sub">How you get paid, and what you add on top of the work.</p>
           <div className="rvm-sec">Rates and fees</div>
           <FieldRow t="Card processing fee" v="2.9" suf="%" d="Added to credit card payments, never debit. Maximum 3% (the Visa/Mastercard cap)." />

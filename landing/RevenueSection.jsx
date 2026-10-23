@@ -162,7 +162,7 @@ export default function RevenueSection() {
           id="revenue-heading"
           eyebrow="Financial watchdog"
           title={<>
-            <span className="rv-h2-a">Stop trading your free time</span>
+            <span className="rv-h2-a">Stop trading your free time</span>{' '}
             <span className="rv-h2-b">to customers who choose to ignore their invoices.</span>
           </>}
           subtitle="You didn’t start a business to act as a full-time debt collector—so let PoolLogic play the bad guy. Automate your financial SOPs so everyone is treated fairly and you get your time back. From tracking forgotten chemical charges to automatically deploying late fees and pausing service for non-payers, the system enforces your rules flawlessly. Stop sending awkward texts and let the software get your accounts in line."
