@@ -16,11 +16,11 @@ const STEPS = ['Upload your spreadsheet', 'Automatic import', 'Review before sav
 const WORKS_WITH = ['QuickBooks', 'Jobber', 'Skimmer', 'Excel', 'Google Sheets', 'Numbers'];
 
 const ROWS = [
-  { first: 'Avery', last: 'Collins', street: '2148 Palmetto Dr', city: 'Dunedin' },
-  { first: 'Marisol', last: 'Vega', street: '412 Bayshore Ct', city: 'Tampa' },
-  { first: 'Derek', last: 'Holloway', street: '88 Palm Harbor Blvd', city: 'Palm Harbor' },
-  { first: 'Priya', last: 'Raman', street: '2270 Seabreeze Ln', city: 'Clearwater' },
-  { first: 'Tom', last: 'Castelano', street: '903 Coral Way', city: 'Dunedin' },
+  { first: 'Avery', last: 'Collins', street: '2148 Tramway Ln NE', city: 'Albuquerque' },
+  { first: 'Marisol', last: 'Vega', street: '412 Loma Larga Rd', city: 'Corrales' },
+  { first: 'Derek', last: 'Holloway', street: '8812 Osuna Rd NE', city: 'Albuquerque' },
+  { first: 'Priya', last: 'Raman', street: '2270 Cabezon Blvd', city: 'Rio Rancho' },
+  { first: 'Tom', last: 'Castelano', street: '903 Montaño Rd NW', city: 'Albuquerque' },
 ];
 
 const COLUMNS = [

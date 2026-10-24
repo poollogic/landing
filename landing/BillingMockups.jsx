@@ -39,7 +39,7 @@ function InvoiceScreen() {
               <div className="bz-inv-coname">BAYSIDE POOL CO.</div>
               <div>9800 Montgomery Blvd NE</div>
               <div>Albuquerque, NM 87111</div>
-              <div>Phone: <span className="bz-inv-phone">(248) 434-5508</span></div>
+              <div>Phone: <span className="bz-inv-phone">(505) 293-7665</span></div>
               <div>billing@baysidepool.example</div>
             </div>
           </div>

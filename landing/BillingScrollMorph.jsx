@@ -210,7 +210,7 @@ function MacSafariInvoice() {
               </At>
 
               {/* From / To */}
-              <Party left={48} label="FROM" name="BAYSIDE POOL CO." lines={["9800 Montgomery Blvd NE", "Albuquerque, NM 87111", "billing@baysidepool.example", "(248) 434-5508"]} />
+              <Party left={48} label="FROM" name="BAYSIDE POOL CO." lines={["9800 Montgomery Blvd NE", "Albuquerque, NM 87111", "billing@baysidepool.example", "(505) 293-7665"]} />
               <Party left={407} label="TO" name="Jimmy McGill" lines={["160 Candelaria Rd NW", "Albuquerque, NM 87107", "j.mcgill@ice-station-zebra.com", "(505) 842-5662"]} />
 
               {/* Table header */}

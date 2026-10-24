@@ -4,21 +4,18 @@ import './founder.css';
 
 // Founder's story (#founder): light, Apple-style. Centred header, then the letter
 // (left) beside the photo (right); on phones the photo comes first.
-// The letter shows three paragraphs; the rest sits in #founder-more, which is
-// always in the DOM (search engines read it) and opens with "Read the full story".
+// The letter: the route, the pain, why I could fix it, what techs can't fake, today.
+// Desktop shows all of it; phones show two until "Read the full story" (founder.css).
+// The hidden part stays in the DOM, so search engines read it.
 // Apple neutrals: page #F5F5F7, text #1D1D1F, secondary #6E6E73, muted #86868B,
 // hairlines #D2D2D7; accent #2676B6.
 
-const INTRO = [
-  'After working professionally in web development, systems, and conversion optimization back in South Carolina, I moved to the coast planning to slow down. Instead, I found myself buying a pool cleaning route—and almost immediately, the time I had planned on fishing and enjoying family time was gone.',
-  'I was spending hours every evening just doing admin work and chasing people to pay their invoices. I couldn’t even get a clear look at my real numbers because the software options out there were so bad. I knew 50% of my customers were drastically below market rate, but I had no effective way to actually execute and enforce a price increase.',
-  'To top it off, I didn’t know what a single stop truly cost me on each account, so I had no idea which accounts actually needed an increase to make things fair. There was no real breakdown of where we stood financially. All I had was the balance in the bank and a rough guess at what it should be if every outstanding invoice got paid that month. That’s a terrible way to run a business.',
-  'On top of the financial chaos, technicians were skipping service reports, and I was catching guys uploading old photos from their camera roll to bypass the system. Every issue you encounter on a daily basis, I’ve been there.',
-];
-const MORE = [
-  'Because of my background, I knew what good software should look and feel like. I found myself navigating through 17 different open tabs, duct-taping Zapier, n8n, and messy spreadsheets together just to keep my sanity.',
-  'But as I built a real solution to save my own business, my perspective shifted. I realized my true value wasn’t in running a pool route—it was in building the systems that allow pool companies to actually scale and breathe. The route was just the journey I had to take to realize this industry was starving for real technology.',
-  'Today, I get to focus almost entirely on PoolLogic. And honestly, it is the most rewarding work I’ve ever done. There is no better feeling than hearing an owner tell me how much their business has improved, or that they finally get to spend their evenings with their kids instead of fighting with invoices.',
+const LETTER = [
+  'I moved from South Carolina to the coast planning to slow down. Instead, I bought a pool route, and the evenings I’d planned for fishing and family went to admin work and chasing people to pay their invoices.',
+  'I couldn’t get a clear look at my numbers. Half my customers were well below market rate, but I didn’t know what a single stop cost me, so I couldn’t tell who needed an increase, let alone enforce one. All I had was the balance in the bank and a rough guess at what it should be if every outstanding invoice got paid that month. That’s a terrible way to run a business. Meanwhile, techs were skipping service reports and uploading old photos from their camera roll. Whatever you’re dealing with today, I’ve been there.',
+  'Before pools, my job was getting people to say yes. I spent years building conversion, onboarding and marketing systems for businesses. So when I tried the pool software out there and still ended up with 17 tabs open, duct-taping Zapier, n8n and spreadsheets around it, I knew the tools were the problem. I built PoolLogic to fix my own business: billing that runs itself, late fees and automatic account pauses that enforce your rules, and the exact cost of every stop, figured from the chemical prices you set, so you know who needs a price increase. All of it runs from one admin dashboard. And because of that background, paying an invoice takes one tap, and switching over takes minutes, not months.',
+  'And your techs can’t fake a report. It’s stamped with the phone’s GPS coordinates the moment they hit send, and photos can only be taken with the camera built into our iOS and Android tech app. They can’t be uploaded. You decide which readings are required. If chlorine alone is fine with you, the app won’t argue. But if you’ve ever taken the call I used to get after a lazy visit, here’s the fix: when a tech skips a required reading, they have to explain why before the report will send.',
+  'Running a route is how I learned this industry was starving for real technology. Today I focus almost entirely on PoolLogic, and it’s the most rewarding work I’ve ever done. I got my evenings back, and I built PoolLogic so you can spend yours with your kids, not your invoices.',
 ];
 /* The photo: public/brand/founder-480.webp and -960.webp (1× and 2×, a 4:5 crop of the original).
    If it ever fails, onError swaps in a neutral placeholder, so there's never a broken-image icon.
@@ -57,17 +54,16 @@ function FounderPhoto() {
 
 export default function FounderSection() {
   const [open, setOpen] = useState(false);
-  const last = INTRO.length - 1;
   return (
     <section id="founder" className="section bg-[#F5F5F7]" aria-labelledby="founder-heading">
       <div className="container">
         {/* Header */}
         {/* Phones: left-aligned and smaller (editorial); md and up: centred */}
         <div className="founder-head mx-auto max-w-[1000px] md:text-center">
-          <p className="text-[15px] font-semibold text-[#2676B6] md:text-[17px]">Built by an owner, not a tech company.</p>
+          <p className="text-[15px] font-semibold text-[#2676B6] md:text-[17px]">Built on the route, not in a boardroom.</p>
           <h2 id="founder-heading" className="mt-2.5 text-[31px] font-bold leading-[1.12] tracking-[-0.025em] [text-wrap:pretty] md:mt-3.5 md:text-[40px] md:leading-[1.1] md:[text-wrap:balance] lg:text-[48px]">
-            <span className="block text-[#1D1D1F]">I didn’t set out to build a software company.</span>{' '}
-            <span className="block text-[#86868B]">But the pool industry desperately needed one.</span>
+            <span className="block text-[#1D1D1F]">Most pool software creates more work.</span>{' '}
+            <span className="block text-[#86868B]">PoolLogic takes it off your plate.</span>
           </h2>
         </div>
 
@@ -78,40 +74,18 @@ export default function FounderSection() {
           </div>
 
           <div className="lg:order-1 lg:self-center">
-            {/* Phones show 2 paragraphs (the second fading out) until "Read the full story" (founder.css) */}
-            <div className={`founder-story space-y-5 text-[16px] leading-[1.6] text-[#6E6E73] md:text-[17px] md:leading-[1.65]${open ? '' : ' is-collapsed'}`}>
-              {INTRO.map((p, i) => (
-                <p
-                  key={i}
-                  className={i === last && !open
-                    ? "relative after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-[30px] after:bg-[linear-gradient(rgba(245,245,247,0),#F5F5F7)] after:content-['']"
-                    : undefined}
-                >
-                  {p}
-                </p>
-              ))}
-            </div>
-
-            {/* The rest of the letter: always in the DOM, opened with the button below */}
-            <div
-              id="founder-more"
-              aria-hidden={!open}
-              style={{ display: 'grid', gridTemplateRows: open ? '1fr' : '0fr', opacity: open ? 1 : 0, transition: 'grid-template-rows .45s ease, opacity .45s ease' }}
-            >
-              <div className="min-h-0 overflow-hidden" style={{ paddingTop: open ? 20 : 0, transition: 'padding-top .45s ease' }}>
-                <div className="space-y-5 text-[17px] leading-[1.65] text-[#6E6E73]">
-                  {MORE.map((p, i) => <p key={i}>{p}</p>)}
-                  <p className="font-medium text-[#1D1D1F]">— Jonathan Timms, Founder of PoolLogic</p>
-                </div>
-              </div>
+            {/* Phones show 2 paragraphs (fading out) until "Read the full story" (founder.css) */}
+            <div id="founder-story" className={`founder-story space-y-5 text-[16px] leading-[1.6] text-[#6E6E73] md:text-[17px] md:leading-[1.65]${open ? '' : ' is-collapsed'}`}>
+              {LETTER.map((p, i) => <p key={i}>{p}</p>)}
+              <p className="font-medium text-[#1D1D1F]">— Jonathan Timms, Founder of PoolLogic</p>
             </div>
 
             <button
               type="button"
               aria-expanded={open}
-              aria-controls="founder-more"
+              aria-controls="founder-story"
               onClick={() => setOpen((o) => !o)}
-              className="mt-2.5 inline-flex items-center gap-1.5 border-0 bg-transparent p-0 text-[16px] font-semibold text-[#2676B6] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2676B6]"
+              className="mt-2.5 inline-flex md:hidden items-center gap-1.5 border-0 bg-transparent p-0 text-[16px] font-semibold text-[#2676B6] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2676B6]"
             >
               {open ? 'Show less' : 'Read the full story'}
               <ChevronDown size={14} strokeWidth={2.2} aria-hidden="true" className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />

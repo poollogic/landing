@@ -1,6 +1,6 @@
 /* Founder's story (#founder, FounderSection.jsx), phones only: the collapsed letter shows its
-   first two paragraphs, the second fading out, until "Read the full story" opens it. Only the
-   first story container (.founder-story); #founder-more is separate and opens as before. */
+   first two paragraphs, the second fading out, until "Read the full story" opens it. Desktop
+   always shows the whole letter (the button is md:hidden). */
 @media (max-width: 767.98px) {
   #founder .founder-story.is-collapsed > p:nth-child(n+3) { display: none; }
   #founder .founder-story.is-collapsed {

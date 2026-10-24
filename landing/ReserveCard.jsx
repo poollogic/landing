@@ -9,21 +9,36 @@ import './reserve.css';
 
 // "Reserve your spot": the whole thing, used as-is by /reserve (pages/reserve.jsx) and the
 // homepage's reserve section (ReserveSection.jsx). Change it here and both pages change.
-//   ReserveIntro  the eyebrow, title, sub and checked points (h1 on /reserve, h2 on the homepage)
+//   ReserveIntro  the eyebrow, title, sub and checked points (h1 on /reserve, h2 on the homepage,
+//                 where it leads with the price instead: price)
 //   ReserveCard   the two-step card: (1) size → rate, (2) details → submit → success
 // Requests go to /api/request (server/requestForm.js): the owner gets an email, the person gets a
 // personal confirmation, and they join the waitlist audience. Styles: reserve.css + the hero's classes.
 
 // context: one line saying what PoolLogic is, for visitors who haven't seen the homepage (/reserve).
-export function ReserveIntro({ as: Heading = 'h2', id, context = false }) {
+// price: the homepage's wording. Visitors there are still browsing, so it invites them to see the
+// cost instead of asking them to reserve; the card is the same (the reserving happens in step 2).
+export function ReserveIntro({ as: Heading = 'h2', id, context = false, price = false }) {
   return (
     <div className="rsv-intro">
-      <p className="hero-eyebrow">White-glove onboarding</p>
-      <Heading id={id} className="hero-title">Reserve your spot.</Heading>
-      <p className="hero-sub">
-        See your price now. We’ll move your customers over and <strong>set everything up with you</strong> on a
-        10-minute call.
-      </p>
+      {price ? (
+        <>
+          <p className="hero-eyebrow">Transparent pricing</p>
+          <Heading id={id} className="hero-title">See our simple pricing.</Heading>
+          <p className="hero-sub">
+            No demo, no sales call. Pick how many customers you have and <strong>your rate shows up instantly</strong>.
+          </p>
+        </>
+      ) : (
+        <>
+          <p className="hero-eyebrow">White-glove onboarding</p>
+          <Heading id={id} className="hero-title">Reserve your spot.</Heading>
+          <p className="hero-sub">
+            See your price now. We’ll move your customers over and <strong>set everything up with you</strong> on a
+            10-minute call.
+          </p>
+        </>
+      )}
       {context && (
         <p className="rsv-context">PoolLogic is all-in-one software for pool service companies: routing, billing and collections.</p>
       )}

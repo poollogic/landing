@@ -63,7 +63,7 @@ export const SANITIZER_OPTIONS = ['All', 'Liquid chlorine', 'Salt', 'Bromine'];
 
 /**
  * Live route progress (dashboard/LiveRouteProgress.tsx, liveRoute.ts): two
- * technicians this afternoon: Justin finished, Hugh on his last few stops. Stops before
+ * technicians this afternoon: Justin finished, Gabriel on his last few stops. Stops before
  * `done` are completed, the next is in progress (the ring), the rest
  * upcoming; a finished route rings its last stop. Each route lays out its
  * own stops across the full track width (PreviewPanel LiveRoutes).
@@ -71,6 +71,6 @@ export const SANITIZER_OPTIONS = ['All', 'Liquid chlorine', 'Salt', 'Bromine'];
 export const ROUTES = {
   techs: [
     { name: 'Justin Braswell', done: 17, total: 17 },
-    { name: 'Hugh Janus', done: 14, total: 18 },
+    { name: 'Gabriel Montoya', done: 14, total: 18 },
   ],
 };

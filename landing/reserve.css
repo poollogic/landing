@@ -38,7 +38,27 @@
 .rsv-hero .hero-sub, .rsv-sec .hero-sub { margin-inline: 0; max-width: 30rem; text-wrap: pretty; }
 
 /* The homepage's reserve section: dark, after the light founder section (the site's section padding) */
-.rsv-sec { position: relative; padding-block: var(--section-y); background: var(--mktg-bg-page); }
+/* The homepage section: a cousin of /reserve's light, not a copy. Instead of the hero's light from
+   the top, a soft blue glow sits behind the card (right on desktop, below the points on phones),
+   so the form is the brightest thing in the section. */
+.rsv-sec {
+  position: relative;
+  padding-block: var(--section-y);
+  background:
+    radial-gradient(38% 55% at 75% 50%, rgba(37, 99, 235, .11), transparent 70%),  /* blue glow behind the card */
+    radial-gradient(60% 75% at 75% 50%, rgba(51, 65, 85, .5), transparent 70%),    /* slate pool around it */
+    radial-gradient(70% 35% at 50% 0%, rgba(255, 255, 255, .035), transparent 70%), /* faint light at the top edge */
+    var(--mktg-bg-page);
+}
+@media (max-width: 1023.98px) {
+  .rsv-sec {
+    background:
+      radial-gradient(85% 32% at 50% 74%, rgba(37, 99, 235, .2), transparent 70%),
+      radial-gradient(110% 45% at 50% 74%, rgba(51, 65, 85, .65), transparent 70%),
+      radial-gradient(90% 20% at 50% 0%, rgba(255, 255, 255, .035), transparent 70%),
+      var(--mktg-bg-page);
+  }
+}
 .rsv-context { margin-top: 14px; max-width: 30rem; font-size: 14.5px; line-height: 1.55; color: #64748b; }
 .rsv-features { display: grid; gap: 20px; margin: 36px 0 0; padding: 0; list-style: none; }
 .rsv-features li { display: flex; gap: 12px; }
