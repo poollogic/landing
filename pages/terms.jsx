@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 // Find-and-replace placeholders if needed:
 //   PoolLogic          legal entity name
 //   Florida                 governing state
-//   October 22, 2026        updated date
+//   October 25, 2026        updated date
 //   legal@poollogic.app     general legal contact email
 //   copyright@poollogic.app DMCA designated agent email
 //   [mailing address]       physical address for DMCA notices — fill before publishing
@@ -66,7 +66,7 @@ const TermsPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> October 22, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> October 25, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
           </div>
         </header>
@@ -217,6 +217,10 @@ const TermsPage = () => {
                 <li>giving its End Customers any notice of automated billing, charges, fees, pausing, suspension, or termination that applicable law or its agreements with them require.</li>
               </ul>
               <p>PoolLogic carries out Automated Features as the Subscriber configures them. PoolLogic is not responsible for any invoice sent or not sent, charge made or not made, fee applied or not applied, or account paused, not paused, or resumed as a result of the Subscriber's settings, the data the Subscriber entered or imported, or the Subscriber's failure to review them.</p>
+
+              <h3>Reading Ranges</h3>
+              <p>PoolLogic provides recommended water-chemistry ranges, which the Service uses to flag readings on service reports and to show whether readings are in range. <strong>All ranges and flags, whether PoolLogic's recommended ranges or ranges the Subscriber sets, are an aid only.</strong> They are not a safety system or a substitute for professional judgment, and the Subscriber and its staff remain responsible for every water-treatment decision, as described in Section 3 (Your Contingency Plans). Changing ranges does not change PoolLogic's chemical dosing recommendations.</p>
+              <p>The Subscriber may change the ranges its account uses. <strong>If it does, the Subscriber is solely responsible for the ranges it sets and for any outcome resulting from them</strong>, and any claim arising from them is covered by the Subscriber's indemnification obligations in Section 15. To the maximum extent permitted by law, PoolLogic is not liable for outcomes resulting from any range or flag, including its recommended ranges, and in no event for outcomes resulting from ranges the Subscriber sets. Any liability that remains is subject to Section 14 (Disclaimers & Limitation of Liability).</p>
 
               <h3>Your Agreements with Your Customers</h3>
               <p>The Subscriber's relationship with each End Customer, including the price, payment terms, late fees, and when service may be paused, suspended, or terminated for non-payment, is governed by the Subscriber's own agreements and policies with that End Customer. <strong>PoolLogic is not a party to those agreements, does not see or review them, and does not know their terms.</strong> PoolLogic does not check whether the Subscriber's settings or procedures match them.</p>
