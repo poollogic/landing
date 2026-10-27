@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 // Find-and-replace placeholders if needed:
 //   PoolLogic          legal entity name
 //   Florida                 governing state
-//   May 23, 2026            effective date
+//   October 27, 2026        updated date
 //   privacy@poollogic.app   contact email
 //
 // Subprocessors listed below reflect the current stack — confirm before going live
@@ -63,7 +63,7 @@ const PrivacyPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> May 23, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> October 27, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
           </div>
         </header>
@@ -144,7 +144,7 @@ const PrivacyPage = () => {
               <ul>
                 <li>Operate the service — sending invoices, processing payments, dispatching routes, generating service reports.</li>
                 <li>Communicate with Subscribers about account activity, billing, product updates, and support requests.</li>
-                <li>Communicate with End Customers <strong>on a Subscriber's behalf</strong> — for example, sending invoice notifications, payment receipts, or autopay decline notices that the Subscriber has configured.</li>
+                <li>Communicate with End Customers <strong>on a Subscriber's behalf</strong> — for example, sending invoice notifications, payment receipts, autopay decline notices, or service pause notices that the Subscriber has configured or chosen to send.</li>
                 <li>Maintain and improve the service, including diagnosing errors, measuring performance, and developing new features.</li>
                 <li>Detect, prevent, and respond to fraud, security incidents, and abuse.</li>
                 <li>Comply with legal obligations, including tax, accounting, and anti-money-laundering rules.</li>
