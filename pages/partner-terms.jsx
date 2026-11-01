@@ -10,7 +10,7 @@ const SECTIONS = [
   { id: 'about', title: 'About These Terms' },
   { id: 'joining', title: 'Joining & Approval' },
   { id: 'link-code-page', title: 'Your Link, Code & Page' },
-  { id: 'brand', title: 'Using the PoolLogic Brand' },
+  { id: 'brand', title: 'Using the Poolnautics Brand' },
   { id: 'referrals', title: 'What Counts as a Referral' },
   { id: 'earnings', title: 'Referral Payments & What You Earn' },
   { id: 'retention', title: 'Retention & Take-Backs' },
@@ -71,13 +71,13 @@ const PartnerTermsPage = () => {
             Partner Program Terms
           </h1>
           <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.6, maxWidth: 640 }}>
-            These terms govern the PoolLogic Partner Program: how you refer pool service companies to PoolLogic, what you earn, how you're paid, and what you agree to do and not do. The plain-English overview is on the <a href="/partners" style={link}>Partner Program page</a>; where the two differ, these terms apply.
+            These terms govern the Poolnautics Partner Program: how you refer pool service companies to Poolnautics, what you earn, how you're paid, and what you agree to do and not do. The plain-English overview is on the <a href="/partners" style={link}>Partner Program page</a>; where the two differ, these terms apply.
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Version:</strong> {PARTNER.termsVersion}</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> when you accept them</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> {PARTNER.termsUpdated}</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> [company legal name]</span>
           </div>
         </header>
 
@@ -110,14 +110,14 @@ const PartnerTermsPage = () => {
           {/* Body */}
           <article style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-3)' }}>
             <Section id="about" title="1. About These Terms">
-              <p>These Partner Program Terms ("Partner Terms") form a binding agreement between you ("Partner," "you") and PoolLogic ("we," "our," or "us"). You accept them when you click to accept them, sign them, or first share a PoolLogic partner link or code after we approve you. We record the version you accepted ({PARTNER.termsVersion} for this one) and when.</p>
+              <p>These Partner Program Terms ("Partner Terms") form a binding agreement between you ("Partner," "you") and [company legal name] ("Poolnautics," "we," "our," or "us"). You accept them when you click to accept them, sign them, or first share a Poolnautics partner link or code after we approve you. We record the version you accepted ({PARTNER.termsVersion} for this one) and when.</p>
               <p>If we agree different numbers with you in writing (a "custom offer"), the custom offer's numbers replace the standard ones below; everything else in these Partner Terms still applies.</p>
-              <p>These Partner Terms are separate from the PoolLogic <a href="/terms" style={link}>Terms of Service</a>. If you also run a pool company on PoolLogic, the Terms of Service govern that account.</p>
+              <p>These Partner Terms are separate from the Poolnautics <a href="/terms" style={link}>Terms of Service</a>. If you also run a pool company on Poolnautics, the Terms of Service govern that account.</p>
             </Section>
 
             <Section id="joining" title="2. Joining & Approval">
               <p>To join, you must be at least 18, live in and be able to receive payments in {PARTNER.country}, and be approved by us. We may approve or decline any application for any reason, and an application does not create a partnership.</p>
-              <p>You agree that what you tell us when you apply (who you are, where you reach pool professionals, your audience and how you'll share PoolLogic) is true, and that you'll tell us if it materially changes. We may verify that you own or control the channels you list before your partner page names you.</p>
+              <p>You agree that what you tell us when you apply (who you are, where you reach pool professionals, your audience and how you'll share Poolnautics) is true, and that you'll tell us if it materially changes. We may verify that you own or control the channels you list before your partner page names you.</p>
             </Section>
 
             <Section id="link-code-page" title="3. Your Link, Code & Page">
@@ -125,25 +125,25 @@ const PartnerTermsPage = () => {
               <p>We host and control your partner page. We may edit it, pause it, or take it down at any time, including to correct an offer or a claim. Your link, codes and page are licensed to you only while you're an active partner.</p>
             </Section>
 
-            <Section id="brand" title="4. Using the PoolLogic Brand">
-              <p>While you're an active partner, we grant you a limited, non-exclusive, non-transferable, revocable license to use the PoolLogic name, logo and the materials in the <a href="/partners/kit" style={link}>partner kit</a> solely to promote PoolLogic under these Partner Terms. You may not alter the logo, or use the brand in a way that suggests you are PoolLogic, work for PoolLogic, or speak for it.</p>
-              <p>You may not register or use "PoolLogic," or anything confusingly similar, in a domain name, social media handle, username, page or group name, or app name.</p>
+            <Section id="brand" title="4. Using the Poolnautics Brand">
+              <p>While you're an active partner, we grant you a limited, non-exclusive, non-transferable, revocable license to use the Poolnautics name, logo and the materials in the <a href="/partners/kit" style={link}>partner kit</a> solely to promote Poolnautics under these Partner Terms. You may not alter the logo, or use the brand in a way that suggests you are Poolnautics, work for Poolnautics, or speak for it.</p>
+              <p>You may not register or use "Poolnautics," or anything confusingly similar, in a domain name, social media handle, username, page or group name, or app name.</p>
             </Section>
 
             <Section id="referrals" title="5. What Counts as a Referral">
-              <p>A "Referred Company" is a pool service business that creates a new PoolLogic account after following your link or entering your code, and that we credit to you under the rules below.</p>
+              <p>A "Referred Company" is a pool service business that creates a new Poolnautics account after following your link or entering your code, and that we credit to you under the rules below.</p>
               <ul>
                 <li><strong>Links</strong> are remembered for {PARTNER.linkDays} days from the click, on that browser.</li>
                 <li><strong>A code entered at sign-up</strong> takes priority over a remembered link, unless the code and the link point to different partners or a sales representative, in which case we review the claim and decide.</li>
-                <li><strong>A PoolLogic sales representative's</strong> earlier link or confirmed deal takes priority over a partner's referral.</li>
+                <li><strong>A Poolnautics sales representative's</strong> earlier link or confirmed deal takes priority over a partner's referral.</li>
                 <li>Otherwise, the <strong>most recent link</strong> within {PARTNER.linkDays} days wins.</li>
               </ul>
-              <p>None of these count as a referral: an existing PoolLogic customer; a company that has, or recently had, a PoolLogic account (matched on details such as email, phone or payout bank); your own company, a company you own part of, or your employees'. A company, and its owner, can be credited to one partner only, ever.</p>
+              <p>None of these count as a referral: an existing Poolnautics customer; a company that has, or recently had, a Poolnautics account (matched on details such as email, phone or payout bank); your own company, a company you own part of, or your employees'. A company, and its owner, can be credited to one partner only, ever.</p>
               <p>A code may be added after sign-up only within 7 days, and only if no other partner or representative already has the company; such a claim is reviewed before it's credited. Our records decide who referred a company, and our decision on a contested claim is final.</p>
             </Section>
 
             <Section id="earnings" title="6. Referral Payments & What You Earn">
-              <p>You earn a one-time <strong>Referral Payment</strong> for each Referred Company that becomes a paying customer. The amount is set by the PoolLogic plan the Referred Company is on and its number of active customers, both as of its <strong>First Paid Month</strong>: the first full monthly billing period after any free trial that the company has paid PoolLogic for (on yearly billing, the first month the yearly payment covers).</p>
+              <p>You earn a one-time <strong>Referral Payment</strong> for each Referred Company that becomes a paying customer. The amount is set by the Poolnautics plan the Referred Company is on and its number of active customers, both as of its <strong>First Paid Month</strong>: the first full monthly billing period after any free trial that the company has paid Poolnautics for (on yearly billing, the first month the yearly payment covers).</p>
               <table className="terms-table" style={{ width: '100%', borderCollapse: 'collapse', margin: '8px 0 16px', fontSize: 15 }}>
                 <thead>
                   <tr>
@@ -168,7 +168,7 @@ const PartnerTermsPage = () => {
                 <li><strong>Only paid plans count.</strong> A company that never pays for a plan, or whose plan is free, waived or discounted to zero, earns nothing.</li>
                 <li><strong>Large companies.</strong> Companies with more than {PARTNER.customAbove} active customers are priced individually; no standard Referral Payment applies to them unless we agree an amount with you in writing first.</li>
               </ul>
-              <p>There is no percentage or recurring commission on a Referred Company's payments. PoolLogic sets its own prices and may change them; any earnings figure we publish is an example, not a promise.</p>
+              <p>There is no percentage or recurring commission on a Referred Company's payments. Poolnautics sets its own prices and may change them; any earnings figure we publish is an example, not a promise.</p>
             </Section>
 
             <Section id="retention" title="7. Retention & Take-Backs">
@@ -182,7 +182,7 @@ const PartnerTermsPage = () => {
             </Section>
 
             <Section id="adjustments" title="8. Refunds & Adjustments">
-              <p>If PoolLogic refunds or credits the payment for a Referred Company's First Paid Month, its Referral Payment is taken back as in Section 7.</p>
+              <p>If Poolnautics refunds or credits the payment for a Referred Company's First Paid Month, its Referral Payment is taken back as in Section 7.</p>
               <p>We may reverse any credit or amount that we reasonably believe came from fraud, self-referral, a breach of these Partner Terms, or our error, and recover amounts already paid by deducting them from future payouts or, if none are due, by asking you to repay them within 30 days.</p>
             </Section>
 
@@ -193,12 +193,12 @@ const PartnerTermsPage = () => {
             </Section>
 
             <Section id="disclosure" title="10. Disclosure (FTC)">
-              <p>Under the Federal Trade Commission's Guides Concerning the Use of Endorsements and Testimonials in Advertising (<strong>16 CFR Part 255</strong>), your partnership with PoolLogic is a material connection that you must disclose clearly and conspicuously, every time you promote PoolLogic, in the content itself.</p>
+              <p>Under the Federal Trade Commission's Guides Concerning the Use of Endorsements and Testimonials in Advertising (<strong>16 CFR Part 255</strong>), your partnership with Poolnautics is a material connection that you must disclose clearly and conspicuously, every time you promote Poolnautics, in the content itself.</p>
               <ul>
-                <li>Say it at the <strong>start</strong> of the mention, in words (for example: "I get paid if you sign up with my link or code"), and show it on screen at the same time in video ("Paid partnership with PoolLogic").</li>
+                <li>Say it at the <strong>start</strong> of the mention, in words (for example: "I get paid if you sign up with my link or code"), and show it on screen at the same time in video ("Paid partnership with Poolnautics").</li>
                 <li>Put the disclosure in the first line of any description or caption, above any "more" cut-off, next to your link.</li>
                 <li>Use each platform's paid-partnership tools as well, but not instead: a platform label, "#affiliate," "#sp," "#partner," or a note only in comments is not enough on its own.</li>
-                <li>Only say you use PoolLogic if you actually do, and only share honest opinions.</li>
+                <li>Only say you use Poolnautics if you actually do, and only share honest opinions.</li>
               </ul>
               <p>The <a href="/partners/kit" style={link}>partner kit</a> has the exact wording for each platform. We monitor partner content and may require you to fix or remove anything that doesn't meet this Section.</p>
             </Section>
@@ -206,21 +206,21 @@ const PartnerTermsPage = () => {
             <Section id="prohibited" title="11. What You May Not Do">
               <p>You agree not to:</p>
               <ul>
-                <li>Bid on "PoolLogic," misspellings or close variations in search or social advertising, or run paid ads that send people straight to PoolLogic or your link without your own content.</li>
-                <li>List PoolLogic codes on coupon, deal, discount-code or cash-back sites.</li>
+                <li>Bid on "Poolnautics," misspellings or close variations in search or social advertising, or run paid ads that send people straight to Poolnautics or your link without your own content.</li>
+                <li>List Poolnautics codes on coupon, deal, discount-code or cash-back sites.</li>
                 <li>Use cookie stuffing, pop-unders, hidden frames, forced clicks, or anything else that sets a referral without a person deliberately following your link.</li>
                 <li>Send unsolicited email, texts or direct messages, or use purchased or scraped lists. You are responsible for complying with the CAN-SPAM Act, the Telephone Consumer Protection Act and similar laws.</li>
                 <li>Post fake reviews or testimonials, or anything else prohibited by the FTC's rule on consumer reviews and testimonials (<strong>16 CFR Part 465</strong>).</li>
                 <li>Pay, rebate or reward people for signing up, or share your earnings with them, unless we approve it in writing.</li>
                 <li>Refer yourself, your own company, a company you own part of, or your employees.</li>
-                <li>Make claims we haven't approved, including "free processing," savings figures, comparisons naming a competitor, or anything implying you work for or speak for PoolLogic.</li>
-                <li>Film, screenshot or share real customer data from any PoolLogic account.</li>
-                <li>Promote PoolLogic alongside content that is unlawful, hateful, harassing or misleading.</li>
+                <li>Make claims we haven't approved, including "free processing," savings figures, comparisons naming a competitor, or anything implying you work for or speak for Poolnautics.</li>
+                <li>Film, screenshot or share real customer data from any Poolnautics account.</li>
+                <li>Promote Poolnautics alongside content that is unlawful, hateful, harassing or misleading.</li>
               </ul>
             </Section>
 
             <Section id="content-review" title="12. Content Review">
-              <p>Send us your first piece of content that mentions PoolLogic before it's published, so we can check the disclosure and the claims. After that, we may review your content at any time, including in a periodic check of how PoolLogic is being promoted.</p>
+              <p>Send us your first piece of content that mentions Poolnautics before it's published, so we can check the disclosure and the claims. After that, we may review your content at any time, including in a periodic check of how Poolnautics is being promoted.</p>
               <p>If we ask you to correct or remove content that breaks these Partner Terms or the law, you agree to do so within <strong>48 hours</strong>. We may pause your link, codes and page until it's fixed.</p>
             </Section>
 
@@ -230,34 +230,34 @@ const PartnerTermsPage = () => {
               ) : (
                 <p>We intend to offer companies that sign up with your link or code {perkLine()}, after the standard {PARTNER.trial.everyoneDays}-day free trial (the "audience offer"). It is not available yet, and you may not promote it until we tell you it's live.</p>
               )}
-              <p>The audience offer is PoolLogic's to set, may have limits, and applies only to companies that are eligible under Section 5. You may only describe it as we publish it. We'll give you at least <strong>30 days' notice</strong> before changing or ending it; a change applies to new sign-ups only, not to companies that already have it.</p>
+              <p>The audience offer is Poolnautics' to set, may have limits, and applies only to companies that are eligible under Section 5. You may only describe it as we publish it. We'll give you at least <strong>30 days' notice</strong> before changing or ending it; a change applies to new sign-ups only, not to companies that already have it.</p>
             </Section>
 
             <Section id="ending" title="14. Ending the Partnership">
               <p>Either of us may end the partnership at any time, for any reason, by notice to the other.</p>
               <h3>Without cause</h3>
-              <p>If either of us ends the partnership without cause, you're still paid the Referral Payment for each Referred Company credited to you before it ended, once its First Paid Month is paid, subject to Section 7 and these Partner Terms. Your link, codes and page stop working, and you must stop promoting PoolLogic as a partner.</p>
+              <p>If either of us ends the partnership without cause, you're still paid the Referral Payment for each Referred Company credited to you before it ended, once its First Paid Month is paid, subject to Section 7 and these Partner Terms. Your link, codes and page stop working, and you must stop promoting Poolnautics as a partner.</p>
               <h3>For breach</h3>
               <p>If we end the partnership because you broke these Partner Terms, you forfeit all unpaid amounts, and we may recover amounts already paid that relate to the breach.</p>
               <p>Sections that by their nature should survive ending (including payment of earned amounts, recovery, confidentiality, taxes and general provisions) will survive.</p>
             </Section>
 
             <Section id="contractor" title="15. Independent Contractor">
-              <p>You are an independent contractor, not an employee, agent, joint venturer or franchisee of PoolLogic. You decide how, when and where you create content. You may not make commitments on PoolLogic's behalf. You are responsible for your own expenses, equipment and insurance, and you may promote other products, including competitors', unless a custom offer says otherwise.</p>
+              <p>You are an independent contractor, not an employee, agent, joint venturer or franchisee of Poolnautics. You decide how, when and where you create content. You may not make commitments on Poolnautics' behalf. You are responsible for your own expenses, equipment and insurance, and you may promote other products, including competitors', unless a custom offer says otherwise.</p>
             </Section>
 
             <Section id="taxes" title="16. Taxes">
-              <p>You are responsible for all taxes on what you earn. We collect a Form W-9 before your first payout and issue a <strong>Form 1099-NEC</strong> where U.S. tax law requires one. If you don't provide a valid W-9, we may be required to withhold tax from your payouts. Nothing PoolLogic tells you is tax advice.</p>
+              <p>You are responsible for all taxes on what you earn. We collect a Form W-9 before your first payout and issue a <strong>Form 1099-NEC</strong> where U.S. tax law requires one. If you don't provide a valid W-9, we may be required to withhold tax from your payouts. Nothing Poolnautics tells you is tax advice.</p>
             </Section>
 
             <Section id="confidentiality" title="17. Confidentiality & Data">
-              <p>"Confidential Information" means non-public information we share with you as a partner, including your statement details, which companies signed up with your link or code and their status, custom offer terms, and unreleased features. You'll use it only to take part in the program, won't disclose it, and will protect it with reasonable care. You won't say publicly that a particular company uses PoolLogic without that company's permission.</p>
+              <p>"Confidential Information" means non-public information we share with you as a partner, including your statement details, which companies signed up with your link or code and their status, custom offer terms, and unreleased features. You'll use it only to take part in the program, won't disclose it, and will protect it with reasonable care. You won't say publicly that a particular company uses Poolnautics without that company's permission.</p>
               <p>We show partners each Referred Company's status and the Referral Payment credited on it only, never its customers, the payments it collects from them, or its revenue. We handle your personal information as described in our <a href="/privacy" style={link}>Privacy Policy</a>.</p>
             </Section>
 
             <Section id="general" title="18. General Provisions">
-              <p><strong>Limitation of liability.</strong> To the maximum extent permitted by law, PoolLogic's total liability arising out of or relating to these Partner Terms will not exceed the amounts we paid you under them in the twelve (12) months before the claim, and PoolLogic will not be liable for any indirect, incidental, special, consequential or punitive damages, including lost profits.</p>
-              <p><strong>Indemnification.</strong> You will defend, indemnify and hold harmless PoolLogic from any claim, fine or loss (including reasonable attorneys' fees) arising from your content, your promotion of PoolLogic, or your breach of these Partner Terms or the law.</p>
+              <p><strong>Limitation of liability.</strong> To the maximum extent permitted by law, Poolnautics' total liability arising out of or relating to these Partner Terms will not exceed the amounts we paid you under them in the twelve (12) months before the claim, and Poolnautics will not be liable for any indirect, incidental, special, consequential or punitive damages, including lost profits.</p>
+              <p><strong>Indemnification.</strong> You will defend, indemnify and hold harmless Poolnautics from any claim, fine or loss (including reasonable attorneys' fees) arising from your content, your promotion of Poolnautics, or your breach of these Partner Terms or the law.</p>
               <p><strong>Disputes and governing law.</strong> These Partner Terms are governed by the laws of the State of Florida, without regard to its conflict-of-laws principles. Disputes are resolved as set out in the Dispute Resolution &amp; Arbitration section of our <a href="/terms#disputes" style={link}>Terms of Service</a>, which applies to you as if you were a Subscriber.</p>
               <p><strong>Entire agreement.</strong> These Partner Terms, any custom offer we agree in writing, and the policies they reference are the entire agreement about the program and replace any earlier discussions.</p>
               <p><strong>Assignment.</strong> You may not assign or transfer these Partner Terms, your earnings or your codes without our written consent. We may assign them in connection with a merger, acquisition or sale of assets.</p>
@@ -271,9 +271,9 @@ const PartnerTermsPage = () => {
             <Section id="contact" title="20. Contact">
               <p>For questions about the program or these Partner Terms:</p>
               <p style={{ marginTop: 12 }}>
-                <strong style={{ color: 'var(--ink-2)' }}>PoolLogic Partner Program</strong><br/>
+                <strong style={{ color: 'var(--ink-2)' }}>Poolnautics Partner Program</strong><br/>
                 <Mail /><br/>
-                Legal notices: <a href="mailto:legal@poollogic.app" style={link}>legal@poollogic.app</a>
+                Legal notices: <a href="mailto:legal@getpoolnautics.com" style={link}>legal@getpoolnautics.com</a>
               </p>
             </Section>
           </article>

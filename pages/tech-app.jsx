@@ -109,7 +109,7 @@ const Hero = () => (
             maxWidth: 540,
             textWrap: 'balance',
           }}>
-            Most pool software hands the tech a form and hopes for the best. PoolLogic's app enforces what matters, calculates what's tedious, and surfaces what's drifting — so a new hire runs the route like a ten-year vet, and the report writes itself.
+            Most pool software hands the tech a form and hopes for the best. The Poolnautics app enforces what matters, calculates what's tedious, and surfaces what's drifting — so a new hire runs the route like a ten-year vet, and the report writes itself.
           </p>
           <div style={{ display: 'flex', gap: 12, marginTop: 32 }}>
             <a href="/contact" className="btn btn-accent">Get a demo</a>
@@ -414,10 +414,10 @@ const InboxMock = () => (
     <ScreenHeader kicker="Inbox preview" title="What the customer sees" />
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 4 }}>
       {[
-        { from: 'PoolLogic', subj: '⚠ Water level low · 3204 Coquina Ct', time: '4:42p', highlight: true },
-        { from: 'PoolLogic', subj: 'Service complete · 1402 Bayshore Blvd', time: 'Mon' },
-        { from: 'PoolLogic', subj: 'Filter cleaning logged · 3204 Coquina Ct', time: 'Mon' },
-        { from: 'PoolLogic', subj: 'Service complete · 614 S Rome Ave', time: 'Sun' },
+        { from: 'Poolnautics', subj: '⚠ Water level low · 3204 Coquina Ct', time: '4:42p', highlight: true },
+        { from: 'Poolnautics', subj: 'Service complete · 1402 Bayshore Blvd', time: 'Mon' },
+        { from: 'Poolnautics', subj: 'Filter cleaning logged · 3204 Coquina Ct', time: 'Mon' },
+        { from: 'Poolnautics', subj: 'Service complete · 614 S Rome Ave', time: 'Sun' },
       ].map((m, i) => (
         <div key={i} style={{
           padding: '11px 12px',

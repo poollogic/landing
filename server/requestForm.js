@@ -21,12 +21,14 @@
 //   FORM_LIMITS           KV namespace binding (required): attempt counts and lockouts
 //   RESEND_API_KEY        secret (required)
 //   NOTIFY_TO             inbox that receives every request (required)
-//   MAIL_FROM             e.g. "Jonathan Timms <jonathan@poollogic.app>" (a poollogic.app address)
+//   MAIL_FROM             e.g. "Jonathan Timms <jonathan@poollogic.app>": a domain verified in Resend
+//                         (poollogic.app until getpoolnautics.com is verified there)
 //   REPLY_TO              where replies to the confirmation go (defaults to NOTIFY_TO)
 //   RESEND_AUDIENCE_ID    optional: the Resend *segment* ID ("Waitlist") sign-ups are added to
 //                         (Resend replaced audiences with segments; the variable keeps its name)
 //   TURNSTILE_SECRET_KEY  secret: turns on the Turnstile check (strongly recommended)
-//   ALLOWED_ORIGINS       optional, comma-separated (default: poollogic.app and www)
+//   ALLOWED_ORIGINS       optional, comma-separated (default: getpoolnautics.com and the old
+//                         poollogic.app, each with www, so a page opened before the move still sends)
 //   MAIL_DRY_RUN          "1" for local testing: logs emails instead of sending them
 
 import { CUSTOMER_OPTIONS, SOFTWARE_OPTIONS, TIMING_OPTIONS, PLAN_OPTIONS } from '../formOptions.js';
@@ -41,7 +43,7 @@ export const LIMITS = {
   maxFormAgeMs: 24 * 60 * 60_000, // a page left open longer than this must be reloaded
 };
 
-const DEFAULT_ORIGINS = ['https://poollogic.app', 'https://www.poollogic.app'];
+const DEFAULT_ORIGINS = ['https://getpoolnautics.com', 'https://www.getpoolnautics.com', 'https://poollogic.app', 'https://www.poollogic.app'];
 const DEFAULT_FROM = 'Jonathan Timms <jonathan@poollogic.app>';
 const EMAIL_RE = /^[^\s@<>()[\],;:"]+@[^\s@<>()[\],;:"]+\.[a-z]{2,}$/i;
 
@@ -167,12 +169,12 @@ async function addToSegment(env, segmentId, values) {
 // ── The emails ─────────────────────────────────────────────────────────────
 function ownerEmail(kind, v, meta) {
   const lines = Object.keys(FORMS[kind].fields).filter((f) => v[f]).map((f) => `${FIELD_LABELS[f]}: ${v[f]}`);
-  const textBody = `${FORMS[kind].label} from poollogic.app\n\n${lines.join('\n')}\n\nCountry: ${meta.country || 'unknown'}\nPage: ${meta.page || 'unknown'}\n\nReply to this email to answer ${firstName(v.name)} directly.`;
+  const textBody = `${FORMS[kind].label} from getpoolnautics.com\n\n${lines.join('\n')}\n\nCountry: ${meta.country || 'unknown'}\nPage: ${meta.page || 'unknown'}\n\nReply to this email to answer ${firstName(v.name)} directly.`;
   const size = v.customers ? ` (${v.customers} customers)` : '';
   return {
     subject: oneLine(`${FORMS[kind].label}: ${v.business}${size}`, 150),
     text: textBody,
-    html: `<div style="font:15px/1.6 -apple-system,Segoe UI,sans-serif;color:#1d1d1f"><p style="margin:0 0 12px"><strong>${escapeHtml(FORMS[kind].label)}</strong> from poollogic.app</p><table style="border-collapse:collapse">${Object.keys(FORMS[kind].fields).filter((f) => v[f]).map((f) => `<tr><td style="padding:3px 16px 3px 0;color:#6e6e73;vertical-align:top">${FIELD_LABELS[f]}</td><td style="padding:3px 0;white-space:pre-wrap">${escapeHtml(v[f])}</td></tr>`).join('')}</table><p style="margin:16px 0 0;color:#6e6e73;font-size:13px">Country: ${escapeHtml(meta.country || 'unknown')} · Page: ${escapeHtml(meta.page || 'unknown')}<br>Reply to this email to answer ${escapeHtml(firstName(v.name))} directly.</p></div>`,
+    html: `<div style="font:15px/1.6 -apple-system,Segoe UI,sans-serif;color:#1d1d1f"><p style="margin:0 0 12px"><strong>${escapeHtml(FORMS[kind].label)}</strong> from getpoolnautics.com</p><table style="border-collapse:collapse">${Object.keys(FORMS[kind].fields).filter((f) => v[f]).map((f) => `<tr><td style="padding:3px 16px 3px 0;color:#6e6e73;vertical-align:top">${FIELD_LABELS[f]}</td><td style="padding:3px 0;white-space:pre-wrap">${escapeHtml(v[f])}</td></tr>`).join('')}</table><p style="margin:16px 0 0;color:#6e6e73;font-size:13px">Country: ${escapeHtml(meta.country || 'unknown')} · Page: ${escapeHtml(meta.page || 'unknown')}<br>Reply to this email to answer ${escapeHtml(firstName(v.name))} directly.</p></div>`,
   };
 }
 
@@ -190,7 +192,7 @@ const CONFIRMATIONS = {
     subject: oneLine(`Thanks, ${firstName(v.name)}. We'll be in touch`),
     paragraphs: [
       `Hi ${firstName(v.name)},`,
-      `Thanks for your interest in PoolLogic for ${endSentence(v.business)} I'll get back to you within one business day to set up a time to walk you through it on your own routes and customers.`,
+      `Thanks for your interest in Poolnautics for ${endSentence(v.business)} I'll get back to you within one business day to set up a time to walk you through it on your own routes and customers.`,
       `If anything comes up before then, just reply to this email.`,
     ],
   }),
@@ -198,7 +200,7 @@ const CONFIRMATIONS = {
     subject: 'We got your Partner Program application',
     paragraphs: [
       `Hi ${firstName(v.name)},`,
-      `Thanks for applying to the PoolLogic Partner Program. I review every application myself and will reply within 3 business days.`,
+      `Thanks for applying to the Poolnautics Partner Program. I review every application myself and will reply within 3 business days.`,
       `If you have questions in the meantime, just reply to this email.`,
     ],
   }),
@@ -206,7 +208,7 @@ const CONFIRMATIONS = {
 
 function confirmationEmail(kind, v) {
   const { subject, paragraphs } = CONFIRMATIONS[kind](v);
-  const signature = ['Jonathan Timms', 'Founder, PoolLogic', 'poollogic.app'];
+  const signature = ['Jonathan Timms', 'Founder, Poolnautics', 'getpoolnautics.com'];
   return {
     subject,
     text: `${paragraphs.join('\n\n')}\n\n${signature.join('\n')}`,

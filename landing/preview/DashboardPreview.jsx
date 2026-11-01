@@ -5,7 +5,7 @@ import PreviewSidebar from './PreviewSidebar.jsx';
 import PreviewPanel from './PreviewPanel.jsx';
 import { transitionPreviewTheme, usePreviewTheme } from './previewTheme.js';
 
-// Interactive, single-screen preview of the PoolLogic dashboard for the
+// Interactive, single-screen preview of the Poolnautics dashboard for the
 // landing hero. A picture with a few live controls: the account chip and the
 // Dark mode switch in its menu, and the (look-only) Sanitizer dropdown. The
 // theme is also set from the toggle under the preview (PreviewThemeUnder).
@@ -38,7 +38,7 @@ export default function DashboardPreview() {
   }, [menuOpen]);
 
   return (
-    <section className={`theme-scope ${theme} pl-preview`} aria-label="PoolLogic dashboard preview">
+    <section className={`theme-scope ${theme} pl-preview`} aria-label="Poolnautics dashboard preview">
       <div className="pl-frame">
         <PreviewSidebar
           menuOpen={menuOpen}

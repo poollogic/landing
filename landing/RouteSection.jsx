@@ -6,7 +6,7 @@ import CompanyMark from './CompanyMark.jsx';
 import SectionHeader from './SectionHeader.jsx';
 import './route.css';
 
-// Route acquisition, dark: how a route changes hands on PoolLogic
+// Route acquisition, dark: how a route changes hands on Poolnautics
 // (customers/handover in the app) and the route report a buyer sees. Styles in
 // route.css. All names, figures and the transfer
 // code are MOCK data; the code's shape is the app's: 8 letters and numbers,
@@ -150,7 +150,7 @@ export default function RouteSection() {
           id="route-heading"
           eyebrow="Route acquisition"
           title="Buy, sell, and transfer routes in seconds."
-          subtitle="Selling a route on PoolLogic takes one code. And because every number lives in one place, you walk into the sale knowing exactly what your route is worth."
+          subtitle="Selling a route on Poolnautics takes one code. And because every number lives in one place, you walk into the sale knowing exactly what your route is worth."
           eyebrowClassName="ra-eyebrow"
           titleClassName="ra-h2"
           subtitleClassName="ra-sub"

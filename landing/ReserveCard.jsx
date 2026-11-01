@@ -15,7 +15,7 @@ import './reserve.css';
 // Requests go to /api/request (server/requestForm.js): the owner gets an email, the person gets a
 // personal confirmation, and they join the waitlist audience. Styles: reserve.css + the hero's classes.
 
-// context: one line saying what PoolLogic is, for visitors who haven't seen the homepage (/reserve).
+// context: one line saying what Poolnautics is, for visitors who haven't seen the homepage (/reserve).
 // price: the homepage's wording. Visitors there are still browsing, so it invites them to see the
 // cost instead of asking them to reserve; the card is the same (the reserving happens in step 2).
 export function ReserveIntro({ as: Heading = 'h2', id, context = false, price = false }) {
@@ -40,7 +40,7 @@ export function ReserveIntro({ as: Heading = 'h2', id, context = false, price = 
         </>
       )}
       {context && (
-        <p className="rsv-context">PoolLogic is all-in-one software for pool service companies: routing, billing and collections.</p>
+        <p className="rsv-context">Poolnautics is all-in-one software for pool service companies: routing, billing and collections.</p>
       )}
       <FeatureList />
     </div>
@@ -209,7 +209,7 @@ export default function ReserveCard({ initialSize = '' }) {
 
               {status === 'error' && (
                 <p role="alert" className="rsv-alert">
-                  {error} You can also email us at <a href="mailto:hello@poollogic.app">hello@poollogic.app</a>.
+                  {error} You can also email us at <a href="mailto:hello@getpoolnautics.com">hello@getpoolnautics.com</a>.
                 </p>
               )}
 

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://poollogic.app/sitemap.xml
+Sitemap: https://getpoolnautics.com/sitemap.xml

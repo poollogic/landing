@@ -105,9 +105,9 @@ const Hero = () => (
     }} />
     <div className="container">
       <header style={{ textAlign: 'center', maxWidth: 760, margin: '0 auto' }}>
-        <div style={{ ...label, color: 'var(--accent)' }}>PoolLogic Partner Program</div>
+        <div style={{ ...label, color: 'var(--accent)' }}>Poolnautics Partner Program</div>
         <h1 style={{ marginTop: 16, fontSize: 'clamp(36px, 4.4vw, 56px)', letterSpacing: '-0.035em', lineHeight: 1.05, color: 'var(--ink)', textWrap: 'balance' }}>
-          Get paid when pool pros switch to PoolLogic.
+          Get paid when pool pros switch to Poolnautics.
         </h1>
         <p style={{ marginTop: 18, fontSize: 17, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 600, marginLeft: 'auto', marginRight: 'auto', textWrap: 'pretty' }}>
           For creators, trainers and industry people whose audience runs pool routes.
@@ -242,7 +242,7 @@ const HowItWorks = () => {
   const steps = [
     {
       t: 'Apply',
-      d: 'Five minutes. Tell us who you reach and how you\'d share PoolLogic. We reply within 3 business days.',
+      d: 'Five minutes. Tell us who you reach and how you\'d share Poolnautics. We reply within 3 business days.',
       icon: <I.userPlus />,
     },
     {
@@ -308,7 +308,7 @@ const WhatCounts = () => {
     <section id="what-counts" className="section" style={{ background: 'var(--bg-soft)', scrollMarginTop: 32 }}>
       <div className="container">
         <SectionHead eyebrow="What counts" title="A company that pays for a plan.">
-          A company you referred counts once it has paid for its first month on a PoolLogic plan, after its trial.
+          A company you referred counts once it has paid for its first month on a Poolnautics plan, after its trial.
           Its plan and active customers at that point set your amount. That's usually two to three months after sign-up.
         </SectionHead>
         <div style={grid(220)}>
@@ -344,7 +344,7 @@ const WhoFor = () => {
   ];
   const no = [
     'Coupon and deal sites',
-    'Paid ads on the PoolLogic name',
+    'Paid ads on the Poolnautics name',
     'Cold email or text lists',
     'Audiences of homeowners rather than pool companies',
   ];
@@ -429,8 +429,8 @@ const FAQ_ITEMS = [
     a: <>A click on your link is remembered for {PARTNER.linkDays} days on that device. Your code works any time: if someone signs up months later and types it in, the company is yours.</>,
   },
   {
-    q: 'Do existing PoolLogic customers count?',
-    a: 'No. Only new companies count, and not your own company, your employees, or a company that already has or recently closed a PoolLogic account.',
+    q: 'Do existing Poolnautics customers count?',
+    a: 'No. Only new companies count, and not your own company, your employees, or a company that already has or recently closed a Poolnautics account.',
   },
   {
     q: 'Do I have to say I\'m paid?',
@@ -442,7 +442,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Can I run ads?',
-    a: 'Not on the PoolLogic name: no bidding on "PoolLogic" or close variations in search ads, and no PoolLogic in your domain, handle or social names. Promoting your own content that mentions PoolLogic is fine.',
+    a: 'Not on the Poolnautics name: no bidding on "Poolnautics" or close variations in search ads, and no Poolnautics in your domain, handle or social names. Promoting your own content that mentions Poolnautics is fine.',
   },
   {
     q: 'Who can join?',
@@ -526,7 +526,7 @@ const Close = () => (
 
       {/* Disclosure */}
       <p style={{ marginTop: 40, fontSize: 12.5, color: 'var(--ink-5)', lineHeight: 1.6, textAlign: 'center', maxWidth: 640, marginLeft: 'auto', marginRight: 'auto', textWrap: 'pretty' }}>
-        PoolLogic partners are independent: they aren't PoolLogic employees, and they earn a referral payment when a company they refer pays for a PoolLogic plan.
+        Poolnautics partners are independent: they aren't Poolnautics employees, and they earn a referral payment when a company they refer pays for a Poolnautics plan.
         See the <a href="/partners/terms" style={{ color: 'var(--ink-3)', textDecoration: 'underline' }}>program terms</a> and the{' '}
         <a href="/partners/kit" style={{ color: 'var(--ink-3)', textDecoration: 'underline' }}>disclosure kit</a>.
       </p>

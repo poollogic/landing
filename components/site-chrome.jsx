@@ -22,7 +22,7 @@ const Nav = ({ accent }) => {
       transition: 'all .2s ease'
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64, position: 'relative' }}>
-        <a href="/" aria-label="PoolLogic — home" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+        <a href="/" aria-label="Poolnautics — home" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
           <Logo size={38} gap={6} fontSize={scrolled ? 18 : 21} hideIcon={scrolled} />
         </a>
         <div className="nav-links" style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 14, position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
@@ -65,7 +65,7 @@ const FooterLink = ({ label, href }) => (
 const Footer = () =>
 <footer className="site-footer">
     <div className="container footer-bottom">
-      <span>© {new Date().getFullYear()} PoolLogic. All rights reserved.</span>
+      <span>© {new Date().getFullYear()} Poolnautics. All rights reserved.</span>
       <span className="site-footer-links">
         <a href="/partners" className="site-footer-link">Partners</a>
         <a href="/terms" className="site-footer-link">Terms</a>

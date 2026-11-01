@@ -1,4 +1,6 @@
-# PoolLogic marketing site
+# Poolnautics marketing site
+
+Formerly PoolLogic. From launch the site is getpoolnautics.com, and poollogic.app (apex and www) 301s to it, keeping the path and query. The app still lives at app.poollogic.app (and the customer portal at portal.poollogic.app), so links and mockup address bars that point there stay as they are until the app moves.
 
 React 18 + Vite 5 + Tailwind 3, deployed to Cloudflare Pages by `.github/workflows/deploy.yml` on every push to `main`. The homepage (`/`) is `pages/landing.jsx` with its sections in `landing/`.
 

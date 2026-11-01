@@ -19,7 +19,7 @@ const PLATFORMS = [
     say: 'At the start of the mention, out loud:',
     copy: 'I get paid if you sign up with my link or code.',
     also: [
-      <>On screen at the same time: <strong>Paid partnership with PoolLogic</strong></>,
+      <>On screen at the same time: <strong>Paid partnership with Poolnautics</strong></>,
       'First line of the description, above "more": the paid-link line below',
       'Tick YouTube\'s paid-promotion box too (it isn\'t enough on its own)',
     ],
@@ -34,11 +34,11 @@ const PLATFORMS = [
     where: 'Facebook groups and newsletters',
     say: 'Start the post or the mention with:',
     copy: `Ad: I earn a commission if you sign up with my link or code: ${EXAMPLE_PAGE} (code ${EXAMPLE_CODE})`,
-    also: ['Put it before anything else you say about PoolLogic'],
+    also: ['Put it before anything else you say about Poolnautics'],
   },
   {
     where: 'Podcasts',
-    say: 'Spoken at the start of the mention, before you talk about PoolLogic:',
+    say: 'Spoken at the start of the mention, before you talk about Poolnautics:',
     copy: 'I get paid if you sign up with my link or code.',
     also: ['Put the paid-link line in the show notes too'],
   },
@@ -71,8 +71,8 @@ const NEEDS_APPROVAL = [
   '"Free processing" (Stripe\'s fees still apply)',
   'Savings figures or "you\'ll save $X"',
   'Comparisons that name a competitor',
-  'Anything implying you work for or speak for PoolLogic',
-  'Saying you use PoolLogic, if you don\'t',
+  'Anything implying you work for or speak for Poolnautics',
+  'Saying you use Poolnautics, if you don\'t',
 ];
 
 const PartnerKitPage = () => (
@@ -87,7 +87,7 @@ const PartnerKitPage = () => (
           Partner kit
         </h1>
         <p style={{ marginTop: 16, fontSize: 17, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 620 }}>
-          The exact words to use, where they go, and what you can say about PoolLogic. Every time you mention PoolLogic, say you're paid, at the start, in words. It's the law, and your audience trusts you more for it.
+          The exact words to use, where they go, and what you can say about Poolnautics. Every time you mention Poolnautics, say you're paid, at the start, in words. It's the law, and your audience trusts you more for it.
         </p>
       </header>
 
@@ -95,11 +95,11 @@ const PartnerKitPage = () => (
       <div style={{ ...card, padding: '28px', border: '1px solid var(--accent)', boxShadow: '0 12px 32px -12px rgba(59,130,246,.35)' }}>
         <div style={{ ...label, color: 'var(--accent)' }}>The one rule</div>
         <p style={{ marginTop: 10, fontSize: 15, color: 'var(--ink-3)', lineHeight: 1.6, maxWidth: 640 }}>
-          Say it at the start of the mention, in words your audience will hear or see before anything else about PoolLogic:
+          Say it at the start of the mention, in words your audience will hear or see before anything else about Poolnautics:
         </p>
         <CopyLine text="I get paid if you sign up with my link or code." big />
         <p style={{ marginTop: 12, fontSize: 13.5, color: 'var(--ink-5)', lineHeight: 1.55 }}>
-          This is for commission partners. Use "Sponsored" only when PoolLogic pays you a flat fee for a specific piece of content.
+          This is for commission partners. Use "Sponsored" only when Poolnautics pays you a flat fee for a specific piece of content.
         </p>
       </div>
 

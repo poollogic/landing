@@ -52,12 +52,12 @@ const ContactPage = () => {
       <div style={{ maxWidth: 720, marginInline: 'auto' }}>
         <header style={{ marginBottom: 32, textAlign: 'center' }}>
           <h1 style={{ fontSize: 'clamp(32px, 3.8vw, 48px)', letterSpacing: '-0.035em', lineHeight: 1.1, color: 'var(--ink)' }}>
-            {partner ? 'Apply to the Partner Program.' : 'See PoolLogic on your routes.'}
+            {partner ? 'Apply to the Partner Program.' : 'See Poolnautics on your routes.'}
           </h1>
           <p style={{ marginTop: 14, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.55, maxWidth: 560, marginLeft: 'auto', marginRight: 'auto' }}>
             {partner
-              ? <>Tell us who you reach and how you'd share PoolLogic. We reply within 3 business days. <a href="/partners" style={{ color: 'var(--accent)' }}>How the program works</a>.</>
-              : "Tell us a little about your business and we'll get back within one business day to walk you through PoolLogic on your routes, customers, and billing."}
+              ? <>Tell us who you reach and how you'd share Poolnautics. We reply within 3 business days. <a href="/partners" style={{ color: 'var(--accent)' }}>How the program works</a>.</>
+              : "Tell us a little about your business and we'll get back within one business day to walk you through Poolnautics on your routes, customers, and billing."}
           </p>
         </header>
 
@@ -93,7 +93,7 @@ const ContactPage = () => {
 
             {partner ? (
               <TextareaField
-                label="Where do you reach pool pros, and how would you share PoolLogic?"
+                label="Where do you reach pool pros, and how would you share Poolnautics?"
                 name="message"
                 placeholder="Links to your channel, group or podcast (1–3), roughly how many people you reach, and whether they run pool companies."
                 rows={5}
@@ -121,7 +121,7 @@ const ContactPage = () => {
             {status === 'error' && (
               <div style={{ fontSize: 14, color: '#B91C1C', background: '#FEF2F2', border: '1px solid #FECACA', padding: '12px 14px', borderRadius: 10 }}>
                 {errorMessage} You can reach us directly at{' '}
-                <a href="mailto:hello@poollogic.app" style={{ color: '#B91C1C', fontWeight: 600 }}>hello@poollogic.app</a>.
+                <a href="mailto:hello@getpoolnautics.com" style={{ color: '#B91C1C', fontWeight: 600 }}>hello@getpoolnautics.com</a>.
               </div>
             )}
 
@@ -231,7 +231,7 @@ const SuccessPanel = ({ partner, already, onReset }) => (
         ? "We already have your request and we'll be in touch soon. If you need us sooner, email"
         : partner
           ? "We'll reply within 3 business days about joining the Partner Program. Check your inbox for a confirmation. If you need us sooner, email"
-          : "We'll reply within one business day to set up your demo. Check your inbox for a confirmation. If you need us sooner, email"} <a href="mailto:hello@poollogic.app" style={{ color: 'var(--accent)' }}>hello@poollogic.app</a>.
+          : "We'll reply within one business day to set up your demo. Check your inbox for a confirmation. If you need us sooner, email"} <a href="mailto:hello@getpoolnautics.com" style={{ color: 'var(--accent)' }}>hello@getpoolnautics.com</a>.
     </p>
     <button onClick={onReset} className="btn btn-outline" style={{ marginTop: 24 }}>Send another message</button>
   </div>

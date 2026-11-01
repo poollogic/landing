@@ -9,7 +9,7 @@ const Icon = ({ children, size = 18, stroke = 1.75, ...rest }) => (
   </svg>
 );
 
-// User's official PoolLogic mark — drop with checkmark badge, transparent bg
+// User's official Poolnautics mark — drop with checkmark badge, transparent bg
 let __plDropCounter = 0;
 const PoolDropIcon = ({ size = 28 }) => {
   const dropId = useMemo(() => `pl-drop-${++__plDropCounter}`, []);
@@ -66,7 +66,7 @@ const Logo = ({ size = 28, plan, gap = 10, fontSize = 17, hideIcon = false }) =>
         </span>
       </span>
       <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-        <span style={{ fontWeight: 600, fontSize, letterSpacing: '-0.02em', color: 'var(--ink)', whiteSpace: 'nowrap', transition: `font-size .35s ${ease}` }}>PoolLogic</span>
+        <span style={{ fontWeight: 600, fontSize, letterSpacing: '-0.02em', color: 'var(--ink)', whiteSpace: 'nowrap', transition: `font-size .35s ${ease}` }}>Poolnautics</span>
         {plan && <span style={{ fontSize: 11, color: 'var(--ink-5)', marginTop: 2, whiteSpace: 'nowrap' }}>{plan}</span>}
       </div>
     </div>

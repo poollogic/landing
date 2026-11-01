@@ -124,7 +124,7 @@ export default function PreviewSidebar({ menuOpen, onToggleMenu, flash, chipRef,
               type="button"
               role="switch"
               aria-checked={dark}
-              aria-label="Preview PoolLogic in dark mode"
+              aria-label="Preview Poolnautics in dark mode"
               className="pl-switch"
               onClick={(e) => { e.stopPropagation(); onThemeChange(!dark); }}
             >
@@ -133,7 +133,7 @@ export default function PreviewSidebar({ menuOpen, onToggleMenu, flash, chipRef,
           </div>
           <div className="pl-menu-divider" />
           <div className="pl-menu-row" aria-hidden="true"><LogOut size={16} strokeWidth={1.75} /><span className="pl-menu-row-label">Log out</span></div>
-          <div className="pl-menu-powered" aria-hidden="true">Powered by PoolLogic</div>
+          <div className="pl-menu-powered" aria-hidden="true">Powered by Poolnautics</div>
         </div>
       </div>
       )}

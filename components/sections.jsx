@@ -553,7 +553,7 @@ const ProofChecklist = () => {
             }} />
             Live
           </span>
-          <span style={{ fontSize: 13, color: 'var(--ink-3)', fontWeight: 500 }}>What PoolLogic just did</span>
+          <span style={{ fontSize: 13, color: 'var(--ink-3)', fontWeight: 500 }}>What Poolnautics just did</span>
         </div>
         <span className="mono" style={{ fontSize: 11, color: 'var(--ink-5)' }}>auto · real-time</span>
       </div>
@@ -770,7 +770,7 @@ const NavComparison = () => {
       {/* Us */}
       <div style={{ border: '1.5px solid var(--accent)', borderRadius: 12, padding: '14px 16px', background: 'var(--bg)', position: 'relative', boxShadow: '0 8px 24px -12px color-mix(in oklab, var(--accent) 30%, transparent)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <span className="mono" style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: 600 }}>PoolLogic</span>
+          <span className="mono" style={{ fontSize: 10.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--accent)', fontWeight: 600 }}>Poolnautics</span>
           <span style={{ fontSize: 11, color: 'var(--ink-5)' }}>{ourTabs.length} tabs</span>
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -1319,7 +1319,7 @@ const JoinConnector = ({ height = 64, leftActive = true, rightActive = true }) =
 // ---------------------------------------------------------------------------
 // Slim entry-point card — eyebrow-style, sits above the trigger card.
 // Shows an icon in a soft accent square + the title, nothing else.
-// Used to indicate the two ways a new customer can land in PoolLogic.
+// Used to indicate the two ways a new customer can land in Poolnautics.
 const EntryCard = ({ icon, title }) => {
   const renderIcon = () => {
     const common = {
@@ -1551,7 +1551,7 @@ const RoutingFlow = () => {
     );
   };
 
-  // --- Icons — match the PoolLogic app sidebar style: stroke-only, soft
+  // --- Icons — match the Poolnautics app sidebar style: stroke-only, soft
   // blue, rounded line joins/caps, ~1.7px stroke at 24×24 scale, designed
   // to read clearly at 13×13 inside the card icon chip. Each glyph aligns
   // with a real screen in the app.
@@ -2588,7 +2588,7 @@ const BillingPhone = () => {
         </div>
 
         {/* Scrollable invoice content — uses the iOS system font stack
-            to match the actual PoolLogic invoice (its body uses
+            to match the actual Poolnautics invoice (its body uses
             -apple-system / BlinkMacSystemFont). */}
         <div
           className="phone-report-scroll hide-scrollbar"
@@ -3441,7 +3441,7 @@ const InvoiceContent = ({ onChoosePayment }) => {
           fontSize: 9, color: '#a8a29e',
           display: 'inline-flex', alignItems: 'center', gap: 6,
         }}>
-          <span style={{ color: '#78716c', fontWeight: 500 }}>Powered by PoolLogic</span>
+          <span style={{ color: '#78716c', fontWeight: 500 }}>Powered by Poolnautics</span>
           <span style={{ color: '#d6d3d1' }}>·</span>
           <span>Terms</span>
           <span style={{ color: '#d6d3d1' }}>·</span>
@@ -4073,7 +4073,7 @@ const ServiceReportContent = ({ onOpenMap }) => (
         <div style={{
           marginTop: 14, paddingTop: 12, borderTop: '1px solid #262626',
           color: '#525252', fontSize: 8, letterSpacing: '0.4px',
-        }}>Powered by PoolLogic</div>
+        }}>Powered by Poolnautics</div>
       </div>
     </div>
   </div>
@@ -6294,7 +6294,7 @@ const DeepDive = () => {
     label: 'Routes',
     icon: <I.map />,
     headline: 'A route plan that re-optimizes overnight.',
-    body: 'Drag a stop in, drag a tech out, and the schedule re-flows automatically. PoolLogic balances mileage, time-on-stop and customer windows so your trucks aren\'t crossing town twice.',
+    body: 'Drag a stop in, drag a tech out, and the schedule re-flows automatically. Poolnautics balances mileage, time-on-stop and customer windows so your trucks aren\'t crossing town twice.',
     bullets: [
     'Auto-optimization runs at 5 AM, every day',
     'Per-stop time tracking learns your actual minutes',
@@ -6351,7 +6351,7 @@ const DeepDive = () => {
     label: 'Service audit',
     icon: <I.shield />,
     headline: 'A 5 AM scan that catches what you can\'t.',
-    body: 'Every night, PoolLogic checks every stop from the day before — flags missed visits, missing photos, chemistry drift, and stale equipment notes. You wake up to a list, not a fire.',
+    body: 'Every night, Poolnautics checks every stop from the day before — flags missed visits, missing photos, chemistry drift, and stale equipment notes. You wake up to a list, not a fire.',
     bullets: [
     'Overnight audit across every stop, every truck',
     'Missed-stop, missing-photo, drift detection',
@@ -6507,7 +6507,7 @@ const HowItWorks = () => {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 60 }}>
           <div>
             <h2>From route plan to deposit, without you in the loop.</h2>
-            <p style={{ marginTop: 16, fontSize: 16, lineHeight: 1.55 }}>The fewer apps, sticky notes and group texts between you and a clean pool, the more pools you can serve. PoolLogic collapses the day into one flow.</p>
+            <p style={{ marginTop: 16, fontSize: 16, lineHeight: 1.55 }}>The fewer apps, sticky notes and group texts between you and a clean pool, the more pools you can serve. Poolnautics collapses the day into one flow.</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {steps.map((s, i) =>
@@ -7019,7 +7019,7 @@ const FAQ = () => {
   { q: 'Does it work without internet on the truck?', a: 'The technician app (Insight and up) works entirely offline. Every stop and every report is cached on the device and syncs the moment reception comes back.' },
   { q: 'Will you migrate my data from Skimmer or Pooltrackr?', a: 'Free migration is included for every customer, on every tier. We\'ll handle importing all your customers and walk you through any questions you may have. The app is extremely intuitive — most teams are comfortable using it from day one.' },
   { q: 'Do you charge per stop, per service, or per text?', a: 'No per-stop, per-service, or per-text fees. Core is free and covers customers and billing — you only pay a flat 1% on payments processed through Stripe. Check, cash, and external payments are always free. Insight adds routes, the technician app, and service reports, priced per tech, and cuts the platform fee to 0.5%. Vision adds AI reports and import. SMS isn\'t available yet — when it launches it\'ll be included on Vision with a fair-use limit so your number doesn\'t get flagged as spam.' },
-  { q: 'What payment processors do you support?', a: 'Stripe. All payment processing in PoolLogic runs through Stripe — connect your Stripe account once and you\'re set.' }];
+  { q: 'What payment processors do you support?', a: 'Stripe. All payment processing in Poolnautics runs through Stripe — connect your Stripe account once and you\'re set.' }];
 
   return (
     <section id="faq" className="section-divider">
@@ -7035,7 +7035,7 @@ const FAQ = () => {
           <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.6, color: 'var(--ink-4)', maxWidth: 340 }}>
             Still wondering about something? We usually answer within an hour during US business hours.
           </p>
-          <a href="mailto:support@poollogic.app" style={{
+          <a href="mailto:support@getpoolnautics.com" style={{
             marginTop: 20,
             display: 'inline-flex', alignItems: 'center', gap: 8,
             padding: '10px 16px',
@@ -7106,7 +7106,7 @@ const Migration = () => {
               Switch pool service software in hours, not weeks.
             </h3>
             <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.5, maxWidth: 500, color: 'var(--ink-4)', fontWeight: 400 }}>
-              Move your customer book, billing rules, and route history in one upload &mdash; CSV, PDF, even a screenshot. Most pool companies can be switched over to PoolLogic in a single afternoon, not a multi-week rollout like other softwares require.
+              Move your customer book, billing rules, and route history in one upload &mdash; CSV, PDF, even a screenshot. Most pool companies can be switched over to Poolnautics in a single afternoon, not a multi-week rollout like other softwares require.
             </p>
 
             <ol style={{ marginTop: 32, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -7174,7 +7174,7 @@ const ImportModalMock = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'poollogic-customer-import-template.csv';
+    a.download = 'poolnautics-customer-import-template.csv';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -7864,7 +7864,7 @@ const FinalCTA = () =>
             Built for pool service businesses
           </span>
           <h2 style={{ color: 'white', fontSize: 'clamp(26px, 3.6vw, 40px)', marginTop: 16, letterSpacing: '-0.028em', lineHeight: 1.1 }}>Stop running your business between the route and the desk.</h2>
-          <p style={{ marginTop: 16, fontSize: 15.5, color: 'rgba(255,255,255,.75)', lineHeight: 1.55, maxWidth: 520 }}>Bring your customers, routes, and invoices. We'll walk you through PoolLogic on your setup and have you running by the end of the week.</p>
+          <p style={{ marginTop: 16, fontSize: 15.5, color: 'rgba(255,255,255,.75)', lineHeight: 1.55, maxWidth: 520 }}>Bring your customers, routes, and invoices. We'll walk you through Poolnautics on your setup and have you running by the end of the week.</p>
           <div style={{ display: 'flex', gap: 10, marginTop: 28, flexWrap: 'wrap' }}>
             <a href="/contact" className="btn btn-lg" style={{ background: 'white', color: '#0A1628', border: 'none', fontWeight: 600, textDecoration: 'none' }}>Get a demo<I.arrowR /></a>
           </div>
@@ -7878,7 +7878,7 @@ const _Footer = () =>
 <footer style={{ borderTop: '1px solid var(--line)', padding: '56px 0 32px' }}>
     <div className="container footer-grid" style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr 1fr', gap: 32 }}>
       <div>
-        <a href="/" aria-label="PoolLogic — home" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
+        <a href="/" aria-label="Poolnautics — home" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
           <Logo size={32} />
         </a>
         <p style={{ fontSize: 13, marginTop: 16, maxWidth: 280, lineHeight: 1.55, color: 'var(--ink-5)' }}>The operating system for pool service. Built in St. Petersburg, FL.</p>
@@ -7898,7 +7898,7 @@ const _Footer = () =>
       </div>
       {[
     ['Product', [['Features', '#'], ['Pricing', '#'], ['Mobile app', '#'], ['Integrations', '#'], ['Changelog', '#']]],
-    ['Company', [['About', '#'], ['Customers', '#'], ['Careers', '#'], ['Press', '#'], ['Contact', 'mailto:support@poollogic.app']]],
+    ['Company', [['About', '#'], ['Customers', '#'], ['Careers', '#'], ['Press', '#'], ['Contact', 'mailto:support@getpoolnautics.com']]],
     ['Resources', [['Blog', '#'], ['Help center', '#'], ['Migration', '#'], ['Status', '#'], ['Security', '#']]],
     ['Legal', [['Terms', '/terms'], ['Privacy', '/privacy']]]].
     map(([title, links]) =>
@@ -7913,7 +7913,7 @@ const _Footer = () =>
     )}
     </div>
     <div className="container footer-bottom" style={{ marginTop: 48, paddingTop: 24, borderTop: '1px solid var(--line)', display: 'flex', justifyContent: 'space-between', fontSize: 12.5, color: 'var(--ink-5)', gap: 16, flexWrap: 'wrap' }}>
-      <span>© {new Date().getFullYear()} PoolLogic. All rights reserved.</span>
+      <span>© {new Date().getFullYear()} Poolnautics. All rights reserved.</span>
       <span>Made for pool pros, by pool pros.</span>
     </div>
   </footer>;

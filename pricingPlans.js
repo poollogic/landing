@@ -1,4 +1,4 @@
-// PoolLogic plan prices — one list for /pricing and the Partner Program's examples.
+// Poolnautics plan prices — one list for /pricing and the Partner Program's examples.
 //
 // Price per month by active (not paused) customers: [customers, Insight, Vision].
 // More than 2,500 active customers is priced individually. Paying yearly saves 25%

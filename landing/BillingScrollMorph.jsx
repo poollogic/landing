@@ -12,7 +12,7 @@ import "./preview/preview.css";
 
 /**
  * BillingScrollMorph — pinned "Billing on autopilot" section.
- *   You set it:  a MacBook shows the owner's Billing tab in the PoolLogic web app (light theme).
+ *   You set it:  a MacBook shows the owner's Billing tab in the Poolnautics web app (light theme).
  *   They get it: scrolling into the pinned section plays a 0.9s morph — the laptop switches to the
  *                customer's invoice page and the phone rises in with the same unpaid invoice.
  * The section is scroll-gated while the morph plays; anchor/nav links bypass the gate.
@@ -54,14 +54,14 @@ const RESULT_BULLETS = [
   ["Self-serve receipts & history", "Every invoice, payment and visit report in one place."],
 ];
 
-/* ---------- Laptop showing the desktop invoice (modeled on the live PoolLogic portal invoice) ---------- */
+/* ---------- Laptop showing the desktop invoice (modeled on the live Poolnautics portal invoice) ---------- */
 const AppleLogo = () => (
   <svg width="10" height="12" viewBox="0 0 10 12">
     <path fill="#111" d="M8.3 6.4c0-1.5 1.2-2.2 1.3-2.3-.7-1-1.8-1.2-2.2-1.2-.9-.1-1.8.6-2.3.6s-1.2-.5-2-.5C2 3 1 3.6.5 4.6c-1.1 1.9-.3 4.7.8 6.2.5.8 1.1 1.6 1.9 1.6.8 0 1-.5 2-.5s1.2.5 2 .5 1.3-.8 1.8-1.5c.6-.8.8-1.6.8-1.7 0 0-1.5-.6-1.5-2.8zM6.8 1.9C7.2 1.4 7.5.7 7.4 0c-.6 0-1.4.4-1.8.9-.4.4-.7 1.1-.6 1.8.7 0 1.4-.4 1.8-.8z" />
   </svg>
 );
 
-/* ---------- Pixel-faithful replica of the live PoolLogic customer portal (portal.poollogic.app) ----------
+/* ---------- Pixel-faithful replica of the live Poolnautics customer portal (portal.poollogic.app) ----------
    Rendered at a real desktop size (1680×1050) and scaled into the laptop screen, so proportions,
    whitespace and type match the actual page. Tokens copied from the live portal's computed styles.
    Requires the Inter font (Google Fonts or @fontsource/inter). Demo data is fictional. */
@@ -335,7 +335,7 @@ function DeckPicture() {
   );
 }
 
-/* ---------- Owner view: the PoolLogic web app (light theme) on app.poollogic.app ----------
+/* ---------- Owner view: the Poolnautics web app (light theme) on app.poollogic.app ----------
    Drawn as a 1280×800 Mac desktop scaled into the 592×370 screen. The web page itself is shown at
    Safari's 112% page zoom (browser chrome stays normal size) so the UI is readable at landing-page scale. */
 const APP = {
@@ -918,7 +918,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
                 Set it once. Every customer billed on their own schedule.
               </h2>
               <p className="mt-4 max-w-[500px] text-[17px] leading-relaxed text-slate-500">
-                Give each customer a rate, a first invoice date and a cadence. PoolLogic builds every recurring
+                Give each customer a rate, a first invoice date and a cadence. Poolnautics builds every recurring
                 invoice, adds chemicals and card fees, and emails it on the right day — every time. No billing runs.
                 No “Send” button.
               </p>

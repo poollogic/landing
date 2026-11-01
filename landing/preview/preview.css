@@ -1,4 +1,4 @@
-/* Landing dashboard preview — a faithful copy of the PoolLogic app's first
+/* Landing dashboard preview — a faithful copy of the Poolnautics app's first
    dashboard screen. Values mirror poollogic-web-app/src/index.css (tokens,
    :root.dark overrides, .light) and the components noted beside each block.
    The app runs Tailwind v4; this repo runs v3, whose arbitrary-colour

@@ -10,7 +10,7 @@ import './faq.css';
 const FAQS = [
   {
     q: 'How long does it take to switch?',
-    a: 'A typical customer list imports in a couple of minutes. Exports from Jobber and QuickBooks are recognized automatically; files from Skimmer, Pool Brain, Pooltrackr or any spreadsheet work too: PoolLogic suggests a match for each column and you confirm it. You set prices, billing cycles and the first invoice date as you import, and invoices go out automatically on the date you choose.',
+    a: 'A typical customer list imports in a couple of minutes. Exports from Jobber and QuickBooks are recognized automatically; files from Skimmer, Pool Brain, Pooltrackr or any spreadsheet work too: Poolnautics suggests a match for each column and you confirm it. You set prices, billing cycles and the first invoice date as you import, and invoices go out automatically on the date you choose.',
   },
   {
     q: 'What comes over when I import?',
@@ -34,15 +34,15 @@ const FAQS = [
   },
   {
     q: 'What happens when an autopay payment fails?',
-    a: 'PoolLogic retries once, 2 days later, unless the card was expired, lost or stolen. The customer is emailed both times. If the retry fails too, autopay switches off for that customer, you’re told, and the payment shows under “Payments to fix” on your dashboard.',
+    a: 'Poolnautics retries once, 2 days later, unless the card was expired, lost or stolen. The customer is emailed both times. If the retry fails too, autopay switches off for that customer, you’re told, and the payment shows under “Payments to fix” on your dashboard.',
   },
   {
     q: 'Can I pass card fees on to customers?',
-    a: 'Yes, on Insight and Vision. You set the surcharge, up to 3% and lower where state law requires it (2% in Colorado and Oklahoma, 2.9% in New York and New Jersey). It’s switched off where card fees aren’t allowed: Connecticut, Massachusetts, Maine, Puerto Rico and California. PoolLogic takes credit cards only; customers with a debit card pay by bank transfer (ACH).',
+    a: 'Yes, on Insight and Vision. You set the surcharge, up to 3% and lower where state law requires it (2% in Colorado and Oklahoma, 2.9% in New York and New Jersey). It’s switched off where card fees aren’t allowed: Connecticut, Massachusetts, Maine, Puerto Rico and California. Poolnautics takes credit cards only; customers with a debit card pay by bank transfer (ACH).',
   },
   {
     q: 'Does it chase late payments?',
-    a: 'Yes. Overdue reminders are automatic on every plan, starting the day after an invoice is due. You can also have late fees added automatically after a grace period, never twice. On Vision, PoolLogic can pause service for overdue accounts and resume it once they pay.',
+    a: 'Yes. Overdue reminders are automatic on every plan, starting the day after an invoice is due. You can also have late fees added automatically after a grace period, never twice. On Vision, Poolnautics can pause service for overdue accounts and resume it once they pay.',
   },
   {
     q: 'Does the technician app work without signal?',
@@ -62,7 +62,7 @@ const FAQS = [
   },
   {
     q: 'How does selling a route work?',
-    a: 'Send the customers to the buyer’s PoolLogic account and give them the 8-character transfer code, which works for 7 days. They get each customer’s details, equipment, notes, price, service days and every visit report. Billing history, saved cards, bank accounts and photos stay with you.',
+    a: 'Send the customers to the buyer’s Poolnautics account and give them the 8-character transfer code, which works for 7 days. They get each customer’s details, equipment, notes, price, service days and every visit report. Billing history, saved cards, bank accounts and photos stay with you.',
   },
 ];
 

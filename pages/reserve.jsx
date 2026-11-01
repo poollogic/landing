@@ -11,7 +11,7 @@ import { Footer } from '../components/site-chrome.jsx';
 // section (landing/ReserveCard.jsx), so both always match. A link with ?size= (a size already
 // picked) opens the card on step 2. The section is the homepage hero's (.hero: its glow).
 // Differences from the homepage section, for visitors who came here to reserve: a focused header
-// (Nav focused), a line on what PoolLogic is (context), and on one-column screens the card right
+// (Nav focused), a line on what Poolnautics is (context), and on one-column screens the card right
 // after the heading, before the checked points (reserve.css .rsv-hero).
 
 export default function ReservePage() {

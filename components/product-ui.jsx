@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { I, Logo } from './icons.jsx';
 
-// Recreates the PoolLogic Customer Directory shown in the brief screenshot.
+// Recreates the Poolnautics Customer Directory shown in the brief screenshot.
 // Used as the hero product visual and as fragments in feature sections.
 
 const SidebarItem = ({ icon, label, active, badge }) => (
@@ -936,7 +936,7 @@ const ServiceReportCard = () => (
         border: '1px solid color-mix(in oklab, var(--accent) 16%, transparent)',
       }}><I.droplet/></div>
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ fontSize: 10.5, color: '#71717a', fontFamily: "'Geist Mono', monospace" }}>noreply@poollogic.io</div>
+        <div style={{ fontSize: 10.5, color: '#71717a', fontFamily: "'Geist Mono', monospace" }}>noreply@getpoolnautics.com</div>
         <div style={{ fontSize: 11.5, fontWeight: 500, color: '#18181b', marginTop: 1 }}>Service report — 3204 Coquina Ct</div>
       </div>
       <div style={{ fontSize: 10, color: '#a1a1aa', fontFamily: "'Geist Mono', monospace" }}>4:42 PM</div>

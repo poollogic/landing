@@ -1,4 +1,4 @@
-// PoolLogic Partner Program — every number and offer line in one place.
+// Poolnautics Partner Program — every number and offer line in one place.
 //
 // /partners, /partners/terms and /partners/kit all read from this file, so
 // changing a number here changes it everywhere on the site. Plan prices come
@@ -27,7 +27,7 @@ export const PARTNER = {
   termsDraft: true,
 
   // ── Contact and apply ────────────────────────────────────────────────────
-  email: 'partners@poollogic.app',
+  email: 'partners@getpoolnautics.com',
   // The apply form is a later phase; until then Apply goes to the contact form.
   applyHref: '/contact?topic=partner',
 
@@ -56,7 +56,7 @@ export const PARTNER = {
 
   // ── Links and codes ──────────────────────────────────────────────────────
   linkDays: 90, // how long a click on a partner's link is remembered
-  pageBase: 'poollogic.app/with/', // a partner's own page: poollogic.app/with/<handle>
+  pageBase: 'getpoolnautics.com/with/', // a partner's own page: getpoolnautics.com/with/<handle>
 
   // ── What the partner's audience gets ────────────────────────────────────
   // Everyone gets the 30-day trial; a partner's code adds 10% off the first paid
@@ -89,7 +89,7 @@ export const payoutRange = () => {
 };
 
 // What makes a company count as having left.
-export const leftLine = () => 'it stops paying for its plan, cancels, or closes its PoolLogic account';
+export const leftLine = () => 'it stops paying for its plan, cancels, or closes its Poolnautics account';
 
 // The audience trial, in words.
 export const perkLine = () => `${PARTNER.perk.percentOff}% off their first paid month`;

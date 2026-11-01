@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 // Privacy Policy — starter content. Review with counsel before publishing.
 // Find-and-replace placeholders if needed:
-//   PoolLogic          legal entity name
-//   Florida                 governing state
-//   October 27, 2026        updated date
-//   privacy@poollogic.app   contact email
+//   [company legal name]          the business behind Poolnautics: fill before launch (e.g.
+//                                 "Jonathan Timms, doing business as Poolnautics" or an LLC)
+//   Florida                       governing state
+//   October 27, 2026              updated date
+//   privacy@getpoolnautics.com    contact email
 //
 // Subprocessors listed below reflect the current stack — confirm before going live
 // and update if hosting/database/email providers change.
@@ -59,12 +60,12 @@ const PrivacyPage = () => {
             Privacy Policy
           </h1>
           <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.6, maxWidth: 640 }}>
-            How PoolLogic collects, uses, and protects information from the pool service businesses that use our software and the customers they serve.
+            How Poolnautics collects, uses, and protects information from the pool service businesses that use our software and the customers they serve.
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> October 27, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> PoolLogic</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> [company legal name]</span>
           </div>
         </header>
 
@@ -97,16 +98,16 @@ const PrivacyPage = () => {
           {/* Body */}
           <article style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-3)' }}>
             <Section id="scope" title="1. Who This Applies To">
-              <p>This Privacy Policy describes how PoolLogic ("we," "our," or "us") handles personal information in two distinct roles:</p>
+              <p>This Privacy Policy describes how [company legal name] ("Poolnautics," "we," "our," or "us") handles personal information in two distinct roles:</p>
               <ul>
-                <li><strong>For Subscribers</strong> — the pool service businesses who hold accounts with us — PoolLogic acts as a <em>data controller</em>. We decide how and why your account information is collected and used.</li>
-                <li><strong>For End Customers</strong> — the homeowners and property managers whose information is entered into PoolLogic by a Subscriber — PoolLogic acts as a <em>data processor</em>. The Subscriber is the data controller and decides how that information is used. We process End Customer data only on the Subscriber's behalf and according to their instructions.</li>
+                <li><strong>For Subscribers</strong> — the pool service businesses who hold accounts with us — Poolnautics acts as a <em>data controller</em>. We decide how and why your account information is collected and used.</li>
+                <li><strong>For End Customers</strong> — the homeowners and property managers whose information is entered into Poolnautics by a Subscriber — Poolnautics acts as a <em>data processor</em>. The Subscriber is the data controller and decides how that information is used. We process End Customer data only on the Subscriber's behalf and according to their instructions.</li>
               </ul>
-              <p>If you are an End Customer with a privacy question or request, please contact the pool service company that holds your account. We forward any direct requests we receive to the relevant Subscriber. To stop receiving non-essential SMS messages sent through PoolLogic on a Subscriber's behalf, reply <strong>STOP</strong> to any such message (reply <strong>HELP</strong> for support); we will honor the opt-out and forward it to the Subscriber.</p>
+              <p>If you are an End Customer with a privacy question or request, please contact the pool service company that holds your account. We forward any direct requests we receive to the relevant Subscriber. To stop receiving non-essential SMS messages sent through Poolnautics on a Subscriber's behalf, reply <strong>STOP</strong> to any such message (reply <strong>HELP</strong> for support); we will honor the opt-out and forward it to the Subscriber.</p>
 
               <h3 style={subHeadStyle}>Our Role Under U.S. State Privacy Laws (CCPA / CPRA and Similar)</h3>
-              <p>For purposes of the California Consumer Privacy Act, as amended ("CCPA"), and analogous comprehensive privacy laws in other U.S. states, each Subscriber is the "business" with respect to the personal information of its End Customers, and PoolLogic is a "service provider" (or, where the applicable state uses different terminology, a "processor" or "contractor"). We process End Customer personal information only on the Subscriber's documented instructions and only for the limited and specified purposes set out in our agreement with the Subscriber and this Privacy Policy.</p>
-              <p>As a service provider, we will not: (a) sell or share End Customer personal information; (b) retain, use, or disclose it for any purpose other than the business purposes specified in our agreement or as otherwise permitted by the CCPA; (c) retain, use, or disclose it outside of the direct business relationship between PoolLogic and the Subscriber; or (d) combine it with personal information we receive from or on behalf of any other source, except as permitted by Cal. Civ. Code § 1798.140(ag)(1) (for example, to detect security incidents or fraud). We assist Subscribers in responding to verified consumer rights requests through (i) self-serve in-app export of customer records, invoices, and service history; (ii) self-serve in-app deletion of End Customer records on Subscriber request; and (iii) a privacy support channel at <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a> for requests the in-app tools do not cover. We will respond to a Subscriber's privacy support request within the timeframe reasonably needed to meet the Subscriber's own statutory response deadline.</p>
+              <p>For purposes of the California Consumer Privacy Act, as amended ("CCPA"), and analogous comprehensive privacy laws in other U.S. states, each Subscriber is the "business" with respect to the personal information of its End Customers, and Poolnautics is a "service provider" (or, where the applicable state uses different terminology, a "processor" or "contractor"). We process End Customer personal information only on the Subscriber's documented instructions and only for the limited and specified purposes set out in our agreement with the Subscriber and this Privacy Policy.</p>
+              <p>As a service provider, we will not: (a) sell or share End Customer personal information; (b) retain, use, or disclose it for any purpose other than the business purposes specified in our agreement or as otherwise permitted by the CCPA; (c) retain, use, or disclose it outside of the direct business relationship between Poolnautics and the Subscriber; or (d) combine it with personal information we receive from or on behalf of any other source, except as permitted by Cal. Civ. Code § 1798.140(ag)(1) (for example, to detect security incidents or fraud). We assist Subscribers in responding to verified consumer rights requests through (i) self-serve in-app export of customer records, invoices, and service history; (ii) self-serve in-app deletion of End Customer records on Subscriber request; and (iii) a privacy support channel at <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a> for requests the in-app tools do not cover. We will respond to a Subscriber's privacy support request within the timeframe reasonably needed to meet the Subscriber's own statutory response deadline.</p>
             </Section>
 
             <Section id="data-collected" title="2. What Data We Collect">
@@ -117,7 +118,7 @@ const PrivacyPage = () => {
                 <li><strong>Usage data:</strong> features used, pages visited, IP address, browser and device characteristics, sign-in timestamps, and other operational metadata.</li>
               </ul>
 
-              <h3 style={subHeadStyle}>From End Customers (entered by Subscribers, stored by PoolLogic)</h3>
+              <h3 style={subHeadStyle}>From End Customers (entered by Subscribers, stored by Poolnautics)</h3>
               <ul>
                 <li>Name, email address, phone number, service address, billing address.</li>
                 <li>Saved payment method metadata only — card brand, last four digits, expiry date. <strong>The full card lives on Stripe</strong>; we receive only the non-sensitive metadata Stripe returns after a save-card flow.</li>
@@ -196,11 +197,11 @@ const PrivacyPage = () => {
             <Section id="security" title="7. Data Security">
               <p>We take reasonable technical and organizational measures to protect personal information, including:</p>
               <ul>
-                <li>HTTPS / TLS 1.2+ encryption for all traffic between users and PoolLogic.</li>
-                <li>Stripe handles all sensitive cardholder data in a PCI-DSS Level 1 compliant environment. <strong>PoolLogic never sees or stores full card numbers.</strong></li>
+                <li>HTTPS / TLS 1.2+ encryption for all traffic between users and Poolnautics.</li>
+                <li>Stripe handles all sensitive cardholder data in a PCI-DSS Level 1 compliant environment. <strong>Poolnautics never sees or stores full card numbers.</strong></li>
                 <li>Database encryption at rest, provided by our database host.</li>
                 <li>Row-level access controls so that staff at one Subscriber's organization cannot access another Subscriber's customer data.</li>
-                <li>Internal access restrictions — only authorized PoolLogic personnel can access systems containing personal information, and only for legitimate operational reasons.</li>
+                <li>Internal access restrictions — only authorized Poolnautics personnel can access systems containing personal information, and only for legitimate operational reasons.</li>
               </ul>
               <p>No security measure is absolute. We cannot guarantee that personal information will never be compromised, but we work continuously to reduce risk.</p>
             </Section>
@@ -230,10 +231,10 @@ const PrivacyPage = () => {
             </Section>
 
             <Section id="end-customer-rights" title="11. End Customer Rights">
-              <p>If you are an End Customer (a homeowner or property manager receiving services from a Subscriber who uses PoolLogic):</p>
+              <p>If you are an End Customer (a homeowner or property manager receiving services from a Subscriber who uses Poolnautics):</p>
               <ul>
                 <li>The Subscriber — the pool service company — is the controller of your personal information. To request access, correction, deletion, or export of your data, please contact them directly.</li>
-                <li>If you contact PoolLogic with such a request, we will forward it to the relevant Subscriber within a reasonable time and assist them in fulfilling it.</li>
+                <li>If you contact Poolnautics with such a request, we will forward it to the relevant Subscriber within a reasonable time and assist them in fulfilling it.</li>
                 <li>Where required by law (including under the GDPR, CCPA, or similar regimes), you have rights to access, correct, delete, restrict, or port your personal data, and to object to certain processing.</li>
               </ul>
             </Section>
@@ -245,9 +246,9 @@ const PrivacyPage = () => {
                 <li>Export their customer records, invoices, and other account data through the in-app export feature.</li>
                 <li>Correct or update inaccurate account information.</li>
                 <li>Delete their account, which begins the 90-day deletion window described in Section 10.</li>
-                <li><strong>Unsubscribe from marketing communications</strong> at any time by using the unsubscribe link in any marketing email or by contacting <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a>. Transactional and account-security messages reasonably required to operate the Service cannot be opted out of as long as your account is active.</li>
+                <li><strong>Unsubscribe from marketing communications</strong> at any time by using the unsubscribe link in any marketing email or by contacting <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>. Transactional and account-security messages reasonably required to operate the Service cannot be opted out of as long as your account is active.</li>
               </ul>
-              <p>To exercise any of these rights, contact us at <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a> or use the relevant in-app controls.</p>
+              <p>To exercise any of these rights, contact us at <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a> or use the relevant in-app controls.</p>
             </Section>
 
             <Section id="state-rights" title="13. Your State-Specific Privacy Rights">
@@ -267,7 +268,7 @@ const PrivacyPage = () => {
               <p>We do not knowingly collect "sensitive personal information" as defined under the CCPA, other than financial-account identifiers required to process payment, which Stripe handles directly. We do not use personal information for cross-context behavioral advertising.</p>
               <p><strong>Retention.</strong> We retain each category of personal information for the periods described in Section 10 (Data Retention), or for the criteria described in that Section where a fixed period cannot be stated in advance (for example, "for as long as the Subscriber's account is active"). These periods are based on the operational need to provide the service, applicable legal and tax record-keeping obligations, and the criteria set out in Cal. Civ. Code § 1798.100(a)(3).</p>
 
-              <p>If you are a resident of <strong>California, Colorado, Connecticut, Delaware, Florida, Indiana, Iowa, Kentucky, Maryland, Montana, Nebraska, New Hampshire, New Jersey, Oregon, Rhode Island, Tennessee, Texas, Utah, or Virginia</strong>, you have rights under your state's comprehensive privacy law. To exercise these rights, contact <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a>. We will verify your identity before fulfilling a request and respond within the timeframe required by applicable law.</p>
+              <p>If you are a resident of <strong>California, Colorado, Connecticut, Delaware, Florida, Indiana, Iowa, Kentucky, Maryland, Montana, Nebraska, New Hampshire, New Jersey, Oregon, Rhode Island, Tennessee, Texas, Utah, or Virginia</strong>, you have rights under your state's comprehensive privacy law. To exercise these rights, contact <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>. We will verify your identity before fulfilling a request and respond within the timeframe required by applicable law.</p>
               <p>For End Customer data entered by a Subscriber, the Subscriber is the controller. Direct your requests to them; we will assist where required by law.</p>
               <p><strong>We do not sell personal information.</strong> We do not engage in cross-context behavioral advertising or in "sharing" of personal information as those terms are defined under California law (Cal. Civ. Code § 1798.140).</p>
               <p><strong>California "Shine the Light" (Cal. Civ. Code § 1798.83).</strong> California residents may request information about disclosures of personal information to third parties for direct-marketing purposes. We do not currently make such disclosures.</p>
@@ -276,16 +277,16 @@ const PrivacyPage = () => {
             </Section>
 
             <Section id="children" title="14. Children">
-              <p>PoolLogic is not directed to, and we do not knowingly collect personal information from, anyone under 18 years of age. If you believe a minor has provided personal information to PoolLogic, please contact us and we will take steps to delete it.</p>
+              <p>Poolnautics is not directed to, and we do not knowingly collect personal information from, anyone under 18 years of age. If you believe a minor has provided personal information to Poolnautics, please contact us and we will take steps to delete it.</p>
             </Section>
 
             <Section id="international" title="15. International Transfers">
-              <p>PoolLogic is operated from the United States and our service is currently offered to U.S.-based pool service businesses. If you access the service from outside the United States, personal information you provide will be transferred to and processed in the U.S., where data-protection laws may differ from those of your country.</p>
-              <p>Where international transfers occur and a legal mechanism is required, we rely on the appropriate framework. For transfers from the European Economic Area or Switzerland, we rely on the European Commission's <strong>Standard Contractual Clauses</strong> (Commission Implementing Decision (EU) 2021/914). For transfers from the United Kingdom, we rely on the SCCs as supplemented by the <strong>UK International Data Transfer Addendum</strong> issued by the UK Information Commissioner's Office. We do not currently participate in the EU-US, UK-US, or Swiss-US Data Privacy Framework. You may request a copy of the relevant transfer mechanism for your transfer by contacting <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a>.</p>
+              <p>Poolnautics is operated from the United States and our service is currently offered to U.S.-based pool service businesses. If you access the service from outside the United States, personal information you provide will be transferred to and processed in the U.S., where data-protection laws may differ from those of your country.</p>
+              <p>Where international transfers occur and a legal mechanism is required, we rely on the appropriate framework. For transfers from the European Economic Area or Switzerland, we rely on the European Commission's <strong>Standard Contractual Clauses</strong> (Commission Implementing Decision (EU) 2021/914). For transfers from the United Kingdom, we rely on the SCCs as supplemented by the <strong>UK International Data Transfer Addendum</strong> issued by the UK Information Commissioner's Office. We do not currently participate in the EU-US, UK-US, or Swiss-US Data Privacy Framework. You may request a copy of the relevant transfer mechanism for your transfer by contacting <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>.</p>
             </Section>
 
             <Section id="business-transfers" title="16. Business Transfers">
-              <p>If PoolLogic is involved in a merger, acquisition, reorganization, bankruptcy, financing, or sale of all or a portion of its assets, personal information may be transferred to or accessed by the acquirer or successor entity as part of the transaction. We will notify affected Subscribers and post a notice on this page if such a transfer would materially change how personal information is handled. Any successor entity will be bound by this Privacy Policy with respect to personal information collected before the transfer, unless and until a new policy is published and notice is given.</p>
+              <p>If Poolnautics is involved in a merger, acquisition, reorganization, bankruptcy, financing, or sale of all or a portion of its assets, personal information may be transferred to or accessed by the acquirer or successor entity as part of the transaction. We will notify affected Subscribers and post a notice on this page if such a transfer would materially change how personal information is handled. Any successor entity will be bound by this Privacy Policy with respect to personal information collected before the transfer, unless and until a new policy is published and notice is given.</p>
             </Section>
 
             <Section id="changes" title="17. Changes to This Policy">
@@ -295,8 +296,8 @@ const PrivacyPage = () => {
             <Section id="contact" title="18. Contact">
               <p>For privacy questions, complaints, or requests, contact us at:</p>
               <p style={{ marginTop: 12 }}>
-                <strong style={{ color: 'var(--ink-2)' }}>PoolLogic</strong><br/>
-                <a href="mailto:privacy@poollogic.app" style={{ color: 'var(--accent)' }}>privacy@poollogic.app</a>
+                <strong style={{ color: 'var(--ink-2)' }}>Poolnautics</strong><br/>
+                <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>
               </p>
             </Section>
           </article>

@@ -37,65 +37,65 @@ const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/te
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 const isLandingPath = (p) => p === '/landing' || p === '/landing/';
 
-const SITE_ORIGIN = 'https://poollogic.app';
+const SITE_ORIGIN = 'https://getpoolnautics.com';
 
 const ROUTE_META = {
   home: {
-    title: 'PoolLogic — Pool Service Software That Runs on Autopilot',
+    title: 'Poolnautics — Pool Service Software That Runs on Autopilot',
     description: 'Pool service software that bills on schedule, collects by autopay and flags failed payments before they cost you. Switch from Skimmer or QuickBooks in minutes.',
-    ogTitle: 'PoolLogic — The End of Pool Company Chaos',
+    ogTitle: 'Poolnautics — The End of Pool Company Chaos',
     ogDescription: 'Routes, autopay billing and revenue protection in one app built for pool pros. Import your customer list in under 2 minutes.',
     path: '/',
   },
   pricing: {
-    title: 'Pricing — PoolLogic',
-    description: 'PoolLogic pricing: Insight from $99/mo and Vision from $159/mo (25% off billed yearly), priced by active customers with unlimited technicians and office staff. 30-day free trial, no card required.',
+    title: 'Pricing — Poolnautics',
+    description: 'Poolnautics pricing: Insight from $99/mo and Vision from $159/mo (25% off billed yearly), priced by active customers with unlimited technicians and office staff. 30-day free trial, no card required.',
     path: '/pricing',
   },
   reserve: {
-    title: 'Reserve your spot — PoolLogic',
-    description: 'PoolLogic brings on new pool companies in small groups, so every route is set up right. Reserve your spot in the next group.',
+    title: 'Reserve your spot — Poolnautics',
+    description: 'Poolnautics brings on new pool companies in small groups, so every route is set up right. Reserve your spot in the next group.',
     path: '/reserve',
   },
   techApp: {
-    title: 'Tech app — PoolLogic',
-    description: 'The PoolLogic tech app: routes, chemistry logging, GPS-verified service reports, and equipment notes from the field.',
+    title: 'Tech app — Poolnautics',
+    description: 'The Poolnautics tech app: routes, chemistry logging, GPS-verified service reports, and equipment notes from the field.',
     path: '/tech-app',
   },
   contact: {
-    title: 'Get a demo — PoolLogic',
-    description: 'Talk to PoolLogic. Book a demo or ask a question about pool service software for your route.',
+    title: 'Get a demo — Poolnautics',
+    description: 'Talk to Poolnautics. Book a demo or ask a question about pool service software for your route.',
     path: '/contact',
   },
   terms: {
-    title: 'Terms of Service — PoolLogic',
-    description: 'PoolLogic terms of service.',
+    title: 'Terms of Service — Poolnautics',
+    description: 'Poolnautics terms of service.',
     path: '/terms',
   },
   privacy: {
-    title: 'Privacy Policy — PoolLogic',
-    description: 'PoolLogic privacy policy.',
+    title: 'Privacy Policy — Poolnautics',
+    description: 'Poolnautics privacy policy.',
     path: '/privacy',
   },
   partners: {
-    title: 'Partner Program — PoolLogic',
-    description: `Get paid when pool pros switch to PoolLogic: a flat ${payoutRange()} for every company you refer, set by its plan and size.`,
+    title: 'Partner Program — Poolnautics',
+    description: `Get paid when pool pros switch to Poolnautics: a flat ${payoutRange()} for every company you refer, set by its plan and size.`,
     path: '/partners',
   },
   partnerTerms: {
-    title: 'Partner Program Terms — PoolLogic',
-    description: 'The terms of the PoolLogic Partner Program: referrals, what you earn per paying technician, payouts, disclosure and what partners may not do.',
+    title: 'Partner Program Terms — Poolnautics',
+    description: 'The terms of the Poolnautics Partner Program: referrals, what you earn per paying technician, payouts, disclosure and what partners may not do.',
     path: '/partners/terms',
   },
   partnerKit: {
-    title: 'Partner kit — PoolLogic',
-    description: 'The PoolLogic partner disclosure kit: the exact words to use on each platform, and what partners can and can\'t say.',
+    title: 'Partner kit — Poolnautics',
+    description: 'The Poolnautics partner disclosure kit: the exact words to use on each platform, and what partners can and can\'t say.',
     path: '/partners/kit',
   },
   // The previous homepage, kept at /landing and out of search results.
   landing: {
-    title: 'PoolLogic — Pool service software for routes, billing, and reports',
-    description: 'PoolLogic is pool service software for routes, chemistry tracking, branded service reports, and billing — one app your techs can run from day one.',
+    title: 'Poolnautics — Pool service software for routes, billing, and reports',
+    description: 'Poolnautics is pool service software for routes, chemistry tracking, branded service reports, and billing — one app your techs can run from day one.',
     path: '/landing',
     robots: 'noindex,follow',
   },

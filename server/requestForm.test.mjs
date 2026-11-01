@@ -30,7 +30,7 @@ const good = (over = {}) => ({
   kind: 'waitlist', name: 'Mike Rivera', business: 'Bayside Pool Co.', email: 'Mike@Example.com', phone: '(555) 010-0000',
   customers: '251–500', software: 'Skimmer', timing: 'In the next month', message: 'Hi', startedAt: NOW - 20_000, company_website: '', ...over,
 });
-const req = (body, { origin = 'https://poollogic.app', ip = '203.0.113.7' } = {}) => new Request('https://poollogic.app/api/request', {
+const req = (body, { origin = 'https://getpoolnautics.com', ip = '203.0.113.7' } = {}) => new Request('https://getpoolnautics.com/api/request', {
   method: 'POST', headers: { origin, 'cf-connecting-ip': ip, 'content-type': 'application/json' }, body: JSON.stringify(body),
 });
 const call = async (body, e, opts) => { const r = await handleFormRequest(req(body, opts), e, NOW); return { status: r.status, data: await r.json() }; };
@@ -55,6 +55,10 @@ test('an existing contact is added to the Waitlist segment instead', async () =>
   assert.equal((await call(good(), env())).status, 200);
   assert.match(sent[3].url, /\/contacts\/mike%40example\.com\/segments\/aud$/);
   assert.equal(sent[3].body, null);
+});
+
+test('still accepts the old poollogic.app origin, for pages opened before the move', async () => {
+  assert.equal((await call(good(), env(), { origin: 'https://www.poollogic.app' })).status, 200);
 });
 
 test('rejects other origins and missing origin', async () => {

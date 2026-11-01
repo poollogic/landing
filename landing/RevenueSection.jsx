@@ -19,12 +19,12 @@ const FEATURES = [
   {
     n: '01',
     title: 'Nothing Slips Through the Cracks',
-    body: 'A card fails on autopay? An invoice goes past due? PoolLogic puts it at the top of your dashboard with one tap to fix it, and automatically sends overdue reminders to customers for you.',
+    body: 'A card fails on autopay? An invoice goes past due? Poolnautics puts it at the top of your dashboard with one tap to fix it, and automatically sends overdue reminders to customers for you.',
   },
   {
     n: '02',
     title: 'Late Fees on Autopilot',
-    body: 'Set a flat or percentage fee and a grace period once. PoolLogic adds it in the daily billing run. No awkward phone calls.',
+    body: 'Set a flat or percentage fee and a grace period once. Poolnautics adds it in the daily billing run. No awkward phone calls.',
   },
   {
     n: '03',
@@ -165,7 +165,7 @@ export default function RevenueSection() {
             <span className="rv-h2-a">Stop trading your free time</span>{' '}
             <span className="rv-h2-b">to customers who choose to ignore their invoices.</span>
           </>}
-          subtitle="You didn’t start a business to act as a full-time debt collector—so let PoolLogic play the bad guy. Automate your financial SOPs so everyone is treated fairly and you get your time back. From tracking forgotten chemical charges to automatically deploying late fees and pausing service for non-payers, the system enforces your rules flawlessly. Stop sending awkward texts and let the software get your accounts in line."
+          subtitle="You didn’t start a business to act as a full-time debt collector—so let Poolnautics play the bad guy. Automate your financial SOPs so everyone is treated fairly and you get your time back. From tracking forgotten chemical charges to automatically deploying late fees and pausing service for non-payers, the system enforces your rules flawlessly. Stop sending awkward texts and let the software get your accounts in line."
           eyebrowClassName="text-[#FF0036]"
           subtitleClassName="text-[#94a3b8]"
         />
