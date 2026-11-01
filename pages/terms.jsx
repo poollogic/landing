@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 // Terms of Service — starter content. Review with counsel before publishing.
 // Find-and-replace placeholders if needed:
-//   [company legal name]          the business behind Poolnautics: fill before launch (e.g.
-//                                 "Jonathan Timms, doing business as Poolnautics" or an LLC)
+//   Poolnautics LLC               the business behind Poolnautics (a Florida LLC): launch only once
+//                                 it's active on sunbiz.org, spelled exactly as filed
 //   Florida                       governing state
 //   October 27, 2026              updated date
 //   legal@getpoolnautics.com      general legal contact email
@@ -68,7 +68,7 @@ const TermsPage = () => {
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> October 27, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> [company legal name]</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
         </header>
 
@@ -101,7 +101,7 @@ const TermsPage = () => {
           {/* Body */}
           <article style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-3)' }}>
             <Section id="acceptance" title="1. Acceptance & Who This Applies To">
-              <p>These Terms of Service ("Terms") form a binding agreement between you and [company legal name] ("Poolnautics," "we," "our," or "us"). They apply to two distinct types of users:</p>
+              <p>These Terms of Service ("Terms") form a binding agreement between you and Poolnautics LLC ("Poolnautics," "we," "our," or "us"). They apply to two distinct types of users:</p>
               <ul>
                 <li><strong>Subscribers</strong> — pool service businesses that create a Poolnautics account to manage their customers, routes, invoicing, and operations.</li>
                 <li><strong>End Customers</strong> — homeowners or property managers who receive invoices, estimates, or service reports from a Subscriber through Poolnautics.</li>

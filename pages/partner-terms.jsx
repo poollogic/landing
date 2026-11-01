@@ -77,7 +77,7 @@ const PartnerTermsPage = () => {
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Version:</strong> {PARTNER.termsVersion}</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> when you accept them</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> {PARTNER.termsUpdated}</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> [company legal name]</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
         </header>
 
@@ -110,7 +110,7 @@ const PartnerTermsPage = () => {
           {/* Body */}
           <article style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-3)' }}>
             <Section id="about" title="1. About These Terms">
-              <p>These Partner Program Terms ("Partner Terms") form a binding agreement between you ("Partner," "you") and [company legal name] ("Poolnautics," "we," "our," or "us"). You accept them when you click to accept them, sign them, or first share a Poolnautics partner link or code after we approve you. We record the version you accepted ({PARTNER.termsVersion} for this one) and when.</p>
+              <p>These Partner Program Terms ("Partner Terms") form a binding agreement between you ("Partner," "you") and Poolnautics LLC ("Poolnautics," "we," "our," or "us"). You accept them when you click to accept them, sign them, or first share a Poolnautics partner link or code after we approve you. We record the version you accepted ({PARTNER.termsVersion} for this one) and when.</p>
               <p>If we agree different numbers with you in writing (a "custom offer"), the custom offer's numbers replace the standard ones below; everything else in these Partner Terms still applies.</p>
               <p>These Partner Terms are separate from the Poolnautics <a href="/terms" style={link}>Terms of Service</a>. If you also run a pool company on Poolnautics, the Terms of Service govern that account.</p>
             </Section>

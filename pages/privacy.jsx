@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 // Privacy Policy — starter content. Review with counsel before publishing.
 // Find-and-replace placeholders if needed:
-//   [company legal name]          the business behind Poolnautics: fill before launch (e.g.
-//                                 "Jonathan Timms, doing business as Poolnautics" or an LLC)
+//   Poolnautics LLC               the business behind Poolnautics (a Florida LLC): launch only once
+//                                 it's active on sunbiz.org, spelled exactly as filed
 //   Florida                       governing state
 //   October 27, 2026              updated date
 //   privacy@getpoolnautics.com    contact email
@@ -65,7 +65,7 @@ const PrivacyPage = () => {
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> October 27, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> [company legal name]</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
         </header>
 
@@ -98,7 +98,7 @@ const PrivacyPage = () => {
           {/* Body */}
           <article style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-3)' }}>
             <Section id="scope" title="1. Who This Applies To">
-              <p>This Privacy Policy describes how [company legal name] ("Poolnautics," "we," "our," or "us") handles personal information in two distinct roles:</p>
+              <p>This Privacy Policy describes how Poolnautics LLC ("Poolnautics," "we," "our," or "us") handles personal information in two distinct roles:</p>
               <ul>
                 <li><strong>For Subscribers</strong> — the pool service businesses who hold accounts with us — Poolnautics acts as a <em>data controller</em>. We decide how and why your account information is collected and used.</li>
                 <li><strong>For End Customers</strong> — the homeowners and property managers whose information is entered into Poolnautics by a Subscriber — Poolnautics acts as a <em>data processor</em>. The Subscriber is the data controller and decides how that information is used. We process End Customer data only on the Subscriber's behalf and according to their instructions.</li>
