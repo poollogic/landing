@@ -3,12 +3,16 @@ import { ChevronDown, User } from 'lucide-react';
 import './founder.css';
 
 // Founder's story (#founder): light, Apple-style. Centred header, then the letter
-// (left) beside the photo (right); on phones the photo comes first.
+// (left) beside the photo (right); on phones the photo comes first. While the photo is
+// hidden (SHOW_PHOTO), the letter is one centred column under the header.
 // The letter: the route, the pain, why I could fix it, what techs can't fake, today.
 // Desktop shows all of it; phones show two until "Read the full story" (founder.css).
 // The hidden part stays in the DOM, so search engines read it.
 // Apple neutrals: page #F5F5F7, text #1D1D1F, secondary #6E6E73, muted #86868B,
 // hairlines #D2D2D7; accent #2676B6.
+
+// The photo is hidden for now (2026-11-03). Set this back to true to bring it back.
+const SHOW_PHOTO = false;
 
 const LETTER = [
   'I moved from South Carolina to the coast planning to slow down. Instead, I bought a pool route, and the evenings I’d planned for fishing and family went to admin work and chasing people to pay their invoices.',
@@ -67,13 +71,17 @@ export default function FounderSection() {
           </h2>
         </div>
 
-        {/* Letter + photo */}
-        <div className="founder-grid mt-6 grid grid-cols-1 gap-5 md:mt-14 md:gap-16 lg:mt-[72px] lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)]">
-          <div className="founder-photo-col w-full md:mx-auto md:max-w-[420px] lg:order-2 lg:max-w-none lg:self-center">
-            <FounderPhoto />
-          </div>
+        {/* Letter + photo (or the letter alone, centred, while the photo is hidden) */}
+        <div className={SHOW_PHOTO
+          ? 'founder-grid mt-6 grid grid-cols-1 gap-5 md:mt-14 md:gap-16 lg:mt-[72px] lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)]'
+          : 'mx-auto mt-6 max-w-[720px] md:mt-14 lg:mt-[72px]'}>
+          {SHOW_PHOTO && (
+            <div className="founder-photo-col w-full md:mx-auto md:max-w-[420px] lg:order-2 lg:max-w-none lg:self-center">
+              <FounderPhoto />
+            </div>
+          )}
 
-          <div className="lg:order-1 lg:self-center">
+          <div className={SHOW_PHOTO ? 'lg:order-1 lg:self-center' : undefined}>
             {/* Phones show 2 paragraphs (fading out) until "Read the full story" (founder.css) */}
             <div id="founder-story" className={`founder-story space-y-5 text-[16px] leading-[1.6] text-[#6E6E73] md:text-[17px] md:leading-[1.65]${open ? '' : ' is-collapsed'}`}>
               {LETTER.map((p, i) => <p key={i}>{p}</p>)}
