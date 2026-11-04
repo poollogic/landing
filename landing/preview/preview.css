@@ -17,7 +17,7 @@
 /* ---------- Theme tokens, scoped to the preview container ---------- */
 
 .theme-scope {
-  --org-accent: #3b82f6;
+  --org-accent: #2e85ff;
   --primary: var(--org-accent);
   --ring: var(--org-accent);
   --btn-inverted-fg: #ffffff;

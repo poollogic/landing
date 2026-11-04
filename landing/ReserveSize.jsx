@@ -25,11 +25,11 @@ export const FEATURES = [
 
 export const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400';
 
-/** The homepage feature-list check: an 18px circle, rgba(59,130,246,.15), with a #3B82F6 tick. */
+/** The homepage feature-list check: an 18px circle, rgba(46,133,255,.15), with a #2E85FF tick. */
 export const CheckDot = ({ size = 18, className = '' }) => (
   <svg width={size} height={size} viewBox="0 0 20 20" fill="none" className={`flex-none ${className}`} aria-hidden="true">
-    <circle cx="10" cy="10" r="10" fill="rgba(59,130,246,.15)" />
-    <path d="M6 10.4l2.6 2.6L14 7.6" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="10" cy="10" r="10" fill="rgba(46,133,255,.15)" />
+    <path d="M6 10.4l2.6 2.6L14 7.6" stroke="#2E85FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 

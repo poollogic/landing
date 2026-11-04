@@ -177,8 +177,8 @@
     border-radius: 10px;
     color: #fff;
     font-weight: 600;
-    background: linear-gradient(180deg, #3B82F6, #2563EB);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 0 0 1px rgba(59, 130, 246, .6);
+    background: linear-gradient(180deg, #2E85FF, #1D65F4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 0 0 1px rgba(46, 133, 255, .6);
   }
 }
 @media (min-width: 560px) {
@@ -447,11 +447,11 @@ html.nav-locked { overflow: hidden; }
   font-size: 16px;
   font-weight: 600;
   color: #fff;
-  background: linear-gradient(180deg, #3B82F6 0%, #2563EB 100%);
+  background: linear-gradient(180deg, #2E85FF 0%, #1D65F4 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .25),
     inset 0 -1px 0 rgba(0, 0, 0, .2),
-    0 0 0 1px rgba(59, 130, 246, .6),
+    0 0 0 1px rgba(46, 133, 255, .6),
     0 2px 6px rgba(0, 0, 0, .35);
   transition: transform .25s cubic-bezier(.2, .8, .2, 1), box-shadow .25s;
 }
@@ -505,8 +505,8 @@ html.nav-locked { overflow: hidden; }
   /* drop-shadow follows the gradient's fade, so both ends taper off. */
   filter:
     drop-shadow(0 0 6px rgba(147, 197, 253, .85))
-    drop-shadow(0 0 14px rgba(59, 130, 246, .55))
-    drop-shadow(0 0 28px rgba(59, 130, 246, .35));
+    drop-shadow(0 0 14px rgba(46, 133, 255, .55))
+    drop-shadow(0 0 28px rgba(46, 133, 255, .35));
   clip-path: inset(-60px -60px 50% -60px); /* shine upward only, never onto the dashboard */
 }
 /* One glint travelling along the top line, once, after load. */
@@ -558,7 +558,7 @@ html.nav-locked { overflow: hidden; }
   pointer-events: none;
   border-radius: 50%;
   filter: blur(22px);
-  background: radial-gradient(closest-side, rgba(96, 165, 250, .4), rgba(59, 130, 246, .14) 55%, transparent);
+  background: radial-gradient(closest-side, rgba(96, 165, 250, .4), rgba(46, 133, 255, .14) 55%, transparent);
 }
 
 /* ---------- Phones (<768px): tighter hero copy, a labelled preview toggle ---------- */
@@ -601,7 +601,7 @@ html.nav-locked { overflow: hidden; }
     box-shadow:
       var(--bz-rim),
       0 30px 60px -18px rgba(0, 0, 0, .85),
-      0 -8px 54px -8px rgba(59, 130, 246, .30);
+      0 -8px 54px -8px rgba(46, 133, 255, .30);
   }
   /* The screen: the preview's own background (white in light, no grey strip). */
   .hero-phone .bz-screen { background: rgb(17, 19, 24); }

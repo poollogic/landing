@@ -9,7 +9,7 @@ import './founder.css';
 // Desktop shows all of it; phones show two until "Read the full story" (founder.css).
 // The hidden part stays in the DOM, so search engines read it.
 // Apple neutrals: page #F5F5F7, text #1D1D1F, secondary #6E6E73, muted #86868B,
-// hairlines #D2D2D7; accent #2676B6.
+// hairlines #D2D2D7; accent #2E85FF.
 
 // The photo is hidden for now (2026-11-03). Set this back to true to bring it back.
 const SHOW_PHOTO = false;
@@ -64,7 +64,7 @@ export default function FounderSection() {
         {/* Header */}
         {/* Phones: left-aligned and smaller (editorial); md and up: centred */}
         <div className="founder-head mx-auto max-w-[1000px] md:text-center">
-          <p className="text-[15px] font-semibold text-[#2676B6] md:text-[17px]">Built on the route, not in a boardroom.</p>
+          <p className="text-[15px] font-semibold text-[#2E85FF] md:text-[17px]">Built on the route, not in a boardroom.</p>
           <h2 id="founder-heading" className="mt-2.5 text-[31px] font-bold leading-[1.12] tracking-[-0.025em] [text-wrap:pretty] md:mt-3.5 md:text-[40px] md:leading-[1.1] md:[text-wrap:balance] lg:text-[48px]">
             <span className="block text-[#1D1D1F]">Most pool software creates more work.</span>{' '}
             <span className="block text-[#86868B]">PoolLogic takes it off your plate.</span>
@@ -93,7 +93,7 @@ export default function FounderSection() {
               aria-expanded={open}
               aria-controls="founder-story"
               onClick={() => setOpen((o) => !o)}
-              className="mt-2.5 inline-flex md:hidden items-center gap-1.5 border-0 bg-transparent p-0 text-[16px] font-semibold text-[#2676B6] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2676B6]"
+              className="mt-2.5 inline-flex md:hidden items-center gap-1.5 border-0 bg-transparent p-0 text-[16px] font-semibold text-[#2E85FF] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2E85FF]"
             >
               {open ? 'Show less' : 'Read the full story'}
               <ChevronDown size={14} strokeWidth={2.2} aria-hidden="true" className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />

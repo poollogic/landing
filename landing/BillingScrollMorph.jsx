@@ -24,8 +24,8 @@ import "./preview/preview.css";
 
 const Check = () => (
   <svg width="18" height="18" viewBox="0 0 20 20" fill="none" className="mt-[3px] flex-none">
-    <circle cx="10" cy="10" r="10" fill="rgba(59,130,246,.15)" />
-    <path d="M6 10.4l2.6 2.6L14 7.6" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <circle cx="10" cy="10" r="10" fill="rgba(46,133,255,.15)" />
+    <path d="M6 10.4l2.6 2.6L14 7.6" stroke="#2E85FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -340,7 +340,7 @@ function DeckPicture() {
    Safari's 112% page zoom (browser chrome stays normal size) so the UI is readable at landing-page scale. */
 const APP = {
   ink: "#1C1917", muted: "#78716C", dim: "#A8A29E", line: "rgba(15,23,42,.07)",
-  side: "#F8F8F9", tabs: "#F4F4F5", link: "rgb(38,118,182)", green: "#34C77B", toggle: "#3B82F6",
+  side: "#F8F8F9", tabs: "#F4F4F5", link: "rgb(38,118,182)", green: "#34C77B", toggle: "#2E85FF",
 };
 const APP_ZOOM = 1.12;
 const OWNER_INVOICES = [
@@ -926,7 +926,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
             </motion.div>
 
             <motion.div ref={textRef} style={{ opacity: t2Opacity, y: t2Y, pointerEvents: t2Events }} className="absolute inset-0 flex flex-col justify-center">
-              <p className="text-xs font-bold tracking-[.14em] text-blue-500">THE CUSTOMER EXPERIENCE</p>
+              <p className="text-xs font-bold tracking-[.14em] text-[#2E85FF]">THE CUSTOMER EXPERIENCE</p>
               <h2 className="mt-3.5 text-4xl font-bold leading-tight tracking-tight text-slate-900">
                 They get a clean invoice — and pay in one tap.
               </h2>
@@ -948,7 +948,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
                 aria-pressed={phase === 0}
                 onClick={() => gateRef.current.goTo?.(0)}
                 style={{ color: ownerColor }}
-                className="relative flex w-[124px] cursor-pointer items-center justify-center gap-1.5 rounded-full py-[9px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+                className="relative flex w-[124px] cursor-pointer items-center justify-center gap-1.5 rounded-full py-[9px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2E85FF]"
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6" /></svg>
                 You set it
@@ -958,7 +958,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
                 aria-pressed={phase === 1}
                 onClick={() => gateRef.current.goTo?.(1)}
                 style={{ color: customerColor }}
-                className="relative flex w-[124px] cursor-pointer items-center justify-center gap-1.5 rounded-full py-[9px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+                className="relative flex w-[124px] cursor-pointer items-center justify-center gap-1.5 rounded-full py-[9px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2E85FF]"
               >
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
                 They get it

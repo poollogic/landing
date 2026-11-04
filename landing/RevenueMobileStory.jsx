@@ -165,7 +165,7 @@ function Dashboard({ open, tap }) {
 // Invoices, filtered to Payment failed: where the dashboard's failed-payments row goes
 // (poollogic-web-app components/BillingInvoicing.tsx, phone layout). MOCK data.
 const INV_TILES = [
-  { label: 'Outstanding', dot: '#3b82f6', value: '$12,480' },
+  { label: 'Outstanding', dot: '#2e85ff', value: '$12,480' },
   { label: 'Overdue', dot: '#fb923c', value: '$3,265' },
   { label: 'Drafts', dot: 'rgba(203,213,225,.62)', value: '$1,150' },
   { label: 'Paid', dot: '#34b864', value: '$40,240' },

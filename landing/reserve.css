@@ -45,7 +45,7 @@
   position: relative;
   padding-block: var(--section-y);
   background:
-    radial-gradient(38% 55% at 75% 50%, rgba(37, 99, 235, .11), transparent 70%),  /* blue glow behind the card */
+    radial-gradient(38% 55% at 75% 50%, rgba(29, 101, 244, .11), transparent 70%),  /* blue glow behind the card */
     radial-gradient(60% 75% at 75% 50%, rgba(51, 65, 85, .5), transparent 70%),    /* slate pool around it */
     radial-gradient(70% 35% at 50% 0%, rgba(255, 255, 255, .035), transparent 70%), /* faint light at the top edge */
     var(--mktg-bg-page);
@@ -53,7 +53,7 @@
 @media (max-width: 1023.98px) {
   .rsv-sec {
     background:
-      radial-gradient(85% 32% at 50% 74%, rgba(37, 99, 235, .2), transparent 70%),
+      radial-gradient(85% 32% at 50% 74%, rgba(29, 101, 244, .2), transparent 70%),
       radial-gradient(110% 45% at 50% 74%, rgba(51, 65, 85, .65), transparent 70%),
       radial-gradient(90% 20% at 50% 0%, rgba(255, 255, 255, .035), transparent 70%),
       var(--mktg-bg-page);
@@ -86,11 +86,11 @@
   border: 1px solid rgba(148, 163, 184, .3); font-size: 12px; font-weight: 600; color: #64748b;
 }
 .rsv-stepper-item.is-active { color: #e2e8f0; }
-.rsv-stepper-item.is-active .rsv-stepper-dot { border-color: #3b82f6; background: #3b82f6; color: #fff; }
+.rsv-stepper-item.is-active .rsv-stepper-dot { border-color: #2e85ff; background: #2e85ff; color: #fff; }
 .rsv-stepper-item.is-done { color: #94a3b8; }
 .rsv-stepper-item.is-done .rsv-stepper-dot { border: 0; }
 .rsv-stepper-line { position: relative; flex: 1; height: 2px; border-radius: 2px; background: rgba(148, 163, 184, .18); overflow: hidden; }
-.rsv-stepper-line i { position: absolute; inset: 0 auto 0 0; background: #3b82f6; transition: width .4s cubic-bezier(.2, .8, .2, 1); }
+.rsv-stepper-line i { position: absolute; inset: 0 auto 0 0; background: #2e85ff; transition: width .4s cubic-bezier(.2, .8, .2, 1); }
 
 /* Step panels slide in: from the right going forward, from the left going back */
 .rsv-panel.is-from-right { animation: rsvFromRight .35s cubic-bezier(.2, .8, .2, 1); }
@@ -109,7 +109,7 @@
   transition: border-color .15s, background-color .15s, color .15s;
 }
 .rsv-size:hover { border-color: rgba(148, 163, 184, .38); color: #f1f5f9; }
-.rsv-size.is-on { border-color: #3b82f6; background: rgba(59, 130, 246, .14); color: #fff; }
+.rsv-size.is-on { border-color: #2e85ff; background: rgba(46, 133, 255, .14); color: #fff; }
 .rsv-size.is-wide { grid-column: span 2; }
 
 /* The price panel, opening once a size is picked */
@@ -118,7 +118,7 @@
 .rsv-reveal > div { min-height: 0; overflow: hidden; }
 .rsv-price {
   margin-top: 14px; padding: 14px 16px; border: 1px solid rgba(96, 165, 250, .22); border-radius: 12px;
-  background: linear-gradient(180deg, rgba(59, 130, 246, .10), rgba(59, 130, 246, .04));
+  background: linear-gradient(180deg, rgba(46, 133, 255, .10), rgba(46, 133, 255, .04));
   font-size: 13.5px; line-height: 1.5; color: #94a3b8;
 }
 .rsv-price-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
@@ -138,7 +138,7 @@
 /* Step 2 */
 .rsv-recap {
   display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; padding: 10px 14px;
-  border: 1px solid rgba(96, 165, 250, .2); border-radius: 10px; background: rgba(59, 130, 246, .08);
+  border: 1px solid rgba(96, 165, 250, .2); border-radius: 10px; background: rgba(46, 133, 255, .08);
   font-size: 13.5px; color: #94a3b8;
 }
 .rsv-recap b { font-weight: 600; color: #e2e8f0; }
@@ -157,7 +157,7 @@
 }
 .rsv-input::placeholder { color: rgba(148, 163, 184, .55); }
 .rsv-input:hover { border-color: rgba(148, 163, 184, .28); }
-.rsv-input:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, .18); }
+.rsv-input:focus { outline: none; border-color: #2e85ff; box-shadow: 0 0 0 3px rgba(46, 133, 255, .18); }
 .rsv-input[aria-invalid="true"] { border-color: #f87171; }
 .rsv-textarea { height: auto; padding: 10px 14px; line-height: 1.5; resize: vertical; }
 .rsv-select {
