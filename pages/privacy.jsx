@@ -102,7 +102,9 @@ const PrivacyPage = () => {
               <ul>
                 <li><strong>For Subscribers</strong> — the pool service businesses who hold accounts with us — Poolnautics acts as a <em>data controller</em>. We decide how and why your account information is collected and used.</li>
                 <li><strong>For End Customers</strong> — the homeowners and property managers whose information is entered into Poolnautics by a Subscriber — Poolnautics acts as a <em>data processor</em>. The Subscriber is the data controller and decides how that information is used. We process End Customer data only on the Subscriber's behalf and according to their instructions.</li>
+                <li><strong>For Subscriber personnel</strong> — the technicians, employees, independent contractors, and subcontractors who use the Poolnautics technician app for a Subscriber — Poolnautics acts as a <em>data processor</em>. The Subscriber decides whether to use the app's location and app-status features (described in Section 2), controls its personnel's data, and is responsible for telling its personnel about these features. We process this data only on the Subscriber's behalf.</li>
               </ul>
+              <p>If you are a technician or other Subscriber personnel with a question about how your location or other data is used, please contact the pool service company you work for. We forward any direct requests we receive to that Subscriber.</p>
               <p>If you are an End Customer with a privacy question or request, please contact the pool service company that holds your account. We forward any direct requests we receive to the relevant Subscriber. To stop receiving non-essential SMS messages sent through Poolnautics on a Subscriber's behalf, reply <strong>STOP</strong> to any such message (reply <strong>HELP</strong> for support); we will honor the opt-out and forward it to the Subscriber.</p>
 
               <h3 style={subHeadStyle}>Our Role Under U.S. State Privacy Laws (CCPA / CPRA and Similar)</h3>
@@ -126,6 +128,22 @@ const PrivacyPage = () => {
                 <li>Invoice, estimate, and payment history.</li>
               </ul>
 
+              <h3 style={subHeadStyle}>From Subscriber Personnel Using the Technician App</h3>
+              <p>Technicians use the Poolnautics mobile app on their phones. What it collects depends on the features the Subscriber turns on.</p>
+              <p><strong>Location</strong>, only with the technician's permission on their phone:</p>
+              <ul>
+                <li><strong>Service reports.</strong> The phone's location when each service report is sent, so the Subscriber can confirm the visit.</li>
+                <li><strong>Mileage logging</strong>, only when the Subscriber turns it on (for one technician, or for all of its technicians at once). The phone's precise location in the background while the technician's route is under way, from the first service report of the day until the route is finished, or 9 PM at the latest. The location points stay on the phone and are deleted from it once the day's mileage is recorded. Only the day's trip legs are sent to Poolnautics, for mileage records: where each leg started and ended (a customer stop or a business location), when it left and arrived, and its miles, along with the time and customer of each service report.</li>
+                <li><strong>Route review ("Show full drive")</strong>, only when a Subscriber admin turns it on for one technician, for at most 7 days at a time. The technician's drive from 7 AM to 7 PM (in the Subscriber's time zone) on days they have a route, so the Subscriber can review it: the phone's precise location about every 20 seconds, and the location of each service report. Drive locations are never collected outside those hours. The drive is kept for 90 days. A record of who turned route review on, for which technician, and when, is kept with the Subscriber's account.</li>
+              </ul>
+              <p>On iPhones, a blue location indicator shows whenever the app is using location in the background; on Android phones, a notification shows while mileage is being logged. Technicians can change the app's location permission in their phone's settings at any time.</p>
+              <p><strong>No location:</strong></p>
+              <ul>
+                <li><strong>App status ("phone health").</strong> A random ID for the app's installation on that phone (not a hardware or advertising ID); the platform; the app's version, build, and update; the phone's model and operating system version; whether location services and location, background location, precise location, and notification permissions are on; whether app notifications are on and the phone is registered for them; whether battery saver is on; free and total storage; how many service reports and photos are waiting to send, and since when; and how far the phone's clock is off. Kept until 60 days after the phone last reports.</li>
+                <li><strong>A push notification token</strong>, so the Subscriber can send alerts to the technician's phone, such as new or updated work orders, route changes, and truck check-in and oil-change reminders.</li>
+                <li><strong>Photos and readings the technician adds</strong>, such as photos on service reports and work orders, and odometer readings and photos on truck check-ins.</li>
+              </ul>
+
               <h3 style={subHeadStyle}>From Website Visitors</h3>
               <ul>
                 <li>IP address, browser type and version, pages visited, referring URL, and other standard server-log information used for security and basic analytics.</li>
@@ -136,6 +154,7 @@ const PrivacyPage = () => {
               <ul>
                 <li><strong>Directly from Subscribers</strong> — at account signup, when configuring billing or organization settings, and when entering customer records.</li>
                 <li><strong>Automatically</strong> — through cookies and browser local storage for session management and UI state, and through server logs that record requests to the service.</li>
+                <li><strong>From the technician app</strong> — on technicians' phones, as described in Section 2, depending on the features the Subscriber turns on and the permissions the technician allows on their phone.</li>
                 <li><strong>From third parties</strong> — Stripe returns card metadata (brand, last four, expiry) after an End Customer saves a payment method. Identity-verification or anti-fraud signals may also be returned by Stripe.</li>
               </ul>
             </Section>
@@ -144,6 +163,7 @@ const PrivacyPage = () => {
               <p>We use the information described above to:</p>
               <ul>
                 <li>Operate the service — sending invoices, processing payments, dispatching routes, generating service reports.</li>
+                <li>Provide the technician app features a Subscriber turns on — confirming visits, keeping mileage records, showing route review, and showing the Subscriber whether each phone's app is up to date and able to send — and sending alerts to technicians' phones.</li>
                 <li>Communicate with Subscribers about account activity, billing, product updates, and support requests.</li>
                 <li>Communicate with End Customers <strong>on a Subscriber's behalf</strong> — for example, sending invoice notifications, payment receipts, autopay decline notices, or service pause notices that the Subscriber has configured or chosen to send.</li>
                 <li>Maintain and improve the service, including diagnosing errors, measuring performance, and developing new features.</li>
@@ -183,6 +203,12 @@ const PrivacyPage = () => {
                   purpose="Transactional email delivery (invoice notifications, receipts, account emails)."
                   shared="Recipient email addresses and the content of transactional emails we send."
                   link="https://resend.com/legal/privacy-policy"
+                />
+                <SubprocessorRow
+                  name="Expo"
+                  purpose="Push notifications to the technician app, and delivery of the app's updates."
+                  shared="Each technician phone's push notification token and the content of the alerts sent to it."
+                  link="https://expo.dev/privacy"
                 />
                 <SubprocessorRow
                   name="Cloudflare"
@@ -226,6 +252,7 @@ const PrivacyPage = () => {
                 <li><strong>Subscriber account data</strong> — retained while the account is active. After account closure, account data is retained for 90 days to allow for export, then deleted, except as noted below.</li>
                 <li><strong>Financial records</strong> — invoices, payment records, and tax-relevant documents are retained for <strong>seven (7) years</strong> as required by U.S. tax and audit rules.</li>
                 <li><strong>End Customer data</strong> — retained for as long as the Subscriber's account is active. Deleted on a Subscriber's request, on account closure (subject to the 90-day window above), or on the End Customer's request once forwarded to the Subscriber.</li>
+                <li><strong>Technician app data</strong> — route review drives are kept for 90 days. App status is kept until 60 days after the phone last reports. A phone's push notification token is deleted when the technician signs out of the app, 90 days after it stops working, or after 180 days without use. Service report locations, mileage records, and the record of when route review was turned on are kept with the Subscriber's other account data, as described above.</li>
                 <li><strong>Stripe records</strong> — payment records held by Stripe are governed by Stripe's own retention policies. We cannot delete records from Stripe on your behalf; contact Stripe directly for those requests.</li>
               </ul>
             </Section>
@@ -261,11 +288,11 @@ const PrivacyPage = () => {
                 <li><strong>Customer records / contact and account information</strong> (Cal. Civ. Code § 1798.80(e)) — billing contact, business name, service addresses. <em>Sources, purposes, and disclosures:</em> same as Identifiers.</li>
                 <li><strong>Commercial information</strong> — invoices, estimates, payment history, services purchased or provided. <em>Sources:</em> Subscribers; Stripe (payment status). <em>Purposes:</em> service delivery, billing, record-keeping. <em>Disclosed to:</em> Stripe; database and email subprocessors.</li>
                 <li><strong>Internet or other electronic network activity</strong> — browser type, device, pages visited, request metadata, sign-in timestamps. <em>Sources:</em> automatically from your interactions with the service. <em>Purposes:</em> security, fraud prevention, operations, basic analytics. <em>Disclosed to:</em> hosting and CDN subprocessors.</li>
-                <li><strong>Geolocation information</strong> (approximate, derived from IP address) — used for security, fraud prevention, and analytics. We do not collect precise geolocation.</li>
-                <li><strong>Professional or employment-related information</strong> — limited to the business identity of the Subscriber and its staff (organization name, role).</li>
+                <li><strong>Geolocation information</strong> — approximate location derived from IP address, used for security, fraud prevention, and analytics; and, for Subscriber personnel using the technician app, precise location as described in Section 2, collected only with the technician's permission on their phone and processed on the Subscriber's behalf. <em>Disclosed to:</em> the database and hosting subprocessors listed in Section 6.</li>
+                <li><strong>Professional or employment-related information</strong> — the business identity of the Subscriber and its staff (organization name, role), and the work records the technician app creates for a Subscriber (service report locations, mileage records, route review, and app status).</li>
                 <li><strong>Inferences</strong> — limited operational inferences (for example, payment-failure patterns used to trigger autopay suspension). We do not build advertising or behavioral profiles.</li>
               </ul>
-              <p>We do not knowingly collect "sensitive personal information" as defined under the CCPA, other than financial-account identifiers required to process payment, which Stripe handles directly. We do not use personal information for cross-context behavioral advertising.</p>
+              <p>We do not knowingly collect "sensitive personal information" as defined under the CCPA, other than (a) financial-account identifiers required to process payment, which Stripe handles directly, and (b) the precise location of Subscriber personnel collected through the technician app on a Subscriber's behalf, as described in Section 2. We use that location only to provide the features the Subscriber turns on, and not to infer characteristics about anyone. We do not use personal information for cross-context behavioral advertising.</p>
               <p><strong>Retention.</strong> We retain each category of personal information for the periods described in Section 10 (Data Retention), or for the criteria described in that Section where a fixed period cannot be stated in advance (for example, "for as long as the Subscriber's account is active"). These periods are based on the operational need to provide the service, applicable legal and tax record-keeping obligations, and the criteria set out in Cal. Civ. Code § 1798.100(a)(3).</p>
 
               <p>If you are a resident of <strong>California, Colorado, Connecticut, Delaware, Florida, Indiana, Iowa, Kentucky, Maryland, Montana, Nebraska, New Hampshire, New Jersey, Oregon, Rhode Island, Tennessee, Texas, Utah, or Virginia</strong>, you have rights under your state's comprehensive privacy law. To exercise these rights, contact <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>. We will verify your identity before fulfilling a request and respond within the timeframe required by applicable law.</p>
