@@ -121,7 +121,7 @@ const PartnerTermsPage = () => {
             </Section>
 
             <Section id="link-code-page" title="3. Your Link, Code & Page">
-              <p>Once approved, you receive a referral link, a partner page at <strong>{PARTNER.pageBase}&lt;your handle&gt;</strong>, and one or more referral codes. We may also issue codes for individual videos or campaigns. Codes are 4–16 letters and numbers, may not include reserved words (such as "poollogic," "free," "promo" or a competitor's name), and are never reissued once retired.</p>
+              <p>Once approved, you receive a referral link, a partner page at <strong>{PARTNER.pageBase}&lt;your handle&gt;</strong>, and one or more referral codes. We may also issue codes for individual videos or campaigns. Codes are 4–16 letters and numbers, may not include reserved words (such as "poolnautics," "free," "promo" or a competitor's name), and are never reissued once retired.</p>
               <p>We host and control your partner page. We may edit it, pause it, or take it down at any time, including to correct an offer or a claim. Your link, codes and page are licensed to you only while you're an active partner.</p>
             </Section>
 

@@ -57,7 +57,7 @@ const tylerCustomersLowMrr = [
   { name: 'June Hattori', addr: '3025 Sunward Cir, New Tampa', phone: '(813) 555-0285', email: 'jhattori@example.com', day: 'Friday', mrr: '$104.50', dot: 'var(--brand-green)' },
 ];
 
-const PoolLogicApp = ({ scale = 1, dimmedRows = 0, page = 'customers', animate = true }) => {
+const ProductApp = ({ scale = 1, dimmedRows = 0, page = 'customers', animate = true }) => {
   // Animation step machine (17 phases):
   //  0 idle
   //  1 cursor → Filters btn
@@ -1039,4 +1039,4 @@ const DashboardCard = () => (
   </div>
 );
 
-export { PoolLogicApp, RouteCard, InvoiceCard, ServiceReportCard, DashboardCard };
+export { ProductApp, RouteCard, InvoiceCard, ServiceReportCard, DashboardCard };

@@ -50,8 +50,8 @@ export const ROUTE_META = {
     path: '/',
   },
   pricing: {
-    title: 'Pricing — Poolnautics',
-    description: 'Poolnautics pricing: Insight from $99/mo and Vision from $159/mo (25% off billed yearly), priced by active customers with unlimited technicians and office staff. 30-day free trial, no card required.',
+    title: 'Pool Service Software Pricing — Poolnautics',
+    description: 'Insight from $99/mo and Vision from $159/mo, priced by active customers, with unlimited technicians and office staff. 25% off yearly. 30-day free trial.',
     path: '/pricing',
   },
   reserve: {
@@ -61,8 +61,8 @@ export const ROUTE_META = {
   },
   // Pre-rendered at build time (entry-server.jsx), so this is also what the served HTML carries.
   aiIntegrations: {
-    title: 'Pool Service Automation Software | Poolnautics',
-    description: 'Pool service software that feeds your automations. Every customer, visit, payment and lead flows into Claude, Grok, ChatGPT or your own AI, so invoices, payment reminders and lead follow-ups run on their own.',
+    title: 'Pool Service Automation Software — Poolnautics',
+    description: 'Pool service software that feeds your automations: customers, visits, payments and leads flow into Claude, Grok, ChatGPT or your own AI.',
     path: '/ai-integrations',
   },
   techApp: {
@@ -71,18 +71,18 @@ export const ROUTE_META = {
     path: '/tech-app',
   },
   contact: {
-    title: 'Contact Poolnautics | Get a Demo or Ask a Question',
-    description: 'Talk to the Poolnautics team. Get a demo on your own routes, ask a question, or reach support, partnerships and legal. A real person replies within one business day.',
+    title: 'Contact Poolnautics — Get a Demo or Ask a Question',
+    description: 'Get a demo on your own routes, ask a question, or reach Poolnautics support, partnerships and legal. A real person replies within one business day.',
     path: '/contact',
   },
   terms: {
     title: 'Terms of Service — Poolnautics',
-    description: 'Poolnautics terms of service.',
+    description: 'The terms for using Poolnautics pool service software: accounts, payments through Stripe, your responsibilities as a subscriber, the technician app, and more.',
     path: '/terms',
   },
   privacy: {
     title: 'Privacy Policy — Poolnautics',
-    description: 'Poolnautics privacy policy.',
+    description: 'How Poolnautics collects, uses and protects information from pool service companies, their customers, and the technicians who use the Poolnautics app.',
     path: '/privacy',
   },
   partners: {
@@ -164,6 +164,8 @@ const App = ({ path: pathProp }) => {
     else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
     else if (isLandingPath(path)) meta = ROUTE_META.landing;
+    // Any other address shows the homepage; keep those copies out of search results.
+    else if (path !== '/') meta = { ...ROUTE_META.home, robots: 'noindex,follow' };
     applyRouteMeta(meta);
   }, [path]);
 

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Logo, I, PoolDropIcon } from './icons.jsx';
 // Nav and Footer live in site-chrome.jsx (they load on every page); re-exported below.
 import { Nav, Footer, FooterLink } from './site-chrome.jsx';
-import { PoolLogicApp, RouteCard, InvoiceCard, ServiceReportCard, DashboardCard } from './product-ui.jsx';
+import { ProductApp, RouteCard, InvoiceCard, ServiceReportCard, DashboardCard } from './product-ui.jsx';
 
 const Hero = ({ layout, headline, subhead }) => {
   const isSplit = layout === 'split';
@@ -818,7 +818,7 @@ const ProductShowcase = ({ compact = false }) => {
       height: 660 * scale,
       position: 'relative'
     }}>
-      <PoolLogicApp scale={scale} />
+      <ProductApp scale={scale} />
     </div>);
 
 };
