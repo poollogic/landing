@@ -1,4 +1,4 @@
-// The site's form handler: "Reserve your spot" (/reserve), demo requests and
+// The site's form handler: "Reserve your spot" (/reserve), and demo requests, questions and
 // Partner Program applications (/contact). Runs as a Cloudflare Pages Function
 // (functions/api/request.js). For each accepted request it emails the owner (Resend),
 // sends the person a personal confirmation, and adds waitlist sign-ups to a Resend
@@ -12,8 +12,9 @@
 //   4. Every field validated: length limits, an email check, and choices that must
 //      match formOptions.js exactly.
 //   5. Cloudflare Turnstile (invisible bot check), whenever TURNSTILE_SECRET_KEY is set.
-//   6. After a send: that email can't send the same form again for LIMITS.emailLockDays
-//      ("you're already on the list"), and that IP is locked for LIMITS.ipLockHours.
+//   6. After a send: that email can't send the same form again for LIMITS.emailLockDays, or a
+//      form's own emailLockDays ("you're already on the list"), and that IP is locked for
+//      LIMITS.ipLockHours.
 //      This also stops anyone using the auto-reply to email-bomb someone else.
 //   7. A daily cap on sends across the whole site.
 //
@@ -64,11 +65,18 @@ export const FORMS = {
   },
   demo: {
     label: 'Demo request',
-    fields: { ...COMMON, customers: choice(CUSTOMER_OPTIONS), plan: choice(PLAN_OPTIONS), message: text(2000, false) },
+    fields: { ...COMMON, customers: choice(CUSTOMER_OPTIONS), plan: choice(PLAN_OPTIONS, false), message: text(2000, false) },
   },
   partner: {
     label: 'Partner application',
     fields: { ...COMMON, message: text(2000) },
+  },
+  // Anything else. The business is optional here, and someone with a second question can ask it
+  // the next day rather than in a month.
+  question: {
+    label: 'Question',
+    emailLockDays: 1,
+    fields: { ...COMMON, business: text(150, false), message: text(2000) },
   },
 };
 
@@ -172,7 +180,7 @@ function ownerEmail(kind, v, meta) {
   const textBody = `${FORMS[kind].label} from getpoolnautics.com\n\n${lines.join('\n')}\n\nCountry: ${meta.country || 'unknown'}\nPage: ${meta.page || 'unknown'}\n\nReply to this email to answer ${firstName(v.name)} directly.`;
   const size = v.customers ? ` (${v.customers} customers)` : '';
   return {
-    subject: oneLine(`${FORMS[kind].label}: ${v.business}${size}`, 150),
+    subject: oneLine(`${FORMS[kind].label}: ${v.business || v.name}${size}`, 150),
     text: textBody,
     html: `<div style="font:15px/1.6 -apple-system,Segoe UI,sans-serif;color:#1d1d1f"><p style="margin:0 0 12px"><strong>${escapeHtml(FORMS[kind].label)}</strong> from getpoolnautics.com</p><table style="border-collapse:collapse">${Object.keys(FORMS[kind].fields).filter((f) => v[f]).map((f) => `<tr><td style="padding:3px 16px 3px 0;color:#6e6e73;vertical-align:top">${FIELD_LABELS[f]}</td><td style="padding:3px 0;white-space:pre-wrap">${escapeHtml(v[f])}</td></tr>`).join('')}</table><p style="margin:16px 0 0;color:#6e6e73;font-size:13px">Country: ${escapeHtml(meta.country || 'unknown')} · Page: ${escapeHtml(meta.page || 'unknown')}<br>Reply to this email to answer ${escapeHtml(firstName(v.name))} directly.</p></div>`,
   };
@@ -194,6 +202,14 @@ const CONFIRMATIONS = {
       `Hi ${firstName(v.name)},`,
       `Thanks for your interest in Poolnautics for ${endSentence(v.business)} I'll get back to you within one business day to set up a time to walk you through it on your own routes and customers.`,
       `If anything comes up before then, just reply to this email.`,
+    ],
+  }),
+  question: (v) => ({
+    subject: oneLine(`Thanks, ${firstName(v.name)}. We got your message`),
+    paragraphs: [
+      `Hi ${firstName(v.name)},`,
+      `Thanks for getting in touch. I'll get back to you within one business day.`,
+      `If you think of anything else in the meantime, just reply to this email.`,
     ],
   }),
   partner: (v) => ({
@@ -288,7 +304,7 @@ export async function handleFormRequest(request, env, now = Date.now()) {
   if (kind === 'waitlist' && env.RESEND_AUDIENCE_ID) await addToSegment(env, env.RESEND_AUDIENCE_ID, values);
 
   // 6b. Lock this email and this IP, and count the send.
-  await kv.put(`sent:${emailKey}`, '1', { expirationTtl: LIMITS.emailLockDays * 86400 });
+  await kv.put(`sent:${emailKey}`, '1', { expirationTtl: (FORMS[kind].emailLockDays ?? LIMITS.emailLockDays) * 86400 });
   await kv.put(`ipsent:${ipKey}`, '1', { expirationTtl: LIMITS.ipLockHours * 3600 });
   await bump(kv, dayKey, 2 * 86400);
 

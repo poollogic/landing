@@ -1,0 +1,312 @@
+/* /contact (pages/contact.jsx). The card and fields are /reserve's (reserve.css), restyled here for
+   this page only: every .rsv-* rule below is scoped under .ct-page, so /reserve and the homepage's
+   reserve section are untouched. This file adds the layout, the light, the topic switch and the
+   "Other ways to reach us" cards. */
+
+/* ---------- Page background: quiet, one light source ----------
+   The page stays dark whatever the OS theme (the site footer is dark everywhere: index.html). The
+   hero and the section below it are transparent, so .ct-light (the page's first child) shows
+   through; it replaces the homepage hero's gradient. */
+.ct-page { background: #0b0d12; isolation: isolate; }
+.ct-page .ct-hero { background: none; }
+.ct-page .ct-more { background: transparent; }
+.ct-light {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 900px;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(48% 60% at 50% -18%, rgba(186, 204, 235, .10), transparent 72%),
+    radial-gradient(30% 40% at 74% 26%, rgba(80, 120, 200, .07), transparent 70%);
+}
+
+/* ---------- Hero: the heading on the left, the form on the right ----------
+   On desktop the pair fills the first screen and sits centred in it, and the type and spacing scale
+   with the window's height (the vh terms), so it fits a short laptop screen as well as a tall
+   monitor. The nav is a 64px absolute header. */
+.hero.ct-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100svh;
+  padding: calc(64px + clamp(16px, 4vh, 56px)) 0 clamp(32px, 7vh, 80px);
+}
+.ct-hero > .container { width: 100%; } /* a flex item with auto margins would shrink to its content */
+.ct-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+  gap: clamp(48px, 7vw, 112px);
+  align-items: center;
+}
+.ct-grid::before { /* a soft light behind the form */
+  content: '';
+  position: absolute;
+  z-index: -1;
+  right: -4%;
+  top: -14%;
+  width: 62%;
+  height: 90%;
+  pointer-events: none;
+  background: radial-gradient(50% 45% at 50% 20%, rgba(140, 170, 230, .09), transparent 72%);
+  filter: blur(10px);
+}
+.ct-intro { text-align: left; }
+.ct-eyebrow {
+  display: block;
+  margin-bottom: 18px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #7f8ba0;
+}
+.ct-hero .hero-title {
+  margin-top: 0;
+  font-size: clamp(2.25rem, min(4.4vw, 7.4vh), 3.5rem);
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  background: linear-gradient(180deg, #fff 30%, #a9b4c7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ct-hero .hero-sub {
+  max-width: 30rem;
+  margin-top: clamp(1rem, 2.6vh, 1.5rem);
+  margin-inline: 0;
+  font-size: clamp(1rem, min(1.4vw, 2.4vh), 1.125rem);
+  color: #9aa6b8;
+  text-wrap: pretty;
+}
+.ct-perks { display: grid; gap: 12px; margin: 28px 0 30px; padding: 0; list-style: none; }
+.ct-perks li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: #d5dbe5; }
+.ct-perks svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  padding: 3px;
+  border: 1px solid rgba(96, 165, 250, .2);
+  border-radius: 6px;
+  color: #60a5fa;
+  background: rgba(96, 165, 250, .12);
+}
+.ct-direct { max-width: 30rem; font-size: 14.5px; color: #64748b; } /* the perks above give it its space */
+
+/* Links inside copy */
+.ct-inline {
+  font-weight: 500;
+  color: #cbd5e1;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, .25);
+  text-underline-offset: 4px;
+  transition: color .2s, text-decoration-color .2s;
+}
+.ct-inline:hover { color: #f8fafc; text-decoration-color: #60a5fa; }
+
+/* ---------- The form card ----------
+   overflow: visible, not /reserve's clip (kept there for its step slide-in, which this card doesn't
+   have): the clip would cut off the ring and the light along the top edge, which sit on the border. */
+.ct-page .ct-card-form {
+  position: relative;
+  overflow: visible;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, .07);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(30, 35, 46, .82), rgba(20, 23, 31, .9));
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .07),
+    0 1px 2px rgba(0, 0, 0, .5),
+    0 30px 80px -20px rgba(0, 0, 0, .8),
+    0 0 0 1px rgba(0, 0, 0, .35),
+    0 -40px 120px -40px rgba(120, 160, 255, .12);
+}
+.ct-card-form::after { /* a light along the top edge */
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(200, 220, 255, .5), transparent);
+}
+.ct-card-form::before { /* a gradient ring over the border (a masked gradient, like the nav button's) */
+  content: '';
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  opacity: .55;
+  pointer-events: none;
+  background: linear-gradient(160deg, rgba(120, 170, 255, .45), rgba(255, 255, 255, .04) 35%, transparent 65%, rgba(120, 170, 255, .18));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+/* The topic switch at the top of the card */
+.ct-topics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: clamp(18px, 3vh, 26px);
+  padding: 4px;
+  border: 1px solid rgba(255, 255, 255, .05);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, .25);
+}
+.ct-topic {
+  height: 36px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  font-size: 13.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color .2s, background .2s, box-shadow .2s;
+}
+.ct-topic[aria-pressed="false"]:hover { color: #e2e8f0; }
+.ct-topic[aria-pressed="true"] {
+  background: linear-gradient(180deg, #2a3142, #222836);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 1px 3px rgba(0, 0, 0, .4);
+}
+
+/* Fields */
+.ct-page .rsv-fields { gap: clamp(12px, 2vh, 18px); margin-top: 0; }
+.ct-page .rsv-label { margin-bottom: 6px; font-size: 12.5px; font-weight: 500; letter-spacing: .01em; color: #aab4c4; }
+/* background-color, not background, or the <select> loses its chevron (a background-image) */
+.ct-page .rsv-input {
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 10px;
+  background-color: rgba(9, 11, 16, .55);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, .3);
+  transition: border-color .15s, box-shadow .15s, background-color .15s;
+}
+.ct-page .rsv-input:not(.rsv-textarea) { height: clamp(40px, 5.4vh, 44px); }
+.ct-page .rsv-textarea { min-height: 0; padding-block: 10px; }
+.ct-page .rsv-input:hover { border-color: rgba(255, 255, 255, .14); }
+.ct-page .rsv-input:focus {
+  outline: none;
+  border-color: rgba(96, 165, 250, .7);
+  background-color: rgba(9, 11, 16, .75);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, .15), inset 0 1px 2px rgba(0, 0, 0, .3);
+}
+.ct-page .rsv-input[aria-invalid="true"] { border-color: #f87171; } /* a field with an error stays red */
+/* An unanswered "Choose one" reads as a placeholder, not an answer */
+.ct-page .rsv-select:has(option[value=""]:checked) { color: rgba(148, 163, 184, .55); }
+
+/* The button */
+.ct-page .rsv-cta {
+  margin-top: clamp(16px, 2.8vh, 24px);
+  padding-block: clamp(12px, 1.8vh, 14px);
+  border-radius: 12px;
+  letter-spacing: .005em;
+  background: linear-gradient(180deg, #4b8dff 0%, #2563eb 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 0 0 1px rgba(37, 99, 235, .6), 0 8px 24px -6px rgba(37, 99, 235, .55);
+  transition: transform .15s, box-shadow .2s, filter .2s;
+}
+.ct-page .rsv-cta:not(:disabled):hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 0 0 1px rgba(37, 99, 235, .7), 0 14px 32px -8px rgba(37, 99, 235, .7);
+}
+.ct-page .rsv-cta svg { transition: transform .2s; }
+.ct-page .rsv-cta:not(:disabled):hover svg { transform: translateX(3px); }
+.ct-form-note { margin: 14px 0 0; text-align: center; font-size: 12.5px; color: #6b778a; }
+.ct-page .rsv-fine { margin-top: 8px; }
+
+.ct-again { margin-top: 8px; padding: 0; border: 0; background: none; font-size: 14px; font-weight: 500; color: #60a5fa; cursor: pointer; }
+.ct-again:hover { color: #93c5fd; }
+
+/* ---------- Other ways to reach us ---------- */
+.ct-more { position: relative; padding-block: 88px 72px; }
+.ct-h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); font-weight: 700; line-height: 1.15; letter-spacing: -.025em; color: #f8fafc; }
+.ct-more-sub { margin-top: 12px; font-size: 16px; color: #94a3b8; }
+.ct-ways { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 40px 0 0; padding: 0; list-style: none; }
+.ct-way {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, .07);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .01));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
+  transition: transform .25s ease, border-color .25s, box-shadow .25s;
+}
+.ct-way:hover {
+  transform: translateY(-2px);
+  border-color: rgba(96, 165, 250, .28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 20px 40px -20px rgba(0, 0, 0, .7), 0 0 0 1px rgba(96, 165, 250, .08);
+}
+.ct-way-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(96, 165, 250, .22);
+  border-radius: 10px;
+  color: #7cb2ff;
+  background: linear-gradient(180deg, rgba(96, 165, 250, .16), rgba(96, 165, 250, .06));
+}
+.ct-way h3 { margin-top: 20px; font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: #f1f5f9; }
+.ct-way p { margin-top: 8px; font-size: 14.5px; line-height: 1.55; color: #8a96a8; }
+.ct-way-links { display: grid; justify-items: start; gap: 10px; margin-top: auto; padding-top: 6px; } /* pinned to the card's foot, so each row's links line up */
+.ct-way-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  font-weight: 500;
+  color: #cbd5e1;
+  transition: color .15s;
+}
+.ct-way-links a:hover { color: #93c5fd; }
+.ct-way-links svg { flex: none; color: #64748b; transition: transform .2s; }
+.ct-way-links a:hover svg { transform: translate(2px, -1px); }
+
+.ct-company { margin-top: 40px; font-size: 13.5px; color: #64748b; }
+
+/* ---------- Narrower screens ---------- */
+@media (max-width: 1179.98px) {
+  .ct-ways { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* One column: the heading, then the form */
+@media (max-width: 999.98px) {
+  .hero.ct-hero { min-height: 0; padding: 120px 0 72px; }
+  .ct-hero .hero-title { font-size: clamp(2.25rem, 6vw, 3.25rem); }
+  .ct-hero .hero-sub { font-size: 1.0625rem; }
+  .ct-grid { grid-template-columns: minmax(0, 1fr); gap: 0; max-width: 600px; margin-inline: auto; }
+  .ct-grid::before { right: 0; width: 100%; top: 30%; }
+  .ct-page .ct-card-form { margin-top: 32px; }
+}
+@media (max-width: 559.98px) {
+  .hero.ct-hero { padding: 104px 0 64px; }
+  .ct-topic { font-size: 12.5px; padding: 0 4px; }
+  .ct-page .ct-card-form { padding: 20px; } /* at 28px the "Partner program" tab runs into its edge */
+  .ct-more { padding-block: 64px 48px; }
+  .ct-ways { grid-template-columns: minmax(0, 1fr); }
+  .ct-way { padding: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ct-way, .ct-page .rsv-cta, .ct-page .rsv-cta svg, .ct-way-links a svg { transition: none; transform: none; }
+  .ct-way:hover, .ct-page .rsv-cta:not(:disabled):hover, .ct-page .rsv-cta:not(:disabled):hover svg, .ct-way-links a:hover svg { transform: none; }
+}
+
+/* The narrowest phones (320px, e.g. iPhone SE): the three tab labels still fit on one line */
+@media (max-width: 379.98px) {
+  .ct-page .ct-card-form { padding: 16px; }
+  .ct-topics { grid-template-columns: repeat(3, auto); gap: 2px; padding: 3px; } /* each tab as wide as its label */
+  .ct-topic { padding: 0 2px; font-size: 11.5px; letter-spacing: -.01em; }
+}

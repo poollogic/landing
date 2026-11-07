@@ -156,5 +156,33 @@ test('no double full stop after a business name ending in "."', async () => {
 
 test('demo and partner forms validate their own fields', () => {
   assert.ok(validate('demo', { ...good(), kind: 'demo', plan: 'Vision' }).values);
+  assert.ok(validate('demo', { ...good(), kind: 'demo' }).values); // the plan is optional
+  assert.ok(validate('demo', { ...good(), kind: 'demo', plan: 'Gold' }).errors.plan);
   assert.ok(validate('partner', { ...good(), kind: 'partner', message: '' }).errors.message);
+});
+
+test('question form: business optional, message required, the name in the subject without one', async () => {
+  const q = (over = {}) => ({ kind: 'question', name: 'Mike Rivera', email: 'mike@example.com', message: 'Do you handle salt cells?', startedAt: NOW - 20_000, company_website: '', ...over });
+  assert.ok(validate('question', q()).values);
+  assert.ok(validate('question', q({ message: '' })).errors.message);
+  const { status } = await call(q(), env());
+  assert.equal(status, 200);
+  const [owner, confirmation] = sent.filter((s) => s.url.endsWith('/emails')).map((s) => s.body);
+  assert.equal(owner.subject, 'Question: Mike Rivera');
+  assert.equal(owner.reply_to, 'mike@example.com');
+  assert.equal(confirmation.to[0], 'mike@example.com');
+  assert.match(confirmation.text, /within one business day/);
+});
+
+test('question form locks the email for a day, other forms for LIMITS.emailLockDays', async () => {
+  const ttls = async (body) => {
+    const e = env();
+    const puts = [];
+    const put = e.FORM_LIMITS.put;
+    e.FORM_LIMITS.put = async (k, v, opts) => { puts.push([k, opts?.expirationTtl]); return put(k, v, opts); };
+    await call(body, e);
+    return puts.find(([k]) => k.startsWith('sent:'))[1];
+  };
+  assert.equal(await ttls({ kind: 'question', name: 'Mike Rivera', email: 'mike@example.com', message: 'Hi', startedAt: NOW - 20_000 }), 86400);
+  assert.equal(await ttls(good()), LIMITS.emailLockDays * 86400);
 });

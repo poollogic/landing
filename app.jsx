@@ -71,8 +71,8 @@ export const ROUTE_META = {
     path: '/tech-app',
   },
   contact: {
-    title: 'Get a demo — Poolnautics',
-    description: 'Talk to Poolnautics. Book a demo or ask a question about pool service software for your route.',
+    title: 'Contact Poolnautics | Get a Demo or Ask a Question',
+    description: 'Talk to the Poolnautics team. Get a demo on your own routes, ask a question, or reach support, partnerships and legal. A real person replies within one business day.',
     path: '/contact',
   },
   terms: {
@@ -209,17 +209,14 @@ const App = ({ path: pathProp }) => {
     );
   }
 
+  // Contact brings its own dark nav and the footer, like pricing.
   if (isContactPath(path)) {
     return (
-      <>
-        <Nav accent={TWEAK_DEFAULTS.accent} />
-        <ErrorBoundary>
-          <Suspense fallback={<RouteFallback />}>
-            <ContactPage />
-          </Suspense>
-        </ErrorBoundary>
-        <Footer />
-      </>
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
+          <ContactPage />
+        </Suspense>
+      </ErrorBoundary>
     );
   }
 
