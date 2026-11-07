@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 // Terms of Service — starter content. Review with counsel before publishing.
 // Find-and-replace placeholders if needed:
-//   Poolnautics LLC               the business behind Poolnautics (a Florida LLC): launch only once
-//                                 it's active on sunbiz.org, spelled exactly as filed
+//   Poolnautics LLC               the business behind Poolnautics: a Florida LLC, active on sunbiz.org
+//                                 (document L26000558408, filed 11/02/2026), spelled as filed
 //   Florida                       governing state
 //   October 27, 2026              updated date
 //   legal@getpoolnautics.com      general legal contact email
 //   copyright@getpoolnautics.com  DMCA designated agent email
-//   [mailing address]             physical address for DMCA notices — fill before publishing
+//   212 48th St N, St. Petersburg, FL 33713   DMCA notices: the LLC's mailing address on sunbiz.org
 
 const SECTIONS = [
   { id: 'acceptance', title: 'Acceptance & Who This Applies To' },
@@ -416,7 +416,8 @@ const TermsPage = () => {
               <p>We respect intellectual property rights. If you believe content available through Poolnautics infringes your copyright, please send a notice complying with 17 U.S.C. § 512(c)(3) to our designated agent:</p>
               <p style={{ marginTop: 10 }}>
                 <strong style={{ color: 'var(--ink-2)' }}>Poolnautics — Copyright Agent</strong><br/>
-                [mailing address]<br/>
+                212 48th St N<br/>
+                St. Petersburg, FL 33713<br/>
                 <a href="mailto:copyright@getpoolnautics.com" style={{ color: 'var(--accent)' }}>copyright@getpoolnautics.com</a>
               </p>
               <p>Your notice must include: (a) a physical or electronic signature of the copyright owner or authorized agent; (b) identification of the copyrighted work claimed to have been infringed; (c) identification of the allegedly infringing material and information sufficient to locate it; (d) your contact information; (e) a statement of good-faith belief that the use is not authorized; and (f) a statement under penalty of perjury that the information in the notice is accurate and that you are authorized to act. We may remove or disable access to allegedly infringing material and may terminate repeat infringers in accordance with our policies.</p>
