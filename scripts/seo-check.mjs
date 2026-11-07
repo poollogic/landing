@@ -1,13 +1,15 @@
 #!/usr/bin/env node
-/* SEO guardrails for the homepage hero (see CLAUDE.md → "Homepage hero SEO guardrails"). For now only the
-   hero and the dashboard preview inside it (<section class="hero"> on /) are held to these rules: their code
-   and their behaviour in the browser. Widen SOURCE / HERO when more of the site should be covered.
+/* SEO guardrails for the homepage hero and /ai-integrations (see CLAUDE.md → "SEO guardrails"). The hero
+   (<section class="hero">) of each route in ROUTES is held to these rules, its code and its behaviour in the
+   browser; on pre-rendered routes the served HTML must also carry the whole page's text. Widen SOURCE /
+   ROUTES when more of the site should be covered.
    Run after `npm run build`:  npm run check:seo
    Exits 1 if a rule is broken, so CI stops before deploying.
 
-   1. Crawlable text   – the served HTML must carry a title and description; once pre-rendering lands
-                         (STRICT_STATIC_TEXT = true) it must also carry the hero's <h1> and copy. In a real
-                         browser the hero must show a non-empty <h1> quickly.
+   1. Crawlable text   – the served HTML must carry a title and description. A route with strictStatic (it's
+                         pre-rendered, entry-server.jsx) must also carry its <h1>, every <h2> the page shows
+                         in the browser, its canonical URL and its JSON-LD; for the rest that's a warning until
+                         they're pre-rendered too. In a real browser the hero must show a non-empty <h1> quickly.
    2. Asset weight     – no PNG/JPEG/GIF in the hero code; <img>/<video> must be WebP/AVIF/SVG, lazy-loaded
                          unless marked high priority, and sized; no imported image over the budget.
    3. Layout shift     – load / in headless Chrome (desktop + phone):
@@ -16,25 +18,32 @@
                             render (±2px). Measured on layout boxes, so transform-based animation is fine.
                          b) scroll through the hero; Google's CLS metric for anything inside it must stay
                             under the budget. (Chrome doesn't report every shift, which is why (a) exists.)
-                         Page errors fail too.
+                         Page errors and console errors (hydration mismatches among them) fail too.
 
    Needs Node 22+ (global WebSocket) and Chrome (CHROME_PATH, or the usual install locations). */
 import { spawn } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, statSync, mkdtempSync, rmSync } from 'node:fs';
 import { join, extname, relative } from 'node:path';
 import { tmpdir } from 'node:os';
+import { createServer } from 'node:net';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const DIST = join(ROOT, 'dist');
 
 /* ---------- Settings ---------- */
-const STRICT_STATIC_TEXT = false; // flip to true once the build pre-renders page HTML (see CLAUDE.md)
-const ROUTES = ['/']; // the homepage
-const HERO = 'section.hero'; // the hero, including the dashboard preview
-const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview']; // the hero's own code
+const STRICT_STATIC_TEXT = false; // the homepage: flip to true once the build pre-renders it (see CLAUDE.md)
+const HERO = 'section.hero'; // each route's hero, including its product mockup
+// html: the file the server sends for the route. stable: hero elements that must not move or resize after
+// first render. strictStatic: the served HTML must carry the page's text (a pre-rendered route).
+const ROUTES = [
+  // The homepage (its dashboard preview is .mockup-holder)
+  { path: '/', html: 'index.html', strictStatic: STRICT_STATIC_TEXT, stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-cta', '.hero-fine', '.mockup-holder'] },
+  // AI, automations and integrations: pre-rendered (its assistant window is .ai-chat). Its top three
+  // sections only for now, so no FAQPage: add it back with FULL_PAGE in pages/ai-integrations.jsx.
+  { path: '/ai-integrations', html: 'ai-integrations.html', strictStatic: true, jsonLd: ['WebPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
+];
+const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai']; // the heroes' own code
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
-// Hero elements that must not move or resize after first render (the dashboard preview is .mockup-holder)
-const STABLE = ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-cta', '.hero-fine', '.mockup-holder'].map((c) => `${'section.hero'} ${c}`);
 const STABLE_TOLERANCE_PX = 2;
 const CLS_BUDGET = 0.01; // we hold the new pages at zero; Google's "good" line is 0.1
 const H1_BUDGET_MS = 4000; // a rendered, non-empty <h1> must exist by then (headless, no throttling)
@@ -92,18 +101,30 @@ function checkImportedImages() {
   }
 }
 
-function checkServedHtml() {
-  const file = join(DIST, 'index.html');
-  if (!existsSync(file)) { fail('crawlable text', 'dist/index.html is missing – run `npm run build` first'); return; }
+const ORIGIN = 'https://getpoolnautics.com';
+const textOf = (html) => html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/&#x27;|&#39;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+const servedHeadings = {}; // route → the <h1>/<h2> texts in the served HTML, compared with the browser's below
+
+function checkServedHtml(route) {
+  const file = join(DIST, route.html);
+  const rel = `dist/${route.html}`;
+  if (!existsSync(file)) { fail('crawlable text', `${rel} is missing – run \`npm run build\` first`); return; }
   const html = readFileSync(file, 'utf8');
-  if (!/<title>[^<]{10,}<\/title>/.test(html)) fail('crawlable text', 'dist/index.html has no real <title>');
-  if (!/<meta name="description" content="[^"]{50,}"/.test(html)) fail('crawlable text', 'dist/index.html has no meta description');
-  const root = html.match(/<div id="root">([\s\S]*?)<\/div>\s*<script/);
-  const hasCopy = /<h1[\s>]/.test(html) && root && root[1].replace(/<[^>]+>/g, '').trim().length > 200;
+  if (!/<title>[^<]{10,}<\/title>/.test(html)) fail('crawlable text', `${rel} has no real <title>`);
+  if (!/<meta name="description" content="[^"]{50,}"/.test(html)) fail('crawlable text', `${rel} has no meta description`);
+  const start = html.indexOf('<div id="root">');
+  const root = start === -1 ? '' : html.slice(start + 15, html.lastIndexOf('</div>', html.lastIndexOf('</body>')));
+  const hasCopy = /<h1[\s>]/.test(root) && textOf(root).length > 200;
   if (!hasCopy) {
-    const msg = 'the HTML the server sends has no <h1> or page copy – text only appears after JavaScript runs (pre-rendering not set up yet)';
-    STRICT_STATIC_TEXT ? fail('crawlable text', msg) : warn('crawlable text', msg);
+    const msg = `${route.path}: the HTML the server sends has no <h1> or page copy – text only appears after JavaScript runs (not pre-rendered)`;
+    route.strictStatic ? fail('crawlable text', msg) : warn('crawlable text', msg);
   }
+  if (!route.strictStatic) return;
+  servedHeadings[route.path] = [...root.matchAll(/<h([12])[^>]*>([\s\S]*?)<\/h\1>/g)].map((m) => textOf(m[2]));
+  const canonical = html.match(/<link rel="canonical" href="([^"]+)">/)?.[1];
+  if (canonical !== ORIGIN + route.path) fail('crawlable text', `${rel}: canonical is ${canonical}, not ${ORIGIN + route.path}`);
+  const types = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => { try { return JSON.parse(m[1])['@type']; } catch { return null; } });
+  for (const t of route.jsonLd ?? []) if (!types.includes(t)) fail('crawlable text', `${rel} has no ${t} JSON-LD in <head>`);
 }
 
 /* ---------- 1 + 3: real-browser checks ---------- */
@@ -126,7 +147,9 @@ async function browserChecks() {
   const chromePath = findChrome();
   if (!chromePath) { fail('setup', 'Chrome not found – set CHROME_PATH'); return; }
 
-  const PORT = 4317, DEBUG = 9333;
+  // Free ports, so another local server (another project's preview) is never checked by mistake.
+  const freePort = () => new Promise((r) => { const s = createServer().listen(0, () => { const { port } = s.address(); s.close(() => r(port)); }); });
+  const PORT = await freePort(), DEBUG = await freePort();
   const server = spawn(join(ROOT, 'node_modules/.bin/vite'), ['preview', '--port', String(PORT), '--strictPort'], { cwd: ROOT, stdio: 'ignore' });
   const profile = mkdtempSync(join(tmpdir(), 'seo-check-'));
   const chrome = spawn(chromePath, ['--headless=new', `--remote-debugging-port=${DEBUG}`, `--user-data-dir=${profile}`, '--hide-scrollbars', '--no-first-run',
@@ -146,6 +169,7 @@ async function browserChecks() {
       if (m.id && pending.has(m.id)) { pending.get(m.id)(m); pending.delete(m.id); }
       if (m.method === 'Runtime.exceptionThrown') errors.push(m.params.exceptionDetails.exception?.description?.split('\n')[0] || m.params.exceptionDetails.text);
       if (m.method === 'Log.entryAdded' && m.params.entry.level === 'error' && !/favicon/.test(m.params.entry.url || '')) errors.push(m.params.entry.text);
+      if (m.method === 'Runtime.consoleAPICalled' && m.params.type === 'error') errors.push('console: ' + m.params.args.map((a) => a.value ?? a.description ?? '').join(' ').slice(0, 160));
     };
     const send = (method, params = {}) => new Promise((r) => { const i = ++id; pending.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); });
     const ev = async (expression) => (await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true })).result?.result?.value;
@@ -158,11 +182,12 @@ async function browserChecks() {
         .observe({ type: 'layout-shift', buffered: true });` });
 
     for (const route of ROUTES) {
+      const STABLE = route.stable.map((c) => `${HERO} ${c}`);
       for (const vp of VIEWPORTS) {
-        const label = `${route} @ ${vp.name}`;
+        const label = `${route.path} @ ${vp.name}`;
         errors.length = 0;
         await send('Emulation.setDeviceMetricsOverride', { width: vp.width, height: vp.height, deviceScaleFactor: vp.deviceScaleFactor, mobile: vp.mobile });
-        await send('Page.navigate', { url: `http://localhost:${PORT}${route}` });
+        await send('Page.navigate', { url: `http://localhost:${PORT}${route.path}` });
         const t0 = Date.now();
         // Rule 1 (rendered): a visible, non-empty <h1>
         const h1 = await waitFor(() => ev(`(() => { const h = document.querySelector('h1'); return h && h.textContent.trim().length > 10 && h.getBoundingClientRect().height > 0 ? h.textContent.trim() : null; })()`), H1_BUDGET_MS);
@@ -177,10 +202,16 @@ async function browserChecks() {
         const settled = await ev(boxes);
         let moved = 0;
         for (const sel of STABLE) {
-          const a = first?.[sel], b = settled?.[sel], name = sel.replace('section.hero ', '');
+          const a = first?.[sel], b = settled?.[sel], name = sel.replace(`${HERO} `, '');
           if (!a || !b) { fail('layout shift', `${label}: ${name} ${a ? 'disappeared' : 'was not there at first render'}`); moved++; continue; }
           const d = a.map((v, i) => b[i] - v);
           if (d.some((v) => Math.abs(v) > STABLE_TOLERANCE_PX)) { moved++; fail('layout shift', `${label}: ${name} moved/resized after first render (x ${d[0]}, y ${d[1]}, w ${d[2]}, h ${d[3]} px) – reserve its space up front`); }
+        }
+        // Pre-rendered: every <h1>/<h2> the browser shows must already be in the served HTML
+        if (route.strictStatic && servedHeadings[route.path]) {
+          const shown = await ev(`[...document.querySelectorAll('h1, h2')].map((h) => h.textContent.replace(/\\s+/g, ' ').trim())`);
+          const missing = (shown ?? []).filter((t) => !servedHeadings[route.path].includes(t));
+          if (missing.length) fail('crawlable text', `${label}: headings not in the served HTML: ${missing.slice(0, 3).join(' | ')}`);
         }
         // Scroll through the hero in steps until it has left the screen
         if (!(await ev(`!!document.querySelector('${HERO}')`))) fail('setup', `${label}: ${HERO} not found`);
@@ -204,10 +235,10 @@ async function browserChecks() {
 }
 
 /* ---------- Run ---------- */
-console.log('Homepage hero SEO guardrails');
+console.log('SEO guardrails: homepage hero and /ai-integrations');
 checkSource();
 checkImportedImages();
-checkServedHtml();
+for (const route of ROUTES) checkServedHtml(route);
 await browserChecks();
 for (const w of warnings) console.log(`  ⚠ ${w}`);
 if (failures.length) {
@@ -215,4 +246,4 @@ if (failures.length) {
   for (const f of failures) console.log(`  ✗ ${f}`);
   process.exit(1);
 }
-console.log(`\nAll homepage hero SEO guardrails pass${warnings.length ? ` (${warnings.length} warning${warnings.length > 1 ? 's' : ''})` : ''}.`);
+console.log(`\nAll SEO guardrails pass${warnings.length ? ` (${warnings.length} warning${warnings.length > 1 ? 's' : ''})` : ''}.`);

@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr entry-server.jsx --outDir .prerender && node scripts/prerender.mjs",
     "preview": "vite preview",
     "check:seo": "node scripts/seo-check.mjs",
     "test": "node --test \"server/*.test.mjs\""

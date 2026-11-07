@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './app.jsx';
 
 // If a page's code file fails to load (e.g. a deploy rolling out mid-visit),
@@ -12,8 +12,13 @@ window.addEventListener('vite:preloadError', (event) => {
 });
 window.addEventListener('load', () => setTimeout(() => sessionStorage.removeItem('pl-reloaded'), 10000));
 
-createRoot(document.getElementById('root')).render(
+// A pre-rendered page (entry-server.jsx) arrives with its markup in #root: hydrate it. Every
+// other route arrives empty and renders here.
+const root = document.getElementById('root');
+const app = (
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 );
+if (root.hasChildNodes()) hydrateRoot(root, app);
+else createRoot(root).render(app);

@@ -52,7 +52,7 @@ const perMonth = (monthly, yearly) => (yearly ? Math.round(monthly * 75) / 100 :
 const FEATURED_PLAN = 'insight';
 const customersLabel = (stop) => (stop === CUSTOM ? 'More than 2,500 active customers' : `Up to ${num(STOPS[stop])} active customers`);
 
-// Comparison table: [feature, in Insight, in Vision], by category.
+// Comparison table: [feature, in Insight, in Vision, page about it], by category.
 const COMPARE = [
   ['Routing & Operations', [
     ['Unlimited technicians & office staff', true, true],
@@ -75,7 +75,7 @@ const COMPARE = [
   ]],
   ['Integrations & API', [
     ['Quo, Twilio, Telnyx and Dialpad', false, true],
-    ['API & webhooks (website, Google Ads, Meta)', false, true],
+    ['API & webhooks (website, Google Ads, Meta)', false, true, '/ai-integrations'],
   ]],
 ];
 
@@ -372,9 +372,11 @@ export default function PricingPage() {
                       {category}
                     </th>
                   </tr>
-                  {rows.map(([feature, inInsight, inVision]) => (
+                  {rows.map(([feature, inInsight, inVision, href]) => (
                     <tr key={feature} className="border-b border-slate-100">
-                      <th scope="row" className="py-3.5 pr-4 text-left font-normal text-slate-600">{feature}</th>
+                      <th scope="row" className="py-3.5 pr-4 text-left font-normal text-slate-600">
+                        {href ? <a href={href} className={`underline decoration-slate-300 underline-offset-4 hover:text-blue-600 hover:decoration-blue-600 ${FOCUS}`}>{feature}</a> : feature}
+                      </th>
                       {[inInsight, inVision].map((on, i) => (
                         <td key={i} className="py-3.5 text-center">
                           {on

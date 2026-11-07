@@ -9,6 +9,7 @@ const TechAppPage = lazy(() => import('./pages/tech-app.jsx'));
 const ContactPage = lazy(() => import('./pages/contact.jsx'));
 const PricingPage = lazy(() => import('./pages/pricing.jsx'));
 const ReservePage = lazy(() => import('./pages/reserve.jsx'));
+const AiIntegrationsPage = lazy(() => import('./pages/ai-integrations.jsx'));
 const PartnersPage = lazy(() => import('./pages/partners.jsx'));
 const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
@@ -32,6 +33,7 @@ const isTechAppPath = (p) => p === '/tech-app' || p === '/tech-app/';
 const isContactPath = (p) => p === '/contact' || p === '/contact/';
 const isPricingPath = (p) => p === '/pricing' || p === '/pricing/';
 const isReservePath = (p) => p === '/reserve' || p === '/reserve/';
+export const isAiIntegrationsPath = (p) => p === '/ai-integrations' || p === '/ai-integrations/';
 const isPartnersPath = (p) => p === '/partners' || p === '/partners/';
 const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/terms/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
@@ -39,7 +41,7 @@ const isLandingPath = (p) => p === '/landing' || p === '/landing/';
 
 const SITE_ORIGIN = 'https://getpoolnautics.com';
 
-const ROUTE_META = {
+export const ROUTE_META = {
   home: {
     title: 'Poolnautics — Pool Service Software That Runs on Autopilot',
     description: 'Pool service software that bills on schedule, collects by autopay and flags failed payments before they cost you. Switch from Skimmer or QuickBooks in minutes.',
@@ -56,6 +58,12 @@ const ROUTE_META = {
     title: 'Reserve your spot — Poolnautics',
     description: 'Poolnautics brings on new pool companies in small groups, so every route is set up right. Reserve your spot in the next group.',
     path: '/reserve',
+  },
+  // Pre-rendered at build time (entry-server.jsx), so this is also what the served HTML carries.
+  aiIntegrations: {
+    title: 'Pool Service Automation Software | Poolnautics',
+    description: 'Pool service software that feeds your automations. Every customer, visit, payment and lead flows into Claude, Grok, ChatGPT or your own AI, so invoices, payment reminders and lead follow-ups run on their own.',
+    path: '/ai-integrations',
   },
   techApp: {
     title: 'Tech app — Poolnautics',
@@ -131,7 +139,8 @@ const applyRouteMeta = (meta) => {
   canonical.setAttribute('href', url);
 };
 
-const App = () => {
+// path: the route to render. The browser reads its own; the build's pre-renderer passes it (entry-server.jsx).
+const App = ({ path: pathProp }) => {
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty('--accent', TWEAK_DEFAULTS.accent);
@@ -140,7 +149,7 @@ const App = () => {
     document.body.dataset.theme = TWEAK_DEFAULTS.theme;
   }, []);
 
-  const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+  const path = pathProp ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
 
   useEffect(() => {
     let meta = ROUTE_META.home;
@@ -150,6 +159,7 @@ const App = () => {
     else if (isContactPath(path)) meta = ROUTE_META.contact;
     else if (isPricingPath(path)) meta = ROUTE_META.pricing;
     else if (isReservePath(path)) meta = ROUTE_META.reserve;
+    else if (isAiIntegrationsPath(path)) meta = ROUTE_META.aiIntegrations;
     else if (isPartnersPath(path)) meta = ROUTE_META.partners;
     else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
@@ -228,6 +238,18 @@ const App = () => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0F172A' }} />}>
           <ReservePage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // Pre-rendered: the served HTML already holds this page, and main.jsx hydrates it. Keep the
+  // tree here the same as entry-server.jsx renders it.
+  if (isAiIntegrationsPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
+          <AiIntegrationsPage />
         </Suspense>
       </ErrorBoundary>
     );

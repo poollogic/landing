@@ -66,8 +66,10 @@ const FooterLink = ({ label, href }) => (
 const Footer = () =>
 <footer className="site-footer">
     <div className="container footer-bottom">
-      <span>© {new Date().getFullYear()} Poolnautics. All rights reserved.</span>
+      {/* The year can differ between a pre-rendered page's build and the visit. */}
+      <span suppressHydrationWarning>© {new Date().getFullYear()} Poolnautics. All rights reserved.</span>
       <span className="site-footer-links">
+        <a href="/ai-integrations" className="site-footer-link">AI &amp; integrations</a>
         <a href="/partners" className="site-footer-link">Partners</a>
         <a href="/terms" className="site-footer-link">Terms</a>
         <a href="/privacy" className="site-footer-link">Privacy</a>
