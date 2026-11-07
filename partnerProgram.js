@@ -23,7 +23,7 @@ import { BRACKETS } from './pricingPlans.js';
 export const PARTNER = {
   // ── Terms ────────────────────────────────────────────────────────────────
   termsVersion: '2026-10.2',
-  termsUpdated: 'October 22, 2026',
+  termsUpdated: 'November 7, 2026',
   termsDraft: true,
 
   // ── Contact and apply ────────────────────────────────────────────────────

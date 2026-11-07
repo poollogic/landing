@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 //   Poolnautics LLC               the business behind Poolnautics (a Florida LLC): launch only once
 //                                 it's active on sunbiz.org, spelled exactly as filed
 //   Florida                       governing state
-//   October 27, 2026              updated date
+//   November 7, 2026              updated date
 //   privacy@getpoolnautics.com    contact email
 //
 // Subprocessors listed below reflect the current stack — confirm before going live
@@ -64,7 +64,7 @@ const PrivacyPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> October 27, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 7, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
         </header>
