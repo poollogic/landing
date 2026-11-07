@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { usePreviewTheme } from './preview/previewTheme.js';
 import { ctaHref, isReserving } from './onboarding.js';
+import { Wordmark } from '../components/brand-logo.jsx';
 
 // Top nav for the homepage and /pricing. Absolutely positioned over the hero
 // (not sticky). Styles live in landing/hero.css.
@@ -53,7 +54,7 @@ const Nav = ({ focused = false }) => {
     return (
       <header className="lp-nav is-focused">
         <div className="lp-nav-bar container">
-          <a href="/" className="lp-nav-wordmark">Poolnautics</a>
+          <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg="dark" /></a>
           <div className="nav-right">
             <a href={APP_URL} className="nav-signin">Sign in</a>
           </div>
@@ -66,7 +67,7 @@ const Nav = ({ focused = false }) => {
     <>
     <header className="lp-nav" ref={ref}>
       <div className="lp-nav-bar container">
-        <a href="/" className="lp-nav-wordmark">Poolnautics</a>
+        <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg="dark" /></a>
 
         <nav className="nav-links" aria-label="Primary">
           {LINKS.map(([label, href]) => <a key={label} href={href}>{label}</a>)}

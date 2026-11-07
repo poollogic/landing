@@ -24,11 +24,9 @@
   justify-content: space-between;
   position: relative;
 }
-.lp-nav-wordmark {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: #F8FAFC;
+.lp-nav-wordmark { /* the logo's name, without the mark (Wordmark, components/brand-logo.jsx) */
+  display: flex;
+  align-items: center;
 }
 
 .nav-links {

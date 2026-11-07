@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Logo, I } from './icons.jsx';
+import { I } from './icons.jsx';
+import BrandLogo from './brand-logo.jsx';
 
 // The old site's nav and footer, used on every page outside the marketing
 // pages (and the footer on those too). Kept apart from sections.jsx so the
@@ -23,7 +24,7 @@ const Nav = ({ accent }) => {
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64, position: 'relative' }}>
         <a href="/" aria-label="Poolnautics — home" style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
-          <Logo size={38} gap={6} fontSize={scrolled ? 18 : 21} hideIcon={scrolled} />
+          <BrandLogo height={40} compact={scrolled} />
         </a>
         <div className="nav-links" style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 14, position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
           {[
