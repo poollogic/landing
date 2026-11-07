@@ -36,15 +36,152 @@
   display: flex;
   gap: 10px;
 }
-.nav-links a {
+.nav-links > a,
+.nav-dd-trigger {
   font-size: 14.5px;
   padding: 8px 14px;
   border-radius: 8px;
   color: #7C8AA0;
   transition: color .3s, text-shadow .3s;
 }
-.nav-links:hover a { color: #5B677A; } /* dim the siblings */
-.nav-links a:hover { color: #F8FAFC; text-shadow: 0 0 18px rgba(147, 197, 253, .55); }
+.nav-links:hover > a,
+.nav-links:hover .nav-dd-trigger { color: #5B677A; } /* dim the siblings */
+.nav-links > a:hover,
+.nav-links > a[aria-current="page"],
+.nav-links .nav-dd-trigger:hover,
+.nav-links .nav-dd.is-open .nav-dd-trigger { color: #F8FAFC; text-shadow: 0 0 18px rgba(147, 197, 253, .55); }
+
+/* Features dropdown (FeaturesMenu, Nav.jsx): a wide panel centred under the links (.nav-links,
+   whose transform makes it the panel's containing block). Inside, a lighter card holds two columns
+   of features and a column of plain links; what's new runs along the bottom. Its links are always
+   in the page, hidden while it's closed; it fades and drops in with opacity and transform only. */
+.nav-dd-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: inherit;
+  line-height: inherit;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.nav-links .nav-dd.is-open .nav-dd-trigger { background: rgba(148, 163, 184, .1); }
+.nav-dd-trigger svg { transition: transform .25s cubic-bezier(.2, .8, .2, 1); }
+.nav-dd.is-open .nav-dd-trigger svg { transform: rotate(180deg); }
+
+.nav-dd-panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  width: min(1040px, calc(100vw - 2 * var(--gutter)));
+  padding: 8px;
+  border-radius: 18px;
+  background: #0B0D12;
+  box-shadow: 0 0 0 1px rgba(148, 163, 184, .12), 0 32px 64px -16px rgba(0, 0, 0, .7);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -6px);
+  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+}
+.nav-dd-panel::before { /* bridges the gap under the button, so the pointer can cross it */
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 16px;
+}
+.nav-dd.is-open .nav-dd-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition: opacity .18s ease, transform .22s cubic-bezier(.2, .9, .3, 1);
+}
+.nav-dd-panel ul { margin: 0; padding: 0; list-style: none; }
+
+.nav-dd-card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 22px 0;
+  border-radius: 12px;
+  background: #151820;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, .1);
+}
+.nav-dd-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 0 22px;
+}
+.nav-dd-col + .nav-dd-col { border-left: 1px solid rgba(148, 163, 184, .1); }
+
+.nav-dd-feature {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  transition: background .2s;
+}
+.nav-dd-label {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #E2E8F0;
+  transition: color .2s;
+}
+.nav-dd-desc {
+  display: block;
+  max-width: 30ch;
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #7C8AA0;
+  text-wrap: pretty;
+  transition: color .2s;
+}
+.nav-dd-feature:hover { background: rgba(148, 163, 184, .06); }
+.nav-dd-feature:hover .nav-dd-label { color: #F8FAFC; }
+.nav-dd-feature:hover .nav-dd-desc { color: #94A3B8; }
+
+.nav-dd-more { gap: 4px; }
+.nav-dd-more a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.35;
+  color: #CBD5E1;
+  transition: background .2s, color .2s;
+}
+.nav-dd-more a:hover { background: rgba(148, 163, 184, .06); color: #F8FAFC; }
+
+.nav-dd-news {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 34px 12px;
+  font-size: 14px;
+  color: #7C8AA0;
+}
+.nav-dd-news b { margin-right: 6px; font-weight: 500; color: #E2E8F0; }
+.nav-dd-news-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  transition: color .2s;
+}
+.nav-dd-news-more svg { transition: transform .2s; }
+.nav-dd-news:hover .nav-dd-news-more { color: #F8FAFC; }
+.nav-dd-news:hover .nav-dd-news-more svg { transform: translateX(2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-dd-trigger svg,
+  .nav-dd-panel,
+  .nav-dd.is-open .nav-dd-panel { transition: none; }
+}
 
 .nav-right {
   display: flex;
@@ -145,6 +282,18 @@
   transition: background .2s, color .2s;
 }
 .nav-menu a:hover { background: rgba(148, 163, 184, .08); color: #fff; }
+.nav-menu a[aria-current="page"] { color: #fff; }
+.nav-menu-label {
+  margin: 0;
+  padding: 8px 14px 4px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #5B677A;
+}
+.nav-menu .menu-feature { display: flex; align-items: center; gap: 12px; }
+.nav-menu .menu-feature svg { flex: none; color: #7C8AA0; }
 .nav-menu .menu-trial { display: none; }
 .nav-menu hr {
   margin: 6px 8px;
@@ -158,13 +307,19 @@
   outline-offset: 2px;
 }
 
-@media (max-width: 859.98px) {
+/* Up to 880px (index.html hides .nav-links there too) the burger menu takes over from the links.
+   Above phone width, Sign in and the CTA stay in the bar, and the menu is a panel under the burger. */
+@media (max-width: 880px) {
   .nav-links { display: none; }
+  .nav-burger { display: inline-flex; }
+}
+@media (min-width: 560px) and (max-width: 880px) {
+  .nav-menu { left: auto; right: var(--gutter); width: 300px; } /* under the burger */
+  .nav-menu .menu-signin { display: none; }
 }
 @media (max-width: 559.98px) {
   .nav-right { gap: 0; }
   .nav-signin, .nav-right .nav-trial { display: none; }
-  .nav-burger { display: inline-flex; }
   .nav-menu .menu-trial,
   .nav-menu .menu-trial:hover {
     display: flex;
@@ -179,7 +334,7 @@
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 0 0 1px rgba(46, 133, 255, .6);
   }
 }
-@media (min-width: 560px) {
+@media (min-width: 880.02px) {
   .nav-menu { display: none; }
 }
 
@@ -343,6 +498,8 @@ html.nav-locked { overflow: hidden; }
    without it, everything above applies unchanged. The hook sets the
    transforms, the headline's opacity/blur and the container's padding-top. */
 .has-hero-fx .lp-nav { position: fixed; left: 0; right: 0; z-index: 50; }
+/* The open Features menu goes over the hero's copy and dashboard (z-index 60, below). */
+.has-hero-fx .lp-nav.is-dd-open { z-index: 70; }
 .has-hero-fx .hero {
   isolation: auto; /* lets the dashboard pass over the nav */
   background:

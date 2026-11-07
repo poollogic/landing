@@ -44,6 +44,10 @@ const ROWS = [
   { label: 'Invoices past due', note: '(overdue notices sent)', count: 3, red: true },
   { label: 'Estimates awaiting approval', count: 2 },
 ];
+// The open list's height in px (.rvm-rows li in revenue-mobile.css: 48px rows, 12px above the first).
+// A number, not 'auto': framer-motion measures 'auto' and then puts the page's scroll back with
+// window.scrollTo, which stops a link's smooth scroll (or a fling) passing through this section.
+const ROWS_H = 12 + ROWS.length * 48;
 const TILES = [
   { label: 'Invoiced, month to date', dot: '#3885C6', value: '$52,720' },
   { label: 'Recurring revenue', dot: '#fff', value: '$48,930', unit: '/mo' },
@@ -131,7 +135,7 @@ function Dashboard({ open, tap }) {
             className="rvm-rows"
             initial={false}
             animate={open ? 'open' : 'closed'}
-            variants={{ open: { height: 'auto', transition: { duration: 0.45, ease: IOS, staggerChildren: 0.07, delayChildren: 0.08 } }, closed: { height: 0, transition: { duration: 0.35, ease: IOS } } }}
+            variants={{ open: { height: ROWS_H, transition: { duration: 0.45, ease: IOS, staggerChildren: 0.07, delayChildren: 0.08 } }, closed: { height: 0, transition: { duration: 0.35, ease: IOS } } }}
           >
             {ROWS.map((r) => (
               <motion.li

@@ -214,7 +214,7 @@ export default function PricingPage() {
   const vision = bracket && bracket[2];
   return (
     <div className="mktg relative min-h-screen bg-mktg-base font-sans text-mktg-muted antialiased">
-      <Nav />
+      <Nav current="/pricing" />
       <main>
         {/* 1. Hero (dark): clears the nav like the homepage hero; one group with the slider and cards. */}
         <section className="bg-mktg-base pb-[var(--section-head-gap)] pt-[var(--page-hero-top)]" aria-labelledby="pricing-heading">
