@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 //   Poolnautics LLC               the business behind Poolnautics: a Florida LLC, active on sunbiz.org
 //                                 (document L26000558408, filed 11/02/2026), spelled as filed
 //   Florida                       governing state
-//   November 7, 2026              updated date
+//   November 8, 2026              updated date
 //   legal@getpoolnautics.com      general legal contact email
 //   copyright@getpoolnautics.com  DMCA designated agent email
 //   212 48th St N, St. Petersburg, FL 33713   DMCA notices: the LLC's mailing address on sunbiz.org
@@ -37,6 +37,15 @@ const SECTIONS = [
 const TermsPage = () => {
   const [activeId, setActiveId] = useState(SECTIONS[0].id);
 
+  // A link to a section (the app's #mail-service, #route-transfers) opens at it:
+  // the page is drawn after the browser's own jump to the hash, so it never landed.
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id) return;
+    const frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   // Highlight TOC entry for the section currently in the upper portion of the viewport.
   useEffect(() => {
     const headings = SECTIONS.map((s) => document.getElementById(s.id)).filter(Boolean);
@@ -67,7 +76,7 @@ const TermsPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 7, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 8, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
         </header>
@@ -370,12 +379,30 @@ const TermsPage = () => {
 
               <h3>Changes to Fees</h3>
               <p>We may change subscription fees, fee structures, or the features included in any tier on at least <strong>thirty (30) days'</strong> notice to the Subscriber (by email or by posting in the Service). A fee change takes effect at the start of your next renewal period following the notice. Your continued use of the Service after the new fee takes effect constitutes acceptance of the new fee. If you do not accept a fee change, your sole remedy is to cancel your subscription before the new fee takes effect, in which case access continues through the end of the then-current billing period.</p>
+              <h3 id="mail-service" style={{ scrollMarginTop: 96 }}>Mail Service (version 2026-10-15)</h3>
+              <p><strong>The service.</strong> The Mail Service is an optional part of the Service in which Poolnautics prints and mails, by first-class U.S. Mail, invoices and letters the Subscriber chooses to send, or that the Subscriber sets the Service to mail automatically. Poolnautics uses third-party print and mail providers (currently PostGrid) and the United States Postal Service to do so.</p>
+              <p><strong>Enrolling.</strong> The Mail Service is turned on in the Service by a Subscriber administrator. By turning it on, the Subscriber agrees to this section and to the prices shown at that moment, and authorizes the charges described below. The person turning it on represents that they are authorized to bind the Subscriber. Poolnautics keeps a record of each enrollment, including who enrolled, when, from what IP address, the prices shown, the version of these terms, and the words agreed to, and of each letter mailed; those records are evidence of the Subscriber's agreement and of the charges.</p>
+              <p><strong>Fees.</strong> The Subscriber pays the per-letter price shown in the Service when it enrolled: as of this version, $1.75 for each letter of up to three pages, plus $0.25 for each page after that. A letter counts when Poolnautics submits it to its print provider. Prices are exclusive of any taxes, which the Subscriber pays where they apply.</p>
+              <p><strong>Billing and payment authorization.</strong> Poolnautics bills the Mail Service monthly, after the month ends, for the letters submitted in that calendar month in the Subscriber's time zone, and may bill letters not yet billed sooner (for example, when the Subscriber turns the Mail Service off or closes its account). The Subscriber authorizes Poolnautics, through its payment processor Stripe, to charge each bill to the payment method the Subscriber keeps on file for the Mail Service, automatically and without further notice. A payment method is required to turn the Mail Service on. If no payment method is on file when a bill is made, Poolnautics emails the bill to the Subscriber, payable within 7 days.</p>
+              <p><strong>Failed payments and suspension.</strong> If a payment fails, the Service shows a notice and Poolnautics or Stripe may retry the payment. If a bill remains unpaid 14 days after it first failed (or, for an emailed bill, after it fell due), Poolnautics suspends the Mail Service until the amount owed is paid. While the Mail Service is suspended, Poolnautics does not mail documents for the Subscriber; the documents remain in the Service for the Subscriber to print and mail itself or to send once mailing resumes. Poolnautics does not advance postage or printing costs for a Subscriber with an unpaid bill and is not responsible for the consequences of a suspension, including documents the Subscriber's customers do not receive. Suspension does not reduce what the Subscriber owes.</p>
+              <p><strong>Automatic mailing.</strong> If the Subscriber turns on automatic mailing, it authorizes Poolnautics to mail the documents the Service is set to mail (such as recurring invoices for customers who receive paper bills) as soon as they are created, without further review by the Subscriber, and to charge for them under this section.</p>
+              <p><strong>The Subscriber's responsibilities.</strong> The Subscriber is responsible for the content of every document mailed, for the accuracy of recipient names and addresses, for having the right to contact each recipient, and for complying with the laws that apply to its mail, including consumer-protection, debt-collection and privacy laws.</p>
+              <p><strong>No refunds.</strong> A letter is final once it has been submitted for printing. Letters are not refunded, including letters returned as undeliverable and letters whose content or address the Subscriber supplied in error. Poolnautics may, at its discretion, credit letters that failed because of Poolnautics' own error.</p>
+              <p><strong>Delivery.</strong> Delivery and delivery times depend on the United States Postal Service. Poolnautics does not guarantee that or when any letter will be delivered and is not liable for loss, delay or misdelivery by the postal service or its providers. Where a provider reports a letter as returned or undeliverable, the Service shows it.</p>
+              <p><strong>Changes to prices and these terms.</strong> Poolnautics will give at least 30 days' notice of a change to Mail Service prices, by email and in the Service. A change applies to letters submitted on or after its effective date. Where these terms change, the Subscriber may be asked to agree again in the Service before mailing more.</p>
+              <p><strong>Turning it off.</strong> The Subscriber may turn the Mail Service off at any time in the Service. Letters already submitted are billed as described above.</p>
+              <p><strong>Recipient information.</strong> Poolnautics shares recipient names and addresses and the content of each document with its print and mail providers only to provide the Mail Service.</p>
+              <p><strong>Billing disputes.</strong> The Subscriber must raise any dispute about a Mail Service charge with Poolnautics within 60 days of the charge. Disputing a charge with a card issuer without first raising it with Poolnautics may lead Poolnautics to suspend the Mail Service until the dispute is resolved.</p>
             </Section>
 
             <Section id="data" title="12. Data Ownership & Feedback">
               <p><strong>You own your data.</strong> Customer records, invoices, estimates, service reports, photos, and any other content you upload to Poolnautics remain your property.</p>
               <p>You grant Poolnautics a limited, non-exclusive, royalty-free license to host, process, transmit, and display your data solely for the purpose of operating and improving the service for you.</p>
               <p>You may export your data at any time during your subscription. On account closure or termination, you have <strong>30 days</strong> to export your data. After that period, we may delete it, subject to any legal or financial-record retention obligations (for example, Stripe transaction records, which are retained per Stripe's own policies).</p>
+
+              <h3 id="mileage-records" style={{ scrollMarginTop: 96 }}>Mileage Records</h3>
+              <p>The Service's mileage log is a record-keeping aid, not tax, accounting or legal advice. The Service doesn't guarantee that the log is complete or accurate, or that it meets the requirements of the IRS or any other authority: a phone that is off, out of signal or has location turned off can miss or misjudge miles. The Subscriber is responsible for giving its technicians any notice, and getting any consent, that the law requires before their location is logged, and for keeping the records it needs for tax and other legal purposes, for as long as the law requires, including by exporting them from the Service. While the weekly email is on, the Service emails the previous week's mileage records to the addresses the Subscriber chooses; keeping those emails, and any exports, is the Subscriber's responsibility, and an email that is missed or not delivered doesn't change that.</p>
+              <p>Despite the 30-day export period above, when the Subscriber's account is deleted, all of its mileage records (every day's record, its corrections, and the files behind them) are deleted from the Service immediately and permanently: there is no grace period and they cannot be restored. Copies in the Service's routine backups, or held by its service providers, expire on their normal schedule and are never used to restore them. A technician who deletes their own account doesn't delete the mileage records already filed: those are the Subscriber's business records and stay with the Subscriber, as filed, and the Subscriber answers any request a technician makes about them.</p>
 
               <h3>Our Intellectual Property</h3>
               <p>Poolnautics and its licensors retain all right, title, and interest in and to the Service, including all software, source code, designs, UI, trademarks, logos, look and feel, and any documentation. Subject to your compliance with these Terms, we grant you a limited, non-exclusive, non-transferable, revocable license to access and use the Service during your subscription, solely for your business's internal operations. No rights are granted by implication, estoppel, or otherwise. You may not remove or alter any copyright, trademark, or other proprietary notice that appears in the Service.</p>
