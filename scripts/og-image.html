@@ -1,25 +1,32 @@
 <!doctype html>
 <!-- The social share image (public/og-image.png): 1200x630, saved at 2x (2400x1260). Open this file in
-     Chrome at a 1200x630 viewport with device scale factor 2 and screenshot it. Helvetica, as the
-     original was drawn; the values were fitted to that original pixel for pixel. -->
+     Chrome at a 1200x630 viewport with device scale factor 2 and screenshot it. The look is the brand
+     banners' (~/Desktop/Poolnautics/Poolnautics-Brand-Files/social): navy, a blue glow from the top and
+     the P mark faint in the background; the headline is the homepage's, in the site's Geist. -->
 <html><head><meta charset="utf-8"><style>
+  @font-face { font-family: 'Geist'; font-weight: 100 900; src: url('../public/fonts/Geist.woff2') format('woff2-variations'); }
   html, body { margin: 0; }
-  body { width: 1200px; height: 630px; overflow: hidden; position: relative; font-family: Helvetica, 'Helvetica Neue', Arial, sans-serif; color: #09090b;
+  body { width: 1200px; height: 630px; overflow: hidden; position: relative; font-family: 'Geist', sans-serif;
     background:
-      radial-gradient(320px 300px at 1100px 100px, rgba(196, 218, 252, .75), transparent),
-      radial-gradient(440px 360px at 230px 570px, rgba(216, 240, 240, .8), transparent),
-      linear-gradient(115deg, #ffffff 0%, #f6f9ff 45%, #edf3ff 100%); }
-  .brand { position: absolute; left: 80px; top: 80px; display: flex; align-items: center; gap: 12px; }
-  .tile { width: 36px; height: 36px; border-radius: 9px; background: #3b82f6; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 18px; }
-  .word { font-size: 22px; font-weight: 700; color: #18181b; letter-spacing: -.01em; }
-  h1 { position: absolute; left: 79.5px; top: 187px; margin: 0; font-size: 78px; line-height: 77px; font-weight: 700; letter-spacing: -.046em; }
-  .sub { position: absolute; left: 80px; top: 360.5px; margin: 0; font-size: 26px; line-height: 36px; color: #52525b; letter-spacing: -.01em; }
-  .foot { position: absolute; left: 80px; top: 529px; display: flex; align-items: center; gap: 28px; font-size: 18px; color: #71717a; }
-  .foot b { color: #3b82f6; }
-  .dot { width: 5px; height: 5px; border-radius: 50%; background: #a1a1aa; }
+      radial-gradient(620px 420px at 470px -60px, rgba(37, 79, 190, .42), transparent 70%),
+      #0E1322; }
+  .bg-p { position: absolute; right: -150px; top: -70px; width: 640px; height: 766px; }
+  .logo { position: absolute; left: 80px; top: 72px; height: 82px; }
+  h1 { position: absolute; left: 78px; top: 214px; margin: 0; font-size: 76px; line-height: 1.04; font-weight: 700;
+    letter-spacing: -.035em; color: #F2F5FB; }
+  .sub { position: absolute; left: 80px; top: 404px; margin: 0; max-width: 660px; font-size: 27px; line-height: 1.4;
+    color: #9AA3B8; letter-spacing: -.005em; }
+  .url { position: absolute; left: 80px; bottom: 74px; font-size: 22px; font-weight: 500; color: #5ED3F3; letter-spacing: .01em; }
 </style></head><body>
-  <div class="brand"><div class="tile">P</div><div class="word">Poolnautics</div></div>
-  <h1>Pool service software for<br>routes, billing, and reports.</h1>
-  <p class="sub">One app your techs can run from day one. Routes, chemistry, branded<br>service reports, and billing — together.</p>
-  <div class="foot"><b>getpoolnautics.com</b><span class="dot"></span><span>Built for pool service businesses</span></div>
+  <!-- The brand mark's strokes, scaled up, a shade off the background -->
+  <svg class="bg-p" viewBox="5.25 0 53.5 64" aria-hidden="true">
+    <g fill="none" stroke="#F2F5FB" stroke-opacity=".05" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M11 59 V26 A21 21 0 1 1 32 47"/><path d="M20 48 V26 A12 12 0 1 1 32 38"/>
+    </g>
+    <circle cx="32" cy="26" r="3.8" fill="#F2F5FB" fill-opacity=".05"/>
+  </svg>
+  <img class="logo" src="../public/brand/poolnautics-logo_for-dark-bg.svg" alt="Poolnautics">
+  <h1>Run your pool route.<br>Don’t let it run you.</h1>
+  <p class="sub">Routes, chemistry, billing and autopay in one app built for pool service businesses.</p>
+  <div class="url">getpoolnautics.com</div>
 </body></html>
