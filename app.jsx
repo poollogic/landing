@@ -45,8 +45,8 @@ export const ROUTE_META = {
   home: {
     title: 'Poolnautics — Pool Service Software That Runs on Autopilot',
     description: 'Pool service software that bills on schedule, collects by autopay and flags failed payments before they cost you. Switch from Skimmer or QuickBooks in minutes.',
-    ogTitle: 'Poolnautics — The End of Pool Company Chaos',
-    ogDescription: 'Routes, autopay billing and revenue protection in one app built for pool pros. Import your customer list in under 2 minutes.',
+    ogTitle: 'Poolnautics — Run your pool route. Don’t let it run you.',
+    ogDescription: 'Route your techs, track every chemical, and get paid on time, without lifting a finger. Import your Skimmer or Excel route in minutes.',
     path: '/',
   },
   pricing: {
