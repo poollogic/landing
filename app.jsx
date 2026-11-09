@@ -172,7 +172,7 @@ const App = ({ path: pathProp }) => {
   if (isTermsPath(path)) {
     return (
       <>
-        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <Nav />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <TermsPage />
@@ -186,7 +186,7 @@ const App = ({ path: pathProp }) => {
   if (isPrivacyPath(path)) {
     return (
       <>
-        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <Nav />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PrivacyPage />
@@ -200,7 +200,7 @@ const App = ({ path: pathProp }) => {
   if (isTechAppPath(path)) {
     return (
       <>
-        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <Nav />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <TechAppPage />
@@ -257,7 +257,7 @@ const App = ({ path: pathProp }) => {
   if (isPartnersPath(path)) {
     return (
       <>
-        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <Nav />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PartnersPage />
@@ -271,7 +271,7 @@ const App = ({ path: pathProp }) => {
   if (isPartnerTermsPath(path)) {
     return (
       <>
-        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <Nav />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PartnerTermsPage />
@@ -286,7 +286,7 @@ const App = ({ path: pathProp }) => {
   if (isLandingPath(path)) {
     return (
       <>
-        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <Nav />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <OldHomePage
@@ -304,7 +304,7 @@ const App = ({ path: pathProp }) => {
   if (isPartnerKitPath(path)) {
     return (
       <>
-        <Nav accent={TWEAK_DEFAULTS.accent} />
+        <Nav />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PartnerKitPage />
