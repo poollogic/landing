@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 //   Poolnautics LLC               the business behind Poolnautics (a Florida LLC): launch only once
 //                                 it's active on sunbiz.org, spelled exactly as filed
 //   Florida                       governing state
-//   November 7, 2026              updated date
+//   November 9, 2026              updated date
 //   privacy@getpoolnautics.com    contact email
 //
 // Subprocessors listed below reflect the current stack — confirm before going live
@@ -64,7 +64,7 @@ const PrivacyPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 7, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 9, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
         </header>
@@ -188,8 +188,8 @@ const PrivacyPage = () => {
               <div style={{ marginTop: 18, border: '1px solid var(--line)', borderRadius: 10, overflow: 'hidden' }}>
                 <SubprocessorRow
                   name="Stripe"
-                  purpose="Payment processing, customer card storage, payouts, and Subscriber identity verification (KYC/KYB) for Stripe Connect Express accounts. Stripe acts as an independent controller for personal information it collects to comply with its own anti-money-laundering, sanctions, fraud-prevention, and regulatory obligations; that processing is governed by Stripe's own privacy policy and the Stripe Services Agreement and Stripe Connected Account Agreement, not by this Privacy Policy."
-                  shared="Full payment method data, customer name, billing/service address, charge amounts, invoice metadata; for Subscribers, the identity-verification information Stripe requires for Connect Express onboarding."
+                  purpose="Payment processing, customer card storage, payouts, and Subscriber identity verification (KYC/KYB) for Subscribers' Stripe connected accounts. Stripe acts as an independent controller for personal information it collects to comply with its own anti-money-laundering, sanctions, fraud-prevention, and regulatory obligations; that processing is governed by Stripe's own privacy policy and the Stripe Services Agreement and Stripe Connected Account Agreement, not by this Privacy Policy."
+                  shared="Full payment method data, customer name, billing/service address, charge amounts, invoice metadata; for Subscribers, the identity-verification information Stripe requires for Stripe Connect onboarding."
                   link="https://stripe.com/privacy"
                 />
                 <SubprocessorRow
