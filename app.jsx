@@ -13,6 +13,7 @@ const ReservePage = lazy(() => import('./pages/reserve.jsx'));
 const AiIntegrationsPage = lazy(() => import('./pages/ai-integrations.jsx'));
 const PartnersPage = lazy(() => import('./pages/partners.jsx'));
 const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
+const TechnicianTermsPage = lazy(() => import('./pages/technician-terms.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 
@@ -36,6 +37,8 @@ const isReservePath = (p) => p === '/reserve' || p === '/reserve/';
 export const isAiIntegrationsPath = (p) => p === '/ai-integrations' || p === '/ai-integrations/';
 const isPartnersPath = (p) => p === '/partners' || p === '/partners/';
 const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/terms/';
+// The phone app's sign-in links here (the box on its location screen).
+const isTechnicianTermsPath = (p) => p === '/technician-terms' || p === '/technician-terms/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 
 const SITE_ORIGIN = 'https://getpoolnautics.com';
@@ -88,6 +91,11 @@ export const ROUTE_META = {
     title: 'Partner Program — Poolnautics',
     description: `Get paid when pool pros switch to Poolnautics: a flat ${payoutRange()} for every company you refer, set by its plan and size.`,
     path: '/partners',
+  },
+  technicianTerms: {
+    title: 'Technician App Terms — Poolnautics',
+    description: 'What a pool technician agrees to when they first sign in to the Poolnautics app: location on service reports, mileage logging, route review during work hours, and changing location access.',
+    path: '/technician-terms',
   },
   partnerTerms: {
     title: 'Partner Program Terms — Poolnautics',
@@ -154,6 +162,7 @@ const App = ({ path: pathProp }) => {
     else if (isAiIntegrationsPath(path)) meta = ROUTE_META.aiIntegrations;
     else if (isPartnersPath(path)) meta = ROUTE_META.partners;
     else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
+    else if (isTechnicianTermsPath(path)) meta = ROUTE_META.technicianTerms;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
     // Any other address shows the homepage; keep those copies out of search results.
     else if (path !== '/') meta = { ...ROUTE_META.home, robots: 'noindex,follow' };
@@ -252,6 +261,20 @@ const App = ({ path: pathProp }) => {
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PartnersPage />
+          </Suspense>
+        </ErrorBoundary>
+        <Footer />
+      </>
+    );
+  }
+
+  if (isTechnicianTermsPath(path)) {
+    return (
+      <>
+        <SiteHeader tone="light" />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <TechnicianTermsPage />
           </Suspense>
         </ErrorBoundary>
         <Footer />

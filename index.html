@@ -426,6 +426,9 @@
   .terms-body li { margin-bottom: 4px; }
   .terms-body li:last-child { margin-bottom: 0; }
   .terms-body h3 { margin: 18px 0 6px; font-weight: 600; }
+  /* The page-wide `section { padding: 96px 0 }` isn't for these: each one
+     keeps only its own 36px under it (Section's marginBottom). */
+  .terms-grid article > section { padding: 0; }
   /* Stack the two-column grid on narrow screens — TOC sits above body */
   @media (max-width: 880px) {
     .terms-grid {
