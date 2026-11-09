@@ -203,6 +203,9 @@
 /* An unanswered "Choose one" reads as a placeholder, not an answer */
 .ct-page .rsv-select:has(option[value=""]:checked) { color: rgba(148, 163, 184, .55); }
 
+/* Cloudflare's human check, when it shows: the button's gap above it too */
+.ct-page .cf-check.is-shown { margin-top: clamp(16px, 2.8vh, 24px); }
+
 /* The button */
 .ct-page .rsv-cta {
   margin-top: clamp(16px, 2.8vh, 24px);

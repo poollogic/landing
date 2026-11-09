@@ -130,6 +130,8 @@
 
 /* The buttons: the homepage hero CTA, full width */
 .rsv-card .rsv-cta { width: 100%; max-width: none; margin-top: 20px; justify-content: center; padding: 14px 20px; }
+/* Cloudflare's human check (Turnstile.jsx), when it shows: the same gap above it as above the button. */
+.cf-check.is-shown { margin-top: 20px; }
 .rsv-card .rsv-cta:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
 .rsv-card .rsv-cta:disabled > svg { transform: none; }
 .rsv-fine { margin-top: 10px; text-align: center; font-size: 12.5px; line-height: 1.5; color: #64748b; text-wrap: balance; }

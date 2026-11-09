@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { TURNSTILE_SITE_KEY } from './onboarding.js';
 
 // Cloudflare Turnstile: an invisible-unless-needed bot check on the site's forms.
@@ -20,6 +20,9 @@ const loadScript = () => {
 // appearance 'interaction-only' keeps the widget invisible unless Cloudflare needs a challenge.
 export default function Turnstile({ onToken, theme = 'auto', appearance = 'always' }) {
   const ref = useRef(null);
+  // Cloudflare is showing the checkbox (an interaction-only widget about to ask, or one that always
+  // shows): it gets space above it (.cf-check.is-shown, reserve.css), and keeps it once shown.
+  const [shown, setShown] = useState(appearance === 'always');
   useEffect(() => {
     if (!TURNSTILE_SITE_KEY) return undefined;
     let id;
@@ -34,6 +37,7 @@ export default function Turnstile({ onToken, theme = 'auto', appearance = 'alway
         callback: (token) => onToken(token),
         'expired-callback': () => onToken(null),
         'error-callback': () => onToken(null),
+        'before-interactive-callback': () => setShown(true),
       });
     }).catch(() => onToken(null));
     return () => {
@@ -43,5 +47,6 @@ export default function Turnstile({ onToken, theme = 'auto', appearance = 'alway
   }, [onToken, theme, appearance]);
   if (!TURNSTILE_SITE_KEY) return null;
   // Space is reserved only for an always-visible widget; a challenge, if one appears, takes its own.
-  return <div ref={ref} className={`overflow-hidden rounded-[10px]${appearance === 'always' ? ' min-h-[65px]' : ''}`} />;
+  // Nothing clips it: the widget draws its own border and corners.
+  return <div ref={ref} className={`cf-check${shown ? ' is-shown' : ''}${appearance === 'always' ? ' min-h-[65px]' : ''}`} />;
 }
