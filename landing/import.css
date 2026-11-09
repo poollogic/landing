@@ -10,6 +10,12 @@
 /* ---------- The import demo (a 1040px design, scaled to fit) ---------- */
 
 .demo-fit { position: relative; width: 100%; }
+/* Before ImportDemo.jsx measures the column (only ever seen on the pre-rendered homepage, before its
+   scripts run): the same fit in CSS. The box takes the design's 1040:560 shape at the column's width,
+   and the design, out of the flow so the box keeps that shape, scales to it (tan(atan2(a, b)) is
+   a / b as a number). */
+.demo-fit.is-unfitted { container-type: inline-size; aspect-ratio: 1040 / 560; max-width: 1040px; overflow: clip; }
+.demo-fit.is-unfitted > .demo { position: absolute; top: 0; left: 0; transform: scale(min(1, tan(atan2(100cqw, 1040px)))); }
 .demo {
   position: relative;
   width: 1040px;

@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react';
+import useBrowserLayoutEffect from './useBrowserLayoutEffect.js';
 
 // Desktop hero scroll effect. At ≥1024px without reduced motion it adds
 // .has-hero-fx to the page (styles at the end of hero.css) and drives, from
@@ -19,7 +19,7 @@ const opacityAt = (y) => (1 - clamp01((y - 20) / 440)) ** 1.6;
 const scaleAt = (y) => 1 - 0.15 * clamp01((y - 20) / 600);
 
 export default function useHeroScrollFx(heroRef) {
-  useLayoutEffect(() => {
+  useBrowserLayoutEffect(() => {
     const hero = heroRef.current;
     const root = hero?.closest('.mktg');
     const nav = root?.querySelector('.lp-nav');
@@ -71,6 +71,8 @@ export default function useHeroScrollFx(heroRef) {
     const enable = () => {
       on = true;
       root.classList.add('has-hero-fx');
+      // The pre-rendered page's stand-in for it until now (scripts/prerender.mjs, hero.css).
+      document.documentElement.classList.remove('hero-fx-pending');
       measure();
       // Start at the resting values for the current scroll (e.g. after a reload mid-page).
       opacity = opacityAt(window.scrollY);

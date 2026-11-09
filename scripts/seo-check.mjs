@@ -31,13 +31,12 @@ const ROOT = new URL('..', import.meta.url).pathname;
 const DIST = join(ROOT, 'dist');
 
 /* ---------- Settings ---------- */
-const STRICT_STATIC_TEXT = false; // the homepage: flip to true once the build pre-renders it (see CLAUDE.md)
 const HERO = 'section.hero'; // each route's hero, including its product mockup
 // html: the file the server sends for the route. stable: hero elements that must not move or resize after
 // first render. strictStatic: the served HTML must carry the page's text (a pre-rendered route).
 const ROUTES = [
-  // The homepage (its dashboard preview is .mockup-holder)
-  { path: '/', html: 'index.html', strictStatic: STRICT_STATIC_TEXT, stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-cta', '.hero-fine', '.mockup-holder'] },
+  // The homepage: pre-rendered (its dashboard preview is .mockup-holder)
+  { path: '/', html: 'index.html', strictStatic: true, jsonLd: ['Organization', 'SoftwareApplication'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-cta', '.hero-fine', '.mockup-holder'] },
   // AI, automations and integrations: pre-rendered (its assistant window is .ai-chat). Its top three
   // sections only for now, so no FAQPage: add it back with FULL_PAGE in pages/ai-integrations.jsx.
   { path: '/ai-integrations', html: 'ai-integrations.html', strictStatic: true, jsonLd: ['WebPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
@@ -112,8 +111,10 @@ function checkServedHtml(route) {
   const html = readFileSync(file, 'utf8');
   if (!/<title>[^<]{10,}<\/title>/.test(html)) fail('crawlable text', `${rel} has no real <title>`);
   if (!/<meta name="description" content="[^"]{50,}"/.test(html)) fail('crawlable text', `${rel} has no meta description`);
-  const start = html.indexOf('<div id="root">');
-  const root = start === -1 ? '' : html.slice(start + 15, html.lastIndexOf('</div>', html.lastIndexOf('</body>')));
+  // #root, which a pre-rendered page marks with its route (main.jsx only hydrates its own).
+  const open = html.match(/<div id="root"(?: data-prerendered="([^"]*)")?>/);
+  const root = open ? html.slice(open.index + open[0].length, html.lastIndexOf('</div>', html.lastIndexOf('</body>'))) : '';
+  if (route.strictStatic && open && open[1] !== route.path) fail('crawlable text', `${rel}: #root is marked for ${open[1] ?? 'no route'}, not ${route.path}, so the browser won't hydrate it`);
   const hasCopy = /<h1[\s>]/.test(root) && textOf(root).length > 200;
   if (!hasCopy) {
     const msg = `${route.path}: the HTML the server sends has no <h1> or page copy – text only appears after JavaScript runs (not pre-rendered)`;
@@ -239,6 +240,21 @@ console.log('SEO guardrails: homepage hero and /ai-integrations');
 checkSource();
 checkImportedImages();
 for (const route of ROUTES) checkServedHtml(route);
+// The pages rendered in the browser get the empty page (scripts/prerender.mjs, public/_redirects):
+// it must stay empty, and every such route in app.jsx needs its rewrite, or Cloudflare would answer it
+// with the homepage's index.html.
+{
+  const shell = join(DIST, 'app-shell.html');
+  if (!existsSync(shell)) fail('crawlable text', 'dist/app-shell.html is missing – run `npm run build` first');
+  else if (!readFileSync(shell, 'utf8').includes('<div id="root"></div>')) fail('crawlable text', 'dist/app-shell.html, the page every other address gets, has content in #root');
+  const redirects = readFileSync(join(ROOT, 'public/_redirects'), 'utf8');
+  if (/^\/\*\s/m.test(redirects)) fail('crawlable text', 'public/_redirects has a /* rule: Cloudflare applies rules before files, so it would capture every file and the homepage');
+  const rewritten = new Set([...redirects.matchAll(/^(\/\S*)\s+\/app-shell\s+200\s*$/gm)].map((m) => m[1]));
+  const prerendered = new Set(ROUTES.map((r) => r.path));
+  const routes = [...new Set([...readFileSync(join(ROOT, 'app.jsx'), 'utf8').matchAll(/p === '(\/[^']*)'/g)].map((m) => m[1]))];
+  const missing = routes.filter((r) => !prerendered.has(r.replace(/(.)\/$/, '$1')) && !rewritten.has(r));
+  if (missing.length) fail('crawlable text', `public/_redirects has no "/app-shell 200" rewrite for ${missing.join(', ')} (routes in app.jsx)`);
+}
 await browserChecks();
 for (const w of warnings) console.log(`  ⚠ ${w}`);
 if (failures.length) {

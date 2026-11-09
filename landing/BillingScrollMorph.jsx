@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   animate,
   motion,
@@ -9,6 +9,8 @@ import {
 import PreviewSidebar from "./preview/PreviewSidebar.jsx";
 import Segmented from "./preview/Segmented.jsx";
 import "./preview/preview.css";
+import useHydrated from "./useHydrated.js";
+import useBrowserLayoutEffect from "./useBrowserLayoutEffect.js";
 
 /**
  * BillingScrollMorph — pinned "Billing on autopilot" section.
@@ -579,6 +581,8 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   const ZONE = 56; // triggers sit beyond the hold points, so holding never re-triggers the other direction
   const MORPH_MS = 900;
   const reduceMotion = useReducedMotion();
+  // The laptop is drawn per device (TOUCH), so the pre-rendered page leaves it out (useHydrated.js).
+  const hydrated = useHydrated();
 
   const [phase, setPhase] = useState(0); // 0 = "You set it" (owner), 1 = "They get it" (customer)
   const morph = useMotionValue(0); // 0 → 1, time-driven (linear; each beat below has its own easing)
@@ -841,7 +845,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
 
   // Scale the device stage to fit the right column (composition is ~760×700 stage px)
   const stageScale = useMotionValue(0.75);
-  useLayoutEffect(() => {
+  useBrowserLayoutEffect(() => {
     const fit = () => {
       const r = rightRef.current?.getBoundingClientRect();
       if (r) stageScale.set(Math.min(1, r.width / 760, r.height / 700));
@@ -877,7 +881,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
   }, [stageScale, zoomTarget, ownerAmt]);
 
   // Push the laptop (customer view) as far left as the copy allows: its front lip stops GAP px from the text.
-  useLayoutEffect(() => {
+  useBrowserLayoutEffect(() => {
     const GAP = 16, LIP_HALF = FRONT_W / 2, LAPTOP_SCALE = 0.9, LAPTOP_NUDGE = 22;
     const measure = () => {
       if (!textRef.current || !rightRef.current || !stageRef.current || window.innerWidth < 1024) {
@@ -972,7 +976,7 @@ export default function BillingScrollMorph({ phone, id = "billing" }) {
                   {/* Touch close-up, anchored at the lid's visible top: the scene's 0.9 scale (origin
                       SCENE_OY down) leaves it 0.1 × SCENE_OY × the laptop's height below the box top */}
                   <motion.div style={{ scale: ownerZoom, transformOrigin: `50% ${0.1 * SCENE_OY * (LID_H + deckH(CUSTOMER.deck))}px` }}>
-                    <Laptop tilt={tilt} turn={turn} owner={owner} centre={centre} />
+                    {hydrated && <Laptop tilt={tilt} turn={turn} owner={owner} centre={centre} />}
                   </motion.div>
                 </motion.div>
               </div>

@@ -1,4 +1,5 @@
-import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
+import useBrowserLayoutEffect from '../useBrowserLayoutEffect.js';
 
 // Copy of the app's TrendChart (poollogic-web-app src/components/ui/
 // TrendChart.tsx): same margins, bar geometry, hatch, dashed last segment,
@@ -121,7 +122,7 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
   const [cardW, setCardW] = useState(210);
   const uid = useId().replace(/[^A-Za-z0-9_-]/g, '_');
 
-  useLayoutEffect(() => {
+  useBrowserLayoutEffect(() => {
     const el = wrapRef.current;
     if (!el) return undefined;
     setWidth(el.clientWidth);
@@ -143,7 +144,7 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
   const shown = lastHover.current;
   const tip = tooltip && shown != null ? tooltip(shown) : null;
 
-  useLayoutEffect(() => {
+  useBrowserLayoutEffect(() => {
     if (cardRef.current) setCardW(cardRef.current.offsetWidth);
   }, [shown]);
 

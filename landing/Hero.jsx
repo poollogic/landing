@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowRight } from 'lucide-react';
 import DashboardPreview, { PreviewThemeToggle, PreviewThemeUnder } from './preview/DashboardPreview.jsx';
-import { usePreviewTheme } from './preview/previewTheme.js';
+import { getPreviewTheme, usePreviewTheme } from './preview/previewTheme.js';
 import PhoneFrame from './PhoneFrame.jsx';
 import usePhonePreviewScroll from './usePhonePreviewScroll.js';
 import { ctaHref, isReserving } from './onboarding.js';
@@ -47,6 +47,12 @@ const Hero = () => {
   const heroRef = useRef(null);
   useHeroScrollFx(heroRef);
   const showToast = useAfterPaint();
+  // The pre-rendered page is drawn with the dark preview. When this visitor's is light, the page's
+  // first script hid the preview (html.pv-pending, scripts/prerender.mjs) so it doesn't flash dark;
+  // show it once it's drawn in the visitor's theme.
+  useEffect(() => {
+    if (theme === getPreviewTheme()) document.documentElement.classList.remove('pv-pending');
+  }, [theme]);
   return (
   <section ref={heroRef} className="hero relative overflow-x-clip">
     <div className="hero-decor" aria-hidden="true">
@@ -98,14 +104,12 @@ const Hero = () => {
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
       <div className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
         <div className="mockup-holder" ref={holderRef}>
-          {/* Phones: the preview inside the shared iPhone frame (the Billing section's phone). */}
-          {isPhone ? (
-            <PhoneFrame className="bz-phone--embedded hero-phone" statusBar={theme === 'dark' ? 'light' : 'dark'}>
-              <DashboardPreview />
-            </PhoneFrame>
-          ) : (
+          {/* Phones: the preview inside the shared iPhone frame (the Billing section's phone). It's
+              always rendered, so the pre-rendered page is the same at every width; wider than a phone,
+              hero.css takes the frame away and the dashboard sits in the holder on its own. */}
+          <PhoneFrame className="bz-phone--embedded hero-phone" statusBar={theme === 'dark' ? 'light' : 'dark'}>
             <DashboardPreview />
-          )}
+          </PhoneFrame>
           <div className="preview-glint" aria-hidden="true" />
           {showToast && <Suspense fallback={null}><PreviewToast /></Suspense>}
           <PreviewThemeUnder />

@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import useHydrated from './useHydrated.js';
+import useBrowserLayoutEffect from './useBrowserLayoutEffect.js';
 import {
   ArrowLeft, BanknoteX, Calendar, Check, ChevronDown, Clock, Info, Loader2, Mail, Receipt, Upload,
 } from 'lucide-react';
@@ -260,10 +262,11 @@ export default function ImportDemo() {
   const [cursor, setCursor] = useState({ ...START, visible: false, dur: 0, press: false, carrying: true });
   const [menus, setMenus] = useState({ addr: null, type: null, terms: null });
   const [reduced] = useState(() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const hydrated = useHydrated(); // the pointer depends on `reduced`, which the server can't know
   const set = useCallback((p) => setS((prev) => ({ ...prev, ...p })), []);
 
   // Scale the 1040px design to the column.
-  useLayoutEffect(() => {
+  useBrowserLayoutEffect(() => {
     const fit = fitRef.current;
     const root = rootRef.current;
     if (!fit || !root) return undefined;
@@ -439,7 +442,7 @@ export default function ImportDemo() {
     : 'Import 5 customers';
 
   return (
-    <div className="demo-fit" ref={fitRef} style={{ height: height ?? undefined }} aria-hidden="true">
+    <div className={`demo-fit${height == null ? ' is-unfitted' : ''}`} ref={fitRef} style={{ height: height ?? undefined }} aria-hidden="true">
       <div className="demo" ref={rootRef} style={{ transform: scale < 1 ? `scale(${scale})` : undefined }}>
         <div className="demo-head">
           <div>
@@ -477,7 +480,7 @@ export default function ImportDemo() {
           5 customers imported
         </div>
 
-        {!reduced && <Pointer cursor={cursor} />}
+        {hydrated && !reduced && <Pointer cursor={cursor} />}
       </div>
     </div>
   );

@@ -7,7 +7,11 @@ import { flushSync } from 'react-dom';
 // phones and tablets (a touch screen, no hover) follow the device's Light/Dark
 // appearance setting, live (e.g. iOS switching automatically at sunset).
 
-const KEY = 'pl-preview-theme';
+// Exported for the pre-rendered homepage's first script (landing/firstPaint.js), which reads the
+// same choice before the page paints.
+export const KEY = 'pl-preview-theme';
+export const TOUCH_QUERY = '(hover: none) and (pointer: coarse)';
+export const DARK_QUERY = '(prefers-color-scheme: dark)';
 const APP_URL = 'https://app.poollogic.app';
 
 const media = (q) => {
@@ -17,8 +21,8 @@ const media = (q) => {
     return null;
   }
 };
-const isTouchDevice = () => !!media('(hover: none) and (pointer: coarse)')?.matches;
-const systemTheme = () => (media('(prefers-color-scheme: dark)')?.matches ? 'dark' : 'light');
+const isTouchDevice = () => !!media(TOUCH_QUERY)?.matches;
+const systemTheme = () => (media(DARK_QUERY)?.matches ? 'dark' : 'light');
 
 const saved = () => {
   try {
@@ -35,7 +39,7 @@ const listeners = new Set();
 
 // Follow the device's appearance while the page is open, until the visitor picks one.
 if (typeof window !== 'undefined') {
-  media('(prefers-color-scheme: dark)')?.addEventListener?.('change', () => {
+  media(DARK_QUERY)?.addEventListener?.('change', () => {
     if (saved() || !isTouchDevice()) return;
     const next = systemTheme();
     if (next === theme) return;

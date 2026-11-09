@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { existsSync, readFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 
 // Every route shares one index.html, and each page is a lazy chunk, so the
 // browser would only find a page's code after the main script has run. This
@@ -28,20 +30,26 @@ function routePreloads() {
         if (!bundle) return html;
         const chunks = Object.values(bundle).filter((c) => c.type === 'chunk');
         const entry = chunks.find((c) => c.isEntry);
+        // css/js: what the page needs to paint. lazyCss: the stylesheets of the parts it loads later
+        // (React.lazy); not preloaded here, but a pre-rendered page has those parts in its markup, so
+        // scripts/prerender.mjs links them too, without holding up the first paint.
         const depsOf = (page) => {
           const js = [];
           const css = [];
+          const lazyCss = [];
           const seen = new Set();
-          const walk = (c) => {
+          const walk = (c, out) => {
             if (!c || c === entry || seen.has(c.fileName)) return;
             seen.add(c.fileName);
-            js.push(`/${c.fileName}`);
-            for (const f of c.viteMetadata?.importedCss ?? []) css.push(`/${f}`);
-            for (const f of c.imports) walk(bundle[f]);
+            if (out === css) js.push(`/${c.fileName}`);
+            for (const f of c.viteMetadata?.importedCss ?? []) out.push(`/${f}`);
+            for (const f of c.imports) walk(bundle[f], out);
           };
           // Match on contents: a page chunk that others import from has no facade module.
-          walk(chunks.find((c) => (c.moduleIds ?? Object.keys(c.modules)).some((id) => id.endsWith(page))));
-          return { js, css };
+          const pageChunk = chunks.find((c) => (c.moduleIds ?? Object.keys(c.modules)).some((id) => id.endsWith(page)));
+          walk(pageChunk, css);
+          for (const f of pageChunk?.dynamicImports ?? []) walk(bundle[f], lazyCss);
+          return { js, css, lazyCss };
         };
         const routes = { '*': { js: [], css: [], font: SITE_FONTS } };
         for (const [path, page] of Object.entries(ROUTE_PAGES)) routes[path] = { ...depsOf(page), font: [...MARKETING_FONTS, ...(PAGE_FONTS[path] ?? [])] };
@@ -55,8 +63,30 @@ r.css.forEach(function(f){l('preload',f,'style');});r.js.forEach(function(f){l('
   };
 }
 
+// vite preview answers like Cloudflare Pages: the rewrites in public/_redirects (each page rendered in
+// the browser gets the empty page the build saves as app-shell.html, scripts/prerender.mjs), then a
+// page's own .html file (/ai-integrations), then index.html (the pre-rendered homepage) for the rest.
+function previewLikePages() {
+  return {
+    name: 'preview-like-pages',
+    configurePreviewServer(server) {
+      const dist = resolve(server.config.root, server.config.build.outDir);
+      const file = join(dist, '_redirects');
+      const rewrites = new Map(existsSync(file)
+        ? readFileSync(file, 'utf8').split('\n').map((l) => l.trim().split(/\s+/)).filter(([from, , code]) => from?.startsWith('/') && code === '200').map(([from, to]) => [from, to])
+        : []);
+      server.middlewares.use((req, _res, next) => {
+        const [path, query] = (req.url || '/').split('?');
+        const to = rewrites.get(path);
+        if (to) req.url = `${to}.html${query ? `?${query}` : ''}`;
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [react(), routePreloads()],
+  plugins: [react(), routePreloads(), previewLikePages()],
   build: {
     // ".r2" in every built file name: new URLs for all JS and CSS, so nothing
     // cached under an old name (see public/_headers) can be served for them.

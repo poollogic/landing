@@ -6,7 +6,21 @@ React 18 + Vite 5 + Tailwind 3, deployed to Cloudflare Pages by `.github/workflo
 
 ## Pre-rendering
 
-`/ai-integrations` (`pages/ai-integrations.jsx`, `landing/ai/`, numbers in `aiFacts.js`) is pre-rendered: `npm run build` also renders it on the server (`entry-server.jsx`, then `scripts/prerender.mjs`) to `dist/ai-integrations.html`, with its own `<head>` (title, description, canonical, Open Graph, JSON-LD, stylesheets) and its full markup in `#root`, and `main.jsx` hydrates it. Cloudflare Pages serves that file at `/ai-integrations` (200; the trailing-slash and `.html` URLs 308 to it). Every other route still ships an empty `#root`. A pre-rendered page must render the same on the server as on first render in the browser: no `window` or `document` while rendering. To pre-render another route, add it to `PRERENDERED` in `entry-server.jsx` and to `ROUTE_PAGES` in `vite.config.js`.
+Two routes are pre-rendered: the homepage (`pages/landing.jsx`, `landing/`) and `/ai-integrations` (`pages/ai-integrations.jsx`, `landing/ai/`, numbers in `aiFacts.js`). `npm run build` also renders them on the server (`entry-server.jsx`, then `scripts/prerender.mjs`): the homepage to `dist/index.html`, the AI page to `dist/ai-integrations.html`. Each has its own `<head>` (title, description, canonical, Open Graph, JSON-LD, stylesheets) and its full markup in `#root`, which is marked with its route (`data-prerendered`). `main.jsx` hydrates that markup only on the page it was made for.
+
+- **Serving.** Cloudflare Pages serves `/` and `/ai-integrations` from those files (200; `/index.html`, `/ai-integrations/` and `.html` URLs 308 to them).
+  - The pages rendered in the browser (`/pricing`, `/contact`, `/terms` …) get `dist/app-shell.html`, the empty page. It's Vite's `index.html` as built, saved before the homepage replaces it.
+  - `public/_redirects` sends each of them there with its own `/x /app-shell 200` rule. Cloudflare applies these rules before real files, so never add a `/*` rule: it would capture every file and the homepage.
+  - An address with no rule and no file gets Cloudflare's default, `index.html`: the homepage, which is also what the app shows there. A route added to `app.jsx` needs its rule, and `npm run check:seo` fails without it.
+  - `vite preview` follows the same rules (`vite.config.js`).
+- **Same render everywhere.** A pre-rendered page must render the same on the server as on first render in the browser: no `window`, `document` or device checks while rendering.
+  - For a part drawn per device, render it once `useHydrated()` is true (`landing/useHydrated.js`), or use `useSyncExternalStore` with a server snapshot.
+  - Use `useBrowserLayoutEffect` instead of `useLayoutEffect`.
+  - Put a `<style>`'s CSS in `dangerouslySetInnerHTML`, never as a child: the server escapes `>` and `&`, and the browser's text then doesn't match.
+  - A mismatch makes React throw the markup away and redraw. Test in a production build: there's no warning in development, because `npm run dev` doesn't pre-render.
+- **Before the scripts run.** The homepage's first script (`landing/firstPaint.js`, inlined by the build) adds `hero-fx-pending` and `pv-pending` to `<html>`, so the first paint matches what the scripts will draw (hero.css, "Before the scripts run").
+  - The sections below the hero load their code late (`pages/landing.jsx`), but their markup and stylesheets are in the page from the start.
+- **Adding a route.** To pre-render another route, add it to `PRERENDERED` in `entry-server.jsx` and to `ROUTE_PAGES` in `vite.config.js`, remove its `_redirects` rule, and add it to `ROUTES` in the check.
 
 ## SEO guardrails
 
@@ -15,8 +29,13 @@ These apply to the homepage hero for now: `<section class="hero">`, including th
 1. **Crawlable text.** Search crawlers must be able to read the hero's `<h1>` and copy without waiting on animation.
    - Keep the headline and copy as real text in the DOM, never in images, canvas or SVG paths. Animate it with opacity and transforms only. Never mount it late, or after a scroll or timer.
    - The `<title>` and meta description in `index.html` must stay meaningful.
-   - `/ai-integrations` is pre-rendered, and the check fails if its served HTML lacks the `<h1>`, any `<h2>` the browser shows, its canonical URL or its JSON-LD.
-   - Known gap: the homepage isn't pre-rendered yet, so the HTML the server sends has an empty `#root` and the text appears only after JavaScript runs. The check reports this as a warning. When it's pre-rendered, set `STRICT_STATIC_TEXT = true` in the check so it becomes a failure.
+   - The homepage and `/ai-integrations` are pre-rendered. The check fails if either page's served HTML lacks any of these:
+     - the `<h1>`
+     - any `<h2>` the browser shows
+     - its canonical URL
+     - its JSON-LD
+     - its route mark
+   - The check also fails if the empty page gains content, or if a route in `app.jsx` has no `_redirects` rule.
 
 2. **Asset weight.** The laptop, phone and dashboard mockups are built in HTML, CSS and SVG, and they stay that way.
    - Use no PNG, JPEG or GIF in hero code.
@@ -33,4 +52,4 @@ To widen the guardrails to more of the site, extend `SOURCE` and `ROUTES` at the
 
 ## Deploys
 
-Don't put a long or `immutable` Cache-Control on `/assets/*` in `public/_headers`. The SPA fallback in `_redirects` answers missing asset URLs with `index.html`, and a long cache pins that HTML under a JS URL, which took the site down once. After a push, load the live homepage and `/pricing` in a fresh browser and check for module errors.
+Don't put a long or `immutable` Cache-Control on `/assets/*` in `public/_headers`. Cloudflare's fallback answers missing asset URLs with `index.html` (now the pre-rendered homepage), and a long cache pins that HTML under a JS URL, which took the site down once. After a push, load the live homepage and `/pricing` in a fresh browser and check for module errors.

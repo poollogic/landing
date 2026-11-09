@@ -12,13 +12,18 @@ window.addEventListener('vite:preloadError', (event) => {
 });
 window.addEventListener('load', () => setTimeout(() => sessionStorage.removeItem('pl-reloaded'), 10000));
 
-// A pre-rendered page (entry-server.jsx) arrives with its markup in #root: hydrate it. Every
-// other route arrives empty and renders here.
+// A pre-rendered page (entry-server.jsx) arrives with its markup in #root, marked with its route:
+// hydrate it. Every other route arrives empty and renders here. Markup made for another page (were a
+// server ever to answer this address with it) is cleared and the page rendered fresh.
 const root = document.getElementById('root');
 const app = (
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
-if (root.hasChildNodes()) hydrateRoot(root, app);
-else createRoot(root).render(app);
+const path = window.location.pathname.replace(/\/+$/, '') || '/';
+if (root.hasChildNodes() && root.dataset.prerendered === path) hydrateRoot(root, app);
+else {
+  root.textContent = '';
+  createRoot(root).render(app);
+}

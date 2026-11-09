@@ -84,8 +84,10 @@ const CSS = `
   .rv-nav.rvs-hover{background:rgba(255,255,255,.05)}
 `;
 
+// As raw text: as a child, the pre-rendered page would escape characters like > and & in the CSS,
+// which a <style> keeps literally, so the browser's text wouldn't match it.
 export function RevenueStoryStyles() {
-  return <style>{CSS}</style>;
+  return <style dangerouslySetInnerHTML={{ __html: CSS }} />;
 }
 
 export function FeatureBar() {

@@ -176,6 +176,33 @@
   .has-hero-fx .hero { background: #111318; }
 }
 
+/* ---------- Before the scripts run (the pre-rendered page, scripts/prerender.mjs) ----------
+   The page's first script adds these to <html>, so its first paint already matches what the
+   scripts will draw; the scripts then take them off.
+   .hero-fx-pending: the scroll effect is about to turn on (useHeroScrollFx.js). It has no entrance
+   animation, its own background and the nav and light beams fixed, so the hero paints like that from
+   the start; the headline stays in the flow, where the effect keeps it at the top of the page.
+   .pv-pending: this visitor's preview is light, but the page was drawn dark. The preview (and its
+   phone toggle) stay transparent until it's redrawn (Hero.jsx), then fade in. */
+.hero-fx-pending .hero {
+  background:
+    radial-gradient(70% 35% at 50% 62%, rgba(30, 41, 59, .85), transparent 70%),
+    linear-gradient(#141a26 0%, #111318 60%);
+}
+.hero-fx-pending .hero-copy,
+.hero-fx-pending .hero-mockup { animation: none; }
+.hero-fx-pending .lp-nav { position: fixed; left: 0; right: 0; z-index: 50; }
+.hero-fx-pending .hero-decor { position: fixed; inset: 0 0 auto 0; height: 100vh; z-index: 0; transform: none; }
+.hero-fx-pending .hero-decor .light-shaft { top: -50vh; height: 250vh; }
+.hero-fx-pending .hero-decor .light-line { top: -50vh; height: 235vh; }
+@media (prefers-contrast: more) {
+  .hero-fx-pending .hero { background: #111318; }
+}
+.mockup-holder,
+.hero-toggle { transition: opacity .2s ease; }
+.pv-pending .mockup-holder,
+.pv-pending .hero-toggle { opacity: 0; transition: none; }
+
 /* Hero copy */
 
 /* Copy → mockup gap, equal to the gap above the copy. Below lg the theme
@@ -382,6 +409,22 @@
    scaled from its natural 262px to 342px wide (24px from each edge on a 390px screen).
    .mockup-holder::before/::after stay the blue glow above it. The preview's theme (dark |
    light) follows the visitor's device on phones (previewTheme.js). */
+/* Wider than a phone, the hero's phone frame (always rendered, Hero.jsx) steps aside: no box, no
+   side buttons, island, home bar or status bar, and the dashboard takes the holder's child styles. */
+@media (min-width: 768px) {
+  .hero-phone,
+  .hero-phone > .bz-screen { display: contents; }
+  .hero-phone::before,
+  .hero-phone::after,
+  .hero-phone .bz-island,
+  .hero-phone .bz-home,
+  .hero-phone .bz-statusbar-overlay { display: none; }
+  .mockup-holder > .hero-phone > .bz-screen > .pl-preview {
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 40px 100px -30px rgba(0, 0, 0, .7);
+  }
+}
 @media (max-width: 767.98px) {
   .hero-mockup { position: relative; margin-inline: auto; margin-top: 22px; padding-bottom: 40px; display: flex; justify-content: center; }
   .hero-mockup .mockup-holder { position: relative; width: 342px; flex: none; }

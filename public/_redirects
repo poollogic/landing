@@ -1,1 +1,25 @@
-/*    /index.html   200
+# Pages rendered in the browser get the empty page that loads the site (dist/app-shell.html, written
+# by scripts/prerender.mjs). One rule per address: Cloudflare checks these before real files, so a
+# catch-all here would capture every file too. Every other address with no file of its own gets
+# Cloudflare's default, dist/index.html: the pre-rendered homepage, which is also what the app shows
+# for an unknown address. Keep in step with the routes in app.jsx (npm run check:seo checks).
+/terms            /app-shell   200
+/terms/           /app-shell   200
+/privacy          /app-shell   200
+/privacy/         /app-shell   200
+/tech-app         /app-shell   200
+/tech-app/        /app-shell   200
+/contact          /app-shell   200
+/contact/         /app-shell   200
+/pricing          /app-shell   200
+/pricing/         /app-shell   200
+/reserve          /app-shell   200
+/reserve/         /app-shell   200
+/partners         /app-shell   200
+/partners/        /app-shell   200
+/partners/terms   /app-shell   200
+/partners/terms/  /app-shell   200
+/partners/kit     /app-shell   200
+/partners/kit/    /app-shell   200
+/landing          /app-shell   200
+/landing/         /app-shell   200
