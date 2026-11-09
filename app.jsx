@@ -1,5 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { Nav, Footer } from './components/site-chrome.jsx';
+import SiteHeader from './landing/Nav.jsx';
 import { payoutRange } from './partnerProgram.js';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
@@ -172,7 +173,7 @@ const App = ({ path: pathProp }) => {
   if (isTermsPath(path)) {
     return (
       <>
-        <Nav />
+        <SiteHeader tone="light" />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <TermsPage />
@@ -186,7 +187,7 @@ const App = ({ path: pathProp }) => {
   if (isPrivacyPath(path)) {
     return (
       <>
-        <Nav />
+        <SiteHeader tone="light" />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PrivacyPage />
@@ -200,7 +201,7 @@ const App = ({ path: pathProp }) => {
   if (isTechAppPath(path)) {
     return (
       <>
-        <Nav />
+        <SiteHeader tone="light" />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <TechAppPage />
@@ -257,7 +258,7 @@ const App = ({ path: pathProp }) => {
   if (isPartnersPath(path)) {
     return (
       <>
-        <Nav />
+        <SiteHeader tone="light" />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PartnersPage />
@@ -271,7 +272,7 @@ const App = ({ path: pathProp }) => {
   if (isPartnerTermsPath(path)) {
     return (
       <>
-        <Nav />
+        <SiteHeader tone="light" />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PartnerTermsPage />
@@ -304,7 +305,7 @@ const App = ({ path: pathProp }) => {
   if (isPartnerKitPath(path)) {
     return (
       <>
-        <Nav />
+        <SiteHeader tone="light" />
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PartnerKitPage />

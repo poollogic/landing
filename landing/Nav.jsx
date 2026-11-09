@@ -4,9 +4,11 @@ import { usePreviewTheme } from './preview/previewTheme.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import { Wordmark } from '../components/brand-logo.jsx';
 import FeaturesMenu, { LINKS, MENU_FEATURES } from './FeaturesMenu.jsx';
+import './nav.css';
 
-// Top nav for the homepage, /pricing and /ai-integrations. Absolutely positioned over the hero
-// (not sticky). Styles live in landing/hero.css.
+// The site header. Dark, absolutely positioned over the hero, on the homepage, /pricing, /contact
+// and /ai-integrations; light (tone="light"), in the page's flow, on the legal and partner pages.
+// Either way it scrolls away with the page. Styles live in landing/nav.css.
 
 const APP_URL = 'https://app.poollogic.app';
 
@@ -17,11 +19,13 @@ const MENU_MAX = 880;
 // nothing in the header leads away from it.
 // current: the page's own path (e.g. '/pricing'), so its link shows as the page you're on. A prop,
 // not window.location, so a pre-rendered page renders the same on the server.
-const Nav = ({ focused = false, current }) => {
+// tone: 'dark' or 'light', the page's background.
+const Nav = ({ focused = false, current, tone = 'dark' }) => {
   const [open, setOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const ref = useRef(null);
   const theme = usePreviewTheme();
+  const light = tone === 'light' ? ' is-light' : '';
 
   // Close the mobile menu on Escape, outside click, or growing past the menu's widths.
   useEffect(() => {
@@ -51,9 +55,9 @@ const Nav = ({ focused = false, current }) => {
 
   if (focused) {
     return (
-      <header className="lp-nav is-focused">
+      <header className={`lp-nav is-focused${light}`}>
         <div className="lp-nav-bar container">
-          <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg="dark" /></a>
+          <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg={tone} /></a>
           <div className="nav-right">
             <a href={APP_URL} className="nav-signin">Sign in</a>
           </div>
@@ -64,9 +68,9 @@ const Nav = ({ focused = false, current }) => {
 
   return (
     <>
-    <header className={`lp-nav${featuresOpen ? ' is-dd-open' : ''}`} ref={ref}>
+    <header className={`lp-nav${light}${featuresOpen ? ' is-dd-open' : ''}`} ref={ref}>
       <div className="lp-nav-bar container">
-        <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg="dark" /></a>
+        <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg={tone} /></a>
 
         <nav className="nav-links" aria-label="Primary">
           <FeaturesMenu open={featuresOpen} setOpen={setFeaturesOpen} />
@@ -108,7 +112,7 @@ const Nav = ({ focused = false, current }) => {
     </header>
     {/* Dims the page behind the open menu; outside the header so it sits under it (z-index 99 < 100).
         A tap on it closes the menu. */}
-    <div className={`nav-scrim${open ? ' is-open' : ''}`} onClick={close} aria-hidden="true" />
+    <div className={`nav-scrim${light}${open ? ' is-open' : ''}`} onClick={close} aria-hidden="true" />
     </>
   );
 };

@@ -2,10 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { ArrowRight, ArrowRightLeft, ChevronDown, Receipt, Route, ShieldAlert, Sparkles } from 'lucide-react';
 import { API_DOCS_URL } from '../aiFacts.js';
 
-// The header's links, shared by the dark nav (landing/Nav.jsx: homepage, pricing, contact, AI page)
-// and the light one on the legal and partner pages (components/site-chrome.jsx), so the two can't
-// drift apart. The menu's look is each header's own: .nav-dd-* in landing/hero.css (dark) and
-// components/site-nav.css (light).
+// The header's links, shared by the site header (landing/Nav.jsx, styled in landing/nav.css) and
+// the preserved old homepage's (components/site-chrome.jsx, styled in components/site-nav.css).
 
 // The Features menu: what the app does, and where to read about each. Most are homepage sections
 // (rooted at / so they work from every page) until a feature gets a page of its own.
@@ -41,7 +39,7 @@ export const LINKS = [
 
 // The desktop Features dropdown. It opens on hover (a mouse only, so a tap doesn't open and close
 // it at once) and on click, and its links stay in the page while it's closed, so crawlers find
-// them. While open, the dark header sits above the hero (.lp-nav.is-dd-open, hero.css).
+// them. While open, the header sits above the homepage hero (.lp-nav.is-dd-open, hero.css).
 const FeaturesMenu = ({ open, setOpen }) => {
   const ref = useRef(null);
   const timer = useRef(0);

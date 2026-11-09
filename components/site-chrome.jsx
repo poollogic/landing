@@ -5,12 +5,12 @@ import FeaturesMenu, { LINKS } from '../landing/FeaturesMenu.jsx';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
 import './site-nav.css';
 
-// The old site's nav and footer, used on every page outside the marketing
-// pages (and the footer on those too). Kept apart from sections.jsx so the
+// The old site's nav (now only on /landing) and the footer used on every page. Kept apart from sections.jsx so the
 // main bundle doesn't carry the previous homepage's sections.
 
-// The light header on the legal and partner pages: the dark nav's links (FeaturesMenu.jsx), in the
-// light theme (site-nav.css). Below 880px the links hide (index.html), leaving the logo and buttons.
+// The previous homepage's header, kept with it at /landing (every other page uses landing/Nav.jsx).
+// The site's links (FeaturesMenu.jsx) in its light theme (site-nav.css). Below 880px the links
+// hide (index.html), leaving the logo and buttons.
 const Nav = () => {
   const [scrolled, setScrolled] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
