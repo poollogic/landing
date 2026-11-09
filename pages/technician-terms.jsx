@@ -22,6 +22,7 @@ const SECTIONS = [
   { id: 'liability', title: 'Limitation of liability' },
   { id: 'changes', title: 'Changes' },
   { id: 'contact', title: 'Contact' },
+  { id: 'fit', title: 'How these terms fit together' },
 ];
 
 const link = { color: 'var(--accent)' };
@@ -56,7 +57,7 @@ const TechnicianTermsPage = () => {
             Technician App Terms
           </h1>
           <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.6, maxWidth: 640 }}>
-            These terms cover using the Poolnautics app as a pool technician. You agree to them by checking the box on the app's location screen the first time you sign in. They're short on purpose; the <Privacy /> has the details on your information.
+            These terms cover using the Poolnautics app as a pool technician. You agree to them by checking the box on the app's location screen the first time you sign in. They're short on purpose; the <Privacy /> has the details on your information. These terms are a short summary; the full <a href="/terms" style={link}>Terms of Service</a> and <Privacy /> also apply.
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> {EFFECTIVE}</span>
@@ -146,6 +147,12 @@ const TechnicianTermsPage = () => {
 
             <Section id="contact" title="10. Contact">
               <p>Questions about your work or your information: contact your company. Questions about these Terms: contact Poolnautics through the details on our <a href="/contact" style={link}>Contact</a> page.</p>
+            </Section>
+
+            <Section id="fit" title="11. How these terms fit together">
+              {/* Arbitration (Terms of Service §17) is included for now; a lawyer decides (owner, 2026-11-09).
+                  If it's excluded, the conflict sentence ends "…the Terms of Service control, except Section 17 (Dispute Resolution & Arbitration)." */}
+              <p>These Technician App Terms are a plain-language summary for technicians and don't cover everything. Your use of Poolnautics is also governed by our full <a href="/terms" style={link}>Terms of Service</a> and our <Privacy />, which are part of these Terms. If anything here conflicts with the Terms of Service, the Terms of Service control. Nothing in these Terms limits any rights you have under the law.</p>
             </Section>
           </article>
         </div>
