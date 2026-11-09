@@ -2,7 +2,7 @@ import React, { useId } from 'react';
 
 // The demo company's mark: a white "B" in a navy seal, its two counters
 // showing pool-blue water with a wave. Lifted from the main site's invoice
-// mockup (components/sections.jsx, the Bayshore Pool Co. logo). Ids are made
+// mockup (the old homepage's Bayshore Pool Co. logo, since removed). Ids are made
 // unique so the mark can appear more than once on a page.
 
 export default function CompanyMark({ size = 50, className }) {

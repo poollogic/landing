@@ -21,5 +21,6 @@
 /partners/terms/  /app-shell   200
 /partners/kit     /app-shell   200
 /partners/kit/    /app-shell   200
-/landing          /app-shell   200
-/landing/         /app-shell   200
+# The previous homepage (/landing) is gone: an old link goes home, for good.
+/landing          /            301
+/landing/         /            301

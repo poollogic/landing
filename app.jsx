@@ -15,7 +15,6 @@ const PartnersPage = lazy(() => import('./pages/partners.jsx'));
 const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
-const OldHomePage = lazy(() => import('./pages/old-home.jsx'));
 
 // Page defaults — accent color, hero layout, density, theme.
 // EDITMODE markers are preserved so the external prototype editor can still patch this object.
@@ -38,7 +37,6 @@ export const isAiIntegrationsPath = (p) => p === '/ai-integrations' || p === '/a
 const isPartnersPath = (p) => p === '/partners' || p === '/partners/';
 const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/terms/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
-const isLandingPath = (p) => p === '/landing' || p === '/landing/';
 
 const SITE_ORIGIN = 'https://getpoolnautics.com';
 
@@ -101,13 +99,6 @@ export const ROUTE_META = {
     description: 'The Poolnautics partner disclosure kit: the exact words to use on each platform, and what partners can and can\'t say.',
     path: '/partners/kit',
   },
-  // The previous homepage, kept at /landing and out of search results.
-  landing: {
-    title: 'Poolnautics — Pool service software for routes, billing, and reports',
-    description: 'Poolnautics is pool service software for routes, chemistry tracking, branded service reports, and billing — one app your techs can run from day one.',
-    path: '/landing',
-    robots: 'noindex,follow',
-  },
 };
 
 const setMeta = (selector, attr, value) => {
@@ -164,7 +155,6 @@ const App = ({ path: pathProp }) => {
     else if (isPartnersPath(path)) meta = ROUTE_META.partners;
     else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
-    else if (isLandingPath(path)) meta = ROUTE_META.landing;
     // Any other address shows the homepage; keep those copies out of search results.
     else if (path !== '/') meta = { ...ROUTE_META.home, robots: 'noindex,follow' };
     applyRouteMeta(meta);
@@ -276,25 +266,6 @@ const App = ({ path: pathProp }) => {
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <PartnerTermsPage />
-          </Suspense>
-        </ErrorBoundary>
-        <Footer />
-      </>
-    );
-  }
-
-  // The previous homepage, kept at /landing (noindex, see ROUTE_META.landing).
-  if (isLandingPath(path)) {
-    return (
-      <>
-        <Nav />
-        <ErrorBoundary>
-          <Suspense fallback={<RouteFallback />}>
-            <OldHomePage
-              heroLayout={TWEAK_DEFAULTS.heroLayout}
-              headline={TWEAK_DEFAULTS.headline}
-              subhead={TWEAK_DEFAULTS.subhead}
-            />
           </Suspense>
         </ErrorBoundary>
         <Footer />
