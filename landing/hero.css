@@ -179,15 +179,19 @@
 }
 
 /* lg and up: the copy block fills the first screen less the dashboard's peek, its content centred
-   below the nav (56px clears it), so the top of the dashboard shows under the button: 96px on a
+   between the nav and the laptop, so the top of the dashboard shows under the button: 96px on a
    ~720px-tall window, growing with the window's height to 160px. A minimum, not a fixed height, so
    on a very short window the copy pushes the dashboard down instead of running into it. */
 @media (min-width: 1024px) {
   .hero { padding-top: 0; --hero-peek: clamp(96px, 13vh, 160px); }
-  .hero-copy { min-height: calc(100vh - var(--hero-peek)); padding-top: 56px; justify-content: center; }
+  /* The content is centred between the nav (64px) and the top of the laptop, which sits 48px above
+     this box's foot: the mockup is raised 38px for the browser toolbar and the bezel stands 10px
+     above the screen. */
+  .hero-copy { min-height: calc(100vh - var(--hero-peek)); padding: 64px 0 48px; justify-content: center; }
   /* Up by the laptop's browser toolbar (38px), so the toolbar, the greeting and the toast all show. */
   .hero-mockup { margin-top: -38px; }
-  .hero-copy .hero-title { margin-top: 24px; }
+  /* 64px, a little smaller on short laptop screens (under ~800px tall) so the copy keeps its room. */
+  .hero-copy .hero-title { margin-top: 24px; font-size: clamp(2.5rem, min(5.6vw, 8vh), 4rem); }
   .hero-copy .hero-sub { margin-top: 26px; }
 }
 
