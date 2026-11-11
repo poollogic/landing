@@ -236,8 +236,8 @@
 }
 .hero-sub strong { color: #E2E8F0; font-weight: 500; }
 
-/* The homepage's checkmarks row, between the subhead and the button. Each item stays on one line;
-   the row wraps between items. */
+/* The homepage's checkmarks row, under the button. Each item stays on one line; the row wraps
+   between items. */
 .hero-checks {
   display: flex;
   flex-wrap: wrap;
@@ -253,7 +253,8 @@
 }
 .hero-checks li { white-space: nowrap; }
 .hero-check { margin-right: 7px; color: #34d399; }
-.hero-checks + .hero-cta { margin-top: 26px; }
+/* The homepage's button, between the subhead and the checkmarks (26px above each). */
+.hero-copy > .hero-sub + .hero-cta { margin-top: 26px; }
 
 .hero-cta {
   display: inline-flex;
@@ -365,6 +366,21 @@
 /* Dimmer top glow over the light preview. */
 .mockup-holder:has(.pl-preview.light)::before { opacity: .6; }
 .mockup-holder:has(.pl-preview.light)::after { opacity: .55; }
+
+/* The line and the glow breathe together, in opacity only (over the light preview too: an
+   animation outranks the dimming above). Held still at .45 without motion. */
+.mockup-holder::before,
+.mockup-holder::after { animation: mockup-glow 7s ease-in-out infinite; }
+@keyframes mockup-glow {
+  0%, 100% { opacity: .3; }
+  50% { opacity: .6; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mockup-holder::before,
+  .mockup-holder::after,
+  .mockup-holder:has(.pl-preview.light)::before,
+  .mockup-holder:has(.pl-preview.light)::after { animation: none; opacity: .45; }
+}
 
 .mockup-holder::after { /* reflection blooming up from that edge */
   content: '';
