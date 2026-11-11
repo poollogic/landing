@@ -32,7 +32,7 @@ const DIST = join(ROOT, 'dist');
 
 /* ---------- Settings ---------- */
 const HERO = 'section.hero'; // a route's hero (its own `hero` overrides), including its product mockup
-const HEROES = 'section.hero, section.pr-hero'; // every route's, for the layout-shift observer
+const HEROES = 'section.hero, section.pr-hero, section.rf-hero'; // every route's, for the layout-shift observer
 // html: the file the server sends for the route. stable: hero elements that must not move or resize after
 // first render. strictStatic: the served HTML must carry the page's text (a pre-rendered route).
 const ROUTES = [
@@ -43,8 +43,11 @@ const ROUTES = [
   { path: '/ai-integrations', html: 'ai-integrations.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
   // Pricing: pre-rendered, with its plans and FAQ as structured data. Its hero is the heading block.
   { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'BreadcrumbList', 'FAQPage'], hero: 'section.pr-hero', stable: ['.section-eyebrow', '#pricing-heading', '.section-sub'] },
+  // Requests, diagnostics and work orders: pre-rendered (noindex until it launches). Its FAQ and
+  // breadcrumbs are structured data; its screenshots are PhoneFrame / BrowserFrame (landing/request-flow).
+  { path: '/request-flow', html: 'request-flow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];
-const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx']; // the heroes' own code
+const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/request-flow.jsx', 'landing/request-flow']; // the heroes' own code
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
 const STABLE_TOLERANCE_PX = 2;
 const CLS_BUDGET = 0.01; // we hold the new pages at zero; Google's "good" line is 0.1
@@ -240,7 +243,7 @@ async function browserChecks() {
 }
 
 /* ---------- Run ---------- */
-console.log('SEO guardrails: homepage hero, /ai-integrations and /pricing');
+console.log('SEO guardrails: homepage hero, /ai-integrations, /pricing and /request-flow');
 checkSource();
 checkImportedImages();
 for (const route of ROUTES) checkServedHtml(route);

@@ -109,10 +109,11 @@ export const ROUTE_META = {
     description: 'The Poolnautics partner disclosure kit: the exact words to use on each platform, and what partners can and can\'t say.',
     path: '/partners/kit',
   },
-  // Blank while it's being built: kept out of search results (and the sitemap) until it has content.
+  // Pre-rendered at build time (entry-server.jsx). Kept out of search results (and the sitemap and
+  // the menus) until it launches: remove robots then.
   requestFlow: {
-    title: 'Request flow — Poolnautics',
-    description: 'How a repair request moves through Poolnautics, from the technician app to a paid invoice.',
+    title: 'Pool Repair Work Order Software | Poolnautics',
+    description: 'Poolnautics turns pool repair requests into quotes, work orders and paid invoices automatically. One step for the office, a simple app for your techs, and no finished job left unbilled.',
     path: '/request-flow',
     robots: 'noindex,follow',
   },
@@ -306,11 +307,12 @@ const App = ({ path: pathProp }) => {
     );
   }
 
-  // Request flow is blank for now: no header, no footer, nothing while it loads.
+  // Pre-rendered, like /ai-integrations: keep the tree here the same as entry-server.jsx renders it.
+  // Brings its own dark nav and the footer.
   if (isRequestFlowPath(path)) {
     return (
       <ErrorBoundary>
-        <Suspense fallback={null}>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
           <RequestFlowPage />
         </Suspense>
       </ErrorBoundary>

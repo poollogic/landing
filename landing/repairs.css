@@ -159,7 +159,7 @@
   white-space: nowrap;
 }
 .rp-chip--send { background: #2563eb; color: #fff; }
-.rp-chip--scheduled { background: #1b2a4a; color: #8fb4ff; }
+.rp-chip--open { background: #1b2a4a; color: #8fb4ff; }
 .rp-chip--paid { background: #12301f; color: #4ade80; }
 
 .rp-card-title { font-size: 17px; font-weight: 700; line-height: 1.3; color: #0f172a; }

@@ -9,9 +9,8 @@ import './repairs.css';
 // app, not working UI: plain spans, read to screen readers as one image with a description.
 // Nothing here moves or waits on JavaScript.
 
-// TODO: the work orders feature page (requests, diagnostics and work orders) isn't built yet.
-// Point this at its route when it is; until then the button goes nowhere.
-const WORK_ORDERS_HREF = '#todo-work-orders-page';
+// The feature page for requests, diagnostics and work orders.
+const WORK_ORDERS_HREF = '/request-flow';
 
 const Chip = ({ tone, children }) => <span className={`rp-chip rp-chip--${tone}`}>{children}</span>;
 
@@ -63,12 +62,12 @@ const STEPS = [
   {
     title: 'A tech gets the job',
     body: 'Once it’s approved or paid, the work order goes to your tech’s list.',
-    alt: 'Work order: assigned to Gabriel. Scheduled.',
+    alt: 'Work order: assigned to Gabriel. Open.',
     screen: (
       <>
         <span className="rp-screen-label">Work order</span>
         <span className="rp-screen-main">Assigned to Gabriel</span>
-        <span className="rp-screen-foot rp-screen-foot--end"><Chip tone="scheduled">Scheduled</Chip></span>
+        <span className="rp-screen-foot rp-screen-foot--end"><Chip tone="open">Open</Chip></span>
       </>
     ),
   },

@@ -23,8 +23,6 @@
 /technician-terms/  /app-shell   200
 /partners/kit     /app-shell   200
 /partners/kit/    /app-shell   200
-/request-flow     /app-shell   200
-/request-flow/    /app-shell   200
 # The previous homepage (/landing) is gone: an old link goes home, for good.
 /with/*          /            200
 /landing          /            301
