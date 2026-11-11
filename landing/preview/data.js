@@ -75,16 +75,18 @@ export const REVENUE_6M = {
   series: [{ key: 'invoiced', values: REVENUE.bars.slice(SIX, -1), now: REVENUE.bars[REVENUE.bars.length - 1], accent: true }],
 };
 
-/** Cost per visit by pool type, May – Sep 2026, and the month still running (Oct, to the 20th). */
+/** Cost per visit, May – Sep 2026, and the month still running (Oct, to the 20th): the team average
+    (the accent line) and two of its technicians, from the route rows, either side of it. */
 export const COST_POOLS = {
   months: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+  monthNames: ['May 2026', 'June 2026', 'July 2026', 'August 2026', 'September 2026', 'October 2026'],
   ticks: [0, 2, 4, 6],
   min: 0,
   max: 6,
   series: [
-    { key: 'chlorine', label: 'Chlorine', values: [5.70, 5.66, 5.52, 5.28, 5.10], now: 4.85 },
-    { key: 'all', label: 'All', values: [5.00, 4.86, 4.80, 4.58, 4.40], now: 4.12, accent: true },
-    { key: 'salt', label: 'Salt', values: [3.60, 3.32, 3.36, 3.02, 2.80], now: 2.60 },
+    { key: 'justin', label: 'Justin Braswell', values: [5.70, 5.66, 5.52, 5.28, 5.10], now: 4.85 },
+    { key: 'team', label: 'Team average', values: [5.00, 4.86, 4.80, 4.58, 4.40], now: 4.12, accent: true },
+    { key: 'gabriel', label: 'Gabriel Montoya', values: [3.60, 3.32, 3.36, 3.02, 2.80], now: 2.60 },
   ],
 };
 

@@ -75,6 +75,7 @@
   --route-done-seg: #4caf6a;
   --route-track: rgba(148, 163, 184, 0.16);
   --home-good: #34b864;
+  --chart-context: rgba(255, 255, 255, 0.26);
 }
 
 .theme-scope.light {
@@ -118,6 +119,7 @@
   --route-done-seg: #4caf6a;
   --route-track: rgba(15, 23, 42, 0.10);
   --home-good: #1e9e4a;
+  --chart-context: rgb(190, 190, 198);
 }
 
 /* Crossfade fallback when the View Transitions API isn't available. */
@@ -570,6 +572,11 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .pl-trend-value { font-size: 24px; font-weight: 600; line-height: 30px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--foreground); }
 .pl-trend-aside { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; color: var(--muted-foreground); }
 .pl-trend-good { display: inline-flex; align-items: center; gap: 2px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--home-good); }
+/* The hero's line charts (LineChart.jsx): axis labels in tabular figures, and the accent line's glow
+   (a static filter on one path, never animated). */
+.pl-line-chart text { font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
+.pl-line-accent { filter: drop-shadow(0 6px 8px rgba(46, 133, 255, .35)); }
+.light .pl-line-accent { filter: drop-shadow(0 6px 6px rgba(46, 133, 255, .22)); }
 
 @media (min-width: 768px) and (max-width: 1023.98px) {
   .pl-card { border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
@@ -586,7 +593,7 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   column-gap: 18px;
 }
 .pl-route-who { min-width: 0; display: flex; flex-direction: column; }
-.pl-route-name { font-size: 14.5px; font-weight: 500; line-height: 20px; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pl-route-name { font-size: 14px; font-weight: 500; line-height: 20px; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pl-route-status { font-size: 12.5px; line-height: 17px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pl-route-status.is-done { font-weight: 500; color: var(--route-done-seg); }
 .pl-route-bar { display: flex; gap: 3px; height: 6px; }

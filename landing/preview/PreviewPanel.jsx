@@ -44,6 +44,22 @@ function revenueTip6(i) {
   };
 }
 
+/** The hero's cost per visit hover: the month (October "so far"), the team average with the accent
+    line's marker, then each technician, highest first. */
+function costTip6(i) {
+  const running = i === COST_POOLS.months.length - 1;
+  const at = (s) => (running ? s.now : s.values[i]);
+  const team = COST_POOLS.series.find((s) => s.accent);
+  const techs = COST_POOLS.series.filter((s) => !s.accent).sort((a, b) => at(b) - at(a));
+  return {
+    title: running ? `${COST_POOLS.monthNames[i]} · so far` : COST_POOLS.monthNames[i],
+    rows: [
+      { key: team.key, label: team.label, value: usdCents(at(team)), swatch: 'var(--chart-accent)', kind: 'line' },
+      ...techs.map((s) => ({ key: s.key, label: s.label, value: usdCents(at(s)), swatch: 'var(--chart-context)', kind: 'line' })),
+    ],
+  };
+}
+
 /** Cost per visit hover: each tech, highest first, then the team average. */
 function costTip(i) {
   const techs = COST.techs
@@ -210,7 +226,9 @@ function HeroCharts() {
             axis={(v) => `$${Math.round(v)}`}
             series={COST_POOLS.series}
             leftGutter={40}
-            labelRoom={74}
+            area={false}
+            accentWidth={2.25}
+            tooltip={costTip6}
             height={220}
           />
         </div>

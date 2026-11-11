@@ -3,22 +3,26 @@ import useBrowserLayoutEffect from '../useBrowserLayoutEffect.js';
 import { LABEL_FONT, M, TIP_GAP, TipCard, ink, monotonePath, textW } from './PreviewChart.jsx';
 
 // The hero dashboard's line charts (revenue and cost per visit), as the app draws them: monotone
-// lines over the finished months (the accent series with a wash under it, the rest muted), the month
-// still running as a separate hollow dot past the last one with a pulsing ring, series named beside
-// their dots when they have a label, and one 1px L for the axes. Inline SVG at the card's measured
+// lines over the finished months (the accent series glowing, with a wash under it where `area`; the
+// rest grey context lines), a dotted lead-in from each line's end to the month still running, shown
+// as a hollow ring with a pulse, and one 1px L for the axes. Inline SVG at the card's measured
 // width, with the shared top and bottom margins (M) so the two charts' ticks, baselines and month
 // labels line up. With `tooltip`, hover snaps to a month and shows the app's tooltip card.
 
 const NOW_STEP = 20 / 31; // the running month's dot: Oct 20 of 31 days past Sep
-const LABEL_GAP = 10; // from a dot's edge to its name
 const DOT_R = 4;
+const RING_EDGE = DOT_R + 1; // the ring's outer edge (its 2px stroke is centred on the radius)
+const LEAD_START = 4; // the dotted lead-in starts this far past the line's end...
+const LEAD_GAP = 3; // ...and stops this far short of the ring's edge
 
 /**
  * `months`: the x labels, the last the running month (no point on the lines). `series`: [{ key,
- * label?, values (the finished months), now, accent? }]. `labelRoom`: px right of the plot, for the
- * series names; `leftGutter`, px left of it for the tick labels. `tooltip(i)`: the card for month i (the last is the running month).
+ * values (the finished months), now, accent? }]. `area`: the wash under the accent line (and a
+ * fainter one under its lead-in). `accentWidth`: the accent line's stroke. `labelRoom`: px right of
+ * the plot; `leftGutter`, px left of it for the tick labels. `tooltip(i)`: the card for month i (the
+ * last is the running month).
  */
-export default function LineChart({ months, ticks, min, max, axis, series, height = 150, leftGutter, labelRoom = 62, tooltip }) {
+export default function LineChart({ months, ticks, min, max, axis, series, height = 150, leftGutter, labelRoom = 12, area: withArea = true, accentWidth = 2, tooltip }) {
   const wrapRef = useRef(null);
   const svgRef = useRef(null);
   const cardRef = useRef(null);
@@ -75,11 +79,29 @@ export default function LineChart({ months, ticks, min, max, axis, series, heigh
   const nowX = x(last) + NOW_STEP * step;
   const xAt = (i) => (i > last ? nowX : x(i)); // a month's point: the running one is its dot
 
+  const f1 = (n) => n.toFixed(1);
   const drawn = series.map((s) => {
     const pts = s.values.map((v, i) => [x(i), y(v)]);
-    return { ...s, color: s.accent ? 'var(--chart-accent)' : 'var(--muted-foreground)', d: monotonePath(pts) };
+    // The dotted lead-in: from just past the line's end to just short of the ring.
+    const [x0, y0] = pts[pts.length - 1];
+    const x1 = nowX;
+    const y1 = y(s.now);
+    const len = Math.hypot(x1 - x0, y1 - y0) || 1;
+    const ux = (x1 - x0) / len;
+    const uy = (y1 - y0) / len;
+    const from = LEAD_START;
+    const to = len - RING_EDGE - LEAD_GAP;
+    const lead = to > from ? `M ${f1(x0 + ux * from)} ${f1(y0 + uy * from)} L ${f1(x0 + ux * to)} ${f1(y0 + uy * to)}` : '';
+    return {
+      ...s,
+      color: s.accent ? 'var(--chart-accent)' : 'var(--chart-context)',
+      width: s.accent ? accentWidth : 1.5,
+      d: monotonePath(pts),
+      lead,
+      leadArea: `M ${f1(x0)} ${f1(y0)} L ${f1(x1)} ${f1(y1)} L ${f1(x1)} ${height} L ${f1(x0)} ${height} Z`,
+    };
   });
-  const accent = drawn.find((s) => s.accent);
+  const accent = withArea ? drawn.find((s) => s.accent) : null;
   const area = accent ? `${accent.d} L ${x(last).toFixed(1)} ${height} L 0 ${height} Z` : '';
   const muted = 'var(--muted-foreground)';
 
@@ -113,7 +135,7 @@ export default function LineChart({ months, ticks, min, max, axis, series, heigh
           {area && (
             <defs>
               <linearGradient id={`${uid}-area`} x1={0} y1={0} x2={0} y2={1}>
-                <stop offset="0%" style={{ stopColor: 'var(--chart-accent)' }} stopOpacity={0.14} />
+                <stop offset="0%" style={{ stopColor: 'var(--chart-accent)' }} stopOpacity={0.2} />
                 <stop offset="100%" style={{ stopColor: 'var(--chart-accent)' }} stopOpacity={0} />
               </linearGradient>
             </defs>
@@ -121,16 +143,19 @@ export default function LineChart({ months, ticks, min, max, axis, series, heigh
 
           <g transform={`translate(${left} ${M.top})`}>
             {area && <path d={area} style={{ fill: `url(#${uid}-area)` }} stroke="none" />}
+            {accent && <path d={accent.leadArea} style={{ fill: 'var(--chart-accent)' }} fillOpacity={0.06} stroke="none" />}
 
             {hover != null && (
               <line className="pl-guide is-solid" x1={xAt(hover)} x2={xAt(hover)} y1={0} y2={height} shapeRendering="crispEdges" />
             )}
 
-            {drawn.map((s) => {
+            {/* Grey context lines first, so the accent line and its glow sit on top. */}
+            {[...drawn].sort((a, b) => Number(!!a.accent) - Number(!!b.accent)).map((s) => {
               const ny = y(s.now);
               return (
-                <g key={s.key} opacity={s.accent ? undefined : 0.6}>
-                  <path d={s.d} fill="none" style={{ stroke: s.color }} strokeWidth={s.accent ? 2 : 1.5} strokeLinecap="round" strokeLinejoin="round" />
+                <g key={s.key}>
+                  <path className={s.accent ? 'pl-line-accent' : undefined} d={s.d} fill="none" style={{ stroke: s.color }} strokeWidth={s.width} strokeLinecap="round" strokeLinejoin="round" />
+                  {s.lead && <path d={s.lead} fill="none" style={{ stroke: s.color }} strokeWidth={s.width} strokeDasharray="1 5" strokeLinecap="round" opacity={0.85} />}
                   <circle className="pl-now-pulse" cx={nowX} cy={ny} r={DOT_R} fill="none" style={{ stroke: s.color }} strokeWidth={2} />
                   <circle cx={nowX} cy={ny} r={DOT_R} style={{ fill: 'var(--card)', stroke: s.color }} strokeWidth={2} />
                 </g>
@@ -140,20 +165,6 @@ export default function LineChart({ months, ticks, min, max, axis, series, heigh
             {/* Hover rings: every series at the hovered finished month. */}
             {hover != null && hover <= last && drawn.map((s) => (
               <circle key={`ring-${s.key}`} cx={x(hover)} cy={y(s.values[hover])} r={DOT_R} style={{ fill: 'var(--card)', stroke: s.color }} strokeWidth={2} />
-            ))}
-
-            {drawn.filter((s) => s.label).map((s) => (
-              <text
-                key={s.key}
-                x={nowX + DOT_R + 1 + LABEL_GAP}
-                y={y(s.now)}
-                dominantBaseline="middle"
-                fontSize={12}
-                fontWeight={s.accent ? 600 : 400}
-                style={{ fill: s.accent ? 'var(--foreground)' : muted }}
-              >
-                {s.label}
-              </text>
             ))}
 
             {/* The axes: one 1px L, left edge and baseline. */}
