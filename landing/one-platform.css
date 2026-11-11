@@ -94,11 +94,14 @@
   margin-left: 16px;
   padding-left: 16px;
   border-left: 1px solid rgba(255, 255, 255, .22);
+  display: flex;
+  list-style: none;
   font-size: 13.5px;
   font-weight: 500;
   color: #cbd5e1;
 }
-.op-dot { margin: 0 9px; color: #64748b; }
+.op-pill-areas { --dot-gap: 9px; }
+.op-pill-areas li + li::before { content: '·'; margin: 0 var(--dot-gap); color: #64748b; }
 
 /* Tablet: cards stacked, each card's four items in two columns. */
 @media (max-width: 1040px) {
@@ -133,16 +136,13 @@
   .op-pill-head { gap: 8px; }
   .op-pill-head svg { height: 16px !important; width: auto !important; }
   .op-pill-handles { font-size: 14.5px; }
-  .op-pill-areas { margin: 0; padding: 0; border: 0; font-size: 13px; }
-  .op-dot { margin: 0 6px; }
+  .op-pill-areas { margin: 0; padding: 0; border: 0; font-size: 13px; --dot-gap: 6px; }
 }
 @media (max-width: 380px) {
-  .op-pill-areas { font-size: 12px; }
-  .op-dot { margin: 0 5px; }
+  .op-pill-areas { font-size: 12px; --dot-gap: 5px; }
 }
 @media (max-width: 340px) {
-  .op-pill-areas { font-size: 11.5px; }
-  .op-dot { margin: 0 3px; }
+  .op-pill-areas { font-size: 11.5px; --dot-gap: 3px; }
   .op-list li { font-size: 15px; }
 }
 

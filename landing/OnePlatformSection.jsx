@@ -81,22 +81,17 @@ export default function OnePlatformSection() {
         </div>
 
         <div className="op-line" aria-hidden="true" />
-        <p className="op-pill">
+        <div className="op-pill">
           <span className="op-pill-head">
             <Wordmark bg="dark" height={15} style={{ display: 'inline-block' }} />
             <span className="sr-only">Poolnautics</span>
             <span className="op-pill-handles">handles all of it</span>
           </span>
-          <span className="op-pill-areas">
-            {AREAS.map((a, i) => (
-              <React.Fragment key={a}>
-                {i > 0 && <span className="op-dot" aria-hidden="true">·</span>}
-                {i > 0 && <span className="sr-only">, </span>}
-                {a}
-              </React.Fragment>
-            ))}
-          </span>
-        </p>
+          {/* A list, so crawlers and screen readers get five plain items; the dots are drawn in CSS. */}
+          <ul className="op-pill-areas">
+            {AREAS.map((a) => <li key={a}>{a}</li>)}
+          </ul>
+        </div>
       </div>
     </section>
   );
