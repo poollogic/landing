@@ -39,7 +39,7 @@ function useAfterPaint() {
 // landing/hero.css; layout and the entrance animation stay in Tailwind. On
 // desktop, useHeroScrollFx adds the scroll effect (fixed, fading headline).
 
-// What every account gets, in a row of checkmarks between the subhead and the button.
+// What every account gets, in a row of checkmarks under the button.
 const CHECKS = ['No credit card', 'Try it free for 30 days', 'We move your customers for you'];
 
 // Staggered entrance: 300ms fade-up (ease-mktg), skipped under reduced motion.
@@ -86,12 +86,6 @@ const Hero = () => {
           Routing, chemical tracking, billing and late fees that run themselves, for your whole pool service business.
         </h2>
 
-        <ul className="hero-checks">
-          {CHECKS.map((c) => (
-            <li key={c}><span className="hero-check" aria-hidden="true">✓</span>{c}</li>
-          ))}
-        </ul>
-
         <a
           href={ctaHref(theme)}
           className="hero-cta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
@@ -101,6 +95,12 @@ const Hero = () => {
           </span>
           <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
         </a>
+
+        <ul className="hero-checks">
+          {CHECKS.map((c) => (
+            <li key={c}><span className="hero-check" aria-hidden="true">✓</span>{c}</li>
+          ))}
+        </ul>
       </div>
 
       {/* Below lg the rail and its account menu are hidden: the theme lives here instead. */}

@@ -225,14 +225,14 @@
 }
 .hero-sub strong { color: #E2E8F0; font-weight: 500; }
 
-/* The homepage's checkmarks row, between the subhead and the button. Each item stays on one line;
-   the row wraps between items. */
+/* The homepage's checkmarks row, under the button. Each item stays on one line; the row wraps
+   between items. */
 .hero-checks {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 8px 18px;
-  margin: 26px 0 0;
+  margin: 22px 0 0;
   padding: 0;
   list-style: none;
   font-size: 14px;
@@ -242,7 +242,7 @@
 }
 .hero-checks li { white-space: nowrap; }
 .hero-check { margin-right: 7px; color: #34d399; }
-.hero-checks + .hero-cta { margin-top: 26px; }
+.hero-sub + .hero-cta { margin-top: 32px; }
 
 .hero-cta {
   display: inline-flex;
