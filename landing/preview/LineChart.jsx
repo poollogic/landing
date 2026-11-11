@@ -16,9 +16,9 @@ const DOT_R = 4;
 /**
  * `months`: the x labels, the last the running month (no point on the lines). `series`: [{ key,
  * label?, values (the finished months), now, accent? }]. `labelRoom`: px right of the plot, for the
- * series names. `tooltip(i)`: the card for month i (the last is the running month).
+ * series names; `leftGutter`, px left of it for the tick labels. `tooltip(i)`: the card for month i (the last is the running month).
  */
-export default function LineChart({ months, ticks, min, max, axis, series, height = 150, labelRoom = 62, tooltip }) {
+export default function LineChart({ months, ticks, min, max, axis, series, height = 150, leftGutter, labelRoom = 62, tooltip }) {
   const wrapRef = useRef(null);
   const svgRef = useRef(null);
   const cardRef = useRef(null);
@@ -59,14 +59,14 @@ export default function LineChart({ months, ticks, min, max, axis, series, heigh
     const wrap = wrapRef.current;
     const panel = wrap?.closest('.pl-panel');
     if (!wrap || !panel || !wrap.offsetWidth) return;
-    const card = wrap.closest('.pl-card');
+    const card = wrap.closest('.pl-trend, .pl-card');
     const right = Math.min(panel.getBoundingClientRect().right - 10, card ? card.getBoundingClientRect().right : Infinity);
     const r = wrap.getBoundingClientRect();
     setRoom((right - r.left) / (r.width / wrap.offsetWidth || 1));
   }, [shown, width]);
 
   const totalH = M.top + height + M.bottom;
-  const left = Math.ceil(Math.max(...ticks.map((t) => textW(axis(t)))) + 8);
+  const left = leftGutter ?? Math.ceil(Math.max(...ticks.map((t) => textW(axis(t)))) + 8);
   const plotW = Math.max(0, width - left - labelRoom);
   const step = plotW / (months.length - 1);
   const x = (i) => i * step;

@@ -78,8 +78,8 @@ export const REVENUE_6M = {
 /** Cost per visit by pool type, May – Sep 2026, and the month still running (Oct, to the 20th). */
 export const COST_POOLS = {
   months: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-  ticks: [2, 3, 4, 5, 6],
-  min: 2,
+  ticks: [0, 2, 4, 6],
+  min: 0,
   max: 6,
   series: [
     { key: 'chlorine', label: 'Chlorine', values: [5.70, 5.66, 5.52, 5.28, 5.10], now: 4.85 },

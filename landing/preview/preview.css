@@ -74,6 +74,7 @@
   --neutral-fill-hover: rgba(148, 163, 184, 0.15);
   --route-done-seg: #4caf6a;
   --route-track: rgba(148, 163, 184, 0.16);
+  --home-good: #34b864;
 }
 
 .theme-scope.light {
@@ -116,6 +117,7 @@
   --neutral-fill-hover: #f0f0f2;
   --route-done-seg: #4caf6a;
   --route-track: rgba(15, 23, 42, 0.10);
+  --home-good: #1e9e4a;
 }
 
 /* Crossfade fallback when the View Transitions API isn't available. */
@@ -149,11 +151,20 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .pl-preview svg { display: inline-block; }
 
 @media (min-width: 1024px) {
-  /* The laptop's screen (laptop.css): the browser toolbar (38px) over a 690px dashboard, cut from the
-     bottom so the panel's edge crops through the second route's status line; the rail's account block
-     stays 8px from the bottom. A 1px inner outline tells the lit screen from the black bezel. */
-  .pl-preview { height: 728px; }
-  .pl-preview .pl-frame { height: 690px; }
+  /* The laptop's screen (laptop.css): 16:10, the browser toolbar (38px) over the dashboard. The
+     dashboard is laid out as the app in a 1280px-wide window and zoomed to the screen's width
+     (--dz, from the holder's width: .mockup-holder is a size container), so it has the app's real
+     proportions; the toolbar stays full size. At that size the panel's foot crops through the
+     second route's status line. A 1px inner outline tells the lit screen from the black bezel. */
+  .pl-preview {
+    --dz: tan(atan2(100cqw, 1280px));
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+  .pl-preview .pl-frame { flex: 1; min-height: 0; height: auto; zoom: var(--dz); }
+  .pl-preview .pl-routes { margin-top: 48px; }
   .pl-preview::after {
     content: '';
     position: absolute;
@@ -540,18 +551,26 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .pl-card-title-row { display: flex; min-width: 0; align-items: center; gap: 8px; }
 .pl-card-title { font-weight: 600; color: var(--foreground); white-space: nowrap; }
 .pl-card-body { padding-top: 8px; }
-/* The hero's charts on a desktop: centred between the tabs and the route rows, 62px from the tabs to
-   the top tick label and 62px from the month labels to the first route row (the SVG adds its own
-   14px top margin and the labels' 8px under the baseline). */
+/* The hero's Trends row (PreviewPanel HeroCharts), as the app's dashboard/DesktopTrends.tsx: no
+   cards, one range switch in the row's corner, and per chart a 32px label row, a 30px figure row and
+   32px down to the plot. Equal halves 48px apart from md, 96px from lg; stacked 48px apart below. */
+.pl-charts-hero { position: relative; row-gap: 48px; }
+@media (min-width: 768px) {
+  .pl-charts-hero { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 48px; }
+}
 @media (min-width: 1024px) {
-  .pl-charts-hero .pl-card-body { padding: 55px 0 13px; }
+  .pl-charts-hero { column-gap: 96px; }
 }
-/* Tablets: the equal columns are narrow, so the tabs keep to one line (a little tighter), and the two
-   charts stay level. */
-@media (min-width: 768px) and (max-width: 1023.98px) {
-  .pl-charts-hero .pl-card-head { flex-wrap: nowrap; gap: 6px; }
-  .pl-charts-hero .pl-card-head .pl-seg-item { padding-inline: 9px; }
-}
+.pl-trends-range { position: absolute; top: 0; right: 0; z-index: 1; }
+.pl-trend { min-width: 0; }
+.pl-trend-head { margin-bottom: 32px; }
+.pl-trend-label-row { display: flex; align-items: center; gap: 8px; min-width: 0; height: 32px; padding-right: 128px; }
+.pl-trend-label { display: inline-flex; align-items: center; gap: 4px; min-width: 0; font-size: 13px; color: var(--muted-foreground); white-space: nowrap; }
+.pl-trend-figure { display: flex; align-items: baseline; gap: 8px; height: 30px; margin: 0; }
+.pl-trend-value { font-size: 24px; font-weight: 600; line-height: 30px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--foreground); }
+.pl-trend-aside { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; color: var(--muted-foreground); }
+.pl-trend-good { display: inline-flex; align-items: center; gap: 2px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--home-good); }
+
 @media (min-width: 768px) and (max-width: 1023.98px) {
   .pl-card { border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
   .pl-card-head { padding: 16px 16px 0; }
@@ -873,7 +892,15 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   transition: background-color .25s, color .25s;
 }
 @media (min-width: 1024px) {
-  .mockup-holder > .pl-toast { --toast-inset: 18px; --bar-h: 38px; }
+  /* In the panel's corner at the dashboard's scale: the panel sits 8px into the zoomed dashboard,
+     the toast 10px into the panel, and both shrink with it (--dz, as on .pl-preview). */
+  .mockup-holder > .pl-toast {
+    --dz: tan(atan2(100cqw, 1280px));
+    --toast-inset: calc(18px * var(--dz));
+    --bar-h: 38px;
+    right: var(--toast-inset);
+    transform: scale(var(--dz));
+  }
 }
 @media (max-width: 767.98px) {
   .mockup-holder > .pl-toast { display: none; }

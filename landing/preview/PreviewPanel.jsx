@@ -131,48 +131,87 @@ function LiveRoutes() {
   );
 }
 
-/** The hero's two Trends cards, both the app's line chart over six months: revenue (total invoiced)
-    and cost per visit by pool type. 150px plots, side by side in equal columns (preview.css). */
+// Inline (lucide's drawings), so these add no shared icon module, and no request, to the page.
+const Chevron = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+);
+const ArrowDownRight = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m7 7 10 10" /><path d="M17 7v10H7" /></svg>
+);
+
+/** dashboard/DesktopTrends.tsx ChartHeader: a 32px label row, a 30px figure row, 32px to the chart. */
+function TrendHeader({ label, control, figure, aside }) {
+  return (
+    <div className="pl-trend-head">
+      <div className="pl-trend-label-row">
+        <span className="pl-trend-label">{label}</span>
+        {control}
+      </div>
+      <p className="pl-trend-figure">
+        <span className="pl-trend-value">{figure}</span>
+        <span className="pl-trend-aside">{aside}</span>
+      </p>
+    </div>
+  );
+}
+
+/**
+ * The hero's Trends row, as the app's (dashboard/DesktopTrends.tsx): Invoiced and Cost per visit
+ * side by side in equal halves, on the page with no card, one 6M / 12M / 24M switch in the row's
+ * corner for both, each with its label, its figure, and a 220px line chart over six months.
+ */
 function HeroCharts() {
+  const allNow = COST_POOLS.series.find((x) => x.accent);
+  const change = ((allNow.now - allNow.values[allNow.values.length - 1]) / allNow.values[allNow.values.length - 1]) * 100;
   return (
     <div className="pl-charts pl-charts-hero">
-      <div className="pl-card" aria-hidden="true">
-        <div className="pl-card-head">
-          <Segmented options={['Revenue', 'Customers']} value="Revenue" />
-          <Segmented options={['6M', '12M', '24M']} value="6M" />
-        </div>
-        <div className="pl-card-body">
-          <LineChart
-            months={REVENUE_6M.months}
-            ticks={REVENUE_6M.ticks}
-            min={REVENUE_6M.min}
-            max={REVENUE_6M.max}
-            axis={moneyAxis}
-            series={REVENUE_6M.series}
-            labelRoom={16}
-            tooltip={revenueTip6}
-            height={150}
-          />
-        </div>
+      <div className="pl-trends-range" aria-hidden="true">
+        <Segmented options={['6M', '12M', '24M']} value="6M" />
       </div>
 
-      <div className="pl-card">
-        <div className="pl-card-head">
-          <div className="pl-card-title-row">
-            <span className="pl-card-title" aria-hidden="true">Cost per visit</span>
-            <SanitizerDropdown label="All pools" />
-          </div>
-          <Segmented options={['6M', '12M']} value="6M" />
-        </div>
-        <div className="pl-card-body" aria-hidden="true">
+      <div className="pl-trend" aria-hidden="true">
+        <TrendHeader
+          label={<>Invoiced <Chevron /></>}
+          figure={usd(REVENUE_6M.series[0].now)}
+          aside="so far in Oct"
+        />
+        <LineChart
+          months={REVENUE_6M.months}
+          ticks={REVENUE_6M.ticks}
+          min={REVENUE_6M.min}
+          max={REVENUE_6M.max}
+          axis={moneyAxis}
+          series={REVENUE_6M.series}
+          leftGutter={40}
+          labelRoom={12}
+          tooltip={revenueTip6}
+          height={220}
+        />
+      </div>
+
+      <div className="pl-trend">
+        <TrendHeader
+          label="Cost per visit"
+          control={<SanitizerDropdown label="All pools" />}
+          figure={usdCents(allNow.now)}
+          aside={(
+            <>
+              <span className="pl-trend-good"><ArrowDownRight />{Math.abs(change).toFixed(1)}%</span>
+              {' '}vs Sep
+            </>
+          )}
+        />
+        <div aria-hidden="true">
           <LineChart
             months={COST_POOLS.months}
             ticks={COST_POOLS.ticks}
             min={COST_POOLS.min}
             max={COST_POOLS.max}
-            axis={moneyAxisCents}
+            axis={(v) => `$${Math.round(v)}`}
             series={COST_POOLS.series}
-            height={150}
+            leftGutter={40}
+            labelRoom={74}
+            height={220}
           />
         </div>
       </div>
