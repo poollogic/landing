@@ -1,4 +1,5 @@
 import useBrowserLayoutEffect from './useBrowserLayoutEffect.js';
+import { onScrollFrame } from './scrollFrame.js';
 
 // The desktop hero's scroll-linked motion (≥1024px, without reduced motion). The page scrolls
 // normally; on top of that, from one handler:
@@ -7,8 +8,8 @@ import useBrowserLayoutEffect from './useBrowserLayoutEffect.js';
 //  - the laptop (laptop.css): the dashboard straightens from a 10deg tilt at 93% over the first
 //    460px, then drops its transform; the keyboard deck flattens from 62 to 83deg as it rises, its
 //    reflection sweeping across it.
-// One passive scroll listener, attached only while the hero is on screen, schedules one
-// requestAnimationFrame. The frame reads only scrollY (offsets are measured on resize) and writes only
+// It runs from the page's shared scroll frame (scrollFrame.js), subscribed only while the hero is
+// on screen. The frame reads only scrollY (offsets are measured on resize) and writes only
 // values that changed: transforms (the copy's through its custom property), and will-change while
 // something moves. Below 1024px, with reduced motion or without JS none of it runs, and the CSS draws
 // the resting state: the copy in place, the dashboard flat, the deck at 72deg.
@@ -55,7 +56,7 @@ export default function useHeroScrollFx(heroRef) {
     let vh = 0;
     let io = null;
     let ro = null;
-    let listening = false;
+    let unsubscribe = null;
     let idle = 0;
     let set = null;
 
@@ -73,9 +74,8 @@ export default function useHeroScrollFx(heroRef) {
       set.sheen('willChange', '');
     };
 
-    const frame = () => {
+    const frame = (y = window.scrollY) => {
       raf = 0;
-      const y = window.scrollY;
       let moved = false;
 
       // Parallax: nothing at the top, so the copy has no transform there.
@@ -113,13 +113,12 @@ export default function useHeroScrollFx(heroRef) {
         idle = setTimeout(rest, IDLE_MS);
       }
     };
-    const schedule = () => { if (!raf) raf = requestAnimationFrame(frame); };
+    // Outside scrolling (resize, entering or leaving the screen): one frame of its own.
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(() => frame()); };
     const onResize = () => { measure(); schedule(); };
     const listen = (yes) => {
-      if (yes === listening) return;
-      listening = yes;
-      if (yes) window.addEventListener('scroll', schedule, { passive: true });
-      else window.removeEventListener('scroll', schedule);
+      if (yes && !unsubscribe) unsubscribe = onScrollFrame(frame);
+      else if (!yes && unsubscribe) { unsubscribe(); unsubscribe = null; }
     };
 
     const enable = () => {
@@ -129,7 +128,7 @@ export default function useHeroScrollFx(heroRef) {
       document.documentElement.classList.remove('lt-pending');
       measure();
       frame();
-      // Scroll is only listened to while the hero is on screen; one more frame as it leaves or comes
+      // Scroll frames only while the hero is on screen; one more frame as it leaves or comes
       // back, so everything lands where the scroll position says.
       io = new IntersectionObserver(([entry]) => { listen(entry.isIntersecting); schedule(); });
       io.observe(hero);
