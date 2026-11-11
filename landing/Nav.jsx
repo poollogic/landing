@@ -68,7 +68,7 @@ const Nav = ({ focused = false, current, tone = 'dark' }) => {
 
   return (
     <>
-    <header className={`lp-nav${light}${featuresOpen ? ' is-dd-open' : ''}`} ref={ref}>
+    <header className={`lp-nav${light}`} ref={ref}>
       <div className="lp-nav-bar container">
         <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg={tone} /></a>
 

@@ -67,16 +67,16 @@
   height: 125%;
   border-radius: 999px;
   transform-origin: top left;
-  filter: blur(28px);
   will-change: transform, opacity;
-  background: linear-gradient(rgba(240, 245, 255, .20), rgba(120, 165, 240, .07) 30%, rgba(96, 140, 220, .02) 52%, transparent 68%);
+  /* Soft on every side from the gradient's own shape, not a blur filter (none in the hero). */
+  background: radial-gradient(ellipse 50% 68% at 50% 0, rgba(240, 245, 255, .20), rgba(120, 165, 240, .07) 44%, rgba(96, 140, 220, .02) 76%, transparent);
 }
-.light-shaft.s1 { left: -8%;  width: 260px; --o: 1;  animation: shaftSway 12.6s ease-in-out infinite, shaftBreathe 7.7s ease-in-out infinite; }
-.light-shaft.s2 { left: 8%;   width: 120px; --o: .8; animation: shaftSway 9.8s ease-in-out infinite, shaftBreathe 6.3s ease-in-out infinite; animation-delay: -3s, -2s; }
-.light-shaft.s3 { left: 19%;  width: 320px; --o: .5; animation: shaftSway 14.7s ease-in-out infinite, shaftBreathe 9.1s ease-in-out infinite; animation-delay: -6s, -4s;
-  background: linear-gradient(rgba(214, 224, 240, .14), rgba(148, 163, 184, .035) 36%, transparent 64%); }
-.light-shaft.s4 { left: -17%; width: 190px; --o: .6; animation: shaftSway 16.8s ease-in-out infinite, shaftBreathe 9.8s ease-in-out infinite; animation-delay: -9s, -5s;
-  background: linear-gradient(rgba(248, 250, 255, .26), rgba(120, 165, 240, .08) 30%, transparent 64%); }
+.light-shaft.s1 { left: -8%;  width: 300px; --o: 1;  animation: shaftSway 12.6s ease-in-out infinite, shaftBreathe 7.7s ease-in-out infinite; }
+.light-shaft.s2 { left: 8%;   width: 160px; --o: .8; animation: shaftSway 9.8s ease-in-out infinite, shaftBreathe 6.3s ease-in-out infinite; animation-delay: -3s, -2s; }
+.light-shaft.s3 { left: 19%;  width: 360px; --o: .5; animation: shaftSway 14.7s ease-in-out infinite, shaftBreathe 9.1s ease-in-out infinite; animation-delay: -6s, -4s;
+  background: radial-gradient(ellipse 50% 64% at 50% 0, rgba(214, 224, 240, .14), rgba(148, 163, 184, .035) 56%, transparent); }
+.light-shaft.s4 { left: -17%; width: 230px; --o: .6; animation: shaftSway 16.8s ease-in-out infinite, shaftBreathe 9.8s ease-in-out infinite; animation-delay: -9s, -5s;
+  background: radial-gradient(ellipse 50% 64% at 50% 0, rgba(248, 250, 255, .26), rgba(120, 165, 240, .08) 47%, transparent); }
 /* The outermost beam stays quiet. Its breathe animation drives opacity from
    --o, so that is lowered too; the plain .35 holds under reduced motion. */
 .hero-decor .light-shaft.s3 { opacity: .35; --o: .35; }
@@ -92,20 +92,21 @@
   transform-origin: left top;
   will-change: transform, opacity;
   opacity: var(--o, 1);
-  background: linear-gradient(rgba(255, 255, 255, .42), rgba(235, 242, 255, .14) 20%, rgba(200, 220, 255, .04) 40%, transparent 60%); /* white: l2, l4, l6 */
+  /* Each line is widened by what its blur used to spread it, and fades out sideways itself. */
+  background: radial-gradient(ellipse 50% 60% at 50% 0, rgba(255, 255, 255, .42), rgba(235, 242, 255, .14) 33%, rgba(200, 220, 255, .04) 67%, transparent); /* white: l2, l4, l6 */
   animation: raySway var(--d) ease-in-out infinite, shaftBreathe var(--b) ease-in-out infinite;
   animation-delay: var(--dl), var(--dl);
 }
 /* Blue lines among the white ones. */
 .light-line.l1, .light-line.l3, .light-line.l5 {
-  background: linear-gradient(rgba(170, 205, 255, .42), rgba(110, 160, 245, .14) 20%, rgba(96, 150, 240, .045) 40%, transparent 60%);
+  background: radial-gradient(ellipse 50% 60% at 50% 0, rgba(170, 205, 255, .42), rgba(110, 160, 245, .14) 33%, rgba(96, 150, 240, .045) 67%, transparent);
 }
-.light-line.l1 { left: -14%; width: 6px;  filter: blur(4px);   --o: .45; --d: 19.6s; --dl: -5s; --b: 10.5s; }
-.light-line.l2 { left: -10%; width: 3px;  filter: blur(2.5px); --o: .55; --d: 15.4s; --dl: -2s; --b: 8.4s; }
-.light-line.l3 { left: -5%;  width: 10px; filter: blur(5.5px); --o: .40; --d: 18.2s; --dl: -7s; --b: 9.8s; }
-.light-line.l4 { left: 0%;   width: 2px;  filter: blur(2px);   --o: .50; --d: 13.3s; --dl: -4s; --b: 7s; }
-.light-line.l5 { left: 4%;   width: 18px; filter: blur(8.5px); --o: .30; --d: 16.8s; --dl: -9s; --b: 11.2s; }
-.light-line.l6 { left: 10%;  width: 2px;  filter: blur(2px);   --o: .35; --d: 14.7s; --dl: -1s; --b: 9.1s; }
+.light-line.l1 { left: -14%; width: 14px; --o: .32; --d: 19.6s; --dl: -5s; --b: 10.5s; }
+.light-line.l2 { left: -10%; width: 8px;  --o: .38; --d: 15.4s; --dl: -2s; --b: 8.4s; }
+.light-line.l3 { left: -5%;  width: 21px; --o: .28; --d: 18.2s; --dl: -7s; --b: 9.8s; }
+.light-line.l4 { left: 0%;   width: 6px;  --o: .35; --d: 13.3s; --dl: -4s; --b: 7s; }
+.light-line.l5 { left: 4%;   width: 35px; --o: .21; --d: 16.8s; --dl: -9s; --b: 11.2s; }
+.light-line.l6 { left: 10%;  width: 6px;  --o: .25; --d: 14.7s; --dl: -1s; --b: 9.1s; }
 
 .light-source {
   position: absolute;
@@ -114,7 +115,6 @@
   width: 720px;
   height: 520px;
   border-radius: 50%;
-  filter: blur(20px);
   animation: sourceGlow 9s ease-in-out infinite;
   background: radial-gradient(closest-side, rgba(235, 242, 255, .15), rgba(96, 150, 240, .06) 50%, transparent 75%);
 }
@@ -132,72 +132,34 @@
   .hero-decor { display: none; }
 }
 
-/* ---------- Desktop scroll effect (useHeroScrollFx.js) ----------
-   Only while the hook has added .has-hero-fx (≥1024px, no reduced motion);
-   without it, everything above applies unchanged. The hook sets the
-   transforms, the headline's opacity and the container's padding-top. */
-.has-hero-fx .lp-nav { position: fixed; left: 0; right: 0; z-index: 50; }
-/* The open Features menu goes over the hero's copy and dashboard (z-index 60, below). */
-.has-hero-fx .lp-nav.is-dd-open { z-index: 70; }
-.has-hero-fx .hero {
-  isolation: auto; /* lets the dashboard pass over the nav */
-  background:
-    radial-gradient(70% 35% at 50% 62%, rgba(30, 41, 59, .85), transparent 70%),
-    linear-gradient(#141a26 0%, #111318 60%);
+/* ---------- Desktop (≥1024px): the hero scrolls as a normal page ----------
+   The nav and the copy are in the flow and scroll away. The copy rises a little faster than the page
+   (useHeroScrollFx.js sets its transform in --hero-shift, without reduced motion). The rays are one
+   viewport tall, from the top-left (no mirror). No entrance animation: its transform would hold the
+   copy's, and the copy and dashboard are drawn in place from the first paint. */
+@media (min-width: 1024px) {
+  .hero {
+    background:
+      radial-gradient(70% 35% at 50% 62%, rgba(30, 41, 59, .85), transparent 70%),
+      linear-gradient(#141a26 0%, #111318 60%);
+  }
+  .hero-decor { inset: 0 0 auto 0; height: 100vh; transform: none; }
+  .hero-decor .light-shaft { top: -50vh; height: 250vh; }
+  .hero-decor .light-line { top: -50vh; height: 235vh; }
+  .hero-copy,
+  .hero-mockup { animation: none; }
+  .hero-copy { transform: var(--hero-shift, none); }
 }
-/* Above the nav so the dashboard covers it; clicks fall through to the nav. */
-.has-hero-fx .hero > .container { z-index: 60; pointer-events: none; }
-.has-hero-fx .hero-copy {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin-inline: auto;
-  transform-origin: 50% 45%;
-  pointer-events: none;
-  animation: none; /* the entrance's transform would override the hook's */
-  will-change: transform, opacity;
-}
-.has-hero-fx .hero-copy > * { pointer-events: auto; }
-.has-hero-fx .hero-toggle { display: none; }
-.has-hero-fx .hero-mockup { position: relative; z-index: 2; pointer-events: auto; animation: none; opacity: 1; }
-/* Rays: one viewport tall, fixed, from the top-left (no mirror). The shafts
-   and lines keep their old rendered length, which was a share of the hero. */
-.has-hero-fx .hero-decor {
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: 100vh;
-  z-index: 0;
-  transform: none;
-}
-.has-hero-fx .hero-decor .light-shaft { top: -50vh; height: 250vh; }
-.has-hero-fx .hero-decor .light-line { top: -50vh; height: 235vh; }
-@media (prefers-contrast: more) {
-  .has-hero-fx .hero { background: #111318; }
+@media (min-width: 1024px) and (prefers-contrast: more) {
+  .hero { background: #111318; }
 }
 
 /* ---------- Before the scripts run (the pre-rendered page, scripts/prerender.mjs) ----------
-   The page's first script adds these to <html>, so its first paint already matches what the
-   scripts will draw; the scripts then take them off.
-   .hero-fx-pending: the scroll effect is about to turn on (useHeroScrollFx.js). It has no entrance
-   animation, its own background and the nav and light beams fixed, so the hero paints like that from
-   the start; the headline stays in the flow, where the effect keeps it at the top of the page.
+   The page's first script adds these to <html>, so its first paint already matches what the scripts
+   will draw; the scripts then take them off.
    .pv-pending: this visitor's preview is light, but the page was drawn dark. The preview (and its
-   phone toggle) stay transparent until it's redrawn (Hero.jsx), then fade in. */
-.hero-fx-pending .hero {
-  background:
-    radial-gradient(70% 35% at 50% 62%, rgba(30, 41, 59, .85), transparent 70%),
-    linear-gradient(#141a26 0%, #111318 60%);
-}
-.hero-fx-pending .hero-copy,
-.hero-fx-pending .hero-mockup { animation: none; }
-.hero-fx-pending .lp-nav { position: fixed; left: 0; right: 0; z-index: 50; }
-.hero-fx-pending .hero-decor { position: fixed; inset: 0 0 auto 0; height: 100vh; z-index: 0; transform: none; }
-.hero-fx-pending .hero-decor .light-shaft { top: -50vh; height: 250vh; }
-.hero-fx-pending .hero-decor .light-line { top: -50vh; height: 235vh; }
-@media (prefers-contrast: more) {
-  .hero-fx-pending .hero { background: #111318; }
-}
+   phone toggle) stay transparent until it's redrawn (Hero.jsx), then fade in.
+   .lt-pending (with the laptop, below): the dashboard starts tilted back, as the scroll effect draws it. */
 .mockup-holder,
 .hero-toggle { transition: opacity .2s ease; }
 .pv-pending .mockup-holder,
@@ -401,7 +363,6 @@
   z-index: 0;
   pointer-events: none;
   border-radius: 50%;
-  filter: blur(22px);
   background: radial-gradient(closest-side, rgba(96, 165, 250, .4), rgba(46, 133, 255, .14) 55%, transparent);
 }
 

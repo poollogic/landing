@@ -60,7 +60,7 @@ export default function LaptopDeck() {
           ))}
         </div>
         <div className="lt-pad" />
-        <div className="lt-sheen"><div className="lt-sheen-band" /></div>
+        <div className="lt-sheen" />
         <div className="lt-edge" />
       </div>
     </div>

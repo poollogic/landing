@@ -5,8 +5,7 @@
 
    Inside the deck's 3D subtree (.lt-deck and its children) nothing may use mix-blend-mode, filter,
    backdrop-filter, opacity below 1, mask, clip-path or overflow: each flattens preserve-3d and hides
-   the front edge. The one exception is .lt-sheen, a flat leaf (no 3D children) that clips the
-   reflection to the deck's shape. */
+   the front edge. */
 
 .pl-browserbar,
 .mockup-holder > .lt-bezel,
@@ -138,22 +137,19 @@
     background: linear-gradient(rgba(0, 0, 0, .38), transparent);
   }
 
-  /* Reflection: a band twice the deck's width, moved with translateX only (useHeroScrollFx.js), clipped
-     to the deck's shape by its flat parent. At rest it sits mid-way. */
+  /* Reflection: a light band on an element 220% of the deck's width (transparent outside the band),
+     moved with translateX only (useHeroScrollFx.js). Nothing clips it: the band only travels within
+     the deck, from 0.25W to 0.75W of its width, so its clear ends are all that pass the deck's sides.
+     At rest (no JS, reduced motion) it sits mid-way. */
   .lt-sheen {
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    overflow: hidden;
-  }
-  .lt-sheen-band {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     width: 220%;
+    border-radius: 5px 5px 36px 36px;
     background: linear-gradient(104deg, transparent 34%, rgba(255, 255, 255, .13) 46%, rgba(255, 255, 255, .04) 54%, transparent 66%);
-    transform: translateX(-22.73%); /* -50% of the deck's width */
+    transform: translateX(-27.27%); /* -0.6 of the deck's width */
   }
 
   /* The front edge, standing down from the deck's front. */

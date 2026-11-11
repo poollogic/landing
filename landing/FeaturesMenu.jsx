@@ -39,7 +39,7 @@ export const LINKS = [
 
 // The desktop Features dropdown. It opens on hover (a mouse only, so a tap doesn't open and close
 // it at once) and on click, and its links stay in the page while it's closed, so crawlers find
-// them. While open, the header sits above the homepage hero (.lp-nav.is-dd-open, hero.css).
+// them.
 const FeaturesMenu = ({ open, setOpen }) => {
   const ref = useRef(null);
   const timer = useRef(0);

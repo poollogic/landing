@@ -172,8 +172,8 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .pl-preview.light .pl-frame { background: #f4f5f7; }
 
 @keyframes plSwap {
-  from { opacity: .55; filter: blur(1.5px); }
-  to { opacity: 1; filter: none; }
+  from { opacity: .55; }
+  to { opacity: 1; }
 }
 .pl-preview.is-swapping { animation: plSwap .35s ease; }
 @media (prefers-reduced-motion: reduce) {
