@@ -149,27 +149,24 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .pl-preview svg { display: inline-block; }
 
 @media (min-width: 1024px) {
-  /* Full height (the panel ends just under the second route row), profile in
-     place. In dark the bottom 64px of the whole preview (rail, profile and
-     panel together, below the route rows) fades into the page; in light it ends on its clean
-     rounded edge, since white fading into the dark page turns muddy grey. */
-  .pl-preview { height: 754px; }
-  .pl-preview.dark {
-    -webkit-mask-image: linear-gradient(to bottom,
-      #000 calc(100% - 64px),
-      rgba(0, 0, 0, .45) calc(100% - 32px),
-      transparent 100%);
-    mask-image: linear-gradient(to bottom,
-      #000 calc(100% - 64px),
-      rgba(0, 0, 0, .45) calc(100% - 32px),
-      transparent 100%);
+  /* The laptop's screen (laptop.css): the browser toolbar (38px) over a 690px dashboard, cut from the
+     bottom so the panel's edge crops through the second route's status line; the rail's account block
+     stays 8px from the bottom. A 1px inner outline tells the lit screen from the black bezel. */
+  .pl-preview { height: 728px; }
+  .pl-preview .pl-frame { height: 690px; }
+  .pl-preview::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+    pointer-events: none;
   }
 }
 
-/* Light: no fade, a hairline ring and a soft blue halo; the swap animation. */
+/* Light: a hairline ring and a soft blue halo; the swap animation. */
 .pl-preview.light {
-  -webkit-mask-image: none;
-  mask-image: none;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, .14), 0 0 80px -20px rgba(147, 197, 253, .25);
 }
 .pl-preview.light .pl-frame { background: #f4f5f7; }
@@ -836,8 +833,9 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 
 .mockup-holder > .pl-toast {
   --toast-inset: 10px;
+  --bar-h: 0px; /* the laptop's browser toolbar above the panel, lg and up */
   position: absolute;
-  top: var(--toast-inset);
+  top: calc(var(--toast-inset) + var(--bar-h));
   right: var(--toast-inset);
   z-index: 6;
   width: auto;
@@ -860,7 +858,7 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   transition: background-color .25s, color .25s;
 }
 @media (min-width: 1024px) {
-  .mockup-holder > .pl-toast { --toast-inset: 18px; }
+  .mockup-holder > .pl-toast { --toast-inset: 18px; --bar-h: 38px; }
 }
 @media (max-width: 767.98px) {
   .mockup-holder > .pl-toast { display: none; }

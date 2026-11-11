@@ -135,7 +135,7 @@
 /* ---------- Desktop scroll effect (useHeroScrollFx.js) ----------
    Only while the hook has added .has-hero-fx (≥1024px, no reduced motion);
    without it, everything above applies unchanged. The hook sets the
-   transforms, the headline's opacity/blur and the container's padding-top. */
+   transforms, the headline's opacity and the container's padding-top. */
 .has-hero-fx .lp-nav { position: fixed; left: 0; right: 0; z-index: 50; }
 /* The open Features menu goes over the hero's copy and dashboard (z-index 60, below). */
 .has-hero-fx .lp-nav.is-dd-open { z-index: 70; }
@@ -156,7 +156,7 @@
   transform-origin: 50% 45%;
   pointer-events: none;
   animation: none; /* the entrance's transform would override the hook's */
-  will-change: transform, opacity, filter;
+  will-change: transform, opacity;
 }
 .has-hero-fx .hero-copy > * { pointer-events: auto; }
 .has-hero-fx .hero-toggle { display: none; }
@@ -224,7 +224,8 @@
 @media (min-width: 1024px) {
   .hero { padding-top: 0; --hero-peek: clamp(96px, 13vh, 160px); }
   .hero-copy { min-height: calc(100vh - var(--hero-peek)); padding-top: 56px; justify-content: center; }
-  .hero-mockup { margin-top: 0; }
+  /* Up by the laptop's browser toolbar (38px), so the toolbar, the greeting and the toast all show. */
+  .hero-mockup { margin-top: -38px; }
   .hero-copy .hero-title { margin-top: 24px; }
   .hero-copy .hero-sub { margin-top: 26px; }
 }
@@ -446,6 +447,23 @@
     z-index: 1;
     box-shadow: 0 40px 100px -30px rgba(0, 0, 0, .7);
   }
+}
+/* lg and up, the dashboard is a laptop's screen (laptop.css): the bezel frames it, so it drops its own
+   shadow; the top-edge light moves out to the bezel's top edge, the glint and glow with it, and the
+   glow goes behind the bezel. The holder tilts back as the page scrolls (useHeroScrollFx.js); before
+   the scripts run, the page's first script tilts it the same way (.lt-pending, landing/firstPaint.js). */
+@media (min-width: 1024px) {
+  /* Room under the keyboard deck, which reaches past its 225px box while it's steep (low on screen):
+     without it the deck and its front edge's shadow ran up to 30px into the next section as that
+     section scrolled in. */
+  .hero { padding-bottom: calc(var(--section-y) + 64px); }
+  .mockup-holder > .hero-phone > .bz-screen > .pl-preview { box-shadow: none; }
+  .mockup-holder::before { top: -12px; left: calc(3% + 12px); right: calc(3% + 12px); }
+  .mockup-holder > .preview-glint { top: -32px; }
+  .mockup-holder::after { top: -81px; z-index: -1; }
+  .hero-mockup { perspective: 1600px; perspective-origin: 50% 0; }
+  .mockup-holder { transform-origin: 50% 0; }
+  .lt-pending .mockup-holder { transform: rotateX(10deg) scale(.93); }
 }
 @media (max-width: 767.98px) {
   .hero-mockup { position: relative; margin-inline: auto; margin-top: 22px; padding-bottom: 40px; display: flex; justify-content: center; }

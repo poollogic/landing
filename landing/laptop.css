@@ -1,0 +1,244 @@
+/* The laptop around the hero dashboard, lg and up: the browser toolbar on the screen, the lid's bezel
+   and the black strip below it (Hero.jsx), and the keyboard deck (LaptopDeck.jsx). All decoration,
+   no requests (inline SVG and the system font), each element's size reserved here. Below lg none of
+   it shows and the phone and tablet previews are as they were.
+
+   Inside the deck's 3D subtree (.lt-deck and its children) nothing may use mix-blend-mode, filter,
+   backdrop-filter, opacity below 1, mask, clip-path or overflow: each flattens preserve-3d and hides
+   the front edge. The one exception is .lt-sheen, a flat leaf (no 3D children) that clips the
+   reflection to the deck's shape. */
+
+.pl-browserbar,
+.mockup-holder > .lt-bezel,
+.mockup-holder > .lt-strip,
+.lt-deck-box { display: none; }
+
+@media (min-width: 1024px) {
+  /* ---------- Browser toolbar (DashboardPreview.jsx BrowserBar) ---------- */
+  .pl-browserbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 38px;
+    padding: 0 14px;
+    background: linear-gradient(#23252b, #1b1c21);
+    border-bottom: 1px solid rgba(0, 0, 0, .55);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);
+    color: #9aa3b2;
+  }
+  .light .pl-browserbar {
+    background: linear-gradient(#f4f5f7, #e7e9ed);
+    border-bottom-color: rgba(15, 23, 42, .14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9);
+    color: #6b7280;
+  }
+  .pl-bb-group { display: flex; align-items: center; gap: 14px; }
+  .pl-bb-right { justify-content: flex-end; }
+  .pl-bb-lights { display: flex; gap: 8px; }
+  .pl-bb-lights i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+  .pl-bb-lights i:nth-child(2) { background: #febc2e; }
+  .pl-bb-lights i:nth-child(3) { background: #28c840; }
+  .pl-bb-dim { display: flex; gap: 14px; opacity: .4; }
+  .pl-bb-address {
+    position: relative;
+    width: 380px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, .075);
+    font-size: 12px;
+    font-weight: 400;
+    color: #e2e8f0;
+  }
+  .light .pl-bb-address { background: rgba(15, 23, 42, .06); color: #1f2937; }
+  .pl-bb-url::before { content: attr(data-url); }
+  .pl-bb-reload { position: absolute; right: 8px; top: 50%; margin-top: -5.5px; }
+
+  /* ---------- The lid: bezel and the strip below the screen (children of .mockup-holder) ---------- */
+  /* A frame only, behind the screen: its centre stays clear. Its inset top highlight is on ::before,
+     which covers the border box (an inset shadow on the bezel itself would fall inside the border). */
+  .mockup-holder > .lt-bezel {
+    display: block;
+    position: absolute;
+    inset: -10px -10px -12px;
+    z-index: 0;
+    border: 10px solid #050506;
+    border-bottom-width: 12px;
+    border-radius: 20px 20px 0 0;
+    background: none;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .10);
+    pointer-events: none;
+  }
+  .lt-bezel::before {
+    content: '';
+    position: absolute;
+    inset: -10px -10px -12px;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10);
+  }
+  /* From the screen's bottom edge, the bezel's full outer width (and the 1px of its outline, so no
+     light line shows at the bottom corners). The keyboard deck covers its lower 8px. */
+  .mockup-holder > .lt-strip {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: -11px;
+    right: -11px;
+    height: 27px;
+    z-index: 0;
+    background: #050506;
+    box-shadow: none;
+    pointer-events: none;
+  }
+
+  /* ---------- Keyboard deck (LaptopDeck.jsx) ----------
+     The box reserves 225px of layout; the deck overflows it visually. */
+  .lt-deck-box {
+    display: flow-root;
+    position: relative;
+    z-index: 3; /* above the mockup, so the deck covers the strip's lower part */
+    height: 225px;
+    margin-top: 16px;
+    perspective: 1500px;
+    perspective-origin: 50% -60%;
+    pointer-events: none;
+  }
+  .lt-deck {
+    position: absolute;
+    left: -11px;
+    right: -11px;
+    top: 3px;
+    height: 520px;
+    box-sizing: border-box;
+    padding: 54px 7.5% 0;
+    transform-origin: 50% 0;
+    transform: rotateX(72deg);
+    transform-style: preserve-3d;
+    border-radius: 5px 5px 36px 36px;
+    background: linear-gradient(#3b3e45 0%, #5b5f67 5%, #555961 30%, #4a4d55 62%, #3f4249 100%);
+    box-shadow:
+      inset 0 1.5px 0 rgba(255, 255, 255, .34),
+      inset 0 0 0 1px rgba(255, 255, 255, .07),
+      inset 0 -5px 0 rgba(255, 255, 255, .16),
+      inset 0 -6px 0 rgba(0, 0, 0, .25),
+      0 -3px 8px rgba(0, 0, 0, .6);
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  .lt-deck::before { /* the lid's shadow on the deck */
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 26px;
+    border-radius: 5px 5px 0 0;
+    background: linear-gradient(rgba(0, 0, 0, .38), transparent);
+  }
+
+  /* Reflection: a band twice the deck's width, moved with translateX only (useHeroScrollFx.js), clipped
+     to the deck's shape by its flat parent. At rest it sits mid-way. */
+  .lt-sheen {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    overflow: hidden;
+  }
+  .lt-sheen-band {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 220%;
+    background: linear-gradient(104deg, transparent 34%, rgba(255, 255, 255, .13) 46%, rgba(255, 255, 255, .04) 54%, transparent 66%);
+    transform: translateX(-22.73%); /* -50% of the deck's width */
+  }
+
+  /* The front edge, standing down from the deck's front. */
+  .lt-edge {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    top: 100%;
+    height: 18px;
+    transform-origin: 50% 0;
+    transform: rotateX(-90deg);
+    border-radius: 0 0 14px 14px;
+    background: linear-gradient(#a3a7b0 0%, #7d818a 14%, #666a73 45%, #565961 80%, #3b3d44 100%);
+    /* No drop shadow below it: with one, Chrome stopped drawing the edge part-way across. */
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .55), inset 0 -1px 0 rgba(0, 0, 0, .45);
+  }
+  .lt-edge::before { /* the notch for opening the lid */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 43.5%;
+    width: 13%;
+    height: 5px;
+    border-radius: 0 0 7px 7px;
+    background: linear-gradient(#2a2c32, #44474e);
+  }
+
+  /* Key well, rows and keys */
+  .lt-well {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 13px;
+    background: radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, .11), rgba(255, 255, 255, .025) 72%), #09090b;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, .85), 0 1px 0 rgba(255, 255, 255, .14);
+  }
+  .lt-row { display: grid; gap: 6px; height: 44px; }
+  .lt-row:first-child { height: 24px; }
+  .lt-k {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-width: 0;
+    border-radius: 6px;
+    background: linear-gradient(#1d1e23 0%, #131417 55%, #0c0d10 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .14),
+      inset 0 -2px 0 rgba(0, 0, 0, .55),
+      inset 0 0 0 .5px rgba(255, 255, 255, .05),
+      0 1.5px 1px rgba(0, 0, 0, .9);
+    color: #f3f5f8;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .lt-k-l::before { content: attr(data-l); font-size: 14px; }
+  .lt-k-f::before { content: attr(data-l); font-size: 7.5px; }
+  .lt-k-s::before { content: attr(data-t); font-size: 10.5px; }
+  .lt-k-s::after { content: attr(data-b); font-size: 12.5px; }
+  .lt-k-n::before { content: attr(data-l); position: absolute; bottom: 6px; font-size: 9px; }
+  .lt-k-n::after { content: attr(data-sym); position: absolute; top: 5px; font-size: 11px; }
+  .lt-k-nl::before { left: 7px; }
+  .lt-k-nl::after { right: 7px; }
+  .lt-k-nr::before { right: 7px; }
+  .lt-k-nr::after { left: 7px; }
+  .lt-k-t::before { content: ''; width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22); }
+  .lt-arrows {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 3px 6px;
+  }
+  .lt-arrows .lt-up { grid-column: 2; }
+  .lt-arrows .lt-k:nth-child(2) { grid-column: 1; grid-row: 2; }
+  .lt-k-a::before { content: attr(data-l); font-size: 6.5px; }
+
+  .lt-pad {
+    width: 40%;
+    height: 124px;
+    margin: 18px auto 0;
+    border-radius: 14px;
+    background: linear-gradient(rgba(255, 255, 255, .085), rgba(255, 255, 255, .035));
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .32), inset 0 1px 0 rgba(255, 255, 255, .14);
+  }
+}

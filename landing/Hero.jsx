@@ -3,6 +3,8 @@ import { ArrowRight } from 'lucide-react';
 import DashboardPreview, { PreviewThemePill, PreviewThemeToggle } from './preview/DashboardPreview.jsx';
 import { getPreviewTheme, usePreviewTheme } from './preview/previewTheme.js';
 import PhoneFrame from './PhoneFrame.jsx';
+import LaptopDeck from './LaptopDeck.jsx';
+import './laptop.css';
 import usePhonePreviewScroll from './usePhonePreviewScroll.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import useHeroScrollFx from './useHeroScrollFx.js';
@@ -109,6 +111,9 @@ const Hero = () => {
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
       <div ref={mockupRef} className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
         <div className="mockup-holder" ref={holderRef}>
+          {/* lg and up: the laptop's lid around the screen, and the black strip below it (laptop.css). */}
+          <div className="lt-bezel" aria-hidden="true" />
+          <div className="lt-strip" aria-hidden="true" />
           {/* Phones: the preview inside the shared iPhone frame (the Billing section's phone). It's
               always rendered, so the pre-rendered page is the same at every width; wider than a phone,
               hero.css takes the frame away and the dashboard sits in the holder on its own. */}
@@ -120,6 +125,9 @@ const Hero = () => {
         </div>
 
       </div>
+
+      {/* lg and up: the laptop's keyboard deck under the screen. */}
+      <LaptopDeck />
     </div>
     {hydrated && <PreviewThemePill mockupRef={mockupRef} />}
   </section>
