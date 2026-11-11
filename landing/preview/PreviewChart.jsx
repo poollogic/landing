@@ -7,13 +7,13 @@ import useBrowserLayoutEffect from '../useBrowserLayoutEffect.js';
 // one live part is hover: it snaps to a month and shows the app-style
 // tooltip card. `smooth` lines are drawn as a monotone cubic (no overshoot).
 
-// Shared with the hero's cost chart (CostChart.jsx), so both plots' tops, baselines and month labels
+// Shared with the hero's line charts (LineChart.jsx), so all the plots' tops, baselines and month labels
 // sit on the same lines.
 export const M = { top: 14, bottom: 26 };
 export const LABEL_FONT = 11;
 const RING_R = 4;
 const BAR_RADIUS = 4;
-const TIP_GAP = 14;
+export const TIP_GAP = 14;
 // Tick labels are a handful of characters at 11px; ~6.2px each.
 export const textW = (s) => s.length * 6.2;
 export const ink = (pct) => `color-mix(in srgb, var(--foreground) ${pct}%, transparent)`;
@@ -105,7 +105,7 @@ function paths(values, x, y, partialLast, smooth) {
 }
 
 /** The app's chart tooltip card. `tip` is { title, sub?, rows: [{ key, label, value, swatch, kind, rule?, gap? }] }. */
-function TipCard({ tip, left, visible, cardRef }) {
+export function TipCard({ tip, left, visible, cardRef }) {
   return (
     <div ref={cardRef} className={`pl-tip${visible ? ' is-on' : ''}`} style={{ left }} aria-hidden="true">
       {tip && (

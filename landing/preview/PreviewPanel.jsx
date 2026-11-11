@@ -1,10 +1,10 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
 import PreviewChart from './PreviewChart.jsx';
-import CostChart from './CostChart.jsx';
+import LineChart from './LineChart.jsx';
 import Segmented from './Segmented.jsx';
 import useHydrated from '../useHydrated.js';
-import { COST, COST_POOLS, GREETING, KPI_TILES, REVENUE, REVENUE_HERO, ROUTES, SANITIZER_OPTIONS, TODAY, greetingAt, moneyAxis, moneyAxisCents } from './data.js';
+import { COST, COST_POOLS, GREETING, KPI_TILES, REVENUE, REVENUE_6M, ROUTES, SANITIZER_OPTIONS, TODAY, greetingAt, moneyAxis, moneyAxisCents } from './data.js';
 
 // The dashboard's main panel (poollogic-web-app: Dashboard.tsx, ui/PagePanel,
 // ui/SummaryTiles, dashboard/RevenueTrendCard, dashboard/ChemCostPerVisitCard):
@@ -26,6 +26,20 @@ function revenueTip(i) {
       { key: 'rec', label: 'Recurring', value: usd(recurring), swatch: 'var(--foreground)' },
       { key: 'extra', label: 'Repairs & extras', value: usd(total - recurring), swatch: 'var(--muted-foreground)' },
       { key: 'total', label: 'Total invoiced', value: usd(total), swatch: 'var(--chart-accent)', kind: 'bar', rule: true },
+    ],
+  };
+}
+
+/** The hero's revenue hover (six months, the line chart): the month's total and what made it up. */
+function revenueTip6(i) {
+  const tip = revenueTip(REVENUE_6M.first + i);
+  const [rec, extra, total] = tip.rows;
+  return {
+    ...tip,
+    rows: [
+      { ...rec, swatch: 'var(--muted-foreground)' },
+      extra,
+      { ...total, kind: 'line' },
     ],
   };
 }
@@ -117,25 +131,26 @@ function LiveRoutes() {
   );
 }
 
-/** The hero's two Trends cards: revenue on a $60k scale and cost per visit by pool type, both
-    plots 150px tall, side by side in equal columns (preview.css). */
+/** The hero's two Trends cards, both the app's line chart over six months: revenue (total invoiced)
+    and cost per visit by pool type. 150px plots, side by side in equal columns (preview.css). */
 function HeroCharts() {
   return (
     <div className="pl-charts pl-charts-hero">
       <div className="pl-card" aria-hidden="true">
         <div className="pl-card-head">
           <Segmented options={['Revenue', 'Customers']} value="Revenue" />
-          <Segmented options={['6M', '12M', '24M']} value="12M" />
+          <Segmented options={['6M', '12M', '24M']} value="6M" />
         </div>
         <div className="pl-card-body">
-          <PreviewChart
-            labels={REVENUE_HERO.labels}
-            ticks={REVENUE_HERO.ticks}
-            top={REVENUE_HERO.top}
+          <LineChart
+            months={REVENUE_6M.months}
+            ticks={REVENUE_6M.ticks}
+            min={REVENUE_6M.min}
+            max={REVENUE_6M.max}
             axis={moneyAxis}
-            bars={{ color: 'var(--chart-accent)', values: REVENUE_HERO.bars }}
-            lines={[{ key: 'recurring', color: 'var(--foreground)', values: REVENUE_HERO.recurring, smooth: true }]}
-            tooltip={revenueTip}
+            series={REVENUE_6M.series}
+            labelRoom={16}
+            tooltip={revenueTip6}
             height={150}
           />
         </div>
@@ -150,7 +165,7 @@ function HeroCharts() {
           <Segmented options={['6M', '12M']} value="6M" />
         </div>
         <div className="pl-card-body" aria-hidden="true">
-          <CostChart
+          <LineChart
             months={COST_POOLS.months}
             ticks={COST_POOLS.ticks}
             min={COST_POOLS.min}

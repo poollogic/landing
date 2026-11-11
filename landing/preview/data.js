@@ -62,9 +62,18 @@ export const COST = {
   ],
 };
 
-/** The hero's charts (PreviewPanel HeroCharts): revenue on a $60k scale, and cost per visit by pool
-    type, as the app now draws it. The Collections section's phone keeps REVENUE and COST above. */
-export const REVENUE_HERO = { ...REVENUE, ticks: [0, 20000, 40000, 60000], top: 60000 };
+/** The hero's charts (PreviewPanel HeroCharts), both drawn as the app's line charts over six months:
+    revenue (total invoiced, the same figures as REVENUE) and cost per visit by pool type. The
+    Collections section's phone keeps REVENUE and COST above. */
+const SIX = REVENUE.bars.length - 6; // May, the first of the last six months
+export const REVENUE_6M = {
+  months: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+  first: SIX, // REVENUE's index for May
+  ticks: [0, 20000, 40000, 60000],
+  min: 0,
+  max: 60000,
+  series: [{ key: 'invoiced', values: REVENUE.bars.slice(SIX, -1), now: REVENUE.bars[REVENUE.bars.length - 1], accent: true }],
+};
 
 /** Cost per visit by pool type, May – Sep 2026, and the month still running (Oct, to the 20th). */
 export const COST_POOLS = {
