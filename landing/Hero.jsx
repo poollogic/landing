@@ -81,8 +81,7 @@ const Hero = () => {
         </h1>
 
         <h2 className="hero-sub">
-          Put your route on autopilot. Routing, chemical tracking, billing and late fees that run themselves, for your
-          whole pool service business.
+          Routing, chemical tracking, billing and late fees that run themselves, for your whole pool service business.
         </h2>
 
         <ul className="hero-checks">
@@ -95,7 +94,9 @@ const Hero = () => {
           href={ctaHref(theme)}
           className="hero-cta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
         >
-          <span className="hero-cta-label">{isReserving ? 'Reserve Your Spot' : 'Start Your 30-Day Trial'}</span>
+          <span className="hero-cta-label">
+            Put Your Route on Autopilot <span className="hero-cta-trial"><span className="paren">(</span>{isReserving ? 'Reserve Your Spot' : 'Start 30-Day Trial'}<span className="paren">)</span></span>
+          </span>
           <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
         </a>
       </div>
