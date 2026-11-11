@@ -1,9 +1,10 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
 import PreviewChart from './PreviewChart.jsx';
+import CostChart from './CostChart.jsx';
 import Segmented from './Segmented.jsx';
 import useHydrated from '../useHydrated.js';
-import { COST, GREETING, KPI_TILES, REVENUE, ROUTES, SANITIZER_OPTIONS, TODAY, greetingAt, moneyAxis, moneyAxisCents } from './data.js';
+import { COST, COST_POOLS, GREETING, KPI_TILES, REVENUE, REVENUE_HERO, ROUTES, SANITIZER_OPTIONS, TODAY, greetingAt, moneyAxis, moneyAxisCents } from './data.js';
 
 // The dashboard's main panel (poollogic-web-app: Dashboard.tsx, ui/PagePanel,
 // ui/SummaryTiles, dashboard/RevenueTrendCard, dashboard/ChemCostPerVisitCard):
@@ -41,8 +42,8 @@ function costTip(i) {
   };
 }
 
-/** ui/FilterChip.tsx "Sanitizer": opens and closes; its options only highlight. */
-function SanitizerDropdown() {
+/** ui/FilterChip.tsx "Sanitizer" / "All pools": opens and closes; its options only highlight. */
+function SanitizerDropdown({ label = 'Sanitizer' }) {
   const [open, setOpen] = useState(false);
   const wrapRef = useRef(null);
   const id = useId();
@@ -69,7 +70,7 @@ function SanitizerDropdown() {
         aria-controls={id}
         onClick={() => setOpen((v) => !v)}
       >
-        Sanitizer
+        {label}
         <ChevronDown size={12} strokeWidth={1.75} aria-hidden="true" />
       </button>
       <div id={id} role="listbox" aria-label="Sanitizer (preview)" className="pl-listbox" data-state={open ? 'open' : 'closed'}>
@@ -116,7 +117,55 @@ function LiveRoutes() {
   );
 }
 
-/** The two Trends cards. Also shown in the Collections section's phone (RevenueMobileStory.jsx). */
+/** The hero's two Trends cards: revenue on a $60k scale and cost per visit by pool type, both
+    plots 150px tall, side by side in equal columns (preview.css). */
+function HeroCharts() {
+  return (
+    <div className="pl-charts pl-charts-hero">
+      <div className="pl-card" aria-hidden="true">
+        <div className="pl-card-head">
+          <Segmented options={['Revenue', 'Customers']} value="Revenue" />
+          <Segmented options={['6M', '12M', '24M']} value="12M" />
+        </div>
+        <div className="pl-card-body">
+          <PreviewChart
+            labels={REVENUE_HERO.labels}
+            ticks={REVENUE_HERO.ticks}
+            top={REVENUE_HERO.top}
+            axis={moneyAxis}
+            bars={{ color: 'var(--chart-accent)', values: REVENUE_HERO.bars }}
+            lines={[{ key: 'recurring', color: 'var(--foreground)', values: REVENUE_HERO.recurring, smooth: true }]}
+            tooltip={revenueTip}
+            height={150}
+          />
+        </div>
+      </div>
+
+      <div className="pl-card">
+        <div className="pl-card-head">
+          <div className="pl-card-title-row">
+            <span className="pl-card-title" aria-hidden="true">Cost per visit</span>
+            <SanitizerDropdown label="All pools" />
+          </div>
+          <Segmented options={['6M', '12M']} value="6M" />
+        </div>
+        <div className="pl-card-body" aria-hidden="true">
+          <CostChart
+            months={COST_POOLS.months}
+            ticks={COST_POOLS.ticks}
+            min={COST_POOLS.min}
+            max={COST_POOLS.max}
+            axis={moneyAxisCents}
+            series={COST_POOLS.series}
+            height={150}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** The two Trends cards as they were, for the Collections section's phone (RevenueMobileStory.jsx). */
 export function PreviewCharts() {
   return (
     <div className="pl-charts">
@@ -191,7 +240,7 @@ export default function PreviewPanel() {
         </div>
       </div>
 
-      <PreviewCharts />
+      <HeroCharts />
 
       <LiveRoutes />
     </div>

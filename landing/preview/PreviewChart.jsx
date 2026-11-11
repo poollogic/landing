@@ -7,14 +7,16 @@ import useBrowserLayoutEffect from '../useBrowserLayoutEffect.js';
 // one live part is hover: it snaps to a month and shows the app-style
 // tooltip card. `smooth` lines are drawn as a monotone cubic (no overshoot).
 
-const M = { top: 14, bottom: 26 };
-const LABEL_FONT = 11;
+// Shared with the hero's cost chart (CostChart.jsx), so both plots' tops, baselines and month labels
+// sit on the same lines.
+export const M = { top: 14, bottom: 26 };
+export const LABEL_FONT = 11;
 const RING_R = 4;
 const BAR_RADIUS = 4;
 const TIP_GAP = 14;
 // Tick labels are a handful of characters at 11px; ~6.2px each.
-const textW = (s) => s.length * 6.2;
-const ink = (pct) => `color-mix(in srgb, var(--foreground) ${pct}%, transparent)`;
+export const textW = (s) => s.length * 6.2;
+export const ink = (pct) => `color-mix(in srgb, var(--foreground) ${pct}%, transparent)`;
 
 function barPath(x0, w, top, bottom) {
   const r = Math.max(0, Math.min(BAR_RADIUS, w / 2, bottom - top));
@@ -26,7 +28,7 @@ const lastIndex = (values) => values.reduce((m, v, i) => (v != null ? i : m), -1
 const f = (n) => n.toFixed(1);
 
 /** Monotone cubic tangents (as d3's curveMonotoneX) for one run of points. */
-function monotoneTangents(pts) {
+export function monotoneTangents(pts) {
   const n = pts.length;
   const t = new Array(n).fill(0);
   if (n < 2) return t;
@@ -48,6 +50,19 @@ function monotoneTangents(pts) {
   t[0] = end(pts[0], pts[1], t[1]);
   t[n - 1] = end(pts[n - 2], pts[n - 1], t[n - 2]);
   return t;
+}
+
+/** One run of [x, y] points as a monotone cubic path (d3's curveMonotoneX), no overshoot. */
+export function monotonePath(pts) {
+  const t = monotoneTangents(pts);
+  let d = `M ${f(pts[0][0])} ${f(pts[0][1])}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const [x0, y0] = pts[i];
+    const [x1, y1] = pts[i + 1];
+    const h = (x1 - x0) / 3;
+    d += ` C ${f(x0 + h)} ${f(y0 + h * t[i])} ${f(x1 - h)} ${f(y1 - h * t[i + 1])} ${f(x1)} ${f(y1)}`;
+  }
+  return d;
 }
 
 /** The line's solid path and its dashed last segment (the month still running). */
@@ -144,16 +159,19 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
   const shown = lastHover.current;
   const tip = tooltip && shown != null ? tooltip(shown) : null;
 
-  // The card's width, and how far right it may reach: 10px inside the dashboard panel's right edge
-  // (the panel clips), in the chart's own pixels (it can sit inside a scaled frame).
+  // The card's width, and how far right it may reach: its chart card's right edge, and never closer
+  // than 10px to the dashboard panel's (the panel clips); in the chart's own pixels (it can sit inside
+  // a scaled frame).
   const [room, setRoom] = useState(null);
   useBrowserLayoutEffect(() => {
     if (cardRef.current) setCardW(cardRef.current.offsetWidth);
     const wrap = wrapRef.current;
     const panel = wrap?.closest('.pl-panel');
     if (!wrap || !panel || !wrap.offsetWidth) return;
+    const card = wrap.closest('.pl-card');
+    const right = Math.min(panel.getBoundingClientRect().right - 10, card ? card.getBoundingClientRect().right : Infinity);
     const r = wrap.getBoundingClientRect();
-    setRoom((panel.getBoundingClientRect().right - 10 - r.left) / (r.width / wrap.offsetWidth || 1));
+    setRoom((right - r.left) / (r.width / wrap.offsetWidth || 1));
   }, [shown, width]);
 
   const n = labels.length;
@@ -202,7 +220,7 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
   })();
 
   // As the app's TrendChart: the card opens right of the hovered month's line, and flips to its left
-  // when it would run past the panel's edge (or the chart's, outside a panel).
+  // when it would run past its chart card (or the chart's edge, outside a panel).
   const anchor = shown != null ? left + x(shown) : 0;
   const limit = room ?? width - 4;
   const tipLeft = anchor + TIP_GAP + cardW > limit ? Math.max(0, anchor - TIP_GAP - cardW) : anchor + TIP_GAP;

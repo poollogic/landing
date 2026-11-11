@@ -523,7 +523,7 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 /* Charts (dashboard/dashLayout.ts DASH_TWO_COL, ui/TrendCard.tsx) */
 .pl-charts { margin-top: 32px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; }
 @media (min-width: 768px) {
-  .pl-charts { margin-top: 48px; grid-template-columns: minmax(0, 1.37fr) minmax(0, 1fr); gap: 12px; }
+  .pl-charts { margin-top: 48px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
 }
 @media (min-width: 1024px) {
   .pl-charts { column-gap: clamp(48px, 11%, 106px); }
@@ -540,6 +540,18 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .pl-card-title-row { display: flex; min-width: 0; align-items: center; gap: 8px; }
 .pl-card-title { font-weight: 600; color: var(--foreground); white-space: nowrap; }
 .pl-card-body { padding-top: 8px; }
+/* The hero's charts on a desktop: centred between the tabs and the route rows, 62px from the tabs to
+   the top tick label and 62px from the month labels to the first route row (the SVG adds its own
+   14px top margin and the labels' 8px under the baseline). */
+@media (min-width: 1024px) {
+  .pl-charts-hero .pl-card-body { padding: 55px 0 13px; }
+}
+/* Tablets: the equal columns are narrow, so the tabs keep to one line (a little tighter), and the two
+   charts stay level. */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .pl-charts-hero .pl-card-head { flex-wrap: nowrap; gap: 6px; }
+  .pl-charts-hero .pl-card-head .pl-seg-item { padding-inline: 9px; }
+}
 @media (min-width: 768px) and (max-width: 1023.98px) {
   .pl-card { border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
   .pl-card-head { padding: 16px 16px 0; }
@@ -720,13 +732,16 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 .light .pl-tip-title, .light .pl-tip-value { color: #1d1d1f; }
 .light .pl-tip-sub, .light .pl-tip-label { color: #6e6e73; }
 .light .pl-tip-row.is-rule { border-top-color: rgba(0, 0, 0, .08); }
+/* The running month's ring: grows from its dot and fades (transform and opacity only). */
 @keyframes pl-pulse {
-  from { opacity: 0.5; stroke-width: 2px; }
-  to { opacity: 0; stroke-width: 9px; }
+  from { opacity: 0.5; transform: scale(1); }
+  to { opacity: 0; transform: scale(2.2); }
 }
-.pl-pulse { opacity: 0; }
+.pl-pulse,
+.pl-now-pulse { opacity: 0; transform-box: fill-box; transform-origin: center; }
 @media (prefers-reduced-motion: no-preference) {
   .pl-pulse { animation: pl-pulse 2.4s ease-out 1.4s infinite; }
+  .pl-now-pulse { animation: pl-pulse 2s ease-out infinite; }
 }
 
 @media (prefers-reduced-motion: reduce) {

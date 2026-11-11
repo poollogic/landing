@@ -62,6 +62,23 @@ export const COST = {
   ],
 };
 
+/** The hero's charts (PreviewPanel HeroCharts): revenue on a $60k scale, and cost per visit by pool
+    type, as the app now draws it. The Collections section's phone keeps REVENUE and COST above. */
+export const REVENUE_HERO = { ...REVENUE, ticks: [0, 20000, 40000, 60000], top: 60000 };
+
+/** Cost per visit by pool type, May – Sep 2026, and the month still running (Oct, to the 20th). */
+export const COST_POOLS = {
+  months: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+  ticks: [2, 3, 4, 5, 6],
+  min: 2,
+  max: 6,
+  series: [
+    { key: 'chlorine', label: 'Chlorine', values: [5.70, 5.66, 5.52, 5.28, 5.10], now: 4.85 },
+    { key: 'all', label: 'All', values: [5.00, 4.86, 4.80, 4.58, 4.40], now: 4.12, accent: true },
+    { key: 'salt', label: 'Salt', values: [3.60, 3.32, 3.36, 3.02, 2.80], now: 2.60 },
+  ],
+};
+
 export const SANITIZER_OPTIONS = ['All', 'Liquid chlorine', 'Salt', 'Bromine'];
 
 /**
