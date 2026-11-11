@@ -2,7 +2,8 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
 import PreviewChart from './PreviewChart.jsx';
 import Segmented from './Segmented.jsx';
-import { COST, GREETING, KPI_TILES, REVENUE, ROUTES, SANITIZER_OPTIONS, TODAY, moneyAxis, moneyAxisCents } from './data.js';
+import useHydrated from '../useHydrated.js';
+import { COST, GREETING, KPI_TILES, REVENUE, ROUTES, SANITIZER_OPTIONS, TODAY, greetingAt, moneyAxis, moneyAxisCents } from './data.js';
 
 // The dashboard's main panel (poollogic-web-app: Dashboard.tsx, ui/PagePanel,
 // ui/SummaryTiles, dashboard/RevenueTrendCard, dashboard/ChemCostPerVisitCard):
@@ -84,68 +85,34 @@ function SanitizerDropdown() {
 }
 
 /**
- * dashboard/LiveRouteProgress.tsx, at rest: no hover tips, no draw-in. Every
- * track spans the same width whatever its stop count: each route lays out its
- * own N stops between a 2.5% inset at either end. The ring is the stop in
- * progress, or a finished route's last stop.
+ * Today's routes (dashboard/DesktopRouteProgress.tsx): per technician, name and status line, a bar
+ * with one segment per stop, and stops done / total with the percent.
  */
-const ROUTE_INSET = 2.5;
-
 function LiveRoutes() {
   return (
-    <div className="pl-routes" aria-hidden="true">
-      <div className="pl-card-head"><span className="pl-card-title">Live route progress</span></div>
-      <div className="pl-routes-body">
-        {ROUTES.techs.map((t) => {
-          const n = t.total;
-          const span = 100 - 2 * ROUTE_INSET;
-          const step = span / (n - 1);
-          const pos = (i) => ROUTE_INSET + i * step;
-          const ring = Math.min(t.done, n - 1);
-          const finished = t.done >= n;
-          return (
-            <div key={t.name} className="pl-route-row">
+    <ul className="pl-routes" aria-hidden="true">
+      {ROUTES.techs.map((t) => {
+        const finished = t.done >= t.total;
+        return (
+          <li key={t.name} className="pl-route-row">
+            <span className="pl-route-who">
               <span className="pl-route-name">{t.name}</span>
-              <div className="pl-route-track">
-                {Array.from({ length: n - 1 }, (_, i) => (
-                  <span
-                    key={`s${i}`}
-                    className="pl-route-seg"
-                    style={{
-                      left: `${pos(i)}%`,
-                      width: i < ring ? `calc(${step}% + 1px)` : `${step}%`,
-                      background: i < ring ? 'var(--chart-accent)' : 'var(--neutral-fill-hover)',
-                    }}
-                  />
-                ))}
-                {Array.from({ length: n }, (_, i) =>
-                  i === ring ? null : (
-                    <span
-                      key={`t${i}`}
-                      className="pl-route-tick"
-                      style={{ left: `${pos(i)}%`, background: i <= ring ? 'var(--chart-accent)' : 'var(--route-stop-upcoming)' }}
-                    />
-                  ),
-                )}
-                <span className="pl-route-ring" style={{ left: `${pos(ring)}%` }} />
-              </div>
-              {finished ? (
-                <span className="pl-route-count is-done">
-                  <span className="pl-route-done-check">
-                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                      <path d="M1.5 4.2 3.2 5.8 6.5 2.3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </span>
-                  {t.done}/{n}
-                </span>
-              ) : (
-                <span className="pl-route-count">{t.done}/{n}</span>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+              <span className={`pl-route-status${finished ? ' is-done' : ''}`}>{finished ? `✓ ${t.status}` : t.status}</span>
+            </span>
+            <span className="pl-route-bar">
+              {Array.from({ length: t.total }, (_, i) => (
+                <span key={i} className={`pl-route-seg${i < t.done ? ' is-done' : ''}`} />
+              ))}
+            </span>
+            <span className="pl-route-count">
+              <b>{t.done}</b>
+              <span className="pl-route-total">/ {t.total}</span>
+              <span className="pl-route-pct">{Math.round((t.done / t.total) * 100)}%</span>
+            </span>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
@@ -197,10 +164,13 @@ export function PreviewCharts() {
 }
 
 export default function PreviewPanel() {
+  // The visitor's time of day, once in the browser (the pre-rendered page says afternoon).
+  const hydrated = useHydrated();
+  const greeting = hydrated ? greetingAt(new Date().getHours()) : GREETING;
   return (
     <div className="pl-panel">
       <div className="pl-header" aria-hidden="true">
-        <div className="pl-title">{GREETING}</div>
+        <div className="pl-title">{greeting}</div>
         <div className="pl-subtitle">{TODAY}</div>
       </div>
 

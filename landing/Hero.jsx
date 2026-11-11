@@ -1,11 +1,12 @@
 import React, { lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowRight } from 'lucide-react';
-import DashboardPreview, { PreviewThemeToggle, PreviewThemeUnder } from './preview/DashboardPreview.jsx';
+import DashboardPreview, { PreviewThemePill, PreviewThemeToggle } from './preview/DashboardPreview.jsx';
 import { getPreviewTheme, usePreviewTheme } from './preview/previewTheme.js';
 import PhoneFrame from './PhoneFrame.jsx';
 import usePhonePreviewScroll from './usePhonePreviewScroll.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import useHeroScrollFx from './useHeroScrollFx.js';
+import useHydrated from './useHydrated.js';
 
 // Phones (<768px). Read before the first render, so the right preview paints straight
 // away (no flash, no layout shift); updates if the window crosses the breakpoint.
@@ -36,6 +37,9 @@ function useAfterPaint() {
 // landing/hero.css; layout and the entrance animation stay in Tailwind. On
 // desktop, useHeroScrollFx adds the scroll effect (fixed, fading headline).
 
+// What every account gets, in a row of checkmarks between the subhead and the button.
+const CHECKS = ['No credit card', 'Try it free for 30 days', 'We move your customers for you'];
+
 // Staggered entrance: 300ms fade-up (ease-mktg), skipped under reduced motion.
 const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 
@@ -43,6 +47,8 @@ const Hero = () => {
   const theme = usePreviewTheme();
   const isPhone = useIsPhone();
   const holderRef = useRef(null);
+  const mockupRef = useRef(null);
+  const hydrated = useHydrated();
   usePhonePreviewScroll(holderRef, isPhone); // phones: the dashboard scrolls a little with the page
   const heroRef = useRef(null);
   useHeroScrollFx(heroRef);
@@ -75,25 +81,23 @@ const Hero = () => {
         </h1>
 
         <h2 className="hero-sub">
-          Route your techs, track every chemical, and get paid on time, without lifting a finger. Automated SOPs for
-          your whole <strong>pool service</strong> business.
+          Put your route on autopilot. Routing, chemical tracking, billing and late fees that run themselves, for your
+          whole pool service business.
         </h2>
+
+        <ul className="hero-checks">
+          {CHECKS.map((c) => (
+            <li key={c}><span className="hero-check" aria-hidden="true">✓</span>{c}</li>
+          ))}
+        </ul>
 
         <a
           href={ctaHref(theme)}
           className="hero-cta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
         >
-          <span className="hero-cta-label">
-            Put Your Route on Autopilot <span className="hero-cta-trial"><span className="paren">(</span>{isReserving ? 'Reserve Your Spot' : 'Start 30-Day Trial'}<span className="paren">)</span></span>
-          </span>
+          <span className="hero-cta-label">{isReserving ? 'Reserve Your Spot' : 'Start Your 30-Day Trial'}</span>
           <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
         </a>
-
-        <p className="hero-fine">
-          {isReserving
-            ? 'Every account starts with white-glove onboarding: we move your customers over and set everything up with you.'
-            : 'No credit card required. Import your Skimmer or Excel route in minutes.'}
-        </p>
       </div>
 
       {/* Below lg the rail and its account menu are hidden: the theme lives here instead. */}
@@ -102,7 +106,7 @@ const Hero = () => {
       </div>
 
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
-      <div className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
+      <div ref={mockupRef} className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
         <div className="mockup-holder" ref={holderRef}>
           {/* Phones: the preview inside the shared iPhone frame (the Billing section's phone). It's
               always rendered, so the pre-rendered page is the same at every width; wider than a phone,
@@ -112,11 +116,11 @@ const Hero = () => {
           </PhoneFrame>
           <div className="preview-glint" aria-hidden="true" />
           {showToast && <Suspense fallback={null}><PreviewToast /></Suspense>}
-          <PreviewThemeUnder />
         </div>
 
       </div>
     </div>
+    {hydrated && <PreviewThemePill mockupRef={mockupRef} />}
   </section>
   );
 };

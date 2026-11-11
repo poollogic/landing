@@ -1,105 +1,121 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
 import { usePreviewTheme } from './previewTheme.js';
-import { SCROLL_FX_QUERY } from '../useHeroScrollFx.js';
+import { TOASTS } from './data.js';
 
-// The billing-run toast, floating over the dashboard preview's top-right
-// corner. A child of .mockup-holder, not of the preview (which clips), and
-// themed from the same state as the preview's theme toggle.
+// The toasts in the dashboard preview's top-right corner. A child of .mockup-holder, not of the
+// preview (which clips), and themed from the same state as the preview.
 //
-// On desktop (≥1024px, no reduced motion) it waits off to the right until
-// the dashboard's top is within the top 25% of the window, then slides in
-// once while its figures count up from 0. Elsewhere it shows as it always has.
+// The first (the billing run) drops in 1s after the page loads and stays. The visitor's first scroll
+// (past 60px, with the dashboard in view) moves on to the next, then one every 3.6s, only while the
+// dashboard is in view. It stops on the last and leaves it showing: no loop, no replay. With reduced
+// motion the first shows from the start and nothing plays.
 
-const INVOICES = 163;
-const AMOUNT = 26409;
-const COUNT_MS = 900;
-const FINAL = `${INVOICES} invoices sent · $${AMOUNT.toLocaleString('en-US')}`;
+const FIRST_AFTER_LOAD_MS = 1000;
+const STEP_MS = 3600;
+const SWAP_MS = 320; // after the exit starts: swap the content and drop the next one in
+const FIRST_MIN_MS = 1200; // a scroll that comes before the first is in still lets it be read
+const SCROLLED_PX = 60;
 
 export default function PreviewToast() {
   const theme = usePreviewTheme();
   const ref = useRef(null);
-  const nameRef = useRef(null);
-  const amountRef = useRef(null);
-  const [phase, setPhase] = useState('static'); // 'static' | 'waiting' | 'in'
-  const [k, setK] = useState(1); // count-up progress, 0–1
-  const [minWidths, setMinWidths] = useState(null);
+  const [index, setIndex] = useState(0);
+  const [phase, setPhase] = useState('hidden'); // 'hidden' | 'in' | 'out' | 'static'
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setPhase('static');
+      return undefined;
+    }
     const mockup = ref.current?.closest('.hero-mockup');
-    if (!mockup || !window.matchMedia || !('IntersectionObserver' in window)) return undefined;
-    const mq = window.matchMedia(SCROLL_FX_QUERY);
-    let io = null;
-    let raf = 0;
-    let fired = false;
+    const timers = new Set();
+    const later = (fn, ms) => {
+      const t = setTimeout(() => { timers.delete(t); fn(); }, ms);
+      timers.add(t);
+      return t;
+    };
+    let i = 0;
+    let shownAt = 0; // when the current toast dropped in
+    let scrolled = false;
+    let inView = false;
+    let step = 0;
 
-    const enter = () => {
-      fired = true;
-      io.disconnect();
-      io = null;
-      // The final strings are still showing (the card is hidden): their exact
-      // widths, with fonts loaded, hold the card's size through the count.
-      const width = (el) => parseFloat(getComputedStyle(el).width);
-      setMinWidths([width(nameRef.current), width(amountRef.current)]);
-      setK(0);
+    const advance = () => {
+      step = 0;
+      setPhase('out');
+      later(() => {
+        i += 1;
+        setIndex(i);
+        setPhase('in');
+        shownAt = performance.now();
+        schedule();
+      }, SWAP_MS);
+    };
+    // Waits the toast's turn, only while the dashboard is in view; leaving it starts the wait over.
+    function schedule() {
+      if (step || !shownAt || !scrolled || !inView || i >= TOASTS.length - 1) return;
+      const wait = i === 0 ? Math.max(0, shownAt + FIRST_MIN_MS - performance.now()) : STEP_MS;
+      step = later(advance, wait);
+    }
+    const pause = () => {
+      if (!step) return;
+      clearTimeout(step);
+      timers.delete(step);
+      step = 0;
+    };
+
+    const showFirst = () => {
       setPhase('in');
-      const t0 = performance.now();
-      const tick = (now) => {
-        const p = Math.min(1, (now - t0) / COUNT_MS);
-        setK(1 - (1 - p) ** 3); // ease-out cubic
-        if (p < 1) raf = requestAnimationFrame(tick);
-      };
-      raf = requestAnimationFrame(tick);
+      shownAt = performance.now();
+      schedule();
     };
-    const onChange = () => {
-      if (fired) return;
-      if (mq.matches && !io) {
-        setPhase('waiting');
-        // The root is the top 25% of the window.
-        io = new IntersectionObserver((entries) => {
-          if (entries.some((e) => e.isIntersecting)) enter();
-        }, { rootMargin: '0px 0px -75% 0px' });
-        io.observe(mockup);
-      } else if (!mq.matches && io) {
-        io.disconnect();
-        io = null;
-        setPhase('static');
-      }
-    };
+    const nav = performance.getEntriesByType?.('navigation')[0];
+    const onLoad = () => later(showFirst, FIRST_AFTER_LOAD_MS);
+    if (nav?.loadEventEnd > 0) later(showFirst, Math.max(0, nav.loadEventEnd + FIRST_AFTER_LOAD_MS - performance.now()));
+    else window.addEventListener('load', onLoad, { once: true });
 
-    onChange();
-    mq.addEventListener('change', onChange);
+    const onScroll = () => {
+      if (scrolled || window.scrollY <= SCROLLED_PX || !inView) return;
+      scrolled = true;
+      window.removeEventListener('scroll', onScroll);
+      schedule();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const io = mockup && 'IntersectionObserver' in window
+      ? new IntersectionObserver(([e]) => {
+        inView = e.isIntersecting;
+        if (inView) { onScroll(); schedule(); } else pause();
+      })
+      : null;
+    if (io) io.observe(mockup);
+    else inView = true;
+
     return () => {
-      mq.removeEventListener('change', onChange);
+      timers.forEach(clearTimeout);
       io?.disconnect();
-      cancelAnimationFrame(raf);
+      window.removeEventListener('load', onLoad);
+      window.removeEventListener('scroll', onScroll);
     };
   }, []);
 
-  const scrollEntry = phase !== 'static';
+  const t = TOASTS[index];
   return (
     <div
+      key={index}
       ref={ref}
-      className={`pl-toast${scrollEntry ? ' is-scroll-entry' : ''}${phase === 'in' ? ' is-in' : ''}`}
+      className={`pl-toast is-${phase}`}
       data-theme={theme}
-      role="status"
+      aria-hidden="true"
     >
-      <span className="pl-toast-check" aria-hidden="true"><Check size={12} strokeWidth={3.2} /></span>
+      <span className="pl-toast-check"><Check size={12} strokeWidth={3.2} /></span>
       <div className="pl-toast-body">
-        {/* Screen readers get the final figures, never the count. */}
-        <span className="sr-only">{FINAL}</span>
-        <div className="pl-toast-title" aria-hidden="true">
-          <span ref={nameRef} className="pl-toast-name" style={minWidths ? { minWidth: minWidths[0] } : undefined}>
-            {Math.round(INVOICES * k)} invoices sent
-          </span>
-          <span className="pl-toast-sep"> · </span>
-          <span ref={amountRef} className="pl-toast-amount" style={minWidths ? { minWidth: minWidths[1] } : undefined}>
-            ${Math.round(AMOUNT * k).toLocaleString('en-US')}
-          </span>
+        <div className="pl-toast-title">
+          <span className="pl-toast-name">{t.title}</span>
+          {t.meta && <span className="pl-toast-amount"> · {t.meta}</span>}
         </div>
-        <div className="pl-toast-detail">
-          <span>Recurring billing run</span> · <span>just now</span>
-        </div>
+        {t.detail && <div className="pl-toast-detail">{t.detail}</div>}
       </div>
     </div>
   );

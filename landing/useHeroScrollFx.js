@@ -10,7 +10,6 @@ import useBrowserLayoutEffect from './useBrowserLayoutEffect.js';
 // writes the styles and stops once the eased values settle. Below 1024px or
 // with reduced motion the class is never added and the hero is unchanged.
 
-// Also gates the toast's scroll entrance (preview/PreviewToast.jsx).
 export const SCROLL_FX_QUERY = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)';
 const EASE = 0.12; // share of the remaining distance covered each frame
 

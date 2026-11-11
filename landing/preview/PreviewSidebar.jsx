@@ -33,9 +33,18 @@ const PanelIcon = () => (
   </svg>
 );
 
+/** nav/NavIcons.tsx NavIconFleet: a work truck, body and cab, two wheels, at the rail's 16px / 1.25 stroke. */
+const FleetIcon = () => (
+  <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.875} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M14 17.5V7.5A1.5 1.5 0 0 0 12.5 6h-9A1.5 1.5 0 0 0 2 7.5v9a1 1 0 0 0 1 1h2M9 17.5h6M14 9.5h3.5a1 1 0 0 1 .8.4l3 4a1 1 0 0 1 .2.6v2a1 1 0 0 1-1 1H19" />
+    <circle cx="7" cy="17.5" r="2" />
+    <circle cx="17" cy="17.5" r="2" />
+  </svg>
+);
+
 const NAV = [
-  { label: 'Operations', items: [['Dashboard', LayoutDashboard], ['Requests', Ticket], ['Customers', Users], ['Routes', Route], ['Staff', UserCog], ['Settings', Settings]] },
-  { label: 'Money', items: [['Invoices', null], ['Payments', CreditCard]] },
+  { label: 'Operations', items: [['Dashboard', LayoutDashboard], ['Requests', Ticket], ['Customers', Users], ['Routes', Route], ['Staff', UserCog], ['Fleet', FleetIcon], ['Settings', Settings]] },
+  { label: 'Money', items: [['Invoices', InvoiceIcon], ['Payments', CreditCard]] },
   { label: 'Catalog', items: [['Services & Parts', Package]] },
 ];
 
@@ -57,7 +66,7 @@ export default function PreviewSidebar({ menuOpen, onToggleMenu, flash, chipRef,
             <div className="pl-nav-label">{group.label}</div>
             {group.items.map(([label, Icon]) => (
               <div key={label} className={`pl-nav-item${label === active ? ' is-active' : ''}`}>
-                <span className="pl-nav-icon">{Icon ? <Icon {...ICON} /> : <InvoiceIcon />}</span>
+                <span className="pl-nav-icon"><Icon {...ICON} /></span>
                 <span>{label}</span>
               </div>
             ))}

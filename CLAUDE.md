@@ -46,7 +46,7 @@ These apply to the homepage hero for now: `<section class="hero">`, including th
    - Give every image, video, mockup and animated container a fixed width and height (or aspect ratio) before its scripts or fonts load.
    - Animate with `transform` and `opacity`, never with properties that change layout (`height`, `top`, `margin`, …).
    - Keep the metric-matched font fallbacks (`landing/landing.css`) in place.
-   - The check compares the layout boxes of each hero's eyebrow, headline, copy, button, fine print and mockup at first render with their boxes after load, allowing ±2px. It also scrolls through the hero and keeps Google's layout-shift score for it under 0.01, on desktop and phone.
+   - The check compares the layout boxes of each hero's eyebrow, headline, copy, button, fine print (the homepage's checkmarks row) and mockup at first render with their boxes after load, allowing ±2px. It also scrolls through the hero and keeps Google's layout-shift score for it under 0.01, on desktop and phone.
 
 To widen the guardrails to more of the site, extend `SOURCE` and `ROUTES` at the top of `scripts/seo-check.mjs`, and update this section.
 

@@ -21,7 +21,6 @@
   --primary: var(--org-accent);
   --ring: var(--org-accent);
   --btn-inverted-fg: #ffffff;
-  --chart-accent: #3885C6;
   --series-baseline-fill: #8fa3bf;
   --popup-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --popup-duration: 200ms;
@@ -37,6 +36,7 @@
 
 .theme-scope.dark {
   color-scheme: dark;
+  --chart-accent: #2E85FF; /* the site's button blue */
   --shell-bg: #0b0c0f;
   --sidebar-bg: #0b0c0f;
   --card: #111318;
@@ -72,12 +72,13 @@
   --series-baseline: #5d6878;
   --switch-track-off: rgba(148, 163, 184, 0.28);
   --neutral-fill-hover: rgba(148, 163, 184, 0.15);
-  --route-stop-upcoming: rgba(255, 255, 255, 0.26);
-  --route-done: #34b864;
+  --route-done-seg: #4caf6a;
+  --route-track: rgba(148, 163, 184, 0.16);
 }
 
 .theme-scope.light {
   color-scheme: light;
+  --chart-accent: #1D65F4;
   --shell-bg: #f5f5f5;
   --sidebar-bg: #f5f5f5;
   --card: #ffffff;
@@ -113,8 +114,8 @@
   --series-baseline: #94a3b8;
   --switch-track-off: color-mix(in srgb, var(--neutral-ink) 18%, transparent);
   --neutral-fill-hover: #f0f0f2;
-  --route-stop-upcoming: #d1d1d6;
-  --route-done: #1e9e4a;
+  --route-done-seg: #4caf6a;
+  --route-track: rgba(15, 23, 42, 0.10);
 }
 
 /* Crossfade fallback when the View Transitions API isn't available. */
@@ -149,20 +150,18 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 
 @media (min-width: 1024px) {
   /* Full height (the panel ends just under the second route row), profile in
-     place. In dark the bottom 150px of the whole preview (rail, profile and
-     panel together) fades into the page; in light it ends on its clean
+     place. In dark the bottom 64px of the whole preview (rail, profile and
+     panel together, below the route rows) fades into the page; in light it ends on its clean
      rounded edge, since white fading into the dark page turns muddy grey. */
   .pl-preview { height: 754px; }
   .pl-preview.dark {
     -webkit-mask-image: linear-gradient(to bottom,
-      #000 calc(100% - 170px),
-      rgba(0, 0, 0, .55) calc(100% - 95px),
-      rgba(0, 0, 0, .18) calc(100% - 40px),
+      #000 calc(100% - 64px),
+      rgba(0, 0, 0, .45) calc(100% - 32px),
       transparent 100%);
     mask-image: linear-gradient(to bottom,
-      #000 calc(100% - 170px),
-      rgba(0, 0, 0, .55) calc(100% - 95px),
-      rgba(0, 0, 0, .18) calc(100% - 40px),
+      #000 calc(100% - 64px),
+      rgba(0, 0, 0, .45) calc(100% - 32px),
       transparent 100%);
   }
 }
@@ -550,43 +549,40 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   .pl-card-body { padding: 8px 12px 0; }
 }
 
-/* Live route progress (dashboard/LiveRouteProgress.tsx) */
-.pl-routes { margin-top: 32px; }
-@media (min-width: 768px) {
-  .pl-routes { margin-top: 48px; }
-}
-.pl-routes-body { padding: 8px 0; }
+/* Today's routes (dashboard/DesktopRouteProgress.tsx), under the charts */
+.pl-routes { margin: 44px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 22px; }
 .pl-route-row {
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr) 56px;
+  grid-template-columns: 190px minmax(0, 1fr) 120px;
   align-items: center;
-  column-gap: 24px;
-  padding: 12px 0;
+  column-gap: 18px;
 }
-@media (min-width: 768px) {
-  .pl-route-row { grid-template-columns: 170px minmax(0, 1fr) 56px; }
+.pl-route-who { min-width: 0; display: flex; flex-direction: column; }
+.pl-route-name { font-size: 14.5px; font-weight: 500; line-height: 20px; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pl-route-status { font-size: 12.5px; line-height: 17px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pl-route-status.is-done { font-weight: 500; color: var(--route-done-seg); }
+.pl-route-bar { display: flex; gap: 3px; height: 6px; }
+.pl-route-seg { flex: 1; min-width: 0; background: var(--route-track); }
+.pl-route-seg.is-done { background: var(--route-done-seg); }
+.pl-route-seg:first-child { border-radius: 3px 0 0 3px; }
+.pl-route-seg:last-child { border-radius: 0 3px 3px 0; }
+.pl-route-count { display: flex; align-items: baseline; justify-content: flex-end; gap: 4px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pl-route-count b { font-size: 15.5px; font-weight: 700; color: var(--foreground); }
+.pl-route-total { font-size: 13.5px; color: var(--muted-foreground); }
+.pl-route-pct { margin-left: 4px; font-size: 12px; color: var(--muted-foreground); }
+/* Narrower than the desktop dashboard (a phone's 350px layout): the same row, tighter columns. */
+@media (max-width: 1023.98px) {
+  .pl-route-row { grid-template-columns: 120px minmax(0, 1fr) 84px; column-gap: 12px; }
 }
-.pl-route-name { min-width: 0; font-size: 13px; font-weight: 500; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-@media (min-width: 768px) {
-  .pl-route-name { font-size: 14px; }
+@media (max-width: 767.98px) {
+  .pl-routes { margin-top: 32px; gap: 18px; }
+  .pl-route-row { grid-template-columns: 104px minmax(0, 1fr) 64px; column-gap: 10px; }
+  .pl-route-name { font-size: 13px; }
+  .pl-route-status { font-size: 11.5px; }
+  .pl-route-count b { font-size: 13.5px; }
+  .pl-route-total { font-size: 12px; }
+  .pl-route-pct { display: none; }
 }
-.pl-route-track { position: relative; height: 26px; }
-.pl-route-seg { position: absolute; top: 50%; height: 4px; transform: translateY(-50%); }
-.pl-route-tick { position: absolute; top: 50%; width: 2px; height: 9px; border-radius: 1px; transform: translate(-50%, -50%); }
-.pl-route-ring {
-  position: absolute;
-  top: 50%;
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  background: var(--card);
-  border: 4.5px solid var(--chart-accent);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
-  transform: translate(-50%, -50%);
-}
-.pl-route-count { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted-foreground); }
-.pl-route-count.is-done { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font-weight: 500; color: var(--route-done); }
-.pl-route-done-check { width: 14px; height: 14px; flex: none; display: grid; place-items: center; border-radius: 999px; background: var(--route-done); }
 
 /* Segmented control (ui/SegmentedControl.tsx, tokenRadius) */
 .pl-seg {
@@ -740,78 +736,109 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   .pl-preview *, .pl-preview *::before, .pl-preview *::after { transition-duration: 0s !important; }
 }
 
-/* ---------- Theme toggle under the preview (lg and up) ----------
-   A child of .mockup-holder; the `.mockup-holder >` prefix outranks
-   hero.css's `.mockup-holder > *`. */
+/* ---------- Floating theme pill (lg and up, DashboardPreview.jsx PreviewThemePill) ----------
+   Fixed at the foot of the window; slides up while the dashboard fills the screen. After the first
+   switch it folds to a 38px circle with only its icon, and opens again on hover or keyboard focus. */
 
-.mockup-holder > .pl-theme-under {
-  position: absolute;
+.pl-theme-pill {
+  position: fixed;
   left: 50%;
-  top: calc(100% - 30px); /* on the preview's bottom edge */
-  z-index: 8;
-  transform: translateX(-50%);
+  bottom: 22px;
+  z-index: 80;
   display: flex;
   align-items: center;
   gap: 12px;
-  /* Same box in both themes, so nothing shifts on a switch. */
-  padding: 6px 6px 6px 16px;
-  border-radius: 12px;
-  background: transparent;
-  box-shadow: 0 0 0 1px transparent;
-  transition: background-color .25s ease, box-shadow .25s ease;
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  padding: 5px 5px 5px 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, .22);
+  background: rgba(21, 26, 35, .82);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, .55);
+  font-family: Satoshi, 'Satoshi Fallback', ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  translate: -50% 90px;
+  transition:
+    translate .5s cubic-bezier(.2, .9, .3, 1.2),
+    opacity .5s ease,
+    visibility 0s linear .5s,
+    padding .3s ease,
+    gap .3s ease,
+    background-color .25s ease,
+    border-color .25s ease;
+}
+.pl-theme-pill.is-shown {
+  opacity: 1;
+  visibility: visible;
+  translate: -50% 0;
+  transition-delay: 0s;
 }
 @media (max-width: 1023.98px) {
-  .mockup-holder > .pl-theme-under { display: none; }
+  .pl-theme-pill { display: none; }
 }
-.mockup-holder > .pl-theme-under[data-theme='light'] {
-  background: #0b0c0f;
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, .08),
-    inset 0 1px 0 rgba(255, 255, 255, .06),
-    0 18px 40px -12px rgba(0, 0, 0, .45),
-    0 4px 10px -4px rgba(0, 0, 0, .3);
+.pl-theme-pill-label,
+.pl-theme-pill-text {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 220px;
+  transition: max-width .3s ease, opacity .2s ease;
 }
-.pl-theme-under-label { font-size: 13px; color: rgba(226, 232, 240, .45); white-space: nowrap; }
-.pl-theme-under-seg {
-  display: flex;
-  padding: 3px;
-  border-radius: 10px;
-  background: rgba(0, 0, 0, .32);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07);
-}
-.pl-theme-under-seg button {
-  height: 30px;
+.pl-theme-pill-label { font-size: 14px; font-weight: 500; color: #e2e8f0; }
+.pl-theme-pill button {
+  height: 36px;
+  min-width: 36px;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 0 14px;
-  border: 0;
-  border-radius: 7px;
-  background: transparent;
-  font: 500 13px 'Inter', ui-sans-serif, system-ui, sans-serif;
-  color: rgba(226, 232, 240, .62);
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px 0 14px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+  color: #f8fafc;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color .18s ease, color .18s ease, box-shadow .18s ease;
+  transition: background-color .2s ease, border-color .25s ease, color .25s ease, padding .3s ease, gap .3s ease;
 }
-.pl-theme-under-seg button:hover { color: #fff; }
-.pl-theme-under-seg button[aria-checked='true'] {
-  background: rgba(148, 163, 184, .22);
-  color: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .06);
-}
-.pl-theme-under-seg button[data-value='light'][aria-checked='true'] svg { color: #fbbf24; }
-.pl-theme-under-seg button:focus-visible { outline: 2px solid rgba(46, 133, 255, .6); outline-offset: 2px; }
+.pl-theme-pill button:hover { background: rgba(255, 255, 255, .16); }
+.pl-theme-pill button:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+.pl-theme-pill-icon { flex: none; color: #60a5fa; transition: transform .3s ease; }
+.pl-theme-pill button:hover .pl-theme-pill-icon { transform: rotate(60deg); }
 
-/* ---------- Billing-run toast (a child of .mockup-holder) ----------
-   Static, floating over the preview's top-right corner. Follows the
-   preview's theme (data-theme). */
+/* Light */
+.pl-theme-pill[data-theme='light'] { background: rgba(255, 255, 255, .88); border-color: rgba(15, 23, 42, .12); }
+.pl-theme-pill[data-theme='light'] .pl-theme-pill-label { color: #0f172a; }
+.pl-theme-pill[data-theme='light'] button { border-color: rgba(15, 23, 42, .22); background: rgba(15, 23, 42, .05); color: #0f172a; }
+.pl-theme-pill[data-theme='light'] button:hover { background: rgba(15, 23, 42, .1); }
+.pl-theme-pill[data-theme='light'] .pl-theme-pill-icon { color: #2563eb; }
+
+/* Folded after the first switch: the button alone, a 36px circle in the pill's 1px ring. */
+.pl-theme-pill.is-used:not(:hover):not(:has(:focus-visible)) { padding: 0; gap: 0; }
+.pl-theme-pill.is-used:not(:hover):not(:has(:focus-visible)) .pl-theme-pill-label,
+.pl-theme-pill.is-used:not(:hover):not(:has(:focus-visible)) .pl-theme-pill-text { max-width: 0; opacity: 0; }
+.pl-theme-pill.is-used:not(:hover):not(:has(:focus-visible)) button { padding: 0; gap: 0; border-color: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-theme-pill { translate: -50% 0; transition: opacity .2s ease, visibility 0s linear .2s; }
+  .pl-theme-pill.is-shown { transition-delay: 0s; }
+  .pl-theme-pill-icon, .pl-theme-pill-label, .pl-theme-pill-text { transition: none; }
+}
+
+/* ---------- Toasts (PreviewToast.jsx, a child of .mockup-holder) ----------
+   Inside the dashboard panel's top-right corner, 10px from its top and right (the panel sits 8px
+   into the preview from lg up), at 90% from that corner, so every message is anchored there and a
+   wider one only grows leftward. Follows the preview's theme (data-theme). */
 
 .mockup-holder > .pl-toast {
+  --toast-inset: 10px;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: var(--toast-inset);
+  right: var(--toast-inset);
   z-index: 6;
   width: auto;
   display: flex;
@@ -824,29 +851,32 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   transform-origin: top right;
-  transform: translate(12px, -18px) scale(1.03);
+  transform: scale(.9);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, .06),
     0 0 0 1px rgba(255, 255, 255, .1),
     0 30px 60px -12px rgba(0, 0, 0, .75),
     0 8px 18px -6px rgba(0, 0, 0, .5);
-  transition: opacity .15s, background-color .25s, color .25s;
-  /* Entrance, once on load, after the hero copy and preview have faded in.
-     Individual `translate`/`scale`, so it doesn't override the transform. */
-  animation: pl-toast-in .5s cubic-bezier(.22, 1, .36, 1) .9s both;
+  transition: background-color .25s, color .25s;
+}
+@media (min-width: 1024px) {
+  .mockup-holder > .pl-toast { --toast-inset: 18px; }
 }
 @media (max-width: 767.98px) {
   .mockup-holder > .pl-toast { display: none; }
 }
-@keyframes pl-toast-in {
-  from { opacity: 0; translate: 0 -10px; filter: blur(2px); }
-  to   { opacity: 1; translate: 0 0;     filter: none; }
+/* Before the first drops in. */
+.mockup-holder > .pl-toast.is-hidden { opacity: 0; visibility: hidden; }
+/* Drops in from 26px up; `translate` and `scale` compose with the resting scale(.9). */
+.mockup-holder > .pl-toast.is-in {
+  animation:
+    pl-toast-fade .3s ease both,
+    pl-toast-drop .6s cubic-bezier(.22, 1.25, .36, 1) both;
 }
-@keyframes pl-check-pop {
-  0%   { scale: .4; opacity: 0; }
-  60%  { scale: 1.12; opacity: 1; }
-  100% { scale: 1; }
-}
+.mockup-holder > .pl-toast.is-out { animation: pl-toast-out .25s ease forwards; }
+@keyframes pl-toast-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pl-toast-drop { from { translate: 0 -26px; } to { translate: 0 0; } }
+@keyframes pl-toast-out { to { opacity: 0; scale: .96; } }
 
 .pl-toast-check {
   width: 22px;
@@ -860,13 +890,9 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   box-shadow: 0 0 0 4px rgba(34, 197, 94, .12);
   transition: background-color .25s ease, color .25s ease;
 }
-.mockup-holder > .pl-toast .pl-toast-check {
-  animation: pl-check-pop .45s cubic-bezier(.34, 1.56, .64, 1) 1.15s both;
-}
 .pl-toast-body { flex: 1; min-width: 0; }
 .pl-toast-title { font-size: 14px; line-height: 20px; white-space: nowrap; }
 .pl-toast-name { font-weight: 600; color: #fff; }
-.pl-toast-sep,
 .pl-toast-amount { font-weight: 400; color: rgba(226, 232, 240, .55); }
 .pl-toast-detail {
   margin-top: 1px;
@@ -874,11 +900,8 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   line-height: 17px;
   color: rgba(226, 232, 240, .6);
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.pl-toast-detail span { white-space: nowrap; }
-.pl-toast-name, .pl-toast-sep, .pl-toast-amount, .pl-toast-detail {
+.pl-toast-name, .pl-toast-amount, .pl-toast-detail {
   transition: background-color .25s ease, color .25s ease;
 }
 
@@ -892,34 +915,9 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
     0 4px 10px -4px rgba(15, 23, 42, .08);
 }
 .pl-toast[data-theme='light'] .pl-toast-name { color: #111113; }
-.pl-toast[data-theme='light'] .pl-toast-sep,
 .pl-toast[data-theme='light'] .pl-toast-amount { color: #6e6e73; }
 .pl-toast[data-theme='light'] .pl-toast-detail { color: #86868b; }
 .pl-toast[data-theme='light'] .pl-toast-check { background: #16a34a; box-shadow: 0 0 0 4px rgba(22, 163, 74, .10); }
-
-@media (prefers-reduced-motion: reduce) {
-  .mockup-holder > .pl-toast,
-  .mockup-holder > .pl-toast .pl-toast-check { animation: none; }
-}
-
-/* Desktop scroll entrance (PreviewToast.jsx, ≥1024px without reduced motion):
-   hidden 40px to the right until the dashboard nears the top of the window,
-   then slides in as the figures count up. `translate` composes with the
-   resting transform. The figures keep their final width while counting. */
-.mockup-holder > .pl-toast.is-scroll-entry {
-  animation: none;
-  opacity: 0;
-  translate: 40px 0;
-  transition:
-    opacity .7s cubic-bezier(.22, 1, .36, 1),
-    translate .7s cubic-bezier(.22, 1, .36, 1),
-    background-color .25s, color .25s;
-}
-.mockup-holder > .pl-toast.is-scroll-entry.is-in { opacity: 1; translate: 0 0; }
-.mockup-holder > .pl-toast.is-scroll-entry .pl-toast-check { animation: none; }
-.pl-toast.is-scroll-entry .pl-toast-name,
-.pl-toast.is-scroll-entry .pl-toast-amount { display: inline-block; font-variant-numeric: tabular-nums; }
-.pl-toast.is-scroll-entry .pl-toast-name { text-align: right; } /* the count grows leftward; the words stay put */
 
 /* ---------- Mobile theme toggle (below lg, above the preview) ---------- */
 

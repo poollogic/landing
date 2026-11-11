@@ -36,7 +36,7 @@ const HERO = 'section.hero'; // each route's hero, including its product mockup
 // first render. strictStatic: the served HTML must carry the page's text (a pre-rendered route).
 const ROUTES = [
   // The homepage: pre-rendered (its dashboard preview is .mockup-holder)
-  { path: '/', html: 'index.html', strictStatic: true, jsonLd: ['Organization', 'SoftwareApplication'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-cta', '.hero-fine', '.mockup-holder'] },
+  { path: '/', html: 'index.html', strictStatic: true, jsonLd: ['Organization', 'SoftwareApplication'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-checks', '.hero-cta', '.mockup-holder'] },
   // AI, automations and integrations: pre-rendered (its assistant window is .ai-chat). Its top three
   // sections only for now, so no FAQPage: add it back with FULL_PAGE in pages/ai-integrations.jsx.
   { path: '/ai-integrations', html: 'ai-integrations.html', strictStatic: true, jsonLd: ['WebPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },

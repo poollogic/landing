@@ -144,9 +144,17 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
   const shown = lastHover.current;
   const tip = tooltip && shown != null ? tooltip(shown) : null;
 
+  // The card's width, and how far right it may reach: 10px inside the dashboard panel's right edge
+  // (the panel clips), in the chart's own pixels (it can sit inside a scaled frame).
+  const [room, setRoom] = useState(null);
   useBrowserLayoutEffect(() => {
     if (cardRef.current) setCardW(cardRef.current.offsetWidth);
-  }, [shown]);
+    const wrap = wrapRef.current;
+    const panel = wrap?.closest('.pl-panel');
+    if (!wrap || !panel || !wrap.offsetWidth) return;
+    const r = wrap.getBoundingClientRect();
+    setRoom((panel.getBoundingClientRect().right - 10 - r.left) / (r.width / wrap.offsetWidth || 1));
+  }, [shown, width]);
 
   const n = labels.length;
   const hasBars = !!bars;
@@ -193,9 +201,11 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
       .join(' ');
   })();
 
-  // The card sits left of the hovered month's line, flipping right when there's no room.
+  // As the app's TrendChart: the card opens right of the hovered month's line, and flips to its left
+  // when it would run past the panel's edge (or the chart's, outside a panel).
   const anchor = shown != null ? left + x(shown) : 0;
-  const tipLeft = anchor - TIP_GAP - cardW < 4 ? anchor + TIP_GAP : anchor - TIP_GAP - cardW;
+  const limit = room ?? width - 4;
+  const tipLeft = anchor + TIP_GAP + cardW > limit ? Math.max(0, anchor - TIP_GAP - cardW) : anchor + TIP_GAP;
 
   const ringAt = (values, color, key) =>
     hover != null && values[hover] != null ? (

@@ -46,9 +46,9 @@ export default function BelowFold() {
     <>
       <BillingScrollMorph id="billing" phone={<BillingPhone embedded />} />
       <RevenueSection />
+      <ImportSection />
       <FounderSection />
       <ReserveSection />
-      <ImportSection />
       <RouteSection />
       <FaqSection />
     </>

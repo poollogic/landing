@@ -217,13 +217,16 @@
   .hero-mockup { margin-inline: calc(-1 * var(--gutter)); }
 }
 
-/* lg and up: the copy block is centred in (about) the first screen, under the
-   absolute nav; the preview starts one nav-height above that block's foot,
-   so fine print → preview equals nav → eyebrow. */
+/* lg and up: the copy block fills the first screen less the dashboard's peek, its content centred
+   below the nav (56px clears it), so the top of the dashboard shows under the button: 96px on a
+   ~720px-tall window, growing with the window's height to 160px. A minimum, not a fixed height, so
+   on a very short window the copy pushes the dashboard down instead of running into it. */
 @media (min-width: 1024px) {
-  .hero { padding-top: 0; }
-  .hero-copy { min-height: clamp(600px, 100svh, 900px); justify-content: center; }
-  .hero-mockup { margin-top: calc(-1 * var(--header-h, 64px)); }
+  .hero { padding-top: 0; --hero-peek: clamp(96px, 13vh, 160px); }
+  .hero-copy { min-height: calc(100vh - var(--hero-peek)); padding-top: 56px; justify-content: center; }
+  .hero-mockup { margin-top: 0; }
+  .hero-copy .hero-title { margin-top: 24px; }
+  .hero-copy .hero-sub { margin-top: 26px; }
 }
 
 .hero-eyebrow {
@@ -255,6 +258,25 @@
   text-wrap: balance; /* two even lines, no word left dangling */
 }
 .hero-sub strong { color: #E2E8F0; font-weight: 500; }
+
+/* The homepage's checkmarks row, between the subhead and the button. Each item stays on one line;
+   the row wraps between items. */
+.hero-checks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 18px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  color: #f8fafc;
+}
+.hero-checks li { white-space: nowrap; }
+.hero-check { margin-right: 7px; color: #34d399; }
+.hero-checks + .hero-cta { margin-top: 26px; }
 
 .hero-cta {
   display: inline-flex;

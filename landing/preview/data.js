@@ -9,8 +9,11 @@ export const IDENTITY = {
   email: 'alex@baysidepool.co',
 };
 
-/** Frozen, so the preview never changes with the visitor's clock. */
-export const GREETING = `Good afternoon, ${IDENTITY.firstName}`;
+/** The greeting follows the visitor's clock (PreviewPanel); the date stays fixed. Afternoon is the
+    one the pre-rendered page carries, until the browser takes over. */
+export const greetingAt = (hour) =>
+  `Good ${hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'}, ${IDENTITY.firstName}`;
+export const GREETING = greetingAt(12);
 export const TODAY = 'Tuesday, October 20, 2026';
 
 export const KPI_TILES = [
@@ -62,15 +65,29 @@ export const COST = {
 export const SANITIZER_OPTIONS = ['All', 'Liquid chlorine', 'Salt', 'Bromine'];
 
 /**
- * Live route progress (dashboard/LiveRouteProgress.tsx, liveRoute.ts): two
- * technicians this afternoon: Justin finished, Gabriel on his last few stops. Stops before
- * `done` are completed, the next is in progress (the ring), the rest
- * upcoming; a finished route rings its last stop. Each route lays out its
- * own stops across the full track width (PreviewPanel LiveRoutes).
+ * Today's routes (dashboard/DesktopRouteProgress.tsx): two technicians this afternoon, Justin
+ * finished and Gabriel on his last few stops. The status line is the app's (liveRoute.ts
+ * routeStatusLine): "Route complete", or the address of the stop he's on.
  */
 export const ROUTES = {
   techs: [
-    { name: 'Justin Braswell', done: 17, total: 17 },
-    { name: 'Gabriel Montoya', done: 14, total: 18 },
+    { name: 'Justin Braswell', done: 17, total: 17, status: 'Route complete' },
+    { name: 'Gabriel Montoya', done: 14, total: 18, status: 'Next: 214 Marina Way' },
   ],
 };
+
+/**
+ * The toasts over the dashboard's corner (PreviewToast.jsx), in order. Titles are the app's wording:
+ * the billing run's bell (routes/hono/_billingRunBell.ts), payment, late fee, repair and extra-work
+ * toasts (RecordPaymentPage, BillingInvoicing, ScheduleDiagnosticPage), and Fleet's oil change bell
+ * (_fleetSchedule.ts oilWords, which rings within 500 mi of the change). Only the bells carry a
+ * second line in the app, so only they have a detail here.
+ */
+export const TOASTS = [
+  { title: '163 invoices sent', meta: '$26,409', detail: 'Recurring billing run · just now' },
+  { title: '$1,240.00 charged. 3 invoices are paid.' },
+  { title: 'Late fees applied to 6 invoices' },
+  { title: 'Invoice emailed. It goes to Marcus when it’s paid' },
+  { title: "3 charges added to Sarah Lopez's next invoice" },
+  { title: 'Oil change coming up', detail: 'Michael’s Ford F-150 is at 70,612 mi; its oil change is due at 71,000 mi.' },
+];
