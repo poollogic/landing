@@ -24,7 +24,7 @@ export default function usePhonePreviewScroll(holderRef, enabled) {
     const phone = holder?.querySelector('.hero-phone');
     const frame = holder?.querySelector('.pl-frame');
     const main = holder?.querySelector('.pl-main');
-    const card = holder?.querySelector('.pl-charts > .pl-card:nth-child(2)'); // Cost per visit
+    const card = holder?.querySelectorAll('.pl-charts .pl-trend')[1]; // Cost per visit
     if (!phone || !frame || !main || !card) return undefined;
 
     const native = window.CSS?.supports?.('animation-timeline: view()');
@@ -91,7 +91,8 @@ export default function usePhonePreviewScroll(holderRef, enabled) {
       measure();
     };
     window.addEventListener('resize', onResize);
-    measure();
+    // First measure a frame after mount, once the page is laid out (not forcing layout mid-load).
+    const first = requestAnimationFrame(measure);
     document.fonts?.ready.then(measure);
 
     return () => {
@@ -99,6 +100,7 @@ export default function usePhonePreviewScroll(holderRef, enabled) {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(first);
       main.classList.remove('is-scroll-linked');
       ['--pps-travel', '--pps-from', '--pps-to'].forEach((p) => main.style.removeProperty(p));
       main.style.transform = '';

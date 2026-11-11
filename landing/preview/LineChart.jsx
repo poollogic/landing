@@ -36,8 +36,9 @@ export default function LineChart({ months, ticks, min, max, axis, series, heigh
   useBrowserLayoutEffect(() => {
     const el = wrapRef.current;
     if (!el) return undefined;
-    setWidth(el.clientWidth);
-    const ro = new ResizeObserver(() => setWidth(el.clientWidth));
+    // The observer reports the width once layout is done (its first call is right away), so the
+    // chart never makes the browser lay the page out early.
+    const ro = new ResizeObserver(([entry]) => setWidth(Math.round(entry.contentRect.width)));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -58,7 +59,7 @@ export default function LineChart({ months, ticks, min, max, axis, series, heigh
   // The tooltip's width, and how far right it may reach: its chart card's right edge, and never
   // closer than 10px to the dashboard panel's (which clips), in the chart's own pixels.
   useBrowserLayoutEffect(() => {
-    if (!tooltip) return;
+    if (!tooltip || shown == null) return; // measured only once someone points at the chart
     if (cardRef.current) setCardW(cardRef.current.offsetWidth);
     const wrap = wrapRef.current;
     const panel = wrap?.closest('.pl-panel');

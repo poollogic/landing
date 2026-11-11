@@ -154,6 +154,16 @@
   .hero { background: #111318; }
 }
 
+/* Phones and tablets: the copy rises in without fading. Text painted fully transparent doesn't count
+   for Largest Contentful Paint, so a fade from 0 would leave the headline out of it. */
+@media (max-width: 1023.98px) {
+  .hero-copy.animate-mktg-fade-up { animation-name: hero-rise; }
+}
+@keyframes hero-rise {
+  from { transform: translateY(16px); }
+  to { transform: translateY(0); }
+}
+
 /* ---------- Before the scripts run (the pre-rendered page, scripts/prerender.mjs) ----------
    The page's first script adds these to <html>, so its first paint already matches what the scripts
    will draw; the scripts then take them off.

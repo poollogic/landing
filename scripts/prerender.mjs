@@ -31,6 +31,14 @@ writeFileSync(join(DIST, SHELL), template);
 // Each route's stylesheets, from the table the preload script in <head> already carries (vite.config.js).
 const routeTable = JSON.parse(template.match(/var R=(\{.*?\});var p=/)[1]);
 
+// A stylesheet's own text, in the page: the first paint waits for no CSS request. Its <link> stays
+// as a disabled marker (never downloaded or applied), so the app's lazy loader, which skips
+// stylesheets already linked, doesn't fetch it again either.
+const inlineCss = (href) => {
+  const text = readFileSync(join(DIST, href.replace(/^\//, '')), 'utf8').replace(/<\/style/gi, '<\\/style');
+  return `<style data-href="${href}">${text}</style>\n<link rel="stylesheet" crossorigin href="${href}" disabled>`;
+};
+
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 // JSON inside <script>: no "</script>" can close it early.
 const jsonLd = (data) => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>`;
@@ -55,7 +63,10 @@ for (const [route, { meta, jsonLd: data = [], headScript }] of Object.entries(PR
   html = setTag(html, /<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${esc(title)}">`, 'twitter:title');
   html = setTag(html, /<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(description)}">`, 'twitter:description');
 
-  const css = (routeTable[route]?.css ?? []).map((href) => `<link rel="stylesheet" crossorigin href="${href}">`);
+  // The page's own stylesheets (and the site's, already linked in the template) go in the page.
+  html = html.replace(/<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g, (_, href) => inlineCss(href));
+  html = setTag(html, /<html lang="en">/, '<html lang="en" data-css-inline>', '<html lang="en">');
+  const css = (routeTable[route]?.css ?? []).filter((href) => !html.includes(`data-href="${href}"`)).map(inlineCss);
   if (!css.length) throw new Error(`prerender: no stylesheets for ${route} – add it to ROUTE_PAGES in vite.config.js`);
   // The parts it loads later (React.lazy) are in the markup too: their stylesheets load without
   // holding up the first paint, and plainly for browsers that don't run scripts.

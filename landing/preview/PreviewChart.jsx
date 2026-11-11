@@ -140,8 +140,9 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
   useBrowserLayoutEffect(() => {
     const el = wrapRef.current;
     if (!el) return undefined;
-    setWidth(el.clientWidth);
-    const ro = new ResizeObserver(() => setWidth(el.clientWidth));
+    // The observer reports the width once layout is done (its first call is right away), so the
+    // chart never makes the browser lay the page out early.
+    const ro = new ResizeObserver(([entry]) => setWidth(Math.round(entry.contentRect.width)));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -164,6 +165,7 @@ export default function PreviewChart({ labels, ticks, top, axis, bars, lines = [
   // a scaled frame).
   const [room, setRoom] = useState(null);
   useBrowserLayoutEffect(() => {
+    if (shown == null) return; // measured only once someone points at the chart
     if (cardRef.current) setCardW(cardRef.current.offsetWidth);
     const wrap = wrapRef.current;
     const panel = wrap?.closest('.pl-panel');

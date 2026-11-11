@@ -111,8 +111,8 @@ export default function useHeroScrollFx(heroRef) {
     const enable = () => {
       on = true;
       set = { copy: writer(copy), deck: writer(deck), sheen: writer(sheen) };
-      measure();
-      frame();
+      // No measuring here: the resize observer's first call (once layout is done) measures and
+      // schedules the first frame, so enabling never makes the browser lay out the page early.
       // Scroll frames only while the hero is on screen; one more frame as it leaves or comes
       // back, so everything lands where the scroll position says.
       io = new IntersectionObserver(([entry]) => { listen(entry.isIntersecting); schedule(); });

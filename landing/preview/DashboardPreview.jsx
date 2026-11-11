@@ -127,7 +127,7 @@ export function PreviewThemePill({ mockupRef }) {
       setShown(r.top < h * 0.4 && r.bottom > h * 0.8);
     };
     const schedule = () => { if (!raf) raf = requestAnimationFrame(check); };
-    check();
+    schedule(); // the first check a frame after mount, not mid-load
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     return () => {

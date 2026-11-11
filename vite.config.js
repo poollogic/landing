@@ -55,7 +55,7 @@ function routePreloads() {
         for (const [path, page] of Object.entries(ROUTE_PAGES)) routes[path] = { ...depsOf(page), font: [...MARKETING_FONTS, ...(PAGE_FONTS[path] ?? [])] };
         const script = `(function(){var R=${JSON.stringify(routes)};var p=location.pathname.replace(/\\/+$/,'')||'/';var r=R[p]||R['*'],h=document.head;
 function l(rel,href,as,low){var e=document.createElement('link');e.rel=rel;e.href=href;if(as)e.as=as;if(as==='font')e.type='font/woff2';e.crossOrigin='';if(low)e.fetchPriority='low';h.appendChild(e);}
-r.css.forEach(function(f){l('preload',f,'style');});r.js.forEach(function(f){l('modulepreload',f);});var fonts=function(){r.font.forEach(function(f){l('preload',f,'font',1);});};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fonts):fonts();})();`;
+if(!document.documentElement.hasAttribute('data-css-inline'))r.css.forEach(function(f){l('preload',f,'style');});r.js.forEach(function(f){l('modulepreload',f);});var fonts=function(){r.font.forEach(function(f){l('preload',f,'font',1);});};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fonts):fonts();})();`;
         // Right after the viewport meta, ahead of the inline styles and the main script.
         return html.replace(/(<meta name="viewport"[^>]*>)/, `$1\n<script>${script}</script>`);
       },
