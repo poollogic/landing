@@ -45,7 +45,7 @@ const ENTRIES = [
     detail: <>Work order completed in the mobile app</>,
   },
   {
-    time: '13:12', label: '1:12 PM', title: 'Invoice sent to Avery Collins',
+    time: '13:12', label: '1:12 PM', title: 'Invoice sent to Avery Collins for: DE split & clean',
     detail: <><F>$175</F>, after your <NB>5-minute</NB> automated invoicing delay</>,
   },
   {
