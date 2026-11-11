@@ -53,6 +53,10 @@ const ENTRIES = [
     detail: <><F>59 of 60 stops</F> completed. <F>1 stop</F> marked could not service.</>,
     note: 'Porch was locked, customer was not home. Salt cell is generating, should be fine until next week.',
   },
+  {
+    time: '18:44', label: '6:44 PM', title: 'Avery Collins paid the invoice for: DE split & clean',
+    detail: <><F>$175</F> + <F>$5.25</F> card fee, paid by credit card from the emailed invoice. Receipt sent automatically.</>,
+  },
 ];
 
 const STATS = [
