@@ -5,6 +5,13 @@ import App, { ROUTE_META } from './app.jsx';
 import { structuredData as aiIntegrationsData } from './pages/ai-integrations.jsx';
 import { structuredData as pricingData } from './pages/pricing.jsx';
 import { homeFirstPaintScript } from './landing/firstPaint.js';
+import { FAQS } from './landing/FaqSection.jsx';
+
+const homeFaq = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: FAQS.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
 
 // Pre-rendering: the build renders these routes to real HTML (scripts/prerender.mjs), so search
 // engines and AI crawlers that don't run JavaScript still get the whole page. The browser then
@@ -14,7 +21,7 @@ import { homeFirstPaintScript } from './landing/firstPaint.js';
 // on the server as on first render in the browser: no window or document while rendering (effects
 // are fine). The homepage goes in dist/index.html itself; the other addresses get an empty page.
 export const PRERENDERED = {
-  '/': { meta: ROUTE_META.home, headScript: homeFirstPaintScript }, // JSON-LD: already in index.html
+  '/': { meta: ROUTE_META.home, headScript: homeFirstPaintScript, jsonLd: [homeFaq] }, // Organization, WebSite, software: index.html
   '/ai-integrations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
   '/pricing': { meta: ROUTE_META.pricing, jsonLd: pricingData },
 };

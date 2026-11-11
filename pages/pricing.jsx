@@ -135,9 +135,17 @@ export const structuredData = [
     name: 'Pool Service Software Pricing',
     url: `${ORIGIN}/pricing`,
     description: 'Poolnautics pricing: pool service software priced by active customers, with unlimited technicians and office staff, on two plans, Insight and Vision.',
-    isPartOf: { '@type': 'WebSite', name: 'Poolnautics', url: ORIGIN },
+    isPartOf: { '@id': `${ORIGIN}/#website` },
     // The product, its plans and features: index.html's site-wide SoftwareApplication (one place).
     about: { '@id': `${ORIGIN}/#software` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
+      { '@type': 'ListItem', position: 2, name: 'Pricing', item: `${ORIGIN}/pricing` },
+    ],
   },
   {
     '@context': 'https://schema.org',

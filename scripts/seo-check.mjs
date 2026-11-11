@@ -37,12 +37,12 @@ const HEROES = 'section.hero, section.pr-hero'; // every route's, for the layout
 // first render. strictStatic: the served HTML must carry the page's text (a pre-rendered route).
 const ROUTES = [
   // The homepage: pre-rendered (its dashboard preview is .mockup-holder)
-  { path: '/', html: 'index.html', strictStatic: true, jsonLd: ['Organization', 'SoftwareApplication'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-checks', '.hero-cta', '.mockup-holder'] },
+  { path: '/', html: 'index.html', strictStatic: true, jsonLd: ['Organization', 'WebSite', 'SoftwareApplication', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-checks', '.hero-cta', '.mockup-holder'] },
   // AI, automations and integrations: pre-rendered (its assistant window is .ai-chat). Its top three
   // sections only for now, so no FAQPage: add it back with FULL_PAGE in pages/ai-integrations.jsx.
-  { path: '/ai-integrations', html: 'ai-integrations.html', strictStatic: true, jsonLd: ['WebPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
+  { path: '/ai-integrations', html: 'ai-integrations.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
   // Pricing: pre-rendered, with its plans and FAQ as structured data. Its hero is the heading block.
-  { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'FAQPage'], hero: 'section.pr-hero', stable: ['.section-eyebrow', '#pricing-heading', '.section-sub'] },
+  { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'BreadcrumbList', 'FAQPage'], hero: 'section.pr-hero', stable: ['.section-eyebrow', '#pricing-heading', '.section-sub'] },
 ];
 const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx']; // the heroes' own code
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
@@ -240,7 +240,7 @@ async function browserChecks() {
 }
 
 /* ---------- Run ---------- */
-console.log('SEO guardrails: homepage hero and /ai-integrations');
+console.log('SEO guardrails: homepage hero, /ai-integrations and /pricing');
 checkSource();
 checkImportedImages();
 for (const route of ROUTES) checkServedHtml(route);

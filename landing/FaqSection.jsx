@@ -5,9 +5,10 @@ import './faq.css';
 
 // The homepage FAQ. Every answer is confirmed against the app (October 2026).
 // Pricing and fees are left out on purpose until the new plans are live. The
-// same list feeds Google's FAQ data, added while this page is showing.
+// same list feeds the homepage's FAQPage data, written into its pre-rendered
+// <head> (entry-server.jsx), so crawlers that don't run scripts get it too.
 
-const FAQS = [
+export const FAQS = [
   {
     q: 'How long does it take to switch?',
     a: 'A typical customer list imports in a couple of minutes. Exports from Jobber and QuickBooks are recognized automatically; files from Skimmer, Pool Brain, Pooltrackr or any spreadsheet work too: Poolnautics suggests a match for each column and you confirm it. You set prices, billing cycles and the first invoice date as you import, and invoices go out automatically on the date you choose.',

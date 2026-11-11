@@ -107,8 +107,16 @@ export const structuredData = [
     description: 'How Poolnautics works with AI assistants over MCP, runs no-code automations, and connects to other tools through signed webhooks, a lead link and an API.',
     inLanguage: 'en-US',
     dateModified: '2026-11-07',
-    isPartOf: { '@type': 'WebSite', url: `${ORIGIN}/`, name: 'Poolnautics' },
+    isPartOf: { '@id': `${ORIGIN}/#website` },
     about: { '@id': `${ORIGIN}/#software` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
+      { '@type': 'ListItem', position: 2, name: 'AI & integrations', item: PAGE_URL },
+    ],
   },
   ...(FULL_PAGE ? [{
     '@context': 'https://schema.org',
