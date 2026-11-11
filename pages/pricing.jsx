@@ -20,18 +20,30 @@ import { BRACKETS } from '../pricingPlans.js';
 const INSIGHT = 'Insight';
 const VISION = 'Vision';
 
+// What each plan includes, as the app gates them (poollogic-web-app src/lib/planFeatures.ts): card
+// fees are on every plan; automatic pause, fleet, mileage, automations, AI connections, bulk email
+// and the API are Vision's. What owners feel first, the technical last.
 const INSIGHT_FEATURES = [
-  'Unlimited Technicians',
-  'Zero-Click Billing & Autopay',
-  'Drag-and-Drop Routing',
-  'Free White-Glove Migration',
+  'Unlimited technicians & office staff',
+  'Zero-click billing & autopay',
+  'Card fees passed on to your customers',
+  'Late fees & overdue reminders that run themselves',
+  'Chemicals on invoices & cost per visit',
+  'Quotes & work orders',
+  'Drag-and-drop routing & offline technician app',
+  'Free white-glove migration',
 ];
 const VISION_FEATURES = [
-  'API & Webhooks (Website, Google Ads, Meta)',
-  'Automated SMS Lead Follow-ups',
+  'Automatic pause for customers who don’t pay',
+  'Fleet: truck check-ins & oil change reminders',
+  'Mileage tracking',
+  'Connect Claude, ChatGPT or Grok',
+  'Automations, like invoicing when a job’s done',
   'Texting via Quo, Twilio, Telnyx or Dialpad',
-  '“Vanishing Discount” Price Adjuster',
-  'Route Handover Tool',
+  'Bulk email from your own domain',
+  'API & webhooks (website, Google Ads, Meta)',
+  '“Vanishing Discount” price adjuster',
+  'Route handover tool',
 ];
 
 // Prices per month by active customers live in pricingPlans.js (the Partner Program
@@ -48,7 +60,7 @@ const yearlyTotal = (monthly) => monthly * 9;
 const yearlySaving = (monthly) => monthly * 12 - yearlyTotal(monthly);
 const perMonth = (monthly, yearly) => (yearly ? Math.round(monthly * 75) / 100 : monthly);
 
-// The highlighted plan: blue ring, "Most popular" badge, primary button.
+// The highlighted plan: blue ring and the primary button.
 const FEATURED_PLAN = 'insight';
 const customersLabel = (stop) => (stop === CUSTOM ? 'More than 2,500 active customers' : `Up to ${num(STOPS[stop])} active customers`);
 
@@ -58,22 +70,32 @@ const COMPARE = [
     ['Unlimited technicians & office staff', true, true],
     ['Drag-and-drop routing', true, true],
     ['Offline technician app', true, true],
+    ['Quotes & work orders', true, true],
+    ['Chemical cost per visit', true, true],
     ['Route handover tool', false, true],
     ['Free white-glove migration', true, true],
   ]],
   ['Billing & Finance', [
     ['Zero-click billing & autopay', true, true],
     ['Chemicals on invoices', true, true],
-    ['Card surcharge, where state law allows', true, true],
+    ['Card fees passed on to customers, where state law allows', true, true],
+    ['Late fees applied automatically', true, true],
     ['Automatic overdue reminders', true, true],
-    ['Pause service for overdue accounts', false, true],
+    ['Automatic pause for customers who don’t pay', false, true],
     ['“Vanishing Discount” price adjuster', false, true],
+  ]],
+  ['Fleet', [
+    ['Truck check-ins & oil change reminders', false, true],
+    ['Mileage tracking', false, true],
   ]],
   ['Client Communication', [
     ['Texting from your business number', false, true],
     ['Automated SMS lead follow-ups', false, true],
+    ['Bulk email from your own domain', false, true],
   ]],
-  ['Integrations & API', [
+  ['Automation, AI & API', [
+    ['Automations, like invoicing when a job’s done', false, true],
+    ['Connect Claude, ChatGPT or Grok', false, true, '/ai-integrations'],
     ['Quo, Twilio, Telnyx and Dialpad', false, true],
     ['API & webhooks (website, Google Ads, Meta)', false, true, '/ai-integrations'],
   ]],
@@ -92,6 +114,10 @@ const FAQ = [
     isReserving
       ? 'No. When we onboard you, you sign up with just your email, and we import your route for you.'
       : 'No. Sign up with just your email and start importing your route immediately.'],
+  ['Do you take a cut of my customers’ payments?',
+    'No. Your customers’ payments go to your own Stripe account, and Poolnautics takes no fee on them.'],
+  ['Who pays the card processing fees?',
+    'Stripe charges its standard processing fees to your Stripe account. You can pass them on with a card fee of up to 3% on credit card payments, where your state allows it.'],
   ['Is there a discount for paying yearly?',
     `Yes. Pay for a year up front and save ${YEARLY_SAVING}.`],
 ].map(([q, a]) => ({ q, a }));
@@ -108,11 +134,6 @@ function PlanCard({ name, price, yearly, maxCustomers, featured, lead, features,
           : 'relative flex flex-col rounded-2xl border border-slate-700/50 bg-mktg-surface/50 p-8'
       }
     >
-      {featured && (
-        <span className="brand-pill absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap px-3 py-[5px] text-badge font-semibold uppercase tracking-[.06em] text-white">
-          Most popular
-        </span>
-      )}
       <h2 className="text-title font-semibold tracking-[-0.01em] text-white">{name}</h2>
       {price ? (
         <>
@@ -344,6 +365,13 @@ export default function PricingPage() {
                 href={trial}
               />
             </div>
+
+            {/* Why it pays for itself: on every plan. */}
+            <p className="mx-auto mt-10 max-w-[640px] text-center text-body leading-relaxed text-slate-300">
+              Pass card processing costs on to your customers instead of eating them, and let late fees apply
+              themselves. That alone can more than cover your plan.{' '}
+              <span className="font-semibold text-white">And we never take a cut of your customers’ payments.</span>
+            </p>
           </div>
         </section>
 
