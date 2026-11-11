@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import OnePlatformSection from './OnePlatformSection.jsx';
 import DaySection from './DaySection.jsx';
+import RepairsSection from './RepairsSection.jsx';
 import BillingScrollMorph from './BillingScrollMorph.jsx';
 import { BillingPhone } from './BillingMockups.jsx';
 import RevenueSection from './RevenueSection.jsx';
@@ -48,6 +49,7 @@ export default function BelowFold() {
     <>
       <OnePlatformSection />
       <DaySection />
+      <RepairsSection />
       <BillingScrollMorph id="billing" phone={<BillingPhone embedded />} />
       <RevenueSection />
       <ImportSection />
