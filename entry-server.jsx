@@ -3,6 +3,7 @@ import { Writable } from 'node:stream';
 import { renderToPipeableStream } from 'react-dom/server';
 import App, { ROUTE_META } from './app.jsx';
 import { structuredData as aiIntegrationsData } from './pages/ai-integrations.jsx';
+import { structuredData as pricingData } from './pages/pricing.jsx';
 import { homeFirstPaintScript } from './landing/firstPaint.js';
 
 // Pre-rendering: the build renders these routes to real HTML (scripts/prerender.mjs), so search
@@ -15,6 +16,7 @@ import { homeFirstPaintScript } from './landing/firstPaint.js';
 export const PRERENDERED = {
   '/': { meta: ROUTE_META.home, headScript: homeFirstPaintScript }, // JSON-LD: already in index.html
   '/ai-integrations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
+  '/pricing': { meta: ROUTE_META.pricing, jsonLd: pricingData },
 };
 
 /** The route's markup for #root, once every lazy part has loaded (the same tree main.jsx hydrates). */

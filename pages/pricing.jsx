@@ -122,6 +122,30 @@ const FAQ = [
     `Yes. Pay for a year up front and save ${YEARLY_SAVING}.`],
 ].map(([q, a]) => ({ q, a }));
 
+// Structured data for search engines and AI assistants, in the pre-rendered page's <head>
+// (entry-server.jsx): the page, about the product, and the FAQ (FaqSection's own copy is off, so
+// it's here once). The product itself, with both plans' prices and features, is index.html's
+// site-wide SoftwareApplication (#software): keep its prices and feature lists in step with
+// pricingPlans.js and the lists above.
+const ORIGIN = 'https://getpoolnautics.com';
+export const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Pool Service Software Pricing',
+    url: `${ORIGIN}/pricing`,
+    description: 'Poolnautics pricing: pool service software priced by active customers, with unlimited technicians and office staff, on two plans, Insight and Vision.',
+    isPartOf: { '@type': 'WebSite', name: 'Poolnautics', url: ORIGIN },
+    // The product, its plans and features: index.html's site-wide SoftwareApplication (one place).
+    about: { '@id': `${ORIGIN}/#software` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400';
 
 /** price: the monthly-billing price for the chosen bracket, or null above 2,500 customers. */
@@ -238,7 +262,7 @@ export default function PricingPage() {
       <Nav current="/pricing" />
       <main>
         {/* 1. Hero (dark): clears the nav like the homepage hero; one group with the slider and cards. */}
-        <section className="bg-mktg-base pb-[var(--section-head-gap)] pt-[var(--page-hero-top)]" aria-labelledby="pricing-heading">
+        <section className="pr-hero bg-mktg-base pb-[var(--section-head-gap)] pt-[var(--page-hero-top)]" aria-labelledby="pricing-heading">
           <div className="container">
             <SectionHeader
               as="h1"

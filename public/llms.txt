@@ -1,0 +1,22 @@
+# Poolnautics
+
+> Pool service software for pool route companies. Recurring billing and autopay, late fees and overdue reminders that run themselves, routing, chemical tracking, service reports, quotes and work orders, a technician app, and free white-glove migration from Skimmer, QuickBooks or any spreadsheet.
+
+Poolnautics is priced by active customers, with unlimited technicians and office staff on every plan. Paused customers don't count toward the price. New pool companies are onboarded in small groups, and the Poolnautics team moves their customers over for them.
+
+## Plans
+
+- Insight: from $99/month for up to 100 active customers, up to $1,299/month for up to 2,500, billed monthly; 25% less billed yearly. Includes unlimited technicians and office staff, zero-click billing and autopay, card fees passed on to customers (where state law allows), late fees and overdue reminders that run themselves, chemicals on invoices and chemical cost per visit, quotes and work orders, drag-and-drop routing, an offline technician app, and free white-glove migration.
+- Vision: from $159/month for up to 100 active customers, up to $2,079/month for up to 2,500, billed monthly; 25% less billed yearly. Everything in Insight, plus automatic pause for customers who don't pay, fleet (truck check-ins and oil change reminders), mileage tracking, connections to Claude, ChatGPT or Grok, automations such as invoicing when a job is done, texting through Quo, Twilio, Telnyx or Dialpad, bulk email from the company's own domain, an API and webhooks, a "Vanishing Discount" price adjuster and a route handover tool.
+- More than 2,500 active customers: custom pricing.
+
+Customers' payments go to the pool company's own Stripe account; Poolnautics takes no cut of them.
+
+## Pages
+
+- [Home](https://getpoolnautics.com/): what Poolnautics does, with a live preview of the dashboard and a day of automated billing, routes and fleet
+- [Pricing](https://getpoolnautics.com/pricing): plans, what each includes, prices by company size, and pricing questions
+- [AI and integrations](https://getpoolnautics.com/ai-integrations): connecting Claude, Grok, ChatGPT or your own AI, automations, and the API
+- [Technician app](https://getpoolnautics.com/tech-app): the phone app for routes, chemistry and service reports
+- [Partner program](https://getpoolnautics.com/partners)
+- [Contact](https://getpoolnautics.com/contact)

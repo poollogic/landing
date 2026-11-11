@@ -31,7 +31,8 @@ const ROOT = new URL('..', import.meta.url).pathname;
 const DIST = join(ROOT, 'dist');
 
 /* ---------- Settings ---------- */
-const HERO = 'section.hero'; // each route's hero, including its product mockup
+const HERO = 'section.hero'; // a route's hero (its own `hero` overrides), including its product mockup
+const HEROES = 'section.hero, section.pr-hero'; // every route's, for the layout-shift observer
 // html: the file the server sends for the route. stable: hero elements that must not move or resize after
 // first render. strictStatic: the served HTML must carry the page's text (a pre-rendered route).
 const ROUTES = [
@@ -40,8 +41,10 @@ const ROUTES = [
   // AI, automations and integrations: pre-rendered (its assistant window is .ai-chat). Its top three
   // sections only for now, so no FAQPage: add it back with FULL_PAGE in pages/ai-integrations.jsx.
   { path: '/ai-integrations', html: 'ai-integrations.html', strictStatic: true, jsonLd: ['WebPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
+  // Pricing: pre-rendered, with its plans and FAQ as structured data. Its hero is the heading block.
+  { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'FAQPage'], hero: 'section.pr-hero', stable: ['.section-eyebrow', '#pricing-heading', '.section-sub'] },
 ];
-const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai']; // the heroes' own code
+const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx']; // the heroes' own code
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
 const STABLE_TOLERANCE_PX = 2;
 const CLS_BUDGET = 0.01; // we hold the new pages at zero; Google's "good" line is 0.1
@@ -177,13 +180,14 @@ async function browserChecks() {
     await send('Page.enable'); await send('Runtime.enable'); await send('Log.enable');
     // Observe layout shifts from the very first paint
     await send('Page.addScriptToEvaluateOnNewDocument', { source: `window.__seo = { cls: 0, shifts: [], t0: performance.now() };
-      const inScope = (e) => (e.sources || []).some((s) => { const n = s.node && (s.node.nodeType === 1 ? s.node : s.node.parentElement); return n && n.closest('${HERO}'); });
+      const inScope = (e) => (e.sources || []).some((s) => { const n = s.node && (s.node.nodeType === 1 ? s.node : s.node.parentElement); return n && n.closest('${HEROES}'); });
       new PerformanceObserver((l) => { for (const e of l.getEntries()) if (!e.hadRecentInput && inScope(e)) { window.__seo.cls += e.value;
         window.__seo.shifts.push((e.sources || []).map((s) => s.node ? (s.node.id ? '#' + s.node.id : (s.node.className || s.node.nodeName).toString().slice(0, 50)) : '?').join(', ') + ' (' + e.value.toFixed(4) + ')'); } })
         .observe({ type: 'layout-shift', buffered: true });` });
 
     for (const route of ROUTES) {
-      const STABLE = route.stable.map((c) => `${HERO} ${c}`);
+      const hero = route.hero ?? HERO;
+      const STABLE = route.stable.map((c) => `${hero} ${c}`);
       for (const vp of VIEWPORTS) {
         const label = `${route.path} @ ${vp.name}`;
         errors.length = 0;
@@ -203,7 +207,7 @@ async function browserChecks() {
         const settled = await ev(boxes);
         let moved = 0;
         for (const sel of STABLE) {
-          const a = first?.[sel], b = settled?.[sel], name = sel.replace(`${HERO} `, '');
+          const a = first?.[sel], b = settled?.[sel], name = sel.replace(`${hero} `, '');
           if (!a || !b) { fail('layout shift', `${label}: ${name} ${a ? 'disappeared' : 'was not there at first render'}`); moved++; continue; }
           const d = a.map((v, i) => b[i] - v);
           if (d.some((v) => Math.abs(v) > STABLE_TOLERANCE_PX)) { moved++; fail('layout shift', `${label}: ${name} moved/resized after first render (x ${d[0]}, y ${d[1]}, w ${d[2]}, h ${d[3]} px) – reserve its space up front`); }
@@ -215,9 +219,9 @@ async function browserChecks() {
           if (missing.length) fail('crawlable text', `${label}: headings not in the served HTML: ${missing.slice(0, 3).join(' | ')}`);
         }
         // Scroll through the hero in steps until it has left the screen
-        if (!(await ev(`!!document.querySelector('${HERO}')`))) fail('setup', `${label}: ${HERO} not found`);
+        if (!(await ev(`!!document.querySelector('${hero}')`))) fail('setup', `${label}: ${hero} not found`);
         for (let k = 0; k < 40; k++) {
-          const done = await ev(`(() => { const h = document.querySelector('${HERO}'); if (!h || h.getBoundingClientRect().bottom <= 0) return true; scrollTo({ top: scrollY + innerHeight * 0.5, behavior: 'instant' }); return false; })()`);
+          const done = await ev(`(() => { const h = document.querySelector('${hero}'); if (!h || h.getBoundingClientRect().bottom <= 0) return true; scrollTo({ top: scrollY + innerHeight * 0.5, behavior: 'instant' }); return false; })()`);
           if (done) break;
           await sleep(250);
         }

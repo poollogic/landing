@@ -6,9 +6,10 @@ React 18 + Vite 5 + Tailwind 3, deployed to Cloudflare Pages by `.github/workflo
 
 ## Pre-rendering
 
-Two routes are pre-rendered: the homepage (`pages/landing.jsx`, `landing/`) and `/ai-integrations` (`pages/ai-integrations.jsx`, `landing/ai/`, numbers in `aiFacts.js`). `npm run build` also renders them on the server (`entry-server.jsx`, then `scripts/prerender.mjs`): the homepage to `dist/index.html`, the AI page to `dist/ai-integrations.html`. Each has its own `<head>` (title, description, canonical, Open Graph, JSON-LD, stylesheets) and its full markup in `#root`, which is marked with its route (`data-prerendered`). `main.jsx` hydrates that markup only on the page it was made for.
+Three routes are pre-rendered: the homepage (`pages/landing.jsx`, `landing/`), `/ai-integrations` (`pages/ai-integrations.jsx`, `landing/ai/`, numbers in `aiFacts.js`) and `/pricing` (`pages/pricing.jsx`, prices in `pricingPlans.js`). `npm run build` also renders them on the server (`entry-server.jsx`, then `scripts/prerender.mjs`): the homepage to `dist/index.html`, the others to `dist/ai-integrations.html` and `dist/pricing.html`. Each has its own `<head>` (title, description, canonical, Open Graph, JSON-LD, stylesheets) and its full markup in `#root`, which is marked with its route (`data-prerendered`). `main.jsx` hydrates that markup only on the page it was made for.
 
-- **Serving.** Cloudflare Pages serves `/` and `/ai-integrations` from those files (200; `/index.html`, `/ai-integrations/` and `.html` URLs 308 to them).
+- **Serving.** Cloudflare Pages serves `/`, `/ai-integrations` and `/pricing` from those files (200; `/index.html`, the trailing-slash and `.html` URLs 308 to them).
+- **Structured data.** The product, its plans' prices and its feature lists are one SoftwareApplication (`#software`) in `index.html`, on every page; keep it in step with `pricingPlans.js` and the plan lists in `pages/pricing.jsx`. `public/llms.txt` sums up the product and plans for AI tools: update it with them too.
   - The pages rendered in the browser (`/pricing`, `/contact`, `/terms` …) get `dist/app-shell.html`, the empty page. It's Vite's `index.html` as built, saved before the homepage replaces it.
   - `public/_redirects` sends each of them there with its own `/x /app-shell 200` rule. Cloudflare applies these rules before real files, so never add a `/*` rule: it would capture every file and the homepage.
   - An address with no rule and no file gets Cloudflare's default, `index.html`: the homepage, which is also what the app shows there. A route added to `app.jsx` needs its rule, and `npm run check:seo` fails without it.
@@ -29,7 +30,7 @@ These apply to the homepage hero for now: `<section class="hero">`, including th
 1. **Crawlable text.** Search crawlers must be able to read the hero's `<h1>` and copy without waiting on animation.
    - Keep the headline and copy as real text in the DOM, never in images, canvas or SVG paths. Animate it with opacity and transforms only. Never mount it late, or after a scroll or timer.
    - The `<title>` and meta description in `index.html` must stay meaningful.
-   - The homepage and `/ai-integrations` are pre-rendered. The check fails if either page's served HTML lacks any of these:
+   - The homepage, `/ai-integrations` and `/pricing` are pre-rendered. The check fails if any of their served HTML lacks any of these:
      - the `<h1>`
      - any `<h2>` the browser shows
      - its canonical URL

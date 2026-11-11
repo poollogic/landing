@@ -11,8 +11,6 @@
 /tech-app/        /app-shell   200
 /contact          /app-shell   200
 /contact/         /app-shell   200
-/pricing          /app-shell   200
-/pricing/         /app-shell   200
 /reserve          /app-shell   200
 /reserve/         /app-shell   200
 /partners         /app-shell   200
