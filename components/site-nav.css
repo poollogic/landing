@@ -75,11 +75,13 @@
   background: var(--bg-soft);
   box-shadow: inset 0 0 0 1px var(--line-2);
 }
-.site-nav .nav-dd-col {
+/* As in nav.css: 10px each side keeps the hover backgrounds off the dividers and card edges. */
+.site-nav .nav-dd-panel .nav-dd-col {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 0 22px;
+  box-sizing: border-box;
+  padding: 0 10px;
 }
 .site-nav .nav-dd-col + .nav-dd-col { border-left: 1px solid var(--line); }
 

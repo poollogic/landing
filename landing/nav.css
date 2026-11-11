@@ -124,11 +124,14 @@
   background: #151820;
   box-shadow: inset 0 0 0 1px rgba(148, 163, 184, .1);
 }
-.nav-dd-col {
+/* 10px each side, so an item's hover background stands clear of the dividers and the card's edges
+   and shows all four rounded corners. Under .nav-dd-panel to outrank its `ul { padding: 0 }`. */
+.nav-dd-panel .nav-dd-col {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  padding: 0 22px;
+  box-sizing: border-box;
+  padding: 0 10px;
 }
 .nav-dd-col + .nav-dd-col { border-left: 1px solid rgba(148, 163, 184, .1); }
 
