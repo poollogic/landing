@@ -252,6 +252,10 @@ for (const route of ROUTES) checkServedHtml(route);
   if (!existsSync(shell)) fail('crawlable text', 'dist/app-shell.html is missing – run `npm run build` first');
   else if (!readFileSync(shell, 'utf8').includes('<div id="root"></div>')) fail('crawlable text', 'dist/app-shell.html, the page every other address gets, has content in #root');
   const redirects = readFileSync(join(ROOT, 'public/_redirects'), 'utf8');
+  // Unknown addresses answer 404 (scripts/prerender.mjs), not the homepage with a 200 (a "soft 404").
+  const notFound = join(DIST, '404.html');
+  if (!existsSync(notFound)) fail('crawlable text', 'dist/404.html is missing: unknown addresses would answer the homepage with a 200');
+  else if (!/<meta name="robots" content="noindex/.test(readFileSync(notFound, 'utf8'))) fail('crawlable text', 'dist/404.html is not marked noindex');
   if (/^\/\*\s/m.test(redirects)) fail('crawlable text', 'public/_redirects has a /* rule: Cloudflare applies rules before files, so it would capture every file and the homepage');
   const rewritten = new Set([...redirects.matchAll(/^(\/\S*)\s+\/app-shell\s+200\s*$/gm)].map((m) => m[1]));
   const prerendered = new Set(ROUTES.map((r) => r.path));

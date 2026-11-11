@@ -430,7 +430,9 @@ export default function RevenueMobileStory({ features }) {
             transition={{ type: 'tween', duration: 0.8, ease: IOS }}
             aria-hidden="true"
           >
-            <div className="rvm-scale" style={{ transform: `scale(${scale})` }}>
+            {/* A picture, hidden from assistive tech: inert, so nothing inside (the dashboard's dropdown)
+                can take focus either. */}
+            <div className="rvm-scale" style={{ transform: `scale(${scale})` }} inert="">
               <PhoneFrame className="bz-phone--embedded rvm-phone" statusBar="light">
                 <div className="rvm-app">
                   <Screen index={0} current={screen}><Dashboard open={step >= 1} tap={tap} /></Screen>

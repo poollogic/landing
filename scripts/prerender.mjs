@@ -74,4 +74,14 @@ for (const [route, { meta, jsonLd: data = [], headScript }] of Object.entries(PR
   console.log(`prerendered ${route} → dist/${file.slice(DIST.length + 1)} (${(html.length / 1024).toFixed(0)} KB)`);
 }
 
+// An address with no page answers 404 (dist/404.html: Cloudflare Pages serves it, with a 404 status,
+// for anything no rule or file matches) instead of the homepage with a 200, which search engines
+// count as a "soft 404". It's the pre-rendered homepage, as the app shows for an unknown address,
+// marked noindex; main.jsx sees its route marker isn't this address and draws the page afresh.
+{
+  const home = readFileSync(join(DIST, 'index.html'), 'utf8');
+  writeFileSync(join(DIST, '404.html'), setTag(home, /<meta name="robots" content="[^"]*">/, '<meta name="robots" content="noindex,follow">', 'robots meta'));
+  console.log('wrote dist/404.html (the homepage, noindex) for unknown addresses');
+}
+
 if (existsSync(SSR)) rmSync(SSR, { recursive: true, force: true });

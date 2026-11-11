@@ -1,0 +1,55 @@
+{
+  "entries": [
+    {
+      "identifier": "urn:air:getpoolnautics.com:docs:product-overview",
+      "displayName": "Poolnautics product and plans overview",
+      "type": "text/markdown",
+      "url": "https://getpoolnautics.com/llms.txt",
+      "description": "What Poolnautics pool service software does, its two plans (Insight and Vision) with prices and features, and its main pages.",
+      "tags": ["pool service software", "pool route software", "billing", "autopay", "pricing"],
+      "representativeQueries": [
+        "what is Poolnautics",
+        "pool service software with automatic billing, autopay and late fees",
+        "what does Poolnautics include on each plan"
+      ]
+    },
+    {
+      "identifier": "urn:air:getpoolnautics.com:docs:pricing",
+      "displayName": "Poolnautics pricing",
+      "type": "text/html",
+      "url": "https://getpoolnautics.com/pricing",
+      "description": "Plans and prices by active customers, with unlimited technicians and office staff, a feature comparison and pricing questions.",
+      "tags": ["pricing", "plans", "pool service software"],
+      "representativeQueries": [
+        "how much does Poolnautics cost",
+        "pool service software priced by customer count with unlimited technicians",
+        "does Poolnautics take a cut of customer payments"
+      ]
+    },
+    {
+      "identifier": "urn:air:getpoolnautics.com:docs:ai-integrations",
+      "displayName": "Poolnautics AI, automations and integrations",
+      "type": "text/html",
+      "url": "https://getpoolnautics.com/ai-integrations",
+      "description": "How to connect Claude, ChatGPT, Grok or another AI assistant to Poolnautics through its MCP server, with permission levels, plus automations, webhooks and lead capture.",
+      "tags": ["MCP", "AI assistant", "automations", "webhooks", "integrations"],
+      "representativeQueries": [
+        "connect Claude to pool service software",
+        "does Poolnautics have an MCP server",
+        "pool service software webhooks and automations"
+      ]
+    },
+    {
+      "identifier": "urn:air:getpoolnautics.com:docs:api",
+      "displayName": "Poolnautics API documentation",
+      "type": "text/html",
+      "url": "https://app.poollogic.app/docs/api",
+      "description": "Reference documentation for the Poolnautics API.",
+      "tags": ["API", "developer documentation"],
+      "representativeQueries": [
+        "Poolnautics API documentation",
+        "how to use the Poolnautics API"
+      ]
+    }
+  ]
+}

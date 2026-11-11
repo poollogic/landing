@@ -14,8 +14,8 @@
   .fq-intro { position: sticky; top: 48px; }
 }
 /* Header: SectionHeader. */
-.fq-sub a { color: #2e85ff; }
-.fq-sub a:hover { text-decoration: underline; }
+.fq-sub a { color: #2e85ff; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.fq-sub a:hover { text-decoration-thickness: 2px; }
 
 .fq-list { border-top: 1px solid #e3e3e8; }
 .fq-item { border-bottom: 1px solid #e3e3e8; }

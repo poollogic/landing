@@ -1,8 +1,10 @@
 # Pages rendered in the browser get the empty page that loads the site (dist/app-shell.html, written
 # by scripts/prerender.mjs). One rule per address: Cloudflare checks these before real files, so a
 # catch-all here would capture every file too. Every other address with no file of its own gets
-# Cloudflare's default, dist/index.html: the pre-rendered homepage, which is also what the app shows
-# for an unknown address. Keep in step with the routes in app.jsx (npm run check:seo checks).
+# dist/404.html with a 404 status: the homepage, marked noindex, which is also what the app shows
+# for an unknown address. Keep in step with the routes in app.jsx (npm run check:seo checks): a page
+# missing here would answer 404.
+# Partner pages (getpoolnautics.com/with/<handle>, partnerProgram.js) aren't built yet: the homepage.
 /terms            /app-shell   200
 /terms/           /app-shell   200
 /privacy          /app-shell   200
@@ -22,5 +24,6 @@
 /partners/kit     /app-shell   200
 /partners/kit/    /app-shell   200
 # The previous homepage (/landing) is gone: an old link goes home, for good.
+/with/*          /            200
 /landing          /            301
 /landing/         /            301
