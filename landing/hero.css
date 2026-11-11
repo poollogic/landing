@@ -158,8 +158,7 @@
    The page's first script adds these to <html>, so its first paint already matches what the scripts
    will draw; the scripts then take them off.
    .pv-pending: this visitor's preview is light, but the page was drawn dark. The preview (and its
-   phone toggle) stay transparent until it's redrawn (Hero.jsx), then fade in.
-   .lt-pending (with the laptop, below): the dashboard starts tilted back, as the scroll effect draws it. */
+   phone toggle) stay transparent until it's redrawn (Hero.jsx), then fade in. */
 .mockup-holder,
 .hero-toggle { transition: opacity .2s ease; }
 .pv-pending .mockup-holder,
@@ -411,8 +410,7 @@
 }
 /* lg and up, the dashboard is a laptop's screen (laptop.css): the bezel frames it, so it drops its own
    shadow; the top-edge light moves out to the bezel's top edge, the glint and glow with it, and the
-   glow goes behind the bezel. The holder tilts back as the page scrolls (useHeroScrollFx.js); before
-   the scripts run, the page's first script tilts it the same way (.lt-pending, landing/firstPaint.js). */
+   glow goes behind the bezel. */
 @media (min-width: 1024px) {
   /* Room under the keyboard deck, which reaches past its 225px box while it's steep (low on screen):
      without it the deck and its front edge's shadow ran up to 30px into the next section as that
@@ -422,9 +420,6 @@
   .mockup-holder::before { top: -12px; left: calc(3% + 12px); right: calc(3% + 12px); }
   .mockup-holder > .preview-glint { top: -32px; }
   .mockup-holder::after { top: -81px; z-index: -1; }
-  .hero-mockup { perspective: 1600px; perspective-origin: 50% 0; }
-  .mockup-holder { transform-origin: 50% 0; }
-  .lt-pending .mockup-holder { transform: rotateX(10deg) scale(.93); }
 }
 @media (max-width: 767.98px) {
   .hero-mockup { position: relative; margin-inline: auto; margin-top: 22px; padding-bottom: 40px; display: flex; justify-content: center; }

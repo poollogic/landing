@@ -18,7 +18,7 @@ Two routes are pre-rendered: the homepage (`pages/landing.jsx`, `landing/`) and 
   - Use `useBrowserLayoutEffect` instead of `useLayoutEffect`.
   - Put a `<style>`'s CSS in `dangerouslySetInnerHTML`, never as a child: the server escapes `>` and `&`, and the browser's text then doesn't match.
   - A mismatch makes React throw the markup away and redraw. Test in a production build: there's no warning in development, because `npm run dev` doesn't pre-render.
-- **Before the scripts run.** The homepage's first script (`landing/firstPaint.js`, inlined by the build) adds `lt-pending` (the desktop dashboard's starting tilt) and `pv-pending` to `<html>`, so the first paint matches what the scripts will draw (hero.css, "Before the scripts run").
+- **Before the scripts run.** The homepage's first script (`landing/firstPaint.js`, inlined by the build) adds `pv-pending` to `<html>`, so the first paint matches what the scripts will draw (hero.css, "Before the scripts run").
   - The sections below the hero load their code late (`pages/landing.jsx`), but their markup and stylesheets are in the page from the start.
 - **Adding a route.** To pre-render another route, add it to `PRERENDERED` in `entry-server.jsx` and to `ROUTE_PAGES` in `vite.config.js`, remove its `_redirects` rule, and add it to `ROUTES` in the check.
 

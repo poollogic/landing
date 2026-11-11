@@ -5,9 +5,8 @@ import { onScrollFrame } from './scrollFrame.js';
 // normally; on top of that, from one handler:
 //  - parallax: the hero copy rises 1.3x as fast as the page over the first 800px (--hero-shift,
 //    which hero.css turns into its transform);
-//  - the laptop (laptop.css): the dashboard straightens from a 10deg tilt at 93% over the first
-//    460px, then drops its transform; the keyboard deck flattens from 62 to 83deg as it rises, its
-//    reflection sweeping across it.
+//  - the laptop's keyboard deck (laptop.css): it flattens from 62 to 83deg as it rises, its
+//    reflection sweeping across it. The dashboard itself doesn't move.
 // It runs from the page's shared scroll frame (scrollFrame.js), subscribed only while the hero is
 // on screen. The frame reads only scrollY (offsets are measured on resize) and writes only
 // values that changed: transforms (the copy's through its custom property), and will-change while
@@ -17,7 +16,6 @@ import { onScrollFrame } from './scrollFrame.js';
 export const SCROLL_FX_QUERY = '(min-width: 1024px) and (prefers-reduced-motion: no-preference)';
 const PARALLAX = 0.3; // the copy's extra speed
 const PARALLAX_PX = 800; // ...over this much scrolling
-const TILT_PX = 460; // the dashboard is straight after this much scrolling
 const IDLE_MS = 200; // will-change comes off once nothing has moved for this long
 const DECK_REACH = 320; // how far above its box the deck can still be seen
 
@@ -43,11 +41,10 @@ export default function useHeroScrollFx(heroRef) {
   useBrowserLayoutEffect(() => {
     const hero = heroRef.current;
     const copy = hero?.querySelector('.hero-copy');
-    const holder = hero?.querySelector('.mockup-holder');
     const deckBox = hero?.querySelector('.lt-deck-box');
     const deck = deckBox?.querySelector('.lt-deck');
     const sheen = deckBox?.querySelector('.lt-sheen');
-    if (!copy || !holder || !deck || !sheen || !window.matchMedia) return undefined;
+    if (!copy || !deck || !sheen || !window.matchMedia) return undefined;
 
     const mq = window.matchMedia(SCROLL_FX_QUERY);
     let on = false;
@@ -69,7 +66,6 @@ export default function useHeroScrollFx(heroRef) {
     const rest = () => {
       idle = 0;
       set.copy('willChange', '');
-      set.holder('willChange', '');
       set.deck('willChange', '');
       set.sheen('willChange', '');
     };
@@ -82,15 +78,6 @@ export default function useHeroScrollFx(heroRef) {
       const shift = Math.round(-PARALLAX * Math.min(Math.max(y, 0), PARALLAX_PX) * 10) / 10;
       if (set.copy('--hero-shift', shift ? `translate3d(0, ${shift}px, 0)` : '')) {
         set.copy('willChange', shift ? 'transform' : '');
-        moved = true;
-      }
-
-      // The dashboard's tilt; no transform once straight.
-      const p = clamp01(y / TILT_PX);
-      const e = 1 - (1 - p) ** 3;
-      const tilt = e >= 1 ? '' : `rotateX(${((1 - e) * 10).toFixed(3)}deg) scale(${(0.93 + 0.07 * e).toFixed(4)})`;
-      if (set.holder('transform', tilt)) {
-        set.holder('willChange', tilt ? 'transform' : '');
         moved = true;
       }
 
@@ -123,9 +110,7 @@ export default function useHeroScrollFx(heroRef) {
 
     const enable = () => {
       on = true;
-      set = { copy: writer(copy), holder: writer(holder), deck: writer(deck), sheen: writer(sheen) };
-      // The pre-rendered page's stand-in until now (landing/firstPaint.js, hero.css).
-      document.documentElement.classList.remove('lt-pending');
+      set = { copy: writer(copy), deck: writer(deck), sheen: writer(sheen) };
       measure();
       frame();
       // Scroll frames only while the hero is on screen; one more frame as it leaves or comes
@@ -148,7 +133,7 @@ export default function useHeroScrollFx(heroRef) {
       ro?.disconnect();
       ro = null;
       copy.style.removeProperty('--hero-shift');
-      for (const el of [copy, holder, deck, sheen]) {
+      for (const el of [copy, deck, sheen]) {
         el.style.transform = '';
         el.style.willChange = '';
       }
