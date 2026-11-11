@@ -15,6 +15,7 @@ const PartnersPage = lazy(() => import('./pages/partners.jsx'));
 const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
 const TechnicianTermsPage = lazy(() => import('./pages/technician-terms.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
+const RequestFlowPage = lazy(() => import('./pages/request-flow.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 
 // Page defaults — accent color, hero layout, density, theme.
@@ -40,6 +41,7 @@ const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/te
 // The phone app's sign-in links here (the box on its location screen).
 const isTechnicianTermsPath = (p) => p === '/technician-terms' || p === '/technician-terms/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
+const isRequestFlowPath = (p) => p === '/request-flow' || p === '/request-flow/';
 
 const SITE_ORIGIN = 'https://getpoolnautics.com';
 
@@ -107,6 +109,13 @@ export const ROUTE_META = {
     description: 'The Poolnautics partner disclosure kit: the exact words to use on each platform, and what partners can and can\'t say.',
     path: '/partners/kit',
   },
+  // Blank while it's being built: kept out of search results (and the sitemap) until it has content.
+  requestFlow: {
+    title: 'Request flow — Poolnautics',
+    description: 'How a repair request moves through Poolnautics, from the technician app to a paid invoice.',
+    path: '/request-flow',
+    robots: 'noindex,follow',
+  },
 };
 
 const setMeta = (selector, attr, value) => {
@@ -164,6 +173,7 @@ const App = ({ path: pathProp }) => {
     else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
     else if (isTechnicianTermsPath(path)) meta = ROUTE_META.technicianTerms;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
+    else if (isRequestFlowPath(path)) meta = ROUTE_META.requestFlow;
     // Any other address shows the homepage; keep those copies out of search results.
     else if (path !== '/') meta = { ...ROUTE_META.home, robots: 'noindex,follow' };
     applyRouteMeta(meta);
@@ -293,6 +303,17 @@ const App = ({ path: pathProp }) => {
         </ErrorBoundary>
         <Footer />
       </>
+    );
+  }
+
+  // Request flow is blank for now: no header, no footer, nothing while it loads.
+  if (isRequestFlowPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={null}>
+          <RequestFlowPage />
+        </Suspense>
+      </ErrorBoundary>
     );
   }
 
