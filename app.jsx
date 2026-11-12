@@ -111,8 +111,8 @@ export const ROUTE_META = {
   },
   // Pre-rendered at build time (entry-server.jsx).
   workflow: {
-    title: 'Pool Service Workflow for Repairs & Work Orders | Poolnautics',
-    description: 'Poolnautics turns pool repair requests into quotes, work orders and paid invoices automatically. One step for the office, a simple app for your techs, and no finished job left unbilled.',
+    title: 'Automating Your Pool Service Business | Poolnautics',
+    description: 'Pool service software that runs your repairs: requests become quotes, work orders and paid invoices automatically. About 10 questions and it runs your way.',
     path: '/workflow',
   },
 };
