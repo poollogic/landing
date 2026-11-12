@@ -43,7 +43,7 @@ const ROUTES = [
   { path: '/ai-integrations', html: 'ai-integrations.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
   // Pricing: pre-rendered, with its plans and FAQ as structured data. Its hero is the heading block.
   { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'BreadcrumbList', 'FAQPage'], hero: 'section.pr-hero', stable: ['.section-eyebrow', '#pricing-heading', '.section-sub'] },
-  // Requests, diagnostics and work orders: pre-rendered (noindex until it launches). Its FAQ and
+  // Requests, diagnostics and work orders: pre-rendered. Its FAQ and
   // breadcrumbs are structured data; its screenshots are PhoneFrame / BrowserFrame (landing/request-flow).
   { path: '/request-flow', html: 'request-flow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];

@@ -109,13 +109,11 @@ export const ROUTE_META = {
     description: 'The Poolnautics partner disclosure kit: the exact words to use on each platform, and what partners can and can\'t say.',
     path: '/partners/kit',
   },
-  // Pre-rendered at build time (entry-server.jsx). Kept out of search results (and the sitemap and
-  // the menus) until it launches: remove robots then.
+  // Pre-rendered at build time (entry-server.jsx).
   requestFlow: {
     title: 'Pool Repair Work Order Software | Poolnautics',
     description: 'Poolnautics turns pool repair requests into quotes, work orders and paid invoices automatically. One step for the office, a simple app for your techs, and no finished job left unbilled.',
     path: '/request-flow',
-    robots: 'noindex,follow',
   },
 };
 

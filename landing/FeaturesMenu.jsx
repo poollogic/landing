@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { ArrowRight, ArrowRightLeft, ChevronDown, Receipt, Route, ShieldAlert, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowRightLeft, ChevronDown, Receipt, Route, ShieldAlert, Sparkles, Wrench } from 'lucide-react';
 import { API_DOCS_URL } from '../aiFacts.js';
 
 // The header's links, shared by the site header (landing/Nav.jsx, styled in landing/nav.css) and
@@ -7,29 +7,34 @@ import { API_DOCS_URL } from '../aiFacts.js';
 
 // The Features menu: what the app does, and where to read about each. Most are homepage sections
 // (rooted at / so they work from every page) until a feature gets a page of its own.
-// Two columns of features, each with a line on what it does (the copy is the homepage's)...
+// Two columns of features, each with a line on what it does (the copy is the homepage's). Read as
+// rows: Billing and Repairs on top, Collections and Switching below...
 export const FEATURE_COLUMNS = [
   [
     { label: 'Billing on autopilot', desc: 'Every customer invoiced on their own schedule and paid in one tap', href: '/#billing', Icon: Receipt },
     { label: 'Collections', desc: 'Late fees, overdue notices and service pauses that run themselves', href: '/#collections', Icon: ShieldAlert },
   ],
   [
+    { label: 'Repairs on autopilot', desc: 'Requests, diagnostics and work orders that run from quote to paid', href: '/request-flow', Icon: Wrench },
     { label: 'Switching', desc: 'Bring your Skimmer or QuickBooks customers over in minutes', href: '/#switching', Icon: ArrowRightLeft },
-    { label: 'Route transfers', desc: 'Sell a route with one code, knowing exactly what it’s worth', href: '/#routes', Icon: Route },
   ],
 ];
 // ...a column of plain links...
 const AI_PAGE = { label: 'AI & integrations', href: '/ai-integrations', Icon: Sparkles };
+const ROUTES_LINK = { label: 'Route transfers', href: '/#routes', Icon: Route };
 const MORE_LINKS = [
   AI_PAGE,
   { label: 'API docs', href: API_DOCS_URL },
   { label: 'Partner program', href: '/partners' },
+  ROUTES_LINK,
   { label: 'Questions', href: '/#faq' },
 ];
 // ...and what's new, along the bottom.
 const NEWS = { title: 'New', text: 'Connect Claude, Grok, ChatGPT or your own AI', href: AI_PAGE.href };
-// The phone menu: the features, then the AI page.
-export const MENU_FEATURES = [...FEATURE_COLUMNS.flat(), AI_PAGE];
+// The phone menu: the features row by row, as the grid reads, then the plain links it carries (the AI
+// page and Route transfers, in that column's order).
+const [LEFT, RIGHT] = FEATURE_COLUMNS;
+export const MENU_FEATURES = [...LEFT.flatMap((item, i) => [item, RIGHT[i]]), AI_PAGE, ROUTES_LINK];
 
 // The links beside the menu.
 export const LINKS = [

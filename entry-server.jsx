@@ -25,7 +25,7 @@ export const PRERENDERED = {
   '/': { meta: ROUTE_META.home, headScript: homeFirstPaintScript, jsonLd: [homeFaq] }, // Organization, WebSite, software: index.html
   '/ai-integrations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
   '/pricing': { meta: ROUTE_META.pricing, jsonLd: pricingData },
-  '/request-flow': { meta: ROUTE_META.requestFlow, jsonLd: requestFlowData }, // noindex until it launches
+  '/request-flow': { meta: ROUTE_META.requestFlow, jsonLd: requestFlowData },
 };
 
 /** The route's markup for #root, once every lazy part has loaded (the same tree main.jsx hydrates). */

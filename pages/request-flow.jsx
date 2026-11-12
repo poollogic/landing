@@ -16,7 +16,6 @@ import { Footer } from '../components/site-chrome.jsx';
 // document while rendering. Nine sections, dark and light in turn; styles in
 // landing/request-flow/request-flow.css (rf-). Every screenshot is a PhoneFrame or BrowserFrame
 // placeholder (landing/request-flow/Frames.jsx) until the real one is passed in.
-// Marked noindex and kept out of the sitemap and the menus until it launches (app.jsx ROUTE_META).
 
 const ORIGIN = 'https://getpoolnautics.com';
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400';

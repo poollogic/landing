@@ -27,6 +27,19 @@
       ]
     },
     {
+      "identifier": "urn:air:getpoolnautics.com:docs:request-flow",
+      "displayName": "Poolnautics repair requests, diagnostics and work orders",
+      "type": "text/html",
+      "url": "https://getpoolnautics.com/request-flow",
+      "description": "How a pool repair moves through Poolnautics: a request from the technician app or the office, an optional diagnostic, a quote or an invoice, a work order for the technician, and an invoice sent when the job is done.",
+      "tags": ["repair requests", "work orders", "diagnostics", "quotes", "invoices"],
+      "representativeQueries": [
+        "pool repair work order software",
+        "how do pool repair requests become work orders in Poolnautics",
+        "can technicians see prices in Poolnautics"
+      ]
+    },
+    {
       "identifier": "urn:air:getpoolnautics.com:docs:ai-integrations",
       "displayName": "Poolnautics AI, automations and integrations",
       "type": "text/html",
