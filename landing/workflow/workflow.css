@@ -253,6 +253,121 @@
   .rf-page .rf-hero-browser { right: calc(var(--rf-hero-vis) * .127); }
 }
 
+/* ---------- 1b. Setup flow (SetupFlowSection.jsx), straight under the hero (#your-way) ----------
+   Reuses the page's rf-section / rf-dark / section-head styles. */
+.rf-page .rf-setupflow { border-top: 1px solid rgba(148, 163, 184, 0.1); }
+.rf-page .rf-setupflow .section-head { margin-bottom: 72px; }
+.rf-page .rf-setupflow .section-sub { text-wrap: balance; }
+
+/* Flow grid: questions, connector, settings, connector, screens */
+.rf-page .rf-sf-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) 64px minmax(0, 0.8fr) 64px minmax(0, 1.3fr); grid-template-rows: auto 1fr; row-gap: 12px; }
+.rf-page .rf-sf-l1 { grid-area: 1 / 1; }
+.rf-page .rf-sf-in { grid-area: 2 / 1; }
+.rf-page .rf-sf-w1 { grid-area: 2 / 2; }
+.rf-page .rf-sf-hubwrap { grid-area: 2 / 3; }
+.rf-page .rf-sf-w2 { grid-area: 2 / 4; }
+.rf-page .rf-sf-l3 { grid-area: 1 / 5; }
+.rf-page .rf-sf-out { grid-area: 2 / 5; }
+
+/* Column labels */
+.rf-page .rf-sf-label { margin: 0; font-size: 12px; font-weight: 600; line-height: 1.4; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(147, 164, 191); }
+.rf-page .rf-sf-label span { margin-left: 10px; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: rgb(106, 168, 255); }
+
+/* Stacks. The three screen cards share the full height of the question column, so their top and
+   bottom edges line up with it; the component measures each card's centre to place the connector lines. */
+.rf-page .rf-sf-stack { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.rf-page .rf-sf-stack > li { display: flex; padding: 5px 0; }
+.rf-page .rf-sf-out > li { flex: 1; }
+.rf-page .rf-sf-out .rf-sf-node { display: flex; flex-direction: column; justify-content: center; }
+
+/* Cards */
+.rf-page .rf-sf-node { position: relative; flex: 1; min-width: 0; padding: 14px 18px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; background: rgba(255, 255, 255, 0.03); text-align: left; transition: border-color 0.2s; }
+.rf-page .rf-sf-in .rf-sf-node:hover { border-color: rgba(255, 255, 255, 0.18); }
+.rf-page .rf-sf-title { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: rgb(248, 250, 252); }
+.rf-page .rf-sf-body { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: rgb(169, 182, 202); }
+.rf-page .rf-sf-in .rf-sf-node--more { padding: 12px 18px; border-style: dashed; background: transparent; font-size: 14px; font-weight: 500; text-align: center; color: rgb(147, 164, 191); }
+
+/* Answer pills */
+.rf-page .rf-sf-opts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.rf-page .rf-sf-opts button { appearance: none; cursor: pointer; padding: 4px 10px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 999px; background: transparent; font: inherit; font-size: 12px; font-weight: 600; line-height: 16px; color: rgb(147, 164, 191); transition: color 0.15s, border-color 0.15s, background-color 0.15s; }
+.rf-page .rf-sf-opts button:hover { border-color: rgba(255, 255, 255, 0.32); color: rgb(248, 250, 252); }
+.rf-page .rf-sf-opts button.is-on { border-color: var(--brand-blue, #2e85ff); background: var(--brand-blue, #2e85ff); color: #fff; }
+.rf-page .rf-sf-opts button:focus-visible { outline: 2px solid var(--brand-blue, #2e85ff); outline-offset: 2px; }
+
+/* Result shown inside the question card on tablet and mobile, where the screen cards sit further down */
+.rf-page .rf-sf-effect { display: none; margin: 12px 0 0; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.07); font-size: 13.5px; line-height: 1.45; color: rgb(169, 182, 202); animation: rf-sf-swap 0.5s ease-out; }
+.rf-page .rf-sf-effect span { display: block; margin-bottom: 2px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(106, 168, 255); }
+
+/* What each screen does: lines swap in when an answer changes */
+.rf-page .rf-sf-rules { display: flex; flex-direction: column; gap: 5px; margin: 8px 0 0; padding: 0; list-style: none; }
+.rf-page .rf-sf-rules li { display: flex; gap: 8px; font-size: 13.5px; line-height: 1.45; color: rgb(169, 182, 202); animation: rf-sf-swap 0.6s ease-out 0.6s backwards; }
+.rf-page .rf-sf-rules svg { flex: none; margin-top: 3px; color: rgb(74, 222, 128); }
+@keyframes rf-sf-swap { from { opacity: 0; transform: translateY(4px); color: #fff; } }
+.rf-page .rf-sf-ring { position: absolute; inset: -1px; border: 1px solid var(--brand-blue, #2e85ff); border-radius: inherit; box-shadow: 0 0 0 4px rgba(46, 133, 255, 0.18); opacity: 0; pointer-events: none; animation: rf-sf-ring 1s ease-out 0.45s; }
+.rf-page .rf-sf-out .rf-sf-ring { animation-delay: 0.85s; }
+@keyframes rf-sf-ring { from { opacity: 1; } }
+
+/* Ports */
+.rf-page .rf-sf-in .rf-sf-node::after, .rf-page .rf-sf-out .rf-sf-node::before, .rf-page .rf-sf-hub::before, .rf-page .rf-sf-hub::after { content: ""; position: absolute; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 999px; background: var(--brand-blue, #2e85ff); box-shadow: 0 0 0 3px rgba(46, 133, 255, 0.2); }
+.rf-page .rf-sf-in .rf-sf-node::after, .rf-page .rf-sf-hub::after { right: -4px; }
+.rf-page .rf-sf-out .rf-sf-node::before, .rf-page .rf-sf-hub::before { left: -4px; }
+.rf-page .rf-sf-in .rf-sf-node--more::after { opacity: 0.45; box-shadow: none; }
+
+/* Settings card, with a soft glow behind it */
+.rf-page .rf-sf-hubwrap { position: relative; display: flex; align-items: center; }
+.rf-page .rf-sf-hubwrap::before { content: ""; position: absolute; inset: 12% -110px; z-index: -1; background: radial-gradient(closest-side, rgba(46, 133, 255, 0.3), transparent); pointer-events: none; }
+.rf-page .rf-sf-hub { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; padding: 30px 20px 26px; border: 1px solid rgba(46, 133, 255, 0.55); border-radius: 18px; background: linear-gradient(180deg, rgba(46, 133, 255, 0.22), rgba(46, 133, 255, 0.05)), rgb(10, 13, 19); box-shadow: 0 24px 60px -24px rgba(46, 133, 255, 0.7); text-align: center; }
+.rf-page .rf-sf-hub .rf-sf-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.rf-page .rf-sf-once { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 4px 11px; border-radius: 999px; background: rgba(74, 222, 128, 0.1); font-size: 12.5px; font-weight: 600; line-height: 16px; color: rgb(74, 222, 128); }
+
+/* Connectors: thin lines with a pulse of light that travels along them */
+.rf-page .rf-sf-wire { position: relative; min-width: 0; }
+.rf-page .rf-sf-wire svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.rf-page .rf-sf-wire path { fill: none; vector-effect: non-scaling-stroke; }
+.rf-page .rf-sf-line { stroke-width: 1.25; }
+.rf-page .rf-sf-line.is-faint { stroke-dasharray: 3 5; opacity: 0.5; }
+.rf-page .rf-sf-pulse { stroke: rgb(142, 188, 255); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 36 2000; stroke-dashoffset: 36; opacity: 0; animation: rf-sf-run 7s linear var(--d, 0s) infinite; }
+.rf-page .rf-sf-pulse.is-hot { stroke: #fff; stroke-width: 2.5; animation: rf-sf-shot 0.6s ease-out var(--hd, 0s) 1, rf-sf-run 7s linear 3s infinite; }
+@keyframes rf-sf-run { 0% { stroke-dashoffset: 36; opacity: 0; } 2% { opacity: 0.9; } 18% { stroke-dashoffset: -300; opacity: 0.9; } 20%, 100% { stroke-dashoffset: -300; opacity: 0; } }
+@keyframes rf-sf-shot { from { stroke-dashoffset: 36; opacity: 1; } to { stroke-dashoffset: -300; opacity: 1; } }
+
+.rf-page .rf-sf-foot { max-width: 620px; margin: 64px auto 0; font-size: 15px; line-height: 1.6; text-align: center; text-wrap: balance; color: rgb(147, 164, 191); }
+.rf-page .rf-sf-foot strong { font-weight: 600; color: rgb(248, 250, 252); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rf-page .rf-sf-pulse, .rf-page .rf-sf-rules li, .rf-page .rf-sf-effect, .rf-page .rf-sf-ring { animation: none; }
+}
+
+/* Stacked layout: tablet and mobile (same breakpoint as the hero) */
+@media (max-width: 1040px) {
+  .rf-page .rf-setupflow .section-head { margin-bottom: 48px; }
+  .rf-page .rf-sf-grid { display: flex; flex-direction: column; gap: 0; }
+  .rf-page .rf-sf-effect { display: block; margin-top: auto; }
+  .rf-page .rf-sf-w1 { margin-top: -5px; }
+  .rf-page .rf-sf-label { margin-bottom: 8px; }
+  .rf-page .rf-sf-opts { margin-bottom: 12px; }
+  .rf-page .rf-sf-opts button { padding: 6px 11px; font-size: 13px; }
+  .rf-page .rf-sf-in .rf-sf-node { display: flex; flex-direction: column; }
+  .rf-page .rf-sf-in .rf-sf-node--more { display: block; }
+  .rf-page .rf-sf-wire { height: 40px; }
+  .rf-page .rf-sf-wire svg { display: none; }
+  .rf-page .rf-sf-wire::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1.5px; margin-left: -0.75px; background: linear-gradient(180deg, rgba(46, 133, 255, 0.2), rgba(46, 133, 255, 0.9)); }
+  .rf-page .rf-sf-w2::before { background: linear-gradient(180deg, rgba(46, 133, 255, 0.9), rgba(46, 133, 255, 0.2)); }
+  .rf-page .rf-sf-w2 { margin-bottom: 14px; }
+  .rf-page .rf-sf-hubwrap::before { inset: -40px 8%; }
+  .rf-page .rf-sf-hub { padding: 26px 20px 22px; }
+  .rf-page .rf-sf-in .rf-sf-node::after, .rf-page .rf-sf-out .rf-sf-node::before, .rf-page .rf-sf-hub::before, .rf-page .rf-sf-hub::after { display: none; }
+  .rf-page .rf-sf-foot { margin-top: 40px; }
+}
+/* Tablet: questions two-up, screens three-up when there is room */
+@media (min-width: 641px) and (max-width: 1040px) {
+  .rf-page .rf-sf-in { display: grid; grid-template-columns: 1fr 1fr; column-gap: 12px; }
+  .rf-page .rf-sf-in > li:last-child { grid-column: 1 / -1; }
+}
+@media (min-width: 861px) and (max-width: 1040px) {
+  .rf-page .rf-sf-out { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 12px; }
+}
+
 /* ---------- 2. Requests ---------- */
 .rf-page .rf-source { gap: 16px; padding: 32px 32px 0; overflow: hidden; }
 .rf-page .rf-chip {

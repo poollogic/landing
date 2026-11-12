@@ -6,6 +6,7 @@ import '../landing/workflow/workflow.css';
 import Nav from '../landing/Nav.jsx';
 import SectionHeader from '../landing/SectionHeader.jsx';
 import { BrowserFrame, PhoneFrame } from '../landing/workflow/Frames.jsx';
+import SetupFlowSection from '../landing/workflow/SetupFlowSection.jsx';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
 import { Footer } from '../components/site-chrome.jsx';
@@ -122,7 +123,7 @@ function Hero({ theme }) {
             A tech spots a problem. You set a price. Poolnautics handles the approval, the work order, the invoice and the
             payment, so no finished job goes unbilled.
           </p>
-          <Checks className="rf-hero-checks" items={['One step for the office', 'Works whether you quote or invoice', 'Set up around how your company already runs']} />
+          <Checks className="rf-hero-checks" items={['One step for the office', 'Works whether you quote or invoice', 'Set up in about 10 simple questions']} />
           <div className="rf-hero-actions">
             <PrimaryCta theme={theme} />
             <a href="#requests" className={`rf-text-link ${FOCUS}`}>See how the flow works</a>
@@ -358,7 +359,7 @@ function Setup() {
           id="setup-heading"
           eyebrow="Setup"
           title="Complicated underneath. Simple for your team."
-          subtitle="Every pool company handles repairs a little differently. During onboarding we set the flow up to match your procedures, so day to day there’s almost nothing to think about."
+          subtitle="Every pool company handles repairs a little differently. When you get started, a few simple questions set the flow up to match your procedures, so day to day there’s almost nothing to think about."
         />
         <div className="rf-cards rf-cards--3">
           {BENEFITS.map(({ icon: Icon, title, body }) => (
@@ -420,6 +421,7 @@ export default function WorkflowPage() {
       <Nav />
       <main>
         <Hero theme={theme} />
+        <SetupFlowSection />
         <Requests />
         <Diagnostics />
         <Quotes />
