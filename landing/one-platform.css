@@ -17,6 +17,10 @@
   color: #0f172a;
   text-wrap: balance;
 }
+/* "Poolnautics does the work." on one line, wherever it fits: from 540px wide. On narrower phones it's
+   wider than the heading at the phone size (~420px at 390), so there it may break. */
+.op-keep { white-space: nowrap; }
+@media (max-width: 539.98px) { .op-keep { white-space: normal; } }
 .op-lede {
   max-width: 640px;
   margin: 26px auto 0;

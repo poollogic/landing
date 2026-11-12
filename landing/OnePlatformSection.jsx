@@ -57,9 +57,9 @@ export default function OnePlatformSection() {
     <section ref={ref} id="platform" className={`op-section${cls}`} aria-labelledby="op-heading">
       <div className="op-inner">
         <h2 id="op-heading" className="op-title op-rise">
-          The only software your pool company needs.
+          Other pool software gives you a place to do the work. <span className="op-keep">Poolnautics does the work.</span>
         </h2>
-        <p className="op-lede op-rise">Other pool software gives you a place to do the work. Poolnautics does the work.</p>
+        <p className="op-lede op-rise">The only software your pool company needs.</p>
 
         <div className="op-rise op-still">
           <p className="op-sub">With most pool software, you’re still…</p>
