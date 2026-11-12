@@ -10,6 +10,9 @@ import React, { useEffect, useLayoutEffect, useRef } from 'react';
 // reduced motion (or no IntersectionObserver) hides nothing. The headline keeps the page's scroll
 // reveal (data-reveal, useReveal). The CSV export is every plan's (the homepage FAQ). Styles:
 // ai.css (.ai-stance*).
+// Below 768px the three are a list on a rail, each with its part of the fine print under it
+// (.ai-stance-desc, hidden on desktop); the rail's animation needs the distances between the items,
+// measured here into --rail, --midpx and --mid (after hydration, and on every resize).
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 export default function Stance() {
@@ -33,6 +36,23 @@ export default function Stance() {
     };
   }, []);
 
+  useEffect(() => {
+    const trio = ref.current?.querySelector('.ai-stance-trio');
+    const items = trio ? [...trio.querySelectorAll('.ai-stance-item')] : [];
+    if (items.length !== 3) return undefined;
+    // offsetTop, not getBoundingClientRect: the entrance's transform mustn't count.
+    const measure = () => {
+      const rail = items[2].offsetTop - items[0].offsetTop, midpx = items[1].offsetTop - items[0].offsetTop;
+      trio.style.setProperty('--rail', `${rail}px`);
+      trio.style.setProperty('--midpx', `${midpx}px`);
+      trio.style.setProperty('--mid', rail > 0 ? String(midpx / rail) : '0');
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(trio);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <section ref={ref} className="section ai-stance bg-[#F5F5F7]" data-theme="light" aria-label="Why Poolnautics">
       <div className="container">
@@ -41,9 +61,9 @@ export default function Stance() {
           <span>Poolnautics is built to connect.</span>
         </p>
         <p className="ai-stance-trio">
-          <span className="ai-stance-item"><span className="ai-stance-your">Your</span> AI.</span>{' '}
-          <span className="ai-stance-item"><span className="ai-stance-your">Your</span> tools.</span>{' '}
-          <span className="ai-stance-item"><span className="ai-stance-your">Your</span> data.</span>
+          <span className="ai-stance-item"><span className="ai-stance-your">Your</span> AI.<span className="ai-stance-desc">Bring Claude, ChatGPT, Grok or your own model.</span></span>{' '}
+          <span className="ai-stance-item"><span className="ai-stance-your">Your</span> tools.<span className="ai-stance-desc">Connected through the built-in MCP server.</span></span>{' '}
+          <span className="ai-stance-item"><span className="ai-stance-your">Your</span> data.<span className="ai-stance-desc">Export everything as CSV, on every plan.</span></span>
         </p>
         <p className="ai-stance-fine">
           Bring Claude, ChatGPT, Grok or your own model through the built-in MCP server. Export everything as CSV, on
