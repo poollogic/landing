@@ -1,4 +1,4 @@
-/* /request-flow (pages/request-flow.jsx): requests, diagnostics and work orders. Nine sections, dark and
+/* /workflow (pages/workflow.jsx): requests, diagnostics and work orders. Nine sections, dark and
    light in turn, content 1120px wide. Desktop above 1040px, tablet 641–1040px (every two-column section
    stacks, the FAQ is one column), phone 640px and below. Headings and section padding scale with the
    page width, as in the design: H1 54 → 36px, H2 40 → 30px, padding 104 → 64px. Nothing moves.
@@ -228,7 +228,7 @@
    screens (min(vw, vh)), so it always fits in one screen and keeps the design's proportions (the H1
    on two lines). Every size is a multiple of --rf-hero-text, the body text: 18px at 1440 × 900,
    where it's the design exactly (H1 54px, content 1120px wide, the visual 440px tall). The visual's
-   frames are sized from --rf-hero-vis (pages/request-flow.jsx). */
+   frames are sized from --rf-hero-vis (pages/workflow.jsx). */
 @media (min-width: 1041px) {
   .rf-page .rf-hero {
     --rf-hero-text: clamp(16px, min(1.25vw, 2vh), 24px);

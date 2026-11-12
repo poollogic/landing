@@ -44,10 +44,10 @@ const ROUTES = [
   // Pricing: pre-rendered, with its plans and FAQ as structured data. Its hero is the heading block.
   { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'BreadcrumbList', 'FAQPage'], hero: 'section.pr-hero', stable: ['.section-eyebrow', '#pricing-heading', '.section-sub'] },
   // Requests, diagnostics and work orders: pre-rendered. Its FAQ and
-  // breadcrumbs are structured data; its screenshots are PhoneFrame / BrowserFrame (landing/request-flow).
-  { path: '/request-flow', html: 'request-flow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
+  // breadcrumbs are structured data; its screenshots are PhoneFrame / BrowserFrame (landing/workflow).
+  { path: '/workflow', html: 'workflow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];
-const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/request-flow.jsx', 'landing/request-flow']; // the heroes' own code
+const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow']; // the heroes' own code
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
 const STABLE_TOLERANCE_PX = 2;
 const CLS_BUDGET = 0.01; // we hold the new pages at zero; Google's "good" line is 0.1
@@ -243,7 +243,7 @@ async function browserChecks() {
 }
 
 /* ---------- Run ---------- */
-console.log('SEO guardrails: homepage hero, /ai-integrations, /pricing and /request-flow');
+console.log('SEO guardrails: homepage hero, /ai-integrations, /pricing and /workflow');
 checkSource();
 checkImportedImages();
 for (const route of ROUTES) checkServedHtml(route);

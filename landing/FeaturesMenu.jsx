@@ -15,7 +15,7 @@ export const FEATURE_COLUMNS = [
     { label: 'Collections', desc: 'Late fees, overdue notices and service pauses that run themselves', href: '/#collections', Icon: ShieldAlert },
   ],
   [
-    { label: 'Repairs on autopilot', desc: 'Requests, diagnostics and work orders that run from quote to paid', href: '/request-flow', Icon: Wrench },
+    { label: 'Repairs on autopilot', desc: 'Requests, diagnostics and work orders that run from quote to paid', href: '/workflow', Icon: Wrench },
     { label: 'Switching', desc: 'Bring your Skimmer or QuickBooks customers over in minutes', href: '/#switching', Icon: ArrowRightLeft },
   ],
 ];

@@ -4,7 +4,7 @@ import { renderToPipeableStream } from 'react-dom/server';
 import App, { ROUTE_META } from './app.jsx';
 import { structuredData as aiIntegrationsData } from './pages/ai-integrations.jsx';
 import { structuredData as pricingData } from './pages/pricing.jsx';
-import { structuredData as requestFlowData } from './pages/request-flow.jsx';
+import { structuredData as workflowData } from './pages/workflow.jsx';
 import { homeFirstPaintScript } from './landing/firstPaint.js';
 import { FAQS } from './landing/FaqSection.jsx';
 
@@ -25,7 +25,7 @@ export const PRERENDERED = {
   '/': { meta: ROUTE_META.home, headScript: homeFirstPaintScript, jsonLd: [homeFaq] }, // Organization, WebSite, software: index.html
   '/ai-integrations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
   '/pricing': { meta: ROUTE_META.pricing, jsonLd: pricingData },
-  '/request-flow': { meta: ROUTE_META.requestFlow, jsonLd: requestFlowData },
+  '/workflow': { meta: ROUTE_META.workflow, jsonLd: workflowData },
 };
 
 /** The route's markup for #root, once every lazy part has loaded (the same tree main.jsx hydrates). */

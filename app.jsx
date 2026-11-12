@@ -15,7 +15,7 @@ const PartnersPage = lazy(() => import('./pages/partners.jsx'));
 const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
 const TechnicianTermsPage = lazy(() => import('./pages/technician-terms.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
-const RequestFlowPage = lazy(() => import('./pages/request-flow.jsx'));
+const WorkflowPage = lazy(() => import('./pages/workflow.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 
 // Page defaults — accent color, hero layout, density, theme.
@@ -41,7 +41,7 @@ const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/te
 // The phone app's sign-in links here (the box on its location screen).
 const isTechnicianTermsPath = (p) => p === '/technician-terms' || p === '/technician-terms/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
-const isRequestFlowPath = (p) => p === '/request-flow' || p === '/request-flow/';
+const isWorkflowPath = (p) => p === '/workflow' || p === '/workflow/';
 
 const SITE_ORIGIN = 'https://getpoolnautics.com';
 
@@ -110,10 +110,10 @@ export const ROUTE_META = {
     path: '/partners/kit',
   },
   // Pre-rendered at build time (entry-server.jsx).
-  requestFlow: {
+  workflow: {
     title: 'Pool Repair Work Order Software | Poolnautics',
     description: 'Poolnautics turns pool repair requests into quotes, work orders and paid invoices automatically. One step for the office, a simple app for your techs, and no finished job left unbilled.',
-    path: '/request-flow',
+    path: '/workflow',
   },
 };
 
@@ -172,7 +172,7 @@ const App = ({ path: pathProp }) => {
     else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
     else if (isTechnicianTermsPath(path)) meta = ROUTE_META.technicianTerms;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
-    else if (isRequestFlowPath(path)) meta = ROUTE_META.requestFlow;
+    else if (isWorkflowPath(path)) meta = ROUTE_META.workflow;
     // Any other address shows the homepage; keep those copies out of search results.
     else if (path !== '/') meta = { ...ROUTE_META.home, robots: 'noindex,follow' };
     applyRouteMeta(meta);
@@ -307,11 +307,11 @@ const App = ({ path: pathProp }) => {
 
   // Pre-rendered, like /ai-integrations: keep the tree here the same as entry-server.jsx renders it.
   // Brings its own dark nav and the footer.
-  if (isRequestFlowPath(path)) {
+  if (isWorkflowPath(path)) {
     return (
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
-          <RequestFlowPage />
+          <WorkflowPage />
         </Suspense>
       </ErrorBoundary>
     );

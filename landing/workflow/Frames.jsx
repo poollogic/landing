@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from 'lucide-react';
 
-// The two screenshot frames on /request-flow (styles: request-flow.css, "Frames"). Each shows a
+// The two screenshot frames on /workflow (styles: workflow.css, "Frames"). Each shows a
 // labelled placeholder until it's given a screenshot. To swap one in, add the image's props to that
 // placement, on the same line:
 //

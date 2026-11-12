@@ -10,7 +10,7 @@ import './repairs.css';
 // Nothing here moves or waits on JavaScript.
 
 // The feature page for requests, diagnostics and work orders.
-const WORK_ORDERS_HREF = '/request-flow';
+const WORK_ORDERS_HREF = '/workflow';
 
 const Chip = ({ tone, children }) => <span className={`rp-chip rp-chip--${tone}`}>{children}</span>;
 

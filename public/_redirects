@@ -23,6 +23,9 @@
 /technician-terms/  /app-shell   200
 /partners/kit     /app-shell   200
 /partners/kit/    /app-shell   200
+# The repairs and work orders page moved from /request-flow (Nov 11–12, 2026) to /workflow, for good.
+/request-flow     /workflow    301
+/request-flow/    /workflow    301
 # The previous homepage (/landing) is gone: an old link goes home, for good.
 /with/*          /            200
 /landing          /            301

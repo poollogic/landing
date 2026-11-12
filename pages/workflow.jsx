@@ -2,20 +2,20 @@ import React from 'react';
 import { ArrowRight, Bell, CircleCheck, Clock, ClipboardList } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
-import '../landing/request-flow/request-flow.css';
+import '../landing/workflow/workflow.css';
 import Nav from '../landing/Nav.jsx';
 import SectionHeader from '../landing/SectionHeader.jsx';
-import { BrowserFrame, PhoneFrame } from '../landing/request-flow/Frames.jsx';
+import { BrowserFrame, PhoneFrame } from '../landing/workflow/Frames.jsx';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
 import { Footer } from '../components/site-chrome.jsx';
 
-// /request-flow: the feature page for requests, diagnostics and work orders, built from the approved
+// /workflow (was /request-flow, which redirects here): the feature page for requests, diagnostics and work orders, built from the approved
 // design (request-flow-reference.html). Pre-rendered at build time (entry-server.jsx →
-// dist/request-flow.html), so crawlers get every word; main.jsx hydrates it. So: no window or
+// dist/workflow.html), so crawlers get every word; main.jsx hydrates it. So: no window or
 // document while rendering. Nine sections, dark and light in turn; styles in
-// landing/request-flow/request-flow.css (rf-). Every screenshot is a PhoneFrame or BrowserFrame
-// placeholder (landing/request-flow/Frames.jsx) until the real one is passed in.
+// landing/workflow/workflow.css (rf-). Every screenshot is a PhoneFrame or BrowserFrame
+// placeholder (landing/workflow/Frames.jsx) until the real one is passed in.
 
 const ORIGIN = 'https://getpoolnautics.com';
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400';
@@ -63,7 +63,7 @@ export const structuredData = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
-      { '@type': 'ListItem', position: 2, name: 'Requests, diagnostics and work orders', item: `${ORIGIN}/request-flow` },
+      { '@type': 'ListItem', position: 2, name: 'Requests, diagnostics and work orders', item: `${ORIGIN}/workflow` },
     ],
   },
   {
@@ -121,7 +121,7 @@ function Hero({ theme }) {
           </div>
         </div>
         <div className="rf-hero-visual">
-          {/* Sized from the hero's visual (request-flow.css --rf-hero-vis): 330 × 176px at 440px. */}
+          {/* Sized from the hero's visual (workflow.css --rf-hero-vis): 330 × 176px at 440px. */}
           <BrowserFrame className="rf-hero-browser" variant="dark" height="calc(var(--rf-hero-vis, 440px) * .75)" label="Office dashboard: a new request" priority />
           <PhoneFrame className="rf-hero-phone" variant="dark" width="calc(var(--rf-hero-vis, 440px) * .4)" label="Tech app: stop screen" priority />
         </div>
@@ -405,7 +405,7 @@ function Contact({ theme }) {
 
 /* ---------- The page ---------- */
 
-export default function RequestFlowPage() {
+export default function WorkflowPage() {
   const theme = usePreviewTheme();
   return (
     <div className="mktg rf-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
