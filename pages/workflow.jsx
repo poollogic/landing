@@ -35,6 +35,10 @@ export const FAQ = [
     a: 'Either. Send a quote and it becomes a work order when the customer approves. Send an invoice and it becomes a work order when it’s paid.',
   },
   {
+    q: 'What happens after the customer approves a repair quote?',
+    a: 'A work order opens for the technician you chose. When they mark it complete, the approved quote becomes an invoice and goes to the customer automatically, five minutes later by default.',
+  },
+  {
     q: 'Can technicians see prices?',
     a: 'No. Technicians see the request details and the full history of the job, but not the price. The customer’s phone number is shown only if you allow it for that technician.',
   },
@@ -53,6 +57,10 @@ export const FAQ = [
   {
     q: 'Is there a schedule or calendar for work orders?',
     a: 'Work orders aren’t tied to a fixed schedule. Each technician works from their open work orders list and lets the customer know when they’re on the way.',
+  },
+  {
+    q: 'Can I train ChatGPT, Grok or another AI agent to do this instead?',
+    a: 'An AI assistant is good at writing a repair description or a message to a customer. On its own, it doesn’t keep track of your open repairs, know which customers approved, assign the technician, or send the invoice when the job is done; you’d have to feed it every update. Poolnautics does those steps itself. If you use an AI assistant, you can connect ChatGPT, Claude or Grok to Poolnautics, and it can look up your real requests, open and assign them, add notes and draft invoices.',
   },
 ];
 
@@ -109,7 +117,7 @@ function Hero({ theme }) {
       <div className="rf-inner rf-hero-grid">
         <div className="rf-hero-copy">
           <p className="rf-hero-eyebrow">Requests, diagnostics &amp; work orders</p>
-          <h1 id="rf-hero-heading" className="rf-hero-title">Pool repair work orders that run themselves.</h1>
+          <h1 id="rf-hero-heading" className="rf-hero-title">The perfect pool service workflow.</h1>
           <p className="rf-hero-sub">
             A tech spots a problem. You set a price. Poolnautics handles the approval, the work order, the invoice and the
             payment, so no finished job goes unbilled.
