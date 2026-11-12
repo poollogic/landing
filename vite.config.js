@@ -18,6 +18,8 @@ const MARKETING_FONTS = ['/fonts/Satoshi-Regular.woff2', '/fonts/Satoshi-Medium.
 // (preview/preview.css), which the browser would otherwise only find once that CSS applies.
 const PAGE_FONTS = { '/': ['/fonts/Inter-latin.woff2'] };
 const SITE_FONTS = ['/fonts/Geist.woff2']; // the rest of the site
+// Pre-rendered pages drawn in Geist (the site's own pages, not the marketing ones): they get Geist, not Satoshi.
+const GEIST_PAGES = new Set(['/tech-app', '/partners', '/partners/kit', '/partners/terms', '/terms', '/privacy', '/technician-terms']);
 
 function routePreloads() {
   return {
@@ -52,7 +54,7 @@ function routePreloads() {
           return { js, css, lazyCss };
         };
         const routes = { '*': { js: [], css: [], font: SITE_FONTS } };
-        for (const [path, page] of Object.entries(ROUTE_PAGES)) routes[path] = { ...depsOf(page), font: [...MARKETING_FONTS, ...(PAGE_FONTS[path] ?? [])] };
+        for (const [path, page] of Object.entries(ROUTE_PAGES)) routes[path] = { ...depsOf(page), font: GEIST_PAGES.has(path) ? SITE_FONTS : [...MARKETING_FONTS, ...(PAGE_FONTS[path] ?? [])] };
         const script = `(function(){var R=${JSON.stringify(routes)};var p=location.pathname.replace(/\\/+$/,'')||'/';var r=R[p]||R['*'],h=document.head;
 function l(rel,href,as,low){var e=document.createElement('link');e.rel=rel;e.href=href;if(as)e.as=as;if(as==='font')e.type='font/woff2';e.crossOrigin='';if(low)e.fetchPriority='low';h.appendChild(e);}
 if(!document.documentElement.hasAttribute('data-css-inline'))r.css.forEach(function(f){l('preload',f,'style');});r.js.forEach(function(f){l('modulepreload',f);});var fonts=function(){r.font.forEach(function(f){l('preload',f,'font',1);});};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fonts):fonts();})();`;
