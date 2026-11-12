@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 //   Poolnautics LLC               the business behind Poolnautics (a Florida LLC): launch only once
 //                                 it's active on sunbiz.org, spelled exactly as filed
 //   Florida                       governing state
-//   November 9, 2026              updated date
+//   November 12, 2026             updated date
 //   privacy@getpoolnautics.com    contact email
 //
 // Subprocessors listed below reflect the current stack — confirm before going live
@@ -64,7 +64,7 @@ const PrivacyPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 9, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 12, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
         </header>
@@ -102,9 +102,9 @@ const PrivacyPage = () => {
               <ul>
                 <li><strong>For Subscribers</strong> — the pool service businesses who hold accounts with us — Poolnautics acts as a <em>data controller</em>. We decide how and why your account information is collected and used.</li>
                 <li><strong>For End Customers</strong> — the homeowners and property managers whose information is entered into Poolnautics by a Subscriber — Poolnautics acts as a <em>data processor</em>. The Subscriber is the data controller and decides how that information is used. We process End Customer data only on the Subscriber's behalf and according to their instructions.</li>
-                <li><strong>For Subscriber personnel</strong> — the technicians, employees, independent contractors, and subcontractors who use the Poolnautics technician app for a Subscriber — Poolnautics acts as a <em>data processor</em>. The Subscriber decides whether to use the app's location and app-status features (described in Section 2), controls its personnel's data, and is responsible for telling its personnel about these features. We process this data only on the Subscriber's behalf.</li>
+                <li><strong>For Subscriber personnel</strong> — the technicians, employees, independent contractors, and subcontractors who use the Poolnautics technician app for a Subscriber — Poolnautics acts as a <em>data processor</em>. The Subscriber decides whether the app's location features (described in Section 2) are used for each of its personnel, controls its personnel's data, and is responsible for giving them any notice, and getting any consent, the law requires. We process this data only on the Subscriber's behalf.</li>
               </ul>
-              <p>If you are a technician or other Subscriber personnel with a question about how your location or other data is used, please contact the pool service company you work for. We forward any direct requests we receive to that Subscriber.</p>
+              <p>If you are a technician or other Subscriber personnel with a question or request about your location or other data, please contact the pool service company you work for first. You can also contact us at <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>; because the company controls this data, we will work with it to respond.</p>
               <p>If you are an End Customer with a privacy question or request, please contact the pool service company that holds your account. We forward any direct requests we receive to the relevant Subscriber. To stop receiving non-essential SMS messages sent through Poolnautics on a Subscriber's behalf, reply <strong>STOP</strong> to any such message (reply <strong>HELP</strong> for support); we will honor the opt-out and forward it to the Subscriber.</p>
 
               <h3 style={subHeadStyle}>Our Role Under U.S. State Privacy Laws (CCPA / CPRA and Similar)</h3>
@@ -129,20 +129,28 @@ const PrivacyPage = () => {
               </ul>
 
               <h3 style={subHeadStyle}>From Subscriber Personnel Using the Technician App</h3>
-              <p>Technicians use the Poolnautics mobile app on their phones. What it collects depends on the features the Subscriber turns on.</p>
-              <p><strong>Location</strong>, only with the technician's permission on their phone:</p>
+              <p>Technicians use the Poolnautics mobile app on their phones. The Subscriber they work for decides which of the app's features are used for each technician, and we process the data on the Subscriber's behalf (see Section 1).</p>
+              <p><strong>Location</strong>, used only for the three purposes below, and only with the technician's permission on their phone:</p>
               <ul>
-                <li><strong>Service reports.</strong> The phone's location when each service report is sent, so the Subscriber can confirm the visit.</li>
-                <li><strong>Mileage logging</strong>, only when the Subscriber turns it on (for one technician, or for all of its technicians at once). The phone's precise location in the background while the technician's route is under way, from the first service report of the day until the route is finished, or 9 PM at the latest. The location points stay on the phone and are deleted from it once the day's mileage is recorded. Only the day's trip legs are sent to Poolnautics, for mileage records: where each leg started and ended (a customer stop or a business location), when it left and arrived, and its miles, along with the time and customer of each service report.</li>
-                <li><strong>Route review ("Show full drive")</strong>, only when a Subscriber admin turns it on for one technician, for at most 7 days at a time. The technician's drive from 7 AM to 7 PM (in the Subscriber's time zone) on days they have a route, so the Subscriber can review it: the phone's precise location about every 20 seconds, and the location of each service report. Drive locations are never collected outside those hours. The drive is kept for 90 days. A record of who turned route review on, for which technician, and when, is kept with the Subscriber's account.</li>
+                <li><strong>Service visits.</strong> When a technician sends a service report or a "can't service" report, the app records the phone's location at that moment (using the phone's standard accuracy setting, not high-accuracy GPS) to confirm the visit. This applies to every Subscriber. The location is saved with the report, and the service report the Subscriber emails its customer includes a link showing it on a map.</li>
+                <li><strong>Mileage logging</strong>, only when the Subscriber turns it on for that technician. While the technician's route is under way, from the first service report of the day until the route is finished (or 9 PM at the latest), the app records the phone's precise location in the background to work out the miles driven between stops. The raw location points stay on the phone and are deleted from it once the day's miles are worked out. What the Subscriber receives is each trip between stops: where it started and ended (a customer stop or one of the Subscriber's business locations), when it left and arrived, and its miles. It also receives the time and customer of each service report, how long the vehicle stopped anywhere else for 10 minutes or more, and how many location points the phone reported as simulated. The Subscriber can have weekly mileage summaries emailed to addresses it chooses.</li>
+                <li><strong>Drive history ("Show full drive")</strong>, only when a Subscriber admin turns it on for a specific technician, for up to 7 days at a time. It ends automatically, and an admin can turn it on again. During company work hours (currently 7 AM to 7 PM in the Subscriber's time zone), on any day in that period, the app records the phone's precise location, including while the app is closed if the technician has set location access to "Always." The Subscriber can see the route driven, where the vehicle stopped for 10 minutes or more, any times the phone stopped reporting its location, and how many location points the phone reported as simulated. Location points recorded outside work hours are not kept, although each day's drive includes the locations of the service reports sent that day. While drive history is on, the phone may check its approximate location at low power outside work hours, only to know when the work day starts; those checks are not recorded or sent.</li>
               </ul>
-              <p>On iPhones, a blue location indicator shows whenever the app is using location in the background; on Android phones, a notification shows while mileage is being logged. Technicians can change the app's location permission in their phone's settings at any time.</p>
+              <p>We do not collect location from the technician app for any other purpose, and we never sell location data or use it for advertising.</p>
+              <p><strong>Technicians' choices.</strong> The app asks for the phone's permission before using location. Technicians can change or turn off the app's location access at any time in their phone's Settings; some features, such as visit confirmation and mileage logging, do not work without it. On Android phones, a notification shows while the app is recording location in the background. On iPhones, a blue location indicator shows when the app uses location in the background with location access set to "While Using"; with "Always," the app does not show it.</p>
+              <p><strong>Simulated locations.</strong> When the phone reports that a location point recorded for mileage logging or drive history is simulated (for example, by an app that fakes the phone's location), the app does not use that point and records only how many such points there were. Android phones report this; iPhones do not. The count is shown to the Subscriber's admins with the technician's drive history.</p>
+              <p>If the Subscriber requires a technician's location access to be set to "Always," the app first shows the technician an agreement screen describing how their location is used, and records their agreement: the date, the wording shown, the app version, the phone's platform, and a random ID for the app's installation on that phone. Technicians can still change the setting on their phone at any time.</p>
               <p><strong>No location:</strong></p>
               <ul>
                 <li><strong>App status ("phone health").</strong> A random ID for the app's installation on that phone (not a hardware or advertising ID); the platform; the app's version, build, and update; the phone's model and operating system version; whether location services and location, background location, precise location, and notification permissions are on; whether app notifications are on and the phone is registered for them; whether battery saver is on; free and total storage; how many service reports and photos are waiting to send, and since when; and how far the phone's clock is off. Kept until 60 days after the phone last reports.</li>
                 <li><strong>A push notification token</strong>, so the Subscriber can send alerts to the technician's phone, such as new or updated work orders, route changes, and truck check-in and oil-change reminders.</li>
                 <li><strong>Photos and readings the technician adds</strong>, such as photos on service reports and work orders, and odometer readings and photos on truck check-ins.</li>
               </ul>
+              <p><strong>Who can see it.</strong> This data is available to the technician's company in the Poolnautics web app: drive history to its admins, and mileage records, app status, and the dates of location agreements to its admins and managers. Each technician can see their own mileage in the app. A service visit's location also appears in the service report the company emails its customer, as described above. Poolnautics accesses this data only as needed to operate and support the service. It is stored with our hosting and database providers, and to show a drive on a map, the locations where the vehicle stopped are sent to our mapping provider (see Section 6).</p>
+              <p><strong>Information stored on the technician's phone.</strong> So the technician can work without a signal, the app keeps a copy of their route on the phone, from the day before through the next six days. That copy includes each customer's name, address, phone number, email address, gate code or access notes, and service notes, along with their work orders. Service reports, photos, and other items saved without a signal stay on the phone until they are sent. The app also keeps the technician's own mileage for the last 14 days, and the current day's location points until that day's miles are worked out.</p>
+              <p>If the technician adds the app's home-screen widgets, they show the next stops (customer names and street addresses) and open work orders (the type of work, the customer's name, and street). On iPhones, while a route is under way, the Lock Screen and Dynamic Island can show the next stop, its address, and its work orders. None of these show prices or gate codes. Because customers' information appears on the phone, including on its Lock Screen, technicians should protect their phone with a passcode and keep that information private.</p>
+              <p>When a technician signs out of the app, it erases the saved route, the work orders, and the widgets' information from the phone, and the Lock Screen display ends. Anything not yet sent stays on the phone so the same technician can send it the next time they sign in, and the technician's recent mileage stays too; both are erased if the technician deletes their account.</p>
+              <p><strong>Deleting a technician account.</strong> Technicians can delete their account from the app's Settings. Their login is deleted. Their name is replaced with "Former technician" (or "Former team member" for other staff), and their email address, phone number, username, PIN, home address, personal notes, and shopping list are removed. Their push notification tokens are deleted, and anything on that phone not yet sent, along with their mileage stored there, is erased. The Subscriber's admins and managers are notified by email. The Subscriber keeps its business records of the technician's work under "Former technician": service reports, with their locations and photos; work orders; mileage records; location agreements; drive history, until it is deleted 30 days after it was recorded; and app status, until it is deleted 60 days after the phone last reported. Deleting the account of the Subscriber itself is described in Sections 10 and 12.</p>
 
               <h3 style={subHeadStyle}>From Website Visitors</h3>
               <ul>
@@ -163,7 +171,7 @@ const PrivacyPage = () => {
               <p>We use the information described above to:</p>
               <ul>
                 <li>Operate the service — sending invoices, processing payments, dispatching routes, generating service reports.</li>
-                <li>Provide the technician app features a Subscriber turns on — confirming visits, keeping mileage records, showing route review, and showing the Subscriber whether each phone's app is up to date and able to send — and sending alerts to technicians' phones.</li>
+                <li>Provide the technician app features a Subscriber turns on — confirming visits, keeping mileage records, showing drive history, and showing the Subscriber whether each phone's app is up to date and able to send — and sending alerts to technicians' phones.</li>
                 <li>Communicate with Subscribers about account activity, billing, product updates, and support requests.</li>
                 <li>Communicate with End Customers <strong>on a Subscriber's behalf</strong> — for example, sending invoice notifications, payment receipts, autopay decline notices, or service pause notices that the Subscriber has configured or chosen to send.</li>
                 <li>Maintain and improve the service, including diagnosing errors, measuring performance, and developing new features.</li>
@@ -194,8 +202,8 @@ const PrivacyPage = () => {
                 />
                 <SubprocessorRow
                   name="Supabase"
-                  purpose="Application database and authentication."
-                  shared="Account data, Subscriber-entered customer records, service history. Data is encrypted at rest."
+                  purpose="Application database, authentication, and file storage."
+                  shared="Account data, Subscriber-entered customer records, service history, and technician app data, including location records and the photos technicians add to service reports, work orders, and truck check-ins. Data is encrypted at rest."
                   link="https://supabase.com/privacy"
                 />
                 <SubprocessorRow
@@ -211,9 +219,33 @@ const PrivacyPage = () => {
                   link="https://expo.dev/privacy"
                 />
                 <SubprocessorRow
+                  name="Railway"
+                  purpose="Hosting for the server the technician app connects to."
+                  shared="Data the technician app sends and receives, including service reports, mileage records, drive history, app status, and location agreements."
+                  link="https://railway.com/legal/privacy"
+                />
+                <SubprocessorRow
+                  name="Render"
+                  purpose="Backup hosting for the server the technician app connects to, used if the main host is unavailable."
+                  shared="Data the technician app sends and receives while it is in use, including service reports, mileage records, drive history, app status, and location agreements."
+                  link="https://render.com/privacy"
+                />
+                <SubprocessorRow
+                  name="Mapbox"
+                  purpose="Maps and address lookup in the Poolnautics web app, including showing a technician's drive history on a map."
+                  shared="The map area being viewed and, for drive history, the locations where the vehicle stopped."
+                  link="https://www.mapbox.com/legal/privacy"
+                />
+                <SubprocessorRow
+                  name="Sentry"
+                  purpose="Error monitoring for the Poolnautics web app."
+                  shared="Technical details of errors in the web app, which can include the page address and request details at the time of the error."
+                  link="https://sentry.io/privacy/"
+                />
+                <SubprocessorRow
                   name="Cloudflare"
-                  purpose="DNS, CDN, web application hosting, and DDoS protection."
-                  shared="IP address, request metadata, and any data transmitted over the public site."
+                  purpose="DNS, CDN, web application hosting, and DDoS protection, including for the server the technician app connects to and for delivering photos added in the technician app."
+                  shared="IP address, request metadata, and any data transmitted over the public site or between the technician app and its server, including photos."
                   link="https://www.cloudflare.com/privacypolicy/"
                 />
               </div>
@@ -252,7 +284,7 @@ const PrivacyPage = () => {
                 <li><strong>Subscriber account data</strong> — retained while the account is active. After account closure, account data is retained for 90 days to allow for export, then deleted, except as noted below.</li>
                 <li><strong>Financial records</strong> — invoices, payment records, and tax-relevant documents are retained for <strong>seven (7) years</strong> as required by U.S. tax and audit rules.</li>
                 <li><strong>End Customer data</strong> — retained for as long as the Subscriber's account is active. Deleted on a Subscriber's request, on account closure (subject to the 90-day window above), or on the End Customer's request once forwarded to the Subscriber.</li>
-                <li><strong>Technician app data</strong> — route review drives are kept for 90 days. App status is kept until 60 days after the phone last reports. A phone's push notification token is deleted when the technician signs out of the app, 90 days after it stops working, or after 180 days without use. Service report locations, mileage records, and the record of when route review was turned on are kept with the Subscriber's other account data, as described above.</li>
+                <li><strong>Technician app data</strong> — drive history is deleted 30 days after it is recorded. App status is deleted once a phone has not reported for 60 days. Mileage records are kept as part of the Subscriber's business records while its account is active, and are deleted on the Subscriber's request or with its other account data after the account closes, as described above. A technician's location agreements are kept as a record with the Subscriber's account data, including after the technician deletes their account. A phone's push notification token is deleted when the technician signs out of the app, 90 days after it stops working, or after 180 days without use. Service report locations and the record of when drive history was turned on are kept with the Subscriber's other account data, as described above.</li>
                 <li><strong>Stripe records</strong> — payment records held by Stripe are governed by Stripe's own retention policies. We cannot delete records from Stripe on your behalf; contact Stripe directly for those requests.</li>
               </ul>
             </Section>
@@ -289,7 +321,7 @@ const PrivacyPage = () => {
                 <li><strong>Commercial information</strong> — invoices, estimates, payment history, services purchased or provided. <em>Sources:</em> Subscribers; Stripe (payment status). <em>Purposes:</em> service delivery, billing, record-keeping. <em>Disclosed to:</em> Stripe; database and email subprocessors.</li>
                 <li><strong>Internet or other electronic network activity</strong> — browser type, device, pages visited, request metadata, sign-in timestamps. <em>Sources:</em> automatically from your interactions with the service. <em>Purposes:</em> security, fraud prevention, operations, basic analytics. <em>Disclosed to:</em> hosting and CDN subprocessors.</li>
                 <li><strong>Geolocation information</strong> — approximate location derived from IP address, used for security, fraud prevention, and analytics; and, for Subscriber personnel using the technician app, precise location as described in Section 2, collected only with the technician's permission on their phone and processed on the Subscriber's behalf. <em>Disclosed to:</em> the database and hosting subprocessors listed in Section 6.</li>
-                <li><strong>Professional or employment-related information</strong> — the business identity of the Subscriber and its staff (organization name, role), and the work records the technician app creates for a Subscriber (service report locations, mileage records, route review, and app status).</li>
+                <li><strong>Professional or employment-related information</strong> — the business identity of the Subscriber and its staff (organization name, role), and the work records the technician app creates for a Subscriber (service visit locations, mileage records, drive history, location agreements, and app status).</li>
                 <li><strong>Inferences</strong> — limited operational inferences (for example, payment-failure patterns used to trigger autopay suspension). We do not build advertising or behavioral profiles.</li>
               </ul>
               <p>We do not knowingly collect "sensitive personal information" as defined under the CCPA, other than (a) financial-account identifiers required to process payment, which Stripe handles directly, and (b) the precise location of Subscriber personnel collected through the technician app on a Subscriber's behalf, as described in Section 2. We use that location only to provide the features the Subscriber turns on, and not to infer characteristics about anyone. We do not use personal information for cross-context behavioral advertising.</p>
