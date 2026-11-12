@@ -5,24 +5,8 @@
 # for an unknown address. Keep in step with the routes in app.jsx (npm run check:seo checks): a page
 # missing here would answer 404.
 # Partner pages (getpoolnautics.com/with/<handle>, partnerProgram.js) aren't built yet: the homepage.
-/terms            /app-shell   200
-/terms/           /app-shell   200
-/privacy          /app-shell   200
-/privacy/         /app-shell   200
-/tech-app         /app-shell   200
-/tech-app/        /app-shell   200
-/contact          /app-shell   200
-/contact/         /app-shell   200
 /reserve          /app-shell   200
 /reserve/         /app-shell   200
-/partners         /app-shell   200
-/partners/        /app-shell   200
-/partners/terms   /app-shell   200
-/partners/terms/  /app-shell   200
-/technician-terms   /app-shell   200
-/technician-terms/  /app-shell   200
-/partners/kit     /app-shell   200
-/partners/kit/    /app-shell   200
 # The repairs and work orders page moved from /request-flow (Nov 11–12, 2026) to /workflow, for good.
 /request-flow     /workflow    301
 /request-flow/    /workflow    301

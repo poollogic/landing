@@ -9,8 +9,8 @@
    first as dist/SHELL: public/_redirects sends each of them there, and vite preview does the same
    (vite.config.js). Any other address gets Cloudflare's default, the homepage's index.html.
    Then removes the server bundle (.prerender/). */
-import { existsSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const ROOT = new URL('..', import.meta.url).pathname;
@@ -27,7 +27,9 @@ const { render, PRERENDERED } = await import(pathToFileURL(join(SSR, 'assets', e
 const built = readFileSync(join(DIST, 'index.html'), 'utf8');
 const template = built.includes('data-prerendered=') ? readFileSync(join(DIST, SHELL), 'utf8') : built;
 // The empty page for every address that isn't pre-rendered, before index.html becomes the homepage's.
-writeFileSync(join(DIST, SHELL), template);
+// Without the homepage's canonical: that would tell search engines each such address is the homepage
+// (the app sets the right one once it runs).
+writeFileSync(join(DIST, SHELL), template.replace(/<link rel="canonical" href="[^"]*">\n?/, ''));
 // Each route's stylesheets, from the table the preload script in <head> already carries (vite.config.js).
 const routeTable = JSON.parse(template.match(/var R=(\{.*?\});var p=/)[1]);
 
@@ -67,7 +69,9 @@ for (const [route, { meta, jsonLd: data = [], headScript }] of Object.entries(PR
   html = html.replace(/<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g, (_, href) => inlineCss(href));
   html = setTag(html, /<html lang="en">/, '<html lang="en" data-css-inline>', '<html lang="en">');
   const css = (routeTable[route]?.css ?? []).filter((href) => !html.includes(`data-href="${href}"`)).map(inlineCss);
-  if (!css.length) throw new Error(`prerender: no stylesheets for ${route} – add it to ROUTE_PAGES in vite.config.js`);
+  // A page may have no stylesheets of its own (the legal pages use the site-wide ones), but it must be in
+  // the table, or its stylesheets would be missing.
+  if (!routeTable[route]) throw new Error(`prerender: ${route} isn't in ROUTE_PAGES in vite.config.js`);
   // The parts it loads later (React.lazy) are in the markup too: their stylesheets load without
   // holding up the first paint, and plainly for browsers that don't run scripts.
   const lazyCss = (routeTable[route]?.lazyCss ?? []).filter((href) => !routeTable[route].css.includes(href)).flatMap((href) => [
@@ -81,6 +85,7 @@ for (const [route, { meta, jsonLd: data = [], headScript }] of Object.entries(PR
   html = setTag(html, /<div id="root"><\/div>/, `<div id="root" data-prerendered="${route}">${markup}</div>`, 'empty #root');
 
   const file = join(DIST, route === '/' ? 'index.html' : `${route.replace(/^\/|\/$/g, '')}.html`);
+  mkdirSync(dirname(file), { recursive: true }); // /partners/kit → dist/partners/kit.html
   writeFileSync(file, html);
   console.log(`prerendered ${route} → dist/${file.slice(DIST.length + 1)} (${(html.length / 1024).toFixed(0)} KB)`);
 }

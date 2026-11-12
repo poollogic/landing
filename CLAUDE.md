@@ -6,13 +6,13 @@ React 18 + Vite 5 + Tailwind 3, deployed to Cloudflare Pages by `.github/workflo
 
 ## Pre-rendering
 
-Four routes are pre-rendered: the homepage (`pages/landing.jsx`, `landing/`), `/ai-integrations` (`pages/ai-integrations.jsx`, `landing/ai/`, numbers in `aiFacts.js`), `/pricing` (`pages/pricing.jsx`, prices in `pricingPlans.js`) and `/workflow` (`pages/workflow.jsx`, `landing/workflow/`). `npm run build` also renders them on the server (`entry-server.jsx`, then `scripts/prerender.mjs`): the homepage to `dist/index.html`, the others to `dist/ai-integrations.html`, `dist/pricing.html` and `dist/workflow.html`. Each has its own `<head>` (title, description, canonical, Open Graph, JSON-LD, stylesheets) and its full markup in `#root`, which is marked with its route (`data-prerendered`). `main.jsx` hydrates that markup only on the page it was made for.
+Every indexable page is pre-rendered: the homepage (`pages/landing.jsx`, `landing/`), `/ai-integrations` (`pages/ai-integrations.jsx`, `landing/ai/`, numbers in `aiFacts.js`), `/pricing` (`pages/pricing.jsx`, prices in `pricingPlans.js`), `/workflow` (`pages/workflow.jsx`, `landing/workflow/`), and `/contact`, `/tech-app`, `/partners`, `/partners/kit`, `/partners/terms`, `/terms`, `/privacy` and `/technician-terms`. Only `/reserve` is still rendered in the browser. `npm run build` also renders them on the server (`entry-server.jsx`, then `scripts/prerender.mjs`): the homepage to `dist/index.html`, the others to `dist/<route>.html` (`/partners/kit` to `dist/partners/kit.html`). Each has its own `<head>` (title, description, canonical, Open Graph, JSON-LD, stylesheets) and its full markup in `#root`, which is marked with its route (`data-prerendered`). `main.jsx` hydrates that markup only on the page it was made for.
 
-- **Serving.** Cloudflare Pages serves `/`, `/ai-integrations`, `/pricing` and `/workflow` from those files (200; `/index.html`, the trailing-slash and `.html` URLs 308 to them).
+- **Serving.** Cloudflare Pages serves each of them from its file (200; `/index.html`, the trailing-slash and `.html` URLs 308 to them).
 - **CSS in the page.** A pre-rendered page carries its first screen's stylesheets inline (`<style data-href>`), so the first paint waits on no CSS request; each `<link>` stays as a `disabled` marker (never downloaded) so Vite's lazy loader doesn't fetch it again, and `<html data-css-inline>` tells the head's preload script to skip them. Below-the-fold CSS still loads without blocking.
 - **Largest Contentful Paint.** Text painted at opacity 0 doesn't count for LCP, so the hero copy's entrance on phones rises without fading (`hero-rise`, hero.css). Don't fade the hero text in from 0, and don't hide it until scripts run.
 - **Structured data.** The product, its plans' prices and its feature lists are one SoftwareApplication (`#software`) in `index.html`, on every page; keep it in step with `pricingPlans.js` and the plan lists in `pages/pricing.jsx`. `public/llms.txt` sums up the product and plans for AI tools: update it with them too.
-  - The pages rendered in the browser (`/pricing`, `/contact`, `/terms` …) get `dist/app-shell.html`, the empty page. It's Vite's `index.html` as built, saved before the homepage replaces it.
+  - A page rendered in the browser (now only `/reserve`) gets `dist/app-shell.html`, the empty page. It's Vite's `index.html` as built, saved before the homepage replaces it, without the homepage's canonical (which would tell search engines that address is the homepage).
   - `public/_redirects` sends each of them there with its own `/x /app-shell 200` rule. Cloudflare applies these rules before real files, so never add a `/*` rule: it would capture every file and the homepage.
   - An address with no rule and no file gets Cloudflare's default, `index.html`: the homepage, which is also what the app shows there. A route added to `app.jsx` needs its rule, and `npm run check:seo` fails without it.
   - `vite preview` follows the same rules (`vite.config.js`).
@@ -32,7 +32,7 @@ These apply to the homepage hero for now: `<section class="hero">`, including th
 1. **Crawlable text.** Search crawlers must be able to read the hero's `<h1>` and copy without waiting on animation.
    - Keep the headline and copy as real text in the DOM, never in images, canvas or SVG paths. Animate it with opacity and transforms only. Never mount it late, or after a scroll or timer.
    - The `<title>` and meta description in `index.html` must stay meaningful.
-   - The homepage, `/ai-integrations`, `/pricing` and `/workflow` are pre-rendered. The check fails if any of their served HTML lacks any of these:
+   - Every page in `ROUTES` is pre-rendered. The check fails if any of their served HTML lacks any of these:
      - the `<h1>`
      - any `<h2>` the browser shows
      - its canonical URL

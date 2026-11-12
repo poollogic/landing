@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, CodeXml, Handshake, LifeBuoy, Scale } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
@@ -103,10 +103,13 @@ function Success({ topic, name, already, onReset }) {
 }
 
 function ContactCard() {
-  const [topic, setTopic] = useState(() => {
-    const t = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('topic') : null;
-    return isTopic(t) ? t : 'demo';
-  });
+  // Starts on 'demo' everywhere (the pre-rendered page has no address to read), then opens the topic
+  // in ?topic= once the page is in the browser.
+  const [topic, setTopic] = useState('demo');
+  useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get('topic');
+    if (isTopic(t)) setTopic(t);
+  }, []);
   const startedAt = useRef(Date.now());
   const [status, setStatus] = useState('idle'); // idle | sending | done | error
   const [error, setError] = useState('');

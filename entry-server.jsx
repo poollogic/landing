@@ -26,6 +26,16 @@ export const PRERENDERED = {
   '/ai-integrations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
   '/pricing': { meta: ROUTE_META.pricing, jsonLd: pricingData },
   '/workflow': { meta: ROUTE_META.workflow, jsonLd: workflowData },
+  // The rest of the indexable pages: their own <head> and text in the served HTML, not the empty page
+  // (whose head was the homepage's, canonical included, until JavaScript ran).
+  '/contact': { meta: ROUTE_META.contact },
+  '/tech-app': { meta: ROUTE_META.techApp },
+  '/partners': { meta: ROUTE_META.partners },
+  '/partners/kit': { meta: ROUTE_META.partnerKit },
+  '/partners/terms': { meta: ROUTE_META.partnerTerms },
+  '/terms': { meta: ROUTE_META.terms },
+  '/privacy': { meta: ROUTE_META.privacy },
+  '/technician-terms': { meta: ROUTE_META.technicianTerms },
 };
 
 /** The route's markup for #root, once every lazy part has loaded (the same tree main.jsx hydrates). */

@@ -32,7 +32,7 @@ const DIST = join(ROOT, 'dist');
 
 /* ---------- Settings ---------- */
 const HERO = 'section.hero'; // a route's hero (its own `hero` overrides), including its product mockup
-const HEROES = 'section.hero, section.pr-hero, section.rf-hero'; // every route's, for the layout-shift observer
+const HEROES = 'section.hero, section.pr-hero, section.rf-hero, main > header, main > div > header, main > section:first-of-type'; // every route's, for the layout-shift observer
 // html: the file the server sends for the route. stable: hero elements that must not move or resize after
 // first render. strictStatic: the served HTML must carry the page's text (a pre-rendered route).
 const ROUTES = [
@@ -45,6 +45,16 @@ const ROUTES = [
   { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'BreadcrumbList', 'FAQPage'], hero: 'section.pr-hero', stable: ['.section-eyebrow', '#pricing-heading', '.section-sub'] },
   // Requests, diagnostics and work orders: pre-rendered. Its FAQ and
   // breadcrumbs are structured data; its screenshots are PhoneFrame / BrowserFrame (landing/workflow).
+  // The rest of the indexable pages, pre-rendered too. Contact's hero is the homepage kind (.hero); the
+  // others' is their heading block.
+  { path: '/contact', html: 'contact.html', strictStatic: true, stable: ['.ct-eyebrow', '#contact-heading', '.hero-sub'] },
+  { path: '/tech-app', html: 'tech-app.html', strictStatic: true, hero: 'main > section:first-of-type', stable: ['h1'] },
+  { path: '/partners', html: 'partners.html', strictStatic: true, hero: 'main > section:first-of-type', stable: ['h1'] },
+  { path: '/partners/kit', html: 'partners/kit.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
+  { path: '/partners/terms', html: 'partners/terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
+  { path: '/terms', html: 'terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
+  { path: '/privacy', html: 'privacy.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
+  { path: '/technician-terms', html: 'technician-terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/workflow', html: 'workflow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];
 const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow']; // the heroes' own code
@@ -243,7 +253,7 @@ async function browserChecks() {
 }
 
 /* ---------- Run ---------- */
-console.log('SEO guardrails: homepage hero, /ai-integrations, /pricing and /workflow');
+console.log(`SEO guardrails: ${ROUTES.map((r) => r.path).join(', ')}`);
 checkSource();
 checkImportedImages();
 for (const route of ROUTES) checkServedHtml(route);
