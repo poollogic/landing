@@ -37,10 +37,10 @@ function Screen({ label, src, alt, imageWidth, imageHeight, priority }) {
   );
 }
 
-/** A phone: the bezel, and the screen inside it. width: the phone's width in px (its height follows). */
+/** A phone: the bezel, and the screen inside it. width: the phone's width, in px or any CSS length (its height follows). */
 export function PhoneFrame({ label, variant = 'dark', width = 250, src, alt, imageWidth = 1170, imageHeight = 2532, priority = false, className = '' }) {
   return (
-    <div className={`rf-phone rf-phone--${variant} ${className}`} style={{ '--rf-phone-w': `${width}px` }}>
+    <div className={`rf-phone rf-phone--${variant} ${className}`} style={{ '--rf-phone-w': typeof width === 'number' ? `${width}px` : width }}>
       <div className="rf-phone-screen">
         <Screen label={label} src={src} alt={alt} imageWidth={imageWidth} imageHeight={imageHeight} priority={priority} />
       </div>
@@ -48,7 +48,7 @@ export function PhoneFrame({ label, variant = 'dark', width = 250, src, alt, ima
   );
 }
 
-/** A browser window: the top bar (three dots and an address field), and the page below it. height in px. */
+/** A browser window: the top bar (three dots and an address field), and the page below it. height: px or any CSS length. */
 export function BrowserFrame({ label, variant = 'light', height = 340, src, alt, imageWidth = 1440, imageHeight = 900, priority = false, className = '' }) {
   return (
     <div className={`rf-browser rf-browser--${variant} ${className}`} style={{ height }}>

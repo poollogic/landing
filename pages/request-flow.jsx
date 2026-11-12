@@ -121,8 +121,9 @@ function Hero({ theme }) {
           </div>
         </div>
         <div className="rf-hero-visual">
-          <BrowserFrame className="rf-hero-browser" variant="dark" height={330} label="Office dashboard: a new request" priority />
-          <PhoneFrame className="rf-hero-phone" variant="dark" width={176} label="Tech app: stop screen" priority />
+          {/* Sized from the hero's visual (request-flow.css --rf-hero-vis): 330 × 176px at 440px. */}
+          <BrowserFrame className="rf-hero-browser" variant="dark" height="calc(var(--rf-hero-vis, 440px) * .75)" label="Office dashboard: a new request" priority />
+          <PhoneFrame className="rf-hero-phone" variant="dark" width="calc(var(--rf-hero-vis, 440px) * .4)" label="Tech app: stop screen" priority />
         </div>
       </div>
     </section>

@@ -219,6 +219,40 @@
 .rf-page .rf-hero-browser { position: absolute; top: 0; left: 0; right: 56px; width: auto; }
 .rf-page .rf-hero-phone { position: absolute; right: 0; bottom: 0; }
 
+/* One screen tall (svh: the screen without a phone browser's bars, so it never jumps), its content
+   centred below the nav. */
+.rf-page .rf-hero { display: flex; align-items: center; min-height: 100vh; min-height: 100svh; }
+.rf-page .rf-hero > .rf-inner { flex: 1; min-width: 0; }
+
+/* Desktop: the whole hero scales as one, with the screen's width, or its height on short laptop
+   screens (min(vw, vh)), so it always fits in one screen and keeps the design's proportions (the H1
+   on two lines). Every size is a multiple of --rf-hero-text, the body text: 18px at 1440 × 900,
+   where it's the design exactly (H1 54px, content 1120px wide, the visual 440px tall). The visual's
+   frames are sized from --rf-hero-vis (pages/request-flow.jsx). */
+@media (min-width: 1041px) {
+  .rf-page .rf-hero {
+    --rf-hero-text: clamp(16px, min(1.25vw, 2vh), 24px);
+    --rf-hero-vis: calc(var(--rf-hero-text) * 24.444);
+    padding: calc(var(--header-h, 64px) + clamp(32px, 6vh, 72px)) 24px clamp(32px, 6vh, 72px);
+  }
+  .rf-page .rf-hero > .rf-inner { max-width: calc(var(--rf-hero-text) * 62.222); }
+  .rf-page .rf-hero-grid { column-gap: calc(var(--rf-hero-text) * 2.667); }
+  .rf-page .rf-hero-copy { gap: calc(var(--rf-hero-text) * 1.222); }
+  .rf-page .rf-hero-eyebrow { font-size: calc(var(--rf-hero-text) * .667); }
+  .rf-page .rf-hero-title { font-size: calc(var(--rf-hero-text) * 3); }
+  .rf-page .rf-hero-sub { max-width: 28.889em; font-size: var(--rf-hero-text); }
+  .rf-page .rf-hero-checks { gap: calc(var(--rf-hero-text) * .556); }
+  .rf-page .rf-hero-checks li { font-size: calc(var(--rf-hero-text) * .889); }
+  .rf-page .rf-hero-checks .rf-tick { width: 1em; height: 1em; margin-top: .25em; }
+  /* The buttons, in em of the row's 16px (at 1440 × 900): 52px tall, 14px × 24px inside. */
+  .rf-page .rf-hero-actions { gap: .75em 1.5em; margin-top: .625em; font-size: calc(var(--rf-hero-text) * .889); }
+  .rf-page .rf-hero .rf-cta { min-height: 3.25em; padding: .875em 1.5em; font-size: 1em; }
+  .rf-page .rf-hero .rf-cta > svg { width: 1.125em; height: 1.125em; }
+  .rf-page .rf-hero .rf-text-link { font-size: 1em; }
+  .rf-page .rf-hero-visual { height: var(--rf-hero-vis); }
+  .rf-page .rf-hero-browser { right: calc(var(--rf-hero-vis) * .127); }
+}
+
 /* ---------- 2. Requests ---------- */
 .rf-page .rf-source { gap: 16px; padding: 32px 32px 0; overflow: hidden; }
 .rf-page .rf-chip {
