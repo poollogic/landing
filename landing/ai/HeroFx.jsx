@@ -6,6 +6,8 @@ import React, { useEffect, useRef } from 'react';
 // its own chunk and starts, and it stops and releases its contexts when the page unmounts. It
 // finds the hero and the assistant window from here: they're this component's section and the
 // figure inside it. Styles: ai.css (.ai-hero-fade, .ai-hero-smoke, .ai-hero-beam).
+// It starts once the page has loaded and the browser is idle, so the effects never compete with the
+// first paint or the page becoming usable.
 
 export default function HeroFx() {
   const smokeRef = useRef(null);
@@ -14,7 +16,8 @@ export default function HeroFx() {
   useEffect(() => {
     let stop = null;
     let cancelled = false;
-    import('./heroFx.js').then(
+    let idle = 0;
+    const start = () => import('./heroFx.js').then(
       ({ default: startHeroFx }) => {
         const smoke = smokeRef.current;
         const beam = beamRef.current;
@@ -25,8 +28,15 @@ export default function HeroFx() {
       },
       () => {}, // decoration: if the chunk won't load, the hero stays as it is
     );
+    const whenIdle = () => {
+      idle = 'requestIdleCallback' in window ? requestIdleCallback(start, { timeout: 2000 }) : setTimeout(start, 200);
+    };
+    if (document.readyState === 'complete') whenIdle();
+    else addEventListener('load', whenIdle, { once: true });
     return () => {
       cancelled = true;
+      removeEventListener('load', whenIdle);
+      if ('cancelIdleCallback' in window) cancelIdleCallback(idle); else clearTimeout(idle);
       stop?.();
     };
   }, []);

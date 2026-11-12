@@ -25,8 +25,7 @@ export default function startHeroFx({ hero, card, smoke, beam }) {
   const narrow = matchMedia(NARROW);
   const copy = hero.querySelector('.ai-hero-copy');
   const cardBox = () => ({ hr: hero.getBoundingClientRect(), c: card.getBoundingClientRect() });
-  const stops = [startSmoke, startBeam].map((start, i) => {
-    const cv = i ? beam : smoke;
+  const run = (start, cv) => {
     let gl = null;
     try {
       return start(cv, (g) => (gl = g), { hero, card, copy, narrow, cardBox, reduce });
@@ -34,11 +33,30 @@ export default function startHeroFx({ hero, card, smoke, beam }) {
       lose(gl); // a shader that won't compile, or a render target that won't work: skip it
       return null;
     }
-  });
-  return () => stops.forEach((stop) => stop?.());
+  };
+  // The smoke now, the beam in the browser's next idle moment: each one's set-up (compiling its shaders)
+  // is its own task, so neither holds the page up for long.
+  const stops = [run(startSmoke, smoke)];
+  let stopped = false;
+  const later = 'requestIdleCallback' in window ? requestIdleCallback : (f) => setTimeout(f, 50);
+  const beamTask = later(() => { if (!stopped) stops.push(run(startBeam, beam)); });
+  return () => {
+    stopped = true;
+    if ('cancelIdleCallback' in window) cancelIdleCallback(beamTask); else clearTimeout(beamTask);
+    stops.forEach((stop) => stop?.());
+  };
 }
 
 const lose = (gl) => gl?.getExtension('WEBGL_lose_context')?.loseContext();
+// No effects where WebGL would run in software (no graphics hardware, or it's blocked): there every frame
+// is drawn on the main thread, and the page stops responding (Lighthouse's test devices are like this). The
+// contexts ask the browser to refuse in that case (failIfMajorPerformanceCaveat); this catches the rest.
+const GL_OPTS = { failIfMajorPerformanceCaveat: true };
+const isSoftware = (gl) => {
+  const ext = gl.getExtension('WEBGL_debug_renderer_info');
+  const name = String(ext ? gl.getParameter(ext.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+  return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
+};
 
 /* ---------- Smoke: a GPU fluid simulation, under the beam ---------- */
 
@@ -64,9 +82,10 @@ function startSmoke(cv, keep, { hero, card, narrow, reduce }) {
     cv.style.webkitMaskImage = m;
   };
 
-  const gl = cv.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false });
+  const gl = cv.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, ...GL_OPTS });
   if (!gl || gl.isContextLost()) return null;
   keep(gl);
+  if (isSoftware(gl)) { lose(gl); return null; }
   if (!gl.getExtension('EXT_color_buffer_float')) { lose(gl); return null; }
   gl.getExtension('OES_texture_float_linear');
   setMask();
@@ -99,12 +118,22 @@ a*=smoothstep(-.5,1.5,sd);a=min(a,.5);
 vec3 col=mix(vec3(.13,.36,.9),vec3(.62,.8,1.),clamp(d*.6,0.,1.));
 o=vec4(col*a,a);}`,
   };
-  const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; };
-  const vsh = sh(gl.VERTEX_SHADER, VS), P = {};
+  // The programs compile and link in the background where the browser can (KHR_parallel_shader_compile):
+  // nothing asks for a result until they're done (boot, below), so no single task waits on all ten.
+  const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); return o; };
+  const vsh = sh(gl.VERTEX_SHADER, VS), P = {}, links = {};
   for (const k in FS) {
-    const p = gl.createProgram(); gl.attachShader(p, vsh); gl.attachShader(p, sh(gl.FRAGMENT_SHADER, FS[k])); gl.bindAttribLocation(p, 0, 'p'); gl.linkProgram(p);
-    const u = {}; const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS); for (let i = 0; i < n; i++) { const nm = gl.getActiveUniform(p, i).name; u[nm] = gl.getUniformLocation(p, nm); } P[k] = { p, u };
+    const f = sh(gl.FRAGMENT_SHADER, FS[k]); const p = gl.createProgram(); gl.attachShader(p, vsh); gl.attachShader(p, f); gl.bindAttribLocation(p, 0, 'p'); gl.linkProgram(p); links[k] = { p, f };
   }
+  const par = gl.getExtension('KHR_parallel_shader_compile');
+  const linked = () => !par || Object.values(links).every(({ p }) => gl.getProgramParameter(p, par.COMPLETION_STATUS_KHR));
+  const finishPrograms = () => {
+    for (const k in links) {
+      const { p, f } = links[k];
+      if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getShaderInfoLog(vsh) || gl.getShaderInfoLog(f) || gl.getProgramInfoLog(p));
+      const u = {}; const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS); for (let i = 0; i < n; i++) { const nm = gl.getActiveUniform(p, i).name; u[nm] = gl.getUniformLocation(p, nm); } P[k] = { p, u };
+    }
+  };
   const vb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, vb); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW); gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
 
   // Render targets: half-float textures, each with its framebuffer. Remade (and the old ones freed) when the width changes.
@@ -126,7 +155,6 @@ o=vec4(col*a,a);}`,
     simH = CFG.SIM; simW = Math.round(CFG.SIM * asp); dyeH = CFG.DYE; dyeW = Math.round(CFG.DYE * asp);
     vel = dbl(simW, simH, gl.RG16F, gl.RG); dye = dbl(dyeW, dyeH, gl.R16F, gl.RED); curl = fbo(simW, simH, gl.R16F, gl.RED); divg = fbo(simW, simH, gl.R16F, gl.RED); pres = dbl(simW, simH, gl.R16F, gl.RED);
   };
-  init();
   const run = (prog, target, w, h, set) => {
     gl.useProgram(prog.p); gl.uniform2f(prog.u.tx, 1 / w, 1 / h); let unit = 0;
     set((name, tex) => { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex); gl.uniform1i(prog.u[name], unit++); }, prog.u);
@@ -170,17 +198,27 @@ o=vec4(col*a,a);}`,
     run(P.show, null, cv.width, cv.height, (b, u) => { b('uD', dye.r.tx); gl.uniform4f(u.card, ...cardUV()); gl.uniform1f(u.gain, CFG.GAIN); gl.uniform1f(u.t, t);
       gl.uniform1f(u.crad, CFG.CARD_RADIUS * cv.width / cv.clientWidth); gl.uniform2f(u.res, cv.width, cv.height); }); gl.disable(gl.BLEND);
   };
-  for (let i = 0; i < 250; i++) sim(.033); // pre-fill so smoke is there on load
+  // Pre-fill so the smoke is already there: 250 steps, 10 a frame, so no single frame stalls.
+  let pre = 250;
+  const prefill = (all) => { const n = all ? pre : Math.min(10, pre); for (let i = 0; i < n; i++) sim(.033); pre -= n; };
   const step = (now) => {
+    if (pre > 0) prefill(false);
     const dtReal = Math.min(.033, (now - last) / 1000); last = now;
     if (cv.width !== Math.round(cv.clientWidth * SC)) init();
     setMask(); sim(dtReal); draw(); if (vis && !reduce) raf = requestAnimationFrame(step);
   };
   const io = new IntersectionObserver(([e]) => { vis = e.isIntersecting; cancelAnimationFrame(raf); if (vis) { last = performance.now(); raf = requestAnimationFrame(step); } });
-  io.observe(hero);
-  addEventListener('pointermove', onMove, { passive: true });
-  addEventListener('resize', setMask);
-  if (reduce) draw(); else raf = requestAnimationFrame(step);
+  // Starts once its programs are ready: a frame to check, a frame for the render targets, then the
+  // pre-fill a little per frame (step).
+  const boot = () => {
+    if (!linked()) { raf = requestAnimationFrame(boot); return; }
+    try { finishPrograms(); init(); } catch { lose(gl); return; } // a shader that won't compile, or a target that won't work: skip it
+    io.observe(hero);
+    addEventListener('pointermove', onMove, { passive: true });
+    addEventListener('resize', setMask);
+    if (reduce) { prefill(true); draw(); } else raf = requestAnimationFrame(step);
+  };
+  raf = requestAnimationFrame(boot);
 
   return () => {
     cancelAnimationFrame(raf);
@@ -194,9 +232,10 @@ o=vec4(col*a,a);}`,
 /* ---------- Beam: light falling onto the window's top edge, over the smoke ---------- */
 
 function startBeam(cv, keep, { hero, copy, narrow, cardBox, reduce }) {
-  const gl = cv.getContext('webgl', { premultipliedAlpha: true, alpha: true });
+  const gl = cv.getContext('webgl', { premultipliedAlpha: true, alpha: true, ...GL_OPTS });
   if (!gl || gl.isContextLost()) return null;
   keep(gl);
+  if (isSoftware(gl)) { lose(gl); return null; }
   const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
   const fs = `precision highp float;uniform vec2 r;uniform float t;uniform vec4 cb;uniform float bx;uniform float k;uniform float m;uniform float fe,fs,top0;
 float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}

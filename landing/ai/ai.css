@@ -101,6 +101,9 @@
   @media (max-height: 639.98px) { .ai-page .ai-hero-grid { --ai-zh: .634; } }
 }
 .ai-page .ai-hero-copy { text-align: left; }
+/* The copy rises in without fading (hero.css hero-rise, as the homepage's does): text painted fully
+   transparent doesn't count for Largest Contentful Paint, so a fade from 0 held the headline out of it. */
+@media (prefers-reduced-motion: no-preference) { .ai-page .ai-hero .ai-hero-copy { animation-name: hero-rise; } } /* over animate-mktg-fade-up's own */
 .ai-page .ai-hero .hero-title { font-size: clamp(2.5rem, 4.6vw, 3.6rem); line-height: 1.05; }
 .ai-page .ai-hero .hero-sub { max-width: 34rem; margin-inline: 0; text-wrap: pretty; }
 /* Under 1180px, side by side (above): the headline and copy keep their 1180px sizes, so the zoom
