@@ -12,11 +12,15 @@ import { join, resolve } from 'node:path';
 // so the browser reuses these downloads. Fonts start once the main script
 // has run (DOMContentLoaded), so they don't share the connection with it; the
 // text renders in a metric-matched fallback until they arrive (landing.css).
+// A page's EARLY_FONTS start at once instead: the homepage hero's headline font, so it's in
+// place for the first paint more often (a late swap moved the headline on slower machines).
 const ROUTE_PAGES = { '/': 'pages/landing.jsx', '/pricing': 'pages/pricing.jsx', '/reserve': 'pages/reserve.jsx', '/ai-and-automations': 'pages/ai-integrations.jsx', '/workflow': 'pages/workflow.jsx', '/contact': 'pages/contact.jsx', '/tech-app': 'pages/tech-app.jsx', '/partners': 'pages/partners.jsx', '/partners/kit': 'pages/partner-kit.jsx', '/partners/terms': 'pages/partner-terms.jsx', '/terms': 'pages/terms.jsx', '/privacy': 'pages/privacy.jsx', '/technician-terms': 'pages/technician-terms.jsx' };
 const MARKETING_FONTS = ['/fonts/Satoshi-Regular.woff2', '/fonts/Satoshi-Medium.woff2', '/fonts/Satoshi-Bold.woff2'];
 // Extra fonts a page's first screen uses: the homepage hero's dashboard preview is drawn in Inter
 // (preview/preview.css), which the browser would otherwise only find once that CSS applies.
 const PAGE_FONTS = { '/': ['/fonts/Inter-latin.woff2'] };
+// Fonts a page starts downloading straight away, with the main script: the homepage's h1 (.hero-title, 700).
+const EARLY_FONTS = { '/': ['/fonts/Satoshi-Bold.woff2'] };
 const SITE_FONTS = ['/fonts/Geist.woff2']; // the rest of the site
 // Pre-rendered pages drawn in Geist (the site's own pages, not the marketing ones): they get Geist, not Satoshi.
 const GEIST_PAGES = new Set(['/tech-app', '/partners', '/partners/kit', '/partners/terms', '/terms', '/privacy', '/technician-terms']);
@@ -54,10 +58,14 @@ function routePreloads() {
           return { js, css, lazyCss };
         };
         const routes = { '*': { js: [], css: [], font: SITE_FONTS } };
-        for (const [path, page] of Object.entries(ROUTE_PAGES)) routes[path] = { ...depsOf(page), font: GEIST_PAGES.has(path) ? SITE_FONTS : [...MARKETING_FONTS, ...(PAGE_FONTS[path] ?? [])] };
+        for (const [path, page] of Object.entries(ROUTE_PAGES)) {
+          const early = EARLY_FONTS[path] ?? [];
+          const font = (GEIST_PAGES.has(path) ? SITE_FONTS : [...MARKETING_FONTS, ...(PAGE_FONTS[path] ?? [])]).filter((f) => !early.includes(f));
+          routes[path] = { ...depsOf(page), font, early };
+        }
         const script = `(function(){var R=${JSON.stringify(routes)};var p=location.pathname.replace(/\\/+$/,'')||'/';var r=R[p]||R['*'],h=document.head;
 function l(rel,href,as,low){var e=document.createElement('link');e.rel=rel;e.href=href;if(as)e.as=as;if(as==='font')e.type='font/woff2';e.crossOrigin='';if(low)e.fetchPriority='low';h.appendChild(e);}
-if(!document.documentElement.hasAttribute('data-css-inline'))r.css.forEach(function(f){l('preload',f,'style');});r.js.forEach(function(f){l('modulepreload',f);});var fonts=function(){r.font.forEach(function(f){l('preload',f,'font',1);});};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fonts):fonts();})();`;
+if(!document.documentElement.hasAttribute('data-css-inline'))r.css.forEach(function(f){l('preload',f,'style');});r.js.forEach(function(f){l('modulepreload',f);});(r.early||[]).forEach(function(f){l('preload',f,'font');});var fonts=function(){r.font.forEach(function(f){l('preload',f,'font',1);});};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',fonts):fonts();})();`;
         // Right after the viewport meta, ahead of the inline styles and the main script.
         return html.replace(/(<meta name="viewport"[^>]*>)/, `$1\n<script>${script}</script>`);
       },

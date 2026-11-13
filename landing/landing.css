@@ -47,19 +47,44 @@
     font-family: 'Satoshi Fallback';
     src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'), local('Arimo'), local('Arimo-Regular');
     font-weight: 450 549;
-    size-adjust: 102.15%;
-    ascent-override: 98.87%;
-    descent-override: 23.49%;
-    line-gap-override: 9.79%;
+    size-adjust: 101.00%;
+    ascent-override: 100.00%;
+    descent-override: 23.76%;
+    line-gap-override: 9.90%;
   }
   @font-face {
     font-family: 'Satoshi Fallback';
     src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('LiberationSans-Bold'), local('Arimo Bold'), local('Arimo-Bold');
     font-weight: 550 900;
-    size-adjust: 98.04%;
-    ascent-override: 103.02%;
-    descent-override: 24.48%;
-    line-gap-override: 10.20%;
+    /* 98.04% from the font files, less 2% measured on the homepage hero's headline and button, where
+       Arial Bold ran 2% wide (vertical metrics divided by the same factor). */
+    size-adjust: 96.25%;
+    ascent-override: 104.94%;
+    descent-override: 24.94%;
+    line-gap-override: 10.39%;
+  }
+  /* All-caps, letter-spaced eyebrows: Satoshi's capitals run wider against Arial Bold's than its lower
+     case does, so they get their own fallback, 1.39% larger than the bold one's file match. */
+  @font-face {
+    font-family: 'Satoshi Caps Fallback';
+    src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('LiberationSans-Bold'), local('Arimo Bold'), local('Arimo-Bold');
+    font-weight: 550 900;
+    size-adjust: 97.75%;
+    ascent-override: 103.33%;
+    descent-override: 24.55%;
+    line-gap-override: 10.23%;
+  }
+  /* The homepage button's "(Reserve Your Spot)" (.hero-cta-trial, 400): Satoshi sets its capitals and
+     brackets narrower than Arial's file match predicts, so the button resized when Satoshi arrived.
+     A narrower Arial, for that span alone; body text keeps the regular face. */
+  @font-face {
+    font-family: 'Satoshi Narrow Fallback';
+    src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'), local('Arimo'), local('Arimo-Regular');
+    font-weight: 100 449;
+    size-adjust: 95.00%;
+    ascent-override: 106.31%;
+    descent-override: 25.26%;
+    line-gap-override: 10.52%;
   }
   /* Satoshi's tabular digits are 660/1000 wide, Arial's 556: for figures set
      with tabular-nums (.font-tnum), digits get their own fallback, scaled to
@@ -129,6 +154,12 @@
 }
 
 @layer components {
+  /* The homepage button's bracketed part, with its own fallback (see 'Satoshi Narrow Fallback'). */
+  .hero-cta-trial { font-family: Satoshi, 'Satoshi Narrow Fallback', 'Satoshi Fallback', ui-sans-serif, system-ui, sans-serif; }
+  /* Eyebrows (all caps, letter-spaced) with their caps-matched fallback (see 'Satoshi Caps Fallback'). */
+  .hero-eyebrow,
+  .section-eyebrow { font-family: Satoshi, 'Satoshi Caps Fallback', 'Satoshi Fallback', ui-sans-serif, system-ui, sans-serif; }
+
   /* Tabular figures with a digit-matched fallback (see 'Satoshi Tnum Fallback'). */
   .font-tnum {
     font-family: Satoshi, 'Satoshi Tnum Fallback', 'Satoshi Fallback', ui-sans-serif, system-ui, sans-serif;
