@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Code panels for /ai-integrations: a window bar, then code that scrolls sideways inside
+// Code panels for /ai-and-automations: a window bar, then code that scrolls sideways inside
 // itself (never the page). JSON is coloured by a tiny tokenizer; other code is shown as given,
 // with comments dimmed. Two colours only: keys and comments muted, values white (ai.css .ai-code).
 

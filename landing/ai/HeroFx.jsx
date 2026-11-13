@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-// The /ai-integrations hero's light, behind its content: a fade at the hero's foot, then the smoke
+// The /ai-and-automations hero's light, behind its content: a fade at the hero's foot, then the smoke
 // canvas, then the beam canvas (in that order, so the beam draws over the smoke). The canvases are
 // empty in the pre-rendered HTML; once the page has hydrated, the WebGL code (heroFx.js) loads in
 // its own chunk and starts, and it stops and releases its contexts when the page unmounts. It

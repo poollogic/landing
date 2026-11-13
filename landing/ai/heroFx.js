@@ -1,4 +1,4 @@
-// The /ai-integrations hero's light, from the signed-off prototype (poollogic-hero v23): smoke rising off
+// The /ai-and-automations hero's light, from the signed-off prototype (poollogic-hero v23): smoke rising off
 // the assistant window (a WebGL2 fluid simulation) and a beam of light falling onto its top edge (a
 // WebGL1 shader), each on a canvas behind the hero's content. HeroFx.jsx renders the canvases and loads
 // this file in the browser only, after the page has hydrated; nothing here runs on the server.

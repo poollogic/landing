@@ -27,8 +27,8 @@ import {
   WEBHOOK_MAX_AGE_MIN, WEBHOOK_RETRIES, WEBHOOK_SIGNATURE_HEADER,
 } from '../aiFacts.js';
 
-// /ai-integrations: AI, automations and integrations. Pre-rendered at build time
-// (entry-server.jsx → dist/ai-integrations.html), so crawlers that don't run JavaScript get the
+// /ai-and-automations: AI, automations and integrations. Pre-rendered at build time
+// (entry-server.jsx → dist/ai-and-automations.html), so crawlers that don't run JavaScript get the
 // whole page; main.jsx hydrates it. So: no window or document while rendering, and every
 // mockup's text in the markup from the start. Numbers and lists come from aiFacts.js; claim
 // nothing that isn't there. Owners first, developers lower down. All dark, on the --mktg-*
@@ -42,7 +42,7 @@ const ORIGIN = 'https://getpoolnautics.com';
 // whole page locally without publishing it: VITE_AI_FULL_PAGE=1 npx vite.
 const FULL_PAGE = import.meta.env.VITE_AI_FULL_PAGE === '1';
 const PUBLISHED = new Set(['#automations']); // sections below "The short answer" that are live
-const PAGE_URL = `${ORIGIN}/ai-integrations`;
+const PAGE_URL = `${ORIGIN}/ai-and-automations`;
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--brand-blue)]';
 
 const FAQ = [

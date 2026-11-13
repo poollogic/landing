@@ -40,10 +40,10 @@
       ]
     },
     {
-      "identifier": "urn:air:getpoolnautics.com:docs:ai-integrations",
+      "identifier": "urn:air:getpoolnautics.com:docs:ai-and-automations",
       "displayName": "Poolnautics AI, automations and integrations",
       "type": "text/html",
-      "url": "https://getpoolnautics.com/ai-integrations",
+      "url": "https://getpoolnautics.com/ai-and-automations",
       "description": "How to connect Claude, ChatGPT, Grok or another AI assistant to Poolnautics through its MCP server, with permission levels, plus automations, webhooks and lead capture.",
       "tags": ["MCP", "AI assistant", "automations", "webhooks", "integrations"],
       "representativeQueries": [

@@ -96,9 +96,9 @@ const COMPARE = [
   ]],
   ['Automation, AI & API', [
     ['Automations, like invoicing when a job’s done', false, true],
-    ['Connect Claude, ChatGPT or Grok', false, true, '/ai-integrations'],
+    ['Connect Claude, ChatGPT or Grok', false, true, '/ai-and-automations'],
     ['Quo, Twilio, Telnyx and Dialpad', false, true],
-    ['API & webhooks (website, Google Ads, Meta)', false, true, '/ai-integrations'],
+    ['API & webhooks (website, Google Ads, Meta)', false, true, '/ai-and-automations'],
   ]],
 ];
 

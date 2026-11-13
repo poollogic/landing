@@ -35,7 +35,7 @@ const isTechAppPath = (p) => p === '/tech-app' || p === '/tech-app/';
 const isContactPath = (p) => p === '/contact' || p === '/contact/';
 const isPricingPath = (p) => p === '/pricing' || p === '/pricing/';
 const isReservePath = (p) => p === '/reserve' || p === '/reserve/';
-export const isAiIntegrationsPath = (p) => p === '/ai-integrations' || p === '/ai-integrations/';
+export const isAiIntegrationsPath = (p) => p === '/ai-and-automations' || p === '/ai-and-automations/';
 const isPartnersPath = (p) => p === '/partners' || p === '/partners/';
 const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/terms/';
 // The phone app's sign-in links here (the box on its location screen).
@@ -67,7 +67,7 @@ export const ROUTE_META = {
   aiIntegrations: {
     title: 'Pool Service Automation Software — Poolnautics',
     description: 'Pool service software that feeds your automations: customers, visits, payments and leads flow into Claude, Grok, ChatGPT or your own AI.',
-    path: '/ai-integrations',
+    path: '/ai-and-automations',
   },
   techApp: {
     title: 'Tech app — Poolnautics',
@@ -305,7 +305,7 @@ const App = ({ path: pathProp }) => {
     );
   }
 
-  // Pre-rendered, like /ai-integrations: keep the tree here the same as entry-server.jsx renders it.
+  // Pre-rendered, like /ai-and-automations: keep the tree here the same as entry-server.jsx renders it.
   // Brings its own dark nav and the footer.
   if (isWorkflowPath(path)) {
     return (

@@ -10,6 +10,9 @@
 # The repairs and work orders page moved from /request-flow (Nov 11–12, 2026) to /workflow, for good.
 /request-flow     /workflow    301
 /request-flow/    /workflow    301
+# The AI page moved from /ai-integrations (Nov 2026) to /ai-and-automations, for good.
+/ai-integrations    /ai-and-automations    301
+/ai-integrations/   /ai-and-automations    301
 # The previous homepage (/landing) is gone: an old link goes home, for good.
 /with/*          /            200
 /landing          /            301

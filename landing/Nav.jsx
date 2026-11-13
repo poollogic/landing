@@ -7,7 +7,7 @@ import FeaturesMenu, { LINKS, MENU_FEATURES } from './FeaturesMenu.jsx';
 import './nav.css';
 
 // The site header. Dark, absolutely positioned over the hero, on the homepage, /pricing, /contact
-// and /ai-integrations; light (tone="light"), in the page's flow, on the legal and partner pages.
+// and /ai-and-automations; light (tone="light"), in the page's flow, on the legal and partner pages.
 // Either way it scrolls away with the page. Styles live in landing/nav.css.
 
 const APP_URL = 'https://app.poollogic.app';

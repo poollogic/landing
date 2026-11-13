@@ -23,7 +23,7 @@ const homeFaq = {
 // are fine). The homepage goes in dist/index.html itself; the other addresses get an empty page.
 export const PRERENDERED = {
   '/': { meta: ROUTE_META.home, headScript: homeFirstPaintScript, jsonLd: [homeFaq] }, // Organization, WebSite, software: index.html
-  '/ai-integrations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
+  '/ai-and-automations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
   '/pricing': { meta: ROUTE_META.pricing, jsonLd: pricingData },
   '/workflow': { meta: ROUTE_META.workflow, jsonLd: workflowData },
   // The rest of the indexable pages: their own <head> and text in the served HTML, not the empty page

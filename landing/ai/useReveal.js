@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect } from 'react';
 
-// Scroll reveal for /ai-integrations: [data-reveal] blocks below the fold fade up (mktg-fade-up:
+// Scroll reveal for /ai-and-automations: [data-reveal] blocks below the fold fade up (mktg-fade-up:
 // opacity and transform only) as they come into view. The page arrives pre-rendered and fully
 // visible; on hydration, anything already on screen (or above it) is left alone, so nothing
 // that's been seen flashes. Reduced motion, or no IntersectionObserver: nothing hides.

@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
 
-// /ai-integrations' stance, right after the hero, as one statement (not an H2: those read as
+// /ai-and-automations' stance, right after the hero, as one statement (not an H2: those read as
 // searches); everything below it is the proof. Light and type only, on the homepage's light
 // section ground (#F5F5F7, its founder section's and FAQ's), so the page runs dark, light, dark.
 // When 40% of it is on screen, "Your AI. Your tools. Your data." rise in one after another and

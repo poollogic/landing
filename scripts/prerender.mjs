@@ -4,7 +4,7 @@
    route's own <head> (title, description, canonical, Open Graph, JSON-LD, its stylesheets so it paints
    styled before any script runs, and any script that must run before it paints) and its markup
    inside #root, marked with the route (main.jsx only hydrates markup made for the page it's on).
-   Cloudflare Pages answers /ai-integrations with dist/ai-integrations.html (200, no redirect).
+   Cloudflare Pages answers /ai-and-automations with dist/ai-and-automations.html (200, no redirect).
    The pages rendered in the browser get Vite's index.html as it was, with an empty #root, saved
    first as dist/SHELL: public/_redirects sends each of them there, and vite preview does the same
    (vite.config.js). Any other address gets Cloudflare's default, the homepage's index.html.

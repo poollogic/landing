@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowUp, Check, ChevronRight, LoaderCircle, Plug, Plus } from 'lucide-react';
 import useAiChatDemo from './useAiChatDemo.js';
 
-// The /ai-integrations hero: an AI assistant connected to Poolnautics, drawn with the conventions
+// The /ai-and-automations hero: an AI assistant connected to Poolnautics, drawn with the conventions
 // people know from AI chat apps (tool-use rows that spin then check, a typing cursor, a composer
 // with a tools chip) but no other company's look: the brands that connect today are named in text
 // elsewhere on the page. Customers and amounts are MOCK data (the homepage's Better Call Saul

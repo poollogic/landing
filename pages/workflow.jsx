@@ -420,7 +420,7 @@ function AiAssistants() {
           ))}
         </div>
         <div className="rf-ai-more">
-          <a href="/ai-integrations" className={`rf-text-link ${FOCUS}`}>
+          <a href="/ai-and-automations" className={`rf-text-link ${FOCUS}`}>
             See everything your AI can do <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
           </a>
           <p className="rf-ai-fine">AI, automations and integrations are on the {AI_PLAN} plan.</p>
@@ -449,7 +449,7 @@ const INTEGRATION_GROUPS = [
   {
     title: 'Keep the office in the loop',
     label: 'Post to a channel, or let your AI work from your requests and invoices.',
-    items: [{ name: 'Slack', category: 'Communication' }, { name: 'AI assistants', category: 'ChatGPT, Claude, Grok', href: '/ai-integrations' }],
+    items: [{ name: 'Slack', category: 'Communication' }, { name: 'AI assistants', category: 'ChatGPT, Claude, Grok', href: '/ai-and-automations' }],
   },
   {
     title: 'Build your own',

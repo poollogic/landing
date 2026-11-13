@@ -1,4 +1,4 @@
-// The AI, automations and integrations page (/ai-integrations): every number and list it
+// The AI, automations and integrations page (/ai-and-automations): every number and list it
 // shows, confirmed against the app 2026-10-31. Change a number here and the page, its FAQ
 // and its search data all change with it. Claim nothing that isn't in this file.
 

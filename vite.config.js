@@ -12,7 +12,7 @@ import { join, resolve } from 'node:path';
 // so the browser reuses these downloads. Fonts start once the main script
 // has run (DOMContentLoaded), so they don't share the connection with it; the
 // text renders in a metric-matched fallback until they arrive (landing.css).
-const ROUTE_PAGES = { '/': 'pages/landing.jsx', '/pricing': 'pages/pricing.jsx', '/reserve': 'pages/reserve.jsx', '/ai-integrations': 'pages/ai-integrations.jsx', '/workflow': 'pages/workflow.jsx', '/contact': 'pages/contact.jsx', '/tech-app': 'pages/tech-app.jsx', '/partners': 'pages/partners.jsx', '/partners/kit': 'pages/partner-kit.jsx', '/partners/terms': 'pages/partner-terms.jsx', '/terms': 'pages/terms.jsx', '/privacy': 'pages/privacy.jsx', '/technician-terms': 'pages/technician-terms.jsx' };
+const ROUTE_PAGES = { '/': 'pages/landing.jsx', '/pricing': 'pages/pricing.jsx', '/reserve': 'pages/reserve.jsx', '/ai-and-automations': 'pages/ai-integrations.jsx', '/workflow': 'pages/workflow.jsx', '/contact': 'pages/contact.jsx', '/tech-app': 'pages/tech-app.jsx', '/partners': 'pages/partners.jsx', '/partners/kit': 'pages/partner-kit.jsx', '/partners/terms': 'pages/partner-terms.jsx', '/terms': 'pages/terms.jsx', '/privacy': 'pages/privacy.jsx', '/technician-terms': 'pages/technician-terms.jsx' };
 const MARKETING_FONTS = ['/fonts/Satoshi-Regular.woff2', '/fonts/Satoshi-Medium.woff2', '/fonts/Satoshi-Bold.woff2'];
 // Extra fonts a page's first screen uses: the homepage hero's dashboard preview is drawn in Inter
 // (preview/preview.css), which the browser would otherwise only find once that CSS applies.
@@ -67,7 +67,7 @@ if(!document.documentElement.hasAttribute('data-css-inline'))r.css.forEach(funct
 
 // vite preview answers like Cloudflare Pages: the rewrites in public/_redirects (each page rendered in
 // the browser gets the empty page the build saves as app-shell.html, scripts/prerender.mjs), then a
-// page's own .html file (/ai-integrations), then index.html (the pre-rendered homepage) for the rest.
+// page's own .html file (/ai-and-automations), then index.html (the pre-rendered homepage) for the rest.
 function previewLikePages() {
   return {
     name: 'preview-like-pages',
