@@ -166,17 +166,33 @@ async function browserChecks() {
 
   // Free ports, so another local server (another project's preview) is never checked by mistake.
   const freePort = () => new Promise((r) => { const s = createServer().listen(0, () => { const { port } = s.address(); s.close(() => r(port)); }); });
-  const PORT = await freePort(), DEBUG = await freePort();
+  const PORT = await freePort();
   const server = spawn(join(ROOT, 'node_modules/.bin/vite'), ['preview', '--port', String(PORT), '--strictPort'], { cwd: ROOT, stdio: 'ignore' });
-  const profile = mkdtempSync(join(tmpdir(), 'seo-check-'));
-  const chrome = spawn(chromePath, ['--headless=new', `--remote-debugging-port=${DEBUG}`, `--user-data-dir=${profile}`, '--hide-scrollbars', '--no-first-run',
-    ...(process.platform === 'linux' ? ['--no-sandbox'] : []), 'about:blank'], { stdio: 'ignore' });
-  const cleanup = () => { try { chrome.kill(); } catch {} try { server.kill(); } catch {} try { rmSync(profile, { recursive: true, force: true }); } catch {} };
+  // Chrome, on a fresh profile and debugging port. The deploy's runner has now and then failed to bring
+  // it up ("Chrome did not start"): a launch that isn't answering after 15s is stopped and tried once more.
+  const chromes = [];
+  const launch = async () => {
+    const DEBUG = await freePort();
+    const profile = mkdtempSync(join(tmpdir(), 'seo-check-'));
+    const proc = spawn(chromePath, ['--headless=new', `--remote-debugging-port=${DEBUG}`, `--user-data-dir=${profile}`, '--hide-scrollbars', '--no-first-run',
+      ...(process.platform === 'linux' ? ['--no-sandbox'] : []), 'about:blank'], { stdio: 'ignore' });
+    chromes.push({ proc, profile });
+    return waitFor(async () => (await (await fetch(`http://127.0.0.1:${DEBUG}/json/list`)).json()).find((t) => t.type === 'page'), 15000, 200);
+  };
+  const cleanup = () => {
+    for (const { proc, profile } of chromes) { try { proc.kill(); } catch {} try { rmSync(profile, { recursive: true, force: true }); } catch {} }
+    try { server.kill(); } catch {}
+  };
 
   try {
     if (!(await waitFor(async () => (await fetch(`http://localhost:${PORT}/`)).ok, 20000, 250))) { fail('setup', 'vite preview did not start'); return; }
-    const target = await waitFor(async () => (await (await fetch(`http://127.0.0.1:${DEBUG}/json/list`)).json()).find((t) => t.type === 'page'), 15000, 200);
-    if (!target) { fail('setup', 'Chrome did not start'); return; }
+    let target = await launch();
+    if (!target) {
+      console.log('  Chrome did not start; trying once more.');
+      try { chromes.at(-1).proc.kill(); } catch {}
+      target = await launch();
+    }
+    if (!target) { fail('setup', 'Chrome did not start (twice)'); return; }
 
     const ws = new WebSocket(target.webSocketDebuggerUrl);
     await new Promise((r, j) => { ws.onopen = r; ws.onerror = j; });
