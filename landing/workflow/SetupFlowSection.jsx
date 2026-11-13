@@ -124,7 +124,7 @@ export default function SetupFlowSection() {
         <div className="section-head section-head--center">
           <p className="section-eyebrow">Setup</p>
           <h2 id="your-way-heading" className="section-title">
-            About 10 questions. Then Poolnautics runs your way.
+            About 10 questions to automate your pool service.
           </h2>
           <p className="section-sub">
             Explaining workflows and automations is never sexy… The good news: we’ve already done all the

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Bell, CircleCheck, Clock, ClipboardList } from 'lucide-react';
+import { ArrowRight, Bell, Braces, CircleCheck, Clock, ClipboardList, Webhook } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
 import '../landing/workflow/workflow.css';
@@ -10,6 +10,7 @@ import SetupFlowSection from '../landing/workflow/SetupFlowSection.jsx';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
 import { Footer } from '../components/site-chrome.jsx';
+import { AI_PLAN } from '../aiFacts.js';
 
 // /workflow (was /request-flow, which redirects here): the feature page for requests, diagnostics and work orders, built from the approved
 // design (request-flow-reference.html). Pre-rendered at build time (entry-server.jsx →
@@ -23,6 +24,14 @@ const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outli
 
 // The FAQ: shown in #faq and sent as FAQPage structured data (structuredData below), from this one list.
 export const FAQ = [
+  {
+    q: 'How do I automate a pool service business?',
+    a: 'Start with the work that repeats on every repair: the request, the quote, the work order and the invoice. In Poolnautics you answer about 10 setup questions once, and from then on the office prices the job and everything after it runs by itself, from customer approval to the paid invoice.',
+  },
+  {
+    q: 'What parts of a pool service business can be automated?',
+    a: 'Quote approvals, work orders reaching the technician app, invoices sending when the work order is marked complete, and payment collection all run automatically. Leads from your website form and Google Ads land in Requests on their own, and customer texts go out from your existing number.',
+  },
   {
     q: 'Who can create a repair request?',
     a: 'Technicians create one from the stop screen in the technician app. Admins and office users create one in the web app by clicking New, then Request, which is what you’d use when a customer calls the office.',
@@ -62,6 +71,10 @@ export const FAQ = [
   {
     q: 'Can I train ChatGPT, Grok or another AI agent to do this instead?',
     a: 'An AI assistant is good at writing a repair description or a message to a customer. On its own, it doesn’t keep track of your open repairs, know which customers approved, assign the technician, or send the invoice when the job is done; you’d have to feed it every update. Poolnautics does those steps itself. If you use an AI assistant, you can connect ChatGPT, Claude or Grok to Poolnautics, and it can look up your real requests, open and assign them, add notes and draft invoices.',
+  },
+  {
+    q: 'Do I need Zapier or n8n to automate my pool service business?',
+    a: 'No. Poolnautics automates the repair workflow on its own: requests, quotes, work orders and invoices move from one step to the next without any outside tool. Texting, website forms and Google Ads leads connect directly. Zapier and n8n are there if you want something custom, such as sending Meta lead ads into Requests.',
   },
 ];
 
@@ -117,8 +130,8 @@ function Hero({ theme }) {
     <section className="rf-hero rf-dark" aria-labelledby="rf-hero-heading">
       <div className="rf-inner rf-hero-grid">
         <div className="rf-hero-copy">
-          <p className="rf-hero-eyebrow">Requests, diagnostics &amp; work orders</p>
-          <h1 id="rf-hero-heading" className="rf-hero-title">The perfect pool service workflow.</h1>
+          <p className="rf-hero-eyebrow">Pool service automation</p>
+          <h1 id="rf-hero-heading" className="rf-hero-title">Automate your pool service workflow.</h1>
           <p className="rf-hero-sub">
             A tech spots a problem. You set a price. Poolnautics handles the approval, the work order, the invoice and the
             payment, so no finished job goes unbilled.
@@ -225,8 +238,8 @@ const QUOTE_POINTS = [
 ];
 
 const PATHS = [
-  { title: 'If you send a quote', body: 'For companies that want the customer to agree to the price first.', steps: ['Quote emailed', 'Customer approves', 'Work order opens', 'Invoice sends when the job is done'] },
-  { title: 'If you send an invoice', body: 'For companies that want to be paid before anyone starts the work.', steps: ['Invoice emailed', 'Customer pays', 'Work order opens', 'Already paid when the job is done'] },
+  { title: 'If you (or your AI agent) send a quote', body: 'For companies that want the customer to agree to the price first.', steps: ['Quote emailed', 'Customer approves', 'Work order shows on tech app', 'Invoice sends when the work order is marked complete'] },
+  { title: 'If you send an invoice', body: 'For companies that want to be paid before anyone starts the work.', steps: ['Invoice emailed', 'Customer pays', 'Work order shows on tech app', 'Already paid when the job is done'] },
 ];
 
 function Quotes() {
@@ -322,7 +335,7 @@ function Billing() {
             id="billing-heading"
             align="left"
             eyebrow="Automatic billing"
-            title="The job closes. The invoice sends itself."
+            title="Automatic invoicing: the job closes, the invoice sends itself."
             subtitle="When your tech marks a quoted job complete, the approved estimate becomes an invoice and goes to the customer. No one has to remember."
            
           />
@@ -379,11 +392,135 @@ function Setup() {
   );
 }
 
+// What an AI assistant can do with this flow, from the AI page's facts (aiFacts.js: the Send to
+// customers level and its limits, NEVER, the "estimate isn't approved after 2–14 days" automation).
+// Claims nothing that page doesn't; the details are there.
+const AI_POINTS = [
+  { title: 'Connect Grok, ChatGPT or Claude', body: 'Sign in to Poolnautics from your assistant, or connect any other AI through MCP with a key.' },
+  { title: 'Let it send the quotes you’ve priced', body: 'It can email quotes and invoices to your customers, inside hard limits. It can never charge a card or change a price on its own.' },
+  { title: 'Follow up when customers go quiet', body: 'An automation texts or emails a customer whose quote isn’t approved after 2 to 14 days. Or ask your assistant to send it again.' },
+];
+
+function AiAssistants() {
+  return (
+    <section id="ai" className="rf-section rf-grey" aria-labelledby="ai-heading">
+      <div className="rf-inner">
+        <SectionHeader
+          id="ai-heading"
+          eyebrow="AI assistants"
+          title="Already automatic. Add your AI for the rest."
+          subtitle="Poolnautics runs your repairs with as little input from you as possible. If you use an AI assistant, connect it and it works the same requests, quotes and invoices alongside you."
+        />
+        <div className="rf-cards rf-cards--3">
+          {AI_POINTS.map((p) => (
+            <article key={p.title} className="rf-card rf-ai-card">
+              <h3 className="rf-item-title">{p.title}</h3>
+              <p className="rf-item-body">{p.body}</p>
+            </article>
+          ))}
+        </div>
+        <div className="rf-ai-more">
+          <a href="/ai-integrations" className={`rf-text-link ${FOCUS}`}>
+            See everything your AI can do <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
+          </a>
+          <p className="rf-ai-fine">AI, automations and integrations are on the {AI_PLAN} plan.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// What connects to Poolnautics, as the web app's Settings → Integrations lists it (names and
+// categories; IntegrationsDirectory.tsx). Its app icons live in the web app, not here.
+// TODO: swap the neutral tiles for the Integrations panel's icons once they're in this repo
+// (Quo, Twilio, Telnyx, Dialpad, Slack, website, Google, Meta, Claude). API and Webhooks already
+// use the panel's glyphs (lucide's Braces and Webhook).
+const INTEGRATION_GROUPS = [
+  {
+    title: 'Text customers',
+    label: 'Text from the number your customers already know.',
+    items: [{ name: 'Quo', category: 'Messaging' }, { name: 'Twilio', category: 'Messaging' }, { name: 'Telnyx', category: 'Messaging' }, { name: 'Dialpad', category: 'Messaging' }],
+  },
+  {
+    title: 'Capture leads',
+    label: 'New leads land in Requests, tagged with where they came from.',
+    items: [{ name: 'Website forms', category: 'Lead capture' }, { name: 'Google Ads', category: 'Lead capture' }, { name: 'Meta lead ads', category: 'Lead capture, set up in Zapier' }],
+  },
+  {
+    title: 'Keep the office in the loop',
+    label: 'Post to a channel, or let your AI work from your requests and invoices.',
+    items: [{ name: 'Slack', category: 'Communication' }, { name: 'AI assistants', category: 'ChatGPT, Claude, Grok', href: '/ai-integrations' }],
+  },
+  {
+    title: 'Build your own',
+    label: 'For anything custom, including Zapier and n8n if you want them.',
+    items: [{ name: 'API', category: 'Developer', Glyph: Braces }, { name: 'Webhooks', category: 'Developer', Glyph: Webhook }],
+  },
+];
+
+function IntegrationCard({ name, category, href, Glyph }) {
+  const content = (
+    <>
+      <span className="rf-int-icon" aria-hidden="true">{Glyph && <Glyph size={20} strokeWidth={2} />}</span>
+      <span className="rf-int-text">
+        <span className="rf-int-name">{name}</span>
+        <span className="rf-int-cat">{category}</span>
+      </span>
+    </>
+  );
+  return href
+    ? <a href={href} className={`rf-card rf-int-card rf-int-card--link ${FOCUS}`}>{content}</a>
+    : <div className="rf-card rf-int-card">{content}</div>;
+}
+
+function Integrations() {
+  return (
+    <section id="integrations" className="rf-section rf-light" aria-labelledby="integrations-heading">
+      <div className="rf-inner">
+        {/* SectionHeader's pattern, with two paragraphs under the title. */}
+        <div className="section-head section-head--center">
+          <p className="section-eyebrow">Integrations</p>
+          <h2 id="integrations-heading" className="section-title">Automate your pool service business without building it in Zapier.</h2>
+          <p className="section-sub">
+            Most pool companies automate by stitching apps together: a form tool, a quoting tool, an invoicing tool, and a
+            Zapier or n8n account to pass data between them. Then a zap breaks on a Friday and a finished job never gets billed.
+          </p>
+          <p className="section-sub">
+            Poolnautics does the passing for you. A request becomes a quote, a quote becomes a work order, and a closed job
+            sends its own invoice. There’s nothing to wire up and nothing to maintain.
+          </p>
+        </div>
+        <div className="rf-int-connect">
+          <h3 className="rf-path-title">Connect what you already use</h3>
+          <p className="rf-body">Keep your phone number, your ads and your website. Poolnautics plugs into them directly.</p>
+        </div>
+        <div className="rf-int-groups">
+          {INTEGRATION_GROUPS.map((g) => (
+            <div key={g.title} className="rf-int-group">
+              <div className="rf-int-group-head">
+                <h4 className="rf-item-title">{g.title}</h4>
+                <p className="rf-item-body">{g.label}</p>
+              </div>
+              <ul className="rf-int-grid" role="list">
+                {g.items.map((item) => <li key={item.name}><IntegrationCard {...item} /></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="rf-ai-more">
+          <p className="rf-int-close">Zapier and n8n still work with Poolnautics. You just don’t need them to run your business.</p>
+          <p className="rf-ai-fine">AI, automations and integrations are on the {AI_PLAN} plan.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Faq() {
   return (
     <section id="faq" className="rf-section rf-light" aria-labelledby="faq-heading">
       <div className="rf-inner">
-        <SectionHeader id="faq-heading" eyebrow="FAQ" title="Questions about requests, diagnostics and work orders" className="rf-faq-head" />
+        <SectionHeader id="faq-heading" eyebrow="FAQ" title="Questions about automating your pool service" className="rf-faq-head" />
         <div className="rf-faq">
           {FAQ.map((f) => (
             <div key={f.q} className="rf-faq-item">
@@ -425,6 +562,8 @@ export default function WorkflowPage() {
         <Requests />
         <Diagnostics />
         <Quotes />
+        <AiAssistants />
+        <Integrations />
         <WorkOrders />
         <Billing />
         <Setup />

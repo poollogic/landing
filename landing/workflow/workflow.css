@@ -468,6 +468,59 @@
 .rf-page .rf-checks--grid { flex-direction: row; flex-wrap: wrap; gap: 12px 32px; }
 .rf-page .rf-checks--grid li { flex: 1 1 400px; min-width: 0; color: #0f172a; }
 
+/* ---------- 4b. AI assistants (grey, after Quotes & invoices: the one step an AI can take over) ---------- */
+.rf-page .rf-ai-card { gap: 8px; padding: 28px; }
+.rf-page .rf-ai-more { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 40px; text-align: center; }
+.rf-page .rf-ai-more .rf-text-link { gap: 8px; color: #0f172a; text-decoration-color: #94a3b8; }
+.rf-page .rf-ai-more .rf-text-link:hover { text-decoration-color: #0f172a; }
+.rf-page .rf-ai-fine { font-size: 14px; line-height: 1.5; color: #56657f; }
+@media (max-width: 640px) {
+  .rf-page .rf-ai-card { padding: 24px; }
+}
+
+/* ---------- 4c. Integrations (light, after AI assistants): a group per row, its cards beside it ---------- */
+.rf-page .rf-int-connect { max-width: 640px; margin: 0 auto; text-align: center; }
+.rf-page .rf-int-connect .rf-body { margin-top: 10px; }
+.rf-page .rf-int-groups { margin-top: 40px; border-top: 1px solid #e2e8f0; }
+.rf-page .rf-int-group {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  align-items: start;
+  gap: 16px 48px;
+  padding: 32px 0;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+.rf-page .rf-int-group-head .rf-item-body { margin-top: 6px; }
+.rf-page .rf-int-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.rf-page .rf-int-card { flex-direction: row; align-items: center; gap: 12px; height: 100%; padding: 14px 16px; border-radius: 14px; }
+.rf-page .rf-int-card--link { transition: border-color .2s, background-color .2s; }
+.rf-page .rf-int-card--link:hover { border-color: #94a3b8; background: #fff; }
+.rf-page .rf-int-icon { /* a neutral tile until the app's icons are here (workflow.jsx INTEGRATION_GROUPS) */
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  background: #e2e8f0;
+  color: #475569;
+}
+.rf-page .rf-int-text { display: flex; flex-direction: column; min-width: 0; }
+.rf-page .rf-int-name { font-size: 15px; font-weight: 600; line-height: 1.35; color: #0f172a; }
+.rf-page .rf-int-cat { font-size: 13px; line-height: 1.4; color: #56657f; }
+.rf-page .rf-int-close { max-width: 640px; font-size: 16px; font-weight: 600; line-height: 1.6; color: #0f172a; }
+@media (max-width: 1040px) {
+  .rf-page .rf-int-group { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .rf-page .rf-int-group { padding: 28px 0; }
+  .rf-page .rf-int-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+  .rf-page .rf-int-card { gap: 10px; padding: 12px; }
+  .rf-page .rf-int-icon { width: 36px; height: 36px; border-radius: 8px; }
+}
+
 /* ---------- 8. FAQ ---------- */
 .rf-page #faq { --section-head-gap: 48px; }
 .rf-page .rf-faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 56px; text-align: left; }

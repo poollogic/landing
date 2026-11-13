@@ -111,8 +111,8 @@ export const ROUTE_META = {
   },
   // Pre-rendered at build time (entry-server.jsx).
   workflow: {
-    title: 'Automating Your Pool Service Business | Poolnautics',
-    description: 'Pool service software that runs your repairs: requests become quotes, work orders and paid invoices automatically. About 10 questions and it runs your way.',
+    title: 'Pool Service Automation & Repair Workflow | Poolnautics',
+    description: 'Automate your pool service business without building it yourself. Poolnautics turns repair requests into quotes, work orders and paid invoices, with no Zapier required.',
     path: '/workflow',
   },
 };
