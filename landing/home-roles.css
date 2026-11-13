@@ -46,7 +46,7 @@
 .lp-home :is(.hero-sub, .op-lede, .dt-sub, .section-sub) :is(strong, b, em) { font-weight: var(--subhead-weight); }
 
 /* .rv-ft and .rvm-text h3: the Financial Watchdog's feature titles, desktop and phone layouts. */
-.lp-home :is(.rp-card-title, .ta-list h3, .rv-ft, .rvm-text h3, .op-card-title) {
+.lp-home :is(.rp-card-title, .ta-list h3, .fl-points h3, .rv-ft, .rvm-text h3, .op-card-title) {
   font-size: var(--card-title-size);
   font-weight: var(--card-title-weight);
   line-height: var(--card-title-leading);
@@ -70,11 +70,11 @@
 
 /* ---------- Spacing ---------- */
 /* The standard sections (#platform and #day keep their own). */
-.lp-home :is(#billing, #collections, #technicians, #repairs, #switching, #founder, #reserve, #routes, #faq) {
+.lp-home :is(#billing, #collections, #technicians, #repairs, #fleet, #switching, #founder, #reserve, #routes, #faq) {
   padding-top: var(--section-pad-y);
   padding-bottom: var(--section-pad-y);
 }
 /* Header → content (the FAQ's two-column header keeps its own). */
-.lp-home :is(#billing, #collections, #technicians, #repairs, #switching, #routes) .section-head { margin-bottom: var(--head-to-content); }
+.lp-home :is(#billing, #collections, #technicians, #repairs, #fleet, #switching, #routes) .section-head { margin-bottom: var(--head-to-content); }
 .lp-home .section-head .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
 .lp-home .section-head .section-sub { margin-top: var(--title-to-subhead); }

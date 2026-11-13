@@ -3,6 +3,7 @@ import OnePlatformSection from './OnePlatformSection.jsx';
 import DaySection from './DaySection.jsx';
 import RepairsSection from './RepairsSection.jsx';
 import TechniciansSection from './TechniciansSection.jsx';
+import FleetSection from './FleetSection.jsx';
 import BillingSection from './BillingSection.jsx';
 import RevenueSection from './RevenueSection.jsx';
 import ReserveSection from './ReserveSection.jsx';
@@ -53,6 +54,7 @@ export default function BelowFold() {
       <RevenueSection />
       <TechniciansSection />
       <RepairsSection />
+      <FleetSection />
       <ImportSection />
       <FounderSection />
       <ReserveSection />

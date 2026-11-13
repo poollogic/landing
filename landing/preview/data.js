@@ -117,5 +117,5 @@ export const TOASTS = [
   { title: 'Late fees applied to 6 invoices' },
   { title: 'Invoice emailed. It goes to Marcus when it’s paid' },
   { title: "3 charges added to Sarah Lopez's next invoice" },
-  { title: 'Oil change coming up', detail: 'Michael’s Ford F-150 is at 70,612 mi; its oil change is due at 71,000 mi.' },
+  { title: 'Oil change coming up', detail: 'Michael’s Nissan Frontier is at 70,612 mi; its oil change is due at 71,000 mi.' },
 ];

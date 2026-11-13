@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import SectionHeader from './SectionHeader.jsx';
 import './repairs.css';
 
-// "Repairs on autopilot": between Technicians on autopilot (#technicians) and Instant Migration (#switching).
+// "Repairs on autopilot": between Technicians on autopilot (#technicians) and Fleet on autopilot (#fleet).
 // Dark. A repair from the tech's request to the paid invoice in five cards; the owner's only step is the
 // second. Each card's "screen" is a still drawing of the app, not working UI: plain spans, read to screen
 // readers as one image with a description. Nothing here moves or waits on JavaScript.

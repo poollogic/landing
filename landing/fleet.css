@@ -1,0 +1,167 @@
+/* "Fleet on autopilot" (FleetSection.jsx), between Repairs and Instant Migration. Header type and
+   spacing: home-roles.css. The cards are drawn in the app's Inter, as the hero dashboard and the
+   import demo are (its @font-face: preview/preview.css). One column below 900px; from 900px the
+   mileage and trucks cards stack on the left and the day card, as tall as they are, on the right. */
+
+.fl-section { background: #f6f8fb; padding-inline: 24px; } /* top and bottom: --section-pad-y (home-roles.css) */
+.fl-inner { max-width: 1120px; margin: 0 auto; }
+#fleet .section-sub { max-width: 680px; }
+
+/* ---------- Panels ---------- */
+.fl-panels {
+  display: grid;
+  gap: 20px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+.fl-left { display: flex; flex-direction: column; gap: 20px; }
+.fl-left .fl-trucks { flex: 1; }
+@media (min-width: 900px) {
+  .fl-panels { grid-template-columns: 6fr 7fr; }
+  /* The slot has no height of its own, so the row is the left column's height and the card fills it. */
+  .fl-day-slot { position: relative; }
+  .fl-day { position: absolute; inset: 0; display: flex; flex-direction: column; }
+}
+
+/* ---------- Cards ---------- */
+.fl-card {
+  background: #fff;
+  border: 1px solid #e6eaf0;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(8, 12, 24, .04), 0 12px 32px rgba(8, 12, 24, .05);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  text-align: left;
+}
+.fl-card-head { padding: 22px 24px 16px; }
+.fl-card-title { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.2px; color: #0e1117; }
+.fl-card-meta { margin: 4px 0 0; font-size: 13px; color: #8a8f98; }
+
+/* ---------- Tables ---------- */
+.fl-table { width: 100%; border-collapse: collapse; }
+.fl-table thead th {
+  padding-top: 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eef0f3;
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #a1a1a6;
+}
+.fl-table tbody tr + tr { border-top: 1px solid #f3f4f6; }
+.fl-table tbody th { font-weight: 600; color: #1d1d1f; }
+.fl-table th, .fl-table td { text-align: right; }
+.fl-table :is(th, td):first-child { text-align: left; padding-left: 24px; }
+.fl-table :is(th, td):last-child { padding-right: 24px; }
+
+/* Mileage */
+.fl-mileage :is(th, td) { padding-inline: 4px; }
+.fl-mileage tbody :is(th, td) { padding-block: 14px; font-size: 13.5px; color: #3a3a3c; }
+.fl-mileage tbody th, .fl-mileage .fl-total { font-weight: 600; color: #1d1d1f; }
+.fl-none { color: #c7c7cc; }
+.fl-selected { padding: 4px 6px; border-radius: 6px; background: var(--brand-blue); color: #fff; font-weight: 600; }
+
+/* Trucks */
+.fl-trucks :is(th, td) { padding-inline: 6px; white-space: nowrap; }
+.fl-trucks tbody :is(th, td) { padding-block: 15px; font-size: 13px; color: #6e6e73; }
+.fl-trucks tbody th { color: #1d1d1f; }
+.fl-checkin { display: block; font-size: 11.5px; color: #a1a1a6; }
+.fl-reading { display: block; font-weight: 500; color: #1d1d1f; }
+.fl-truck-sub { display: none; }
+.fl-pill { display: inline-block; padding: 4px 9px; border-radius: 999px; background: #f3f4f6; font-size: 11.5px; font-weight: 500; color: #6e6e73; }
+.fl-pill--alert { background: #fee2e2; color: #b91c1c; }
+
+/* ---------- Day ---------- */
+.fl-trips { padding-inline: 24px; border-top: 1px solid #eef0f3; }
+.fl-trip-list { list-style: none; margin: 0; padding: 0; }
+.fl-trip {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 14px 0;
+}
+.fl-trip + .fl-trip { border-top: 1px solid #f3f4f6; }
+.fl-trip-left { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: baseline; }
+.fl-trip-n { font-size: 13px; color: #a1a1a6; }
+.fl-trip-route { display: block; font-size: 14px; color: #1d1d1f; }
+.fl-trip-time { display: block; margin-top: 3px; font-size: 12px; color: #8a8f98; }
+.fl-trip-mi { font-size: 14px; font-weight: 600; color: #1d1d1f; white-space: nowrap; }
+
+.fl-day-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 24px;
+  border-top: 1px solid #eef0f3;
+  font-size: 13px;
+  color: #8a8f98;
+}
+.fl-day-foot strong { font-weight: 600; color: #1d1d1f; }
+.fl-export {
+  padding: 6px 12px;
+  border: 1px solid #e0e4ea;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0e1117;
+  white-space: nowrap;
+}
+
+@media (min-width: 900px) {
+  /* The trips scroll between the header and footer; the page carries on scrolling when they end. */
+  .fl-trips {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #d5dae2 transparent;
+  }
+  .fl-trips::-webkit-scrollbar { width: 6px; }
+  .fl-trips::-webkit-scrollbar-thumb { background: #d5dae2; border-radius: 3px; }
+  /* Positioned so its shadow paints over the trips above it. */
+  .fl-day-foot { position: relative; background: #fff; box-shadow: 0 -10px 14px -10px rgba(8, 12, 24, .10); }
+}
+.fl-trips:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: -2px; }
+
+/* ---------- Points ---------- */
+.fl-points {
+  display: grid;
+  gap: 28px;
+  max-width: 1040px;
+  margin: 56px auto 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+.fl-points h3 { margin: 0 0 8px; color: #0e1117; } /* size, weight and leading: the card-title role */
+.fl-points p { margin: 0; font-size: 15px; line-height: 1.6; color: #475569; }
+@media (min-width: 640px) { .fl-points { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .fl-points { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; } }
+
+/* ---------- Phones ---------- */
+@media (max-width: 560px) {
+  .fl-points { margin-top: 40px; }
+
+  /* Mileage: no weekend columns, tighter cells. */
+  .fl-mileage :is(th, td):nth-child(7),
+  .fl-mileage :is(th, td):nth-child(8) { display: none; }
+  .fl-mileage :is(th, td) { padding-inline: 3px; }
+  .fl-mileage :is(th, td):first-child { padding-left: 16px; }
+  .fl-mileage :is(th, td):last-child { padding-right: 16px; }
+  .fl-mileage thead th { font-size: 10px; letter-spacing: .6px; }
+
+  /* Trucks: the truck under the name instead of a column of its own. */
+  .fl-trucks :is(th, td):nth-child(2) { display: none; }
+  .fl-truck-sub { display: block; font-size: 12px; font-weight: 400; color: #8a8f98; }
+
+  .fl-card-head { padding-inline: 16px; }
+  .fl-trips { padding-inline: 16px; }
+  .fl-day-foot { padding-inline: 16px; }
+  .fl-trip-route { font-size: 13.5px; }
+}
