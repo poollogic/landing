@@ -13,10 +13,11 @@ import { flushSync } from 'react-dom';
 // visible tab (a page opened in a background tab plays when it's first looked at); scrolled away
 // or switched from midway, it settles at once, scrolled to the end, rather than playing again.
 // Every wait is cancelled through an AbortController.
-// Below 960px the window sits under the hero's copy, so its composer is a screen lower than its top
-// and typing there would go unseen. So there: the first exchange is already in place when playback
-// starts, the other questions arrive as sent messages without being typed, and it waits until half
-// the window is on screen.
+// Below 960px the window sits under the hero's copy, its composer a screen lower than its top, so
+// typing there would go unseen if it started as the window came in. So there: the first exchange is
+// already in place when playback starts, and it waits until the whole window, composer included, is
+// on screen (as much of it as the screen can hold, on a short phone); then the rest plays as on
+// desktop, typed.
 
 const FRESH = {
   typed: null, // the composer's text while a question is typed; null shows the placeholder
@@ -76,7 +77,7 @@ export default function useAiChatDemo(script) {
     READER.forEach((type) => body.addEventListener(type, letGo, { passive: true }));
 
     let ac = null;
-    let ready = false; // on screen enough to play: any of it, or half of it when stacked
+    let ready = false; // on screen enough to play: any of it, or (stacked) all of it that fits
     let wait = 0;
 
     const play = async (signal, stacked) => {
@@ -99,21 +100,16 @@ export default function useAiChatDemo(script) {
       for (const [i, turn] of script.turns.entries()) {
         if (stacked && i === 0) continue; // already in place (start)
         if (i > 0) await sleep(1100);
+        // The question, typed into the composer in a person's rhythm, then sent.
         await sleep(rnd(350, 600));
-        if (stacked) {
-          // Sent at once: the composer may be off screen.
-          reveal((f) => ({ shown: shown(f, [turn.user]) }));
-        } else {
-          // The question, typed into the composer in a person's rhythm, then sent.
-          for (let n = 1; n <= turn.ask.length; n++) {
-            patch(() => ({ typed: turn.ask.slice(0, n) }));
-            if (n < turn.ask.length) await sleep(keyDelay(turn.ask[n - 1], turn.ask[n]));
-          }
-          await sleep(rnd(500, 700));
-          patch(() => ({ press: true }));
-          await sleep(440);
-          reveal((f) => ({ press: false, typed: null, shown: shown(f, [turn.user]) }));
+        for (let n = 1; n <= turn.ask.length; n++) {
+          patch(() => ({ typed: turn.ask.slice(0, n) }));
+          if (n < turn.ask.length) await sleep(keyDelay(turn.ask[n - 1], turn.ask[n]));
         }
+        await sleep(rnd(500, 700));
+        patch(() => ({ press: true }));
+        await sleep(440);
+        reveal((f) => ({ press: false, typed: null, shown: shown(f, [turn.user]) }));
         // The assistant's turn, 500ms later: its tool row 550ms after that, spinning, then checked as
         // the answer appears 750ms on. A turn with no tools answers where the tool row would be.
         await sleep(500);
@@ -153,11 +149,15 @@ export default function useAiChatDemo(script) {
     // Off screen, hidden, or reduced motion turned on midway: settle rather than replay later.
     const interrupted = () => { if (state === 'playing') done(true); };
 
+    // Stacked: all of the window, or as much as the screen holds, less a little for rounding and a
+    // phone's browser bars. Checked at every 5% step, so the observer reports the moment it's reached.
+    const enough = () => Math.min(0.95, window.innerHeight / el.offsetHeight - 0.05);
     const io = new IntersectionObserver(([entry]) => {
-      const half = entry.intersectionRatio >= 0.45; // "half", allowing for the ratio's rounding
-      ready = window.matchMedia(STACKED).matches ? entry.isIntersecting && half : entry.isIntersecting;
+      ready = window.matchMedia(STACKED).matches
+        ? entry.isIntersecting && entry.intersectionRatio >= enough()
+        : entry.isIntersecting;
       if (ready) start(); else if (!entry.isIntersecting) interrupted();
-    }, { threshold: [0, 0.45] });
+    }, { threshold: Array.from({ length: 21 }, (_, i) => i / 20) });
     io.observe(el);
     const onVisibility = () => (document.hidden ? interrupted() : start());
     const onMotion = () => (reduce.matches ? interrupted() : start());
