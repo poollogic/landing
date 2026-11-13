@@ -92,6 +92,7 @@ const COMPARE = [
     ['Texting from your business number', false, true],
     ['Automated SMS lead follow-ups', false, true],
     ['Bulk email from your own domain', false, true],
+    ['Service reports & invoices emailed from your own domain', false, true],
   ]],
   ['Automation, AI & API', [
     ['Automations, like invoicing when a job’s done', false, true],
