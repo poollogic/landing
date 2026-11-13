@@ -103,6 +103,9 @@ const PartnerTermsPage = () => {
                 marginLeft: -12,
                 transition: 'color .15s ease, border-color .15s ease',
                 lineHeight: 1.4,
+                // One line each: in Geist every title fits the 220px column, but the fallback face wraps
+                // "Referral Payments & What You Earn", so the list jumped when Geist arrived.
+                whiteSpace: 'nowrap',
               }}>{s.title}</a>
             ))}
           </nav>
