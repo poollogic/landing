@@ -19,7 +19,8 @@ import useAiChatDemo from './useAiChatDemo.js';
 //      An owner or admin approves it signed in to Poolnautics, on the proposal's own page (ai/approvals
 //      branch, docs/ai-approvals.md). No tool call, so its answer comes where a tool row would.
 // The whole conversation is in the HTML from the start (pre-rendered), each step fading in. Once
-// the page runs, useAiChatDemo plays it like a live chat, once, then it stays finished. The window
+// the page runs, useAiChatDemo plays it like a live chat, once, then it stays finished (below 960px,
+// from the first answer on, with no typing: see useAiChatDemo). The window
 // has a fixed height and its body scrolls; steps not shown yet take no space. While it plays,
 // screen readers get the whole transcript (a hidden copy) instead of the half-played one, and
 // nothing is announced as it appears. Reduced motion keeps the finished conversation, scrolled to

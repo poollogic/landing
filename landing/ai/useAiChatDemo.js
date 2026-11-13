@@ -13,6 +13,10 @@ import { flushSync } from 'react-dom';
 // visible tab (a page opened in a background tab plays when it's first looked at); scrolled away
 // or switched from midway, it settles at once, scrolled to the end, rather than playing again.
 // Every wait is cancelled through an AbortController.
+// Below 960px the window sits under the hero's copy, so its composer is a screen lower than its top
+// and typing there would go unseen. So there: the first exchange is already in place when playback
+// starts, the other questions arrive as sent messages without being typed, and it waits until half
+// the window is on screen.
 
 const FRESH = {
   typed: null, // the composer's text while a question is typed; null shows the placeholder
@@ -22,6 +26,7 @@ const FRESH = {
   done: {}, // tools checked, by key
 };
 const SETTLED = { settled: true };
+const STACKED = '(max-width: 959.98px)'; // ai.css: the hero's window under its copy
 const NEAR_END = 60; // px: a reader this close to the end is followed; further up, left alone
 
 const rnd = (min, max) => min + Math.random() * (max - min);
@@ -71,10 +76,10 @@ export default function useAiChatDemo(script) {
     READER.forEach((type) => body.addEventListener(type, letGo, { passive: true }));
 
     let ac = null;
-    let onScreen = false;
+    let ready = false; // on screen enough to play: any of it, or half of it when stacked
     let wait = 0;
 
-    const play = async (signal) => {
+    const play = async (signal, stacked) => {
       const sleep = (ms) =>
         new Promise((resolve, reject) => {
           if (signal.aborted) return reject(signal.reason);
@@ -92,17 +97,23 @@ export default function useAiChatDemo(script) {
       };
 
       for (const [i, turn] of script.turns.entries()) {
+        if (stacked && i === 0) continue; // already in place (start)
         if (i > 0) await sleep(1100);
-        // The question, typed into the composer in a person's rhythm, then sent.
         await sleep(rnd(350, 600));
-        for (let n = 1; n <= turn.ask.length; n++) {
-          patch(() => ({ typed: turn.ask.slice(0, n) }));
-          if (n < turn.ask.length) await sleep(keyDelay(turn.ask[n - 1], turn.ask[n]));
+        if (stacked) {
+          // Sent at once: the composer may be off screen.
+          reveal((f) => ({ shown: shown(f, [turn.user]) }));
+        } else {
+          // The question, typed into the composer in a person's rhythm, then sent.
+          for (let n = 1; n <= turn.ask.length; n++) {
+            patch(() => ({ typed: turn.ask.slice(0, n) }));
+            if (n < turn.ask.length) await sleep(keyDelay(turn.ask[n - 1], turn.ask[n]));
+          }
+          await sleep(rnd(500, 700));
+          patch(() => ({ press: true }));
+          await sleep(440);
+          reveal((f) => ({ press: false, typed: null, shown: shown(f, [turn.user]) }));
         }
-        await sleep(rnd(500, 700));
-        patch(() => ({ press: true }));
-        await sleep(440);
-        reveal((f) => ({ press: false, typed: null, shown: shown(f, [turn.user]) }));
         // The assistant's turn, 500ms later: its tool row 550ms after that, spinning, then checked as
         // the answer appears 750ms on. A turn with no tools answers where the tool row would be.
         await sleep(500);
@@ -127,20 +138,26 @@ export default function useAiChatDemo(script) {
       unwatch();
     };
     const start = () => {
-      if (state !== 'idle' || reduce.matches || !onScreen || document.hidden) return;
+      if (state !== 'idle' || reduce.matches || !ready || document.hidden) return;
       state = 'playing';
       ac = new AbortController();
-      setFrame(FRESH);
+      const stacked = window.matchMedia(STACKED).matches;
+      const [first] = script.turns;
+      // Stacked: the first exchange stays, answered; the rest plays from there.
+      setFrame(stacked
+        ? { ...FRESH, shown: Object.fromEntries([first.user, first.turn, ...first.tools, first.reply].map((k) => [k, true])), done: Object.fromEntries(first.tools.map((t) => [t, true])) }
+        : FRESH);
       const { signal } = ac;
-      wait = setTimeout(() => play(signal).then(() => done(false), () => {}), 400); // an abort is followed by done()
+      wait = setTimeout(() => play(signal, stacked).then(() => done(false), () => {}), 400); // an abort is followed by done()
     };
     // Off screen, hidden, or reduced motion turned on midway: settle rather than replay later.
     const interrupted = () => { if (state === 'playing') done(true); };
 
     const io = new IntersectionObserver(([entry]) => {
-      onScreen = entry.isIntersecting;
-      if (onScreen) start(); else interrupted();
-    });
+      const half = entry.intersectionRatio >= 0.45; // "half", allowing for the ratio's rounding
+      ready = window.matchMedia(STACKED).matches ? entry.isIntersecting && half : entry.isIntersecting;
+      if (ready) start(); else if (!entry.isIntersecting) interrupted();
+    }, { threshold: [0, 0.45] });
     io.observe(el);
     const onVisibility = () => (document.hidden ? interrupted() : start());
     const onMotion = () => (reduce.matches ? interrupted() : start());
