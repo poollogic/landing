@@ -115,7 +115,7 @@ export const structuredData = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
-      { '@type': 'ListItem', position: 2, name: 'AI & integrations', item: PAGE_URL },
+      { '@type': 'ListItem', position: 2, name: 'AI & automations', item: PAGE_URL },
     ],
   },
   ...(FULL_PAGE ? [{

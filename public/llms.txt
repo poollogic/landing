@@ -17,7 +17,7 @@ Customers' payments go to the pool company's own Stripe account; Poolnautics tak
 - [Home](https://getpoolnautics.com/): what Poolnautics does, with a live preview of the dashboard and a day of automated billing, routes and fleet
 - [Pricing](https://getpoolnautics.com/pricing): plans, what each includes, prices by company size, and pricing questions
 - [Repair requests, diagnostics and work orders](https://getpoolnautics.com/workflow): how a repair goes from a request to a quote or invoice, a work order and a paid invoice, with one step for the office
-- [AI and integrations](https://getpoolnautics.com/ai-and-automations): connecting Claude, Grok, ChatGPT or your own AI, automations, and the API
+- [AI and automations](https://getpoolnautics.com/ai-and-automations): connecting Claude, Grok, ChatGPT or your own AI, automations, and the API
 - [Technician app](https://getpoolnautics.com/tech-app): the phone app for routes, chemistry and service reports
 - [Partner program](https://getpoolnautics.com/partners)
 - [Contact](https://getpoolnautics.com/contact)

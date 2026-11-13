@@ -52,7 +52,7 @@ const WAYS = [
     Icon: CodeXml,
     title: 'Developers',
     body: 'Connect Claude, Grok, ChatGPT or your own AI, or build on the Poolnautics API.',
-    links: [['AI & integrations', '/ai-and-automations']],
+    links: [['AI & automations', '/ai-and-automations']],
   },
   {
     Icon: Scale,

@@ -20,7 +20,7 @@ export const FEATURE_COLUMNS = [
   ],
 ];
 // ...a column of plain links...
-const AI_PAGE = { label: 'AI & integrations', href: '/ai-and-automations', Icon: Sparkles };
+const AI_PAGE = { label: 'AI & automations', href: '/ai-and-automations', Icon: Sparkles };
 const ROUTES_LINK = { label: 'Route transfers', href: '/#routes', Icon: Route };
 const MORE_LINKS = [
   AI_PAGE,
