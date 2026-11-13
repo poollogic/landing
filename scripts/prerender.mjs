@@ -68,6 +68,13 @@ for (const [route, { meta, jsonLd: data = [], headScript }] of Object.entries(PR
   // The page's own stylesheets (and the site's, already linked in the template) go in the page.
   html = html.replace(/<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g, (_, href) => inlineCss(href));
   html = setTag(html, /<html lang="en">/, '<html lang="en" data-css-inline>', '<html lang="en">');
+  // The pages drawn in Geist (their preload is Geist: vite.config.js GEIST_PAGES) take it with
+  // font-display: optional. It's preloaded, so almost every visit gets it; one where it's late keeps the
+  // metric-matched fallback for that view rather than swapping it in, which moved their text a little
+  // (layout shift ~0.011, over the check's 0.01). Everywhere else Geist stays on swap.
+  if (routeTable[route]?.font?.includes('/fonts/Geist.woff2')) {
+    html = setTag(html, /(font-family: 'Geist';\s*font-style: normal;\s*font-weight: 100 900;\s*)font-display: swap;/, '$1font-display: optional;', "Geist's @font-face");
+  }
   const css = (routeTable[route]?.css ?? []).filter((href) => !html.includes(`data-href="${href}"`)).map(inlineCss);
   // A page may have no stylesheets of its own (the legal pages use the site-wide ones), but it must be in
   // the table, or its stylesheets would be missing.
