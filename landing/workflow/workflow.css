@@ -12,8 +12,9 @@
           ticks #4ade80 */
 
 /* ---------- Sections ---------- */
-.rf-page .rf-section { padding: clamp(64px, 9vw, 104px) 24px; }
-.rf-page .rf-inner { position: relative; max-width: 1120px; margin: 0 auto; }
+.rf-page .rf-section { padding: clamp(64px, 9vw, 104px) var(--gutter); }
+/* The site's content width and gutters (index.html .container), so every section lines up with the nav and footer. */
+.rf-page .rf-inner { position: relative; max-width: var(--container-max); margin: 0 auto; }
 
 .rf-page .rf-light { background: #fff; color: #0f172a; }
 .rf-page .rf-grey { background: #f8fafc; color: #0f172a; }
@@ -38,7 +39,9 @@
 }
 
 /* Section headers (SectionHeader), at this page's sizes */
+/* Header → content: 56px under a centred header, 40px under a left-aligned one (in a two-column section). */
 .rf-page .rf-section { --section-head-gap: 56px; }
+.rf-page .section-head--left { --section-head-gap: 40px; }
 .rf-page .section-eyebrow { margin-bottom: 18px; font-size: 12px; letter-spacing: .14em; }
 .rf-page .section-title {
   max-width: 780px;
@@ -131,7 +134,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid #e2e8f0;
-  border-radius: 20px;
+  border-radius: var(--radius-xl);
   background: #f8fafc;
   text-align: left;
 }
@@ -164,14 +167,14 @@
   flex-direction: column;
   width: 100%;
   border: 1px solid;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 .rf-page .rf-browser--dark { border-color: #2a3345; background: #111318; box-shadow: 0 24px 60px rgba(8, 12, 24, .5); }
 .rf-page .rf-browser--light { border-color: #e2e8f0; background: #fff; box-shadow: 0 24px 60px rgba(8, 12, 24, .14); }
 .rf-page .rf-browser-bar { display: flex; flex: none; align-items: center; gap: 6px; padding: 10px 12px; border-bottom: 1px solid; }
 .rf-page .rf-browser-bar > span { width: 9px; height: 9px; border-radius: 50%; }
-.rf-page .rf-browser-bar > .rf-browser-url { flex: 1; max-width: 220px; height: 20px; margin-left: 10px; border-radius: 6px; }
+.rf-page .rf-browser-bar > .rf-browser-url { flex: 1; max-width: 220px; height: 20px; margin-left: 10px; border-radius: var(--radius-sm); }
 .rf-page .rf-browser--dark .rf-browser-bar { border-color: #2a3345; }
 .rf-page .rf-browser--dark .rf-browser-bar > span { background: #3a4458; }
 .rf-page .rf-browser--dark .rf-browser-bar > .rf-browser-url { background: #1b2130; }
@@ -199,7 +202,7 @@
 
 /* ---------- 1. Hero ---------- */
 /* Top padding clears the nav, which sits over the page. */
-.rf-page .rf-hero { padding: calc(var(--header-h, 64px) + clamp(64px, 9vw, 104px)) 24px clamp(64px, 8vw, 96px); }
+.rf-page .rf-hero { padding: calc(var(--header-h, 64px) + clamp(64px, 9vw, 104px)) var(--gutter) clamp(64px, 8vw, 96px); }
 /* The design's 546 / 526 split, 10px wider on the copy side: the site sets Satoshi's ss01 and cv11
    (index.html), which make the H1's first line 550px, so it keeps its two lines at full width. */
 .rf-page .rf-hero-grid { display: grid; grid-template-columns: minmax(0, 556fr) minmax(0, 516fr); align-items: center; gap: 56px 48px; }
@@ -224,18 +227,18 @@
 .rf-page .rf-hero { display: flex; align-items: center; min-height: 100vh; min-height: 100svh; }
 .rf-page .rf-hero > .rf-inner { flex: 1; min-width: 0; }
 
-/* Desktop: the whole hero scales as one, with the screen's width, or its height on short laptop
+/* Desktop: the hero's content scales as one with the screen's width, or its height on short laptop
    screens (min(vw, vh)), so it always fits in one screen and keeps the design's proportions (the H1
-   on two lines). Every size is a multiple of --rf-hero-text, the body text: 18px at 1440 × 900,
-   where it's the design exactly (H1 54px, content 1120px wide, the visual 440px tall). The visual's
+   on two lines). Every size is a multiple of --rf-hero-text, the body text: 18px at 1440 × 900 and
+   up, where it's the design exactly (H1 54px, the visual 440px tall). Its width is the site's
+   content width at every size, like every other section, so it lines up with the nav. The visual's
    frames are sized from --rf-hero-vis (pages/workflow.jsx). */
 @media (min-width: 1041px) {
   .rf-page .rf-hero {
-    --rf-hero-text: clamp(16px, min(1.25vw, 2vh), 24px);
+    --rf-hero-text: clamp(16px, min(1.25vw, 2vh), 18px);
     --rf-hero-vis: calc(var(--rf-hero-text) * 24.444);
-    padding: calc(var(--header-h, 64px) + clamp(32px, 6vh, 72px)) 24px clamp(32px, 6vh, 72px);
+    padding: calc(var(--header-h, 64px) + clamp(32px, 6vh, 72px)) var(--gutter) clamp(32px, 6vh, 72px);
   }
-  .rf-page .rf-hero > .rf-inner { max-width: calc(var(--rf-hero-text) * 62.222); }
   .rf-page .rf-hero-grid { column-gap: calc(var(--rf-hero-text) * 2.667); }
   .rf-page .rf-hero-copy { gap: calc(var(--rf-hero-text) * 1.222); }
   .rf-page .rf-hero-eyebrow { font-size: calc(var(--rf-hero-text) * .667); }
@@ -256,7 +259,6 @@
 /* ---------- 1b. Setup flow (SetupFlowSection.jsx), straight under the hero (#your-way) ----------
    Reuses the page's rf-section / rf-dark / section-head styles. */
 .rf-page .rf-setupflow { border-top: 1px solid rgba(148, 163, 184, 0.1); }
-.rf-page .rf-setupflow .section-head { margin-bottom: 72px; }
 .rf-page .rf-setupflow .section-sub { text-wrap: balance; }
 
 /* Flow grid: questions, connector, settings, connector, screens */
@@ -281,11 +283,11 @@
 .rf-page .rf-sf-out .rf-sf-node { display: flex; flex-direction: column; justify-content: center; }
 
 /* Cards */
-.rf-page .rf-sf-node { position: relative; flex: 1; min-width: 0; padding: 14px 18px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; background: rgba(255, 255, 255, 0.03); text-align: left; transition: border-color 0.2s; }
+.rf-page .rf-sf-node { position: relative; flex: 1; min-width: 0; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); background: rgba(255, 255, 255, 0.03); text-align: left; transition: border-color 0.2s; }
 .rf-page .rf-sf-in .rf-sf-node:hover { border-color: rgba(255, 255, 255, 0.18); }
 .rf-page .rf-sf-title { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; color: rgb(248, 250, 252); }
 .rf-page .rf-sf-body { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: rgb(169, 182, 202); }
-.rf-page .rf-sf-in .rf-sf-node--more { padding: 12px 18px; border-style: dashed; background: transparent; font-size: 14px; font-weight: 500; text-align: center; color: rgb(147, 164, 191); }
+.rf-page .rf-sf-in .rf-sf-node--more { padding: 12px 16px; border-style: dashed; background: transparent; font-size: 14px; font-weight: 500; text-align: center; color: rgb(147, 164, 191); }
 
 /* Answer pills */
 .rf-page .rf-sf-opts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
@@ -316,7 +318,7 @@
 /* Settings card, with a soft glow behind it */
 .rf-page .rf-sf-hubwrap { position: relative; display: flex; align-items: center; }
 .rf-page .rf-sf-hubwrap::before { content: ""; position: absolute; inset: 12% -110px; z-index: -1; background: radial-gradient(closest-side, rgba(46, 133, 255, 0.3), transparent); pointer-events: none; }
-.rf-page .rf-sf-hub { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; padding: 30px 20px 26px; border: 1px solid rgba(46, 133, 255, 0.55); border-radius: 18px; background: linear-gradient(180deg, rgba(46, 133, 255, 0.22), rgba(46, 133, 255, 0.05)), rgb(10, 13, 19); box-shadow: 0 24px 60px -24px rgba(46, 133, 255, 0.7); text-align: center; }
+.rf-page .rf-sf-hub { position: relative; flex: 1; display: flex; flex-direction: column; align-items: center; padding: 32px 24px; border: 1px solid rgba(46, 133, 255, 0.55); border-radius: var(--radius-xl); background: linear-gradient(180deg, rgba(46, 133, 255, 0.22), rgba(46, 133, 255, 0.05)), rgb(10, 13, 19); box-shadow: 0 24px 60px -24px rgba(46, 133, 255, 0.7); text-align: center; }
 .rf-page .rf-sf-hub .rf-sf-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
 .rf-page .rf-sf-once { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; padding: 4px 11px; border-radius: 999px; background: rgba(74, 222, 128, 0.1); font-size: 12.5px; font-weight: 600; line-height: 16px; color: rgb(74, 222, 128); }
 
@@ -331,7 +333,7 @@
 @keyframes rf-sf-run { 0% { stroke-dashoffset: 36; opacity: 0; } 2% { opacity: 0.9; } 18% { stroke-dashoffset: -300; opacity: 0.9; } 20%, 100% { stroke-dashoffset: -300; opacity: 0; } }
 @keyframes rf-sf-shot { from { stroke-dashoffset: 36; opacity: 1; } to { stroke-dashoffset: -300; opacity: 1; } }
 
-.rf-page .rf-sf-foot { max-width: 620px; margin: 64px auto 0; font-size: 15px; line-height: 1.6; text-align: center; text-wrap: balance; color: rgb(147, 164, 191); }
+.rf-page .rf-sf-foot { max-width: 620px; margin: 56px auto 0; font-size: 15px; line-height: 1.6; text-align: center; text-wrap: balance; color: rgb(147, 164, 191); }
 .rf-page .rf-sf-foot strong { font-weight: 600; color: rgb(248, 250, 252); }
 
 @media (prefers-reduced-motion: reduce) {
@@ -340,7 +342,6 @@
 
 /* Stacked layout: tablet and mobile (same breakpoint as the hero) */
 @media (max-width: 1040px) {
-  .rf-page .rf-setupflow .section-head { margin-bottom: 48px; }
   .rf-page .rf-sf-grid { display: flex; flex-direction: column; gap: 0; }
   .rf-page .rf-sf-effect { display: block; margin-top: auto; }
   .rf-page .rf-sf-w1 { margin-top: -5px; }
@@ -355,9 +356,8 @@
   .rf-page .rf-sf-w2::before { background: linear-gradient(180deg, rgba(46, 133, 255, 0.9), rgba(46, 133, 255, 0.2)); }
   .rf-page .rf-sf-w2 { margin-bottom: 14px; }
   .rf-page .rf-sf-hubwrap::before { inset: -40px 8%; }
-  .rf-page .rf-sf-hub { padding: 26px 20px 22px; }
+  .rf-page .rf-sf-hub { padding: 24px; }
   .rf-page .rf-sf-in .rf-sf-node::after, .rf-page .rf-sf-out .rf-sf-node::before, .rf-page .rf-sf-hub::before, .rf-page .rf-sf-hub::after { display: none; }
-  .rf-page .rf-sf-foot { margin-top: 40px; }
 }
 /* Tablet: questions two-up, screens three-up when there is room */
 @media (min-width: 641px) and (max-width: 1040px) {
@@ -401,7 +401,6 @@
 
 /* ---------- 3. Diagnostics ---------- */
 .rf-page .rf-split-copy { min-width: 0; text-align: left; }
-.rf-page #diagnostics .section-head { margin-bottom: 40px; }
 .rf-page .rf-steps { display: flex; flex-direction: column; gap: 26px; margin: 0; padding: 0; list-style: none; }
 .rf-page .rf-steps li { display: flex; gap: 16px; }
 .rf-page .rf-steps li > div { display: flex; flex-direction: column; gap: 6px; }
@@ -411,29 +410,27 @@
 .rf-page .rf-points { display: flex; flex-direction: column; gap: 28px; margin: 0; padding: 0; list-style: none; text-align: left; }
 .rf-page .rf-points li, .rf-page .rf-grid-points li { display: flex; flex-direction: column; gap: 6px; }
 .rf-page .rf-paths { margin-top: 56px; }
-.rf-page .rf-path { gap: 14px; padding: 28px 32px 32px; }
+.rf-page .rf-path { gap: 14px; padding: 32px; }
 .rf-page .rf-path-title { font-size: 24px; font-weight: 700; line-height: 1.2; letter-spacing: -0.5px; color: #0f172a; }
 .rf-page .rf-path-steps { display: flex; flex-direction: column; gap: 10px; margin: 8px 0 0; padding: 0; list-style: none; }
 .rf-page .rf-path-steps li { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; line-height: 1.4; color: #0f172a; }
 .rf-page .rf-path-steps .rf-num { width: 24px; height: 24px; border-color: #cbd5e1; background: #fff; font-size: 12px; color: #56657f; }
 
 /* ---------- 5. Work orders ---------- */
-.rf-page #work-orders .section-head { margin-bottom: 36px; }
 .rf-page .rf-grid-points { display: flex; flex-wrap: wrap; gap: 28px 32px; margin: 0; padding: 0; list-style: none; }
 .rf-page .rf-grid-points li { flex: 1 1 220px; min-width: 0; }
 .rf-page .rf-callout {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 36px;
-  padding: 22px 24px;
+  margin-top: 40px;
+  padding: 32px;
   border: 1px solid #2a3345;
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   background: #121722;
 }
 
 /* ---------- 6. Automatic billing ---------- */
-.rf-page #billing .section-head { margin-bottom: 32px; }
 .rf-page .rf-stats { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; padding: 0; list-style: none; }
 .rf-page .rf-stats li {
   display: flex;
@@ -441,25 +438,25 @@
   flex-direction: column;
   gap: 6px;
   min-width: 0;
-  padding: 18px;
+  padding: 16px;
   border: 1px solid #e2e8f0;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
   background: #f8fafc;
 }
 .rf-page .rf-stat-value { font-size: 28px; font-weight: 700; line-height: 1.1; letter-spacing: -0.8px; color: #0f172a; }
 .rf-page .rf-stat-label { font-size: 14px; line-height: 1.45; color: #475569; }
-.rf-page .rf-billing-note { max-width: 560px; margin-top: 32px; font-size: 17px; line-height: 1.6; color: #475569; }
+.rf-page .rf-billing-note { max-width: 560px; margin-top: 40px; font-size: 17px; line-height: 1.6; color: #475569; }
 .rf-page .rf-billing-note strong { font-weight: 700; color: #0f172a; }
 
 /* ---------- 7. Setup ---------- */
-.rf-page .rf-benefit { gap: 12px; padding: 28px; }
+.rf-page .rf-benefit { gap: 12px; padding: 32px; }
 .rf-page .rf-benefit-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: var(--radius);
   background: #eff6ff;
   color: #1e40af;
 }
@@ -469,8 +466,8 @@
 .rf-page .rf-checks--grid li { flex: 1 1 400px; min-width: 0; color: #0f172a; }
 
 /* ---------- 4b. AI assistants (grey, after Quotes & invoices: the one step an AI can take over) ---------- */
-.rf-page .rf-ai-card { gap: 8px; padding: 28px; }
-.rf-page .rf-ai-more { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 40px; text-align: center; }
+.rf-page .rf-ai-card { gap: 8px; padding: 32px; }
+.rf-page .rf-ai-more { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 56px; text-align: center; }
 .rf-page .rf-ai-more .rf-text-link { gap: 8px; color: #0f172a; text-decoration-color: #94a3b8; }
 .rf-page .rf-ai-more .rf-text-link:hover { text-decoration-color: #0f172a; }
 .rf-page .rf-ai-fine { font-size: 14px; line-height: 1.5; color: #56657f; }
@@ -493,7 +490,7 @@
 }
 .rf-page .rf-int-group-head .rf-item-body { margin-top: 6px; }
 .rf-page .rf-int-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
-.rf-page .rf-int-card { flex-direction: row; align-items: center; gap: 12px; height: 100%; padding: 14px 16px; border-radius: 14px; }
+.rf-page .rf-int-card { flex-direction: row; align-items: center; gap: 12px; height: 100%; padding: 16px; border-radius: var(--radius-lg); }
 .rf-page .rf-int-card--link { transition: border-color .2s, background-color .2s; }
 .rf-page .rf-int-card--link:hover { border-color: #94a3b8; background: #fff; }
 .rf-page .rf-int-icon { /* a neutral tile until the app's icons are here (workflow.jsx INTEGRATION_GROUPS) */
@@ -503,7 +500,7 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 9px;
+  border-radius: var(--radius);
   background: #e2e8f0;
   color: #475569;
 }
@@ -518,11 +515,10 @@
   .rf-page .rf-int-group { padding: 28px 0; }
   .rf-page .rf-int-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
   .rf-page .rf-int-card { gap: 10px; padding: 12px; }
-  .rf-page .rf-int-icon { width: 36px; height: 36px; border-radius: 8px; }
+  .rf-page .rf-int-icon { width: 36px; height: 36px; }
 }
 
 /* ---------- 8. FAQ ---------- */
-.rf-page #faq { --section-head-gap: 48px; }
 .rf-page .rf-faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 56px; text-align: left; }
 .rf-page .rf-faq-item { display: flex; flex-direction: column; gap: 8px; padding: 26px 0 30px; border-top: 1px solid #e2e8f0; }
 .rf-page .rf-faq-answer { font-size: 16px; line-height: 1.6; color: #475569; }
@@ -562,7 +558,7 @@
   .rf-page .rf-source { padding: 24px 24px 0; }
   .rf-page .rf-source-title { font-size: 24px; }
   .rf-page .rf-path, .rf-page .rf-benefit, .rf-page .rf-decide { padding: 24px; }
-  .rf-page .rf-callout { padding: 20px; }
+  .rf-page .rf-callout { padding: 24px; }
   .rf-page .rf-note { align-items: flex-start; }
 }
 
