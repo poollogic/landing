@@ -284,6 +284,11 @@ export default function PricingPage() {
               titleClassName="text-[clamp(34px,4.1vw,46px)] font-bold leading-[1.08] tracking-[-0.028em] text-white"
               subtitleClassName="max-w-[600px] text-slate-400"
             />
+            {/* What Poolnautics is, in plain words, in the visible text: the H1 is a slogan, and AI tools quote what's on the page. */}
+            <p className="mx-auto mt-3 max-w-[600px] text-center text-[15px] leading-relaxed text-slate-400">
+              Poolnautics is pool service software: billing, routing, a technician app, repairs and automations, priced by
+              active customers.
+            </p>
           </div>
         </section>
 
