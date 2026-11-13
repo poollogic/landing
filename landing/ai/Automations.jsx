@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Bell, CreditCard, FileText, MessageSquare, Star, UserPlus } from 'lucide-react';
+import { ArrowRight, Bell, CreditCard, Droplets, MessageSquare, Star, UserPlus } from 'lucide-react';
 import AutomationFlow from './AutomationFlow.jsx';
 
 // #automations (white): the built-in follow-ups on the left as a radio group, the automation card on
@@ -43,18 +43,19 @@ const EXAMPLES = [
     ],
   },
   {
-    key: 'estimate',
-    name: 'Estimate follow-up',
-    row: () => 'Follow up on an estimate that isn’t approved',
+    key: 'shock',
+    name: 'Pool shocked text alert',
+    row: () => 'Tell a customer their pool was shocked',
+    delay: '5 minutes',
     steps: [
-      { kind: 'When', icon: FileText, title: 'An estimate isn’t approved', detail: 'After 3 days' },
+      { kind: 'When', icon: Droplets, title: 'A pool is serviced', detail: 'Only when the pool was shocked' },
+      { kind: 'Wait', wait: true },
       {
         kind: 'Then',
         icon: MessageSquare,
         title: 'Text or email the customer',
-        message: 'Hi Howard, this is Chris with Bayside Pool Co. Just checking in on the estimate we sent you. If you have any questions, reply here and we’ll go over it with you. You can approve it whenever you’re ready.',
+        message: 'Hi Kim, this is Chris with Bayside Pool Co. Quick heads up: we shocked your pool during today’s visit to keep the water clean and clear. Please keep everyone out of the water for the next 24 hours. Reply here if you have any questions.',
       },
-      { kind: 'Then', icon: Bell, title: 'Notify the office right away', detail: 'Howard Hamlin was sent a follow-up automatically' },
     ],
   },
   {

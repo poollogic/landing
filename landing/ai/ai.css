@@ -926,6 +926,12 @@
   position: absolute; top: calc(100% + 6px); left: 0; z-index: 20; width: 264px; padding: 8px;
   border: 1px solid #e2e8f0; border-radius: var(--ai-r-card); background: #fff; box-shadow: 0 20px 40px -12px rgba(15, 23, 42, .28);
 }
+/* Phones: the box sits too far right for the menu to fit under it, so the menu hangs from the start of
+   its step (the li is positioned), 6px under the box. */
+@media (max-width: 559.98px) {
+  .ai-page .ai-delay { position: static; }
+  .ai-page .ai-delay-menu { top: 40px; }
+}
 .ai-page .ai-delay-presets { display: grid; }
 .ai-page .ai-delay-presets button { padding: 8px 10px; border: 0; border-radius: var(--ai-r-button); background: none; text-align: left; font-size: 14px; color: #334155; cursor: pointer; }
 .ai-page .ai-delay-presets button:hover { background: #f1f5f9; }
