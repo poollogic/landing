@@ -36,11 +36,12 @@ import {
 // Blocks with data-reveal fade up on scroll (useReveal).
 
 const ORIGIN = 'https://getpoolnautics.com';
-// Only the hero, the stance and "The short answer" are published for now (2026-11-07). True brings
-// back the rest of the page, with its FAQ in the JSON-LD, the pillars' links to their sections and
-// scripts/seo-check.mjs with it. To preview the whole page locally without publishing it:
-// VITE_AI_FULL_PAGE=1 npx vite.
+// Published so far: the hero, the stance, "The short answer" and Automations (2026-11-13). True
+// brings back the rest of the page, with its FAQ in the JSON-LD and every pillar's link to its
+// section. Add 'FAQPage' back to the route's jsonLd in scripts/seo-check.mjs with it. To preview the
+// whole page locally without publishing it: VITE_AI_FULL_PAGE=1 npx vite.
 const FULL_PAGE = import.meta.env.VITE_AI_FULL_PAGE === '1';
+const PUBLISHED = new Set(['#automations']); // sections below "The short answer" that are live
 const PAGE_URL = `${ORIGIN}/ai-integrations`;
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--brand-blue)]';
 
@@ -295,7 +296,10 @@ export default function AiIntegrationsPage() {
                 );
                 return (
                   <li key={title}>
-                    {FULL_PAGE ? <a href={href} className={`ai-pillar ${FOCUS}`}>{body}</a> : <div className="ai-pillar">{body}</div>}
+                    {/* A link only once its section is published. */}
+                    {FULL_PAGE || PUBLISHED.has(href)
+                      ? <a href={href} className={`ai-pillar ${FOCUS}`}>{body}</a>
+                      : <div className="ai-pillar">{body}</div>}
                   </li>
                 );
               })}
@@ -303,7 +307,6 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
-        {FULL_PAGE && (<>
         {/* 3. Automations (white): pick a built-in follow-up on the left, see it run on the right (Automations.jsx). */}
         <section id="automations" className="section ai-light bg-white" data-theme="light" aria-labelledby="automations-heading">
           <div className="container">
@@ -321,6 +324,7 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
+        {FULL_PAGE && (<>
         {/* 4. Connecting an assistant (MCP): the levels, the hub and what each level can do (McpDiagram.jsx). */}
         <section id="connect-ai" className="section ai-connect" aria-labelledby="connect-heading">
           <div className="container">
