@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Check } from 'lucide-react';
 
-// /workflow's "Setup flow" band, straight under the hero (#your-way): a few of the ~10 setup questions on
+// /workflow's "Setup flow" band (#your-way), after AI assistants: a few of the ~10 setup questions on
 // the left, the company settings they're saved to in the middle, and what three screens do as a result on
 // the right. Tapping an answer rewrites the lines it changes; thin connectors carry pulses of light between
 // the columns, ending on each card's centre as measured after layout. Below 1040px the columns stack and

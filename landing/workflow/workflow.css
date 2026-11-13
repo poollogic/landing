@@ -256,7 +256,7 @@
   .rf-page .rf-hero-browser { right: calc(var(--rf-hero-vis) * .127); }
 }
 
-/* ---------- 1b. Setup flow (SetupFlowSection.jsx), straight under the hero (#your-way) ----------
+/* ---------- Setup flow (SetupFlowSection.jsx, #your-way), after AI assistants ----------
    Reuses the page's rf-section / rf-dark / section-head styles. */
 .rf-page .rf-setupflow { border-top: 1px solid rgba(148, 163, 184, 0.1); }
 .rf-page .rf-setupflow .section-sub { text-wrap: balance; }

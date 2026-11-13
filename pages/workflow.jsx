@@ -15,7 +15,7 @@ import { AI_PLAN } from '../aiFacts.js';
 // /workflow (was /request-flow, which redirects here): the feature page for requests, diagnostics and work orders, built from the approved
 // design (request-flow-reference.html). Pre-rendered at build time (entry-server.jsx →
 // dist/workflow.html), so crawlers get every word; main.jsx hydrates it. So: no window or
-// document while rendering. Nine sections, dark and light in turn; styles in
+// document while rendering. Twelve sections, dark, light and grey in turn; styles in
 // landing/workflow/workflow.css (rf-). Every screenshot is a PhoneFrame or BrowserFrame
 // placeholder (landing/workflow/Frames.jsx) until the real one is passed in.
 
@@ -139,7 +139,7 @@ function Hero({ theme }) {
           <Checks className="rf-hero-checks" items={['One step for the office', 'Works whether you quote or invoice', 'Set up in about 10 simple questions']} />
           <div className="rf-hero-actions">
             <PrimaryCta theme={theme} />
-            <a href="#requests" className={`rf-text-link ${FOCUS}`}>See how the flow works</a>
+            <a href="#quotes" className={`rf-text-link ${FOCUS}`}>See how the flow works</a>
           </div>
         </div>
         <div className="rf-hero-visual">
@@ -154,7 +154,7 @@ function Hero({ theme }) {
 
 function Requests() {
   return (
-    <section id="requests" className="rf-section rf-light" aria-labelledby="requests-heading">
+    <section id="requests" className="rf-section rf-grey" aria-labelledby="requests-heading">
       <div className="rf-inner">
         <SectionHeader
           id="requests-heading"
@@ -558,11 +558,11 @@ export default function WorkflowPage() {
       <Nav />
       <main>
         <Hero theme={theme} />
-        <SetupFlowSection />
+        <Quotes />
         <Requests />
         <Diagnostics />
-        <Quotes />
         <AiAssistants />
+        <SetupFlowSection />
         <Integrations />
         <WorkOrders />
         <Billing />
