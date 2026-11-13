@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import SectionHeader from './SectionHeader.jsx';
 import './repairs.css';
 
-// "Repairs on autopilot": between the Financial Watchdog (#collections) and Instant Migration (#switching). A repair from the tech's
+// "Repairs on autopilot": between Technicians on autopilot (#technicians) and Instant Migration (#switching). A repair from the tech's
 // request to the paid invoice in five cards; the owner's only step is the second, and a bracket over
 // the last three says Poolnautics does the rest. Each card's dark "screen" is a still drawing of the
 // app, not working UI: plain spans, read to screen readers as one image with a description.

@@ -1,0 +1,264 @@
+<div class="pn-phone ta-pn-front" aria-label="The Poolnautics service report: water readings">
+  <div class="pn-screen pn-report">
+    <div class="pn-island"></div>
+    <div class="pn-status">
+      <span>9:41</span>
+      <span class="pn-status__right">
+        <svg width="19" height="12"><use href="#pn-signal"/></svg>
+        <svg width="17" height="12"><use href="#pn-wifi"/></svg>
+        <svg width="27" height="13"><use href="#pn-battery"/></svg>
+      </span>
+    </div>
+
+    <div class="pn-scroll">
+      <div class="pn-topbar">
+        <span class="pn-back"><svg width="22" height="22" style="stroke-width:2.25"><use href="#pn-chevron-left"/></svg></span>
+        <span class="pn-step">Step 1 of 2</span>
+      </div>
+      <div class="pn-head">
+        <div class="pn-eyebrow">Service report · Readings</div>
+        <div class="pn-title">Dana Whitfield</div>
+        <div class="pn-addr">1182 Laurel Court, Clearwater, FL 33756</div>
+        <div class="pn-link">View last report<svg width="14" height="14" style="stroke-width:2"><use href="#pn-chevron-right"/></svg></div>
+      </div>
+
+      <div class="pn-form">
+        <!-- Pool type and filter -->
+        <div class="pn-card pn-facts">
+          <div class="pn-fact">
+            <div class="pn-fact__main"><svg width="24" height="24"><use href="#pn-pool"/></svg><div><small>Pool Type</small><b>Saltwater</b></div></div>
+            <div class="pn-fact__side"><span>15,000 gal</span><span>Last cell clean: 08/14/2026</span></div>
+          </div>
+          <div class="pn-fact">
+            <div class="pn-fact__main"><svg width="24" height="24"><use href="#pn-filter"/></svg><div><b>Cartridge</b><small>Baseline: 16 PSI</small></div></div>
+            <div class="pn-fact__side"><span>Cleaned: 10/05/2026</span><span>Replaced: 03/12/2026</span></div>
+          </div>
+        </div>
+
+        <!-- Photos -->
+        <div class="pn-card pn-photos">
+          <p>At least 1 photo required to submit (pool and/or equipment)</p>
+          <div class="pn-photos__row">
+            <span><svg width="30" height="30"><use href="#pn-camera"/></svg></span>
+            <span><svg width="30" height="30"><use href="#pn-camera"/></svg></span>
+          </div>
+        </div>
+
+        <!-- Water chemistry -->
+        <div class="pn-card">
+          <div class="pn-waterlevel" data-level="Normal">
+            <b>Water Level</b>
+            <div class="pn-level">
+              <div class="pn-level__track">
+                <span class="pn-level__fill"></span>
+                <button type="button" data-pn-level="Low" aria-label="Low" aria-pressed="false"><i></i></button>
+                <button type="button" data-pn-level="Normal" aria-label="Normal" aria-pressed="true"><i></i></button>
+                <button type="button" data-pn-level="High" aria-label="High" aria-pressed="false"><i></i></button>
+              </div>
+              <div class="pn-level__labels"><span>Low</span><span class="is-on">Normal</span><span>High</span></div>
+            </div>
+            <div class="pn-when-low">
+              <div data-pn-item>
+                <div class="pn-toggle">
+                  <div><b>Equipment Turned Off</b><small>Was the equipment turned off?</small></div>
+                  <button type="button" class="pn-switch" role="switch" aria-checked="false" aria-label="Equipment Turned Off" data-pn-flip></button>
+                </div>
+              </div>
+              <div class="pn-notice"><svg width="16" height="16"><use href="#pn-alert"/></svg><span>A low water level notice will be included in the service report.</span></div>
+            </div>
+          </div>
+
+          <div class="pn-reading" data-key="temp" data-min="40" data-max="110" data-step="1" data-value="82">
+            <div class="pn-reading__head">
+              <div class="pn-reading__name">Water Temp</div>
+              <div class="pn-reading__val" style="--u:43px"><span>82</span><small>°F</small></div>
+              <div class="pn-reading__flag"></div>
+            </div>
+            <div class="pn-strip" role="slider" tabindex="0" aria-label="Water Temp"></div>
+            <div class="pn-strip__range"><span>40</span><span>110</span></div>
+          </div>
+
+          <div class="pn-reading" data-key="salt" data-min="0" data-max="5500" data-step="50" data-value="3200">
+            <div class="pn-reading__head">
+              <div class="pn-reading__name">Salt Level</div>
+              <div class="pn-reading__val" style="--u:49px"><span>3200</span><small>ppm</small></div>
+              <div class="pn-reading__flag"><span class="pn-flag is-ok"><svg width="12" height="12"><use href="#pn-check"/></svg>In Range</span></div>
+            </div>
+            <div class="pn-strip" role="slider" tabindex="0" aria-label="Salt Level"></div>
+            <div class="pn-strip__range"><span>0</span><span>5500</span></div>
+          </div>
+
+          <div class="pn-reading" data-key="ta" data-min="0" data-max="250" data-step="2" data-value="70">
+            <div class="pn-reading__head">
+              <div class="pn-reading__name">Total Alkalinity</div>
+              <div class="pn-reading__val" style="--u:43px"><span>70</span><small>ppm</small></div>
+              <div class="pn-reading__flag"><span class="pn-flag is-ok"><svg width="12" height="12"><use href="#pn-check"/></svg>In Range</span></div>
+            </div>
+            <div class="pn-strip" role="slider" tabindex="0" aria-label="Total Alkalinity"></div>
+            <div class="pn-strip__range"><span>0</span><span>250</span></div>
+          </div>
+
+          <div class="pn-reading is-warn" data-key="ph" data-min="6.4" data-max="8.4" data-step="0.1" data-value="7.9">
+            <div class="pn-reading__head">
+              <div class="pn-reading__name">pH</div>
+              <div class="pn-reading__val"><span>7.9</span></div>
+              <div class="pn-reading__flag"><span class="pn-flag is-bad"><svg width="12" height="12"><use href="#pn-arrow-up"/></svg>High</span></div>
+            </div>
+            <div class="pn-strip" role="slider" tabindex="0" aria-label="pH"></div>
+            <div class="pn-strip__range"><span>6.4</span><span>8.4</span></div>
+          </div>
+
+          <div class="pn-reading" data-key="cya" data-min="0" data-max="200" data-step="2" data-value="60">
+            <div class="pn-reading__head">
+              <div class="pn-reading__name">CYA / Stabilizer</div>
+              <div class="pn-reading__val" style="--u:43px"><span>60</span><small>ppm</small></div>
+              <div class="pn-reading__flag"><span class="pn-flag is-ok"><svg width="12" height="12"><use href="#pn-check"/></svg>In Range</span></div>
+            </div>
+            <div class="pn-strip" role="slider" tabindex="0" aria-label="CYA / Stabilizer"></div>
+            <div class="pn-strip__range"><span>0</span><span>200</span></div>
+          </div>
+
+          <div class="pn-reading" data-key="fc" data-min="0" data-max="12" data-step="0.5" data-major="2" data-value="7.5">
+            <div class="pn-reading__head">
+              <div class="pn-reading__name">Free Chlorine</div>
+              <div class="pn-reading__val"><span>7.5</span><small>ppm</small></div>
+              <div class="pn-reading__flag"><span class="pn-flag is-ok"><svg width="12" height="12"><use href="#pn-check"/></svg>In Range</span></div>
+            </div>
+            <div class="pn-strip" role="slider" tabindex="0" aria-label="Free Chlorine"></div>
+            <div class="pn-strip__range"><span>0</span><span>12</span></div>
+          </div>
+
+          <div class="pn-reading" data-key="tc" data-min="0" data-max="12" data-step="0.5" data-major="2" data-value="7.5">
+            <div class="pn-reading__head">
+              <div class="pn-reading__name">Total Chlorine</div>
+              <div class="pn-reading__val"><span>7.5</span><small>ppm</small></div>
+              <div class="pn-reading__flag"><span class="pn-flag is-ok"><svg width="12" height="12"><use href="#pn-check"/></svg>In Range</span></div>
+            </div>
+            <div class="pn-strip" role="slider" tabindex="0" aria-label="Total Chlorine"></div>
+            <div class="pn-strip__range"><span>0</span><span>12</span></div>
+          </div>
+
+          <div class="pn-reading" data-key="ch" data-min="0" data-max="800" data-step="10" data-value="320">
+            <div class="pn-reading__head">
+              <div class="pn-reading__name">Calcium Hardness</div>
+              <div class="pn-reading__val" style="--u:43px"><span>320</span><small>ppm</small></div>
+              <div class="pn-reading__flag"><span class="pn-flag is-ok"><svg width="12" height="12"><use href="#pn-check"/></svg>In Range</span></div>
+            </div>
+            <div class="pn-strip" role="slider" tabindex="0" aria-label="Calcium Hardness"></div>
+            <div class="pn-strip__range"><span>0</span><span>800</span></div>
+          </div>
+
+          <div class="pn-reading" data-key="pressure" data-min="0" data-max="45" data-step="0.5" data-value="18">
+            <div class="pn-reading__head">
+              <div class="pn-reading__name">Filter Pressure</div>
+              <div class="pn-reading__val"><span>18.0</span><small>PSI</small></div>
+              <div class="pn-reading__flag"><span class="pn-flag is-ok"><svg width="12" height="12"><use href="#pn-check"/></svg>In Range</span></div>
+            </div>
+            <div class="pn-strip" role="slider" tabindex="0" aria-label="Filter Pressure"></div>
+            <div class="pn-strip__range"><span>0</span><span>45</span></div>
+          </div>
+
+          <!-- The readings rarely taken: opened with "More Readings" -->
+          <div data-pn-item>
+            <button type="button" class="pn-more" data-pn-flip aria-expanded="false"><span>More Readings</span><span>Show Less</span><svg width="16" height="16"><use href="#pn-chevron-down"/></svg></button>
+            <div class="pn-when-on">
+              <div class="pn-reading is-empty" data-key="tds" data-min="0" data-max="10000" data-step="50">
+                <div class="pn-reading__head">
+                  <div class="pn-reading__name">TDS</div>
+                  <div class="pn-reading__val" style="--u:49px"><span>–</span><small>ppm</small></div>
+                  <div class="pn-reading__flag"></div>
+                </div>
+                <div class="pn-strip" role="slider" tabindex="0" aria-label="TDS"></div>
+                <div class="pn-strip__range"><span>0</span><span>10000</span></div>
+              </div>
+              <div class="pn-reading is-empty" data-key="phosphate" data-min="0" data-max="2000" data-step="10">
+                <div class="pn-reading__head">
+                  <div class="pn-reading__name">Phosphate Level</div>
+                  <div class="pn-reading__val" style="--u:49px"><span>–</span><small>ppb</small></div>
+                  <div class="pn-reading__flag"></div>
+                </div>
+                <div class="pn-strip" role="slider" tabindex="0" aria-label="Phosphate Level"></div>
+                <div class="pn-strip__range"><span>0</span><span>2000</span></div>
+              </div>
+              <div class="pn-reading is-empty" data-key="nitrate" data-min="0" data-max="100" data-step="1">
+                <div class="pn-reading__head">
+                  <div class="pn-reading__name">Nitrate Level</div>
+                  <div class="pn-reading__val" style="--u:43px"><span>–</span><small>ppm</small></div>
+                  <div class="pn-reading__flag"></div>
+                </div>
+                <div class="pn-strip" role="slider" tabindex="0" aria-label="Nitrate Level"></div>
+                <div class="pn-strip__range"><span>0</span><span>100</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- LSI: works itself out from the readings above -->
+        <div class="pn-card pn-lsi" data-pn-lsi>
+          <div class="pn-lsi__top"><b>LSI (Water Balance)</b><span class="pn-lsi__val"><span data-pn-lsi-value>+0.18</span><em data-pn-lsi-label>Balanced</em></span></div>
+          <div class="pn-lsi__bar"><i></i><i></i><i></i><i></i><i></i><u data-pn-lsi-needle style="left:56%"></u></div>
+          <div class="pn-lsi__scale"><span>-1.5</span><span>-0.3</span><span>0</span><span>+0.3</span><span>+1.5</span></div>
+          <div class="pn-lsi__note" data-pn-lsi-note>Ideal range: <b>−0.3 to +0.3</b></div>
+        </div>
+
+        <div class="pn-button pn-button--calc"><svg width="18" height="18"><use href="#pn-flask"/></svg>Calculate Chemical Requirements</div>
+
+        <!-- Chemicals added -->
+        <div class="pn-card">
+          <div class="pn-cardtitle">Chemicals Added</div>
+          <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Liquid Chlorine</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Gallons</div></div><div><span>Amount</span><div class="pn-select">1/2 gal</div></div></div></div>
+          <div class="pn-chem is-on" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="true"><span class="pn-tick pn-tick--lg"></span>Liquid Acid</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Cups</div></div><div><span>Amount</span><div class="pn-select">2 cups</div></div></div></div>
+          <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Chlorine Tabs</button><div class="pn-fields pn-when-on"><div><span>Tab Size</span><div class="pn-select">3" tabs</div></div><div><span>Count</span><div class="pn-select">2 tabs</div></div></div></div>
+          <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>CalHypo Shock</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+          <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Stabilizer / Conditioner</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+          <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Bi Carb / Baking Soda</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+
+          <div class="pn-acc" data-pn-item>
+            <button type="button" class="pn-acc__head" data-pn-flip aria-expanded="false">Shock<svg width="18" height="18"><use href="#pn-chevron-right"/></svg></button>
+            <div class="pn-when-on">
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>TriChlor Shock</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>DiChlor Shock</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Non-Chlorine Shock / Potassium Monopersulfate</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Diatomaceous Earth</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+            </div>
+          </div>
+          <div class="pn-acc" data-pn-item>
+            <button type="button" class="pn-acc__head" data-pn-flip aria-expanded="false">Algaecides<svg width="18" height="18"><use href="#pn-chevron-right"/></svg></button>
+            <div class="pn-when-on">
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Ammonia Liquid Algaecide</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">2 oz</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Copper Based Liquid Algaecide</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">2 oz</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>PolyQuat Liquid Algaecide</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">2 oz</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Copper / Poly Quat Blend</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">2 oz</div></div></div></div>
+            </div>
+          </div>
+          <div class="pn-acc" data-pn-item>
+            <button type="button" class="pn-acc__head" data-pn-flip aria-expanded="false">More Chemicals<svg width="18" height="18"><use href="#pn-chevron-right"/></svg></button>
+            <div class="pn-when-on">
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Borate</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Metal Sequestering Agent</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">4 oz</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Pool Flocculant</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">4 oz</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Bromine Granular</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">4 oz</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Bromine Tabs</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">1 tab</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Soda Ash</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Calcium Chloride</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Diatomaceous Earth Alternative</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Sodium Bromide</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Dry Acid</button><div class="pn-fields pn-when-on"><div><span>Measure</span><div class="pn-select">Scoops</div></div><div><span>Amount</span><div class="pn-select">1 scoop</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Clarifier</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">4 oz</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Phosphate Remover</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">4 oz</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Salt</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">1 bag</div></div></div></div>
+              <div class="pn-chem" data-pn-item><button type="button" class="pn-chem__head" data-pn-flip aria-pressed="false"><span class="pn-tick pn-tick--lg"></span>Pool Enzymes</button><div class="pn-fields pn-when-on"><div><span>Amount</span><div class="pn-select">4 oz</div></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pn-button">Continue</div>
+      </div>
+    </div>
+
+    <div class="pn-pill">
+      <span><svg width="21" height="21"><use href="#pn-calculator"/></svg>Tools</span>
+      <span><svg width="21" height="21"><use href="#pn-lock"/></svg>Lock</span>
+    </div>
+  </div>
+</div>

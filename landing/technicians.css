@@ -1,0 +1,38 @@
+/* "Technicians on autopilot" (TechniciansSection.jsx). The phone's own styles: technicians/pn-phone.css. */
+.ta-section { background: #F6F8FB; padding: 96px 24px; }
+.ta-inner { max-width: 1040px; margin: 0 auto; }
+#technicians .section-head .section-sub { max-width: 600px; margin-left: auto; margin-right: auto; }
+
+.ta-grid { display: grid; margin-top: 64px; }
+@media (min-width: 861px) {
+  .ta-grid {
+    grid-template-columns: 328px minmax(0, 480px);
+    justify-content: center;
+    column-gap: 104px;
+    align-items: center;
+  }
+}
+
+/* Phone size: 0.7 = ~328px wide on desktop, 0.6 on mobile */
+#technicians .pn-phone.ta-pn-front { --pn-zoom: .7; margin: 0 auto; }
+@media (max-width: 860px) {
+  #technicians .pn-phone.ta-pn-front { --pn-zoom: .6; }
+}
+
+/* Desktop-only scrolling inside the phone. On touch devices the phone is static so it never traps page scrolling. */
+@media (hover: none), (pointer: coarse) {
+  #technicians .ta-pn-front .pn-scroll { overflow: hidden; }
+}
+
+.ta-list { list-style: none; margin: 0; padding: 0; }
+.ta-list li { padding: 28px 0; border-top: 1px solid #E4E8EF; }
+.ta-list li:first-child { padding-top: 0; border-top: 0; }
+.ta-list li:last-child { padding-bottom: 0; }
+.ta-list h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; line-height: 1.3; color: #0E1117; margin: 0 0 10px; }
+.ta-list p { font-size: 16px; line-height: 1.65; color: #475569; margin: 0; }
+
+@media (max-width: 860px) {
+  .ta-grid { grid-template-columns: 1fr; gap: 56px; margin-top: 48px; }
+  .ta-phone-col { display: flex; justify-content: center; }
+  .ta-list { max-width: 520px; margin: 0 auto; }
+}

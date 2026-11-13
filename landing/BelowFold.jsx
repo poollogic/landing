@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import OnePlatformSection from './OnePlatformSection.jsx';
 import DaySection from './DaySection.jsx';
 import RepairsSection from './RepairsSection.jsx';
+import TechniciansSection from './TechniciansSection.jsx';
 import BillingSection from './BillingSection.jsx';
 import RevenueSection from './RevenueSection.jsx';
 import ReserveSection from './ReserveSection.jsx';
@@ -50,6 +51,7 @@ export default function BelowFold() {
       <DaySection />
       <BillingSection />
       <RevenueSection />
+      <TechniciansSection />
       <RepairsSection />
       <ImportSection />
       <FounderSection />
