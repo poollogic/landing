@@ -1,0 +1,78 @@
+/* The homepage's type and spacing roles (pages/landing.jsx, the .lp-home root). Every heading, subhead,
+   eyebrow, card title and section's vertical padding takes its size, weight, line height, tracking and
+   spacing from the tokens on :root (index.html, phone first, redefined at 640px and 1024px), so none of
+   them needs a breakpoint of its own. The sections' own stylesheets keep colour, layout and measure only.
+   Scoped to the homepage: hero.css and landing.css's base rules are shared with /contact, /reserve,
+   /pricing, /workflow and the AI page, which keep their own sizes. */
+
+/* ---------- Type roles ---------- */
+.lp-home .hero-title {
+  font-size: var(--hero-title-size);
+  font-weight: var(--hero-title-weight);
+  line-height: var(--hero-title-leading);
+}
+
+/* Statement headlines; their spans (one per line, or a second colour) take the same size and weight. */
+.lp-home :is(.op-title, .dt-title, .founder-title, .rsv-statement) {
+  font-size: var(--statement-size);
+  font-weight: var(--statement-weight);
+  line-height: var(--statement-leading);
+  letter-spacing: var(--statement-tracking);
+}
+.lp-home :is(.op-title, .dt-title, .founder-title, .rsv-statement) span { font-size: inherit; font-weight: inherit; }
+
+.lp-home .section-title {
+  font-size: var(--section-title-size);
+  font-weight: var(--section-title-weight);
+  line-height: var(--section-title-leading);
+  letter-spacing: var(--section-title-tracking);
+}
+
+.lp-home .dt-close-1 {
+  font-size: var(--closing-size);
+  font-weight: var(--closing-weight);
+  line-height: var(--closing-leading);
+  letter-spacing: var(--closing-tracking);
+}
+
+.lp-home :is(.hero-sub, .op-lede, .dt-sub, .section-sub) {
+  font-size: var(--subhead-size);
+  font-weight: var(--subhead-weight);
+  line-height: var(--subhead-leading);
+  letter-spacing: var(--subhead-tracking);
+  color: var(--subhead-on-light);
+}
+/* Emphasis inside a subhead keeps its colour, at the subhead's weight. */
+.lp-home :is(.hero-sub, .op-lede, .dt-sub, .section-sub) :is(strong, b, em) { font-weight: var(--subhead-weight); }
+
+.lp-home :is(.rp-card-title, .ta-list h3, .rv-ft, .op-card-title) {
+  font-size: var(--card-title-size);
+  font-weight: var(--card-title-weight);
+}
+
+.lp-home :is(.section-eyebrow, .hero-eyebrow) {
+  font-size: var(--eyebrow-size);
+  font-weight: var(--eyebrow-weight);
+  color: var(--eyebrow-on-light);
+}
+
+.lp-home .op-sub {
+  font-size: var(--label-size);
+  font-weight: var(--label-weight);
+  line-height: var(--label-leading);
+}
+
+/* On the dark sections: the hero, the day, the Financial Watchdog, Repairs, the reserve card and routes. */
+.lp-home :is(.hero, #day, #collections, #repairs, #reserve, #routes) :is(.hero-sub, .dt-sub, .section-sub) { color: var(--subhead-on-dark); }
+.lp-home :is(.hero, #day, #collections, #repairs, #reserve, #routes) :is(.section-eyebrow, .hero-eyebrow) { color: var(--eyebrow-on-dark); }
+
+/* ---------- Spacing ---------- */
+/* The standard sections (#platform and #day keep their own). */
+.lp-home :is(#billing, #collections, #technicians, #repairs, #switching, #founder, #reserve, #routes, #faq) {
+  padding-top: var(--section-pad-y);
+  padding-bottom: var(--section-pad-y);
+}
+/* Header → content (the FAQ's two-column header keeps its own). */
+.lp-home :is(#billing, #collections, #technicians, #repairs, #switching, #routes) .section-head { margin-bottom: var(--head-to-content); }
+.lp-home .section-head .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
+.lp-home .section-head .section-sub { margin-top: var(--title-to-subhead); }

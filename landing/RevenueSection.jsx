@@ -155,19 +155,17 @@ export default function RevenueSection() {
   const wide = useIsWide();
   useRevenueStory(sectionRef, wide);
   return (
-    <section ref={sectionRef} id="collections" className="rv section" aria-labelledby="revenue-heading">
+    <section ref={sectionRef} id="collections" className="rv" aria-labelledby="revenue-heading">
       <RevenueStoryStyles />
       <div className="rv-inner container">
         <SectionHeader
           id="revenue-heading"
           eyebrow="Financial watchdog"
           title={<>
-            <span className="rv-h2-a">Stop trading your free time</span>{' '}
-            <span className="rv-h2-b">to customers who choose to ignore their invoices.</span>
+            <span className="rv-h2-a">Stop chasing customers</span>{' '}
+            <span className="rv-h2-b">who ignore their invoices.</span>
           </>}
-          subtitle="You didn’t start a business to act as a full-time debt collector—so let Poolnautics play the bad guy. Automate your financial SOPs so everyone is treated fairly and you get your time back. From tracking forgotten chemical charges to automatically deploying late fees and pausing service for non-payers, the system enforces your rules flawlessly. Stop sending awkward texts and let the software get your accounts in line."
-          eyebrowClassName="text-[#FF0036]"
-          subtitleClassName="text-[#94a3b8]"
+          subtitle="Let Poolnautics play the bad guy. Reminders, late fees and service pauses follow your rules automatically, so you never send another awkward text."
         />
 
         {wide ? (

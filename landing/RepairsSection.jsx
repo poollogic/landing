@@ -3,11 +3,10 @@ import { ArrowRight } from 'lucide-react';
 import SectionHeader from './SectionHeader.jsx';
 import './repairs.css';
 
-// "Repairs on autopilot": between Technicians on autopilot (#technicians) and Instant Migration (#switching). A repair from the tech's
-// request to the paid invoice in five cards; the owner's only step is the second, and a bracket over
-// the last three says Poolnautics does the rest. Each card's dark "screen" is a still drawing of the
-// app, not working UI: plain spans, read to screen readers as one image with a description.
-// Nothing here moves or waits on JavaScript.
+// "Repairs on autopilot": between Technicians on autopilot (#technicians) and Instant Migration (#switching).
+// Dark. A repair from the tech's request to the paid invoice in five cards; the owner's only step is the
+// second. Each card's "screen" is a still drawing of the app, not working UI: plain spans, read to screen
+// readers as one image with a description. Nothing here moves or waits on JavaScript.
 
 // The feature page for requests, diagnostics and work orders.
 const WORK_ORDERS_HREF = '/workflow';
@@ -31,13 +30,13 @@ const STEPS = [
     title: 'You set a price and hit send',
     body: 'Send it as a quote or as an invoice, whichever your company prefers.',
     tag: 'Your only step',
-    alt: 'Send as a quote or an invoice, with Quote selected. $125. Send.',
+    alt: 'Send as a quote or an invoice, with Invoice selected. $125. Send.',
     screen: (
       <>
         <span className="rp-screen-label">Send as</span>
         <span className="rp-seg">
-          <span className="rp-seg-opt is-on">Quote</span>
-          <span className="rp-seg-opt">Invoice</span>
+          <span className="rp-seg-opt">Quote</span>
+          <span className="rp-seg-opt is-on">Invoice</span>
         </span>
         <span className="rp-screen-foot">
           <span className="rp-screen-price">$125</span>
@@ -49,25 +48,28 @@ const STEPS = [
   {
     title: 'The customer approves or pays',
     body: 'One tap from their phone. No login, no call back to the office.',
-    handoff: true, // Poolnautics' part starts here
-    alt: 'Customer: quote approved, or invoice paid.',
+    alt: 'Customer: invoice paid, or quote approved. $125, from their phone.',
     screen: (
       <>
         <span className="rp-screen-label">Customer</span>
-        <span className="rp-screen-main">Quote approved</span>
-        <span className="rp-screen-small">or invoice paid</span>
+        <span className="rp-screen-main">Invoice paid</span>
+        <span className="rp-screen-small">or quote approved</span>
+        <span className="rp-screen-foot"><span className="rp-screen-small">$125 · from their phone</span></span>
       </>
     ),
   },
   {
     title: 'A tech gets the job',
     body: 'Once it’s approved or paid, the work order goes to your tech’s list.',
-    alt: 'Work order: assigned to Gabriel. Open.',
+    alt: 'Work order: assigned to Gabriel. Cartridge filter, open.',
     screen: (
       <>
         <span className="rp-screen-label">Work order</span>
         <span className="rp-screen-main">Assigned to Gabriel</span>
-        <span className="rp-screen-foot rp-screen-foot--end"><Chip tone="open">Open</Chip></span>
+        <span className="rp-screen-foot">
+          <span className="rp-screen-small">Cartridge filter</span>
+          <Chip tone="open">Open</Chip>
+        </span>
       </>
     ),
   },
@@ -95,17 +97,14 @@ export default function RepairsSection() {
         <SectionHeader
           id="repairs-heading"
           eyebrow="Repairs on autopilot"
-          title="A $125 cartridge filter or a $2,500 pool pump. Neither should take a week of phone tag."
-          subtitle="Invoice the job, and it becomes a work order the moment it’s paid. Quote it, and it becomes one the moment the customer approves. Either way, the rest runs itself."
-          titleClassName="text-slate-900"
-          subtitleClassName="text-slate-600"
+          title="Invoice the $125 filter. Quote the $2,500 pump."
+          subtitle="Either way, the work order writes itself. No phone tag, no chasing anyone down."
         />
 
         {/* role="list": Safari drops a list's semantics once its markers are styled away. */}
         <ol className="rp-flow" role="list">
           {STEPS.map((step, i) => (
-            <li key={step.title} className={`rp-step${step.handoff ? ' rp-step--handoff' : ''}`}>
-              {step.handoff && <p className="rp-handoff"><span>Poolnautics takes it from here</span></p>}
+            <li key={step.title} className="rp-step">
               <div className={`rp-card${step.tag ? ' rp-card--yours' : ''}`}>
                 <div className="rp-card-head">
                   <span className="rp-num"><span className="sr-only">Step </span>{i + 1}</span>

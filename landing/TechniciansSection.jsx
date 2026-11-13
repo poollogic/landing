@@ -29,7 +29,6 @@ export default function TechniciansSection() {
           title="Service reports you never have to police."
           subtitle="Your techs get one simple app. You get proof every pool was serviced, the readings you require, and every mile logged."
           titleClassName="text-slate-900"
-          subtitleClassName="text-slate-600"
         />
 
         <div className="ta-grid">

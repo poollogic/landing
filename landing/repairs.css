@@ -1,71 +1,27 @@
-/* "Repairs on autopilot" (RepairsSection.jsx), between the day timeline and the billing section.
-   White, static. Desktop above 1040px (five cards in a row), tablet 641–1040px (two cards, then
-   three under the bracket), phone 640px and below (one column).
-   Tokens: ink #0f172a; body #475569; muted #56657f; hairlines #e2e8f0 / #cbd5e1; card #f8fafc;
-   accent #2563eb (tint #eff6ff, text #1e40af, bracket #afc6f5); screens #111318 with #f8fafc /
-   #94a3b8 text. */
+/* "Repairs on autopilot" (RepairsSection.jsx), between Technicians on autopilot and Instant Migration.
+   Dark, flat, static. Desktop above 1040px (five cards in a row), tablet 641–1040px (two cards, then
+   three), phone 640px and below (one column). Type and spacing: home-roles.css. */
 
 .rp-section {
-  --section-head-gap: 56px; /* header → cards */
-  padding: 96px 24px;
-  background: #fff;
+  padding-inline: 24px; /* top and bottom: --section-pad-y */
+  background: #0b1220;
 }
 .rp-inner { max-width: 1120px; margin: 0 auto; }
 
-/* ---------- Header (SectionHeader, at this section's sizes) ---------- */
-.rp-section .section-eyebrow { font-size: 12px; color: #56657f; }
-.rp-section .section-title {
-  max-width: 820px;
-  margin-inline: auto;
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  text-wrap: balance; /* not "tag." alone on its line */
-}
+/* ---------- Header (SectionHeader; the eyebrow and subhead take the on-dark tokens) ---------- */
+.rp-section .section-title { max-width: 820px; margin-inline: auto; color: #f8fafc; text-wrap: balance; }
 .rp-section .section-sub { max-width: 700px; }
 
 /* ---------- The five steps ---------- */
-/* The space above the row is the bracket's: 24px of bracket, 8px to the cards. */
 .rp-flow {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 16px;
   margin: 0;
-  padding: 32px 0 0;
+  padding: 0;
   list-style: none;
 }
 .rp-step { position: relative; display: flex; min-width: 0; }
-
-/* "Poolnautics takes it from here": the words in the middle of a line that runs out both ways and
-   turns down at the left edge of card 3 and the right edge of card 5. It lives in step 3 and is
-   three cards and two gaps wide. The line is drawn by the pseudo-elements. */
-.rp-handoff {
-  position: absolute;
-  left: 0;
-  bottom: calc(100% + 8px);
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  width: calc(300% + 32px);
-  height: 24px;
-  margin: 0;
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 20px;
-  color: #1e40af;
-  white-space: nowrap;
-}
-.rp-handoff::before,
-.rp-handoff::after {
-  content: '';
-  flex: 1;
-  height: 15px;
-  margin-top: 9px; /* the 2px line through the middle of the 20px text */
-  border-top: 2px solid #afc6f5;
-}
-.rp-handoff::before { border-left: 2px solid #afc6f5; border-top-left-radius: 12px; }
-.rp-handoff::after { border-right: 2px solid #afc6f5; border-top-right-radius: 12px; }
 
 .rp-card {
   flex: 1;
@@ -74,42 +30,39 @@
   gap: 14px;
   min-width: 0;
   padding: 16px;
-  border: 1px solid #e2e8f0;
+  border: 0;
   border-radius: 14px;
-  background: #f8fafc;
+  background: transparent;
   text-align: left;
 }
-/* Card 2, the owner's step. 1px less padding for its 1px more border, so its parts line up with the others'. */
+/* Card 2, the owner's step. 1px less padding for its 1px border, so its parts line up with the others'. */
 .rp-card--yours {
   padding: 15px;
-  border: 2px solid #2563eb;
-  background: #fff;
-  box-shadow: 0 12px 28px rgba(37, 99, 235, .16);
+  border: 1px solid rgba(96, 165, 250, .55);
+  background: rgba(59, 130, 246, .07);
 }
 
 .rp-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 24px; }
+.rp-card--yours .rp-card-head { justify-content: flex-start; } /* "Your only step" right beside its number */
 .rp-num {
   flex: none;
   display: grid;
   place-items: center;
   width: 24px;
   height: 24px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid #334155;
   border-radius: 50%;
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
-  color: #56657f;
+  color: #7c8aa5;
 }
-.rp-card--yours .rp-num { border-color: #2563eb; background: #2563eb; color: #fff; }
+.rp-card--yours .rp-num { border-color: #3b82f6; background: #3b82f6; color: #fff; }
 .rp-tag {
-  padding: 3px 9px;
-  border-radius: 999px;
-  background: #eff6ff;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: var(--fw-semibold);
   line-height: 16px;
-  color: #1e40af;
+  color: #93c5fd;
   white-space: nowrap;
 }
 
@@ -121,7 +74,8 @@
   height: 142px;
   padding: 14px;
   border-radius: 10px;
-  background: #111318;
+  background: #111a2e;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, .10);
 }
 .rp-screen-label {
   font-size: 11px;
@@ -131,7 +85,7 @@
   text-transform: uppercase;
   color: #94a3b8;
 }
-.rp-screen-main { font-size: 15px; font-weight: 600; line-height: 1.3; color: #f8fafc; }
+.rp-screen-main { font-size: 15px; font-weight: var(--fw-medium); line-height: 1.3; color: #f8fafc; }
 .rp-screen-small { font-size: 12px; line-height: 16px; color: #94a3b8; }
 .rp-screen-price { font-size: 18px; font-weight: 700; line-height: 24px; color: #f8fafc; }
 .rp-screen-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; }
@@ -159,26 +113,25 @@
   white-space: nowrap;
 }
 .rp-chip--send { background: #2563eb; color: #fff; }
-.rp-chip--open { background: #1b2a4a; color: #8fb4ff; }
+.rp-chip--open { background: rgba(148, 163, 184, .14); color: #cbd5e1; }
 .rp-chip--paid { background: #12301f; color: #4ade80; }
 
-.rp-card-title { font-size: 17px; font-weight: 700; line-height: 1.3; color: #0f172a; }
-.rp-card-body { margin-top: 6px; font-size: 14px; line-height: 1.5; color: #475569; }
+.rp-card-title { color: #e2e8f0; } /* size and weight: the card-title role */
+.rp-card-body { margin-top: 6px; font-size: 14px; line-height: 1.5; color: #7c8aa5; }
 
 /* ---------- Closing ---------- */
 .rp-close { margin-top: 104px; text-align: center; } /* the 56px between blocks, and 48px more */
 .rp-close-1 {
   max-width: 760px;
   margin: 0 auto;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.025em;
-  color: #0f172a;
+  font-size: 16px;
+  font-weight: var(--fw-regular);
+  line-height: 1.6;
+  color: #a3b0c5;
   text-wrap: balance;
 }
-.rp-close-2 { margin-top: 12px; font-size: 18px; line-height: 1.6; color: #475569; text-wrap: balance; }
-/* A secondary button: white and outlined, nothing like the blue sign-up button (hero.css .hero-cta). */
+.rp-close-2 { margin-top: 12px; font-size: 16px; font-weight: var(--fw-medium); line-height: 1.6; color: #e2e8f0; text-wrap: balance; }
+/* A plain text link with its arrow. */
 .rp-btn {
   display: inline-flex;
   align-items: center;
@@ -187,50 +140,32 @@
   max-width: 100%;
   min-height: 52px;
   margin-top: 20px;
-  padding: 13px 24px;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 12px;
-  background: #fff;
+  padding: 13px 0;
+  border: 0;
+  background: none;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.25;
-  color: #0f172a;
-  transition: border-color .2s, background-color .2s;
+  color: #93c5fd;
 }
-.rp-btn:hover { border-color: #94a3b8; background: #f8fafc; }
-.rp-btn:focus-visible { outline: 2px solid #2e85ff; outline-offset: 3px; }
+.rp-btn:hover { text-decoration: underline; text-underline-offset: 4px; }
+.rp-btn:focus-visible { outline: 2px solid #2e85ff; outline-offset: 3px; border-radius: 4px; }
 .rp-btn > svg { flex: none; transition: transform .25s; }
 .rp-btn:hover > svg { transform: translateX(3px); }
 
-/* ---------- Tablet: the owner's two cards, then Poolnautics' three under the bracket ---------- */
+/* ---------- Tablet: the owner's two cards, then Poolnautics' three ---------- */
 @media (max-width: 1040px) {
-  .rp-section .section-title { font-size: 36px; }
-  .rp-flow { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 24px; padding-top: 0; }
+  .rp-flow { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 24px; }
   .rp-step { grid-column: span 2; }
   .rp-step:first-child { grid-column: 2 / span 2; }
-  .rp-step:nth-child(n + 3) { margin-top: 32px; } /* room for the bracket */
 }
 
-/* ---------- Phone: one column; the bracket becomes a label on a hairline between cards 2 and 3 ---------- */
+/* ---------- Phone: one column ---------- */
 @media (max-width: 640px) {
-  .rp-section .section-title { font-size: 30px; }
   .rp-flow { display: flex; flex-direction: column; }
   .rp-step { flex-direction: column; }
-  .rp-step:nth-child(n + 3) { margin-top: 0; }
-  .rp-handoff {
-    position: static;
-    align-items: center;
-    width: auto;
-    height: auto;
-    margin: 8px 0 24px;
-  }
-  .rp-handoff::before,
-  .rp-handoff::after { height: 0; margin-top: 0; border-width: 1px 0 0; border-radius: 0; }
-  .rp-close-1 { font-size: 24px; }
-  .rp-btn { padding-inline: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rp-btn,
   .rp-btn > svg { transition: none; }
 }

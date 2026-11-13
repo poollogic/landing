@@ -34,7 +34,9 @@
 
 /* ---------- Left column ---------- */
 .rsv-intro { text-align: left; }
-.rsv-hero .hero-title, .rsv-sec .hero-title { font-size: clamp(2.5rem, 4.6vw, 3.6rem); }
+.rsv-hero .hero-title { font-size: clamp(2.5rem, 4.6vw, 3.6rem); }
+/* The homepage section's headline: the statement role (home-roles.css), under its eyebrow. */
+.rsv-sec .rsv-statement { margin-top: var(--eyebrow-to-title); color: #f8fafc; text-wrap: balance; }
 .rsv-hero .hero-sub, .rsv-sec .hero-sub { margin-inline: 0; max-width: 30rem; text-wrap: pretty; }
 
 /* The homepage's reserve section: dark, after the light founder section (the site's section padding) */
@@ -42,8 +44,7 @@
    the top, a soft blue glow sits behind the card (right on desktop, below the points on phones),
    so the form is the brightest thing in the section. */
 .rsv-sec {
-  position: relative;
-  padding-block: var(--section-y);
+  position: relative; /* top and bottom: --section-pad-y (home-roles.css) */
   background:
     radial-gradient(38% 55% at 75% 50%, rgba(29, 101, 244, .11), transparent 70%),  /* blue glow behind the card */
     radial-gradient(60% 75% at 75% 50%, rgba(51, 65, 85, .5), transparent 70%),    /* slate pool around it */

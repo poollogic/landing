@@ -8,16 +8,14 @@ import './import.css';
 
 export default function ImportSection() {
   return (
-    <section id="switching" className="im-section section bg-white" aria-labelledby="import-heading">
+    <section id="switching" className="im-section bg-white" aria-labelledby="import-heading">
       <div className="container text-center">
         <SectionHeader
           id="import-heading"
           eyebrow="Instant migration"
           title="The fastest way to switch pool software."
           subtitle="Drop in your Skimmer or QuickBooks export and your whole customer list is in, mapped and billing-ready in under 2 minutes. No migration calls. No waiting on support. And once you’re here, adding a new customer takes seconds."
-          eyebrowClassName="text-slate-500"
           titleClassName="text-slate-900"
-          subtitleClassName="text-slate-600"
         />
 
         <div className="im-demo-slot">

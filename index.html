@@ -224,6 +224,85 @@
        gap below the nav is (page-top − 64px). Bump page-top to widen that gap. */
     --page-top: 128px;
     --page-bottom: 128px;
+
+    /* ── Marketing type and spacing tokens (the homepage's roles: landing/home-roles.css) ──
+       Phone values here; tablet (640px+) and desktop (1024px+) redefine the responsive ones below,
+       so no component needs its own breakpoint for type or spacing. */
+    /* Weights: primitives, then the roles components use */
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+    --fw-bold: 700;
+    --hero-title-weight: var(--fw-bold);
+    --statement-weight: var(--fw-semibold);
+    --section-title-weight: var(--fw-semibold);
+    --closing-weight: var(--fw-semibold);
+    --subhead-weight: var(--fw-regular);
+    --card-title-weight: var(--fw-semibold);
+    --eyebrow-weight: var(--fw-semibold);
+    --label-weight: var(--fw-medium);
+    /* Sizes */
+    --hero-title-size: 36px;
+    --statement-size: 30px;
+    --section-title-size: 26px;
+    --closing-size: 24px;
+    --subhead-size: 16px;
+    --card-title-size: 16px;
+    --eyebrow-size: 12px;
+    --label-size: 17px;
+    /* Line height and letter spacing, the same at every size */
+    --hero-title-leading: 1.06;
+    --statement-leading: 1.14;
+    --statement-tracking: -0.024em;
+    --section-title-leading: 1.18;
+    --section-title-tracking: -0.019em;
+    --closing-leading: 1.2;
+    --closing-tracking: -0.02em;
+    --subhead-leading: 1.6;
+    --subhead-tracking: normal;
+    --label-leading: 1.45;
+    /* Spacing */
+    --section-pad-y: 64px;
+    --head-to-content: 40px;
+    --eyebrow-to-title: 14px;
+    --title-to-subhead: 12px;
+    /* Colours */
+    --subhead-on-light: #475569;
+    --subhead-on-dark: #94a3b8;
+    --eyebrow-on-light: #56657f;
+    --eyebrow-on-dark: #93a4bf;
+  }
+  @media (min-width: 640px) {
+    :root {
+      --hero-title-size: 44px;
+      --statement-size: 34px;
+      --section-title-size: 30px;
+      --closing-size: 28px;
+      --subhead-size: 17px;
+      --card-title-size: 17px;
+      --eyebrow-size: 12px;
+      --label-size: 18px;
+      --section-pad-y: 88px;
+      --head-to-content: 56px;
+      --eyebrow-to-title: 14px;
+      --title-to-subhead: 16px;
+    }
+  }
+  @media (min-width: 1024px) {
+    :root {
+      --hero-title-size: 52px;
+      --statement-size: 38px;
+      --section-title-size: 32px;
+      --closing-size: 30px;
+      --subhead-size: 18px;
+      --card-title-size: 17px;
+      --eyebrow-size: 13px;
+      --label-size: 20px;
+      --section-pad-y: 112px;
+      --head-to-content: 72px;
+      --eyebrow-to-title: 14px;
+      --title-to-subhead: 16px;
+    }
   }
 
   * { box-sizing: border-box; }

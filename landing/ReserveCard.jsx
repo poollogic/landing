@@ -24,7 +24,8 @@ export function ReserveIntro({ as: Heading = 'h2', id, context = false, price = 
       {price ? (
         <>
           <p className="hero-eyebrow">Transparent pricing</p>
-          <Heading id={id} className="hero-title">See our simple pricing.</Heading>
+          {/* The homepage's statement role (home-roles.css), not the h1's size. */}
+          <Heading id={id} className="rsv-statement">See our simple pricing.</Heading>
           <p className="hero-sub">
             No demo, no sales call. Pick how many customers you have and <strong>your rate shows up instantly</strong>.
           </p>

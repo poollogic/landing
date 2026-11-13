@@ -6,12 +6,10 @@
   overflow-x: clip;
 }
 
-/* ---------- Copy (header: SectionHeader; eyebrow in the app's red) ---------- */
-.rv-h2-a { display: block; color: #fff; }
-.rv-h2-a,
-.rv-h2-b { text-wrap: balance; } /* even line breaks, no one-word last line */
+/* ---------- Copy (header: SectionHeader; type and spacing: home-roles.css) ---------- */
+/* The two tones run inline: one line on desktop, wrapping where it must on smaller screens. */
+.rv-h2-a { color: #fff; }
 .rv-h2-b {
-  display: block;
   background: linear-gradient(180deg, #94a3b8, #64748b);
   -webkit-background-clip: text;
   background-clip: text;
@@ -23,7 +21,8 @@
 .rv-feature { padding: 4px 28px 4px 36px; box-sizing: border-box; }
 .rv-feature + .rv-feature { border-left: 1px solid rgba(255, 255, 255, .07); }
 .rv-feature:first-child { padding-left: 0; }
-.rv-ft { margin-top: 0; font-size: 17px; font-weight: 600; color: #fff; }
+.rv-ft { margin-top: 0; color: #fff; }
+.rv .section-sub { max-width: 620px; }
 .rv-fd { margin-top: 8px; font-size: 14.5px; line-height: 1.6; color: #94a3b8; font-feature-settings: normal; }
 
 /* ---------- Dashboard snippet (fades into the page) ---------- */
@@ -249,7 +248,6 @@
 
 /* ---------- Below 900px ---------- */
 @media (max-width: 899.98px) {
-  .rv-h2 { font-size: 36px; }
   .rv-features { grid-template-columns: minmax(0, 1fr); }
   .rv-feature { padding: 24px 28px 24px 0; }
   .rv-feature + .rv-feature { border-left: 0; border-top: 1px solid rgba(255, 255, 255, .07); }

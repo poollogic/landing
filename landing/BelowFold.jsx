@@ -58,7 +58,7 @@ export default function BelowFold() {
       <ReserveSection />
       <RouteSection />
       {/* Its FAQPage data is in the pre-rendered <head> (entry-server.jsx), not added by script. */}
-      <FaqSection structuredData={false} />
+      <FaqSection structuredData={false} headColors={false} />
     </>
   );
 }

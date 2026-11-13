@@ -59,13 +59,13 @@ function FounderPhoto() {
 export default function FounderSection() {
   const [open, setOpen] = useState(false);
   return (
-    <section id="founder" className="section bg-[#F5F5F7]" aria-labelledby="founder-heading">
+    <section id="founder" className="bg-[#F5F5F7]" aria-labelledby="founder-heading">
       <div className="container">
         {/* Header */}
         {/* Phones: left-aligned and smaller (editorial); md and up: centred */}
         <div className="founder-head mx-auto max-w-[1000px] md:text-center">
           <p className="text-[15px] font-semibold text-[#2E85FF] md:text-[17px]">Built on the route, not in a boardroom.</p>
-          <h2 id="founder-heading" className="mt-2.5 text-[31px] font-bold leading-[1.12] tracking-[-0.025em] [text-wrap:pretty] md:mt-3.5 md:text-[40px] md:leading-[1.1] md:[text-wrap:balance] lg:text-[48px]">
+          <h2 id="founder-heading" className="founder-title mt-2.5 [text-wrap:pretty] md:mt-3.5 md:[text-wrap:balance]">
             <span className="block text-[#1D1D1F]">Most pool software creates more work.</span>{' '}
             <span className="block text-[#86868B]">Poolnautics takes it off your plate.</span>
           </h2>

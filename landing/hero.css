@@ -201,8 +201,8 @@
   .hero-copy { min-height: calc(100vh - var(--hero-peek)); padding: 64px 0 48px; justify-content: center; }
   /* Up by the laptop's browser toolbar (38px), so the toolbar, the greeting and the toast all show. */
   .hero-mockup { margin-top: -38px; }
-  /* 64px, a little smaller on short laptop screens (under ~800px tall) so the copy keeps its room. */
-  .hero-copy .hero-title { margin-top: 24px; font-size: clamp(2.5rem, min(5.6vw, 8vh), 4rem); }
+  /* Its size is the --hero-title-size token (home-roles.css). */
+  .hero-copy .hero-title { margin-top: 24px; }
   .hero-copy .hero-sub { margin-top: 26px; }
 }
 

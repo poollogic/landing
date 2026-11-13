@@ -144,16 +144,14 @@ function RouteReport() {
 
 export default function RouteSection() {
   return (
-    <section id="routes" className="ra-section section bg-mktg-page" aria-labelledby="route-heading">
+    <section id="routes" className="ra-section bg-mktg-page" aria-labelledby="route-heading">
       <div className="container">
         <SectionHeader
           id="route-heading"
           eyebrow="Route acquisition"
           title="Buy, sell, and transfer routes in seconds."
           subtitle="Selling a route on Poolnautics takes one code. And because every number lives in one place, you walk into the sale knowing exactly what your route is worth."
-          eyebrowClassName="ra-eyebrow"
           titleClassName="ra-h2"
-          subtitleClassName="ra-sub"
         />
         <div className="ra-panels mx-auto grid max-w-[1000px] grid-cols-1 gap-4 lg:grid-cols-2">
           <Handover />

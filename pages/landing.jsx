@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import '../landing/landing.css';
 import '../landing/hero.css';
+import '../landing/home-roles.css'; // type and spacing roles, on the tokens in index.html
 import Nav from '../landing/Nav.jsx';
 import Hero from '../landing/Hero.jsx';
 import { Footer } from '../components/site-chrome.jsx';
@@ -37,7 +38,7 @@ if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
 
 const LandingPage = () => {
   return (
-    <div className="mktg relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
+    <div className="mktg lp-home relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
       <Nav />
       <main>
         <Hero />

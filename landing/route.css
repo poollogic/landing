@@ -26,15 +26,13 @@
   pointer-events: none;
 }
 
-/* Header colours (sizes: SectionHeader). */
-.ra-eyebrow { color: #93a4bf; } /* .hero-eyebrow */
+/* The headline's gradient (the eyebrow, sizes and subhead: home-roles.css). */
 .ra-section .ra-h2 {
   background: linear-gradient(180deg, #fff 30%, rgba(255, 255, 255, .62));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
-.ra-sub { color: var(--ra-muted); }
 
 /* ---------- Cards ---------- */
 .ra-panels { align-items: stretch; }

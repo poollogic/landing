@@ -80,6 +80,8 @@ export default function FaqSection({
   subtitle = <>Can’t find yours? <a href="/contact">Ask us anything</a>.</>,
   background,
   structuredData = true,
+  // The homepage colours the eyebrow and subhead from its tokens (home-roles.css); /pricing keeps these.
+  headColors = true,
 }) {
   // Google's FAQ data, matching the questions on the page, only while it shows.
   useEffect(() => {
@@ -108,9 +110,9 @@ export default function FaqSection({
             eyebrow={eyebrow}
             title={title}
             subtitle={subtitle}
-            eyebrowClassName="text-[#86868b]"
+            eyebrowClassName={headColors ? 'text-[#86868b]' : ''}
             titleClassName="text-[#1d1d1f]"
-            subtitleClassName="fq-sub text-[#6e6e73]"
+            subtitleClassName={headColors ? 'fq-sub text-[#6e6e73]' : 'fq-sub'}
           />
         </div>
         <div className="fq-list">
