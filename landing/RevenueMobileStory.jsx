@@ -252,6 +252,7 @@ function Billing({ step, tap }) {
   useLayoutEffect(() => {
     // offsetTop is layout px, unaffected by the frame's scaling transforms
     const measure = () => {
+      if (!clipRef.current) return; // the fonts finished after this was taken off the page
       // Like a real page at its end: the last row stops just above the floating tab bar.
       const visible = clipRef.current.clientHeight - TAB_ZONE;
       const end = endRef.current.offsetTop + endRef.current.offsetHeight + 20 - visible;
