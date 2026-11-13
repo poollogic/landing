@@ -45,9 +45,11 @@
 /* Emphasis inside a subhead keeps its colour, at the subhead's weight. */
 .lp-home :is(.hero-sub, .op-lede, .dt-sub, .section-sub) :is(strong, b, em) { font-weight: var(--subhead-weight); }
 
-.lp-home :is(.rp-card-title, .ta-list h3, .rv-ft, .op-card-title) {
+/* .rv-ft and .rvm-text h3: the Financial Watchdog's feature titles, desktop and phone layouts. */
+.lp-home :is(.rp-card-title, .ta-list h3, .rv-ft, .rvm-text h3, .op-card-title) {
   font-size: var(--card-title-size);
   font-weight: var(--card-title-weight);
+  line-height: var(--card-title-leading);
 }
 
 .lp-home :is(.section-eyebrow, .hero-eyebrow) {

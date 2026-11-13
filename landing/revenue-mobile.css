@@ -22,7 +22,7 @@
 .rvm-bars i { position: absolute; inset: 0; transform-origin: 0 50%; border-radius: 2px; background: #FF0036; }
 .rvm-texts { display: grid; }
 .rvm-text { grid-area: 1 / 1; }
-.rvm-text h3 { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: #fff; }
+.rvm-text h3 { margin: 0; letter-spacing: -.01em; color: #fff; } /* size, weight, leading: the card-title role (home-roles.css) */
 .rvm-text p { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: #94a3b8; }
 
 /* The phone, scaled to fit */
@@ -192,7 +192,6 @@
 
 @media (min-width: 640px) {
   .rvm-copy { max-width: 560px; }
-  .rvm-text h3 { font-size: 20px; }
   .rvm-text p { font-size: 16px; }
 }
 

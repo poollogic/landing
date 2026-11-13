@@ -27,7 +27,7 @@ const ROLE_TYPE = {
   'section-title': [v('section-title-size'), { lineHeight: v('section-title-leading'), letterSpacing: v('section-title-tracking'), fontWeight: v('section-title-weight') }],
   closing: [v('closing-size'), { lineHeight: v('closing-leading'), letterSpacing: v('closing-tracking'), fontWeight: v('closing-weight') }],
   subhead: [v('subhead-size'), { lineHeight: v('subhead-leading'), letterSpacing: v('subhead-tracking'), fontWeight: v('subhead-weight') }],
-  'card-title': [v('card-title-size'), { fontWeight: v('card-title-weight') }],
+  'card-title': [v('card-title-size'), { lineHeight: v('card-title-leading'), fontWeight: v('card-title-weight') }],
   eyebrow: [v('eyebrow-size'), { fontWeight: v('eyebrow-weight') }],
   label: [v('label-size'), { lineHeight: v('label-leading'), fontWeight: v('label-weight') }],
 };
