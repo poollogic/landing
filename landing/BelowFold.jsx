@@ -48,9 +48,9 @@ export default function BelowFold() {
     <>
       <OnePlatformSection />
       <DaySection />
-      <RepairsSection />
       <BillingSection />
       <RevenueSection />
+      <RepairsSection />
       <ImportSection />
       <FounderSection />
       <ReserveSection />

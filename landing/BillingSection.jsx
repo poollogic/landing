@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import SectionHeader from './SectionHeader.jsx';
 import './billing-section.css';
 
-// "Billing on autopilot" (#billing): between the Repairs section and the Financial Watchdog. A still
+// "Billing on autopilot" (#billing): between the day timeline and the Financial Watchdog. A still
 // section: the header, one card that reads left to right (what the owner sets, what Poolnautics
 // sends, what the customer pays) and three points under it. Replaces the pinned scroll section with
 // the laptop (BillingScrollMorph.jsx, kept in the repo but no longer on the page).

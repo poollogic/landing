@@ -7,7 +7,7 @@ import './day.css';
 // timeline, after "The only software your pool company needs". All of it is in the pre-rendered HTML
 // and fully visible without JavaScript. With it (and without reduced motion), the section gets
 // .is-live: a blue line fills down the timeline as the page scrolls, the entry at the marker (56% of
-// the window) is lit and the rest dimmed, and the stats and closing lines rise in once. Driven from
+// the window) is lit and the rest dimmed, and the closing lines rise in once. Driven from
 // the page's shared scroll frame while the section is on screen; offsets are measured on resize only,
 // and each frame writes only the line's transform and, when they change, the entries' states.
 
@@ -59,14 +59,8 @@ const ENTRIES = [
   },
 ];
 
-const STATS = [
-  ['365', 'days worked a year'],
-  ['0', 'sick days'],
-  ['0', 'invoices forgotten'],
-];
-
 const MARKER = 0.56; // where an entry is reached, as a share of the window's height
-const REVEAL = 0.82; // where the stats and closing rise in
+const REVEAL = 0.82; // where the closing rises in
 
 export default function DaySection() {
   const ref = useRef(null);
@@ -189,15 +183,6 @@ export default function DaySection() {
             ))}
           </ol>
         </div>
-
-        <ul className="dt-stats dt-reveal">
-          {STATS.map(([n, label]) => (
-            <li key={label}>
-              <span className="dt-stat-num">{n}</span>
-              <span className="dt-stat-label">{label}</span>
-            </li>
-          ))}
-        </ul>
 
         <div className="dt-close dt-reveal">
           <p className="dt-close-1">You sent one quote. It did the rest.</p>
