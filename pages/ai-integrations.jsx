@@ -9,11 +9,9 @@ import Nav from '../landing/Nav.jsx';
 import SectionHeader from '../landing/SectionHeader.jsx';
 import AssistantChat from '../landing/ai/AssistantChat.jsx';
 import HeroFx from '../landing/ai/HeroFx.jsx';
-import SectionNav from '../landing/ai/SectionNav.jsx';
-import AccessLevels from '../landing/ai/AccessLevels.jsx';
-import Connections from '../landing/ai/Connections.jsx';
 import EventFeed from '../landing/ai/EventFeed.jsx';
-import AutomationFlow from '../landing/ai/AutomationFlow.jsx';
+import Automations from '../landing/ai/Automations.jsx';
+import McpDiagram from '../landing/ai/McpDiagram.jsx';
 import LeadFlow from '../landing/ai/LeadFlow.jsx';
 import TechPhone from '../landing/ai/TechPhone.jsx';
 import PriceProposal from '../landing/ai/PriceProposal.jsx';
@@ -24,9 +22,9 @@ import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
 import { Footer } from '../components/site-chrome.jsx';
 import {
-  ACTIONS, AI_PLAN, API_DOCS_URL, API_MAX_POST, AUTOMATION_LIMITS, BULK, LEAD_SOURCES, MCP_TOOL_COUNT, NEVER, PRICE_PROPOSALS, RECIPES,
-  RECIPE_COUNT, SAMPLE_PAYLOAD, SEND_LIMITS, SMS_PROVIDERS, TECH_APP, TRIAL_DAYS, TRIGGER_COUNT, TRIGGER_EXAMPLES, WEBHOOK_EVENTS,
-  WEBHOOK_GROUPS, WEBHOOK_LIMIT, WEBHOOK_MAX_AGE_MIN, WEBHOOK_RETRIES, WEBHOOK_SIGNATURE_HEADER,
+  ACTIONS, AI_PLAN, API_DOCS_URL, API_MAX_POST, AUTOMATION_LIMITS, BULK, LEAD_SOURCES, MCP_CLIENTS, MCP_TOOL_COUNT, NEVER, PRICE_PROPOSALS,
+  SAMPLE_PAYLOAD, SEND_LIMITS, SMS_PROVIDERS, TECH_APP, TRIAL_DAYS, TRIGGER_COUNT, WEBHOOK_EVENTS, WEBHOOK_GROUPS, WEBHOOK_LIMIT,
+  WEBHOOK_MAX_AGE_MIN, WEBHOOK_RETRIES, WEBHOOK_SIGNATURE_HEADER,
 } from '../aiFacts.js';
 
 // /ai-integrations: AI, automations and integrations. Pre-rendered at build time
@@ -34,16 +32,17 @@ import {
 // whole page; main.jsx hydrates it. So: no window or document while rendering, and every
 // mockup's text in the markup from the start. Numbers and lists come from aiFacts.js; claim
 // nothing that isn't there. Owners first, developers lower down. All dark, on the --mktg-*
-// tokens; styles in landing/ai/ai.css. Blocks with data-reveal fade up on scroll (useReveal).
+// tokens, with white and light sections between the dark ones; styles in landing/ai/ai.css.
+// Blocks with data-reveal fade up on scroll (useReveal).
 
 const ORIGIN = 'https://getpoolnautics.com';
 // Only the hero, the stance and "The short answer" are published for now (2026-11-07). True brings
 // back the rest of the page, with its FAQ in the JSON-LD, the pillars' links to their sections and
-// the "On this page" bar (SectionNav.jsx). Add 'FAQPage' back to the route's jsonLd in
-// scripts/seo-check.mjs with it.
-const FULL_PAGE = false;
+// scripts/seo-check.mjs with it. To preview the whole page locally without publishing it:
+// VITE_AI_FULL_PAGE=1 npx vite.
+const FULL_PAGE = import.meta.env.VITE_AI_FULL_PAGE === '1';
 const PAGE_URL = `${ORIGIN}/ai-integrations`;
-const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400';
+const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--brand-blue)]';
 
 const FAQ = [
   {
@@ -127,10 +126,10 @@ export const structuredData = [
 
 // [icon, tag, title, text, the section it links to]
 const PILLARS = [
-  [Bot, `${MCP_TOOL_COUNT} MCP tools`, 'Your AI, inside Poolnautics', 'Ask who owes what, assign requests, draft and send invoices, from the AI you already use.', '#connect-ai'],
-  [Webhook, `${WEBHOOK_EVENTS.length} webhooks`, 'Every event streams out', 'New leads, finished visits, failed payments, sent wherever you need them.', '#webhooks'],
   [Workflow, 'No-code', 'Automatic follow-ups', 'Texts, emails and alerts go out on their own, with waits, conditions and quiet hours.', '#automations'],
+  [Bot, `${MCP_TOOL_COUNT} MCP tools`, 'Your AI, connected', 'Ask who owes what, assign requests and send invoices from the AI you already use.', '#connect-ai'],
   [Inbox, 'Forms + ads', 'Leads from anywhere', 'Your lead link catches forms and ad leads, tags the source and starts the follow-up.', '#leads'],
+  [Webhook, `${WEBHOOK_EVENTS.length} webhooks`, 'Every event streams out', 'New leads, finished visits and failed payments, sent to Zapier, n8n or your own app.', '#webhooks'],
 ];
 
 const CHECKLIST = [
@@ -174,6 +173,15 @@ const header = (props) => (
     eyebrowClassName={Eyebrow}
     titleClassName="text-mktg-primary"
     subtitleClassName="text-mktg-muted"
+    {...props}
+  />
+);
+// On the white and light sections.
+const headerLight = (props) => (
+  <SectionHeader
+    eyebrowClassName={Eyebrow}
+    titleClassName="ai-title-light"
+    subtitleClassName="ai-sub-light"
     {...props}
   />
 );
@@ -287,12 +295,7 @@ export default function AiIntegrationsPage() {
                 );
                 return (
                   <li key={title}>
-                    {FULL_PAGE ? (
-                      <a href={href} className={`ai-pillar ${FOCUS}`}>
-                        {body}
-                        <span className="ai-pillar-more">See how <ArrowRight size={14} strokeWidth={2} aria-hidden="true" /></span>
-                      </a>
-                    ) : <div className="ai-pillar">{body}</div>}
+                    {FULL_PAGE ? <a href={href} className={`ai-pillar ${FOCUS}`}>{body}</a> : <div className="ai-pillar">{body}</div>}
                   </li>
                 );
               })}
@@ -301,42 +304,54 @@ export default function AiIntegrationsPage() {
         </section>
 
         {FULL_PAGE && (<>
-        {/* 3. Connecting an assistant (MCP): how it works, the connections list, the three levels. */}
-        <section id="connect-ai" className="section bg-mktg-base" aria-labelledby="connect-heading">
+        {/* 3. Automations (white): pick a built-in follow-up on the left, see it run on the right (Automations.jsx). */}
+        <section id="automations" className="section ai-light bg-white" data-theme="light" aria-labelledby="automations-heading">
           <div className="container">
-            <div data-reveal="">
-              {header({
+            <Automations
+              focus={FOCUS}
+              header={headerLight({
                 align: 'left',
-                id: 'connect-heading',
-                eyebrow: 'AI assistant · MCP',
-                title: 'Connect your AI assistant to Poolnautics',
-                subtitle: `Poolnautics has a built-in MCP server with ${MCP_TOOL_COUNT} tools. Paste a token into Claude Code, Cursor, VS Code or any app that connects to an MCP server with a key, and your assistant can look things up and get work done in your real data.`,
+                id: 'automations-heading',
+                eyebrow: 'Automations',
+                title: 'Pool service automations built into Poolnautics.',
+                subtitle: 'No AI needed. No code. Durable automations that just work.',
+                className: 'mb-0',
               })}
+            />
+          </div>
+        </section>
+
+        {/* 4. Connecting an assistant (MCP): the levels, the hub and what each level can do (McpDiagram.jsx). */}
+        <section id="connect-ai" className="section ai-connect" aria-labelledby="connect-heading">
+          <div className="container">
+            <div className="section-head section-head--center ai-connect-head" data-reveal="">
+              <p className={`section-eyebrow ${Eyebrow}`}>AI assistant · MCP</p>
+              <h2 id="connect-heading" className="section-title text-mktg-primary">
+                Connect Claude, ChatGPT or Grok <span className="ai-break">to your pool service software</span>
+              </h2>
+              <p className="section-sub text-mktg-muted">
+                A built-in MCP server with {MCP_TOOL_COUNT} tools. You choose how far your assistant can go.
+              </p>
+              <p className="ai-works">
+                <span className="ai-works-label">Works with</span>
+                {['Claude', 'ChatGPT', 'Grok', ...MCP_CLIENTS, 'Your own agent'].map((c) => <span key={c}>{c}</span>)}
+              </p>
             </div>
-            <div className="ai-split">
-              <div className="ai-split-text" data-reveal="">
-                <h3 className="ai-h3">You decide what it can do</h3>
-                <Ticks items={[
-                  'Only an owner or admin can create a connection.',
-                  'Each connection is named and can be revoked on its own.',
-                  'Settings shows each connection’s level and when it was last used.',
-                  'One company-wide switch turns all AI access off.',
-                  'When connecting, the admin ticks an agreement written for the level they chose.',
-                ]}
-                />
-                <Connections />
-              </div>
-              <div data-reveal="">
-                <h3 className="ai-h3">Three access levels that build on each other</h3>
-                <p className="ai-p">Moves go through the same code as your office screen, so history, automations and webhooks all run as if your office made them.</p>
-                <AccessLevels />
-              </div>
+            <div data-reveal="">
+              <McpDiagram />
+            </div>
+            <div className="ai-connect-foot" data-reveal="">
+              <p>
+                <strong>You stay in control.</strong> Only an owner or admin can connect an assistant, and any connection can
+                be revoked on its own.
+              </p>
+              <PrimaryCta theme={theme} />
             </div>
           </div>
         </section>
 
         {/* 4. Guardrails: the money is off limits. */}
-        <section id="guardrails" className="section bg-mktg-page" aria-labelledby="guardrails-heading">
+        <section id="guardrails" className="section bg-mktg-base" aria-labelledby="guardrails-heading">
           <div className="container">
             <div className="ai-split ai-split--even">
               <div data-reveal="">
@@ -423,132 +438,6 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
-        {/* 4b. The technician app: no AI, on purpose. */}
-        <section id="technician-app" className="section bg-mktg-base" aria-labelledby="tech-app-heading">
-          <div className="container">
-            <div className="ai-split ai-split--tech">
-              <div data-reveal="">
-                {header({
-                  align: 'left',
-                  id: 'tech-app-heading',
-                  eyebrow: 'The technician app',
-                  title: 'Does the technician app use AI? No, on purpose.',
-                  subtitle: 'AI works in the office. The tech app is the bridge between visits: the route, the readings, the photos, done. Nothing new to learn, so a tech can run it on day one.',
-                  className: 'mb-0',
-                })}
-                <Ticks items={TECH_APP} className="ai-tech-ticks" />
-                <p className="ai-tech-close">Built to be the easiest app your techs have ever used.</p>
-                <a href="/tech-app" className={`ai-link ${FOCUS}`}>See the technician app <ArrowRight size={15} strokeWidth={2} aria-hidden="true" /></a>
-              </div>
-              <div className="ai-tech-visual" data-reveal="">
-                <TechPhone />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 5. Webhooks: the events, a live-looking delivery log beside a real payload, then delivery. */}
-        <section id="webhooks" className="section bg-mktg-page" aria-labelledby="webhooks-heading">
-          <div className="container">
-            <div data-reveal="">
-              {header({
-                id: 'webhooks-heading',
-                eyebrow: 'Webhooks',
-                title: 'Webhooks for every pool service event',
-                subtitle: `${WEBHOOK_EVENTS.length} events, from the first lead to the last salt cell clean, sent to Zapier, n8n, Make or your own app the moment they happen. Signed, retried and logged.`,
-              })}
-            </div>
-            <div className="ai-events" data-reveal="">
-              {WEBHOOK_GROUPS.map(([group, events]) => (
-                <div key={group} className="ai-event-group">
-                  <h3>{group}</h3>
-                  <ul>{events.map((e) => <li key={e}><code>{e}</code></li>)}</ul>
-                </div>
-              ))}
-            </div>
-            <p className="ai-note" data-reveal="">
-              Visit, payment, pause and equipment events fire whoever makes the change: the office, a technician’s
-              phone, a payment or a background job. Plus a test ping, any time.
-            </p>
-            <div className="ai-feed-grid" data-reveal="">
-              <EventFeed />
-              <Code title="visit.completed" label="Payload" code={formatJson(SAMPLE_PAYLOAD)} highlight={'"event"'} />
-            </div>
-            <ul className="ai-facts" data-reveal="">
-              <li>
-                <h3>Signed</h3>
-                <p><code>{WEBHOOK_SIGNATURE_HEADER}: t=&lt;unix&gt;,v1=&lt;HMAC-SHA256&gt;</code>. Reject anything older than {WEBHOOK_MAX_AGE_MIN} minutes.</p>
-              </li>
-              <li>
-                <h3>Retried</h3>
-                <p>Over about {WEBHOOK_RETRIES.hours} hours ({WEBHOOK_RETRIES.attempts} attempts), with the same event id every time, then marked failed.</p>
-              </li>
-              <li>
-                <h3>Logged</h3>
-                <p>A delivery log in Settings with the exact payload of each delivery, and Retry now.</p>
-              </li>
-              <li>
-                <h3>Protected</h3>
-                <p>Up to {WEBHOOK_LIMIT} webhooks per company. Private addresses are refused (SSRF protection).</p>
-              </li>
-            </ul>
-          </div>
-        </section>
-
-        {/* 6. Automations: the builder as a timeline, what it can do, then six recipes. */}
-        <section id="automations" className="section bg-mktg-base" aria-labelledby="automations-heading">
-          <div className="container">
-            <div className="ai-split ai-split--flow">
-              <div data-reveal="">
-                {header({
-                  align: 'left',
-                  id: 'automations-heading',
-                  eyebrow: 'Automations',
-                  title: 'Pool service automations, no code required',
-                  subtitle: 'Pick what starts it, add up to five actions with a wait before each, and Poolnautics follows up for you: new leads, unapproved estimates, failed payments, finished jobs.',
-                  className: 'mb-0',
-                })}
-                <div className="ai-auto-facts">
-                  <div>
-                    <h3 className="ai-h3"><span className="font-tnum">{TRIGGER_COUNT}</span> triggers</h3>
-                    <p className="ai-p">{TRIGGER_EXAMPLES.slice(0, 7).join(' · ')}, and more.</p>
-                  </div>
-                  <div>
-                    <h3 className="ai-h3"><span className="font-tnum">{ACTIONS.length}</span> actions</h3>
-                    <p className="ai-p">{ACTIONS.join(' · ')}.</p>
-                  </div>
-                  <div>
-                    <h3 className="ai-h3">Steps, conditions and timing</h3>
-                    <Ticks items={[
-                      `Up to ${AUTOMATION_LIMITS.actions} actions per automation, each with its own wait (${AUTOMATION_LIMITS.waitDays} days in all).`,
-                      `Up to ${AUTOMATION_LIMITS.conditions} “only if” conditions, checked again just before sending.`,
-                      'Sending hours, so nobody gets a text at 10 PM.',
-                      '“Not twice”: holds back if they heard from another automation recently. Never for money messages.',
-                      'Replies of STOP are honored automatically.',
-                    ]}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div data-reveal="">
-                <AutomationFlow />
-              </div>
-            </div>
-
-            <div className="ai-recipes" data-reveal="">
-              <h3 className="ai-recipes-title"><span className="font-tnum">{RECIPE_COUNT}</span> ready-made recipes, including</h3>
-              <ul>
-                {RECIPES.map((r) => (
-                  <li key={r.title} className="ai-recipe">
-                    <span className="ai-recipe-when">When: {r.when.toLowerCase()}</span>
-                    <b>{r.title}</b>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
         {/* 7. Leads in. */}
         <section id="leads" className="section bg-mktg-page" aria-labelledby="leads-heading">
           <div className="container">
@@ -602,6 +491,78 @@ export default function AiIntegrationsPage() {
                 <p>Email up to {BULK.emails} customers per send, with merge tags. Text up to {BULK.texts} per send, between {BULK.textHours} only.</p>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* 4b. The technician app: no AI, on purpose. */}
+        <section id="technician-app" className="section bg-mktg-page" aria-labelledby="tech-app-heading">
+          <div className="container">
+            <div className="ai-split ai-split--tech">
+              <div data-reveal="">
+                {header({
+                  align: 'left',
+                  id: 'tech-app-heading',
+                  eyebrow: 'The technician app',
+                  title: 'Does the technician app use AI? No, on purpose.',
+                  subtitle: 'AI works in the office. The tech app is the bridge between visits: the route, the readings, the photos, done. Nothing new to learn, so a tech can run it on day one.',
+                  className: 'mb-0',
+                })}
+                <Ticks items={TECH_APP} className="ai-tech-ticks" />
+                <p className="ai-tech-close">Built to be the easiest app your techs have ever used.</p>
+                <a href="/tech-app" className={`ai-link ${FOCUS}`}>See the technician app <ArrowRight size={15} strokeWidth={2} aria-hidden="true" /></a>
+              </div>
+              <div className="ai-tech-visual" data-reveal="">
+                <TechPhone />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. Webhooks: the events, a live-looking delivery log beside a real payload, then delivery. */}
+        <section id="webhooks" className="section bg-mktg-base" aria-labelledby="webhooks-heading">
+          <div className="container">
+            <div data-reveal="">
+              {header({
+                id: 'webhooks-heading',
+                eyebrow: 'Webhooks',
+                title: 'Webhooks for every pool service event',
+                subtitle: `${WEBHOOK_EVENTS.length} events, from the first lead to the last salt cell clean, sent to Zapier, n8n, Make or your own app the moment they happen. Signed, retried and logged.`,
+              })}
+            </div>
+            <div className="ai-events" data-reveal="">
+              {WEBHOOK_GROUPS.map(([group, events]) => (
+                <div key={group} className="ai-event-group">
+                  <h3>{group}</h3>
+                  <ul>{events.map((e) => <li key={e}><code>{e}</code></li>)}</ul>
+                </div>
+              ))}
+            </div>
+            <p className="ai-note" data-reveal="">
+              Visit, payment, pause and equipment events fire whoever makes the change: the office, a technician’s
+              phone, a payment or a background job. Plus a test ping, any time.
+            </p>
+            <div className="ai-feed-grid" data-reveal="">
+              <EventFeed />
+              <Code title="visit.completed" label="Payload" code={formatJson(SAMPLE_PAYLOAD)} highlight={'"event"'} />
+            </div>
+            <ul className="ai-facts" data-reveal="">
+              <li>
+                <h3>Signed</h3>
+                <p><code>{WEBHOOK_SIGNATURE_HEADER}: t=&lt;unix&gt;,v1=&lt;HMAC-SHA256&gt;</code>. Reject anything older than {WEBHOOK_MAX_AGE_MIN} minutes.</p>
+              </li>
+              <li>
+                <h3>Retried</h3>
+                <p>Over about {WEBHOOK_RETRIES.hours} hours ({WEBHOOK_RETRIES.attempts} attempts), with the same event id every time, then marked failed.</p>
+              </li>
+              <li>
+                <h3>Logged</h3>
+                <p>A delivery log in Settings with the exact payload of each delivery, and Retry now.</p>
+              </li>
+              <li>
+                <h3>Protected</h3>
+                <p>Up to {WEBHOOK_LIMIT} webhooks per company. Private addresses are refused (SSRF protection).</p>
+              </li>
+            </ul>
           </div>
         </section>
 
@@ -682,6 +643,20 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
+        {/* 11b. Call to action (light), before the FAQ. */}
+        <section className="section ai-light ai-cta-band" data-theme="light" aria-labelledby="cta-band-heading">
+          <div className="container" data-reveal="">
+            <h2 id="cta-band-heading" className="ai-cta-band-title">Software your AI assistant can safely work inside.</h2>
+            <p className="ai-cta-band-sub">
+              It reads your business data, sends every event to your other tools, and runs your follow-ups on its own.
+            </p>
+            <div className="ai-cta-row ai-cta-row--center">
+              <PrimaryCta theme={theme} />
+              <a href={API_DOCS_URL} className={`ai-text-link ${FOCUS}`}>Read the API docs</a>
+            </div>
+          </div>
+        </section>
+
         {/* 11. FAQ: the same list feeds the FAQPage JSON-LD (structuredData above). */}
         <section id="faq" className="section bg-mktg-page" aria-labelledby="faq-heading">
           <div className="container ai-faq">
@@ -727,7 +702,6 @@ export default function AiIntegrationsPage() {
         </>)}
       </main>
       <Footer />
-      {FULL_PAGE && <SectionNav />}
     </div>
   );
 }

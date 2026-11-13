@@ -2,8 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef } from 'react';
 
 // /ai-integrations' stance, right after the hero, as one statement (not an H2: those read as
 // searches); everything below it is the proof. Light and type only, on the homepage's light
-// section ground (#F5F5F7, its founder section's and FAQ's), so the page runs dark, light, dark;
-// data-theme="light" turns the "On this page" bar light over it (SectionNav.jsx).
+// section ground (#F5F5F7, its founder section's and FAQ's), so the page runs dark, light, dark.
 // When 40% of it is on screen, "Your AI. Your tools. Your data." rise in one after another and
 // the fine print fades in after them, once. It arrives pre-rendered and fully visible: they're
 // hidden on hydration only while still below the fold, so nothing already seen flashes, and
