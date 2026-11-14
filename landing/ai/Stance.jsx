@@ -1,8 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
 
-// /ai-and-automations' stance, right after the hero, as one statement (not an H2: those read as
-// searches); everything below it is the proof. Light and type only, on the homepage's light
-// section ground (#F5F5F7, its founder section's and FAQ's), so the page runs dark, light, dark.
+// /ai-and-automations' stance, after Automations, as one statement (not an H2: those read as
+// searches). White, type only, on the homepage's type and spacing tokens.
 // When 40% of it is on screen, "Your AI. Your tools. Your data." rise in one after another and
 // the fine print fades in after them, once. It arrives pre-rendered and fully visible: they're
 // hidden on hydration only while still below the fold, so nothing already seen flashes, and
@@ -53,7 +52,7 @@ export default function Stance() {
   }, []);
 
   return (
-    <section ref={ref} className="section ai-stance bg-[#F5F5F7]" data-theme="light" aria-label="Why Poolnautics">
+    <section ref={ref} className="section ai-stance bg-white" data-theme="light" aria-label="Why Poolnautics">
       <div className="container">
         <p className="ai-stance-line" data-reveal="">
           <span>Most pool software is built to lock you in.</span>{' '}

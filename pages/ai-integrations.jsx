@@ -16,6 +16,7 @@ import LeadFlow from '../landing/ai/LeadFlow.jsx';
 import TechPhone from '../landing/ai/TechPhone.jsx';
 import PriceProposal from '../landing/ai/PriceProposal.jsx';
 import Stance from '../landing/ai/Stance.jsx';
+import Routine from '../landing/ai/Routine.jsx';
 import Code, { formatJson } from '../landing/ai/Code.jsx';
 import useReveal from '../landing/ai/useReveal.js';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
@@ -36,7 +37,8 @@ import {
 // Blocks with data-reveal fade up on scroll (useReveal).
 
 const ORIGIN = 'https://getpoolnautics.com';
-// Published so far: the hero, the stance, "The short answer" and Automations (2026-11-13). True
+// Published so far (2026-11-14 order): the hero, "The routine runs itself", Automations, the stance and
+// "The short answer", which is the last before the footer; the rest follows it here. True
 // brings back the rest of the page, with its FAQ in the JSON-LD and every pillar's link to its
 // section. Add 'FAQPage' back to the route's jsonLd in scripts/seo-check.mjs with it. To preview the
 // whole page locally without publishing it: VITE_AI_FULL_PAGE=1 npx vite.
@@ -106,7 +108,7 @@ export const structuredData = [
     name: 'AI, automations and integrations for pool service companies',
     description: 'How Poolnautics works with AI assistants over MCP, runs no-code automations, and connects to other tools through signed webhooks, a lead link and an API.',
     inLanguage: 'en-US',
-    dateModified: '2026-11-07',
+    dateModified: '2026-11-14',
     isPartOf: { '@id': `${ORIGIN}/#website` },
     about: { '@id': `${ORIGIN}/#software` },
   },
@@ -256,10 +258,33 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
-        {/* 1b. The stance, light, between the dark hero and the dark sections below (Stance.jsx). */}
+        {/* 2. The routine runs itself (white): what runs on its own beside what you'd ask your AI for (Routine.jsx). */}
+        <Routine />
+
+        {/* 3. Automations (light): pick a built-in follow-up on the left, see it run on the right (Automations.jsx). */}
+        <section id="automations" className="section ai-light bg-slate-50" data-theme="light" aria-labelledby="automations-heading">
+          <div className="container">
+            <Automations
+              focus={FOCUS}
+              header={headerLight({
+                align: 'left',
+                id: 'automations-heading',
+                eyebrow: 'Automations',
+                title: 'Pool service automations built into Poolnautics.',
+                subtitle: [
+                  'You don’t have to be an expert in durable execution, triggers, retries, idempotency or audit trails. We already built them in.',
+                  'An automation here is just a process that’s been standardized: lead follow-up, onboarding, turning estimates into jobs, recurring invoices, fleet.',
+                ],
+                className: 'mb-0',
+              })}
+            />
+          </div>
+        </section>
+
+        {/* 4. The stance, white, after Automations (Stance.jsx). */}
         <Stance />
 
-        {/* 2. The definition, then the four pillars (each links to its section). */}
+        {/* 5. The definition, then the four pillars (each links to its section): dark, the last section before the footer. */}
         <section id="what-is-ai-ready" className="section bg-mktg-page" aria-labelledby="what-is-heading">
           <div className="container">
             <div className="ai-define" data-reveal="">
@@ -304,23 +329,6 @@ export default function AiIntegrationsPage() {
                 );
               })}
             </ul>
-          </div>
-        </section>
-
-        {/* 3. Automations (white): pick a built-in follow-up on the left, see it run on the right (Automations.jsx). */}
-        <section id="automations" className="section ai-light bg-white" data-theme="light" aria-labelledby="automations-heading">
-          <div className="container">
-            <Automations
-              focus={FOCUS}
-              header={headerLight({
-                align: 'left',
-                id: 'automations-heading',
-                eyebrow: 'Automations',
-                title: 'Pool service automations built into Poolnautics.',
-                subtitle: 'No AI needed. No code. Durable automations that just work.',
-                className: 'mb-0',
-              })}
-            />
           </div>
         </section>
 

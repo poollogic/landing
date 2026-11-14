@@ -732,25 +732,32 @@
 
 @media (prefers-reduced-motion: reduce) { html:has(.ai-page) { scroll-behavior: auto; } } /* index.html smooths every jump */
 
-/* ---------- 1b. The stance (Stance.jsx): light, type only, on the homepage's light ground ---------- */
-.ai-page .ai-stance { text-align: center; padding-block: 130px; }
-@media (max-width: 1023.98px) { .ai-page .ai-stance { padding-block: 104px; } }
-@media (max-width: 639.98px) { .ai-page .ai-stance { padding-block: 80px; } }
-.ai-page .ai-stance-line { margin: 0 auto; font-size: clamp(34px, 4.4vw, 52px); line-height: 1.1; font-weight: 700; letter-spacing: -.03em; }
-.ai-page .ai-stance-line > span { display: block; text-wrap: balance; } /* one sentence per line on desktop */
-.ai-page .ai-stance-line > span:first-child { color: #0b1220; }
-.ai-page .ai-stance-line > span:last-child { color: var(--brand-blue); }
-/* "Your AI. | Your tools. | Your data.": one row between hairlines; stacked, without them, on phones. */
-.ai-page .ai-stance-trio {
-  display: flex; justify-content: center; margin: 44px 0 0;
-  font-size: clamp(22px, 2.7vw, 32px); line-height: 1.25; font-weight: 500; letter-spacing: -.02em; color: #0b1220;
+/* ---------- 4. The stance (Stance.jsx): white, type only ---------- */
+/* Padding: the homepage's (below). The headline takes the section-title role, muted then dark; no blue. */
+.ai-page .ai-stance { text-align: center; }
+.ai-page .ai-stance-line {
+  margin: 0 auto;
+  font-size: var(--section-title-size); line-height: var(--section-title-leading);
+  font-weight: var(--section-title-weight); letter-spacing: var(--section-title-tracking);
 }
-.ai-page .ai-stance-item { padding: 0 28px; }
-.ai-page .ai-stance-item + .ai-stance-item { border-left: 1px solid #dfe4ec; }
-.ai-page .ai-stance-your { font-weight: 400; color: #94a3b8; }
-.ai-page .ai-stance-fine { max-width: 540px; margin: 20px auto 0; font-size: 14.5px; line-height: 1.6; color: #64748b; text-wrap: pretty; }
+.ai-page .ai-stance-line > span { display: block; text-wrap: balance; } /* one sentence per line */
+.ai-page .ai-stance-line > span:first-child { color: theme('colors.slate.500'); }
+.ai-page .ai-stance-line > span:last-child { color: theme('colors.slate.900'); }
+/* "Your AI. | Your tools. | Your data.": one row between hairlines; a list on a rail on phones. 24px
+   (Tailwind's text-2xl), between the heading and the intro text. */
+.ai-page .ai-stance-trio {
+  display: flex; justify-content: center; margin: theme('spacing.11') 0 0;
+  font-size: theme('fontSize.2xl'); line-height: theme('lineHeight.8'); font-weight: var(--fw-medium);
+  letter-spacing: var(--closing-tracking); color: theme('colors.slate.900');
+}
+.ai-page .ai-stance-item { padding: 0 theme('spacing.7'); }
+.ai-page .ai-stance-item + .ai-stance-item { border-left: 1px solid theme('colors.slate.200'); }
+.ai-page .ai-stance-your { font-weight: var(--fw-regular); color: theme('colors.slate.400'); }
+.ai-page .ai-stance-fine {
+  max-width: theme('maxWidth.2xl'); margin: theme('spacing.5') auto 0; text-wrap: balance;
+  font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--subhead-weight); color: var(--subhead-on-light);
+}
 @media (max-width: 639.98px) {
-  .ai-page .ai-stance-line { font-size: 34px; }
   .ai-page .ai-stance-trio { flex-direction: column; align-items: center; gap: 6px; }
   .ai-page .ai-stance-item { padding: 0; }
   .ai-page .ai-stance-item + .ai-stance-item { border-left: 0; }
@@ -770,33 +777,28 @@
    it. Stance.jsx measures the rail into --rail, --midpx and --mid. */
 .ai-page .ai-stance-desc { display: none; }
 @media (max-width: 767.98px) {
-  .ai-page .ai-stance { padding: 76px 0 84px; }
-  .ai-page .ai-stance .container { padding-inline: 24px; }
+  .ai-page .ai-stance .container { padding-inline: theme('spacing.6'); }
   .ai-page .ai-stance-line { text-align: left; margin: 0; }
-  .ai-page .ai-stance-line > span:first-child { font-size: 19px; line-height: 1.35; font-weight: 600; color: #64748b; letter-spacing: -.01em; }
-  .ai-page .ai-stance-line > span:last-child {
-    margin-top: 12px; padding-bottom: .08em;
-    font-size: 42px; line-height: 1.04; letter-spacing: -.035em;
-    background: linear-gradient(115deg, var(--brand-blue) 10%, var(--ai-blue-300) 55%, var(--ai-blue-deep) 100%);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
   .ai-page .ai-stance-trio {
     position: relative; display: flex; flex-direction: column; align-items: stretch; gap: 0;
     margin: 44px 0 0; padding-left: 30px; text-align: left;
   }
   .ai-page .ai-stance-item {
     position: relative; display: block; padding: 16px 0 18px;
-    font-size: 26px; font-weight: 600; letter-spacing: -.02em; line-height: 1.15;
-    border-bottom: 1px solid rgba(11, 18, 32, .08);
+    font-size: theme('fontSize.2xl'); font-weight: var(--fw-semibold); letter-spacing: var(--closing-tracking); line-height: var(--closing-leading);
+    border-bottom: 1px solid theme('colors.slate.200');
   }
   .ai-page .ai-stance-item:last-child { border-bottom: 0; }
   .ai-page .ai-stance-item + .ai-stance-item { border-left: 0; } /* the desktop row's dividers */
-  .ai-page .ai-stance-desc { display: block; margin-top: 6px; font-size: 15px; line-height: 1.45; font-weight: 400; letter-spacing: 0; color: #64748b; }
+  .ai-page .ai-stance-desc {
+    display: block; margin-top: theme('spacing.[1.5]'); letter-spacing: 0;
+    font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--subhead-weight); color: var(--subhead-on-light);
+  }
   .ai-page .ai-stance-fine { display: none; }
   /* The dots, and the resting rail between them */
   .ai-page .ai-stance-item::before {
     content: ''; position: absolute; left: -30px; top: 24px; z-index: 1; box-sizing: border-box;
-    width: 12px; height: 12px; border: 2px solid var(--brand-blue); border-radius: 50%; background: #F5F5F7;
+    width: 12px; height: 12px; border: 2px solid var(--brand-blue); border-radius: 50%; background: var(--bg);
   }
   .ai-page .ai-stance-item:not(:last-child)::after {
     content: ''; position: absolute; left: -25px; top: 36px; bottom: -24px;
@@ -846,19 +848,19 @@
   0% { background: #F5F5F7; transform: scale(1); }
   2% { background: var(--brand-blue); transform: scale(1.35); }
   9%, 84% { background: var(--brand-blue); transform: scale(1); }
-  97%, 100% { background: #F5F5F7; transform: scale(1); }
+  97%, 100% { background: var(--bg); transform: scale(1); }
 }
 @keyframes ai-stance-dot-2 {
   0%, 25% { background: #F5F5F7; transform: scale(1); }
   27% { background: var(--brand-blue); transform: scale(1.35); }
   34%, 84% { background: var(--brand-blue); transform: scale(1); }
-  97%, 100% { background: #F5F5F7; transform: scale(1); }
+  97%, 100% { background: var(--bg); transform: scale(1); }
 }
 @keyframes ai-stance-dot-3 {
   0%, 61% { background: #F5F5F7; transform: scale(1); }
   63% { background: var(--brand-blue); transform: scale(1.35); }
   70%, 84% { background: var(--brand-blue); transform: scale(1); }
-  97%, 100% { background: #F5F5F7; transform: scale(1); }
+  97%, 100% { background: var(--bg); transform: scale(1); }
 }
 
 
@@ -882,11 +884,68 @@
 .ai-page .is-on > .ai-radio::after { opacity: 1; }
 
 /* ---------- White and light sections ---------- */
-.ai-page .ai-light { color: #475569; }
-.ai-page .ai-light .ai-eyebrow { color: #64748b; }
-.ai-page .ai-title-light { color: #0b1220; }
-.ai-page .ai-sub-light { color: #475569; }
-.ai-page .ai-light .ai-link { color: #0b1220; }
+.ai-page .ai-light { color: var(--subhead-on-light); }
+.ai-page .ai-light .ai-eyebrow { color: var(--eyebrow-on-light); }
+.ai-page .ai-title-light { color: theme('colors.slate.900'); }
+.ai-page .ai-sub-light { color: var(--subhead-on-light); }
+.ai-page .ai-light .ai-link { color: theme('colors.slate.900'); }
+
+/* ---------- The homepage's section standard (2026-11-14), on the sections after the hero ---------- */
+/* Padding, header spacing and type from the tokens on :root (index.html), as the homepage's
+   home-roles.css applies them. The dark section keeps its own type (only its padding is the standard). */
+.ai-page :is(#routine, #automations, .ai-stance, #what-is-ai-ready) { padding-block: var(--section-pad-y); }
+.ai-page :is(#routine, #automations) .section-title {
+  font-size: var(--section-title-size); line-height: var(--section-title-leading);
+  font-weight: var(--section-title-weight); letter-spacing: var(--section-title-tracking);
+}
+.ai-page :is(#routine, #automations) .section-sub {
+  font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--subhead-weight);
+  letter-spacing: var(--subhead-tracking); color: var(--subhead-on-light);
+}
+.ai-page :is(#routine, #automations) .section-eyebrow { font-size: var(--eyebrow-size); font-weight: var(--eyebrow-weight); color: var(--eyebrow-on-light); }
+.ai-page :is(#routine, #automations) .section-head .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
+.ai-page :is(#routine, #automations) .section-head .section-sub { margin-top: var(--title-to-subhead); }
+
+/* ---------- 2. The routine runs itself (Routine.jsx) ---------- */
+.ai-page .ai-routine-inner { max-width: theme('maxWidth.5xl'); margin-inline: auto; }
+.ai-page #routine .section-head { margin-bottom: var(--head-to-content); }
+/* The first heading after the hero: the statement role (as the homepage's first section), all dark. */
+.ai-page #routine .section-title {
+  font-size: var(--statement-size); line-height: var(--statement-leading);
+  font-weight: var(--statement-weight); letter-spacing: var(--statement-tracking); color: theme('colors.slate.900');
+}
+.ai-page #routine .section-title > span { display: block; text-wrap: balance; }
+.ai-page #routine .section-sub { text-wrap: balance; } /* the shared measure: .section-sub's 42rem */
+.ai-page .ai-routine-cards { display: grid; gap: theme('spacing.6'); }
+@screen md { .ai-page .ai-routine-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ai-page .ai-routine-card {
+  display: flex; flex-direction: column; padding: theme('spacing.8');
+  border-radius: var(--ai-r-card); background: theme('colors.slate.50'); text-align: left;
+}
+.ai-page .ai-routine-card .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
+.ai-page .ai-routine-card-title {
+  margin-bottom: theme('spacing.5');
+  font-size: var(--card-title-size); line-height: var(--card-title-leading); font-weight: var(--card-title-weight);
+  letter-spacing: normal; color: theme('colors.slate.900');
+}
+.ai-page :is(.ai-routine-list, .ai-routine-bubbles) {
+  display: grid; gap: theme('spacing.3');
+  font-size: theme('fontSize.body'); line-height: theme('lineHeight.6'); font-weight: var(--fw-medium); color: theme('colors.slate.700');
+}
+.ai-page .ai-routine-list li { display: flex; gap: theme('spacing.3'); }
+.ai-page .ai-routine-list svg { flex: none; margin-top: theme('spacing.[0.5]'); color: var(--brand-blue); }
+.ai-page .ai-routine-bubbles { justify-items: start; }
+.ai-page .ai-routine-bubbles li {
+  padding: theme('spacing.3') theme('spacing.4'); border-radius: var(--ai-r-card);
+  background: var(--bg); box-shadow: var(--shadow-card);
+}
+.ai-page :is(.ai-routine-list, .ai-routine-bubbles) { margin-bottom: theme('spacing.6'); }
+/* Pinned to the card's foot, so both cards' footers line up. */
+.ai-page .ai-routine-foot {
+  margin-top: auto; padding-top: theme('spacing.5'); border-top: 1px solid theme('colors.slate.200');
+  font-size: theme('fontSize.meta'); line-height: theme('lineHeight.5'); color: var(--subhead-on-light);
+}
+.ai-page .ai-routine-foot strong { font-weight: var(--fw-semibold); color: theme('colors.slate.900'); }
 
 /* ---------- 3. Automations (Automations.jsx): the follow-ups, then the card; side by side from 900px ---------- */
 .ai-page .ai-auto { display: grid; gap: 48px; }
@@ -902,6 +961,7 @@
 }
 .ai-page .ai-pick-row:hover { border-color: #cbd5e1; }
 .ai-page .ai-pick-row.is-on { border-color: var(--brand-blue); background: #eff6ff; color: #0b1220; }
+.ai-page #automations .ai-pick-row:not(.is-on) { background: var(--bg); } /* white on the light section */
 .ai-page .ai-pick-row:has(input:focus-visible),
 .ai-page .ai-mcp-level:has(input:focus-visible) { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
 .ai-page .ai-auto .ai-link { margin-top: 28px; }

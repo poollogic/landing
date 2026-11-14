@@ -22,7 +22,8 @@ export default function SectionHeader({
     <div className={`section-head ${align === 'left' ? 'section-head--left' : 'section-head--center'} ${className}`}>
       {eyebrow && <p className={`section-eyebrow ${eyebrowClassName}`}>{eyebrow}</p>}
       <Title id={id} className={`section-title ${titleClassName}`}>{title}</Title>
-      {subtitle && <p className={`section-sub ${subtitleClassName}`}>{subtitle}</p>}
+      {/* An array is several paragraphs, each a section-sub. */}
+      {subtitle && [].concat(subtitle).map((s, i) => <p key={i} className={`section-sub ${subtitleClassName}`}>{s}</p>)}
     </div>
   );
 }
