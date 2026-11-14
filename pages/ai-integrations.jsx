@@ -38,12 +38,13 @@ import {
 
 const ORIGIN = 'https://getpoolnautics.com';
 // Published so far (2026-11-14 order): the hero, "The routine runs itself", Automations, the stance,
-// "The short answer" and Connect your AI (#connect-ai); the rest follows it here, hidden. True
+// "The short answer", Connect your AI (#connect-ai) and Lead capture (#leads); the rest follows them
+// here, hidden. True
 // brings back the rest of the page, with its FAQ in the JSON-LD and every pillar's link to its
 // section. Add 'FAQPage' back to the route's jsonLd in scripts/seo-check.mjs with it. To preview the
 // whole page locally without publishing it: VITE_AI_FULL_PAGE=1 npx vite.
 const FULL_PAGE = import.meta.env.VITE_AI_FULL_PAGE === '1';
-const PUBLISHED = new Set(['#automations', '#connect-ai']); // the pillars' sections that are live
+const PUBLISHED = new Set(['#automations', '#connect-ai', '#leads']); // the pillars' sections that are live
 const PAGE_URL = `${ORIGIN}/ai-and-automations`;
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--brand-blue)]';
 
@@ -360,6 +361,26 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
+        {/* 7. Leads in: published 2026-11-14, after Connect your AI. */}
+        <section id="leads" className="section bg-mktg-page" aria-labelledby="leads-heading">
+          <div className="container">
+            <div data-reveal="">
+              {header({
+                id: 'leads-heading',
+                eyebrow: 'Lead capture',
+                title: 'Capture pool service leads from any form or ad',
+                subtitle: 'Every company gets a lead link. Point your website forms and lead ads at it, no code, and every lead lands in Poolnautics with its source, ready for follow-up.',
+              })}
+            </div>
+            <div data-reveal="">
+              <LeadFlow />
+            </div>
+            <p className="ai-note ai-note--center" data-reveal="">
+              Sources: {LEAD_SOURCES.join(', ')} and more.
+            </p>
+          </div>
+        </section>
+
         {FULL_PAGE && (<>
         {/* 4. Guardrails: the money is off limits. */}
         <section id="guardrails" className="section bg-mktg-base" aria-labelledby="guardrails-heading">
@@ -446,26 +467,6 @@ export default function AiIntegrationsPage() {
                 </p>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* 7. Leads in. */}
-        <section id="leads" className="section bg-mktg-page" aria-labelledby="leads-heading">
-          <div className="container">
-            <div data-reveal="">
-              {header({
-                id: 'leads-heading',
-                eyebrow: 'Lead capture',
-                title: 'Capture pool service leads from any form or ad',
-                subtitle: 'Every company gets a lead link. Point your website forms and lead ads at it, no code, and every lead lands in Poolnautics with its source, ready for follow-up.',
-              })}
-            </div>
-            <div data-reveal="">
-              <LeadFlow />
-            </div>
-            <p className="ai-note ai-note--center" data-reveal="">
-              Sources: {LEAD_SOURCES.join(', ')} and more.
-            </p>
           </div>
         </section>
 
