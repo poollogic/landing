@@ -342,7 +342,7 @@ export default function AiIntegrationsPage() {
                 Connect Claude, ChatGPT or Grok <span className="ai-break">to your pool service software</span>
               </h2>
               <p className="section-sub text-mktg-muted">
-                A built-in MCP server with {MCP_TOOL_COUNT} tools. You choose how far your assistant can go.
+                Your assistant gets {MCP_TOOL_COUNT} tools. You choose how far it can go.
               </p>
               <p className="ai-works">
                 <span className="ai-works-label">Works with</span>
@@ -357,7 +357,6 @@ export default function AiIntegrationsPage() {
                 <strong>You stay in control.</strong> Only an owner or admin can connect an assistant, and any connection can
                 be revoked on its own.
               </p>
-              <PrimaryCta theme={theme} />
             </div>
           </div>
         </section>

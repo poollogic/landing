@@ -1007,14 +1007,30 @@
 
 /* ---------- 4. AI assistant / MCP (McpDiagram.jsx): near-black, a blue glow at the top ---------- */
 .ai-page .ai-connect { background: radial-gradient(1100px 520px at 50% 0, rgba(46, 133, 255, .2), transparent 70%), #08090c; }
-.ai-page .ai-connect-head { max-width: 760px; margin-inline: auto; }
+.ai-page .ai-connect-head { max-width: 760px; margin-inline: auto; margin-bottom: var(--head-to-content); } /* the diagram, a block of its own */
 .ai-page .ai-break { display: block; } /* the line break after "Grok", on desktop */
 @media (max-width: 899.98px) { .ai-page .ai-break { display: inline; } }
 .ai-page .ai-works { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 18px; margin-top: 24px; font-size: 14px; font-weight: 500; color: #cbd5e1; }
 .ai-page .ai-works-label { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--mktg-text-muted); }
 
-.ai-page .ai-mcp { position: relative; display: grid; gap: 40px; }
-@media (min-width: 900px) { .ai-page .ai-mcp { grid-template-columns: minmax(0, 1fr) 210px minmax(0, 1fr); column-gap: 88px; align-items: center; } }
+/* Stacked (below 900px): label, levels, the hub, label, capabilities. */
+.ai-page .ai-mcp { position: relative; display: grid; }
+.ai-page .ai-mcp > .ai-pick-label { float: none; margin: 0 0 theme('spacing.3'); } /* each over its column */
+.ai-page .ai-mcp-mid { margin-block: theme('spacing.10'); }
+@media (min-width: 900px) {
+  /* Row 1: the two labels, level. Row 2: the columns, from the same top. */
+  .ai-page .ai-mcp {
+    grid-template-columns: minmax(0, 1fr) 210px minmax(0, 1fr); grid-template-rows: auto auto;
+    column-gap: 88px; row-gap: theme('spacing.3'); align-items: start;
+  }
+  .ai-page .ai-mcp > .ai-pick-label, .ai-page .ai-mcp-mid { margin: 0; }
+  .ai-page .ai-mcp-label-levels { grid-area: 1 / 1; }
+  .ai-page .ai-mcp-label-caps { grid-area: 1 / 3; }
+  .ai-page .ai-mcp > .ai-pick-label { align-self: baseline; } /* the same line, though "Tap one to try it" is larger */
+  .ai-page .ai-mcp-levels { grid-area: 2 / 1; }
+  .ai-page .ai-mcp-mid { grid-area: 2 / 2; }
+  .ai-page .ai-mcp-caps { grid-area: 2 / 3; }
+}
 .ai-page .ai-mcp-lines { position: absolute; top: 0; left: 0; z-index: 0; overflow: visible; pointer-events: none; }
 .ai-page .ai-mcp-lines path { fill: none; stroke: rgba(148, 163, 184, .22); stroke-width: 1.5; transition: stroke .3s; }
 .ai-page .ai-mcp-lines path.is-lit { stroke: var(--brand-blue); filter: drop-shadow(0 0 4px rgba(46, 133, 255, .7)); }
@@ -1051,9 +1067,9 @@
 .ai-page .ai-mcp-of { margin-top: 6px; font-size: 13px; }
 .ai-page .ai-mcp-switch {
   display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; padding: 4px 6px; cursor: pointer;
-  border: 0; border-radius: var(--ai-r-button); background: none; font-size: 13px; font-weight: 600; color: #4ade80;
+  border: 0; border-radius: var(--ai-r-button); background: none; font-size: 13px; font-weight: 600; color: var(--ai-blue-200);
 }
-.ai-page .ai-mcp-switch .ai-switch.is-on { background: #22c55e; }
+/* On: the one accent, blue (the switch's own is-on); the label in the light blue of the hub's label. */
 .ai-page .ai-mcp.is-off .ai-mcp-switch { color: var(--mktg-text-muted); }
 .ai-page .ai-mcp-switch:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
 .ai-page .ai-mcp-ask { margin-top: 20px; text-align: center; transition: opacity .3s; }
@@ -1071,7 +1087,6 @@
   opacity: .38; transition: opacity .3s, border-color .3s;
 }
 .ai-page .ai-mcp-cap.is-lit { opacity: 1; border-color: rgba(46, 133, 255, .35); }
-.ai-page .ai-mcp-cap.is-never { opacity: 1; border-style: dashed; }
 .ai-page .ai-mcp-cap-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .ai-page .ai-mcp-cap-top b { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: #f8fafc; }
 .ai-page .ai-mcp-cap-top span { flex: none; font-size: 12.5px; white-space: nowrap; }
@@ -1079,9 +1094,26 @@
 .ai-page .ai-mcp-cap li { display: flex; gap: 8px; font-size: 13.5px; line-height: 1.45; color: #cbd5e1; }
 .ai-page .ai-mcp-cap li svg { flex: none; margin-top: 3px; color: var(--brand-blue); transition: color .3s; }
 .ai-page .ai-mcp-cap:not(.is-lit) li svg { color: #64748b; }
-.ai-page .ai-mcp-dash { flex: none; width: 8px; height: 2px; margin: .65em 3px 0; background: #64748b; }
 
-.ai-page .ai-connect-foot { display: flex; flex-direction: column; align-items: center; gap: 24px; margin-top: 56px; text-align: center; }
+/* "Never, at any level": one slim pill under the diagram, as wide as its words, in the dashed border the
+   capability card had. The two things stack under the title on narrow screens. */
+.ai-page .ai-mcp-never-row { display: flex; justify-content: center; margin-top: theme('spacing.12'); }
+.ai-page .ai-mcp-never {
+  display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: theme('spacing.2') theme('spacing.5');
+  max-width: 100%; padding: theme('spacing.[3.5]') theme('spacing.6');
+  border: 1px dashed rgba(148, 163, 184, .16); border-radius: 999px;
+  font-size: theme('fontSize.meta'); line-height: theme('lineHeight.5'); color: var(--mktg-text-muted);
+}
+.ai-page .ai-mcp-never b { display: inline-flex; align-items: center; gap: theme('spacing.2'); font-weight: var(--fw-semibold); color: var(--mktg-text-primary); }
+.ai-page .ai-mcp-never-items { display: inline-flex; flex-wrap: wrap; justify-content: center; }
+.ai-page .ai-mcp-never-items > span + span { margin-left: theme('spacing.3'); padding-left: theme('spacing.3'); border-left: 1px solid rgba(148, 163, 184, .16); }
+@media (max-width: 639.98px) {
+  .ai-page .ai-mcp-never { flex-direction: column; gap: theme('spacing.1'); border-radius: var(--ai-r-card); text-align: center; }
+  .ai-page .ai-mcp-never-items { flex-direction: column; align-items: center; }
+  .ai-page .ai-mcp-never-items > span + span { margin-left: 0; padding-left: 0; border-left: 0; }
+}
+
+.ai-page .ai-connect-foot { display: flex; flex-direction: column; align-items: center; gap: 24px; margin-top: theme('spacing.10'); text-align: center; }
 .ai-page .ai-connect-foot p { max-width: 40rem; font-size: 16px; line-height: 1.6; }
 .ai-page .ai-connect-foot strong { font-weight: 600; color: var(--mktg-text-primary); }
 

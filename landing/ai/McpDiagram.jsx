@@ -5,10 +5,13 @@ import { ACCESS_LEVELS, MCP_TOOL_COUNT } from '../../aiFacts.js';
 // #connect-ai's diagram: the three access levels (a radio group) on the left, the Poolnautics MCP
 // hub in the middle with the tools available at the chosen level, and what the assistant can do
 // on the right. Cards up to the chosen level are lit; the hub's switch turns AI access off (the
-// count runs down to 0, everything greys out) and choosing a level turns it back on. Curved lines
-// join each level to the hub and the hub to each capability card, drawn between their measured
-// edges after layout (and again on resize); the server renders none, so nothing moves. Counts from
-// aiFacts.js (ACCESS_LEVELS). Styles: ai.css ("AI assistant / MCP").
+// count runs down to 0, everything greys out) and choosing a level turns it back on. From 900px the
+// two column labels share a row and the columns start level under it (the labels are grid items of
+// their own, so the hub needs no spacer). Curved lines join each level to the hub and the hub to
+// each capability card, drawn between their measured edges after layout, again on resize and
+// whenever the level or the switch changes; the server renders none, so nothing moves. Under the
+// diagram, one line on what no level can do. Counts from aiFacts.js (ACCESS_LEVELS). Styles: ai.css
+// ("AI assistant / MCP").
 
 const ASK = [
   'Who owes us more than 30 days?',
@@ -64,6 +67,7 @@ export default function McpDiagram() {
 
   // The lines: measured from the rows, the hub and the cards, relative to the diagram.
   const ref = useRef(null);
+  const measureRef = useRef(null);
   const [lines, setLines] = useState(null);
   useIsoLayoutEffect(() => {
     const root = ref.current;
@@ -76,7 +80,7 @@ export default function McpDiagram() {
       };
       const hub = box(root.querySelector('.ai-mcp-hub'));
       const rows = [...root.querySelectorAll('.ai-mcp-level')].map(box);
-      const cards = [...root.querySelectorAll('.ai-mcp-cap:not(.is-never)')].map(box);
+      const cards = [...root.querySelectorAll('.ai-mcp-cap')].map(box);
       const next = {
         w: Math.round(o.width),
         h: Math.round(o.height),
@@ -85,6 +89,7 @@ export default function McpDiagram() {
       };
       setLines((prev) => (prev && JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
     };
+    measureRef.current = measure;
     measure();
     const ro = new ResizeObserver(measure);
     ro.observe(root);
@@ -92,6 +97,8 @@ export default function McpDiagram() {
     root.querySelectorAll('.ai-mcp-levels, .ai-mcp-mid, .ai-mcp-caps, .ai-mcp-level, .ai-mcp-hub, .ai-mcp-cap').forEach((el) => ro.observe(el));
     return () => ro.disconnect();
   }, []);
+  // And after each change of level or switch, once the cards have taken their new state.
+  useIsoLayoutEffect(() => { measureRef.current?.(); }, [level, on]);
 
   const choose = (i) => {
     setLevel(i);
@@ -99,6 +106,7 @@ export default function McpDiagram() {
   };
 
   return (
+    <>
     <div ref={ref} className={`ai-mcp${on ? '' : ' is-off'}`}>
       {lines && (
         <svg className="ai-mcp-lines" width={lines.w} height={lines.h} viewBox={`0 0 ${lines.w} ${lines.h}`} aria-hidden="true">
@@ -107,8 +115,8 @@ export default function McpDiagram() {
         </svg>
       )}
 
-      <fieldset className="ai-mcp-levels">
-        <legend className="ai-pick-label">Access level <span>Tap one to try it</span></legend>
+      <p id="ai-mcp-levels-label" className="ai-pick-label ai-mcp-label-levels">Access level <span>Tap one to try it</span></p>
+      <div className="ai-mcp-levels" role="radiogroup" aria-labelledby="ai-mcp-levels-label">
         {ACCESS_LEVELS.map((l, i) => (
           <label key={l.key} className={`ai-mcp-level${on && i === level ? ' is-on' : ''}`}>
             <input type="radio" name="ai-mcp-level" className="sr-only" checked={i === level} onChange={() => choose(i)} onClick={() => choose(i)} />
@@ -119,7 +127,7 @@ export default function McpDiagram() {
             </span>
           </label>
         ))}
-      </fieldset>
+      </div>
 
       <div className="ai-mcp-mid">
         <div className="ai-mcp-hub">
@@ -139,8 +147,8 @@ export default function McpDiagram() {
         </div>
       </div>
 
+      <p className="ai-pick-label ai-mcp-label-caps">What your assistant can do</p>
       <div className="ai-mcp-caps">
-        <p className="ai-pick-label">What your assistant can do</p>
         {CAPS.map((c, i) => (
           <div key={c.title} className={`ai-mcp-cap${on && i <= level ? ' is-lit' : ''}`}>
             <p className="ai-mcp-cap-top">
@@ -152,16 +160,17 @@ export default function McpDiagram() {
             </ul>
           </div>
         ))}
-        <div className="ai-mcp-cap is-never">
-          <p className="ai-mcp-cap-top">
-            <b><Lock size={14} strokeWidth={2.2} aria-hidden="true" />Never, at any level</b>
-            <span>0 tools</span>
-          </p>
-          <ul>
-            {NEVER_ITEMS.map((t) => <li key={t}><span className="ai-mcp-dash" aria-hidden="true" />{t}</li>)}
-          </ul>
-        </div>
       </div>
     </div>
+
+    <div className="ai-mcp-never-row">
+      <p className="ai-mcp-never">
+        <b><Lock size={15} strokeWidth={2.2} aria-hidden="true" />Never, at any level</b>
+        <span className="ai-mcp-never-items">
+          {NEVER_ITEMS.map((t) => <span key={t}>{t}</span>)}
+        </span>
+      </p>
+    </div>
+    </>
   );
 }
