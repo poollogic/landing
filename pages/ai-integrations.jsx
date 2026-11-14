@@ -37,13 +37,13 @@ import {
 // Blocks with data-reveal fade up on scroll (useReveal).
 
 const ORIGIN = 'https://getpoolnautics.com';
-// Published so far (2026-11-14 order): the hero, "The routine runs itself", Automations, the stance and
-// "The short answer", which is the last before the footer; the rest follows it here. True
+// Published so far (2026-11-14 order): the hero, "The routine runs itself", Automations, the stance,
+// "The short answer" and Connect your AI (#connect-ai); the rest follows it here, hidden. True
 // brings back the rest of the page, with its FAQ in the JSON-LD and every pillar's link to its
 // section. Add 'FAQPage' back to the route's jsonLd in scripts/seo-check.mjs with it. To preview the
 // whole page locally without publishing it: VITE_AI_FULL_PAGE=1 npx vite.
 const FULL_PAGE = import.meta.env.VITE_AI_FULL_PAGE === '1';
-const PUBLISHED = new Set(['#automations']); // sections below "The short answer" that are live
+const PUBLISHED = new Set(['#automations', '#connect-ai']); // the pillars' sections that are live
 const PAGE_URL = `${ORIGIN}/ai-and-automations`;
 const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--brand-blue)]';
 
@@ -332,7 +332,6 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
-        {FULL_PAGE && (<>
         {/* 4. Connecting an assistant (MCP): the levels, the hub and what each level can do (McpDiagram.jsx). */}
         <section id="connect-ai" className="section ai-connect" aria-labelledby="connect-heading">
           <div className="container">
@@ -361,6 +360,7 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
+        {FULL_PAGE && (<>
         {/* 4. Guardrails: the money is off limits. */}
         <section id="guardrails" className="section bg-mktg-base" aria-labelledby="guardrails-heading">
           <div className="container">
