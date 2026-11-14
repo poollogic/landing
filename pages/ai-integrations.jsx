@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {
-  ArrowRight, Ban, BookOpen, Bot, Check, Hash, History, KeyRound, Mail, MessageSquare, Send, ShieldCheck, Webhook, Workflow, Inbox,
+  ArrowRight, BookOpen, Bot, Check, Hash, Mail, MessageSquare, Webhook, Workflow, Inbox,
 } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
@@ -14,16 +14,16 @@ import Automations from '../landing/ai/Automations.jsx';
 import McpDiagram from '../landing/ai/McpDiagram.jsx';
 import LeadFlow from '../landing/ai/LeadFlow.jsx';
 import TechPhone from '../landing/ai/TechPhone.jsx';
-import PriceProposal from '../landing/ai/PriceProposal.jsx';
 import Stance from '../landing/ai/Stance.jsx';
 import Routine from '../landing/ai/Routine.jsx';
+import Guardrails from '../landing/ai/Guardrails.jsx';
 import Code, { formatJson } from '../landing/ai/Code.jsx';
 import useReveal from '../landing/ai/useReveal.js';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
 import { Footer } from '../components/site-chrome.jsx';
 import {
-  ACTIONS, AI_PLAN, API_DOCS_URL, API_MAX_POST, AUTOMATION_LIMITS, BULK, LEAD_SOURCES, MCP_CLIENTS, MCP_TOOL_COUNT, NEVER, PRICE_PROPOSALS,
+  ACTIONS, AI_PLAN, API_DOCS_URL, API_MAX_POST, AUTOMATION_LIMITS, BULK, LEAD_SOURCES, MCP_CLIENTS, MCP_TOOL_COUNT, PRICE_PROPOSALS,
   SAMPLE_PAYLOAD, SEND_LIMITS, SMS_PROVIDERS, TECH_APP, TRIAL_DAYS, TRIGGER_COUNT, WEBHOOK_EVENTS, WEBHOOK_GROUPS, WEBHOOK_LIMIT,
   WEBHOOK_MAX_AGE_MIN, WEBHOOK_RETRIES, WEBHOOK_SIGNATURE_HEADER,
 } from '../aiFacts.js';
@@ -38,8 +38,8 @@ import {
 
 const ORIGIN = 'https://getpoolnautics.com';
 // Published so far (2026-11-14 order): the hero, "The routine runs itself", Automations, the stance,
-// "The short answer", Connect your AI (#connect-ai) and Lead capture (#leads); the rest follows them
-// here, hidden. True
+// "The short answer", Connect your AI (#connect-ai), then (not live yet) Guardrails and the technician
+// app, then Lead capture (#leads, live); the rest follows them here, hidden. True
 // brings back the rest of the page, with its FAQ in the JSON-LD and every pillar's link to its
 // section. Add 'FAQPage' back to the route's jsonLd in scripts/seo-check.mjs with it. To preview the
 // whole page locally without publishing it: VITE_AI_FULL_PAGE=1 npx vite.
@@ -285,7 +285,7 @@ export default function AiIntegrationsPage() {
         {/* 4. The stance, white, after Automations (Stance.jsx). */}
         <Stance />
 
-        {/* 5. The definition, then the four pillars (each links to its section): dark, the last section before the footer. */}
+        {/* 5. The definition, then the four pillars (each links to its section): dark. */}
         <section id="what-is-ai-ready" className="section bg-mktg-page" aria-labelledby="what-is-heading">
           <div className="container">
             <div className="ai-define" data-reveal="">
@@ -303,8 +303,8 @@ export default function AiIntegrationsPage() {
                 </p>
                 <p className="ai-define-detail">
                   In Poolnautics: a built-in MCP server, {WEBHOOK_EVENTS.length} signed webhook events and{' '}
-                  <span className="whitespace-nowrap">no-code</span> automations, with hard limits that keep AI away from
-                  charges and refunds, and never let it change a price on its own.
+                  <span className="whitespace-nowrap">no-code</span> automations, with hard limits: no charges, no refunds,
+                  and no price change without your approval.
                 </p>
               </div>
             </div>
@@ -333,7 +333,7 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
-        {/* 4. Connecting an assistant (MCP): the levels, the hub and what each level can do (McpDiagram.jsx). */}
+        {/* 6. Connecting an assistant (MCP): the levels, the hub and what each level can do (McpDiagram.jsx). */}
         <section id="connect-ai" className="section ai-connect" aria-labelledby="connect-heading">
           <div className="container">
             <div className="section-head section-head--center ai-connect-head" data-reveal="">
@@ -361,7 +361,38 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
-        {/* 7. Leads in: published 2026-11-14, after Connect your AI. */}
+        {/* 7. Guardrails (white): ask it for something it shouldn't do (Guardrails.jsx). */}
+        <Guardrails focus={FOCUS} />
+
+        {/* 8. The technician app (light grey): no AI, on purpose. Ends with the page's call to action. */}
+        <section id="technician-app" className="section ai-light ai-tech bg-slate-50" data-theme="light" aria-labelledby="tech-app-heading">
+          <div className="container">
+            <div className="ai-split ai-split--tech">
+              <div data-reveal="">
+                {headerLight({
+                  align: 'left',
+                  id: 'tech-app-heading',
+                  eyebrow: 'The technician app',
+                  title: 'Does the technician app use AI? No, on purpose.',
+                  subtitle: 'AI works in the office. The tech app is the bridge between visits: the route, the readings, the photos, done. Nothing new to learn, so a tech can run it on day one.',
+                  className: 'mb-0',
+                })}
+                <Ticks items={TECH_APP} className="ai-tech-ticks" />
+                <p className="ai-tech-close">Built to be the easiest app your techs have ever used.</p>
+                <a href="/tech-app" className={`ai-link ${FOCUS}`}>See the technician app <ArrowRight size={15} strokeWidth={2} aria-hidden="true" /></a>
+              </div>
+              <div className="ai-tech-visual" data-reveal="">
+                <TechPhone />
+              </div>
+            </div>
+            <div className="ai-tech-cta" data-reveal="">
+              <PrimaryCta theme={theme} />
+              <p>The {TRIAL_DAYS}-day trial includes all of it.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* 9. Leads in (live since 2026-11-14), under the technician app. */}
         <section id="leads" className="section bg-mktg-page" aria-labelledby="leads-heading">
           <div className="container">
             <div data-reveal="">
@@ -382,94 +413,6 @@ export default function AiIntegrationsPage() {
         </section>
 
         {FULL_PAGE && (<>
-        {/* 4. Guardrails: the money is off limits. */}
-        <section id="guardrails" className="section bg-mktg-base" aria-labelledby="guardrails-heading">
-          <div className="container">
-            <div className="ai-split ai-split--even">
-              <div data-reveal="">
-                {header({
-                  align: 'left',
-                  id: 'guardrails-heading',
-                  eyebrow: 'Guardrails',
-                  title: 'AI that can never touch your money',
-                  subtitle: 'Charging and refunding aren’t switched off for the AI. The tools for them don’t exist, at any access level, so there’s nothing to misconfigure and nothing a cleverly worded message can talk it into.',
-                  className: 'mb-0',
-                })}
-                <p className="ai-callout">
-                  <ShieldCheck size={20} strokeWidth={1.75} aria-hidden="true" />
-                  <span>An invoice the AI issues is never charged automatically. The customer pays from the link.</span>
-                </p>
-              </div>
-              <div className="ai-never" data-reveal="">
-                <h3 className="ai-never-title">No access level can ever</h3>
-                <ul>
-                  {NEVER.map((n) => (
-                    <li key={n}><Ban size={18} strokeWidth={1.75} aria-hidden="true" />{n}</li>
-                  ))}
-                </ul>
-                <p className="ai-never-foot">Those tools don’t exist.</p>
-              </div>
-            </div>
-
-            {/* Ask first: the AI proposes new prices; a person approves them in Poolnautics. */}
-            <div id="ask-first" className="ai-split ai-ask">
-              <div data-reveal="">
-                <p className="ai-ask-label">Ask first</p>
-                <h3 className="ai-ask-title">Price changes? It asks first.</h3>
-                <p className="ai-ask-copy">
-                  Turn on Ask first and your assistant can propose new prices, like $10 more a month for every customer
-                  who hasn’t had an increase in a year. A proposal changes nothing. An owner or admin opens it in
-                  Poolnautics, checks every customer’s price now and new price, leaves anyone out, and approves. A “yes”
-                  typed in the chat doesn’t count.
-                </p>
-                <ul className="ai-dash ai-ask-list">
-                  <li>Off until an owner or admin turns it on</li>
-                  <li>No customer’s price moves more than {PRICE_PROPOSALS.maxChangePercent}% in one proposal</li>
-                  <li>New prices start at each customer’s next bill</li>
-                  <li>A price that changed since the proposal is skipped, never overwritten</li>
-                  <li>Customers aren’t emailed until you announce it</li>
-                  <li>A proposal no one decides expires after {PRICE_PROPOSALS.expiresDays} days</li>
-                </ul>
-              </div>
-              <div className="ai-ask-visual" data-reveal="">
-                <PriceProposal />
-              </div>
-            </div>
-
-            <div className="ai-cards ai-cards--3" data-reveal="">
-              <div className="ai-card">
-                <Send size={32} strokeWidth={1.75} aria-hidden="true" />
-                <h3>Hard limits on what it sends</h3>
-                <ul className="ai-dash">
-                  <li>No drafts over {SEND_LIMITS.maxInvoice}</li>
-                  <li>Not the billing run’s own invoices</li>
-                  <li>No drafts with a payment attached</li>
-                  <li>No links in its note to the customer</li>
-                  <li>At most {SEND_LIMITS.emailsPerDay} customer emails per connection per 24 hours</li>
-                  <li>One send per document per connection per 24 hours</li>
-                </ul>
-              </div>
-              <div className="ai-card">
-                <History size={32} strokeWidth={1.75} aria-hidden="true" />
-                <h3>Every send is on the record</h3>
-                <p>Each send shows on the request’s history with the name of the connection that sent it.</p>
-                <p className="ai-history">
-                  <span className="ai-history-dot" aria-hidden="true" />
-                  <span>Invoice INV-1042 sent to Jimmy McGill by <b>Office laptop (AI assistant)</b></span>
-                </p>
-              </div>
-              <div className="ai-card">
-                <KeyRound size={32} strokeWidth={1.75} aria-hidden="true" />
-                <h3>Records are information, not instructions</h3>
-                <p>
-                  The AI is told that text inside your records, like a lead’s message or a note, is information and
-                  never instructions to follow. A guard against prompt injection.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* 8. Texting and team tools. */}
         <section id="texting" className="section bg-mktg-base" aria-labelledby="texting-heading">
           <div className="container">
@@ -501,30 +444,6 @@ export default function AiIntegrationsPage() {
                 <Mail size={32} strokeWidth={1.75} aria-hidden="true" />
                 <h3>Bulk text and email from the office</h3>
                 <p>Email up to {BULK.emails} customers per send, with merge tags. Text up to {BULK.texts} per send, between {BULK.textHours} only.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 4b. The technician app: no AI, on purpose. */}
-        <section id="technician-app" className="section bg-mktg-page" aria-labelledby="tech-app-heading">
-          <div className="container">
-            <div className="ai-split ai-split--tech">
-              <div data-reveal="">
-                {header({
-                  align: 'left',
-                  id: 'tech-app-heading',
-                  eyebrow: 'The technician app',
-                  title: 'Does the technician app use AI? No, on purpose.',
-                  subtitle: 'AI works in the office. The tech app is the bridge between visits: the route, the readings, the photos, done. Nothing new to learn, so a tech can run it on day one.',
-                  className: 'mb-0',
-                })}
-                <Ticks items={TECH_APP} className="ai-tech-ticks" />
-                <p className="ai-tech-close">Built to be the easiest app your techs have ever used.</p>
-                <a href="/tech-app" className={`ai-link ${FOCUS}`}>See the technician app <ArrowRight size={15} strokeWidth={2} aria-hidden="true" /></a>
-              </div>
-              <div className="ai-tech-visual" data-reveal="">
-                <TechPhone />
               </div>
             </div>
           </div>

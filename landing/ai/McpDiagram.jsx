@@ -24,7 +24,7 @@ const CAPS = [
   { title: 'Work the office queue', items: ['Assign requests, draft invoices', 'Change monthly prices for groups of customers, once you approve'] },
   { title: 'Email your customers', items: ['Send invoices and quotes'] },
 ];
-const NEVER_ITEMS = ['Charge or refund a payment', 'Change a price without your approval'];
+const NEVER_ITEMS = ['Charge a card', 'Refund a payment', 'Change a price without your approval'];
 const TOTALS = ACCESS_LEVELS.map((_, i) => ACCESS_LEVELS.slice(0, i + 1).reduce((n, l) => n + l.tools, 0));
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 

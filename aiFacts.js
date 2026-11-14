@@ -164,9 +164,9 @@ export const API_MAX_POST = '64 KB';
 
 // The technician app: no AI, on purpose. Push confirmed by the owner 2026-10-31.
 export const TECH_APP = [
-  'Push notifications when their route changes or they get a new work order, whether the app is open or not, including changes your AI assistant makes.',
-  'A bell in the app with every notification, for anything they missed.',
+  'Push notifications when their route changes or a new work order comes in, including changes your AI assistant makes. A bell in the app keeps anything they missed.',
   'A clean route and chemistry log: stops in order, readings, chemicals and photos.',
   'Reports stamped with the phone’s GPS the moment they’re sent, with photos from the app’s own camera.',
-  'Works without signal. Everything sends when it’s back.',
+  'Built for bad signal: a full week of stops is saved on the phone, and everything sends when reception is back.',
+  'Fleet checks built in: truck check-ins ask for the odometer reading and next oil change mileage, every 7, 14 or 30 days as you set.',
 ];

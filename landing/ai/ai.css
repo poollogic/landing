@@ -893,18 +893,106 @@
 /* ---------- The homepage's section standard (2026-11-14), on the sections after the hero ---------- */
 /* Padding, header spacing and type from the tokens on :root (index.html), as the homepage's
    home-roles.css applies them. The dark section keeps its own type (only its padding is the standard). */
-.ai-page :is(#routine, #automations, .ai-stance, #what-is-ai-ready) { padding-block: var(--section-pad-y); }
-.ai-page :is(#routine, #automations) .section-title {
+.ai-page :is(#routine, #automations, .ai-stance, #what-is-ai-ready, #guardrails, #technician-app) { padding-block: var(--section-pad-y); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-title {
   font-size: var(--section-title-size); line-height: var(--section-title-leading);
   font-weight: var(--section-title-weight); letter-spacing: var(--section-title-tracking);
 }
-.ai-page :is(#routine, #automations) .section-sub {
+.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-sub {
   font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--subhead-weight);
   letter-spacing: var(--subhead-tracking); color: var(--subhead-on-light);
 }
-.ai-page :is(#routine, #automations) .section-eyebrow { font-size: var(--eyebrow-size); font-weight: var(--eyebrow-weight); color: var(--eyebrow-on-light); }
-.ai-page :is(#routine, #automations) .section-head .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
-.ai-page :is(#routine, #automations) .section-head .section-sub { margin-top: var(--title-to-subhead); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-eyebrow { font-size: var(--eyebrow-size); font-weight: var(--eyebrow-weight); color: var(--eyebrow-on-light); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-head .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-head .section-sub { margin-top: var(--title-to-subhead); }
+
+/* ---------- 7. Guardrails (Guardrails.jsx): try asking, the answer in a light chat panel ---------- */
+.ai-page .ai-gr-head { max-width: theme('maxWidth.3xl'); margin-inline: auto; }
+.ai-page #guardrails .section-head { margin-bottom: var(--head-to-content); }
+.ai-page #guardrails .section-title { color: theme('colors.slate.900'); text-wrap: balance; }
+.ai-page .ai-gr { display: grid; gap: theme('spacing.10'); max-width: theme('maxWidth.5xl'); margin-inline: auto; }
+.ai-page .ai-gr > * { min-width: 0; }
+@media (min-width: 900px) { .ai-page .ai-gr { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; } }
+.ai-page .ai-gr-pick { margin: 0; }
+/* The panel: the hero's assistant window, in the light theme. One height for every answer. */
+.ai-page .ai-gr-panel {
+  display: flex; flex-direction: column; min-height: theme('spacing.96'); overflow: hidden; scroll-margin-top: theme('spacing.24');
+  background: var(--bg); border: 1px solid theme('colors.slate.200'); border-radius: var(--ai-r-panel); box-shadow: var(--shadow-pop);
+}
+.ai-page .ai-gr-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: theme('spacing.3');
+  padding: theme('spacing.4') theme('spacing.5'); border-bottom: 1px solid theme('colors.slate.200');
+}
+.ai-page .ai-gr-bar-title { font-size: theme('fontSize.sm'); font-weight: var(--fw-semibold); color: theme('colors.slate.900'); }
+.ai-page .ai-gr-conn { display: inline-flex; align-items: center; gap: theme('spacing.2'); font-size: theme('fontSize.xs'); color: theme('colors.slate.500'); white-space: nowrap; }
+.ai-page .ai-gr-conn-dot { width: theme('spacing.2'); height: theme('spacing.2'); border-radius: 999px; background: var(--brand-blue); }
+.ai-page .ai-gr-turns { display: grid; flex: 1; }
+.ai-page .ai-gr-turn { grid-area: 1 / 1; display: grid; align-content: start; gap: theme('spacing.4'); padding: theme('spacing.5'); }
+.ai-page .ai-gr-turn[hidden] { display: grid; visibility: hidden; } /* holds its height; out of sight and of the accessibility tree */
+.ai-page .ai-gr-user {
+  justify-self: end; max-width: 85%; padding: theme('spacing.[2.5]') theme('spacing.4');
+  border-radius: var(--ai-r-card) var(--ai-r-card) var(--ai-r-button) var(--ai-r-card);
+  font-size: theme('fontSize.sm'); line-height: theme('lineHeight.5'); color: var(--bg); background: var(--brand-blue);
+}
+.ai-page .ai-gr-reply {
+  display: grid; gap: theme('spacing.3'); justify-items: start; padding: theme('spacing.4');
+  border-radius: var(--ai-r-card) var(--ai-r-card) var(--ai-r-card) var(--ai-r-button); background: theme('colors.slate.100');
+  font-size: theme('fontSize.sm'); line-height: theme('lineHeight.6'); color: theme('colors.slate.700');
+}
+.ai-page .ai-gr-pill { padding: theme('spacing.1') theme('spacing.[2.5]'); border-radius: 999px; font-size: theme('fontSize.xs'); line-height: theme('lineHeight.4'); font-weight: var(--fw-semibold); }
+.ai-page .ai-gr-pill--no { background: theme('colors.slate.900'); color: var(--bg); }
+.ai-page .ai-gr-pill--ask { background: var(--brand-blue); color: var(--bg); }
+.ai-page .ai-gr-pill--done { background: theme('colors.slate.200'); color: theme('colors.slate.700'); }
+.ai-page .ai-gr-detail { display: grid; gap: theme('spacing.3'); justify-self: stretch; padding-top: theme('spacing.3'); border-top: 1px solid theme('colors.slate.200'); }
+.ai-page .ai-gr-detail-label {
+  font-size: theme('fontSize.xs'); font-weight: var(--fw-semibold); letter-spacing: theme('letterSpacing.widest');
+  text-transform: uppercase; color: var(--eyebrow-on-light);
+}
+.ai-page .ai-gr-steps { display: flex; flex-wrap: wrap; gap: theme('spacing.2') theme('spacing.3'); }
+.ai-page .ai-gr-steps li { display: inline-flex; align-items: center; gap: theme('spacing.2'); font-weight: var(--fw-medium); color: theme('colors.slate.900'); }
+.ai-page .ai-gr-step-n {
+  display: inline-grid; place-items: center; flex: none; width: theme('spacing.5'); height: theme('spacing.5'); border-radius: 999px;
+  font-size: theme('fontSize.xs'); font-weight: var(--fw-semibold); color: var(--bg); background: var(--brand-blue);
+}
+.ai-page .ai-gr-step-arrow { flex: none; color: theme('colors.slate.400'); }
+.ai-page .ai-gr-dots { display: grid; gap: theme('spacing.1'); }
+.ai-page .ai-gr-dots li { position: relative; padding-left: theme('spacing.4'); }
+.ai-page .ai-gr-dots li::before {
+  content: ''; position: absolute; left: theme('spacing.1'); top: .65em; width: theme('spacing.1'); height: theme('spacing.1');
+  border-radius: 999px; background: theme('colors.slate.400');
+}
+.ai-page .ai-gr-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: theme('spacing.2'); }
+.ai-page .ai-gr-stats > div { padding: theme('spacing.[2.5]') theme('spacing.3'); border-radius: var(--ai-r-button); background: var(--bg); }
+.ai-page .ai-gr-stats dt { font-size: theme('fontSize.xs'); color: theme('colors.slate.500'); }
+.ai-page .ai-gr-stats dd { font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums; color: theme('colors.slate.900'); }
+.ai-page .ai-gr-actions { display: flex; flex-wrap: wrap; gap: theme('spacing.2'); }
+.ai-page .ai-gr-actions .btn { pointer-events: none; }
+.ai-page .ai-gr-history { display: flex; gap: theme('spacing.2'); color: theme('colors.slate.700'); }
+.ai-page .ai-gr-history b { font-weight: var(--fw-semibold); color: theme('colors.slate.900'); }
+.ai-page .ai-gr-history-dot { flex: none; width: theme('spacing.2'); height: theme('spacing.2'); margin-top: .5em; border-radius: 999px; background: var(--brand-blue); }
+/* "See every limit": closed, a text link; open, the three lists. */
+.ai-page .ai-gr-limits { max-width: theme('maxWidth.5xl'); margin: theme('spacing.12') auto 0; text-align: center; }
+.ai-page .ai-gr-limits summary { list-style: none; cursor: pointer; margin-top: 0; }
+.ai-page .ai-gr-limits summary::-webkit-details-marker { display: none; }
+.ai-page .ai-gr-limits-body {
+  display: grid; gap: theme('spacing.8'); margin-top: theme('spacing.8'); text-align: left;
+  font-size: theme('fontSize.sm'); line-height: theme('lineHeight.6'); color: var(--subhead-on-light);
+}
+@screen md { .ai-page .ai-gr-limits-body { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ai-page .ai-gr-limits-body h3 {
+  margin-bottom: theme('spacing.3');
+  font-size: var(--card-title-size); line-height: var(--card-title-leading); font-weight: var(--card-title-weight); color: theme('colors.slate.900');
+}
+
+/* ---------- 8. The technician app, light grey: blue checks, slate text; the phone as it was ---------- */
+.ai-page #technician-app .section-title { text-wrap: balance; } /* not "purpose." alone */
+.ai-page .ai-tech .ai-ticks li { color: var(--subhead-on-light); }
+.ai-page .ai-tech .ai-ticks svg { color: var(--brand-blue); opacity: 1; }
+.ai-page .ai-tech .ai-tech-close {
+  font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--fw-semibold); color: theme('colors.slate.900');
+}
+.ai-page .ai-tech-cta { display: flex; flex-direction: column; align-items: center; gap: theme('spacing.3'); margin-top: var(--head-to-content); text-align: center; }
+.ai-page .ai-tech-cta p { font-size: theme('fontSize.meta'); line-height: theme('lineHeight.5'); color: var(--subhead-on-light); }
 
 /* ---------- 2. The routine runs itself (Routine.jsx) ---------- */
 .ai-page .ai-routine-inner { max-width: theme('maxWidth.5xl'); margin-inline: auto; }

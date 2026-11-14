@@ -56,7 +56,7 @@ export default function Routine() {
               </ul>
               <p className="ai-routine-foot">
                 <strong>Any model is safe to use.</strong> Connect Claude, ChatGPT, Grok or your own. Poolnautics sets
-                the limits, so none of them can charge a card or approve its own price change.
+                the limits, so none of them can charge a card or change a price without your approval.
               </p>
             </div>
           </div>
