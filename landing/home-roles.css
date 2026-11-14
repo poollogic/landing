@@ -28,6 +28,14 @@
   letter-spacing: var(--section-title-tracking);
 }
 
+/* The reviews' heading (#reviews, behind VITE_REVIEWS) is a statement, though it's a .section-title. */
+.lp-home #reviews .section-title {
+  font-size: var(--statement-size);
+  font-weight: var(--statement-weight);
+  line-height: var(--statement-leading);
+  letter-spacing: var(--statement-tracking);
+}
+
 .lp-home .dt-close-1 {
   font-size: var(--closing-size);
   font-weight: var(--closing-weight);
@@ -65,12 +73,12 @@
 }
 
 /* On the dark sections: the hero, the day, the Financial Watchdog, Repairs, the reserve card and routes. */
-.lp-home :is(.hero, #day, #collections, #repairs, #reserve, #routes) :is(.hero-sub, .dt-sub, .section-sub) { color: var(--subhead-on-dark); }
-.lp-home :is(.hero, #day, #collections, #repairs, #reserve, #routes) :is(.section-eyebrow, .hero-eyebrow) { color: var(--eyebrow-on-dark); }
+.lp-home :is(.hero, #day, #collections, #repairs, #reviews, #reserve, #routes) :is(.hero-sub, .dt-sub, .section-sub) { color: var(--subhead-on-dark); }
+.lp-home :is(.hero, #day, #collections, #repairs, #reviews, #reserve, #routes) :is(.section-eyebrow, .hero-eyebrow) { color: var(--eyebrow-on-dark); }
 
 /* ---------- Spacing ---------- */
 /* The standard sections (#platform and #day keep their own). */
-.lp-home :is(#billing, #collections, #technicians, #repairs, #fleet, #switching, #founder, #reserve, #routes, #faq) {
+.lp-home :is(#billing, #collections, #technicians, #repairs, #fleet, #reviews, #switching, #founder, #reserve, #routes, #faq) {
   padding-top: var(--section-pad-y);
   padding-bottom: var(--section-pad-y);
 }

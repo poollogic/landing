@@ -4,6 +4,8 @@ import DaySection from './DaySection.jsx';
 import RepairsSection from './RepairsSection.jsx';
 import TechniciansSection from './TechniciansSection.jsx';
 import FleetSection from './FleetSection.jsx';
+import ReviewsSection from './reviews/ReviewsSection.jsx';
+import { REVIEWS_ON } from './reviews/config.js';
 import BillingSection from './BillingSection.jsx';
 import RevenueSection from './RevenueSection.jsx';
 import ReserveSection from './ReserveSection.jsx';
@@ -55,6 +57,8 @@ export default function BelowFold() {
       <TechniciansSection />
       <RepairsSection />
       <FleetSection />
+      {/* Off unless VITE_REVIEWS=1 (reviews/config.js); with it off, none of its code ships. */}
+      {REVIEWS_ON && <ReviewsSection />}
       <ImportSection />
       <FounderSection />
       <ReserveSection />

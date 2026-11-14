@@ -7,6 +7,11 @@
 # Partner pages (getpoolnautics.com/with/<handle>, partnerProgram.js) aren't built yet: the homepage.
 /reserve          /app-shell   200
 /reserve/         /app-shell   200
+# Customer reviews (only with VITE_REVIEWS=1; off, the app shows the homepage, noindex).
+/reviews          /app-shell   200
+/reviews/         /app-shell   200
+/reviews/write    /app-shell   200
+/reviews/write/   /app-shell   200
 # The repairs and work orders page moved from /request-flow (Nov 11–12, 2026) to /workflow, for good.
 /request-flow     /workflow    301
 /request-flow/    /workflow    301

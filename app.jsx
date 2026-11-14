@@ -1,4 +1,5 @@
 import React, { useEffect, lazy, Suspense } from 'react';
+import { REVIEWS_ON } from './landing/reviews/config.js';
 import { Nav, Footer } from './components/site-chrome.jsx';
 import SiteHeader from './landing/Nav.jsx';
 import { payoutRange } from './partnerProgram.js';
@@ -17,6 +18,10 @@ const TechnicianTermsPage = lazy(() => import('./pages/technician-terms.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
 const WorkflowPage = lazy(() => import('./pages/workflow.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
+// Customer reviews: only with VITE_REVIEWS=1 (landing/reviews/config.js). Off, both addresses show the
+// homepage, marked noindex, like any unknown address, and neither page is built.
+const ReviewsPage = REVIEWS_ON ? lazy(() => import('./pages/reviews.jsx')) : null;
+const ReviewWritePage = REVIEWS_ON ? lazy(() => import('./pages/review-write.jsx')) : null;
 
 // Page defaults — accent color, hero layout, density, theme.
 // EDITMODE markers are preserved so the external prototype editor can still patch this object.
@@ -42,6 +47,8 @@ const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/te
 const isTechnicianTermsPath = (p) => p === '/technician-terms' || p === '/technician-terms/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 const isWorkflowPath = (p) => p === '/workflow' || p === '/workflow/';
+const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
+const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
 
 const SITE_ORIGIN = 'https://getpoolnautics.com';
 
@@ -109,6 +116,17 @@ export const ROUTE_META = {
     description: 'The Poolnautics partner disclosure kit: the exact words to use on each platform, and what partners can and can\'t say.',
     path: '/partners/kit',
   },
+  reviews: {
+    title: 'Poolnautics reviews from pool service pros',
+    description: 'Reviews of Poolnautics pool service software from verified pool companies, newest first, whatever the rating.',
+    path: '/reviews',
+  },
+  reviewWrite: {
+    title: 'Write a review — Poolnautics',
+    description: 'Tell other pool pros what you think of Poolnautics.',
+    path: '/reviews/write',
+    robots: 'noindex,follow',
+  },
   // Pre-rendered at build time (entry-server.jsx).
   workflow: {
     title: 'Pool Service Automation & Repair Workflow | Poolnautics',
@@ -173,6 +191,8 @@ const App = ({ path: pathProp }) => {
     else if (isTechnicianTermsPath(path)) meta = ROUTE_META.technicianTerms;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
     else if (isWorkflowPath(path)) meta = ROUTE_META.workflow;
+    else if (isReviewsPath(path)) meta = ROUTE_META.reviews;
+    else if (isReviewWritePath(path)) meta = ROUTE_META.reviewWrite;
     // Any other address shows the homepage; keep those copies out of search results.
     else if (path !== '/') meta = { ...ROUTE_META.home, robots: 'noindex,follow' };
     applyRouteMeta(meta);
@@ -223,6 +243,18 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
           <ContactPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // The reviews pages bring their own dark nav and the footer, like contact.
+  if (isReviewsPath(path) || isReviewWritePath(path)) {
+    const Page = isReviewWritePath(path) ? ReviewWritePage : ReviewsPage;
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#08090c' }} />}>
+          <Page />
         </Suspense>
       </ErrorBoundary>
     );
