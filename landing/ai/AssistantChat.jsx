@@ -1,6 +1,7 @@
 import React from 'react';
-import { ArrowUp, Check, ChevronRight, LoaderCircle, Plug, Plus } from 'lucide-react';
+import { Check, LoaderCircle } from 'lucide-react';
 import useAiChatDemo from './useAiChatDemo.js';
+import AiChat, { AiChatReply, AiChatTool, AiChatTurn, AiChatUser } from './AiChat.jsx';
 
 // The /ai-and-automations hero: an AI assistant connected to Poolnautics, drawn with the conventions
 // people know from AI chat apps (tool-use rows that spin then check, a typing cursor, a composer
@@ -24,7 +25,7 @@ import useAiChatDemo from './useAiChatDemo.js';
 // has a fixed height and its body scrolls; steps not shown yet take no space. While it plays,
 // screen readers get the whole transcript (a hidden copy) instead of the half-played one, and
 // nothing is announced as it appears. Reduced motion keeps the finished conversation, scrolled to
-// its end. Styles: ai.css (.ai-chat*, .ai-approval*).
+// its end. The window and its parts are AiChat.jsx's (theme dark). Styles: ai.css (.ai-chat*, .ai-approval*).
 
 const OVERDUE = [
   ['Kim Wexler', '42 days late', 'warn', '$385.00'],
@@ -86,40 +87,31 @@ export default function AssistantChat() {
       const done = played ? undefined : { '--done': `${delay + 550}ms` };
       const s = step(key, delay);
       return (
-        <div className={`ai-tool ${s.className}${p?.running.includes(key) ? ' is-running' : ''}`} style={s.style}>
-          <Plug size={14} strokeWidth={2} aria-hidden="true" className="ai-tool-plug" />
-          <span className="ai-tool-label">
-            <span className="sr-only">Used the Poolnautics tool </span>
-            <span aria-hidden="true">Poolnautics</span>
-            <ChevronRight size={13} strokeWidth={2} aria-hidden="true" />
-            <code>{name}</code>
-            {count && <><b className="ai-tool-count" aria-hidden="true">×{count}</b><span className="sr-only"> {count} times</span></>}
-          </span>
-          <span className="ai-tool-status" aria-hidden="true">
+        <AiChatTool
+          name={name}
+          count={count}
+          className={`${s.className}${p?.running.includes(key) ? ' is-running' : ''}`}
+          style={s.style}
+          mark={<>
             {!played && <LoaderCircle size={15} strokeWidth={2.2} className="ai-tool-spin" style={done} />}
             {p?.running.includes(key) && <span className="ai-spin" />}
             <span className={`ai-tool-done${p ? (p.done[key] ? ' ai-pop' : ' ai-hide') : ''}`} style={done}><Check size={11} strokeWidth={3} /></span>
-          </span>
-        </div>
+          </>}
+        />
       );
     };
 
     const user = (key, ms, text) => {
       const s = step(key, ms);
-      return <p className={`ai-chat-user ${s.className}`} style={s.style} aria-hidden={hidden}><span className="sr-only">You: </span>{text}</p>;
+      return <AiChatUser className={s.className} style={s.style} aria-hidden={hidden}>{text}</AiChatUser>;
     };
     /** The assistant's turn: its tool row, then its reply, across the full width. */
     const assistant = (key, children) => (
-      <div className={`ai-turn${p && !p.shown[key] ? ' ai-hide' : ''}`} aria-hidden={hidden}>
-        <div className="ai-turn-body">
-          <span className="sr-only">Your AI assistant:</span>
-          {children}
-        </div>
-      </div>
+      <AiChatTurn className={p && !p.shown[key] ? 'ai-hide' : undefined} aria-hidden={hidden}>{children}</AiChatTurn>
     );
     const reply = (key, ms, children) => {
       const s = step(key, ms);
-      return <div className={`ai-chat-reply ${s.className}`} style={s.style}>{children}</div>;
+      return <AiChatReply className={s.className} style={s.style}>{children}</AiChatReply>;
     };
 
     return (
@@ -163,25 +155,18 @@ export default function AssistantChat() {
   };
 
   return (
-    <figure ref={ref} className={`ai-chat${played ? ' is-demo' : ''}`} aria-label="Example conversation: an AI assistant connected to Poolnautics">
-      <div className="ai-chat-bar">
-        <span className="ai-chat-title">Your AI assistant</span>
-        <span className="ai-chat-conn"><span className="ai-live-dot" aria-hidden="true" />Poolnautics connected</span>
-      </div>
-
-      <div ref={bodyRef} className="ai-chat-body" tabIndex={0} role="region" aria-label="Example conversation">
-        {f && <div className="sr-only">{conversation(null)}</div>}
-        {conversation(f)}
-      </div>
-
-      <div className="ai-chat-composer" aria-hidden="true">
-        <span className="ai-composer-plus"><Plus size={16} strokeWidth={2} /></span>
-        {f?.typed != null
-          ? <span className="ai-composer-text is-typing"><span>{f.typed}</span></span>
-          : <span className="ai-composer-text">Ask about your business…</span>}
-        <span className="ai-composer-tools"><Plug size={12} strokeWidth={2} />Poolnautics</span>
-        <span className={`ai-chat-send${f?.press ? ' ai-press' : ''}`}><ArrowUp size={15} strokeWidth={2.2} /></span>
-      </div>
-    </figure>
+    <AiChat
+      theme="dark"
+      rootRef={ref}
+      bodyRef={bodyRef}
+      className={played ? 'is-demo' : undefined}
+      aria-label="Example conversation: an AI assistant connected to Poolnautics"
+      bodyProps={{ tabIndex: 0, role: 'region', 'aria-label': 'Example conversation' }}
+      typed={f?.typed}
+      press={f?.press}
+    >
+      {f && <div className="sr-only">{conversation(null)}</div>}
+      {conversation(f)}
+    </AiChat>
   );
 }
