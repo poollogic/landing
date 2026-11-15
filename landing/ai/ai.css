@@ -97,6 +97,9 @@
   .ai-page .hero.ai-hero > .container { width: 100%; } /* a flex item with auto margins would shrink to its content */
   .ai-page .ai-hero-grid { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 64px; margin-top: 0; zoom: min(var(--ai-zw, 1), var(--ai-zh, 1)); }
   .ai-page .ai-hero-visual .ai-chat { margin-right: 0; } /* its right edge on the nav's, at any scale */
+  /* Except the headline and paragraph: the inverse zoom keeps them at their own size (hero.css,
+     "Compact hero type"), the same as /reserve's at every width, and they rewrap in their column. */
+  .ai-page .ai-hero-grid :is(.hero-title, .hero-sub) { zoom: calc(1 / min(var(--ai-zw, 1), var(--ai-zh, 1))); }
   @media (max-height: 939.98px) { .ai-page .ai-hero-grid { --ai-zh: .978; } }
   @media (max-height: 919.98px) { .ai-page .ai-hero-grid { --ai-zh: .956; } }
   @media (max-height: 899.98px) { .ai-page .ai-hero-grid { --ai-zh: .935; } }

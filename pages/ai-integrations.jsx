@@ -20,6 +20,7 @@ import Code, { formatJson } from '../landing/ai/Code.jsx';
 import useReveal from '../landing/ai/useReveal.js';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { FOCUS, PrimaryCta, Ticks, header, headerLight } from '../landing/ai/shared.jsx';
+import HeroHeading from '../landing/HeroHeading.jsx';
 import { Footer } from '../components/site-chrome.jsx';
 import {
   ACTIONS, AI_PLAN, API_DOCS_URL, API_MAX_POST, AUTOMATION_LIMITS, BULK, LEAD_SOURCES, MCP_CLIENTS, MCP_TOOL_COUNT, PRICE_PROPOSALS,
@@ -195,12 +196,10 @@ export default function AiIntegrationsPage() {
           <div className="container">
             <div className="ai-hero-grid">
               <div className="ai-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
-                <p className="hero-eyebrow">Pool service automation</p>
-                <h1 id="ai-hero-title" className="hero-title">Pool service software that feeds your automations</h1>
-                <p className="hero-sub">
+                <HeroHeading id="ai-hero-title" eyebrow="Pool service automation" title="Pool service software that feeds your automations">
                   Every customer, visit, payment and lead flows into Claude, Grok, ChatGPT or your own AI. Automate just
                   about anything, from chasing overdue invoices to proposing price increases to reassigning requests when a tech calls in sick.
-                </p>
+                </HeroHeading>
                 <div className="ai-cta-row">
                   <PrimaryCta theme={theme} />
                   <DocsCta />

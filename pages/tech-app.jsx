@@ -5,6 +5,7 @@ import '../landing/ai/ai.css';
 import '../landing/tech-app.css';
 import Nav from '../landing/Nav.jsx';
 import { PrimaryCta, Ticks, header, headerLight } from '../landing/ai/shared.jsx';
+import HeroHeading from '../landing/HeroHeading.jsx';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { TRIAL_DAYS } from '../aiFacts.js';
 import { Footer } from '../components/site-chrome.jsx';
@@ -110,13 +111,11 @@ const TechAppPage = () => {
           <div className="container">
             <div className="ai-hero-grid">
               <div className="ai-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
-                <p className="hero-eyebrow">The technician app</p>
-                <h1 id="tech-hero-title" className="hero-title">The tech app, built for the truck</h1>
-                <p className="hero-sub">
+                <HeroHeading id="tech-hero-title" eyebrow="The technician app" title="The tech app, built for the truck">
                   Most pool software hands the tech a form and hopes for the best. The Poolnautics app enforces what
                   matters, calculates what’s tedious and flags what’s drifting, so a new hire runs the route like a
                   ten-year vet, and the report writes itself.
-                </p>
+                </HeroHeading>
                 <div className="ai-cta-row">
                   <PrimaryCta theme={theme} />
                 </div>

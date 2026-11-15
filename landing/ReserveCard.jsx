@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowRight, Plus } from 'lucide-react';
 import Turnstile from './Turnstile.jsx';
+import HeroHeading from './HeroHeading.jsx';
 import { submitForm } from './forms.js';
 import { TURNSTILE_SITE_KEY } from './onboarding.js';
 import { SOFTWARE_OPTIONS, TIMING_OPTIONS } from '../formOptions.js';
@@ -17,7 +18,8 @@ import './reserve.css';
 
 // price: the homepage's wording. Visitors there are still browsing, so it invites them to see the
 // cost instead of asking them to reserve; the card is the same (the reserving happens in step 2).
-// Without it: /reserve's wording and its three points (RESERVE_FEATURES).
+// Without it: /reserve's h1 (HeroHeading, the same as the AI and tech app heroes') and its three
+// points (RESERVE_FEATURES).
 export function ReserveIntro({ as: Heading = 'h2', id, price = false }) {
   return (
     <div className="rsv-intro">
@@ -32,8 +34,9 @@ export function ReserveIntro({ as: Heading = 'h2', id, price = false }) {
         </>
       ) : (
         <>
-          <Heading id={id} className="hero-title">Try Poolnautics.</Heading>
-          <p className="hero-sub">See your price now. Set up on your own, or let us do it with you on a 10-minute call.</p>
+          <HeroHeading id={id} title="Try Poolnautics.">
+            See your price now. Set up on your own, or let us do it with you on a 10-minute call.
+          </HeroHeading>
         </>
       )}
       {price ? <FeatureList /> : <FeatureList items={RESERVE_FEATURES} check={20} />}
