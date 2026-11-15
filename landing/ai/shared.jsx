@@ -9,10 +9,11 @@ import { ctaHref, isReserving } from '../onboarding.js';
 
 export const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--brand-blue)]';
 
-export function PrimaryCta({ theme }) {
+/** label: this button's own wording (the closing section's "Reserve my spot"); the default otherwise. */
+export function PrimaryCta({ theme, label }) {
   return (
     <a href={ctaHref(theme)} className={`hero-cta ai-cta ${FOCUS}`}>
-      <span className="hero-cta-label">{isReserving ? 'Reserve your spot' : 'Start your 30-day trial'}</span>
+      <span className="hero-cta-label">{label ?? (isReserving ? 'Reserve your spot' : 'Start your 30-day trial')}</span>
       <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
     </a>
   );

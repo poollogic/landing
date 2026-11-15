@@ -16,6 +16,7 @@ import TechPhone from '../landing/ai/TechPhone.jsx';
 import Stance from '../landing/ai/Stance.jsx';
 import Routine from '../landing/ai/Routine.jsx';
 import Guardrails from '../landing/ai/Guardrails.jsx';
+import Morning from '../landing/ai/Morning.jsx';
 import Code, { formatJson } from '../landing/ai/Code.jsx';
 import useReveal from '../landing/ai/useReveal.js';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
@@ -651,6 +652,9 @@ export default function AiIntegrationsPage() {
             </div>
           </div>
         </section>
+
+        {/* The closing section (dark): what ran overnight, and the button (Morning.jsx). */}
+        <Morning theme={theme} />
       </main>
       <Footer />
     </div>

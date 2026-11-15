@@ -1277,6 +1277,68 @@
 .ai-page .ai-qa-row h3 { font-size: 18px; line-height: 1.45; font-weight: 600; letter-spacing: -.01em; color: theme('colors.slate.900'); text-wrap: balance; }
 .ai-page .ai-qa-row p { max-width: 600px; font-size: 16px; line-height: 1.65; color: var(--subhead-on-light); text-wrap: pretty; }
 
+/* ---------- The closing section (Morning.jsx): dark, a blue glow behind the card ---------- */
+/* Copy, then the button, left; the card right, centred across both rows. To 900px: copy, card, button. */
+.ai-page .ai-morning { position: relative; overflow: hidden; }
+.ai-page .ai-morning-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(600px 300px at 80% 40%, rgba(59, 130, 246, .18), transparent 70%);
+}
+.ai-page .ai-morning .container { position: relative; }
+.ai-page .ai-morning-grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "card" "action"; }
+.ai-page .ai-morning-copy { grid-area: copy; }
+.ai-page .ai-morning-card { grid-area: card; }
+.ai-page .ai-morning-action { grid-area: action; }
+@media (min-width: 900.02px) {
+  .ai-page .ai-morning-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); grid-template-areas: "copy card" "action card"; column-gap: 64px; }
+  .ai-page .ai-morning-card { align-self: center; }
+  .ai-page .ai-morning-action { margin-top: 32px; }
+}
+@media (max-width: 900px) {
+  .ai-page .ai-morning-card { margin-top: 36px; }
+  .ai-page .ai-morning-action { margin-top: 32px; }
+}
+.ai-page .ai-morning-title { margin-top: 14px; font-size: clamp(30px, 3.4vw, 42px); line-height: 1.1; letter-spacing: -.02em; }
+.ai-page .ai-morning-sub { max-width: 34rem; margin-top: 20px; font-size: 18px; line-height: 1.6; color: theme('colors.slate.400'); }
+.ai-page .ai-morning-fine { margin-top: 16px; font-size: 14px; color: theme('colors.slate.500'); }
+
+.ai-page .ai-morning-card {
+  padding: 24px; border: 1px solid rgba(255, 255, 255, .08); border-radius: 20px;
+  background: rgba(255, 255, 255, .04); box-shadow: 0 30px 80px rgba(0, 0, 0, .4);
+}
+.ai-page .ai-morning-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+.ai-page .ai-morning-card-title { font-size: 15px; font-weight: 600; color: #fff; }
+.ai-page .ai-morning-card-brand { font-size: 13px; color: theme('colors.slate.500'); }
+.ai-page .ai-morning-list { margin: 0; padding: 0; list-style: none; }
+.ai-page .ai-morning-item { display: flex; align-items: flex-start; gap: 12px; padding-block: 12px; border-top: 1px solid rgba(255, 255, 255, .06); }
+.ai-page .ai-morning-check {
+  display: grid; place-items: center; flex: none; width: 22px; height: 22px; margin-top: 1px; border-radius: 999px;
+  background: rgba(34, 197, 94, .15); color: rgb(74, 222, 128);
+}
+.ai-page .ai-morning-text { flex: 1; min-width: 0; }
+.ai-page .ai-morning-item-title { display: block; font-size: 15px; font-weight: 500; color: #fff; }
+.ai-page .ai-morning-item-detail { display: block; margin-top: 2px; font-size: 14px; line-height: 1.45; color: theme('colors.slate.400'); }
+.ai-page .ai-morning-time { flex: none; padding-top: 2px; font-size: 12px; white-space: nowrap; color: theme('colors.slate.500'); font-variant-numeric: tabular-nums; }
+.ai-page .ai-morning-needs {
+  display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding: 14px 16px; border-radius: 12px;
+  background: rgba(59, 130, 246, .12); border: 1px solid rgba(59, 130, 246, .3);
+}
+.ai-page .ai-morning-needs-label { font-size: 15px; font-weight: 600; color: #fff; }
+.ai-page .ai-morning-needs-value { font-size: 15px; font-weight: 600; color: rgb(147, 197, 253); }
+/* The rows rise in once (Morning.jsx adds is-armed when it will play, is-in on screen): 0.5s each,
+   half a second apart; "Needs you" last. Without JavaScript, or with reduced motion, all show. */
+@keyframes ai-morning-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .ai-page .ai-morning.is-armed :is(.ai-morning-item, .ai-morning-needs) { opacity: 0; transform: translateY(8px); }
+  .ai-page .ai-morning.is-in .ai-morning-item { animation: ai-morning-rise .5s ease forwards; }
+  .ai-page .ai-morning.is-in .ai-morning-item:nth-child(1) { animation-delay: .3s; }
+  .ai-page .ai-morning.is-in .ai-morning-item:nth-child(2) { animation-delay: .8s; }
+  .ai-page .ai-morning.is-in .ai-morning-item:nth-child(3) { animation-delay: 1.3s; }
+  .ai-page .ai-morning.is-in .ai-morning-item:nth-child(4) { animation-delay: 1.8s; }
+  .ai-page .ai-morning.is-in .ai-morning-item:nth-child(5) { animation-delay: 2.3s; }
+  .ai-page .ai-morning.is-in .ai-morning-needs { animation: ai-morning-rise .6s ease 3.2s forwards; }
+}
+
 /* ---------- 11b. Call to action (light) ---------- */
 .ai-page .ai-cta-band { background: #f8fafc; text-align: center; }
 .ai-page .ai-cta-band-title { max-width: 820px; margin: 0 auto; font-size: clamp(32px, 4.4vw, 48px); line-height: 1.1; font-weight: 700; letter-spacing: -.03em; color: #0b1220; text-wrap: balance; }
