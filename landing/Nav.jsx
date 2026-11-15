@@ -10,7 +10,7 @@ import './nav.css';
 // and /ai-and-automations; light (tone="light"), in the page's flow, on the legal and partner pages.
 // Either way it scrolls away with the page. Styles live in landing/nav.css.
 
-const APP_URL = 'https://app.poollogic.app';
+const APP_URL = 'https://app.poolnautics.app/';
 
 // Below this width the burger menu replaces the links (the same breakpoint as index.html's).
 const MENU_MAX = 880;

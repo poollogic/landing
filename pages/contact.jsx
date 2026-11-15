@@ -20,7 +20,7 @@ import { payoutRange } from '../partnerProgram.js';
 // Partner Program's Apply button is ?topic=partner). The card and fields are /reserve's
 // (reserve.css); the rest is contact.css.
 
-const APP_URL = 'https://app.poollogic.app';
+const APP_URL = 'https://app.poolnautics.app/';
 const HELLO = 'hello@getpoolnautics.com';
 
 const TOPICS = {

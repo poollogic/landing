@@ -37,7 +37,7 @@ const Nav = () => {
           {LINKS.map(([label, href]) => <a key={label} href={href}>{label}</a>)}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <a href="https://app.poollogic.app" className="btn btn-ghost btn-sm nav-signin" style={{ textDecoration: 'none' }}>Sign in</a>
+          <a href="https://app.poolnautics.app/" className="btn btn-ghost btn-sm nav-signin" style={{ textDecoration: 'none' }}>Sign in</a>
           <a href={ctaHref('light')} className="btn btn-primary btn-sm" style={{ textDecoration: 'none' }}>{isReserving ? 'Reserve your spot' : 'Start free trial'}<I.arrowR /></a>
         </div>
       </div>
