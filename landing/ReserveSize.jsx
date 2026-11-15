@@ -15,12 +15,17 @@ export const sizeLabel = (value) => SIZES.find(([, v]) => v === value)?.[0] ?? v
 export const priceRow = (value) => BRACKETS.find(([customers]) => customers === value);
 export const isSize = (value) => SIZES.some(([, v]) => v === value);
 
-// The checked points beside the card
+// The checked points beside the card: the homepage's section (FEATURES) and /reserve (RESERVE_FEATURES)
 export const FEATURES = [
   ['Price up front', 'Your rate shows the moment you pick a size.'],
   ['We move your customers', 'We bring them over and set up your automations with you.'],
   ['30 days to decide', 'Test drive any tier for 30 days before committing.'],
   ['No credit card', 'Reserving is free. We reach out to schedule.'],
+];
+export const RESERVE_FEATURES = [
+  ['Transparent pricing', 'Your rate shows the moment you pick a size.'],
+  ['We can move your customers', 'Let us handle your full migration and setup.'],
+  ['30 days to decide', 'Test drive any tier for 30 days before committing.'],
 ];
 
 export const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400';
@@ -33,12 +38,13 @@ export const CheckDot = ({ size = 18, className = '' }) => (
   </svg>
 );
 
-export function FeatureList() {
+/** items: [title, description] pairs. check: the tick's size in px. */
+export function FeatureList({ items = FEATURES, check = 18 }) {
   return (
     <ul className="rsv-features">
-      {FEATURES.map(([title, body]) => (
+      {items.map(([title, body]) => (
         <li key={title}>
-          <CheckDot className="mt-[2px]" />
+          <CheckDot size={check} className="mt-[2px]" />
           <div>
             <p className="rsv-feature-t">{title}</p>
             <p className="rsv-feature-d">{body}</p>

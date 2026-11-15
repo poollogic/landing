@@ -11,8 +11,8 @@ import { Footer } from '../components/site-chrome.jsx';
 // section (landing/ReserveCard.jsx), so both always match. A link with ?size= (a size already
 // picked) opens the card on step 2. The section is the homepage hero's (.hero: its glow).
 // Differences from the homepage section, for visitors who came here to reserve: a focused header
-// (Nav focused), a line on what Poolnautics is (context), and on one-column screens the card right
-// after the heading, before the checked points (reserve.css .rsv-hero).
+// (Nav focused), its own heading and points, and on one-column screens the card right after the
+// heading, before the checked points (reserve.css .rsv-hero).
 
 export default function ReservePage() {
   const [initialSize] = useState(() => {
@@ -26,7 +26,7 @@ export default function ReservePage() {
         <section className="hero rsv-hero relative overflow-x-clip" aria-labelledby="reserve-heading">
           <div className="container">
             <div className="rsv-grid">
-              <ReserveIntro as="h1" id="reserve-heading" context />
+              <ReserveIntro as="h1" id="reserve-heading" />
               <ReserveCard initialSize={initialSize} />
             </div>
           </div>
