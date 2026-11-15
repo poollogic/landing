@@ -15,7 +15,7 @@ const EXAMPLES = [
     row: (delay) => (delay === 'Right away' ? 'Reply to new leads right away' : `Reply to new leads in ${delay}`),
     delay: '90 seconds',
     steps: [
-      { kind: 'When', icon: UserPlus, title: 'A new lead comes into your Poolnautics', detail: 'From a webhook or another integration' },
+      { kind: 'When', icon: UserPlus, title: 'A new lead comes into your Poolnautics', detail: 'From your website form or any lead source you connect' },
       { kind: 'Wait', wait: true },
       {
         kind: 'Then',
@@ -77,7 +77,6 @@ const EXAMPLES = [
 export default function Automations({ header, focus }) {
   const [picked, setPicked] = useState(0);
   const [delays, setDelays] = useState(() => Object.fromEntries(EXAMPLES.filter((e) => e.delay).map((e) => [e.key, e.delay])));
-  const example = EXAMPLES[picked];
 
   return (
     <div className="ai-auto">
@@ -99,9 +98,10 @@ export default function Automations({ header, focus }) {
       </div>
       <div className="ai-auto-card" data-reveal="">
         <AutomationFlow
-          example={example}
-          delay={delays[example.key]}
-          onDelay={(d) => setDelays((prev) => ({ ...prev, [example.key]: d }))}
+          examples={EXAMPLES}
+          picked={picked}
+          delays={delays}
+          onDelay={(key, d) => setDelays((prev) => ({ ...prev, [key]: d }))}
         />
       </div>
     </div>

@@ -17,6 +17,8 @@
   --ai-r-card: var(--radius-lg); /* 14px */
   --ai-r-panel: var(--radius-xl); /* 20px */
   --ai-card-pad: 24px; /* inside every card and panel */
+  /* The light cards' outline and shadow: the assistant window (light) and the automation card share it. */
+  --ai-light-card-shadow: 0 0 0 1px rgba(46, 133, 255, .18), inset 0 1px 0 #fff, 0 1px 2px rgba(15, 23, 42, .05), 0 12px 24px -8px rgba(15, 23, 42, .10), 0 32px 64px -24px rgba(15, 23, 42, .22);
   --ai-danger: #e60031; /* the app's red fill under white (poollogic-web-app src/index.css --destructive-fill) */
   /* One blue: --brand-blue, and tints and a shade mixed from it. */
   --ai-blue-deep: color-mix(in oklab, var(--brand-blue) 82%, black);
@@ -379,7 +381,7 @@
 /* The light window (AiChat theme="light", Guardrails): only variables. */
 .ai-page .ai-chat--light {
   --chat-bg-color: transparent; --chat-bg-image: linear-gradient(180deg, #f9fbfe, #f4f7fc); --chat-bg-size: auto; --chat-backdrop: none; --chat-edge: none;
-  --chat-shadow: 0 0 0 1px rgba(46, 133, 255, .18), inset 0 1px 0 #fff, 0 1px 2px rgba(15, 23, 42, .05), 0 12px 24px -8px rgba(15, 23, 42, .10), 0 32px 64px -24px rgba(15, 23, 42, .22);
+  --chat-shadow: var(--ai-light-card-shadow);
   --chat-bar-bg: rgba(255, 255, 255, .6); --chat-bar-line: rgba(15, 23, 42, .07); --chat-title: theme('colors.slate.900');
   --chat-conn-bg: var(--bg); --chat-conn-line: rgba(15, 23, 42, .12); --chat-conn-text: theme('colors.slate.700'); --chat-conn-weight: var(--fw-medium);
   --chat-dot: var(--brand-green); --chat-dot-glow: 0 0 0 3px rgba(16, 185, 129, .16), 0 0 8px rgba(16, 185, 129, .45);
@@ -610,26 +612,34 @@
 /* ---------- 6. Automations ---------- */
 /* The automation card (AutomationFlow.jsx), light, on #automations' white. Not clipped, so the delay
    menu can hang below it. */
-.ai-page .ai-flow { margin: 0; border: 1px solid #e2e8f0; border-radius: var(--ai-r-panel); background: #fff; box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 30px 60px -30px rgba(15, 23, 42, .25); }
-.ai-page .ai-flow-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: var(--ai-card-pad); border-bottom: 1px solid #eef2f6; }
+.ai-page .ai-flow { margin: 0; border-radius: var(--ai-r-panel); background: #fff; box-shadow: var(--ai-light-card-shadow); }
+.ai-page .ai-flow-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: var(--ai-card-pad); border-bottom: 1px solid rgba(15, 23, 42, .07); }
 .ai-page .ai-flow-head > span:first-child { display: grid; gap: 4px; }
 .ai-page .ai-flow-label { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--brand-blue); }
 .ai-page .ai-flow-head b { font-size: 17px; font-weight: 600; letter-spacing: -.01em; color: #0b1220; }
 .ai-page .ai-flow .ai-switch-row { color: #475569; }
-.ai-page .ai-flow-steps { position: relative; padding: var(--ai-card-pad) var(--ai-card-pad) 4px; }
-.ai-page .ai-flow-steps::before { /* the timeline */
-  content: ''; position: absolute; left: calc(var(--ai-card-pad) + 17px); top: calc(var(--ai-card-pad) + 18px); bottom: 42px; width: 2px;
-  background: linear-gradient(var(--brand-blue), rgba(46, 133, 255, .25));
+.ai-page .ai-flow-stack { display: grid; } /* every timeline in one cell: the card is the tallest one's height */
+.ai-page .ai-flow-steps { grid-area: 1 / 1; position: relative; padding: var(--ai-card-pad) var(--ai-card-pad) 4px; }
+.ai-page .ai-flow-steps.is-ghost { visibility: hidden; }
+/* The timeline: each step but the last draws it from its icon's centre down to the next one's. */
+.ai-page .ai-flow-step:not(:last-child)::before {
+  content: ''; position: absolute; left: 17px; top: 18px; bottom: -18px; width: 2px;
+  background: linear-gradient(var(--seg-from, var(--brand-blue)), var(--seg-to, rgba(46, 133, 255, .25)));
 }
 .ai-page .ai-flow-step { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 16px; padding-bottom: 20px; }
-.ai-page .ai-flow-node { position: relative; display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--ai-r-button); color: #fff; background: var(--brand-blue); box-shadow: 0 0 0 4px #fff, inset 0 1px 0 rgba(255, 255, 255, .25); }
+.ai-page .ai-flow-node { position: relative; z-index: 1; display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--ai-r-button); color: #fff; background: var(--brand-blue); box-shadow: 0 0 0 4px #fff, inset 0 1px 0 rgba(255, 255, 255, .25); }
 .ai-page .ai-flow-step.is-wait .ai-flow-node { width: 26px; height: 26px; margin: 5px; border-radius: 50%; color: #475569; background: #fff; box-shadow: 0 0 0 4px #fff, inset 0 0 0 1px #cbd5e1; }
 .ai-page .ai-flow-body { display: grid; gap: 2px; padding-top: 1px; min-width: 0; }
 .ai-page .ai-flow-step.is-wait .ai-flow-body { grid-auto-flow: column; justify-content: start; align-items: center; gap: 10px; padding-top: 2px; }
 .ai-page .ai-flow-kind { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #64748b; }
 .ai-page .ai-flow-title { font-size: 15px; font-weight: 600; color: #0b1220; }
 .ai-page .ai-flow-detail { font-size: 14px; color: #64748b; }
-.ai-page .ai-flow-msg { margin-top: 8px; padding: 10px 14px; border-radius: var(--ai-r-card) var(--ai-r-card) var(--ai-r-card) var(--ai-r-button); font-size: 14px; line-height: 1.5; color: #334155; background: #f1f5f9; }
+/* The message, as a sent text, with its delivery line. */
+.ai-page .ai-flow-msg {
+  display: grid; margin-top: 8px; padding: 10px 14px; border-radius: 16px 16px 16px 5px;
+  font-size: 14px; line-height: 1.5; color: theme('colors.slate.900'); background: #eef4ff; border: 1px solid rgba(46, 133, 255, .20);
+}
+.ai-page .ai-flow-msg-status { justify-self: end; margin-top: 8px; font-size: 11.5px; line-height: 1; font-weight: 600; color: #5b6b82; }
 .ai-page .ai-flow .ai-switch { background: #cbd5e1; }
 .ai-page .ai-flow .ai-switch.is-on { background: var(--brand-blue); }
 /* A newly picked example fades in. */
