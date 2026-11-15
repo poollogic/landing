@@ -152,6 +152,30 @@ const PrivacyPage = () => {
               <p>When a technician signs out of the app, it erases the saved route, the work orders, and the widgets' information from the phone, and the Lock Screen display ends. Anything not yet sent stays on the phone so the same technician can send it the next time they sign in, and the technician's recent mileage stays too; both are erased if the technician deletes their account.</p>
               <p><strong>Deleting a technician account.</strong> Technicians can delete their account from the app's Settings. Their login is deleted. Their name is replaced with "Former technician" (or "Former team member" for other staff), and their email address, phone number, username, PIN, home address, personal notes, and shopping list are removed. Their push notification tokens are deleted, and anything on that phone not yet sent, along with their mileage stored there, is erased. The Subscriber's admins and managers are notified by email. The Subscriber keeps its business records of the technician's work under "Former technician": service reports, with their locations and photos; work orders; mileage records; location agreements; drive history, until it is deleted 30 days after it was recorded; and app status, until it is deleted 60 days after the phone last reported. Deleting the account of the Subscriber itself is described in Sections 10 and 12.</p>
 
+              <h3 id="app-error-reports" style={subHeadStyle}>Error Reports and App Feedback (Poolnautics Technician App)</h3>
+              <p><strong>Error reports.</strong> The Poolnautics app sends a report to Poolnautics so we can find and fix the problem when:</p>
+              <ul>
+                <li>the app crashes;</li>
+                <li>a screen in the app shows an error;</li>
+                <li>an upload fails and the app stops retrying it (for example, a service report that can't be sent);</li>
+                <li>your route fails to download several times in a row while our server is answering; or</li>
+                <li>signing in fails because of a problem on our side.</li>
+              </ul>
+              <p>Everyday connection trouble, such as having no signal, never sends a report on its own. A report includes:</p>
+              <ul>
+                <li>what went wrong (the error message and technical details, such as where in the app it happened, when, and, for an upload, what kind of upload it was and how many times it was tried);</li>
+                <li>the app version and update, your phone's model and operating system version;</li>
+                <li>the names of up to 8 app screens you opened recently (not what was on them);</li>
+                <li>your account and company IDs, so we can tell which account had the problem.</li>
+              </ul>
+              <p><strong>What reports never contain.</strong> The app never attaches customer records, chemical readings, photos or the contents of service reports to a report or to feedback. Separately, email addresses, phone numbers, labeled gate and access codes (such as "gate code 1234"), links, photo file names and sign-in tokens are removed from error messages and from what you type before anything leaves our servers. Error messages are also cleaned on your phone before they're sent.</p>
+              <p><strong>The app's random ID.</strong> The app sends a random ID for its installation on your phone (not a hardware or advertising ID) with error reports and feedback. Our own server uses it only to limit how often a phone can send reports. It isn't stored with the report or sent to anyone else.</p>
+              <p><strong>Feedback.</strong> In Settings › Help &amp; Feedback, you can report a problem with the app or suggest a feature. What you write goes to the Poolnautics team, along with your name and company so we can follow up with you, and the app version and update and your phone's model and operating system version. It doesn't go to your company's office. A problem report also includes the names of the app screens you opened recently, whether anything on your phone is waiting to upload, when your route last downloaded, and whether your phone was offline; a copy of it goes to our error-monitoring provider with your account and company IDs. Please don't include customer details in what you write: names you type can't be removed automatically.</p>
+              <p>Without a signal, error reports wait on your phone for up to 7 days, and feedback for up to 14 days, until they can be sent.</p>
+              <p><strong>How we use it.</strong> We use error reports and feedback only to find and fix problems and to improve the app. We don't use them for advertising, we don't use them to track you across other apps or websites, and we don't sell them.</p>
+              <p><strong>Where it goes.</strong> Error reports and feedback pass through our own server first. Error reports and problem reports then go to Better Stack, our error-monitoring provider. Feedback, and alerts about the most serious errors (the app crashing, a service report that won't send, or signing in failing on our side), are posted to our team's Slack; those alerts include the error, the screen it happened on, the company ID and the app version. Both providers act on our behalf and only as needed to provide these services (see Section 6).</p>
+              <p><strong>How long we keep it.</strong> We keep error reports and feedback only as long as we need them to investigate and fix problems, and then delete them.</p>
+
               <h3 style={subHeadStyle}>From Website Visitors</h3>
               <ul>
                 <li>IP address, browser type and version, pages visited, referring URL, and other standard server-log information used for security and basic analytics.</li>
@@ -246,6 +270,18 @@ const PrivacyPage = () => {
                   name="Slack"
                   purpose="Alerting our team to the most serious server errors."
                   shared="The error, which part of the service, and the company ID."
+                  link="https://slack.com/trust/privacy/privacy-policy"
+                />
+                <SubprocessorRow
+                  name="Better Stack"
+                  purpose="Error monitoring for the Poolnautics technician app."
+                  shared="Error reports and problem reports from the technician app, as described in Section 2: what went wrong, the app version and update, the phone's model and operating system version, the names of up to 8 recently opened app screens, and the account and company IDs; for problem reports, also what the technician wrote and whether anything on the phone is waiting to upload. Customer records, readings, photos and service report contents are never included."
+                  link="https://betterstack.com/privacy"
+                />
+                <SubprocessorRow
+                  name="Slack"
+                  purpose="Delivering feedback sent from the technician app, and alerts about the most serious app errors, to the Poolnautics team."
+                  shared="For feedback: what the technician wrote, their name and company, and the app and phone details described in Section 2 (for problem reports, also recent screen names and whether anything on the phone is waiting to upload). For error alerts: the error, the screen it happened on, the company ID and the app version."
                   link="https://slack.com/trust/privacy/privacy-policy"
                 />
                 <SubprocessorRow
