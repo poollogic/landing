@@ -6,9 +6,10 @@
 /* The page stays dark whatever the OS theme (the site footer is dark everywhere: index.html). */
 .rsv-page { background: var(--mktg-bg-page); }
 
-/* ---------- Section: centred in the screen when shorter than it (the footer is ~68px) ---------- */
+/* ---------- Section: a full screen, its content centred; the footer starts below the fold ---------- */
 .hero.rsv-hero {
-  min-height: calc(100svh - 68px);
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,6 +28,13 @@
   .rsv-hero .rsv-card { order: 1; margin-top: 28px; }
   .rsv-hero .rsv-features { order: 2; }
 }
+/* /reserve side by side: the row is the open card's height from the start (--rsv-open-h), and the
+   card sits at its top, so picking a size unfolds the rate downward into space already there: the
+   card's top, the size buttons and the left column (centred in the row) never move. */
+@media (min-width: 1000px) {
+  .rsv-hero .rsv-grid { --rsv-open-h: 564px; align-items: start; grid-template-rows: minmax(var(--rsv-open-h), auto); }
+  .rsv-hero .rsv-intro { align-self: center; }
+}
 
 /* The focused header (/reserve): "Sign in" stays visible on phones too. !important only because the
    site-wide stylesheet (index.html) hides it below 480px with !important. */
@@ -34,17 +42,11 @@
 
 /* ---------- Left column ---------- */
 .rsv-intro { text-align: left; }
-/* /reserve's headline and paragraph: the /ai-and-automations hero's sizes (ai.css .ai-hero), the
-   column starting at the headline (no eyebrow above it). Between 960 and 1180px they keep their
-   1180px sizes, as that hero's do. */
-.rsv-hero .hero-title { margin-top: 0; font-size: clamp(2.5rem, 4.6vw, 3.6rem); line-height: 1.05; }
+/* /reserve's headline and paragraph: their sizes are shared with /ai-and-automations (hero.css,
+   "Compact hero type"). The column starts at the headline (no eyebrow above it). */
+.rsv-hero .hero-title { margin-top: 0; }
 .rsv-hero .hero-sub { margin-inline: 0; max-width: 34rem; text-wrap: pretty; }
-@media (min-width: 960px) and (max-width: 1179.98px) {
-  .rsv-hero .hero-title { font-size: 54.28px; }
-  .rsv-hero .hero-sub { font-size: 18.88px; }
-}
 @media (max-width: 767.98px) {
-  .rsv-hero .hero-title { font-size: clamp(34px, 9.6vw, 42px); }
   .rsv-hero .hero-sub { max-width: none; }
 }
 /* The homepage section's headline: the statement role (home-roles.css), under its eyebrow. */
@@ -77,27 +79,27 @@
 .rsv-feature-t { font-size: 15.5px; font-weight: 600; color: #e2e8f0; }
 .rsv-feature-d { margin-top: 2px; font-size: 14px; line-height: 1.5; color: #64748b; }
 /* /reserve's points: larger, brighter, 22px ticks (the homepage section keeps the ones above). */
-.rsv-hero .rsv-features { display: flex; flex-direction: column; gap: 26px; margin-top: 44px; border: 0; }
+.rsv-hero .rsv-features { display: flex; flex-direction: column; gap: 22px; margin-top: 36px; border: 0; }
 .rsv-hero .rsv-features li { align-items: flex-start; gap: 14px; margin: 0; padding: 0; }
-.rsv-hero .rsv-feature-t { margin-bottom: 3px; font-size: 17.5px; line-height: 26px; font-weight: 600; color: #f8fafc; }
-.rsv-hero .rsv-feature-d { margin: 0; font-size: 15.5px; line-height: 24px; font-weight: 400; letter-spacing: -.0435px; color: rgba(226, 232, 240, .82); }
+.rsv-hero .rsv-feature-t { margin-bottom: 3px; font-size: 16px; line-height: 24px; font-weight: 600; color: #f8fafc; }
+.rsv-hero .rsv-feature-d { margin: 0; font-size: 14.5px; line-height: 23px; font-weight: 400; letter-spacing: -.0435px; color: rgba(226, 232, 240, .82); }
 
 /* ---------- The card ---------- */
 .rsv-card {
   position: relative;
   padding: 28px;
-  border: 1px solid rgba(148, 163, 184, .14);
-  border-radius: 16px;
-  background: rgba(17, 19, 24, .6);
-  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6);
+  border: 1px solid rgba(148, 163, 184, .18);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(30, 36, 48, .78), rgba(17, 19, 24, .78));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 40px 80px -40px rgba(0, 0, 0, .75);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   overflow: clip; /* the step slide-in stays inside the card */
 }
 
 /* Step indicator: (1) Your size — line — (2) Your details */
-.rsv-stepper { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
-.rsv-stepper-item { display: inline-flex; align-items: center; gap: 8px; flex: none; font-size: 13px; font-weight: 500; color: #64748b; }
+.rsv-stepper { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; font-size: 14px; }
+.rsv-stepper-item { display: inline-flex; align-items: center; gap: 8px; flex: none; font-weight: 500; color: #64748b; }
 .rsv-stepper-dot {
   display: grid; place-items: center; width: 22px; height: 22px; border-radius: 999px;
   border: 1px solid rgba(148, 163, 184, .3); font-size: 12px; font-weight: 600; color: #64748b;
@@ -115,44 +117,53 @@
 @keyframes rsvFromRight { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
 @keyframes rsvFromLeft { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
 
-.rsv-h2 { font-size: 20px; font-weight: 600; letter-spacing: -.01em; color: #f8fafc; }
-.rsv-h2-sub { margin-top: 4px; font-size: 14px; color: #94a3b8; }
+.rsv-h2 { font-size: 20px; font-weight: 600; letter-spacing: -.01em; line-height: 1.3; color: #f8fafc; }
+.rsv-card .rsv-h2-sub { margin-top: 4px; font-size: 15px; color: #94a3b8; }
 
-/* Step 1: the size picker */
-.rsv-sizes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 18px; }
+/* Step 1: the size picker. 12 columns: four buttons of 3 on the first row, three of 4 on the second. */
+.rsv-sizes { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 8px; margin-top: 20px; }
 .rsv-size {
-  height: 40px; border-radius: 10px; border: 1px solid rgba(148, 163, 184, .18); background: rgba(15, 23, 42, .5);
-  font-size: 14px; font-weight: 500; color: #cbd5e1; font-variant-numeric: tabular-nums; cursor: pointer;
-  transition: border-color .15s, background-color .15s, color .15s;
+  grid-column: span 3;
+  height: 44px; border-radius: 12px; border: 1px solid rgba(148, 163, 184, .2); background: rgba(148, 163, 184, .06);
+  font-size: 15px; font-weight: 500; color: #e2e8f0; font-variant-numeric: tabular-nums; cursor: pointer;
+  transition: border-color .15s, background-color .15s;
 }
-.rsv-size:hover { border-color: rgba(148, 163, 184, .38); color: #f1f5f9; }
-.rsv-size.is-on { border-color: #2e85ff; background: rgba(46, 133, 255, .14); color: #fff; }
-.rsv-size.is-wide { grid-column: span 2; }
+.rsv-size:nth-child(n + 5) { grid-column: span 4; }
+.rsv-size:hover { border-color: rgba(148, 163, 184, .45); background: rgba(148, 163, 184, .1); }
+.rsv-size.is-on { border-color: #2e85ff; background: rgba(46, 133, 255, .16); color: #fff; box-shadow: 0 0 0 3px rgba(46, 133, 255, .16); }
 
 /* The price panel, opening once a size is picked */
 .rsv-reveal { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .45s cubic-bezier(.2, .8, .2, 1), opacity .3s ease; }
 .rsv-reveal.is-open { grid-template-rows: 1fr; opacity: 1; }
 .rsv-reveal > div { min-height: 0; overflow: hidden; }
 .rsv-price {
-  margin-top: 14px; padding: 14px 16px; border: 1px solid rgba(96, 165, 250, .22); border-radius: 12px;
+  margin-top: 14px; padding: 14px 16px; border: 1px solid rgba(96, 165, 250, .22); border-radius: 14px;
   background: linear-gradient(180deg, rgba(46, 133, 255, .10), rgba(46, 133, 255, .04));
   font-size: 13.5px; line-height: 1.5; color: #94a3b8;
 }
-.rsv-price-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
-.rsv-price-plans small { display: block; font-size: 13px; font-weight: 500; color: #cbd5e1; }
-.rsv-price-plans b { font-size: 24px; font-weight: 700; letter-spacing: -.02em; color: #f8fafc; font-variant-numeric: tabular-nums; }
+.rsv-price-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rsv-price-plans small { display: block; font-size: 13px; font-weight: 600; color: #cbd5e1; }
+.rsv-price-plans b { font-size: 32px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; color: #f8fafc; font-variant-numeric: tabular-nums; }
 .rsv-price-plans span { margin-left: 2px; font-size: 13.5px; color: #94a3b8; }
-.rsv-price-plans em { display: block; margin-top: 2px; font-size: 12.5px; font-style: normal; line-height: 1.4; color: #64748b; }
-.rsv-price .rsv-price-trial { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(96, 165, 250, .16); font-size: 14px; font-weight: 500; color: #e2e8f0; text-wrap: balance; }
+.rsv-price-plans em { display: block; margin-top: 2px; font-size: 13.5px; font-style: normal; line-height: 1.4; color: #a9b6c9; }
+.rsv-price .rsv-price-trial { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(96, 165, 250, .16); font-size: 14px; font-weight: 500; color: #cbd5e1; text-wrap: balance; }
 
-/* The buttons: the homepage hero CTA, full width */
-.rsv-card .rsv-cta { width: 100%; max-width: none; margin-top: 20px; justify-content: center; padding: 14px 20px; }
+/* The buttons: the homepage hero CTA, full width (also /contact's form: contact.css) */
+.rsv-card .rsv-cta { width: 100%; max-width: none; margin-top: 20px; justify-content: center; padding: 14px 20px; border-radius: 12px; }
 /* Cloudflare's human check (Turnstile.jsx), when it shows: the same gap above it as above the button. */
 .cf-check.is-shown { margin-top: 20px; }
 .rsv-card .rsv-cta:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
 .rsv-card .rsv-cta:disabled > svg { transform: none; }
-.rsv-fine { margin-top: 10px; text-align: center; font-size: 12.5px; line-height: 1.5; color: #64748b; text-wrap: balance; }
-.rsv-fine b { font-weight: 500; color: #94a3b8; } /* the risk-free promise reads first */
+/* The reserve card's (/reserve and the homepage section): disabled (no size picked yet, or sending)
+   is a quiet neutral button that turns blue once it can be used. The border (transparent when
+   enabled) keeps its height the same in both states. */
+:is(.rsv-hero, .rsv-sec) .rsv-card .rsv-cta { border: 1px solid transparent; }
+:is(.rsv-hero, .rsv-sec) .rsv-card .rsv-cta:disabled, :is(.rsv-hero, .rsv-sec) .rsv-card .rsv-cta:disabled:hover {
+  opacity: 1; box-shadow: none;
+  border-color: rgba(148, 163, 184, .16); background: rgba(148, 163, 184, .1); color: #94a3b8;
+}
+.rsv-card .rsv-fine { margin-top: 14px; text-align: center; font-size: 13px; font-weight: 400; line-height: 1.5; color: #94a3b8; text-wrap: balance; }
+.rsv-card .rsv-fine b { font-weight: 500; color: #94a3b8; } /* the risk-free promise reads first */
 
 /* Step 2 */
 .rsv-recap {
@@ -203,9 +214,10 @@
 }
 @media (max-width: 559.98px) {
   .rsv-card { padding: 20px; }
-  .rsv-locked { display: block; } /* "Locked in today" and the yearly saving on their own lines */
-  .rsv-sep { display: none; }
+  /* Two buttons a row, "2,500+" across the last */
   .rsv-sizes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rsv-size, .rsv-size:nth-child(n + 5) { grid-column: auto; }
+  .rsv-size:last-child { grid-column: span 2; }
   .rsv-row { grid-template-columns: minmax(0, 1fr); }
 }
 

@@ -99,9 +99,8 @@ export function PricePanel({ size }) {
       <p className="rsv-price-trial">Insight or Vision? Your 30-day free trial gives you plenty of time to decide.</p>
       <div className="rsv-price-plans">
         <div><small>Insight</small><b>${row[1]}</b><span>/mo</span><em>Core routing &amp; billing</em></div>
-        <div><small>Vision</small><b>${row[2]}</b><span>/mo</span><em>Advanced automations &amp; integrations</em></div>
+        <div><small>Vision</small><b>${row[2]}</b><span>/mo</span><em>Advanced automations + more</em></div>
       </div>
-      <p><span className="rsv-locked">Locked in today</span><span className="rsv-sep"> · </span>Save an extra 25% paying yearly</p>
     </div>
   );
 }
@@ -119,7 +118,7 @@ export function SizeStep({ size, onSize, onNext, error, className = '' }) {
             type="button"
             role="radio"
             aria-checked={size === value}
-            className={`rsv-size${size === value ? ' is-on' : ''}${value === OVER ? ' is-wide' : ''} ${FOCUS}`}
+            className={`rsv-size${size === value ? ' is-on' : ''} ${FOCUS}`}
             onClick={() => onSize(value)}
           >
             {label}
@@ -132,9 +131,7 @@ export function SizeStep({ size, onSize, onNext, error, className = '' }) {
         <span className="hero-cta-label">Next</span>
         <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
       </button>
-      <p className="rsv-fine">
-        <b>No credit card. Cancel within 30 days and you pay nothing.</b> Takes about 30 seconds.
-      </p>
+      <p className="rsv-fine">No credit card. Cancel within 30 days and you pay nothing.</p>
     </div>
   );
 }

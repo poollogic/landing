@@ -534,3 +534,15 @@
   from { transform: translateY(0); }
   to { transform: translateY(calc(var(--pps-travel) * -1)); }
 }
+
+/* ---------- Compact hero type: /reserve (.rsv-hero) and /ai-and-automations (.ai-page .ai-hero) ----------
+   One rule for both, so their headline and paragraph are always the same size: 40px to 44px and
+   17px from 768px up; on phones, the headline 34px to 42px and the paragraph hero.css's 16px. */
+:is(.rsv-hero, .ai-page .ai-hero) .hero-title { line-height: 1.05; }
+@media (min-width: 768px) {
+  :is(.rsv-hero, .ai-page .ai-hero) .hero-title { font-size: clamp(2.5rem, 4.6vw, 2.75rem); }
+  :is(.rsv-hero, .ai-page .ai-hero) .hero-sub { font-size: 1.0625rem; line-height: 1.65; }
+}
+@media (max-width: 767.98px) {
+  :is(.rsv-hero, .ai-page .ai-hero) .hero-title { font-size: clamp(34px, 9.6vw, 42px); }
+}

@@ -36,7 +36,7 @@ export function ReserveIntro({ as: Heading = 'h2', id, price = false }) {
           <p className="hero-sub">See your price now. Set up on your own, or let us do it with you on a 10-minute call.</p>
         </>
       )}
-      {price ? <FeatureList /> : <FeatureList items={RESERVE_FEATURES} check={22} />}
+      {price ? <FeatureList /> : <FeatureList items={RESERVE_FEATURES} check={20} />}
     </div>
   );
 }
