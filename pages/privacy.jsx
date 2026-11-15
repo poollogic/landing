@@ -261,26 +261,14 @@ const PrivacyPage = () => {
                 />
                 <SubprocessorRow
                   name="Better Stack"
-                  purpose="Error monitoring for our web app and app server."
-                  shared="Details of errors: what went wrong, which part of the service, the app version, and account and company IDs. For errors in the web app, also the page or request address and recent activity on the page (such as pages visited and requests made) at the time of the error, with access links and sign-in details removed. No request contents, photos or readings, and from our app server, no customer details."
+                  purpose="Error monitoring for our web app, our app server, and the Poolnautics technician app."
+                  shared="Details of errors: what went wrong, which part of the service, the app version, and account and company IDs. For errors in the web app, also the page or request address and recent activity on the page (such as pages visited and requests made) at the time of the error, with access links and sign-in details removed. No request contents, photos or readings, and from our app server, no customer details. From the technician app, error reports and problem reports, as described in Section 2: what went wrong, the app version and update, the phone's model and operating system version, the names of up to 8 recently opened app screens, and the account and company IDs; for problem reports, also a reference number and how many uploads are waiting or couldn't be sent, but not what the technician wrote. Customer records, readings, photos and service report contents are never included."
                   link="https://betterstack.com/privacy"
                 />
                 <SubprocessorRow
                   name="Slack"
-                  purpose="Alerting our team to the most serious server errors."
-                  shared="The error, which part of the service, and the company ID."
-                  link="https://slack.com/trust/privacy/privacy-policy"
-                />
-                <SubprocessorRow
-                  name="Better Stack"
-                  purpose="Error monitoring for the Poolnautics technician app."
-                  shared="Error reports and problem reports from the technician app, as described in Section 2: what went wrong, the app version and update, the phone's model and operating system version, the names of up to 8 recently opened app screens, and the account and company IDs; for problem reports, also a reference number and how many uploads are waiting or couldn't be sent, but not what the technician wrote. Customer records, readings, photos and service report contents are never included."
-                  link="https://betterstack.com/privacy"
-                />
-                <SubprocessorRow
-                  name="Slack"
-                  purpose="Delivering feedback sent from the technician app, and alerts about the most serious app errors, to the Poolnautics team."
-                  shared="For feedback: what the technician wrote, their name and company, and the app and phone details described in Section 2 (for problem reports, also recent screen names and whether anything on the phone is waiting to upload). For error alerts: the error, the screen it happened on, the company ID and the app version."
+                  purpose="Alerting our team to the most serious server and technician app errors, and delivering feedback sent from the technician app to the Poolnautics team."
+                  shared="For server error alerts: the error, which part of the service, and the company ID. For technician app error alerts: the error, the screen it happened on, the company ID and the app version. For feedback: what the technician wrote, their name and company, and the app and phone details described in Section 2 (for problem reports, also recent screen names and whether anything on the phone is waiting to upload)."
                   link="https://slack.com/trust/privacy/privacy-policy"
                 />
                 <SubprocessorRow
