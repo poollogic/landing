@@ -807,15 +807,15 @@
 /* ---------- 4. The stance (Stance.jsx): white, type only ---------- */
 /* Padding: the homepage's (below). The headline takes the section-title role, muted then dark; no blue. */
 .ai-page .ai-stance { text-align: center; }
-.ai-page .ai-stance-line {
-  margin: 0 auto;
+.ai-page .ai-stance-line { /* an h2: the site's heading colour doesn't apply (each sentence has its own) */
+  margin: 0 auto; color: inherit;
   font-size: var(--section-title-size); line-height: var(--section-title-leading);
   font-weight: var(--section-title-weight); letter-spacing: var(--section-title-tracking);
 }
 .ai-page .ai-stance-line > span { display: block; text-wrap: balance; } /* one sentence per line */
 .ai-page .ai-stance-line > span:first-child { color: theme('colors.slate.500'); }
 .ai-page .ai-stance-line > span:last-child { color: theme('colors.slate.900'); }
-/* "Your AI. | Your tools. | Your data.": one row between hairlines; a list on a rail on phones. 24px
+/* "Your data. | Your tools. | Your AI.": one row between hairlines; a list on a rail on phones. 24px
    (Tailwind's text-2xl), between the heading and the intro text. */
 .ai-page .ai-stance-trio {
   display: flex; justify-content: center; margin: theme('spacing.11') 0 0;
@@ -843,7 +843,7 @@
 .ai-page .ai-stance[data-entrance="in"] .ai-stance-item:nth-child(3) { transition-delay: 320ms; }
 .ai-page .ai-stance[data-entrance="in"] .ai-stance-fine { transition: opacity .7s ease .7s; }
 
-/* Below 768px: left-aligned, and "Your AI. / Your tools. / Your data." become a list on a rail, each with its
+/* Below 768px: left-aligned, and "Your data. / Your tools. / Your AI." become a list on a rail, each with its
    line from the fine print under it (.ai-stance-desc, hidden on desktop, which keeps .ai-stance-fine). A
    blue line runs down the rail, pausing at the middle dot, every 4.4s; each dot fills as the line reaches
    it. Stance.jsx measures the rail into --rail, --midpx and --mid. */
@@ -965,18 +965,18 @@
 /* ---------- The homepage's section standard (2026-11-14), on the sections after the hero ---------- */
 /* Padding, header spacing and type from the tokens on :root (index.html), as the homepage's
    home-roles.css applies them. The dark section keeps its own type (only its padding is the standard). */
-.ai-page :is(#routine, #automations, .ai-stance, #what-is-ai-ready, #guardrails, #technician-app, .ai-band, .ai-band-dark) { padding-block: var(--section-pad-y); }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-title {
+.ai-page :is(#routine, #automations, .ai-stance, #what-is-ai-ready, #guardrails, #technician-app, #automation-faq, .ai-band, .ai-band-dark) { padding-block: var(--section-pad-y); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, #automation-faq, .ai-band) .section-title {
   font-size: var(--section-title-size); line-height: var(--section-title-leading);
   font-weight: var(--section-title-weight); letter-spacing: var(--section-title-tracking);
 }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-sub {
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, #automation-faq, .ai-band) .section-sub {
   font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--subhead-weight);
   letter-spacing: var(--subhead-tracking); color: var(--subhead-on-light);
 }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-eyebrow { font-size: var(--eyebrow-size); font-weight: var(--eyebrow-weight); color: var(--eyebrow-on-light); }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-head .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-head .section-sub { margin-top: var(--title-to-subhead); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, #automation-faq, .ai-band) .section-eyebrow { font-size: var(--eyebrow-size); font-weight: var(--eyebrow-weight); color: var(--eyebrow-on-light); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, #automation-faq, .ai-band) .section-head .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, #automation-faq, .ai-band) .section-head .section-sub { margin-top: var(--title-to-subhead); }
 
 /* ---------- 7. Guardrails (Guardrails.jsx): try asking, the answer in a light chat panel ---------- */
 .ai-page .ai-gr-head { max-width: theme('maxWidth.3xl'); margin-inline: auto; }
@@ -1263,6 +1263,19 @@
 .ai-page .ai-connect-foot { display: flex; flex-direction: column; align-items: center; gap: 24px; margin-top: theme('spacing.10'); text-align: center; }
 .ai-page .ai-connect-foot p { max-width: 40rem; font-size: 16px; line-height: 1.6; }
 .ai-page .ai-connect-foot strong { font-weight: 600; color: var(--mktg-text-primary); }
+
+/* ---------- The FAQ (light, live): question left, answer right, as in .ai-define ---------- */
+/* Every answer shown (no accordion). Rows split by a slate-200 hairline; one column below 1000px. */
+.ai-page .ai-qa { margin-top: var(--head-to-content); }
+.ai-page .ai-qa-row { display: grid; gap: 8px; padding-block: 28px; }
+.ai-page .ai-qa-row:first-child { padding-top: 0; }
+.ai-page .ai-qa-row:last-child { padding-bottom: 0; }
+.ai-page .ai-qa-row + .ai-qa-row { border-top: 1px solid theme('colors.slate.200'); }
+@media (min-width: 1000px) {
+  .ai-page .ai-qa-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 0 64px; align-items: start; }
+}
+.ai-page .ai-qa-row h3 { font-size: 18px; line-height: 1.45; font-weight: 600; letter-spacing: -.01em; color: theme('colors.slate.900'); text-wrap: balance; }
+.ai-page .ai-qa-row p { max-width: 600px; font-size: 16px; line-height: 1.65; color: var(--subhead-on-light); text-wrap: pretty; }
 
 /* ---------- 11b. Call to action (light) ---------- */
 .ai-page .ai-cta-band { background: #f8fafc; text-align: center; }

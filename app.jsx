@@ -65,8 +65,8 @@ export const ROUTE_META = {
   },
   // Pre-rendered at build time (entry-server.jsx), so this is also what the served HTML carries.
   aiIntegrations: {
-    title: 'Pool Service Automation Software — Poolnautics',
-    description: 'Pool service software that feeds your automations: customers, visits, payments and leads flow into Claude, Grok, ChatGPT or your own AI.',
+    title: 'Pool Service Automation & AI Integrations | Poolnautics',
+    description: 'Automate pool service workflows, follow-ups and billing. Connect ChatGPT, Claude, Grok or your own AI to your pool business data with Poolnautics.',
     path: '/ai-and-automations',
   },
   techApp: {

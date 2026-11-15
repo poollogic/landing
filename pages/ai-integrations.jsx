@@ -41,8 +41,9 @@ const ORIGIN = 'https://getpoolnautics.com';
 // "The short answer", Connect your AI (#connect-ai), then (not live yet) Guardrails and the technician
 // app, then Lead capture (#leads, live); the rest follows them here, hidden. True
 // brings back the rest of the page, with its FAQ in the JSON-LD and every pillar's link to its
-// section. Add 'FAQPage' back to the route's jsonLd in scripts/seo-check.mjs with it. To preview the
-// whole page locally without publishing it: VITE_AI_FULL_PAGE=1 npx vite.
+// section. The live FAQ (AUTOMATION_FAQ, #automation-faq) is always on, with its own FAQPage JSON-LD:
+// merge the two FAQs before publishing the rest, so the page has one. To preview the whole page
+// locally without publishing it: VITE_AI_FULL_PAGE=1 npx vite.
 const FULL_PAGE = import.meta.env.VITE_AI_FULL_PAGE === '1';
 const PUBLISHED = new Set(['#automations', '#connect-ai', '#leads']); // the pillars' sections that are live
 const PAGE_URL = `${ORIGIN}/ai-and-automations`;
@@ -98,6 +99,39 @@ const FAQ = [
   },
 ];
 
+// The live FAQ at the foot of the page (#automation-faq), and its FAQPage JSON-LD (structuredData):
+// one list for both, so they can't drift apart. Checked against the app 2026-11-15.
+const AUTOMATION_FAQ = [
+  {
+    q: 'What is pool service automation software?',
+    a: 'Pool service automation software helps pool companies automate recurring business tasks such as customer communications, billing reminders, lead follow-ups, service notifications and administrative workflows.',
+  },
+  {
+    q: 'Can I connect ChatGPT to my pool service software?',
+    a: 'Poolnautics supports connections to ChatGPT, Claude, Grok and other compatible AI assistants through its built-in MCP server, allowing authorized assistants to access business information and perform permitted actions.',
+  },
+  {
+    q: 'Can pool service software automate customer follow-ups?',
+    a: 'Yes. Poolnautics includes configurable workflows that can automatically send text messages, emails and notifications based on business events, timing and conditions.',
+  },
+  {
+    q: 'Can Poolnautics automate billing?',
+    a: 'Yes. Recurring invoices go out on schedule, and customers on autopay are charged automatically. Overdue reminders go out on schedule, late fees follow your rules, and a failed autopay payment is retried, with the customer emailed a link to update their card if it still can’t go through.',
+  },
+  {
+    q: 'Does Poolnautics have a built-in AI chatbot?',
+    a: 'Poolnautics provides built-in automations and integrations for connecting external AI assistants. You can bring your preferred AI rather than being locked into a proprietary chatbot.',
+  },
+  {
+    q: 'Does Poolnautics support API and webhook integrations?',
+    a: 'Yes. Poolnautics provides API access, webhook events and an MCP server for connecting external applications, automation platforms and AI assistants.',
+  },
+  {
+    q: 'Which plan includes AI and automations?',
+    a: `AI connections, automations and integrations are included in the ${AI_PLAN} plan. The ${TRIAL_DAYS}-day trial includes all of it.`,
+  },
+];
+
 /** JSON-LD for <head>, written there by the pre-renderer (entry-server.jsx). */
 export const structuredData = [
   {
@@ -105,10 +139,10 @@ export const structuredData = [
     '@type': 'WebPage',
     '@id': `${PAGE_URL}#webpage`,
     url: PAGE_URL,
-    name: 'AI, automations and integrations for pool service companies',
-    description: 'How Poolnautics works with AI assistants over MCP, runs no-code automations, and connects to other tools through signed webhooks, a lead link and an API.',
+    name: 'Pool Service Automation & AI Integrations',
+    description: 'Automate pool service workflows, follow-ups and billing. Connect ChatGPT, Claude, Grok or your own AI to your pool business data with Poolnautics.',
     inLanguage: 'en-US',
-    dateModified: '2026-11-14',
+    dateModified: '2026-11-15',
     isPartOf: { '@id': `${ORIGIN}/#website` },
     about: { '@id': `${ORIGIN}/#software` },
   },
@@ -125,6 +159,11 @@ export const structuredData = [
     '@type': 'FAQPage',
     mainEntity: FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
   }] : []),
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: AUTOMATION_FAQ.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
 ];
 
 // [icon, tag, title, text, the section it links to]
@@ -196,9 +235,10 @@ export default function AiIntegrationsPage() {
           <div className="container">
             <div className="ai-hero-grid">
               <div className="ai-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
-                <HeroHeading id="ai-hero-title" eyebrow="Pool service automation" title="Pool service software that feeds your automations">
-                  Every customer, visit, payment and lead flows into Claude, Grok, ChatGPT or your own AI. Automate just
-                  about anything, from chasing overdue invoices to proposing price increases to reassigning requests when a tech calls in sick.
+                <HeroHeading id="ai-hero-title" eyebrow="Pool service automation" title="Pool Service Automation Built for the Way You Work">
+                  Built-in automations handle the routine on their own: lead follow-ups, overdue reminders, failed-payment
+                  links and review requests. For everything else, securely connect ChatGPT, Claude, Grok or your own AI to
+                  your pool service data.
                 </HeroHeading>
                 <div className="ai-cta-row">
                   <PrimaryCta theme={theme} />
@@ -587,6 +627,30 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
         </>)}
+
+        {/* The FAQ (light, live): the last section. Question left, answer right, as in .ai-define;
+            every answer shown, and the same list as the FAQPage JSON-LD (AUTOMATION_FAQ). */}
+        <section id="automation-faq" className="section ai-light bg-slate-50" data-theme="light" aria-labelledby="automation-faq-heading">
+          <div className="container">
+            <div data-reveal="">
+              {headerLight({
+                align: 'left',
+                id: 'automation-faq-heading',
+                eyebrow: 'FAQ',
+                title: 'Frequently Asked Questions',
+                className: 'mb-0',
+              })}
+            </div>
+            <div className="ai-qa" data-reveal="">
+              {AUTOMATION_FAQ.map((f) => (
+                <div key={f.q} className="ai-qa-row">
+                  <h3>{f.q}</h3>
+                  <p>{f.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>

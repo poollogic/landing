@@ -1,8 +1,10 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import { WEBHOOK_EVENTS } from '../../aiFacts.js';
 
-// /ai-and-automations' stance, after Automations, as one statement (not an H2: those read as
-// searches). White, type only, on the homepage's type and spacing tokens.
-// When 40% of it is on screen, "Your AI. Your tools. Your data." rise in one after another and
+// /ai-and-automations' stance, after Automations: one statement, an h2 that looks exactly as the
+// line did (ai.css styles .ai-stance-line, not the tag). White, type only, on the homepage's type
+// and spacing tokens.
+// When 40% of it is on screen, "Your data. Your tools. Your AI." rise in one after another and
 // the fine print fades in after them, once. It arrives pre-rendered and fully visible: they're
 // hidden on hydration only while still below the fold, so nothing already seen flashes, and
 // reduced motion (or no IntersectionObserver) hides nothing. The headline keeps the page's scroll
@@ -12,6 +14,18 @@ import React, { useEffect, useLayoutEffect, useRef } from 'react';
 // (.ai-stance-desc, hidden on desktop); the rail's animation needs the distances between the items,
 // measured here into --rail, --midpx and --mid (after hydration, and on every resize).
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+
+// The fine print, in one place: the desktop sentence (FINE) and the phone's line under each word
+// (STANCE) are built from the same pieces, so they can't drift apart.
+const MCP = 'through the built-in MCP server';
+const API = `build your own pool service API integration with ${WEBHOOK_EVENTS.length} signed webhooks`;
+const CSV = 'Export everything as CSV, on every plan.';
+const STANCE = [
+  ['data', CSV],
+  ['tools', `Connected ${MCP}, or ${API}.`],
+  ['AI', 'Bring Claude, ChatGPT, Grok or your own model.'],
+];
+const FINE = `Bring Claude, ChatGPT, Grok or your own model ${MCP}, or ${API}. ${CSV}`;
 
 export default function Stance() {
   const ref = useRef(null);
@@ -54,19 +68,19 @@ export default function Stance() {
   return (
     <section ref={ref} className="section ai-stance bg-white" data-theme="light" aria-label="Why Poolnautics">
       <div className="container">
-        <p className="ai-stance-line" data-reveal="">
+        <h2 className="ai-stance-line" data-reveal="">
           <span>Most pool software is built to lock you in.</span>{' '}
           <span>Poolnautics is built to connect.</span>
-        </p>
+        </h2>
         <p className="ai-stance-trio">
-          <span className="ai-stance-item"><span className="ai-stance-your">Your</span> AI.<span className="ai-stance-desc">Bring Claude, ChatGPT, Grok or your own model.</span></span>{' '}
-          <span className="ai-stance-item"><span className="ai-stance-your">Your</span> tools.<span className="ai-stance-desc">Connected through the built-in MCP server.</span></span>{' '}
-          <span className="ai-stance-item"><span className="ai-stance-your">Your</span> data.<span className="ai-stance-desc">Export everything as CSV, on every plan.</span></span>
+          {STANCE.map(([word, desc], i) => (
+            <React.Fragment key={word}>
+              {i > 0 && ' '}
+              <span className="ai-stance-item"><span className="ai-stance-your">Your</span> {word}.<span className="ai-stance-desc">{desc}</span></span>
+            </React.Fragment>
+          ))}
         </p>
-        <p className="ai-stance-fine">
-          Bring Claude, ChatGPT, Grok or your own model through the built-in MCP server. Export everything as CSV, on
-          every plan.
-        </p>
+        <p className="ai-stance-fine">{FINE}</p>
       </div>
     </section>
   );
