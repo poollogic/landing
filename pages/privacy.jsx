@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 //   Poolnautics LLC               the business behind Poolnautics (a Florida LLC): launch only once
 //                                 it's active on sunbiz.org, spelled exactly as filed
 //   Florida                       governing state
-//   November 12, 2026             updated date
+//   November 15, 2026             updated date
 //   privacy@getpoolnautics.com    contact email
 //
 // Subprocessors listed below reflect the current stack — confirm before going live
@@ -64,7 +64,7 @@ const PrivacyPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 12, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 15, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
         </header>
@@ -237,10 +237,16 @@ const PrivacyPage = () => {
                   link="https://www.mapbox.com/legal/privacy"
                 />
                 <SubprocessorRow
-                  name="Sentry"
-                  purpose="Error monitoring for the Poolnautics web app."
-                  shared="Technical details of errors in the web app, which can include the page address and request details at the time of the error."
-                  link="https://sentry.io/privacy/"
+                  name="Better Stack"
+                  purpose="Error monitoring for our web app and app server."
+                  shared="Details of errors: what went wrong, which part of the service, the app version, and account and company IDs. For errors in the web app, also the page or request address and recent activity on the page (such as pages visited and requests made) at the time of the error, with access links and sign-in details removed. No request contents, photos or readings, and from our app server, no customer details."
+                  link="https://betterstack.com/privacy"
+                />
+                <SubprocessorRow
+                  name="Slack"
+                  purpose="Alerting our team to the most serious server errors."
+                  shared="The error, which part of the service, and the company ID."
+                  link="https://slack.com/trust/privacy/privacy-policy"
                 />
                 <SubprocessorRow
                   name="Cloudflare"
