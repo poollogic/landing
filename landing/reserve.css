@@ -28,17 +28,14 @@
   .rsv-hero .rsv-card { order: 1; margin-top: 28px; }
   .rsv-hero .rsv-features { order: 2; }
 }
-/* /reserve side by side: the row is the open card's height from the start (--rsv-open-h), and the
-   card sits at its top, so picking a size unfolds the rate downward into space already there: the
-   card's top, the size buttons and the left column (centred in the row) never move. */
+/* /reserve side by side: the row is the open card's height from the start (--rsv-open-h), so the
+   row never changes height and the left column (centred in it) never moves. The card is centred in
+   the row too: it grows from its middle as the rate opens, into space already there. */
 @media (min-width: 1000px) {
   .rsv-hero .rsv-grid { --rsv-open-h: 564px; align-items: start; grid-template-rows: minmax(var(--rsv-open-h), auto); }
   .rsv-hero .rsv-intro { align-self: center; }
+  .rsv-hero .rsv-card { align-self: center; }
 }
-
-/* The focused header (/reserve): "Sign in" stays visible on phones too. !important only because the
-   site-wide stylesheet (index.html) hides it below 480px with !important. */
-.lp-nav.is-focused .nav-signin { display: inline-flex !important; }
 
 /* ---------- Left column ---------- */
 .rsv-intro { text-align: left; }

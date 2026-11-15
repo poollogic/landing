@@ -15,12 +15,12 @@ const APP_URL = 'https://app.poolnautics.app/';
 // Below this width the burger menu replaces the links (the same breakpoint as index.html's).
 const MENU_MAX = 880;
 
-// focused: just the wordmark and "Sign in", for a page whose only job is its form (/reserve), so
-// nothing in the header leads away from it.
+// hideCta: no "Reserve your spot" / "Start free trial" button, in the bar or the menu, on the page it
+// would lead to (/reserve).
 // current: the page's own path (e.g. '/pricing'), so its link shows as the page you're on. A prop,
 // not window.location, so a pre-rendered page renders the same on the server.
 // tone: 'dark' or 'light', the page's background.
-const Nav = ({ focused = false, current, tone = 'dark' }) => {
+const Nav = ({ hideCta = false, current, tone = 'dark' }) => {
   const [open, setOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const ref = useRef(null);
@@ -53,19 +53,6 @@ const Nav = ({ focused = false, current, tone = 'dark' }) => {
     setOpen(false);
   };
 
-  if (focused) {
-    return (
-      <header className={`lp-nav is-focused${light}`}>
-        <div className="lp-nav-bar container">
-          <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg={tone} /></a>
-          <div className="nav-right">
-            <a href={APP_URL} className="nav-signin">Sign in</a>
-          </div>
-        </div>
-      </header>
-    );
-  }
-
   return (
     <>
     <header className={`lp-nav${light}`} ref={ref}>
@@ -79,10 +66,12 @@ const Nav = ({ focused = false, current, tone = 'dark' }) => {
 
         <div className="nav-right">
           <a href={APP_URL} className="nav-signin">Sign in</a>
-          <a href={ctaHref(theme)} className="nav-trial">
-            {isReserving ? 'Reserve your spot' : 'Start free trial'}
-            <ArrowRight size={15} strokeWidth={1.8} aria-hidden="true" />
-          </a>
+          {!hideCta && (
+            <a href={ctaHref(theme)} className="nav-trial">
+              {isReserving ? 'Reserve your spot' : 'Start free trial'}
+              <ArrowRight size={15} strokeWidth={1.8} aria-hidden="true" />
+            </a>
+          )}
           <button
             type="button"
             className="nav-burger"
@@ -106,7 +95,7 @@ const Nav = ({ focused = false, current, tone = 'dark' }) => {
           <hr />
           {LINKS.map(([label, href]) => <a key={label} href={href} aria-current={href === current ? 'page' : undefined} onClick={close}>{label}</a>)}
           <a href={APP_URL} className="menu-signin" onClick={close}>Sign in</a>
-          <a href={ctaHref(theme)} className="menu-trial" onClick={close}>{isReserving ? 'Reserve your spot' : 'Start free trial'}</a>
+          {!hideCta && <a href={ctaHref(theme)} className="menu-trial" onClick={close}>{isReserving ? 'Reserve your spot' : 'Start free trial'}</a>}
         </nav>
       </div>
     </header>
