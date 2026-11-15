@@ -23,7 +23,7 @@ const PAGE_FONTS = { '/': ['/fonts/Inter-latin.woff2'] };
 const EARLY_FONTS = { '/': ['/fonts/Satoshi-Bold.woff2'] };
 const SITE_FONTS = ['/fonts/Geist.woff2']; // the rest of the site
 // Pre-rendered pages drawn in Geist (the site's own pages, not the marketing ones): they get Geist, not Satoshi.
-const GEIST_PAGES = new Set(['/tech-app', '/partners', '/partners/kit', '/partners/terms', '/terms', '/privacy', '/technician-terms']);
+const GEIST_PAGES = new Set(['/partners', '/partners/kit', '/partners/terms', '/terms', '/privacy', '/technician-terms']);
 
 function routePreloads() {
   return {

@@ -967,18 +967,18 @@
 /* ---------- The homepage's section standard (2026-11-14), on the sections after the hero ---------- */
 /* Padding, header spacing and type from the tokens on :root (index.html), as the homepage's
    home-roles.css applies them. The dark section keeps its own type (only its padding is the standard). */
-.ai-page :is(#routine, #automations, .ai-stance, #what-is-ai-ready, #guardrails, #technician-app) { padding-block: var(--section-pad-y); }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-title {
+.ai-page :is(#routine, #automations, .ai-stance, #what-is-ai-ready, #guardrails, #technician-app, .ai-band, .ai-band-dark) { padding-block: var(--section-pad-y); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-title {
   font-size: var(--section-title-size); line-height: var(--section-title-leading);
   font-weight: var(--section-title-weight); letter-spacing: var(--section-title-tracking);
 }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-sub {
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-sub {
   font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--subhead-weight);
   letter-spacing: var(--subhead-tracking); color: var(--subhead-on-light);
 }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-eyebrow { font-size: var(--eyebrow-size); font-weight: var(--eyebrow-weight); color: var(--eyebrow-on-light); }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-head .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
-.ai-page :is(#routine, #automations, #guardrails, #technician-app) .section-head .section-sub { margin-top: var(--title-to-subhead); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-eyebrow { font-size: var(--eyebrow-size); font-weight: var(--eyebrow-weight); color: var(--eyebrow-on-light); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-head .section-eyebrow { margin-bottom: var(--eyebrow-to-title); }
+.ai-page :is(#routine, #automations, #guardrails, #technician-app, .ai-band) .section-head .section-sub { margin-top: var(--title-to-subhead); }
 
 /* ---------- 7. Guardrails (Guardrails.jsx): try asking, the answer in a light chat panel ---------- */
 .ai-page .ai-gr-head { max-width: theme('maxWidth.3xl'); margin-inline: auto; }
@@ -1028,13 +1028,32 @@
 
 /* ---------- 8. The technician app, light grey: blue checks, slate text; the phone as it was ---------- */
 .ai-page #technician-app .section-title { text-wrap: balance; } /* not "purpose." alone */
-.ai-page .ai-tech .ai-ticks li { color: var(--subhead-on-light); }
-.ai-page .ai-tech .ai-ticks svg { color: var(--brand-blue); opacity: 1; }
+/* Ticks on any light band (the technician app here; /tech-app's features): slate text, brand-blue ticks. */
+.ai-page .ai-light .ai-ticks li { color: var(--subhead-on-light); }
+.ai-page .ai-light .ai-ticks svg { color: var(--brand-blue); opacity: 1; }
 .ai-page .ai-tech .ai-tech-close {
   font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--fw-semibold); color: theme('colors.slate.900');
 }
 .ai-page .ai-tech-cta { display: flex; flex-direction: column; align-items: center; gap: theme('spacing.3'); margin-top: var(--head-to-content); text-align: center; }
 .ai-page .ai-tech-cta p { font-size: theme('fontSize.meta'); line-height: theme('lineHeight.5'); color: var(--subhead-on-light); }
+
+/* ---------- Shared by /tech-app: a standard band (.ai-band, above), cards and columns ---------- */
+/* The light card: the automation card's and the light assistant window's outline and shadow. */
+.ai-page .ai-light-card { border-radius: var(--ai-r-panel); background: var(--bg); box-shadow: var(--ai-light-card-shadow); }
+/* Two columns that swap sides: the copy on the right from 1024px, where .ai-split goes side by side. */
+@media (min-width: 1024px) { .ai-page .ai-split--reverse > :first-child { order: 2; } }
+/* A numbered section label: the number in brand blue. */
+.ai-page .ai-eyebrow-n { margin-right: .6em; color: var(--brand-blue); }
+/* A step label on a dark card (.ai-pillar), in the lighter blue used on dark. */
+.ai-page .ai-pillar-step { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ai-blue-300); }
+.ai-page .ai-pillar-step + h3 { margin-top: 12px; }
+/* A dark hero without the AI page's beam: the blue glow alone, over its navy. */
+.ai-page .ai-hero--glow {
+  background-image:
+    radial-gradient(60% 55% at 78% 30%, rgba(46, 133, 255, .22), transparent 70%),
+    radial-gradient(45% 40% at 10% 0%, rgba(46, 133, 255, .10), transparent 70%),
+    linear-gradient(180deg, #0a0f1c 0%, #0c1120 60%, #0e1117 100%);
+}
 
 /* ---------- 2. The routine runs itself (Routine.jsx) ---------- */
 .ai-page .ai-routine-inner { max-width: theme('maxWidth.5xl'); margin-inline: auto; }

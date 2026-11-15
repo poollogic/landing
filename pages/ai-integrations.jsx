@@ -6,7 +6,6 @@ import '../landing/landing.css';
 import '../landing/hero.css';
 import '../landing/ai/ai.css';
 import Nav from '../landing/Nav.jsx';
-import SectionHeader from '../landing/SectionHeader.jsx';
 import AssistantChat from '../landing/ai/AssistantChat.jsx';
 import HeroFx from '../landing/ai/HeroFx.jsx';
 import EventFeed from '../landing/ai/EventFeed.jsx';
@@ -20,7 +19,7 @@ import Guardrails from '../landing/ai/Guardrails.jsx';
 import Code, { formatJson } from '../landing/ai/Code.jsx';
 import useReveal from '../landing/ai/useReveal.js';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
-import { ctaHref, isReserving } from '../landing/onboarding.js';
+import { FOCUS, PrimaryCta, Ticks, header, headerLight } from '../landing/ai/shared.jsx';
 import { Footer } from '../components/site-chrome.jsx';
 import {
   ACTIONS, AI_PLAN, API_DOCS_URL, API_MAX_POST, AUTOMATION_LIMITS, BULK, LEAD_SOURCES, MCP_CLIENTS, MCP_TOOL_COUNT, PRICE_PROPOSALS,
@@ -46,7 +45,6 @@ const ORIGIN = 'https://getpoolnautics.com';
 const FULL_PAGE = import.meta.env.VITE_AI_FULL_PAGE === '1';
 const PUBLISHED = new Set(['#automations', '#connect-ai', '#leads']); // the pillars' sections that are live
 const PAGE_URL = `${ORIGIN}/ai-and-automations`;
-const FOCUS = 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--brand-blue)]';
 
 const FAQ = [
   {
@@ -169,48 +167,7 @@ export function isFromPoolnautics(rawBody, signatureHeader, secret) {
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }`;
 
-/* ---------- Small shared pieces ---------- */
-
-const Eyebrow = 'ai-eyebrow';
-const header = (props) => (
-  <SectionHeader
-    eyebrowClassName={Eyebrow}
-    titleClassName="text-mktg-primary"
-    subtitleClassName="text-mktg-muted"
-    {...props}
-  />
-);
-// On the white and light sections.
-const headerLight = (props) => (
-  <SectionHeader
-    eyebrowClassName={Eyebrow}
-    titleClassName="ai-title-light"
-    subtitleClassName="ai-sub-light"
-    {...props}
-  />
-);
-
-function Ticks({ items, className = '' }) {
-  return (
-    <ul className={`ai-ticks ${className}`}>
-      {items.map((t) => (
-        <li key={typeof t === 'string' ? t : t.key}>
-          <Check size={16} strokeWidth={2.4} aria-hidden="true" />
-          <span>{t}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function PrimaryCta({ theme }) {
-  return (
-    <a href={ctaHref(theme)} className={`hero-cta ai-cta ${FOCUS}`}>
-      <span className="hero-cta-label">{isReserving ? 'Reserve your spot' : 'Start your 30-day trial'}</span>
-      <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
-    </a>
-  );
-}
+/* ---------- Small shared pieces (the rest: landing/ai/shared.jsx) ---------- */
 
 function DocsCta() {
   return (
@@ -337,7 +294,7 @@ export default function AiIntegrationsPage() {
         <section id="connect-ai" className="section ai-connect" aria-labelledby="connect-heading">
           <div className="container">
             <div className="section-head section-head--center ai-connect-head" data-reveal="">
-              <p className={`section-eyebrow ${Eyebrow}`}>AI assistant · MCP</p>
+              <p className="section-eyebrow ai-eyebrow">AI assistant · MCP</p>
               <h2 id="connect-heading" className="section-title text-mktg-primary">
                 Connect Claude, ChatGPT or Grok <span className="ai-break">to your pool service software</span>
               </h2>

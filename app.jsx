@@ -206,17 +206,14 @@ const App = ({ path: pathProp }) => {
     );
   }
 
+  // Brings the homepage's dark nav and the footer itself, like the AI page. Pre-rendered.
   if (isTechAppPath(path)) {
     return (
-      <>
-        <SiteHeader tone="light" />
-        <ErrorBoundary>
-          <Suspense fallback={<RouteFallback />}>
-            <TechAppPage />
-          </Suspense>
-        </ErrorBoundary>
-        <Footer />
-      </>
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
+          <TechAppPage />
+        </Suspense>
+      </ErrorBoundary>
     );
   }
 

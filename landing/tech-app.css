@@ -1,0 +1,36 @@
+/* /tech-app's own layouts (pages/tech-app.jsx). Everything else (nav, hero, bands, labels, cards,
+   ticks, buttons, type and colours) is the shared design: ai.css, hero.css, landing.css. */
+
+.ai-page .tk-visual { display: flex; justify-content: center; }
+
+/* What goes wrong without it: a label, three problems, "Fixed below". */
+.ai-page .tk-problems-band { padding-block: var(--head-to-content); } /* a strip: the label spacing, not a full section's */
+.ai-page .tk-problems {
+  display: grid; gap: 20px 32px; align-items: center; padding: 24px 28px;
+}
+@media (min-width: 1024px) { .ai-page .tk-problems { grid-template-columns: auto minmax(0, 1fr) auto; } }
+.ai-page .tk-problems .tk-problems-label { margin: 0; }
+.ai-page .tk-problems-list { display: grid; gap: 14px 28px; }
+@media (min-width: 768px) { .ai-page .tk-problems-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ai-page .tk-problems-list li { display: flex; gap: 10px; font-size: 15px; line-height: 1.5; color: var(--subhead-on-light); text-wrap: balance; }
+.ai-page .tk-problems-n { flex: none; font-weight: 600; font-variant-numeric: tabular-nums; color: theme('colors.slate.400'); }
+.ai-page .tk-problems-fixed { font-size: 14px; font-weight: 600; color: var(--brand-blue); white-space: nowrap; }
+
+/* A feature's ticks, under its header. */
+.ai-page .tk-ticks { margin-top: 28px; }
+
+/* A day on the truck: the steps' cards (.ai-pillar) under the header. */
+.ai-page #day-on-the-truck .section-head { max-width: 640px; margin-inline: auto; text-align: center; }
+.ai-page #day-on-the-truck .section-sub { margin-inline: auto; }
+
+/* Reliability: the header beside three points, in one light card. */
+.ai-page .tk-reliability { display: grid; gap: 32px 48px; align-items: center; padding: 28px; }
+@media (min-width: 1024px) { .ai-page .tk-reliability { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); padding: 44px 48px; } }
+.ai-page .tk-reliability-list { display: grid; gap: 14px; }
+@media (min-width: 640px) { .ai-page .tk-reliability-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ai-page .tk-reliability-list li { padding: 18px; border-radius: var(--ai-r-card); background: theme('colors.slate.50'); }
+.ai-page .tk-reliability-list h3 { font-size: var(--card-title-size); line-height: var(--card-title-leading); font-weight: var(--card-title-weight); color: theme('colors.slate.900'); }
+.ai-page .tk-reliability-list p { margin-top: 6px; font-size: 14px; line-height: 1.55; color: var(--subhead-on-light); }
+
+/* The closing call to action's trial note, centred under the button. */
+.ai-page .tk-close-fine { text-align: center; }
