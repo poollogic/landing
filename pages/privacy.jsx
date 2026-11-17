@@ -360,7 +360,7 @@ const PrivacyPage = () => {
                     <li>Deleted vehicle and fleet records remain in our database backups until those expire, which is within 7 days.</li>
                   </ul>
                 </li>
-                <li><strong>Stripe records</strong> — payment records held by Stripe are governed by Stripe's own retention policies. We cannot delete records from Stripe on your behalf; contact Stripe directly for those requests.</li>
+                <li><strong>Stripe records</strong> — payments are made to each Subscriber's own Stripe account, and the records Stripe holds are governed by Stripe's own retention policies. We cannot delete records from Stripe on your behalf; contact the Subscriber or Stripe directly for those requests.</li>
               </ul>
             </Section>
 
