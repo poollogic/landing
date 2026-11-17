@@ -78,44 +78,52 @@ export function returnHere() {
   return url.href;
 }
 
-/**
- * Google or Apple in a small window. Resolves when that window is done: { code } once the provider
- * has sent it back (the message from OAuthReturn), else { error } or {} (closed, or failed to start).
- */
-async function startOAuth(db, provider) {
-  const { data, error } = await db.auth.signInWithOAuth({
-    provider,
-    options: { redirectTo: `${window.location.origin}/reviews/write?review=oauth`, skipBrowserRedirect: true },
-  });
-  if (error || !data?.url) return { error: OAUTH_FAILED };
+// The small window answers on this channel (OAuthReturn in ReviewDialog.jsx), not through
+// window.opener: Google's sign-in page sends Cross-Origin-Opener-Policy: same-origin, which cuts the
+// window off from this page for good (no opener, and popup.closed reads true while it's still open).
+// A BroadcastChannel reaches every page of this site in this browser, so each try carries its own
+// random id and only the page that started it listens for that id.
+export const OAUTH_CHANNEL = 'poolnautics-review-sign-in';
+const OAUTH_WAIT_MS = 10 * 60_000;
+
+/** The small window, opened at once on the click (Safari blocks one opened after an await). */
+function openSignInWindow() {
   const w = 480;
   const h = 640;
   const left = Math.max(0, window.screenX + (window.outerWidth - w) / 2);
   const top = Math.max(0, window.screenY + (window.outerHeight - h) / 2);
-  const popup = window.open(data.url, 'poolnautics-sign-in', `popup,width=${w},height=${h},left=${left},top=${top}`);
-  if (!popup) {
-    // Blocked: the page goes, and comes back here with the popup open.
-    const again = await db.auth.signInWithOAuth({ provider, options: { redirectTo: returnHere() } });
-    if (again.error) return { error: OAUTH_FAILED };
-    return new Promise(() => {}); // leaving
+  return window.open('about:blank', 'poolnautics-sign-in', `popup,width=${w},height=${h},left=${left},top=${top}`);
+}
+
+/**
+ * Google or Apple in the small window `popup`. Resolves { code } once the provider has sent one back,
+ * { error } if it refused or couldn't start, or {} if cancelled (cancel.current) or left for 10 minutes.
+ * No window, or no BroadcastChannel: the page itself goes and comes back here with the popup open.
+ */
+async function startOAuth(db, provider, popup, cancel) {
+  if (!popup || typeof BroadcastChannel === 'undefined') {
+    popup?.close();
+    const { error } = await db.auth.signInWithOAuth({ provider, options: { redirectTo: returnHere() } });
+    return error ? { error: OAUTH_FAILED } : new Promise(() => {}); // leaving
   }
-  return new Promise((resolve) => {
-    let done = false;
-    const finish = (result) => {
-      if (done) return;
-      done = true;
-      window.removeEventListener('message', onMessage);
-      window.clearInterval(watch);
-      resolve(result);
+  const id = crypto.randomUUID();
+  const channel = new BroadcastChannel(OAUTH_CHANNEL);
+  const answer = new Promise((resolve) => {
+    const timer = window.setTimeout(() => resolve({}), OAUTH_WAIT_MS);
+    const done = (result) => { window.clearTimeout(timer); channel.close(); cancel.current = null; resolve(result); };
+    cancel.current = () => { done({}); try { popup.close(); } catch { /* cut off from it */ } };
+    channel.onmessage = (e) => {
+      if (e.data?.id !== id) return;
+      done(e.data.code ? { code: e.data.code } : { error: e.data.error || OAUTH_FAILED });
     };
-    const onMessage = (e) => {
-      if (e.origin !== window.location.origin || e.source !== popup || e.data?.type !== 'poolnautics-review-sign-in') return;
-      finish(e.data.code ? { code: e.data.code } : { error: e.data.error });
-    };
-    window.addEventListener('message', onMessage);
-    // Closed without signing in: put the buttons back.
-    const watch = window.setInterval(() => { if (popup.closed) window.setTimeout(() => finish({}), 300); }, 400);
   });
+  const { data, error } = await db.auth.signInWithOAuth({
+    provider,
+    options: { redirectTo: `${window.location.origin}/reviews/write?review=oauth&rid=${id}`, skipBrowserRedirect: true },
+  });
+  if (error || !data?.url) { cancel.current?.(); return { error: OAUTH_FAILED }; }
+  popup.location.href = data.url;
+  return answer;
 }
 
 export default function SignInPanel({ db, message, onSignedIn }) {
@@ -124,6 +132,8 @@ export default function SignInPanel({ db, message, onSignedIn }) {
   const [password, setPassword] = useState('');
   const [shown, setShown] = useState(false);
   const [busy, setBusy] = useState(null); // null | 'password' | 'google' | 'apple'
+  const cancelOAuth = useRef(null);
+  useEffect(() => () => cancelOAuth.current?.(), []);
   const [error, setError] = useState(message || '');
   // Turnstile: invisible unless Cloudflare wants a click. Its token is single-use, so each try gets a
   // fresh widget (check). A try made before the token arrives waits for it, up to 8 seconds.
@@ -159,7 +169,7 @@ export default function SignInPanel({ db, message, onSignedIn }) {
   const withProvider = async (provider) => {
     setBusy(provider);
     setError('');
-    const result = await startOAuth(db, provider);
+    const result = await startOAuth(db, provider, openSignInWindow(), cancelOAuth);
     if (!result.code) { setBusy(null); if (result.error) setError(result.error); return; }
     // This page made the code's verifier, so it trades the code; the small window never held a session.
     const { data, error: err } = await db.auth.exchangeCodeForSession(result.code);
@@ -181,6 +191,12 @@ export default function SignInPanel({ db, message, onSignedIn }) {
           </button>
         ))}
       </div>
+      {(busy === 'google' || busy === 'apple') && (
+        <p className="pn-waiting" role="status">
+          Finish signing in with {busy === 'google' ? 'Google' : 'Apple'} in the window that opened.{' '}
+          <button type="button" className="pn-text-button" onClick={() => cancelOAuth.current?.()}>Cancel</button>
+        </p>
+      )}
 
       <div className="pn-or" aria-hidden="true"><span /><span className="pn-or-text">Or</span><span /></div>
 

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Loader2, X } from 'lucide-react';
 import { getSupabase, safeHttps } from './data.js';
 import { REVIEWS_MOCK } from './config.js';
-import SignInPanel, { OFFICE_ONLY } from './SignInPanel.jsx';
+import SignInPanel, { OAUTH_CHANNEL, OFFICE_ONLY } from './SignInPanel.jsx';
 import ReviewForm from './ReviewForm.jsx';
 import ReviewCard from './ReviewCard.jsx';
 import './signin.css';
@@ -177,32 +177,33 @@ export default function ReviewDialog({ register }) {
 }
 
 /**
- * The small Google / Apple window's page (/reviews/write?review=oauth, app.jsx). It hands the
+ * The small Google / Apple window's page (/reviews/write?review=oauth&rid=…, app.jsx). It hands the
  * provider's one-time code (or why there's none) to the page that opened it, which trades it, and
- * closes: this window never holds a session. With no page to hand it to (a phone that opened it as a
- * plain tab), it says to go back and sign in with email and password.
+ * closes: this window never holds a session. The hand-over goes by BroadcastChannel, tagged with the
+ * try's id, because Google's sign-in page cuts this window off from its opener (SignInPanel.jsx).
+ * A window the browser won't let close says it's done instead.
  */
 export function OAuthReturn() {
-  const [orphan, setOrphan] = useState(false);
+  const [shown, setShown] = useState('working'); // working | done | failed
   useEffect(() => {
-    const code = new URLSearchParams(window.location.search).get('code');
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('rid');
+    const code = params.get('code');
     const error = code ? null : (readOAuthError() ?? 'That sign-in didn’t work. Try again, or use your email and password.');
     window.history.replaceState(null, '', window.location.pathname);
-    const opener = window.opener && !window.opener.closed ? window.opener : null;
-    if (!opener) { setOrphan(true); return; }
-    opener.postMessage({ type: 'poolnautics-review-sign-in', code, error }, window.location.origin);
+    if (!id || typeof BroadcastChannel === 'undefined') { setShown('failed'); return undefined; }
+    const channel = new BroadcastChannel(OAUTH_CHANNEL);
+    channel.postMessage({ id, code, error });
+    channel.close();
     window.close();
+    const t = window.setTimeout(() => setShown('done'), 400);
+    return () => window.clearTimeout(t);
   }, []);
   return (
     <div className="pn-oauth-return" role="status">
-      {orphan ? (
-        <span>Sign-in couldn’t finish here. Close this tab, go back to Poolnautics, and sign in with your email and password.</span>
-      ) : (
-        <>
-          <Loader2 size={24} className="pn-spin" aria-hidden="true" />
-          <span>Signing you in…</span>
-        </>
-      )}
+      {shown === 'working' && (<><Loader2 size={24} className="pn-spin" aria-hidden="true" /><span>Signing you in…</span></>)}
+      {shown === 'done' && <span>All set. Close this window to go back to Poolnautics.</span>}
+      {shown === 'failed' && <span>Sign-in couldn’t finish here. Close this window, go back to Poolnautics, and sign in with your email and password.</span>}
     </div>
   );
 }

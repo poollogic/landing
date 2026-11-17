@@ -64,6 +64,8 @@
 .pn-provider:hover { background: var(--pn-fill-hover); }
 .pn-provider:disabled { opacity: 0.6; cursor: default; }
 
+.pn-waiting { margin: 12px 0 0; text-align: center; font-size: 13px; line-height: 1.5; color: var(--pn-muted); }
+
 .pn-or { display: flex; align-items: center; gap: 12px; margin: 24px 0; }
 .pn-or span:not(.pn-or-text) { flex: 1; height: 1px; background: var(--pn-fill); }
 .pn-or-text { font-size: 11px; font-weight: 500; line-height: 16.5px; letter-spacing: 0.88px; text-transform: uppercase; color: var(--pn-muted); }
