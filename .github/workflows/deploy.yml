@@ -25,10 +25,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Test the form handler
+      # The form handler, the reviews' logic and the Content-Security-Policy builder.
+      - name: Unit tests
         run: npm test
 
+      # Customer reviews (landing/reviews/) on, against production. The address and the public
+      # (publishable) key every browser already gets from app.poolnautics.app: never the secret key.
+      # scripts/csp.mjs reads the same values for the Content-Security-Policy.
       - name: Build
+        env:
+          VITE_REVIEWS: '1'
+          VITE_SUPABASE_URL: https://agxbzkvbnyuzmlogezwc.supabase.co
+          VITE_SUPABASE_ANON_KEY: sb_publishable_mOm6SWnEv4KTMbWV-CuUVA_2yLDW8qY
+          # The site's Content-Security-Policy (scripts/csp.mjs) ships report-only first: the live site
+          # reports what it would block and blocks nothing. Remove this line to enforce it once the live
+          # pages show no reports.
+          CSP_MODE: report-only
         run: npm run build
 
       # Homepage hero SEO guardrails (see CLAUDE.md): crawlable text, asset weight, no layout shift.
