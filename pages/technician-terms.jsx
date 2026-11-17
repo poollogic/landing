@@ -59,7 +59,7 @@ const TechnicianTermsPage = () => {
             Technician App Terms
           </h1>
           <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.6, maxWidth: 640 }}>
-            These terms cover using the Poolnautics app as a pool technician. You agree to them by checking the box on the app's location screen the first time you sign in. They're short on purpose; the <Privacy /> has the details on your information. These terms are a short summary; the full <a href="/terms" style={link}>Terms of Service</a> and <Privacy /> also apply.
+            These terms cover using the Poolnautics app as a pool technician. You agree to them by checking the box on the app's location screen the first time you sign in. These terms are a short summary; the full <a href="/terms" style={link}>Terms of Service</a> and <Privacy /> also apply.
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> {EFFECTIVE}</span>
@@ -117,13 +117,13 @@ const TechnicianTermsPage = () => {
             <Section id="location" title="3. Location in the app">
               <p><strong style={{ color: 'var(--ink-2)' }}>Service reports.</strong> Each service report and "can't service" report records the phone's location when it's sent, to confirm the visit. Your company sees it, and it appears in the service report your company sends its customer.</p>
               <p><strong style={{ color: 'var(--ink-2)' }}>Mileage logging.</strong> If your company turns it on for you, the app records your location while your route is under way to work out the miles you drive between stops.</p>
-              <p><strong style={{ color: 'var(--ink-2)' }}>Route review.</strong> Your company may review the routes you drive during work hours. When it does, the app records your location during work hours, including when the app is closed if location access is set to Always.</p>
+              <p><strong style={{ color: 'var(--ink-2)' }}>Drive history ("Show full drive").</strong> Your company may review the routes you drive during work hours. When it does, the app records your location during work hours, including when the app is closed if location access is set to Always.</p>
               <p>You can change the app's location access at any time in your phone's Settings. Some features, like visit confirmation and mileage, don't work without it. The <Privacy /> explains what's collected, who sees it and how long it's kept.</p>
             </Section>
 
             <Section id="using" title="4. Using the app">
               <p>Keep your sign-in to yourself and don't let anyone else use your account. Send accurate reports, readings and photos.</p>
-              <p>Don't use apps or settings that fake your phone's location, and don't try to interfere with how the app records location or mileage. The app notes locations that look simulated.</p>
+              <p>Don't use apps or settings that fake your phone's location, and don't try to interfere with how the app records location or mileage. On Android phones, the app notes locations the phone reports as simulated.</p>
             </Section>
 
             <Section id="mileage" title="5. Mileage records">

@@ -110,11 +110,11 @@ const PrivacyPage = () => {
                 <li><strong>For Subscriber personnel</strong> — the technicians, employees, independent contractors, and subcontractors who use the Poolnautics technician app for a Subscriber — Poolnautics acts as a <em>data processor</em>. The Subscriber decides whether the app's location features (described in Section 2) are used for each of its personnel, controls its personnel's data, and is responsible for giving them any notice, and getting any consent, the law requires. We process this data only on the Subscriber's behalf.</li>
               </ul>
               <p>If you are a technician or other Subscriber personnel with a question or request about your location or other data, please contact the pool service company you work for first. You can also contact us at <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>; because the company controls this data, we will work with it to respond.</p>
-              <p>If you are an End Customer with a privacy question or request, please contact the pool service company that holds your account. We forward any direct requests we receive to the relevant Subscriber. To stop receiving non-essential SMS messages sent through Poolnautics on a Subscriber's behalf, reply <strong>STOP</strong> to any such message (reply <strong>HELP</strong> for support); we will honor the opt-out and forward it to the Subscriber.</p>
+              <p>If you are an End Customer with a privacy question or request, please contact the pool service company that holds your account. We forward any direct requests we receive to the relevant Subscriber. Text messages a Subscriber sends through Poolnautics go out through the Subscriber's own text-messaging provider. To stop receiving them, reply <strong>STOP</strong> to any such message: the Subscriber's provider stops the messages, and when it reports the opt-out, Poolnautics adds your number to that Subscriber's do-not-text list. For help with a Subscriber's messages, contact that Subscriber.</p>
 
               <h3 style={subHeadStyle}>Our Role Under U.S. State Privacy Laws (CCPA / CPRA and Similar)</h3>
               <p>For purposes of the California Consumer Privacy Act, as amended ("CCPA"), and analogous comprehensive privacy laws in other U.S. states, each Subscriber is the "business" with respect to the personal information of its End Customers, and Poolnautics is a "service provider" (or, where the applicable state uses different terminology, a "processor" or "contractor"). We process End Customer personal information only on the Subscriber's documented instructions and only for the limited and specified purposes set out in our agreement with the Subscriber and this Privacy Policy.</p>
-              <p>As a service provider, we will not: (a) sell or share End Customer personal information; (b) retain, use, or disclose it for any purpose other than the business purposes specified in our agreement or as otherwise permitted by the CCPA; (c) retain, use, or disclose it outside of the direct business relationship between Poolnautics and the Subscriber; or (d) combine it with personal information we receive from or on behalf of any other source, except as permitted by Cal. Civ. Code § 1798.140(ag)(1) (for example, to detect security incidents or fraud). We assist Subscribers in responding to verified consumer rights requests through (i) self-serve in-app export of customer records, invoices, and service history; (ii) self-serve in-app deletion of End Customer records on Subscriber request; and (iii) a privacy support channel at <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a> for requests the in-app tools do not cover. We will respond to a Subscriber's privacy support request within the timeframe reasonably needed to meet the Subscriber's own statutory response deadline.</p>
+              <p>As a service provider, we will not: (a) sell or share End Customer personal information; (b) retain, use, or disclose it for any purpose other than the business purposes specified in our agreement or as otherwise permitted by the CCPA; (c) retain, use, or disclose it outside of the direct business relationship between Poolnautics and the Subscriber; or (d) combine it with personal information we receive from or on behalf of any other source, except as permitted by Cal. Civ. Code § 1798.140(ag)(1) (for example, to detect security incidents or fraud). We assist Subscribers in responding to verified consumer rights requests through (i) self-serve in-app export of customer records, invoices, and service history; (ii) self-serve in-app deletion of End Customer records that have no service, quote, or billing history; and (iii) a privacy support channel at <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a> for requests the in-app tools do not cover, including deleting records that have history. We will respond to a Subscriber's privacy support request within the timeframe reasonably needed to meet the Subscriber's own statutory response deadline.</p>
             </Section>
 
             <Section id="data-collected" title="2. What Data We Collect">
@@ -151,7 +151,7 @@ const PrivacyPage = () => {
                 <li><strong>A push notification token</strong>, so the Subscriber can send alerts to the technician's phone, such as new or updated work orders, route changes, truck check-in and oil-change reminders, and, if the Subscriber uses fleet features, reminders before the license plate of the company vehicle the technician drives expires.</li>
                 <li><strong>Photos and readings the technician adds</strong>, such as photos on service reports and work orders, and odometer readings and photos on truck check-ins.</li>
               </ul>
-              <p><strong>Vehicle and fleet documents.</strong> If the Subscriber uses fleet features, the technician or the Subscriber may add information about the vehicle the technician drives for work: its make, model, and license plate; the plate's expiry date; its current mileage and next oil change; notes; photos of the vehicle, its odometer, and its oil-change sticker; a photo of its registration; and its insurance card (a photo, or a PDF added by the Subscriber's office) with the insurance expiry date. We also record who added the insurance card and when. These documents can include names, addresses, vehicle identification numbers, and insurance policy numbers. The Subscriber can choose to require its technicians to add the vehicle's make, model, plate, and plate expiry before they start their route in the app; this is off unless the Subscriber turns it on.</p>
+              <p><strong>Vehicle and fleet documents.</strong> If the Subscriber uses fleet features, the technician or the Subscriber may add information about the vehicle the technician drives for work: its make, model, and license plate; the plate's expiry date; its current mileage, next oil change, and oil change history; notes; photos of the vehicle, its odometer, and its oil-change sticker; a photo of its registration; and its insurance card (a photo, or a PDF added by the Subscriber's office) with the insurance expiry date. We also record who added the insurance card and when. These documents can include names, addresses, vehicle identification numbers, and insurance policy numbers. The Subscriber can choose to require its technicians to add the vehicle's make, model, plate, and plate expiry before they start their route in the app; this is off unless the Subscriber turns it on.</p>
               <p><strong>Who can see it.</strong> This data is available to the technician's company in the Poolnautics web app: drive history to its admins, and mileage records, app status, and the dates of location agreements to its admins and managers. Each technician can see their own mileage in the app. Vehicle records and documents are available to the company's owners, admins, and managers, who can view, add, and replace them, and each technician can see and update their own in the app. The company's web app users are notified in the web app before a plate or insurance expires and when a technician adds a new insurance card; these notices give the technician's name and the dates, not the documents. We don't sell vehicle records or documents or share them with advertisers. A service visit's location also appears in the service report the company emails its customer, as described above. Poolnautics accesses this data only as needed to operate and support the service. It is stored with our hosting and database providers, and to show a drive on a map, the locations where the vehicle stopped are sent to our mapping provider (see Section 6).</p>
               <p><strong>Information stored on the technician's phone.</strong> So the technician can work without a signal, the app keeps a copy of their route on the phone, from the day before through the next six days. That copy includes each customer's name, address, phone number, email address, gate code or access notes, and service notes, along with their work orders. Service reports, photos, and other items saved without a signal stay on the phone until they are sent. The app also keeps the technician's own mileage for the last 14 days, and the current day's location points until that day's miles are worked out.</p>
               <p>If the Subscriber uses fleet features, the app also keeps the technician's vehicle record (make, model, plate, expiry dates, and mileage) and one copy of the vehicle's insurance card on the phone, so the technician can show the card without a signal. The copy is updated when the technician opens the app's Fleet Management screen with a connection. If the Subscriber removes the card, the copy stays on the phone until the technician signs out or a new card is added. Like the app's other data, it may be included in the phone's backups, and anyone with access to the unlocked phone may be able to see it.</p>
@@ -185,13 +185,14 @@ const PrivacyPage = () => {
               <h3 style={subHeadStyle}>From Website Visitors</h3>
               <ul>
                 <li>IP address, browser type and version, pages visited, referring URL, and other standard server-log information used for security and basic analytics.</li>
+                <li>What you enter in our website's forms when you contact us, request a demo, apply to be a partner, or reserve a spot: your name, business name, email address, phone number, and your answers, such as how many customers you have and your message, along with your country and the page you sent it from. We use it to reply to you, and when you reserve a spot, we add you to our waiting list so we can send you updates.</li>
               </ul>
             </Section>
 
             <Section id="how-collected" title="3. How We Collect Data">
               <ul>
                 <li><strong>Directly from Subscribers</strong> — at account signup, when configuring billing or organization settings, and when entering customer records.</li>
-                <li><strong>Automatically</strong> — through cookies and browser local storage for session management and UI state, and through server logs that record requests to the service.</li>
+                <li><strong>Automatically</strong> — through browser local storage for sign-in and UI preferences, and through server logs that record requests to the service.</li>
                 <li><strong>From the technician app</strong> — on technicians' phones, as described in Section 2, depending on the features the Subscriber turns on and the permissions the technician allows on their phone.</li>
                 <li><strong>From third parties</strong> — Stripe returns card metadata (brand, last four, expiry) after an End Customer saves a payment method. Identity-verification or anti-fraud signals may also be returned by Stripe.</li>
               </ul>
@@ -206,7 +207,7 @@ const PrivacyPage = () => {
                 <li>Communicate with End Customers <strong>on a Subscriber's behalf</strong> — for example, sending invoice notifications, payment receipts, autopay decline notices, or service pause notices that the Subscriber has configured or chosen to send.</li>
                 <li>Maintain and improve the service, including diagnosing errors, measuring performance, and developing new features.</li>
                 <li>Detect, prevent, and respond to fraud, security incidents, and abuse.</li>
-                <li>Comply with legal obligations, including tax, accounting, and anti-money-laundering rules.</li>
+                <li>Comply with legal obligations, including tax and accounting rules.</li>
               </ul>
               <p>We do not sell personal information. We do not use End Customer data to advertise to End Customers.</p>
             </Section>
@@ -238,9 +239,15 @@ const PrivacyPage = () => {
                 />
                 <SubprocessorRow
                   name="Resend"
-                  purpose="Transactional email delivery (invoice notifications, receipts, account emails)."
-                  shared="Recipient email addresses and the content of transactional emails we send."
+                  purpose="Transactional email delivery (invoice notifications, receipts, account emails), and delivery of what people send through our website's forms, including our waiting list."
+                  shared="Recipient email addresses and the content of transactional emails we send; what people enter in our website's forms; and the names and email addresses of people on our waiting list."
                   link="https://resend.com/legal/privacy-policy"
+                />
+                <SubprocessorRow
+                  name="PostGrid"
+                  purpose="Printing and mailing invoices and letters for Subscribers who use the Mail Service."
+                  shared="Recipient names and mailing addresses, and the content of each document mailed."
+                  link="https://www.postgrid.com/privacy-policy/"
                 />
                 <SubprocessorRow
                   name="Expo"
@@ -250,8 +257,8 @@ const PrivacyPage = () => {
                 />
                 <SubprocessorRow
                   name="Railway"
-                  purpose="Hosting for the server the technician app connects to."
-                  shared="Data the technician app sends and receives, including service reports, mileage records, drive history, app status, location agreements, and vehicle records and documents."
+                  purpose="Hosting for the Poolnautics web app, customer portal, and API, and for the server the technician app connects to."
+                  shared="Data sent to and from the web app, customer portal, and API, and data the technician app sends and receives, including service reports, mileage records, drive history, app status, location agreements, and vehicle records and documents."
                   link="https://railway.com/legal/privacy"
                 />
                 <SubprocessorRow
@@ -261,10 +268,28 @@ const PrivacyPage = () => {
                   link="https://render.com/privacy"
                 />
                 <SubprocessorRow
+                  name="Inngest"
+                  purpose="Running scheduled and background jobs, such as recurring billing and reminders."
+                  shared="The record IDs each job needs, such as invoice, customer, and company IDs."
+                  link="https://www.inngest.com/privacy"
+                />
+                <SubprocessorRow
                   name="Mapbox"
-                  purpose="Maps and address lookup in the Poolnautics web app, including showing a technician's drive history on a map."
-                  shared="The map area being viewed and, for drive history, the locations where the vehicle stopped."
+                  purpose="Maps, address lookup, and route planning in the Poolnautics web app, including showing a technician's drive history on a map."
+                  shared="The map area being viewed; customer and business addresses being looked up, and the approximate location used to suggest nearby addresses; the locations of route stops being planned; and, for drive history, the locations where the vehicle stopped."
                   link="https://www.mapbox.com/legal/privacy"
+                />
+                <SubprocessorRow
+                  name="Anthropic"
+                  purpose="AI features in the Poolnautics web app: reading the customer lists and documents a Subscriber uploads so they can be imported, and drafting emails a Subscriber asks for. This is separate from any AI assistant a Subscriber connects to its own account, which is the Subscriber's own choice and provider."
+                  shared="For customer import: the uploaded customer list or document and the names of the Subscriber's technicians. For email drafts: the points the Subscriber enters and its company name."
+                  link="https://www.anthropic.com/legal/privacy"
+                />
+                <SubprocessorRow
+                  name="GeoJS"
+                  purpose="Finding an office user's approximate (city-level) location in the web app, so address suggestions start near them."
+                  shared="The office user's IP address."
+                  link="https://www.geojs.io/"
                 />
                 <SubprocessorRow
                   name="Better Stack"
@@ -280,7 +305,7 @@ const PrivacyPage = () => {
                 />
                 <SubprocessorRow
                   name="Cloudflare"
-                  purpose="DNS, CDN, web application hosting, and DDoS protection, including for the server the technician app connects to and for delivering photos added in the technician app."
+                  purpose="DNS, CDN, web application hosting, DDoS protection, and bot protection for sign-up and our website's forms (Turnstile), including for the server the technician app connects to and for delivering photos added in the technician app."
                   shared="IP address, request metadata, and any data transmitted over the public site or between the technician app and its server, including photos."
                   link="https://www.cloudflare.com/privacypolicy/"
                 />
@@ -306,13 +331,14 @@ const PrivacyPage = () => {
             </Section>
 
             <Section id="cookies" title="9. Cookies & Tracking">
-              <p>We use a small number of cookies and similar technologies:</p>
+              <p>Poolnautics itself doesn't set cookies. We use your browser's storage and a few technologies from our providers:</p>
               <ul>
-                <li><strong>Session cookies</strong> for authentication — required for the service to function.</li>
-                <li><strong>Local storage</strong> for UI preferences such as collapsed sidebar state or theme selection.</li>
-                <li><strong>Analytics</strong> — we may use basic, privacy-respecting analytics to understand traffic patterns. Where we use cookies for analytics, we do so in a way that aggregates and anonymizes the data.</li>
+                <li><strong>Local storage for sign-in</strong> — the Poolnautics web app keeps you signed in by storing your session in your browser's local storage. It's required for the service to work.</li>
+                <li><strong>Local storage for preferences</strong> — such as collapsed sidebar state or theme selection, on the web app and our website.</li>
+                <li><strong>Our providers' cookies</strong> — Stripe may set cookies on payment pages to process payments and prevent fraud, and Cloudflare may set cookies to protect our sites and forms from bots and abuse.</li>
+                <li><strong>Analytics</strong> — we may use basic, privacy-respecting analytics that don't use cookies to understand traffic patterns. We don't use advertising or cross-site tracking cookies.</li>
               </ul>
-              <p>You can disable cookies in your browser settings, but doing so will prevent you from signing in.</p>
+              <p>You can clear or block site data in your browser settings, but the web app needs local storage to keep you signed in, and payment pages may not work if Stripe's cookies are blocked.</p>
             </Section>
 
             <Section id="retention" title="10. Data Retention">
@@ -321,7 +347,7 @@ const PrivacyPage = () => {
                 <li><strong>Financial records</strong> — invoices, payment records, and tax-relevant documents are retained for <strong>seven (7) years</strong> as required by U.S. tax and audit rules.</li>
                 <li><strong>End Customer data</strong> — retained for as long as the Subscriber's account is active. Deleted on a Subscriber's request, on account closure (subject to the 90-day window above), or on the End Customer's request once forwarded to the Subscriber.</li>
                 <li><strong>Technician app data</strong> — drive history is deleted 30 days after it is recorded. App status is deleted once a phone has not reported for 60 days. Mileage records are kept as part of the Subscriber's business records while its account is active, and are deleted on the Subscriber's request or with its other account data after the account closes, as described above. A technician's location agreements are kept as a record with the Subscriber's account data, including after the technician deletes their account. A phone's push notification token is deleted when the technician signs out of the app, 90 days after it stops working, or after 180 days without use. Service report locations and the record of when drive history was turned on are kept with the Subscriber's other account data, as described above. Vehicle records are covered below.</li>
-                <li><strong>Vehicle and fleet records</strong> — when a Subscriber uses fleet features, we store, for each technician's vehicle, its make, model, license plate, and plate expiry; odometer readings, and oil change dates and mileages; notes and the insurance expiry date; and the documents the Subscriber or technician adds: a registration photo, and an insurance card as a photo or PDF. Truck check-ins also store the odometer and oil-change-sticker photos the technician takes. Files are kept in private storage that only the Subscriber's account can reach.
+                <li><strong>Vehicle and fleet records</strong> — the vehicle records, truck check-ins (with their odometer and oil-change-sticker photos), oil change history, and documents described in Section 2. Files are kept in private storage that only the Subscriber's account can reach.
                   <ul style={{ marginTop: 8 }}>
                     <li>While the technician is on the Subscriber's account, their vehicle record, check-ins, oil change history, and documents are kept, so the Subscriber has its vehicle history. Check-in readings have no time limit; deleting them is the Subscriber's choice. Check-in photos are kept with their check-in.</li>
                     <li>A document that's replaced or removed is deleted from storage at once, unless another of the Subscriber's vehicles still uses it (one insurance card can cover the whole fleet).</li>
@@ -376,7 +402,7 @@ const PrivacyPage = () => {
               <p>We do not knowingly collect "sensitive personal information" as defined under the CCPA, other than (a) financial-account identifiers required to process payment, which Stripe handles directly, and (b) the precise location of Subscriber personnel collected through the technician app on a Subscriber's behalf, as described in Section 2. We use that location only to provide the features the Subscriber turns on, and not to infer characteristics about anyone. We do not use personal information for cross-context behavioral advertising.</p>
               <p><strong>Retention.</strong> We retain each category of personal information for the periods described in Section 10 (Data Retention), or for the criteria described in that Section where a fixed period cannot be stated in advance (for example, "for as long as the Subscriber's account is active"). These periods are based on the operational need to provide the service, applicable legal and tax record-keeping obligations, and the criteria set out in Cal. Civ. Code § 1798.100(a)(3).</p>
 
-              <p>If you are a resident of <strong>California, Colorado, Connecticut, Delaware, Florida, Indiana, Iowa, Kentucky, Maryland, Montana, Nebraska, New Hampshire, New Jersey, Oregon, Rhode Island, Tennessee, Texas, Utah, or Virginia</strong>, you have rights under your state's comprehensive privacy law. To exercise these rights, contact <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>. We will verify your identity before fulfilling a request and respond within the timeframe required by applicable law.</p>
+              <p>If you are a resident of <strong>California, Colorado, Connecticut, Delaware, Florida, Indiana, Iowa, Kentucky, Maryland, Minnesota, Montana, Nebraska, New Hampshire, New Jersey, Oregon, Rhode Island, Tennessee, Texas, Utah, or Virginia</strong>, you have rights under your state's comprehensive privacy law. To exercise these rights, contact <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>. We will verify your identity before fulfilling a request and respond within the timeframe required by applicable law.</p>
               <p>For End Customer data entered by a Subscriber, the Subscriber is the controller. Direct your requests to them; we will assist where required by law.</p>
               <p><strong>We do not sell personal information.</strong> We do not engage in cross-context behavioral advertising or in "sharing" of personal information as those terms are defined under California law (Cal. Civ. Code § 1798.140).</p>
               <p><strong>California "Shine the Light" (Cal. Civ. Code § 1798.83).</strong> California residents may request information about disclosures of personal information to third parties for direct-marketing purposes. We do not currently make such disclosures.</p>
@@ -389,8 +415,7 @@ const PrivacyPage = () => {
             </Section>
 
             <Section id="international" title="15. International Transfers">
-              <p>Poolnautics is operated from the United States and our service is currently offered to U.S.-based pool service businesses. If you access the service from outside the United States, personal information you provide will be transferred to and processed in the U.S., where data-protection laws may differ from those of your country.</p>
-              <p>Where international transfers occur and a legal mechanism is required, we rely on the appropriate framework. For transfers from the European Economic Area or Switzerland, we rely on the European Commission's <strong>Standard Contractual Clauses</strong> (Commission Implementing Decision (EU) 2021/914). For transfers from the United Kingdom, we rely on the SCCs as supplemented by the <strong>UK International Data Transfer Addendum</strong> issued by the UK Information Commissioner's Office. We do not currently participate in the EU-US, UK-US, or Swiss-US Data Privacy Framework. You may request a copy of the relevant transfer mechanism for your transfer by contacting <a href="mailto:privacy@getpoolnautics.com" style={{ color: 'var(--accent)' }}>privacy@getpoolnautics.com</a>.</p>
+              <p>Poolnautics is operated from the United States and our service is offered only to U.S.-based pool service businesses. If you access the service from outside the United States, personal information you provide will be transferred to and processed in the U.S., where data-protection laws may differ from those of your country.</p>
             </Section>
 
             <Section id="business-transfers" title="16. Business Transfers">
