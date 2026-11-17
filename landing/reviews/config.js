@@ -1,6 +1,6 @@
 // Homepage reviews (landing/reviews/, pages/reviews.jsx, pages/review-write.jsx): off unless the build
 // sets VITE_REVIEWS=1. Reviews live in the app's Supabase project (the web app's migration
-// 20270128120000_homepage_reviews.sql), read and written with the public anon key and, to write, the
+// 20270207120000_homepage_reviews.sql), read and written with the public anon key and, to write, the
 // member's own sign-in. Only the anon key ever belongs here, never the service role key.
 //
 // For local work without a database, VITE_REVIEWS_MOCK=1 (dev server only) shows made-up reviews from

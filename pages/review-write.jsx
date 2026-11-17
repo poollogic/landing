@@ -15,7 +15,7 @@ import { Footer } from '../components/site-chrome.jsx';
 // company's one review, new or to edit. The company's name is the account's, shown, never typed;
 // the website starts as the review's, else the company's own (organizations.branding.websiteUrl).
 // "What should we improve?" is saved apart (review_feedback) and never published. Publishing goes
-// through submit_review(), which the database checks again (20270128120000_homepage_reviews.sql):
+// through submit_review(), which the database checks again (20270207120000_homepage_reviews.sql):
 // rating, length, https, the honesty box, and 5 saves an hour. The card shown after is what the
 // homepage shows. Fields and card: the reserve form's (reserve.css).
 

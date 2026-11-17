@@ -44,7 +44,9 @@ export function safeHttps(url) {
   if (typeof url !== 'string') return null;
   try {
     const u = new URL(url);
-    return u.protocol === 'https:' && u.hostname.includes('.') ? u.href : null;
+    if (u.protocol !== 'https:' || !u.hostname.includes('.')) return null;
+    // A bare domain stays as typed, not with the "/" the browser adds.
+    return u.pathname === '/' && !u.search && !u.hash ? u.origin : u.href;
   } catch {
     return null;
   }
