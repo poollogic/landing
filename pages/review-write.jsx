@@ -6,12 +6,14 @@ import '../landing/reviews/reviews.css';
 import Nav from '../landing/Nav.jsx';
 import ReviewCard from '../landing/reviews/ReviewCard.jsx';
 import { getSupabase, safeHttps } from '../landing/reviews/data.js';
-import { APP_URL, REVIEWS_MOCK } from '../landing/reviews/config.js';
+import { REVIEWS_MOCK } from '../landing/reviews/config.js';
+import SignInDialog from '../landing/reviews/SignInDialog.jsx';
 import { FOCUS } from '../landing/ReserveSize.jsx';
 import { Footer } from '../components/site-chrome.jsx';
 
-// /reviews/write (only with VITE_REVIEWS=1; app.jsx). Signed out: sign in with the Poolnautics email
-// and password (Supabase Auth, the anon key; this site keeps its own session). Signed in: the
+// /reviews/write (only with VITE_REVIEWS=1; app.jsx). Signed out: a popup like the app's own sign-in
+// (SignInDialog): Google, Apple, or the Poolnautics email and password (Supabase Auth, the anon key;
+// this site keeps its own session). Signed in: the
 // company's one review, new or to edit. The company's name is the account's, shown, never typed;
 // the website starts as the review's, else the company's own (organizations.branding.websiteUrl).
 // "What should we improve?" is saved apart (review_feedback) and never published. Publishing goes
@@ -45,46 +47,6 @@ function Field({ label, optional, error, name, hint, children }) {
       {hint}
       {error && <span id={`${name}-error`} className="rsv-error">{error}</span>}
     </label>
-  );
-}
-
-function SignIn({ db, onSignedIn }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [status, setStatus] = useState('idle');
-  const [error, setError] = useState('');
-
-  const submit = async (e) => {
-    e.preventDefault();
-    setStatus('sending');
-    setError('');
-    const { data, error: err } = await db.auth.signInWithPassword({ email: email.trim(), password });
-    if (err || !data.session) {
-      setStatus('idle');
-      setError(err?.status === 429 ? 'Too many tries. Wait a minute and try again.' : 'That email and password don’t match a Poolnautics account.');
-      return;
-    }
-    onSignedIn(data.session);
-  };
-
-  return (
-    <form className="rsv-card" onSubmit={submit} noValidate>
-      <p className="lr-page-eyebrow">Sign in to write a review</p>
-      <p className="rsv-fine lr-signin-note">Use the email and password you sign in to Poolnautics with.</p>
-      <div className="rsv-fields">
-        <Field label="Email" name="email">
-          <input className="rsv-input" type="email" name="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} />
-        </Field>
-        <Field label="Password" name="password">
-          <input className="rsv-input" type="password" name="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} />
-        </Field>
-      </div>
-      {error && <p role="alert" className="rsv-alert">{error}</p>}
-      <button type="submit" className={`hero-cta rsv-cta ${FOCUS}`} disabled={status === 'sending' || !email || !password}>
-        <span className="hero-cta-label">{status === 'sending' ? 'Signing in…' : 'Sign in'}</span>
-      </button>
-      <p className="rsv-fine">Forgot your password? <a className="lr-link" href={APP_URL}>Reset it in the Poolnautics app</a>.</p>
-    </form>
   );
 }
 
@@ -204,22 +166,45 @@ function ReviewForm({ db, account, existing, onSaved, onSignOut }) {
   );
 }
 
+// Back from Google or Apple refused: the provider's or Supabase's reason, read off the address
+// (?error=… or #error=…), in plain words. Null when the address carries none.
+const NO_ACCOUNT = 'That sign-in isn’t linked to a Poolnautics company, so it can’t post a review. Use the account you sign in to Poolnautics with.';
+function readOAuthError() {
+  if (typeof window === 'undefined') return null;
+  const params = new URLSearchParams(window.location.search);
+  new URLSearchParams(window.location.hash.slice(1)).forEach((v, k) => params.set(k, v));
+  if (!params.get('error')) return null;
+  const raw = `${params.get('error')} ${params.get('error_code') ?? ''} ${params.get('error_description') ?? ''}`;
+  if (/signup_disabled|signups? not allowed/i.test(raw)) return NO_ACCOUNT;
+  if (/access_denied/i.test(raw) && !params.get('error_description')) return 'Sign-in was cancelled.';
+  return 'That sign-in didn’t work. Try again, or use your email and password.';
+}
+
 export default function ReviewWritePage() {
-  // loading | no-db | signed-out | no-account | form | saved
+  // loading | no-db | signed-out | form | saved
   const [view, setView] = useState({ name: 'loading' });
   const [db, setDb] = useState(null);
+  const [signInOpen, setSignInOpen] = useState(false);
+  const [signInMessage, setSignInMessage] = useState('');
+
+  const askToSignIn = (message = '') => {
+    setView({ name: 'signed-out' });
+    setSignInMessage(message);
+    setSignInOpen(true);
+  };
 
   // Who's signed in, their company, and its review if it has one (RLS: their own company only).
   const loadAccount = async (client, session) => {
     setView({ name: 'loading' });
     const uid = session.user.id;
     const { data: profile } = await client.from('profiles').select('full_name, organization_id').eq('id', uid).maybeSingle();
-    if (!profile?.organization_id) { setView({ name: 'no-account' }); return; }
+    // A Google or Apple login with no Poolnautics profile: signed straight back out, as the app does.
+    if (!profile?.organization_id) { await client.auth.signOut(); askToSignIn(NO_ACCOUNT); return; }
     const [{ data: org }, { data: existing }] = await Promise.all([
       client.from('organizations').select('company_name, branding').eq('id', profile.organization_id).maybeSingle(),
       client.from('reviews').select('rating, body, website_url, reviewer_name, reviewer_role, status').eq('company_id', profile.organization_id).maybeSingle(),
     ]);
-    if (!org) { setView({ name: 'no-account' }); return; }
+    if (!org) { await client.auth.signOut(); askToSignIn(NO_ACCOUNT); return; }
     setView({
       name: 'form',
       account: { companyName: org.company_name, fullName: profile.full_name, website: safeHttps(org.branding?.websiteUrl) },
@@ -234,10 +219,14 @@ export default function ReviewWritePage() {
       if (!live) return;
       if (!client) { setView({ name: 'no-db' }); return; }
       setDb(client);
+      const oauthError = readOAuthError();
+      // Waits for a code from Google or Apple to be traded for a session (data.js).
       const { data } = await client.auth.getSession();
       if (!live) return;
+      // Leave no code or error in the address, to be re-read or shared.
+      if (window.location.search || window.location.hash) window.history.replaceState(null, '', window.location.pathname);
       if (data.session) loadAccount(client, data.session);
-      else setView({ name: 'signed-out' });
+      else askToSignIn(oauthError ?? '');
     });
     return () => { live = false; };
   }, []);
@@ -245,12 +234,18 @@ export default function ReviewWritePage() {
   const editAgain = async () => {
     const { data } = await db.auth.getSession();
     if (data.session) loadAccount(db, data.session);
-    else setView({ name: 'signed-out' });
+    else askToSignIn();
   };
 
   const signOut = async () => {
     await db.auth.signOut();
     setView({ name: 'signed-out' });
+    setSignInMessage('');
+  };
+
+  const signedIn = (session) => {
+    setSignInOpen(false);
+    loadAccount(db, session);
   };
 
   return (
@@ -265,13 +260,14 @@ export default function ReviewWritePage() {
 
           {view.name === 'loading' && <p className="lr-empty" role="status">Loading…</p>}
           {view.name === 'no-db' && <p className="lr-empty" role="alert">Writing a review needs the reviews database, which this copy of the site isn’t connected to.</p>}
-          {view.name === 'no-account' && (
-            <p className="lr-empty" role="alert">
-              This sign-in isn’t linked to a Poolnautics company, so it can’t post a review.{' '}
-              <button type="button" className="lr-signout" onClick={signOut}>Sign out</button>
-            </p>
+          {view.name === 'signed-out' && db && (
+            <div className="lr-signin-cta">
+              <button type="button" className={`hero-cta ${FOCUS}`} onClick={() => setSignInOpen(true)}>
+                <span className="hero-cta-label">Sign in to write a review</span>
+              </button>
+              <p className="lr-fine">Use the account you sign in to Poolnautics with.</p>
+            </div>
           )}
-          {view.name === 'signed-out' && db && <SignIn db={db} onSignedIn={(session) => loadAccount(db, session)} />}
           {view.name === 'form' && (
             <ReviewForm db={db} account={view.account} existing={view.existing} onSignOut={signOut} onSaved={(saved) => setView({ name: 'saved', saved })} />
           )}
@@ -292,6 +288,7 @@ export default function ReviewWritePage() {
         </div>
       </main>
       <Footer />
+      {db && <SignInDialog db={db} open={signInOpen} message={signInMessage} onClose={() => setSignInOpen(false)} onSignedIn={signedIn} />}
     </div>
   );
 }

@@ -2,12 +2,14 @@ import { REVIEWS_MOCK, REVIEWS_ON, SUPABASE_ANON_KEY, SUPABASE_URL } from './con
 
 // The site's one Supabase client, made the first time it's needed (so supabase-js loads only on pages
 // that use it). Its sign-in is kept in this browser under its own key; it isn't the web app's session,
-// which lives on app.poollogic.app.
+// which lives on the app's own domain. Google and Apple come back to /reviews/write with a one-time
+// code (PKCE), which the client trades for a session on that page only.
 let clientPromise = null;
 export function getSupabase() {
   if (!REVIEWS_ON || !SUPABASE_URL || !SUPABASE_ANON_KEY) return Promise.resolve(null);
+  const onWritePage = typeof window !== 'undefined' && /^\/reviews\/write\/?$/.test(window.location.pathname);
   clientPromise ??= import('@supabase/supabase-js').then(({ createClient }) => createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: 'poolnautics-reviews-auth' },
+    auth: { persistSession: true, autoRefreshToken: true, flowType: 'pkce', detectSessionInUrl: onWritePage, storageKey: 'poolnautics-reviews-auth' },
   }));
   return clientPromise;
 }

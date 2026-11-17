@@ -1,0 +1,131 @@
+/* The review page's sign-in popup: a copy of the Poolnautics app's sign-in form, dark theme
+   (poollogic-web-app src/components/login/AuthFrame.tsx, LoginScreen.tsx, loginScreen.css), measured
+   off app.poolnautics.app at 1440px. Keep in step with the app when its sign-in changes. Plain CSS,
+   like landing/preview/preview.css, because the app's Tailwind v4 tokens don't compile here. */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+.pn-signin {
+  --pn-bg: #111318;
+  --pn-fg: #fff;
+  --pn-muted: rgba(203, 213, 225, 0.62);
+  --pn-accent: #3b82f6;
+  --pn-accent-hover: color-mix(in oklch, #3b82f6 88%, black);
+  --pn-fill: rgba(148, 163, 184, 0.09);
+  --pn-fill-hover: rgba(148, 163, 184, 0.15);
+  --pn-field-bg: #f4f4f5;
+  --pn-field-fg: #18181b;
+  --pn-field-placeholder: #71717a;
+  --pn-red: #ff0036;
+  width: min(442px, calc(100vw - 32px)); /* 360px of form, as in the app, inside 40px sides and the 1px edge */
+  max-width: none;
+  max-height: calc(100svh - 32px);
+  margin: auto;
+  padding: 0;
+  overflow-y: auto;
+  border: 1px solid var(--pn-fill);
+  border-radius: 16px;
+  background: var(--pn-bg);
+  color: var(--pn-fg);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.16px;
+  -webkit-font-smoothing: antialiased;
+}
+.pn-signin::backdrop { background: rgba(4, 5, 8, 0.72); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.pn-signin[open] { animation: pn-in 180ms ease-out; }
+@keyframes pn-in { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+@media (prefers-reduced-motion: reduce) { .pn-signin[open] { animation: none; } }
+
+.pn-body { position: relative; padding: 48px 40px 36px; }
+.pn-close {
+  position: absolute; top: 12px; right: 12px;
+  display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px;
+  border: 0; border-radius: 8px; background: none; color: var(--pn-muted); cursor: pointer;
+}
+.pn-close:hover { background: var(--pn-fill); color: var(--pn-fg); }
+
+.pn-title { margin: 0; text-align: center; font-size: 26px; font-weight: 600; line-height: 1.25; letter-spacing: -0.65px; color: var(--pn-fg); }
+.pn-sub { margin: 6px 0 0; text-align: center; font-size: 14px; line-height: 21px; color: var(--pn-muted); }
+
+.pn-social { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 32px; }
+.pn-provider {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 40px;
+  border: 1px solid transparent; border-radius: 8px; background: var(--pn-fill); color: var(--pn-fg);
+  font: inherit; font-size: 13px; font-weight: 500; line-height: 1; cursor: pointer; transition: background-color 150ms;
+}
+.pn-provider:hover { background: var(--pn-fill-hover); }
+.pn-provider:disabled { opacity: 0.6; cursor: default; }
+
+.pn-or { display: flex; align-items: center; gap: 12px; margin: 24px 0; }
+.pn-or span:not(.pn-or-text) { flex: 1; height: 1px; background: var(--pn-fill); }
+.pn-or-text { font-size: 11px; font-weight: 500; line-height: 16.5px; letter-spacing: 0.88px; text-transform: uppercase; color: var(--pn-muted); }
+
+/* What went wrong: the app's status pill, red dot, over the fields. */
+.pn-message {
+  display: inline-flex; align-items: flex-start; gap: 8px; margin-bottom: 20px; padding: 3px 8px;
+  border-radius: 8px; background: var(--pn-fill); font-size: 12px; line-height: 16px; color: rgba(226, 232, 240, 0.55);
+}
+.pn-message::before { content: ''; flex: none; width: 6px; height: 6px; margin-top: 5px; border-radius: 50%; background: var(--pn-red); }
+
+.pn-field + .pn-field { margin-top: 20px; }
+.pn-label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 500; line-height: 19.5px; color: var(--pn-fg); }
+.pn-input {
+  display: block; width: 100%; height: 44px; padding: 0 14px;
+  border: 1px solid transparent; border-radius: 10px; outline: none;
+  background: var(--pn-field-bg); color: var(--pn-field-fg); caret-color: var(--pn-field-fg);
+  font: inherit; font-size: 13px; line-height: 19.5px;
+  transition: border-color 150ms, box-shadow 150ms;
+}
+.pn-input::placeholder { color: var(--pn-field-placeholder); opacity: 1; }
+.pn-input:focus { border-color: var(--pn-accent); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+/* A saved login fills the field in the same grey, not the browser's yellow or blue. */
+.pn-input:-webkit-autofill { -webkit-box-shadow: 0 0 0 100px var(--pn-field-bg) inset; -webkit-text-fill-color: var(--pn-field-fg); }
+.pn-input:-webkit-autofill:focus { -webkit-box-shadow: 0 0 0 100px var(--pn-field-bg) inset, 0 0 0 3px rgba(59, 130, 246, 0.2); }
+
+.pn-password { position: relative; }
+.pn-password .pn-input { padding-right: 40px; }
+.pn-eye {
+  position: absolute; top: 50%; right: 8px; transform: translateY(-50%);
+  display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px;
+  border: 0; border-radius: 6px; background: none; color: var(--pn-field-placeholder); cursor: pointer;
+}
+.pn-eye:hover { color: var(--pn-field-fg); }
+
+.pn-submit {
+  display: flex; align-items: center; justify-content: center; width: 100%; height: 44px; margin-top: 24px;
+  border: 0; border-radius: 10px; background: var(--pn-accent); color: #fff;
+  font: inherit; font-size: 14px; font-weight: 500; line-height: 21px; cursor: pointer; transition: background-color 150ms;
+}
+.pn-submit:hover { background: var(--pn-accent-hover); }
+.pn-submit:disabled { cursor: default; }
+.pn-spin { animation: pn-spin 0.8s linear infinite; }
+@keyframes pn-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .pn-spin { animation: none; } }
+
+.pn-foot { margin-top: 24px; text-align: center; font-size: 13px; line-height: 1.625; color: var(--pn-muted); }
+.pn-foot a { color: var(--pn-accent); text-decoration: underline; text-underline-offset: 2px; border-radius: 6px; }
+.pn-foot a:hover { color: var(--pn-accent-hover); }
+
+.pn-signin :focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); }
+.pn-signin .pn-input:focus-visible { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+
+/* Phones and tablets: 44px to tap, like the app below lg; 16px text so iOS doesn't zoom into a field. */
+@media (max-width: 1023px) {
+  .pn-provider { height: 44px; }
+  .pn-eye { right: 0; width: 44px; height: 44px; }
+  .pn-password .pn-input { padding-right: 48px; }
+}
+/* Phones: the whole screen, like the app's sign-in page there (16px sides, 358px of form at 390). */
+@media (max-width: 639px) {
+  .pn-signin { width: 100vw; height: 100svh; max-height: none; border: 0; border-radius: 0; }
+  .pn-body { display: flex; flex-direction: column; justify-content: center; min-height: 100svh; padding: 56px 16px 32px; }
+  .pn-input { font-size: 16px; }
+}

@@ -11,5 +11,5 @@ export const REVIEWS_MOCK = REVIEWS_ON && import.meta.env.DEV && import.meta.env
 export const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 export const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-export const APP_URL = 'https://app.poollogic.app';
+export const APP_URL = 'https://app.poolnautics.app';
 export const PER_PAGE = 12; // /reviews

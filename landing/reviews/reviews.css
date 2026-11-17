@@ -98,5 +98,5 @@ a.lr-company:hover { text-decoration: underline; text-underline-offset: 3px; }
 .lr-done { display: grid; gap: 24px; }
 .lr-done-actions { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
 button.lr-link { padding: 0; border: 0; background: none; cursor: pointer; }
-.lr-signin-note { margin-top: 0; }
+.lr-signin-cta { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
 .lr-page-cta { margin-top: 28px; }
