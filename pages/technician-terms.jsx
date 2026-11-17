@@ -112,6 +112,7 @@ const TechnicianTermsPage = () => {
             <Section id="company" title="2. Your company is in charge">
               <p>Your company chose Poolnautics and controls your account. It decides which features are turned on for you, what you can see in the app, and how the information you create is used, stored and shared.</p>
               <p>Your company is responsible for giving you any notices and getting any consents the law requires before turning on location features for you. Questions about how your information is used should go to your company first.</p>
+              <p><strong style={{ color: 'var(--ink-2)' }}>If your company leaves Poolnautics.</strong> If your company's Poolnautics plan ends, the app stops working for you: you can't sign in, load your route or start a stop, though a report for a visit you've already started is still sent. If your company is deleting its account, the app stops at once. Either way, the app then erases your company's customer information from your phone. Your company's records, including your account with it, are deleted 60 days after its plan ends, or sooner if it asks, as the <Privacy /> describes.</p>
             </Section>
 
             <Section id="location" title="3. Location in the app">
