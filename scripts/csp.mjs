@@ -7,9 +7,15 @@
 //
 // Origins come from the build's env where the build uses them (VITE_SUPABASE_URL,
 // VITE_REVIEWS_SIGNIN_URL), so a preview build allows its own and nothing else.
+//
+// CSP_MODE=report-only sends it as Content-Security-Policy-Report-Only: browsers report what it would
+// block (in the console) and block nothing, the way to try it on the live site before enforcing it.
+// Unset: enforced. `vite preview` sends the same header (vite.config.js), so the SEO check, which fails
+// on any console error, also fails on anything this policy blocks before a deploy.
 import { readFileSync, readdirSync, statSync, writeFileSync, existsSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const DIST = new URL('../dist/', import.meta.url).pathname;
 const MARKER = '# Content-Security-Policy (scripts/csp.mjs)';
@@ -100,8 +106,11 @@ function main() {
   const headersPath = join(DIST, '_headers');
   const current = existsSync(headersPath) ? readFileSync(headersPath, 'utf8') : '';
   const kept = current.includes(MARKER) ? current.slice(0, current.indexOf(MARKER)).trimEnd() : current.trimEnd();
-  writeFileSync(headersPath, `${kept}\n\n${MARKER}\n/*\n  Content-Security-Policy: ${policy}\n`);
-  console.log(`csp.mjs: ${files.length} pages, ${hashes.size} inline script(s) and ${handlers.size} inline handler(s) allowed by hash; dist/_headers written.`);
+  const header = process.env.CSP_MODE === 'report-only' ? 'Content-Security-Policy-Report-Only' : 'Content-Security-Policy';
+  writeFileSync(headersPath, `${kept}\n\n${MARKER}\n/*\n  ${header}: ${policy}\n`);
+  console.log(`csp.mjs: ${files.length} pages, ${hashes.size} inline script(s) and ${handlers.size} inline handler(s) allowed by hash; ${header} written to dist/_headers.`);
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+// Run as a script (not imported by its tests). pathToFileURL: a path with a space or other character
+// a URL escapes would otherwise never match, and the build would ship with no policy, silently.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

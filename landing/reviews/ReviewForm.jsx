@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { safeHttps } from './data.js';
+import { STAR, safeHttps } from './logic.js';
 
 // The review popup's form (ReviewDialog), in the Poolnautics app's look like its sign-in (signin.css).
 // The company's one review, new or to edit. The company's name is the account's, shown, never typed;
@@ -11,7 +11,6 @@ import { safeHttps } from './data.js';
 
 export const MIN = 40;
 export const MAX = 1200;
-const STAR = 'M8 1.2l2.06 4.18 4.6.67-3.33 3.25.79 4.59L8 11.72l-4.12 2.17.79-4.59L1.34 6.05l4.6-.67z';
 
 const ERRORS = {
   rate_limited: 'You’ve saved your review several times in the last hour. Try again later.',
@@ -67,13 +66,19 @@ export default function ReviewForm({ db, account, existing, onSaved }) {
     const e = validate();
     setErrors(e);
     setAlert('');
-    if (Object.keys(e).length) return;
+    if (Object.keys(e).length) {
+      // The first field that needs fixing gets the keyboard (and a screen reader reads its error).
+      const first = ['rating', 'body', 'name', 'website', 'honest'].find((k) => e[k]);
+      const target = { rating: 'input[name="rating"]', body: '#rv-body', name: '#rv-name', website: '#rv-website', honest: '.pn-check input' }[first];
+      ev.currentTarget.querySelector(target)?.focus();
+      return;
+    }
     setBusy(true);
     const { data, error } = await db.rpc('submit_review', {
       p_rating: rating,
-      p_body: body,
+      p_body: body.trim(),
       p_website_url: website.trim() || null,
-      p_reviewer_name: name,
+      p_reviewer_name: name.trim(),
       p_reviewer_role: role.trim() || null,
       p_feedback: feedback.trim() || null,
       p_honest: honest,

@@ -1,13 +1,14 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight, BadgeCheck } from 'lucide-react';
-import { safeHttps } from './data.js';
+import { STAR, ago, safeHttps } from './logic.js';
+
+export { ago };
 
 // One review: stars and when, the review (plain text, clamped with Read more), then who wrote it, their
 // company (linked to its website, https only, marked as user content) and the Verified user pill.
 // Rendered only in the browser (the homepage section mounts it after load), so the relative date
 // can't differ between server and client. Styles: reviews.css (.lr-card*).
 
-const STAR = 'M8 1.2l2.06 4.18 4.6.67-3.33 3.25.79 4.59L8 11.72l-4.12 2.17.79-4.59L1.34 6.05l4.6-.67z';
 
 export function Stars({ rating }) {
   return (
@@ -19,18 +20,6 @@ export function Stars({ rating }) {
       ))}
     </span>
   );
-}
-
-const rtf = typeof Intl !== 'undefined' ? new Intl.RelativeTimeFormat('en', { numeric: 'auto' }) : null;
-export function ago(iso, now = Date.now()) {
-  const s = (new Date(iso).getTime() - now) / 1000;
-  const steps = [[60, 'second'], [60, 'minute'], [24, 'hour'], [7, 'day'], [4.35, 'week'], [12, 'month'], [Infinity, 'year']];
-  let v = s;
-  for (const [size, unit] of steps) {
-    if (Math.abs(v) < size) return rtf ? rtf.format(Math.round(v), unit) : '';
-    v /= size;
-  }
-  return '';
 }
 
 const since = (date) => {

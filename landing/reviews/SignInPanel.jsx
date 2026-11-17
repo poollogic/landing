@@ -3,6 +3,7 @@ import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import Turnstile from '../Turnstile.jsx';
 import { TURNSTILE_SITE_KEY } from '../onboarding.js';
 import { APP_URL, REVIEWS_TURNSTILE_SITE_KEY, SIGNIN_URL } from './config.js';
+import { MESSAGES } from './logic.js';
 
 // The review popup's sign-in step (ReviewDialog), a copy of the Poolnautics app's sign-in form
 // (signin.css). Email and password go through the app's own sign-in (SIGNIN_URL: its per-address
@@ -14,10 +15,9 @@ import { APP_URL, REVIEWS_TURNSTILE_SITE_KEY, SIGNIN_URL } from './config.js';
 // with the popup open.
 
 const SIGN_IN_FAILED = 'That email and password don’t match a Poolnautics account.';
-const OAUTH_FAILED = 'That sign-in couldn’t start. Try again, or use your email and password.';
-export const OFFICE_ONLY = 'Reviews are written from an office login (owner, admin or manager). Technician logins can’t post one.';
+const OAUTH_FAILED = MESSAGES.oauthFailed;
 const NOT_CONFIRMED = 'Confirm your company’s email first: use the link we sent when you signed up, then try again.';
-const UNREACHABLE = 'We couldn’t reach Poolnautics to sign you in. Check your connection and try again.';
+const UNREACHABLE = MESSAGES.unreachable;
 
 const SITEKEY = REVIEWS_TURNSTILE_SITE_KEY ?? TURNSTILE_SITE_KEY;
 const NOT_VERIFIED = 'We couldn’t confirm you’re a person. Try again in a moment.';
@@ -37,7 +37,7 @@ async function signInThroughApp(db, email, password, turnstileToken) {
   }
   const body = await res.json().catch(() => ({}));
   if (res.status === 429) return { error: 'Too many tries. Wait a minute and try again.' };
-  if (res.status === 403 && body.code === 'WEB_APP_NOT_FOR_ROLE') return { error: OFFICE_ONLY };
+  if (res.status === 403 && body.code === 'WEB_APP_NOT_FOR_ROLE') return { error: MESSAGES.officeOnly };
   if (res.status === 403 && body.code === 'EMAIL_NOT_CONFIRMED') return { error: NOT_CONFIRMED };
   if (res.status === 403 && body.code === 'NOT_VERIFIED') return { error: NOT_VERIFIED };
   if (res.status === 401) return { error: SIGN_IN_FAILED };

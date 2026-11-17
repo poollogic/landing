@@ -85,10 +85,19 @@ function previewLikePages() {
       const rewrites = new Map(existsSync(file)
         ? readFileSync(file, 'utf8').split('\n').map((l) => l.trim().split(/\s+/)).filter(([from, , code]) => from?.startsWith('/') && code === '200').map(([from, to]) => [from, to])
         : []);
-      server.middlewares.use((req, _res, next) => {
+      // The Content-Security-Policy the build wrote (scripts/csp.mjs), enforced here even when it ships
+      // report-only, so the SEO check (scripts/seo-check.mjs, which fails on any console error) fails on
+      // anything it blocks. Without upgrade-insecure-requests, which would turn this http preview's
+      // own requests into https.
+      const headers = join(dist, '_headers');
+      const csp = existsSync(headers)
+        ? readFileSync(headers, 'utf8').match(/^\s*Content-Security-Policy(?:-Report-Only)?:\s*(.+)$/m)?.[1].replace(/;\s*upgrade-insecure-requests/, '')
+        : null;
+      server.middlewares.use((req, res, next) => {
         const [path, query] = (req.url || '/').split('?');
         const to = rewrites.get(path);
         if (to) req.url = `${to}.html${query ? `?${query}` : ''}`;
+        if (csp) res.setHeader('Content-Security-Policy', csp);
         next();
       });
     },
