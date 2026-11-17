@@ -1,4 +1,4 @@
-/* Reviews (ReviewsSection.jsx on the homepage, pages/reviews.jsx, pages/review-write.jsx). Dark, like
+/* Reviews (ReviewsSection.jsx on the homepage, pages/reviews.jsx, the review popup's card). Dark, like
    #connect-ai's ground. On the homepage the eyebrow, heading, intro and padding come from the tokens
    (home-roles.css); here: the ground, the measure, the cards. Colours with no token are the approved
    design's: ground #08090c, cards #12151c on #20252f, quiet text #7c8aa0, stars #f5b942 / #2a303c, the
@@ -15,11 +15,11 @@
 
 .lr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 24px; }
 .lr-all { margin-top: 40px; text-align: center; }
-.lr-all a, .lr-link {
+.lr-all a {
   font-size: 15px; font-weight: 600; color: #f8fafc;
   text-decoration: underline; text-decoration-color: var(--brand-blue); text-underline-offset: 4px;
 }
-.lr-all a:focus-visible, .lr-link:focus-visible, .lr-more:focus-visible, .lr-company:focus-visible {
+.lr-all a:focus-visible, .lr-more:focus-visible, .lr-company:focus-visible {
   outline: 2px solid var(--brand-blue); outline-offset: 3px; border-radius: 4px;
 }
 
@@ -60,7 +60,7 @@ a.lr-company:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .lr-verified svg { color: var(--brand-blue); }
 
-/* ---------- /reviews and /reviews/write: the page around them ---------- */
+/* ---------- /reviews: the page around them ---------- */
 .lr-page { background: #08090c; }
 .lr-page-main { flex: 1; padding: calc(var(--header-h, 64px) + 72px) 24px var(--section-pad-y); }
 .lr-page-head { max-width: 720px; margin: 0 auto 48px; text-align: center; }
@@ -80,23 +80,4 @@ a.lr-company:hover { text-decoration: underline; text-underline-offset: 3px; }
 .lr-pager [aria-disabled='true'] { color: #3a4150; pointer-events: none; }
 .lr-empty { max-width: 520px; margin: 0 auto; text-align: center; color: var(--subhead-on-dark); }
 
-/* The write page's form: the reserve card's fields (reserve.css), plus the stars and the counter. */
-.lr-write { max-width: 640px; margin: 0 auto; }
-.lr-company-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.lr-company-name { font-size: 18px; font-weight: 600; color: #fff; }
-.lr-signout { padding: 0; border: 0; background: none; cursor: pointer; font-size: 13px; color: #7c8aa0; text-decoration: underline; text-underline-offset: 3px; }
-.lr-rate { display: flex; gap: 6px; margin: 0; padding: 0; border: 0; }
-.lr-rate label { cursor: pointer; padding: 2px; border-radius: 6px; }
-.lr-rate svg { width: 28px; height: 28px; fill: #2a303c; transition: fill .15s; }
-.lr-rate label.is-on svg { fill: #f5b942; }
-.lr-rate label:has(input:focus-visible) { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
-.lr-count { margin-top: 6px; font-size: 12.5px; color: #7c8aa0; text-align: right; font-variant-numeric: tabular-nums; }
-.lr-count.is-bad { color: #fca5a5; }
-.lr-private { margin-top: 4px; font-size: 12.5px; color: #7c8aa0; }
-.lr-check { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; color: #cbd5e1; cursor: pointer; }
-.lr-check input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--brand-blue); flex: none; }
-.lr-done { display: grid; gap: 24px; }
-.lr-done-actions { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-button.lr-link { padding: 0; border: 0; background: none; cursor: pointer; }
-.lr-signin-cta { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
 .lr-page-cta { margin-top: 28px; }

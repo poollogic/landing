@@ -1,5 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import { REVIEWS_ON } from './landing/reviews/config.js';
+import { installReviewLinks, isOAuthReturn } from './landing/reviews/openReview.js';
 import { Nav, Footer } from './components/site-chrome.jsx';
 import SiteHeader from './landing/Nav.jsx';
 import { payoutRange } from './partnerProgram.js';
@@ -19,9 +20,10 @@ const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
 const WorkflowPage = lazy(() => import('./pages/workflow.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 // Customer reviews: only with VITE_REVIEWS=1 (landing/reviews/config.js). Off, both addresses show the
-// homepage, marked noindex, like any unknown address, and neither page is built.
+// homepage, marked noindex, like any unknown address, and none of it is built. On, writing a review is a
+// popup over any page (landing/reviews/openReview.js); /reviews/write is the reviews page with it open.
 const ReviewsPage = REVIEWS_ON ? lazy(() => import('./pages/reviews.jsx')) : null;
-const ReviewWritePage = REVIEWS_ON ? lazy(() => import('./pages/review-write.jsx')) : null;
+const ReviewOAuthReturn = REVIEWS_ON ? lazy(() => import('./landing/reviews/ReviewDialog.jsx').then((m) => ({ default: m.OAuthReturn }))) : null;
 
 // Page defaults — accent color, hero layout, density, theme.
 // EDITMODE markers are preserved so the external prototype editor can still patch this object.
@@ -175,6 +177,8 @@ const App = ({ path: pathProp }) => {
     document.body.dataset.theme = TWEAK_DEFAULTS.theme;
   }, []);
 
+  useEffect(() => { if (REVIEWS_ON) installReviewLinks(); }, []);
+
   const path = pathProp ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
 
   useEffect(() => {
@@ -197,6 +201,11 @@ const App = ({ path: pathProp }) => {
     else if (path !== '/') meta = { ...ROUTE_META.home, robots: 'noindex,follow' };
     applyRouteMeta(meta);
   }, [path]);
+
+  // The small Google / Apple sign-in window the review popup opens: only "Signing you in…", then it closes.
+  if (REVIEWS_ON && typeof window !== 'undefined' && isOAuthReturn()) {
+    return <Suspense fallback={null}><ReviewOAuthReturn /></Suspense>;
+  }
 
   if (isTermsPath(path)) {
     return (
@@ -248,13 +257,13 @@ const App = ({ path: pathProp }) => {
     );
   }
 
-  // The reviews pages bring their own dark nav and the footer, like contact.
+  // The reviews page brings its own dark nav and the footer, like contact. At /reviews/write the
+  // review popup opens over it (installReviewLinks).
   if (isReviewsPath(path) || isReviewWritePath(path)) {
-    const Page = isReviewWritePath(path) ? ReviewWritePage : ReviewsPage;
     return (
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#08090c' }} />}>
-          <Page />
+          <ReviewsPage />
         </Suspense>
       </ErrorBoundary>
     );

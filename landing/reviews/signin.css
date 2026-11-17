@@ -117,6 +117,47 @@
 .pn-signin :focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); }
 .pn-signin .pn-input:focus-visible { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
 
+/* ---------- The review steps (ReviewDialog, ReviewForm): the same fields, wider ---------- */
+.pn-signin.is-wide { width: min(562px, calc(100vw - 32px)); } /* 480px of form */
+.pn-loading { display: flex; align-items: center; justify-content: center; min-height: 240px; color: var(--pn-muted); }
+.pn-strong { font-weight: 500; color: var(--pn-fg); }
+.pn-text-button {
+  padding: 0; border: 0; background: none; cursor: pointer; font: inherit; color: var(--pn-accent);
+  text-decoration: underline; text-underline-offset: 2px; border-radius: 6px;
+}
+.pn-text-button:hover { color: var(--pn-accent-hover); }
+
+.pn-review { margin-top: 28px; }
+.pn-message.is-info::before { background: rgba(226, 232, 240, 0.55); }
+.pn-message-end { margin: 20px 0 0; }
+.pn-rating { margin: 0; padding: 0; border: 0; min-width: 0; }
+.pn-rate { display: flex; gap: 6px; }
+.pn-rate label { padding: 2px; border-radius: 6px; cursor: pointer; }
+.pn-rate svg { display: block; width: 28px; height: 28px; fill: rgba(148, 163, 184, 0.22); transition: fill 150ms; }
+.pn-rate label.is-on svg { fill: #f5b942; }
+.pn-rate label:has(input:focus-visible) { outline: 2px solid var(--pn-accent); outline-offset: 2px; }
+.pn-textarea { height: auto; min-height: 120px; padding: 11px 14px; resize: vertical; }
+.pn-textarea-sm { min-height: 84px; }
+.pn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.pn-row .pn-field + .pn-field { margin-top: 0; }
+.pn-row + .pn-field { margin-top: 20px; }
+.pn-optional { font-weight: 400; color: var(--pn-muted); }
+.pn-count { display: block; margin-top: 6px; text-align: right; font-size: 12px; line-height: 16px; color: var(--pn-muted); font-variant-numeric: tabular-nums; }
+.pn-count.is-bad, .pn-field-error { color: #ff8095; }
+.pn-hint { display: block; margin-top: 6px; font-size: 12px; line-height: 16px; color: var(--pn-muted); }
+.pn-field-error { display: block; margin-top: 6px; font-size: 12px; line-height: 16px; }
+.pn-check { display: flex; gap: 10px; align-items: flex-start; margin-top: 24px; font-size: 13px; line-height: 19.5px; color: var(--pn-fg); cursor: pointer; }
+.pn-check input { flex: none; width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--pn-accent); }
+
+.pn-preview { margin-top: 24px; }
+.pn-done-actions { display: flex; justify-content: center; gap: 24px; margin-top: 20px; font-size: 13px; }
+
+/* The small Google / Apple window while it finishes. */
+.pn-oauth-return {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 100svh;
+  background: #111318; color: rgba(203, 213, 225, 0.62); font: 14px/1.5 Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
 /* Phones and tablets: 44px to tap, like the app below lg; 16px text so iOS doesn't zoom into a field. */
 @media (max-width: 1023px) {
   .pn-provider { height: 44px; }
@@ -125,7 +166,8 @@
 }
 /* Phones: the whole screen, like the app's sign-in page there (16px sides, 358px of form at 390). */
 @media (max-width: 639px) {
-  .pn-signin { width: 100vw; height: 100svh; max-height: none; border: 0; border-radius: 0; }
+  .pn-row { grid-template-columns: 1fr; gap: 20px; }
+  .pn-signin, .pn-signin.is-wide { width: 100vw; height: 100svh; max-height: none; border: 0; border-radius: 0; }
   .pn-body { display: flex; flex-direction: column; justify-content: center; min-height: 100svh; padding: 56px 16px 32px; }
   .pn-input { font-size: 16px; }
 }

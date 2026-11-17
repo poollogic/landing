@@ -2,14 +2,15 @@ import { REVIEWS_MOCK, REVIEWS_ON, SUPABASE_ANON_KEY, SUPABASE_URL } from './con
 
 // The site's one Supabase client, made the first time it's needed (so supabase-js loads only on pages
 // that use it). Its sign-in is kept in this browser under its own key; it isn't the web app's session,
-// which lives on the app's own domain. Google and Apple come back to /reviews/write with a one-time
-// code (PKCE), which the client trades for a session on that page only.
+// which lives on the app's own domain. Google and Apple come back with a one-time code (PKCE), which
+// the client trades for a session only on an address marked ?review= (ReviewDialog.jsx).
 let clientPromise = null;
 export function getSupabase() {
   if (!REVIEWS_ON || !SUPABASE_URL || !SUPABASE_ANON_KEY) return Promise.resolve(null);
-  const onWritePage = typeof window !== 'undefined' && /^\/reviews\/write\/?$/.test(window.location.pathname);
+  // Only where a sign-in comes back: the Google / Apple window, or a page back from a full trip there.
+  const returning = typeof window !== 'undefined' && ['open', 'oauth'].includes(new URLSearchParams(window.location.search).get('review'));
   clientPromise ??= import('@supabase/supabase-js').then(({ createClient }) => createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: { persistSession: true, autoRefreshToken: true, flowType: 'pkce', detectSessionInUrl: onWritePage, storageKey: 'poolnautics-reviews-auth' },
+    auth: { persistSession: true, autoRefreshToken: true, flowType: 'pkce', detectSessionInUrl: returning, storageKey: 'poolnautics-reviews-auth' },
   }));
   return clientPromise;
 }
