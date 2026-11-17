@@ -62,7 +62,10 @@ a.lr-company:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- /reviews: the page around them ---------- */
 .lr-page { background: #08090c; }
-.lr-page-main { flex: 1; padding: calc(var(--header-h, 64px) + 72px) 24px var(--section-pad-y); }
+.lr-page-main { flex: 1; display: flex; flex-direction: column; padding: calc(var(--header-h, 64px) + 72px) 24px 72px; }
+/* Shorter than the window (no reviews yet, or a few): centred between the nav and the footer, 72px
+   clear of each. Taller: the free space is gone and it reads top down as before. */
+.lr-page-main > .lr-inner { width: 100%; margin-block: auto; }
 .lr-page-head { max-width: 720px; margin: 0 auto 48px; text-align: center; }
 .lr-page-head .section-sub { margin-inline: auto; }
 .lr-page-title {
