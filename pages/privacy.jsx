@@ -11,6 +11,11 @@ import React, { useEffect, useState } from 'react';
 // Subprocessors listed below reflect the current stack — confirm before going live
 // and update if hosting/database/email providers change.
 
+// HOLD (owner, 2026-11-17): the two "within about 30 hours" lines about fleet files in Section 10
+// (Vehicle and fleet records) show only when this is true. Switch it on when the owner says so,
+// together with FLEET_FILE_PURGE_LIVE in pages/terms.jsx.
+const FLEET_FILE_PURGE_LIVE = false;
+
 const SECTIONS = [
   { id: 'scope', title: 'Who This Applies To' },
   { id: 'data-collected', title: 'What Data We Collect' },
@@ -315,7 +320,20 @@ const PrivacyPage = () => {
                 <li><strong>Subscriber account data</strong> — retained while the account is active. After account closure, account data is retained for 90 days to allow for export, then deleted, except as noted below.</li>
                 <li><strong>Financial records</strong> — invoices, payment records, and tax-relevant documents are retained for <strong>seven (7) years</strong> as required by U.S. tax and audit rules.</li>
                 <li><strong>End Customer data</strong> — retained for as long as the Subscriber's account is active. Deleted on a Subscriber's request, on account closure (subject to the 90-day window above), or on the End Customer's request once forwarded to the Subscriber.</li>
-                <li><strong>Technician app data</strong> — drive history is deleted 30 days after it is recorded. App status is deleted once a phone has not reported for 60 days. Mileage records are kept as part of the Subscriber's business records while its account is active, and are deleted on the Subscriber's request or with its other account data after the account closes, as described above. A technician's location agreements are kept as a record with the Subscriber's account data, including after the technician deletes their account. A phone's push notification token is deleted when the technician signs out of the app, 90 days after it stops working, or after 180 days without use. Service report locations and the record of when drive history was turned on are kept with the Subscriber's other account data, as described above. Vehicle records and documents are kept while the Subscriber's account uses them, including after the technician deletes their account. When the Subscriber's office removes or replaces a document in the web app, the old file is deleted once nothing in the account uses it. A document replaced or removed in the technician app is kept with the Subscriber's other account data and deleted with it, as described above.</li>
+                <li><strong>Technician app data</strong> — drive history is deleted 30 days after it is recorded. App status is deleted once a phone has not reported for 60 days. Mileage records are kept as part of the Subscriber's business records while its account is active, and are deleted on the Subscriber's request or with its other account data after the account closes, as described above. A technician's location agreements are kept as a record with the Subscriber's account data, including after the technician deletes their account. A phone's push notification token is deleted when the technician signs out of the app, 90 days after it stops working, or after 180 days without use. Service report locations and the record of when drive history was turned on are kept with the Subscriber's other account data, as described above. Vehicle records are covered below.</li>
+                <li><strong>Vehicle and fleet records</strong> — when a Subscriber uses fleet features, we store, for each technician's vehicle, its make, model, license plate, and plate expiry; odometer readings, and oil change dates and mileages; notes and the insurance expiry date; and the documents the Subscriber or technician adds: a registration photo, and an insurance card as a photo or PDF. Truck check-ins also store the odometer and oil-change-sticker photos the technician takes. Files are kept in private storage that only the Subscriber's account can reach.
+                  <ul style={{ marginTop: 8 }}>
+                    <li>While the technician is on the Subscriber's account, their vehicle record, check-ins, oil change history, and documents are kept, so the Subscriber has its vehicle history. Check-in readings have no time limit; deleting them is the Subscriber's choice. Check-in photos are kept with their check-in.</li>
+                    <li>A document that's replaced or removed is deleted from storage at once, unless another of the Subscriber's vehicles still uses it (one insurance card can cover the whole fleet).</li>
+                    <li>When the Subscriber removes a technician from its team, their vehicle record, check-ins, and oil change history are deleted at once.{FLEET_FILE_PURGE_LIVE && ' Their documents and photos are deleted from storage within about 30 hours.'}</li>
+                    <li>When a technician deletes their own account in the phone app, their sign-in and personal details are removed (see Section 2). The vehicle records they kept for the Subscriber stay with the Subscriber: the vehicle record, check-ins, oil change history, and its documents, including the registration and insurance card. They're deleted when the Subscriber removes the technician from its team, or when the Subscriber's account is deleted.</li>
+                    <li>Despite the 90-day period above, when a Subscriber's account is deleted, all of its vehicle records are deleted at once{FLEET_FILE_PURGE_LIVE ? ', and its files within about 30 hours' : ''}.</li>
+                    <li>Reminders about plate and insurance expiry are deleted 90 days after the date they were about. Oil change reminders are deleted 180 days after they were dealt with.</li>
+                    <li>Notices to the Subscriber's office in the Poolnautics web app keep the latest 50; older ones drop off as new ones arrive.</li>
+                    <li>On the technician's phone, the app keeps one copy of the current insurance card, so it opens without a signal (see Section 2). It's deleted when the technician signs out.</li>
+                    <li>Deleted vehicle and fleet records remain in our database backups until those expire, which is within 7 days.</li>
+                  </ul>
+                </li>
                 <li><strong>Stripe records</strong> — payment records held by Stripe are governed by Stripe's own retention policies. We cannot delete records from Stripe on your behalf; contact Stripe directly for those requests.</li>
               </ul>
             </Section>
