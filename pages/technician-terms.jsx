@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react';
 // agreement version it records (SIGNIN_AGREEMENT_VERSION in the app), so a
 // change here that needs agreeing again moves both together.
 
-const VERSION = '2026-11-10';
-const EFFECTIVE = 'November 10, 2026';
+const VERSION = '2026-11-17';
+const EFFECTIVE = 'November 17, 2026';
 
 const SECTIONS = [
   { id: 'about', title: 'About these terms' },
@@ -17,6 +17,8 @@ const SECTIONS = [
   { id: 'location', title: 'Location in the app' },
   { id: 'using', title: 'Using the app' },
   { id: 'mileage', title: 'Mileage records' },
+  { id: 'vehicle', title: 'Your vehicle\'s information' },
+  { id: 'vehicle-documents', title: 'Insurance card and vehicle documents' },
   { id: 'information', title: 'Your information' },
   { id: 'warranty', title: 'No warranty' },
   { id: 'liability', title: 'Limitation of liability' },
@@ -99,7 +101,7 @@ const TechnicianTermsPage = () => {
               background: 'var(--bg-soft)', border: '1px solid var(--line)',
               fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-3)',
             }}>
-              <strong style={{ color: 'var(--ink-2)' }}>In short:</strong> your company decides which features are on and how your information is used. Each service report records where it was sent from. If your company turns them on, the app logs your miles and your company may review the routes you drive during work hours. You can change location access in your phone's Settings at any time.
+              <strong style={{ color: 'var(--ink-2)' }}>In short:</strong> your company decides which features are on and how your information is used. Each service report records where it was sent from. If your company turns them on, the app logs your miles and your company may review the routes you drive during work hours. You can change location access in your phone's Settings at any time. The insurance card in the app is a convenience copy only: always carry your official proof of insurance.
             </div>
 
             <Section id="about" title="1. About these terms">
@@ -129,27 +131,46 @@ const TechnicianTermsPage = () => {
               <p>Keep your own records, such as daily odometer readings, and review them with a tax professional if you use them for taxes. You can download your own mileage in the app under Settings › Mileage.</p>
             </Section>
 
-            <Section id="information" title="6. Your information">
+            <Section id="vehicle" title="6. Your vehicle's information">
+              <p>Your company may use Poolnautics to keep records about the vehicle you drive for work, such as its make, model and license plate, a photo of its registration, and its insurance card.</p>
+              <p>Your company may require you to add your vehicle's make, model, license plate and plate expiry before you can start your route in the app each day. Your company decides whether this is required, and can exempt you or unlock the app for you for a day.</p>
+              <p>You agree that the information and documents you add are accurate, that you'll keep them up to date, and that you have the right to share them. Documents you add, such as a photo of your registration or insurance card, are shared with your company.</p>
+            </Section>
+
+            <Section id="vehicle-documents" title="7. Insurance card and vehicle documents are a convenience only">
+              <p>The copy of your vehicle's insurance card, registration or other documents in the Poolnautics app is provided only for your convenience. <strong style={{ color: 'var(--ink-2)' }}>It is not official proof of insurance or registration, and you must not rely on it.</strong></p>
+              <ul>
+                <li><strong style={{ color: 'var(--ink-2)' }}>Always carry official proof.</strong> You're responsible for carrying the official proof of insurance, registration and any other documents the law or your company requires, in the form the law requires, at all times while driving.</li>
+                <li><strong style={{ color: 'var(--ink-2)' }}>It may not be available or accurate.</strong> The app or your phone may fail, run out of battery, lack a signal, be lost, or not show the document when you need it. The copy may be out of date, incomplete, unreadable, or not the current card. We don't promise that it will be available, accurate or current, or that any police officer, court, insurer or other authority will accept it.</li>
+                <li><strong style={{ color: 'var(--ink-2)' }}>Not legal advice.</strong> Whether an electronic copy is accepted as proof of insurance depends on the law where you are and on the person asking. We don't say that showing the copy in the app meets any legal requirement.</li>
+                <li><strong style={{ color: 'var(--ink-2)' }}>Reminders aren't guaranteed.</strong> Reminders about plate or insurance expiry are a courtesy. They may be late, missed or not delivered, and they depend on the dates entered being correct. You and your company are responsible for renewing on time.</li>
+                <li><strong style={{ color: 'var(--ink-2)' }}>No liability.</strong> To the fullest extent the law allows, Poolnautics isn't responsible for any fine, ticket, citation, penalty, tow, impound, lapse in coverage, denied claim, or other loss or harm that comes from your use of, reliance on, or inability to use or show any document, copy, date or reminder in the app.</li>
+              </ul>
+              <p>The app says the same thing where the card is shown. The first time you open your insurance card, you're asked to confirm that you understand it's a convenience copy only.</p>
+              <p><strong style={{ color: 'var(--ink-2)' }}>The copy on your phone.</strong> The app keeps one copy of your vehicle's insurance card on your phone so you can open it without a signal. It's updated when you open Fleet Management with a connection, so it may not be the latest card, and it's deleted when you sign out. Keep your phone locked: anyone with access to your unlocked phone may be able to see it.</p>
+            </Section>
+
+            <Section id="information" title="8. Your information">
               <p>The <Privacy /> describes the information the app collects, who can see it, and how long it's kept. Your company also has its own policies about the information it keeps.</p>
             </Section>
 
-            <Section id="warranty" title="7. No warranty">
+            <Section id="warranty" title="9. No warranty">
               <p>The app is provided "as is" and "as available." Location technology isn't perfect, and we don't promise that recorded locations, routes, times or mileage will be complete, accurate or always available.</p>
             </Section>
 
-            <Section id="liability" title="8. Limitation of liability">
-              <p>To the fullest extent the law allows, Poolnautics isn't liable for losses that come from using, relying on, or being unable to use the app, including records that are missing, estimated or inaccurate. Decisions about pay, reimbursement or your work are made by your company, not by Poolnautics.</p>
+            <Section id="liability" title="10. Limitation of liability">
+              <p>To the fullest extent the law allows, Poolnautics isn't liable for losses that come from using, relying on, or being unable to use the app, including records that are missing, estimated or inaccurate, and the vehicle documents, dates and reminders described in Section 7. Decisions about pay, reimbursement or your work are made by your company, not by Poolnautics.</p>
             </Section>
 
-            <Section id="changes" title="9. Changes">
+            <Section id="changes" title="11. Changes">
               <p>We may update these Terms. When we do, we'll change the date at the top, and the app will ask you to agree to the new version before you continue.</p>
             </Section>
 
-            <Section id="contact" title="10. Contact">
+            <Section id="contact" title="12. Contact">
               <p>Questions about your work or your information: contact your company. Questions about these Terms: contact Poolnautics through the details on our <a href="/contact" style={link}>Contact</a> page.</p>
             </Section>
 
-            <Section id="fit" title="11. How these terms fit together">
+            <Section id="fit" title="13. How these terms fit together">
               {/* Arbitration (Terms of Service §17) is included for now; a lawyer decides (owner, 2026-11-09).
                   If it's excluded, the conflict sentence ends "…the Terms of Service control, except Section 17 (Dispute Resolution & Arbitration)." */}
               <p>These Technician App Terms are a plain-language summary for technicians and don't cover everything. Your use of Poolnautics is also governed by our full <a href="/terms" style={link}>Terms of Service</a> and our <Privacy />, which are part of these Terms. If anything here conflicts with the Terms of Service, the Terms of Service control. Nothing in these Terms limits any rights you have under the law.</p>
