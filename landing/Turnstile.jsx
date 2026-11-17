@@ -18,19 +18,20 @@ const loadScript = () => {
 };
 
 // appearance 'interaction-only' keeps the widget invisible unless Cloudflare needs a challenge.
-export default function Turnstile({ onToken, theme = 'auto', appearance = 'always' }) {
+// sitekey: the site's own by default; a preview can pass Cloudflare's test key.
+export default function Turnstile({ onToken, theme = 'auto', appearance = 'always', sitekey = TURNSTILE_SITE_KEY }) {
   const ref = useRef(null);
   // Cloudflare is showing the checkbox (an interaction-only widget about to ask, or one that always
   // shows): it gets space above it (.cf-check.is-shown, reserve.css), and keeps it once shown.
   const [shown, setShown] = useState(appearance === 'always');
   useEffect(() => {
-    if (!TURNSTILE_SITE_KEY) return undefined;
+    if (!sitekey) return undefined;
     let id;
     let cancelled = false;
     loadScript().then(() => {
       if (cancelled || !ref.current || !window.turnstile) return;
       id = window.turnstile.render(ref.current, {
-        sitekey: TURNSTILE_SITE_KEY,
+        sitekey,
         theme,
         appearance,
         size: 'flexible',
@@ -44,8 +45,8 @@ export default function Turnstile({ onToken, theme = 'auto', appearance = 'alway
       cancelled = true;
       if (id !== undefined) window.turnstile?.remove(id);
     };
-  }, [onToken, theme, appearance]);
-  if (!TURNSTILE_SITE_KEY) return null;
+  }, [onToken, theme, appearance, sitekey]);
+  if (!sitekey) return null;
   // Space is reserved only for an always-visible widget; a challenge, if one appears, takes its own.
   // Nothing clips it: the widget draws its own border and corners.
   return <div ref={ref} className={`cf-check${shown ? ' is-shown' : ''}${appearance === 'always' ? ' min-h-[65px]' : ''}`} />;

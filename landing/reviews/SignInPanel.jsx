@@ -1,15 +1,50 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
-import { APP_URL } from './config.js';
+import Turnstile from '../Turnstile.jsx';
+import { TURNSTILE_SITE_KEY } from '../onboarding.js';
+import { APP_URL, REVIEWS_TURNSTILE_SITE_KEY, SIGNIN_URL } from './config.js';
 
 // The review popup's sign-in step (ReviewDialog), a copy of the Poolnautics app's sign-in form
-// (signin.css). Email and password sign in here. Google and Apple open in a small window of their own
-// (startOAuth), so the page underneath never leaves; that window comes back to /reviews/write?review=oauth
-// (OAuthReturn in ReviewDialog.jsx), which finishes the sign-in and tells this page. If the browser
-// blocks the window, the page itself goes and comes back to where it was, with the popup open.
+// (signin.css). Email and password go through the app's own sign-in (SIGNIN_URL: its per-address
+// limit, and its refusal of phone-only logins and unconfirmed companies), and the session it returns
+// is handed to this site's client. Google and Apple open in a small window of their own (startOAuth),
+// so the page underneath never leaves; that window comes back to /reviews/write?review=oauth
+// (OAuthReturn in ReviewDialog.jsx), hands this page the one-time code and closes, and this page
+// trades it. If the browser blocks the window, the page itself goes and comes back to where it was,
+// with the popup open.
 
 const SIGN_IN_FAILED = 'That email and password don’t match a Poolnautics account.';
 const OAUTH_FAILED = 'That sign-in couldn’t start. Try again, or use your email and password.';
+export const OFFICE_ONLY = 'Reviews are written from an office login (owner, admin or manager). Technician logins can’t post one.';
+const NOT_CONFIRMED = 'Confirm your company’s email first: use the link we sent when you signed up, then try again.';
+const UNREACHABLE = 'We couldn’t reach Poolnautics to sign you in. Check your connection and try again.';
+
+const SITEKEY = REVIEWS_TURNSTILE_SITE_KEY ?? TURNSTILE_SITE_KEY;
+const NOT_VERIFIED = 'We couldn’t confirm you’re a person. Try again in a moment.';
+
+/** Email and password (and the Turnstile token) through the app's sign-in. Resolves { session } or { error }. */
+async function signInThroughApp(db, email, password, turnstileToken) {
+  let res;
+  try {
+    res = await fetch(SIGNIN_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password, turnstileToken }),
+      credentials: 'omit',
+    });
+  } catch {
+    return { error: UNREACHABLE };
+  }
+  const body = await res.json().catch(() => ({}));
+  if (res.status === 429) return { error: 'Too many tries. Wait a minute and try again.' };
+  if (res.status === 403 && body.code === 'WEB_APP_NOT_FOR_ROLE') return { error: OFFICE_ONLY };
+  if (res.status === 403 && body.code === 'EMAIL_NOT_CONFIRMED') return { error: NOT_CONFIRMED };
+  if (res.status === 403 && body.code === 'NOT_VERIFIED') return { error: NOT_VERIFIED };
+  if (res.status === 401) return { error: SIGN_IN_FAILED };
+  if (!res.ok || !body.access_token || !body.refresh_token) return { error: UNREACHABLE };
+  const { data, error } = await db.auth.setSession({ access_token: body.access_token, refresh_token: body.refresh_token });
+  return error || !data.session ? { error: UNREACHABLE } : { session: data.session };
+}
 
 function GoogleIcon() {
   return (
@@ -44,15 +79,15 @@ export function returnHere() {
 }
 
 /**
- * Google or Apple in a small window. Resolves when that window is gone: { ok } once it has
- * signed in (the message from OAuthReturn), else { ok: false } (closed, or failed to start).
+ * Google or Apple in a small window. Resolves when that window is done: { code } once the provider
+ * has sent it back (the message from OAuthReturn), else { error } or {} (closed, or failed to start).
  */
 async function startOAuth(db, provider) {
   const { data, error } = await db.auth.signInWithOAuth({
     provider,
     options: { redirectTo: `${window.location.origin}/reviews/write?review=oauth`, skipBrowserRedirect: true },
   });
-  if (error || !data?.url) return { ok: false, error: OAUTH_FAILED };
+  if (error || !data?.url) return { error: OAUTH_FAILED };
   const w = 480;
   const h = 640;
   const left = Math.max(0, window.screenX + (window.outerWidth - w) / 2);
@@ -61,7 +96,7 @@ async function startOAuth(db, provider) {
   if (!popup) {
     // Blocked: the page goes, and comes back here with the popup open.
     const again = await db.auth.signInWithOAuth({ provider, options: { redirectTo: returnHere() } });
-    if (again.error) return { ok: false, error: OAUTH_FAILED };
+    if (again.error) return { error: OAUTH_FAILED };
     return new Promise(() => {}); // leaving
   }
   return new Promise((resolve) => {
@@ -74,12 +109,12 @@ async function startOAuth(db, provider) {
       resolve(result);
     };
     const onMessage = (e) => {
-      if (e.origin !== window.location.origin || e.data?.type !== 'poolnautics-review-sign-in') return;
-      finish(e.data.ok ? { ok: true } : { ok: false, error: e.data.error });
+      if (e.origin !== window.location.origin || e.source !== popup || e.data?.type !== 'poolnautics-review-sign-in') return;
+      finish(e.data.code ? { code: e.data.code } : { error: e.data.error });
     };
     window.addEventListener('message', onMessage);
     // Closed without signing in: put the buttons back.
-    const watch = window.setInterval(() => { if (popup.closed) window.setTimeout(() => finish({ ok: false }), 300); }, 400);
+    const watch = window.setInterval(() => { if (popup.closed) window.setTimeout(() => finish({}), 300); }, 400);
   });
 }
 
@@ -90,6 +125,19 @@ export default function SignInPanel({ db, message, onSignedIn }) {
   const [shown, setShown] = useState(false);
   const [busy, setBusy] = useState(null); // null | 'password' | 'google' | 'apple'
   const [error, setError] = useState(message || '');
+  // Turnstile: invisible unless Cloudflare wants a click. Its token is single-use, so each try gets a
+  // fresh widget (check). A try made before the token arrives waits for it, up to 8 seconds.
+  const [check, setCheck] = useState(0);
+  const token = useRef(null);
+  const waiters = useRef([]);
+  const onToken = useCallback((t) => {
+    token.current = t;
+    if (t) { waiters.current.forEach((w) => w(t)); waiters.current = []; }
+  }, []);
+  const tokenNow = () => (!SITEKEY || token.current ? Promise.resolve(token.current) : new Promise((resolve) => {
+    waiters.current.push(resolve);
+    window.setTimeout(() => resolve(token.current), 8000);
+  }));
 
   useEffect(() => { emailRef.current?.focus(); }, []);
   useEffect(() => { if (message) setError(message); }, [message]);
@@ -99,25 +147,25 @@ export default function SignInPanel({ db, message, onSignedIn }) {
     if (!email.trim() || !password) { setError('Enter your email and password.'); return; }
     setBusy('password');
     setError('');
-    const { data, error: err } = await db.auth.signInWithPassword({ email: email.trim(), password });
+    const result = await signInThroughApp(db, email.trim(), password, await tokenNow());
+    token.current = null;
+    setCheck((n) => n + 1);
     setBusy(null);
-    if (err || !data.session) {
-      setError(err?.status === 429 ? 'Too many tries. Wait a minute and try again.' : SIGN_IN_FAILED);
-      return;
-    }
+    if (result.error) { setError(result.error); return; }
     setPassword('');
-    onSignedIn(data.session);
+    onSignedIn(result.session);
   };
 
   const withProvider = async (provider) => {
     setBusy(provider);
     setError('');
     const result = await startOAuth(db, provider);
+    if (!result.code) { setBusy(null); if (result.error) setError(result.error); return; }
+    // This page made the code's verifier, so it trades the code; the small window never held a session.
+    const { data, error: err } = await db.auth.exchangeCodeForSession(result.code);
     setBusy(null);
-    if (!result.ok) { if (result.error) setError(result.error); return; }
-    const { data } = await db.auth.getSession();
-    if (data.session) onSignedIn(data.session);
-    else setError(OAUTH_FAILED);
+    if (err || !data.session) { setError(OAUTH_FAILED); return; }
+    onSignedIn(data.session);
   };
 
   return (
@@ -157,6 +205,7 @@ export default function SignInPanel({ db, message, onSignedIn }) {
             </button>
           </div>
         </div>
+        <Turnstile key={check} sitekey={SITEKEY} onToken={onToken} theme="dark" appearance="interaction-only" />
         <button type="submit" className="pn-submit" disabled={!!busy}>
           {busy === 'password' ? <Loader2 size={18} className="pn-spin" aria-label="Signing in" /> : 'Sign in'}
         </button>

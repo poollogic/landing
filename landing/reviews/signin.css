@@ -68,6 +68,9 @@
 .pn-or span:not(.pn-or-text) { flex: 1; height: 1px; background: var(--pn-fill); }
 .pn-or-text { font-size: 11px; font-weight: 500; line-height: 16.5px; letter-spacing: 0.88px; text-transform: uppercase; color: var(--pn-muted); }
 
+/* Turnstile, if Cloudflare asks for a click: room above it (landing/Turnstile.jsx). */
+.pn-signin .cf-check.is-shown { margin-top: 20px; }
+
 /* What went wrong: the app's status pill, red dot, over the fields. */
 .pn-message {
   display: inline-flex; align-items: flex-start; gap: 8px; margin-bottom: 20px; padding: 3px 8px;
@@ -154,6 +157,7 @@
 
 /* The small Google / Apple window while it finishes. */
 .pn-oauth-return {
+  padding: 24px; text-align: center;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 100svh;
   background: #111318; color: rgba(203, 213, 225, 0.62); font: 14px/1.5 Inter, ui-sans-serif, system-ui, sans-serif;
 }

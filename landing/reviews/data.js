@@ -1,16 +1,23 @@
 import { REVIEWS_MOCK, REVIEWS_ON, SUPABASE_ANON_KEY, SUPABASE_URL } from './config.js';
 
 // The site's one Supabase client, made the first time it's needed (so supabase-js loads only on pages
-// that use it). Its sign-in is kept in this browser under its own key; it isn't the web app's session,
-// which lives on the app's own domain. Google and Apple come back with a one-time code (PKCE), which
-// the client trades for a session only on an address marked ?review= (ReviewDialog.jsx).
+// that use it). A sign-in here lasts only as long as the review popup: it's kept in this tab's
+// sessionStorage (gone when the tab closes, never shared with other tabs) and ended when the popup
+// closes (ReviewDialog.jsx). It isn't the web app's session, which lives on the app's own domain.
+// Google and Apple come back with a one-time code (PKCE): the small sign-in window hands it to this
+// page, which trades it (SignInPanel.jsx); only after a full page trip there and back (?review=open)
+// does the client read it off the address itself.
+const tabStorage = {
+  getItem: (k) => { try { return window.sessionStorage.getItem(k); } catch { return null; } },
+  setItem: (k, v) => { try { window.sessionStorage.setItem(k, v); } catch { /* private mode: memory only */ } },
+  removeItem: (k) => { try { window.sessionStorage.removeItem(k); } catch { /* nothing kept */ } },
+};
 let clientPromise = null;
 export function getSupabase() {
   if (!REVIEWS_ON || !SUPABASE_URL || !SUPABASE_ANON_KEY) return Promise.resolve(null);
-  // Only where a sign-in comes back: the Google / Apple window, or a page back from a full trip there.
-  const returning = typeof window !== 'undefined' && ['open', 'oauth'].includes(new URLSearchParams(window.location.search).get('review'));
+  const returning = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('review') === 'open';
   clientPromise ??= import('@supabase/supabase-js').then(({ createClient }) => createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-    auth: { persistSession: true, autoRefreshToken: true, flowType: 'pkce', detectSessionInUrl: returning, storageKey: 'poolnautics-reviews-auth' },
+    auth: { persistSession: true, storage: tabStorage, autoRefreshToken: true, flowType: 'pkce', detectSessionInUrl: returning, storageKey: 'poolnautics-reviews-auth' },
   }));
   return clientPromise;
 }

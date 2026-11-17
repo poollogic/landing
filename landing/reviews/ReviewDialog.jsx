@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Loader2, X } from 'lucide-react';
 import { getSupabase, safeHttps } from './data.js';
 import { REVIEWS_MOCK } from './config.js';
-import SignInPanel from './SignInPanel.jsx';
+import SignInPanel, { OFFICE_ONLY } from './SignInPanel.jsx';
 import ReviewForm from './ReviewForm.jsx';
 import ReviewCard from './ReviewCard.jsx';
 import './signin.css';
@@ -11,9 +11,12 @@ import './reviews.css';
 // The review popup, over whatever page the visitor is on (opened by openReview.js; nothing here
 // loads until then). One <dialog>, three steps: sign in (SignInPanel) → the company's review
 // (ReviewForm) → the card as the homepage shows it. Someone already signed in starts at the form.
-// The page underneath never changes; Escape, the X and the backdrop close it.
+// The page underneath never changes; Escape, the X and the backdrop close it. Closing it signs out:
+// no sign-in is left on this site once the popup is gone (data.js keeps it to this tab meanwhile).
 
 const NO_ACCOUNT = 'That sign-in isn’t linked to a Poolnautics company, so it can’t post a review. Use the account you sign in to Poolnautics with.';
+// Phone-only logins (the web app's canUseWebApp); the database refuses them too (20270208120000).
+const isPhoneOnly = (role) => ['technician', 'repair_tech'].includes(String(role ?? '').trim().toLowerCase().replace(/[\s-]+/g, '_'));
 
 /** A refusal from Google or Apple, read off the address (?error=… or #error=…), in plain words. */
 export function readOAuthError() {
@@ -47,7 +50,9 @@ export default function ReviewDialog({ register }) {
   // Who's signed in, their company, and its review if it has one (RLS: their own company only).
   const loadAccount = useCallback(async (client, session) => {
     setStep({ name: 'loading' });
-    const { data: profile } = await client.from('profiles').select('full_name, organization_id').eq('id', session.user.id).maybeSingle();
+    const { data: profile } = await client.from('profiles').select('full_name, organization_id, role').eq('id', session.user.id).maybeSingle();
+    // A Google or Apple login of a technician (email and password are refused by the app's sign-in).
+    if (profile && isPhoneOnly(profile.role)) { await client.auth.signOut({ scope: 'local' }); signIn(OFFICE_ONLY); return; }
     const [{ data: org }, { data: existing }] = profile?.organization_id
       ? await Promise.all([
         client.from('organizations').select('company_name, branding').eq('id', profile.organization_id).maybeSingle(),
@@ -55,7 +60,7 @@ export default function ReviewDialog({ register }) {
       ])
       : [{ data: null }, { data: null }];
     // A Google or Apple login with no Poolnautics company: signed straight back out, as the app does.
-    if (!org) { await client.auth.signOut(); signIn(NO_ACCOUNT); return; }
+    if (!org) { await client.auth.signOut({ scope: 'local' }); signIn(NO_ACCOUNT); return; }
     setStep({
       name: 'form',
       account: { companyName: org.company_name, fullName: profile.full_name, website: safeHttps(org.branding?.websiteUrl) },
@@ -97,10 +102,12 @@ export default function ReviewDialog({ register }) {
   const close = () => {
     setOpen(false);
     if (/^\/reviews\/write\/?$/.test(window.location.pathname)) cleanAddress();
+    // This browser's sign-in on the site ends with the popup (only this one; the app stays signed in).
+    db?.auth.signOut({ scope: 'local' }).catch(() => {});
   };
 
   const signOut = async () => {
-    await db.auth.signOut();
+    await db.auth.signOut({ scope: 'local' });
     signIn();
   };
 
@@ -170,30 +177,32 @@ export default function ReviewDialog({ register }) {
 }
 
 /**
- * The small Google / Apple window's page (/reviews/write?review=oauth, app.jsx). It trades the
- * provider's code for a session, which lands in this site's storage that the page underneath shares,
- * tells that page, and closes. Opened as a tab with no way back (some phones), it carries on there.
+ * The small Google / Apple window's page (/reviews/write?review=oauth, app.jsx). It hands the
+ * provider's one-time code (or why there's none) to the page that opened it, which trades it, and
+ * closes: this window never holds a session. With no page to hand it to (a phone that opened it as a
+ * plain tab), it says to go back and sign in with email and password.
  */
 export function OAuthReturn() {
+  const [orphan, setOrphan] = useState(false);
   useEffect(() => {
-    (async () => {
-      const error = readOAuthError();
-      const client = await getSupabase();
-      const { data } = client ? await client.auth.getSession() : { data: {} };
-      const ok = !!data?.session;
-      const opener = window.opener && !window.opener.closed ? window.opener : null;
-      if (opener) {
-        opener.postMessage({ type: 'poolnautics-review-sign-in', ok, error: ok ? null : error }, window.location.origin);
-        window.close();
-        return;
-      }
-      window.location.replace('/reviews?review=open');
-    })();
+    const code = new URLSearchParams(window.location.search).get('code');
+    const error = code ? null : (readOAuthError() ?? 'That sign-in didn’t work. Try again, or use your email and password.');
+    window.history.replaceState(null, '', window.location.pathname);
+    const opener = window.opener && !window.opener.closed ? window.opener : null;
+    if (!opener) { setOrphan(true); return; }
+    opener.postMessage({ type: 'poolnautics-review-sign-in', code, error }, window.location.origin);
+    window.close();
   }, []);
   return (
     <div className="pn-oauth-return" role="status">
-      <Loader2 size={24} className="pn-spin" aria-hidden="true" />
-      <span>Signing you in…</span>
+      {orphan ? (
+        <span>Sign-in couldn’t finish here. Close this tab, go back to Poolnautics, and sign in with your email and password.</span>
+      ) : (
+        <>
+          <Loader2 size={24} className="pn-spin" aria-hidden="true" />
+          <span>Signing you in…</span>
+        </>
+      )}
     </div>
   );
 }
