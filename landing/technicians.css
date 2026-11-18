@@ -1,5 +1,5 @@
 /* "Technicians on autopilot" (TechniciansSection.jsx). The phone's own styles: technicians/pn-phone.css. */
-.ta-section { background: #F6F8FB; padding-inline: 24px; } /* top and bottom: --section-pad-y (home-roles.css) */
+.ta-section { background: #f8fafc; padding-inline: 24px; } /* top and bottom: --section-pad-y (home-roles.css) */
 .ta-inner { max-width: 1040px; margin: 0 auto; }
 #technicians .section-head .section-sub { max-width: 600px; margin-left: auto; margin-right: auto; }
 
@@ -28,8 +28,16 @@
 .ta-list li { padding: 28px 0; border-top: 1px solid #E4E8EF; }
 .ta-list li:first-child { padding-top: 0; border-top: 0; }
 .ta-list li:last-child { padding-bottom: 0; }
-.ta-list h3 { letter-spacing: -0.3px; color: #0E1117; margin: 0 0 10px; } /* size and weight: the card-title role */
-.ta-list p { font-size: 16px; line-height: 1.65; color: #475569; margin: 0; }
+.ta-list h3 { letter-spacing: -0.3px; color: #0f172a; margin: 0 0 10px; } /* size and weight: the card-title role */
+.ta-list p { font-size: 16px; line-height: 1.65; color: #475569; margin: 0; text-wrap: pretty; }
+
+/* Desktop: the phone at 80% (262 × 551px) beside a 520px column, centred as a pair. */
+@media (min-width: 1024px) {
+  .ta-grid { grid-template-columns: 262px 520px; column-gap: 80px; }
+  .ta-phone-col { width: 262px; }
+  .ta-list { width: 520px; }
+  #technicians .pn-phone.ta-pn-front { --pn-zoom: .56; }
+}
 
 @media (max-width: 860px) {
   .ta-grid { grid-template-columns: 1fr; gap: 56px; }

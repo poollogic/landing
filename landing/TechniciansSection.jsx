@@ -26,7 +26,7 @@ export default function TechniciansSection() {
         <SectionHeader
           id="technicians-heading"
           eyebrow="Technicians on autopilot"
-          title="Service reports you never have to police."
+          title="Service reports you never have to babysit."
           subtitle="Your techs get one simple app. You get proof every pool was serviced, the readings you require, and every mile logged."
           titleClassName="text-slate-900"
         />
@@ -37,15 +37,15 @@ export default function TechniciansSection() {
           <ul className="ta-list">
             <li>
               <h3>Reports they can’t fake</h3>
-              <p>Every report is stamped with the phone’s GPS location the moment it’s sent. Photos come from the in-app camera only. No camera-roll uploads. At least one photo is required before a report will send, so your customer always sees the pool their tech just left. No more wondering if a stop really happened.</p>
+              <p>Every report is stamped with the phone’s GPS location the moment it’s sent. Photos come from the in-app camera only, and at least one is required, so your customer always sees the pool their tech just left.</p>
             </li>
             <li>
               <h3>The readings you require</h3>
-              <p>Pick which readings your techs have to test. Stabilizer isn’t a weekly test? Uncheck it. Skip a required one, and the tech has to explain why before the report will send. No more calls from customers asking where their reading went.</p>
+              <p>Pick which readings your techs have to test, and set your own ideal range for each. Anything outside it is flagged on the spot, and a skipped reading has to be explained before the report will send.</p>
             </li>
             <li>
               <h3>Mileage that logs itself</h3>
-              <p>The phone’s GPS tracks every drive. When the route is done, your dashboard gets a stop-by-stop breakdown with the miles between each one. Accurate numbers for taxes and bookkeeping, no logbook.</p>
+              <p>The phone’s GPS tracks every drive. Your dashboard gets a stop-by-stop breakdown with the miles between each one, ready for taxes and bookkeeping.</p>
             </li>
           </ul>
         </div>

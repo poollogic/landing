@@ -39,6 +39,11 @@
 .fq-item summary:focus-visible { outline: 2px solid #2e85ff; outline-offset: 4px; border-radius: 6px; }
 .fq-item p { margin: -6px 0 0; padding: 0 40px 24px 0; font-size: 16px; line-height: 1.65; color: #6e6e73; }
 
+/* The homepage's: the light sections' grey, heading and body colours. */
+.lp-home #faq { background: #f8fafc; }
+.lp-home #faq .section-title { color: #0f172a; }
+.lp-home #faq .fq-item p { color: #475569; }
+
 @media (prefers-reduced-motion: reduce) {
   .fq-item summary svg { transition: none; }
 }

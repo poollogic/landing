@@ -59,12 +59,12 @@ function FounderPhoto() {
 export default function FounderSection() {
   const [open, setOpen] = useState(false);
   return (
-    <section id="founder" className="bg-[#F5F5F7]" aria-labelledby="founder-heading">
+    <section id="founder" className="bg-[#F8FAFC]" aria-labelledby="founder-heading">
       <div className="container">
         {/* Header */}
         {/* Phones: left-aligned and smaller (editorial); md and up: centred */}
         <div className="founder-head mx-auto max-w-[1000px] md:text-center">
-          <p className="text-[15px] font-semibold text-[#2E85FF] md:text-[17px]">Built on the route, not in a boardroom.</p>
+          <p className="section-eyebrow founder-eyebrow">Built on the route, not in a boardroom.</p>
           <h2 id="founder-heading" className="founder-title mt-2.5 [text-wrap:pretty] md:mt-3.5 md:[text-wrap:balance]">
             <span className="block text-[#1D1D1F]">Most pool software creates more work.</span>{' '}
             <span className="block text-[#86868B]">Poolnautics takes it off your plate.</span>
@@ -83,7 +83,7 @@ export default function FounderSection() {
 
           <div className={SHOW_PHOTO ? 'lg:order-1 lg:self-center' : undefined}>
             {/* Phones show 2 paragraphs (fading out) until "Read the full story" (founder.css) */}
-            <div id="founder-story" className={`founder-story space-y-5 text-[16px] leading-[1.6] text-[#6E6E73] md:text-[17px] md:leading-[1.65]${open ? '' : ' is-collapsed'}`}>
+            <div id="founder-story" className={`founder-story space-y-5 text-[16px] leading-[1.6] text-[#475569] md:text-[17px] md:leading-[1.65]${open ? '' : ' is-collapsed'}`}>
               {LETTER.map((p, i) => <p key={i}>{p}</p>)}
               <p className="font-medium text-[#1D1D1F]">— Jonathan Timms, Founder of Poolnautics</p>
             </div>

@@ -18,17 +18,17 @@ import './revenue.css';
 const FEATURES = [
   {
     n: '01',
-    title: 'Nothing Slips Through the Cracks',
+    title: 'Nothing slips through the cracks',
     body: 'A card fails on autopay? An invoice goes past due? Poolnautics puts it at the top of your dashboard with one tap to fix it, and automatically sends overdue reminders to customers for you.',
   },
   {
     n: '02',
-    title: 'Late Fees on Autopilot',
+    title: 'Late fees on autopilot',
     body: 'Set a flat or percentage fee and a grace period once. Poolnautics adds it in the daily billing run. No awkward phone calls.',
   },
   {
     n: '03',
-    title: 'Automatic Pause & Resume',
+    title: 'Automatic pause and resume',
     body: 'Customers who stop paying are paused, billing and service, and resume the moment they pay. Their route slot is held.',
   },
 ];

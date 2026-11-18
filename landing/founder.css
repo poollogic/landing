@@ -8,3 +8,6 @@
             mask-image: linear-gradient(#000 calc(100% - 64px), transparent);
   }
 }
+
+/* The kicker is a standard eyebrow (home-roles.css): its gap to the heading is the heading's own margin. */
+#founder .founder-eyebrow { margin-bottom: 0; }

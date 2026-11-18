@@ -26,13 +26,8 @@
   pointer-events: none;
 }
 
-/* The headline's gradient (the eyebrow, sizes and subhead: home-roles.css). */
-.ra-section .ra-h2 {
-  background: linear-gradient(180deg, #fff 30%, rgba(255, 255, 255, .62));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+/* The headline, solid white (the eyebrow, sizes and subhead: home-roles.css). */
+.ra-section .ra-h2 { color: #fff; }
 
 /* ---------- Cards ---------- */
 .ra-panels { align-items: stretch; }

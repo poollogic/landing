@@ -2,11 +2,12 @@
    Desktop above 1040px, tablet 641–1040px, phone 640px and below. The card's three columns sit side
    by side down to 761px and stack below it, where the dividers turn horizontal and the arrows point
    down. Colours: the approved design's (ink #0e1117, body #4a5568, labels #56657f, lines #e3e8f0 /
-   #dde3ec, blue #1d5fe8, Paid #dcfce7 / #166534). Nothing moves except the card's entrance. */
+   #dde3ec, blue #1d5fe8), the heading in the light sections' #0f172a, Paid in green on a green tint.
+   Nothing moves except the card's entrance. */
 
 .ba-section {
   padding-inline: 24px; /* top and bottom: --section-pad-y (home-roles.css) */
-  background: #f6f8fb;
+  background: #f8fafc;
 }
 .ba-inner {
   display: flex;
@@ -19,10 +20,31 @@
 }
 
 /* ---------- Header (SectionHeader; type and spacing: home-roles.css) ---------- */
-.ba-section .section-title { max-width: 820px; margin-inline: auto; color: #0e1117; text-wrap: balance; }
+.ba-section .section-title { max-width: 820px; margin-inline: auto; color: #0f172a; text-wrap: balance; }
 .ba-section .section-sub { max-width: 620px; }
 
 /* ---------- The card: what you set → what Poolnautics sends → what they pay ---------- */
+/* The card's box, holding the card and its pill: the pill centred on the card's top edge, across the border. */
+.ba-card-wrap { position: relative; width: 100%; max-width: 920px; }
+.ba-pill {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  margin: 0;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: linear-gradient(rgb(46, 133, 255), rgb(29, 101, 244)); /* the primary button's */
+  box-shadow: 0 4px 12px rgba(46, 133, 255, .30);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #fff;
+  transform: translate(-50%, -50%);
+}
 .ba-card {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -65,8 +87,9 @@
 /* Desktop: each column's label, value and note centred on the column's middle (the value and the third
    step's "Paid" tag centred together, on one line). */
 @media (min-width: 1024px) {
-  .ba-col { align-items: center; text-align: center; }
+  .ba-col { align-items: center; padding: 42px 30px 36px; text-align: center; }
   .ba-value { justify-content: center; }
+  .ba-note { text-wrap: balance; }
 }
 
 /* The divider on a column's leading edge, 22px short of the card's top and bottom, with an arrow on it. */

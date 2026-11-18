@@ -1,5 +1,5 @@
-/* What makes the service report phone move, copied unchanged from poolnautics-service-report.html
-   (Desktop, 2026-11-13): draws each ruler's marks, lets a finger or mouse slide them, keeps each
+/* What makes the service report phone move, copied from poolnautics-service-report.html
+   (Desktop, 2026-11-13), except that Free and Total Chlorine show no range flag here (statusOf): draws each ruler's marks, lets a finger or mouse slide them, keeps each
    reading's status and the LSI current, and works the switches and ticks. The in-range rules and
    the LSI are the app's own (a saltwater, plaster pool). Wrapped to run once per phone, inside
    `scope`, after the page has hydrated (TechniciansSection.jsx), instead of at page load. */
@@ -54,16 +54,8 @@ export default function initPnPhones(scope) {
       var v = val(key);
       if (v === null) return "";
       if (BANDS[key]) return flag(v, BANDS[key]);
-      if (key === "fc") {
-        var cya = val("cya");
-        if (cya) return v < cya * 0.075 ? "Critical" : v < cya * 0.125 ? "Acceptable" : v > cya * 0.15 ? "High" : "In Range";
-        return v < 1 ? "Critical" : v < 2 ? "Low" : v > 5 ? "High" : "In Range";
-      }
-      if (key === "tc") {
-        var fc = val("fc");
-        if (fc === null) return "";
-        return v - fc >= 1 ? "Critical" : v - fc > 0.4 ? "High" : "In Range";
-      }
+      // Free and Total Chlorine: no range flag and no warning on the marketing phone, at any value
+      // (the flag's column stays, empty, so the numbers line up with the other readings).
       if (key === "pressure") return v >= BASELINE_PSI + 8 ? "High" : "In Range";
       return "";
     }

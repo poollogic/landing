@@ -6,7 +6,7 @@
 .dt-section {
   position: relative;
   overflow: hidden;
-  padding: 140px 24px;
+  padding: 112px 24px;
   background: #08090c;
   color: #f8fafc;
   text-align: center;
@@ -24,6 +24,7 @@
 .dt-inner { position: relative; max-width: 820px; margin: 0 auto; }
 
 /* Type: the statement, subhead and closing roles (home-roles.css). */
+.dt-eyebrow { margin: 0 0 var(--eyebrow-to-title); }
 .dt-title { margin: 0; }
 .dt-title-line { display: block; }
 .dt-sub {

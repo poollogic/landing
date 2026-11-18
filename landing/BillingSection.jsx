@@ -15,10 +15,11 @@ import './billing-section.css';
 
 const STEPS = [
   { label: 'You set', value: '$145 / month', note: 'Monthly, starting Dec 14' },
-  { label: 'Poolnautics sends', value: 'Sent Dec 14', note: 'Invoice emailed, card fee and chemicals added' },
-  { label: 'They pay', value: '$149.21', tag: 'Paid', note: 'One tap, or automatically on autopay' },
+  { label: 'Poolnautics sends', value: 'Sent Dec 14', note: 'Emailed to the customer in the 8:30 AM billing run' },
+  // No card fee in the example: what they pay is the rate.
+  { label: 'They pay', value: '$145.00', tag: 'Paid', note: 'One tap, or automatically on autopay' },
 ];
-const POINTS = ['Monthly, quarterly or yearly', 'A different day for every customer', 'Saved cards charged automatically'];
+const POINTS = ['Monthly, quarterly or yearly', 'Chemicals added to the invoice, if you want', 'Saved cards charged automatically'];
 
 const Tick = () => (
   <svg className="ba-tick" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
@@ -53,30 +54,35 @@ export default function BillingSection() {
         <SectionHeader
           id="billing-heading"
           eyebrow="Billing on autopilot"
-          title="Never run billing again. Set it once."
-          subtitle="Give each customer a rate and a date. The invoices go out by themselves from then on. No billing runs. No Send button."
+          title="Never think about billing again. Set it once."
+          subtitle="Give each customer a rate and their own billing day. The invoices go out by themselves from then on. No more billing everyone on the 1st."
         />
 
-        {/* role="list": Safari drops a list's semantics once its markers are styled away. */}
-        <ol ref={cardRef} className={`ba-card${cls}`} role="list">
-          {STEPS.map((s, i) => (
-            <li key={s.label} className="ba-step" style={{ '--i': i }}>
-              {i > 0 && (
-                <span className="ba-divider" aria-hidden="true">
-                  <span className="ba-arrow"><ArrowRight size={14} strokeWidth={2.6} /></span>
-                </span>
-              )}
-              <div className="ba-col">
-                <span className="ba-label">{s.label}</span>
-                <span className="ba-value">
-                  {s.value}
-                  {s.tag && <span className="ba-tag">{s.tag}</span>}
-                </span>
-                <span className="ba-note">{s.note}</span>
-              </div>
-            </li>
-          ))}
-        </ol>
+        {/* The card, with its "Included in every plan" pill on the top edge: beside the list, not in
+            it, so the list is the three steps. */}
+        <div className="ba-card-wrap">
+          <p className="ba-pill">Included in every plan</p>
+          {/* role="list": Safari drops a list's semantics once its markers are styled away. */}
+          <ol ref={cardRef} className={`ba-card${cls}`} role="list">
+            {STEPS.map((s, i) => (
+              <li key={s.label} className="ba-step" style={{ '--i': i }}>
+                {i > 0 && (
+                  <span className="ba-divider" aria-hidden="true">
+                    <span className="ba-arrow"><ArrowRight size={14} strokeWidth={2.6} /></span>
+                  </span>
+                )}
+                <div className="ba-col">
+                  <span className="ba-label">{s.label}</span>
+                  <span className="ba-value">
+                    {s.value}
+                    {s.tag && <span className="ba-tag">{s.tag}</span>}
+                  </span>
+                  <span className="ba-note">{s.note}</span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
 
         <ul className="ba-points" role="list">
           {POINTS.map((p) => <li key={p}><Tick /><span>{p}</span></li>)}
