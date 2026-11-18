@@ -153,13 +153,16 @@
 .dt-close { max-width: 760px; margin: 132px auto 0; }
 .dt-close-1 { margin: 0; }
 .dt-close-2 { margin: 16px 0 0; font-size: 20px; line-height: 1.5; color: #8b95a7; }
-/* The site's primary button (hero.css .hero-cta), at this section's size. */
-.hero-cta.dt-cta {
-  min-height: 48px;
-  margin-top: 34px;
-  padding: 16px 30px;
-  font-size: 16.5px;
-  font-weight: 600;
+/* The site's primary button (hero.css .hero-cta). On desktop it's the site's one size (hero.css,
+   "Main buttons"); below that, this section's. */
+.hero-cta.dt-cta { margin-top: 34px; }
+@media (max-width: 1023.98px) {
+  .hero-cta.dt-cta {
+    min-height: 48px;
+    padding: 16px 30px;
+    font-size: 16.5px;
+    font-weight: 600;
+  }
 }
 
 /* Rise in once, as they come up the window. */

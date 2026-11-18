@@ -145,8 +145,12 @@
 .rsv-price-plans em { display: block; margin-top: 2px; font-size: 13.5px; font-style: normal; line-height: 1.4; color: #a9b6c9; }
 .rsv-price .rsv-price-trial { margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(96, 165, 250, .16); font-size: 14px; font-weight: 500; color: #cbd5e1; text-wrap: balance; }
 
-/* The buttons: the homepage hero CTA, full width (also /contact's form: contact.css) */
-.rsv-card .rsv-cta { width: 100%; max-width: none; margin-top: 20px; justify-content: center; padding: 14px 20px; border-radius: 12px; }
+/* The buttons: the homepage hero CTA, full width (also /contact's form: contact.css). On desktop, the
+   site's one button size (hero.css, "Main buttons"); below that, their own. */
+.rsv-card .rsv-cta { width: 100%; max-width: none; margin-top: 20px; justify-content: center; }
+@media (max-width: 1023.98px) {
+  .rsv-card .rsv-cta { padding: 14px 20px; border-radius: 12px; }
+}
 /* Cloudflare's human check (Turnstile.jsx), when it shows: the same gap above it as above the button. */
 .cf-check.is-shown { margin-top: 20px; }
 .rsv-card .rsv-cta:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }

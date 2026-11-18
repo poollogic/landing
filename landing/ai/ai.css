@@ -79,8 +79,10 @@
 /* Desktop, side by side from 960px. The hero fills the first screen below the nav (at least: on a
    screen too short for it, it grows rather than clipping), with the two columns centred in it on one
    line, so the assistant window has as much space above it, below the nav, as below it, above the
-   fold. The columns scale down together (CSS zoom, so their layout shrinks too: nothing is left
-   behind as empty space), by whichever is tighter:
+   fold. From 1024px only the assistant window scales (CSS zoom, so its layout shrinks too: nothing is
+   left behind as empty space); the copy, its buttons and fine print are at their true size at every
+   desktop size. From 960px to 1024px both columns scale together, the headline and paragraph kept at
+   their own size. The scale is whichever is tighter:
    - Width (--ai-zw), under 1180px: the 1180px layout, scaled to fit, so a slightly smaller screen
      gets the same hero, smaller. Steps every 20px, each sized for the bottom of its step, with room
      for a 17px scrollbar: (width - 64 gutters - 17) / 1116, the content width at 1180.
@@ -95,11 +97,8 @@
     display: flex; align-items: center;
   }
   .ai-page .hero.ai-hero > .container { width: 100%; } /* a flex item with auto margins would shrink to its content */
-  .ai-page .ai-hero-grid { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 64px; margin-top: 0; zoom: min(var(--ai-zw, 1), var(--ai-zh, 1)); }
+  .ai-page .ai-hero-grid { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 64px; margin-top: 0; }
   .ai-page .ai-hero-visual .ai-chat { margin-right: 0; } /* its right edge on the nav's, at any scale */
-  /* Except the headline and paragraph: the inverse zoom keeps them at their own size (hero.css,
-     "Compact hero type"), the same as /reserve's at every width, and they rewrap in their column. */
-  .ai-page .ai-hero-grid :is(.hero-title, .hero-sub) { zoom: calc(1 / min(var(--ai-zw, 1), var(--ai-zh, 1))); }
   @media (max-height: 939.98px) { .ai-page .ai-hero-grid { --ai-zh: .978; } }
   @media (max-height: 919.98px) { .ai-page .ai-hero-grid { --ai-zh: .956; } }
   @media (max-height: 899.98px) { .ai-page .ai-hero-grid { --ai-zh: .935; } }
@@ -136,6 +135,16 @@
   @media (max-width: 999.98px) { .ai-page .ai-hero-grid { --ai-zw: .805; } }
   @media (max-width: 979.98px) { .ai-page .ai-hero-grid { --ai-zw: .787; } }
 }
+/* From 1024px: the assistant window alone scales. */
+@media (min-width: 1024px) {
+  .ai-page .ai-hero-visual { zoom: min(var(--ai-zw, 1), var(--ai-zh, 1)); }
+}
+/* 960px to 1024px: both columns scale, except the headline and paragraph, which the inverse zoom keeps
+   at their own size (hero.css, "Compact hero type"), the same as /reserve's, rewrapped in their column. */
+@media (min-width: 960px) and (max-width: 1023.98px) {
+  .ai-page .ai-hero-grid { zoom: min(var(--ai-zw, 1), var(--ai-zh, 1)); }
+  .ai-page .ai-hero-grid :is(.hero-title, .hero-sub) { zoom: calc(1 / min(var(--ai-zw, 1), var(--ai-zh, 1))); }
+}
 @media (max-width: 767.98px) {
   .ai-page .ai-hero .hero-sub { max-width: none; margin-inline: 0; }
   .ai-page .ai-hero .hero-fine { max-width: none; }
@@ -145,17 +154,21 @@
   .ai-page .ai-hero .hero-fine { text-align: center; margin-inline: auto; text-wrap: balance; }
 }
 
-/* CTAs: the hero's primary button, and a quiet secondary beside it. */
+/* CTAs: the hero's primary button, and a quiet secondary beside it. On desktop both are the site's one
+   button size (hero.css, "Main buttons"); the sizes here are for phones and tablets. */
 .ai-page .ai-cta-row { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
 .ai-page .ai-cta-row--center { justify-content: center; }
 .ai-page .ai-cta-row--left { margin-top: 32px; }
-.ai-page .ai-cta { margin-top: 0; height: 56px; padding: 0 26px 0 30px; border-radius: var(--ai-r-button); }
+.ai-page .ai-cta { margin-top: 0; }
+@media (max-width: 1023.98px) {
+  .ai-page .ai-cta { height: 56px; padding: 0 26px 0 30px; border-radius: var(--ai-r-button); }
+  .ai-page .ai-cta-ghost { height: 56px; padding: 0 24px; border-radius: var(--ai-r-button); font-size: 16px; font-weight: 600; }
+}
 .ai-page .hero-cta { background: linear-gradient(180deg, var(--brand-blue), var(--ai-blue-deep)); } /* hero.css's, in the one blue */
 .ai-page .hero-cta:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), inset 0 -1px 0 rgba(0, 0, 0, .2), 0 0 0 1px rgba(46, 133, 255, .8), 0 6px 14px -4px rgba(0, 0, 0, .45); }
 .ai-page .ai-cta-ghost {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  height: 56px; padding: 0 24px; border-radius: var(--ai-r-button);
-  font-size: 16px; font-weight: 600; color: var(--mktg-text-primary);
+  color: var(--mktg-text-primary);
   background: rgba(255, 255, 255, .04);
   box-shadow: inset 0 0 0 1px var(--ai-line-strong);
   transition: background-color .2s, box-shadow .2s;

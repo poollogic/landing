@@ -212,7 +212,7 @@ export function isFromPoolnautics(rawBody, signatureHeader, secret) {
 
 function DocsCta() {
   return (
-    <a href={API_DOCS_URL} className={`ai-cta-ghost ${FOCUS}`}>
+    <a href={API_DOCS_URL} className={`ai-cta-ghost cta-secondary ${FOCUS}`}>
       <BookOpen size={17} strokeWidth={1.75} aria-hidden="true" />
       Read the API docs
     </a>

@@ -53,6 +53,10 @@ These apply to the homepage hero for now: `<section class="hero">`, including th
 
 To widen the guardrails to more of the site, extend `SOURCE` and `ROUTES` at the top of `scripts/seo-check.mjs`, and update this section.
 
+## Buttons
+
+The main call-to-action button is `.hero-cta` (primary, with a page modifier such as `.ai-cta` or `.rsv-cta`) and `.cta-secondary` (the outlined one beside it). On desktop (1024px and up) every one of them is one size, the `--cta-*` tokens in `index.html` applied by the "Main buttons" rule in `landing/hero.css`: 48px tall, 24px side padding, 15px semibold, 10px corners. A page's own button sizes go in a `max-width: 1023.98px` rule, so they never fight that one. The nav's button, chips and text links are separate.
+
 ## Deploys
 
 Don't put a long or `immutable` Cache-Control on `/assets/*` in `public/_headers`. A missing asset URL is answered with HTML (`dist/404.html`, the homepage marked noindex, with a 404 status; it used to be `index.html` with a 200), and a long cache pins that HTML under a JS URL, which took the site down once. Every address with no page or rule gets that 404, so a new page needs its pre-render or its `_redirects` rule (the check enforces it). `/with/*` (partner pages, not built yet) shows the homepage. `public/.well-known/ard.json` lists the site's resources for AI agents (Agentic Resource Discovery): keep its URLs real. After a push, load the live homepage and `/pricing` in a fresh browser and check for module errors.

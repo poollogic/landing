@@ -64,22 +64,21 @@
 .rf-page .rf-dark .section-sub { color: #a9b6ca; }
 
 /* ---------- Buttons and links ---------- */
-/* The sign-up button is the homepage's (hero.css .hero-cta), at this page's size. */
-.rf-page .rf-cta { min-height: 52px; margin-top: 0; padding: 14px 24px; }
+/* The sign-up button is the homepage's (hero.css .hero-cta). On desktop it and the secondary are the
+   site's one button size (hero.css, "Main buttons"); the sizes here are for phones and tablets. */
+.rf-page .rf-cta { margin-top: 0; }
 .rf-page .rf-cta-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 52px;
-  padding: 14px 24px;
   border: 1px solid #3a4458;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.25;
   color: #f8fafc;
   transition: background-color .2s, border-color .2s;
+}
+@media (max-width: 1023.98px) {
+  .rf-page .rf-cta { min-height: 52px; padding: 14px 24px; }
+  .rf-page .rf-cta-ghost { min-height: 52px; padding: 14px 24px; border-radius: 12px; font-size: 16px; font-weight: 600; line-height: 1.25; }
 }
 .rf-page .rf-cta-ghost:hover { border-color: #56657f; background: rgba(255, 255, 255, .06); }
 .rf-page .rf-text-link {
@@ -247,10 +246,9 @@
   .rf-page .rf-hero-checks { gap: calc(var(--rf-hero-text) * .556); }
   .rf-page .rf-hero-checks li { font-size: calc(var(--rf-hero-text) * .889); }
   .rf-page .rf-hero-checks .rf-tick { width: 1em; height: 1em; margin-top: .25em; }
-  /* The buttons, in em of the row's 16px (at 1440 × 900): 52px tall, 14px × 24px inside. */
+  /* The row, in em of its 16px (at 1440 × 900). Its buttons are the site's one size (hero.css,
+     "Main buttons"), at every screen size. */
   .rf-page .rf-hero-actions { gap: .75em 1.5em; margin-top: .625em; font-size: calc(var(--rf-hero-text) * .889); }
-  .rf-page .rf-hero .rf-cta { min-height: 3.25em; padding: .875em 1.5em; font-size: 1em; }
-  .rf-page .rf-hero .rf-cta > svg { width: 1.125em; height: 1.125em; }
   .rf-page .rf-hero .rf-text-link { font-size: 1em; }
   .rf-page .rf-hero-visual { height: var(--rf-hero-vis); }
   .rf-page .rf-hero-browser { right: calc(var(--rf-hero-vis) * .127); }

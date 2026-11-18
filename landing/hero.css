@@ -284,6 +284,27 @@
 .hero-cta > svg { flex: none; transition: transform .25s; }
 .hero-cta:hover > svg { transform: translateX(3px); }
 
+/* ---------- Main buttons, desktop (≥1024px): one size on every page ----------
+   The primary (.hero-cta, with its page's modifier: .ai-cta, .dt-cta, .rsv-cta, .rf-cta) and the
+   secondary beside it (.cta-secondary: the homepage's "See pricing", the AI page's API docs, /workflow's
+   "Contact us") take their size from the --cta-* tokens (index.html): height, side padding, type and
+   corners. Colours, borders, shadows, hover and the arrow stay each variant's own; a full-width button
+   stays full width. Pages set their buttons' sizes for phones and tablets only (below 1024px), so this
+   is the only size rule on desktop. Not for the nav's button, chips or text links. */
+@media (min-width: 1024px) {
+  :is(.hero-cta, .cta-secondary) {
+    display: inline-flex;
+    align-items: center;
+    height: var(--cta-height);
+    min-height: 0;
+    padding: 0 var(--cta-pad-x);
+    font-size: var(--cta-font-size);
+    font-weight: var(--cta-font-weight);
+    line-height: 1.25;
+    border-radius: var(--cta-radius);
+  }
+}
+
 @media (max-width: 559.98px) {
   .hero-cta { width: 100%; max-width: 360px; padding: 14px 20px; justify-content: center; gap: 10px; }
   .hero-cta > .hero-cta-label { display: flex; flex-direction: column; align-items: center; line-height: 1.25; text-align: center; }

@@ -541,7 +541,7 @@ function Contact({ theme }) {
         <h2 id="contact-heading" className="rf-contact-title">Have more questions?</h2>
         <p className="rf-contact-sub">Tell us how your company handles repairs today, and we’ll show you how the flow would work for you.</p>
         <div className="rf-contact-actions">
-          <a href="/contact" className={`rf-cta-ghost ${FOCUS}`}>Contact us</a>
+          <a href="/contact" className={`rf-cta-ghost cta-secondary ${FOCUS}`}>Contact us</a>
           <PrimaryCta theme={theme} />
         </div>
       </div>

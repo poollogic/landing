@@ -91,7 +91,7 @@ const Hero = () => {
           </a>
           <a
             href="/pricing"
-            className="hero-cta-alt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
+            className="hero-cta-alt cta-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
           >
             See pricing
           </a>
