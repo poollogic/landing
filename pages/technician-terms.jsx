@@ -10,6 +10,9 @@ import React, { useEffect, useState } from 'react';
 
 const VERSION = '2026-11-17';
 const EFFECTIVE = 'November 17, 2026';
+// The page's last edit. A change that technicians must agree to again moves VERSION (and the app's
+// agreement version) instead.
+const UPDATED = 'November 18, 2026';
 
 const SECTIONS = [
   { id: 'about', title: 'About these terms' },
@@ -63,6 +66,7 @@ const TechnicianTermsPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> {EFFECTIVE}</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> {UPDATED}</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Version:</strong> {VERSION}</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
@@ -112,6 +116,7 @@ const TechnicianTermsPage = () => {
             <Section id="company" title="2. Your company is in charge">
               <p>Your company chose Poolnautics and controls your account. It decides which features are turned on for you, what you can see in the app, and how the information you create is used, stored and shared.</p>
               <p>Your company is responsible for giving you any notices and getting any consents the law requires before turning on location features for you. Questions about how your information is used should go to your company first.</p>
+              <p><strong style={{ color: 'var(--ink-2)' }}>If your company leaves Poolnautics, or deactivates you.</strong> When your company's account is deleted (normally 60 days after its plan ends, or sooner if it asks), your account with it is deleted too, and you can no longer sign in. If your company deactivates your account, you can no longer sign in until it reactivates you. Your company's records are kept and deleted as the <Privacy /> describes.</p>
             </Section>
 
             <Section id="location" title="3. Location in the app">
