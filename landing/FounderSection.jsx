@@ -66,8 +66,8 @@ export default function FounderSection() {
         <div className="founder-head mx-auto max-w-[1000px] md:text-center">
           <p className="section-eyebrow founder-eyebrow">Built on the route, not in a boardroom.</p>
           <h2 id="founder-heading" className="founder-title mt-2.5 [text-wrap:pretty] md:mt-3.5 md:[text-wrap:balance]">
-            <span className="block text-[#1D1D1F]">Most pool software creates more work.</span>{' '}
-            <span className="block text-[#86868B]">Poolnautics takes it off your plate.</span>
+            <span className="block text-[rgb(15,23,42)]">Most pool software creates more work.</span>{' '}
+            <span className="block text-[rgb(15,23,42)]">Poolnautics takes it off your plate.</span>
           </h2>
         </div>
 
