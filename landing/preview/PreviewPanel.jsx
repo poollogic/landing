@@ -132,7 +132,8 @@ function LiveRoutes() {
             </span>
             <span className="pl-route-bar">
               {Array.from({ length: t.total }, (_, i) => (
-                <span key={i} className={`pl-route-seg${i < t.done ? ' is-done' : ''}`} />
+                // --i: its place in the bar, for the desktop hero's entrance stagger (hero.css).
+                <span key={i} className={`pl-route-seg${i < t.done ? ' is-done' : ''}`} style={{ '--i': i }} />
               ))}
             </span>
             <span className="pl-route-count">

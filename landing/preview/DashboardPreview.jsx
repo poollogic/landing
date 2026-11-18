@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { Moon, Sun } from 'lucide-react';
 import './preview.css';
 import PreviewSidebar from './PreviewSidebar.jsx';
@@ -8,8 +7,8 @@ import { transitionPreviewTheme, usePreviewTheme } from './previewTheme.js';
 
 // Interactive, single-screen preview of the Poolnautics dashboard for the
 // landing hero. A picture with a few live controls: the account chip and the
-// Dark mode switch in its menu, and the (look-only) Sanitizer dropdown. The
-// theme is also set from the floating pill (PreviewThemePill) and, below lg, the toggle above it.
+// Dark mode switch in its menu, and the (look-only) Sanitizer dropdown. Below lg the
+// theme is also set from the toggle above it (PreviewThemeToggle).
 
 // The toolbar's icons: lucide's drawings, inline, so the toolbar adds no shared icon module (and so
 // no request) to the page's chunks.
@@ -102,58 +101,6 @@ export default function DashboardPreview() {
         </div>
       </div>
     </section>
-  );
-}
-
-/**
- * lg and up: a floating pill at the foot of the window, offering the other theme, while the dashboard
- * fills the screen (its top above 40% of the window's height and its bottom below 80%). After the
- * first switch it folds to its icon, and opens again on hover. A portal into the page's root
- * (.mktg), so the hero's transforms don't move it; rendered in the browser only (Hero.jsx).
- */
-export function PreviewThemePill({ mockupRef }) {
-  const theme = usePreviewTheme();
-  const [shown, setShown] = useState(false);
-  const [used, setUsed] = useState(false);
-
-  useEffect(() => {
-    const el = mockupRef.current;
-    if (!el) return undefined;
-    let raf = 0;
-    const check = () => {
-      raf = 0;
-      const r = el.getBoundingClientRect();
-      const h = window.innerHeight;
-      setShown(r.top < h * 0.4 && r.bottom > h * 0.8);
-    };
-    const schedule = () => { if (!raf) raf = requestAnimationFrame(check); };
-    schedule(); // the first check a frame after mount, not mid-load
-    window.addEventListener('scroll', schedule, { passive: true });
-    window.addEventListener('resize', schedule);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener('scroll', schedule);
-      window.removeEventListener('resize', schedule);
-    };
-  }, [mockupRef]);
-
-  const dark = theme === 'dark';
-  const next = dark ? 'light' : 'dark';
-  const Icon = dark ? Sun : Moon;
-  const root = mockupRef.current?.closest('.mktg') ?? document.body;
-  return createPortal(
-    <div className={`pl-theme-pill${shown ? ' is-shown' : ''}${used ? ' is-used' : ''}`} data-theme={theme}>
-      <span className="pl-theme-pill-label">{dark ? 'Not a dark mode person?' : 'Miss the dark?'}</span>
-      <button
-        type="button"
-        aria-label={`Switch the preview to ${next}`}
-        onClick={() => { setUsed(true); transitionPreviewTheme(next); }}
-      >
-        <Icon className="pl-theme-pill-icon" size={15} strokeWidth={2} aria-hidden="true" />
-        <span className="pl-theme-pill-text" aria-hidden="true">Switch to {next}</span>
-      </button>
-    </div>,
-    root,
   );
 }
 

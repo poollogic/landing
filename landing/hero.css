@@ -133,10 +133,9 @@
 }
 
 /* ---------- Desktop (≥1024px): the hero scrolls as a normal page ----------
-   The nav and the copy are in the flow and scroll away. The copy rises a little faster than the page
-   (useHeroScrollFx.js sets its transform in --hero-shift, without reduced motion). The rays are one
-   viewport tall, from the top-left (no mirror). No entrance animation: its transform would hold the
-   copy's, and the copy and dashboard are drawn in place from the first paint. */
+   The nav and the copy are in the flow and scroll away. The rays are one viewport tall, from the
+   top-left (no mirror). No entrance animation on the copy: it's drawn in place from the first paint.
+   The homepage's own desktop hero (.hero--home) is further down ("Homepage hero, desktop"). */
 @media (min-width: 1024px) {
   .hero {
     background:
@@ -148,7 +147,6 @@
   .hero-decor .light-line { top: -50vh; height: 235vh; }
   .hero-copy,
   .hero-mockup { animation: none; }
-  .hero-copy { transform: var(--hero-shift, none); }
 }
 @media (min-width: 1024px) and (prefers-contrast: more) {
   .hero { background: #111318; }
@@ -188,22 +186,8 @@
   .hero-mockup { margin-inline: calc(-1 * var(--gutter)); }
 }
 
-/* lg and up: the copy block fills the first screen less the dashboard's peek, its content centred
-   between the nav and the laptop, so the top of the dashboard shows under the button: 80px on a
-   ~720px-tall window (enough for the greeting and the first toast), growing with the window's
-   height to 136px. A minimum, not a fixed height, so
-   on a very short window the copy pushes the dashboard down instead of running into it. */
 @media (min-width: 1024px) {
-  .hero { padding-top: 0; --hero-peek: clamp(80px, calc(13vh - 24px), 136px); }
-  /* The content is centred between the nav (64px) and the top of the laptop, which sits 48px above
-     this box's foot: the mockup is raised 38px for the browser toolbar and the bezel stands 10px
-     above the screen. */
-  .hero-copy { min-height: calc(100vh - var(--hero-peek)); padding: 64px 0 48px; justify-content: center; }
-  /* Up by the laptop's browser toolbar (38px), so the toolbar, the greeting and the toast all show. */
-  .hero-mockup { margin-top: -38px; }
-  /* Its size is the --hero-title-size token (home-roles.css). */
-  .hero-copy .hero-title { margin-top: 24px; }
-  .hero-copy .hero-sub { margin-top: 26px; }
+  .hero { padding-top: 0; }
 }
 
 .hero-eyebrow {
@@ -224,6 +208,10 @@
 }
 /* "Run your pool route. / Don't let it run you." – one sentence per line (each may wrap on phones) */
 .hero-title-line { display: block; }
+/* The homepage's eyebrow is the first line of its h1 (Hero.jsx): the same look, line height and gap
+   to the headline as the eyebrow paragraph it replaced (20px; 14px on phones; 16px on desktop). */
+.hero-title > .hero-eyebrow { display: block; line-height: 1.5; margin-bottom: 1.25rem; }
+.hero-copy > .hero-title { margin-top: 0; }
 .hero-sub {
   font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
   line-height: 1.65;
@@ -236,25 +224,34 @@
 }
 .hero-sub strong { color: #E2E8F0; font-weight: 500; }
 
-/* The homepage's checkmarks row, under the button. Each item stays on one line; the row wraps
-   between items. */
-.hero-checks {
+/* The homepage's buttons, under the subhead: the primary and "See pricing" (26px above and below). */
+.hero-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px 18px;
-  margin: 26px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 500;
-  color: #f8fafc;
+  gap: 12px;
+  margin-top: 26px;
 }
-.hero-checks li { white-space: nowrap; }
-.hero-check { margin-right: 7px; color: #34d399; }
-/* The homepage's button, between the subhead and the checkmarks (26px above each). */
-.hero-copy > .hero-sub + .hero-cta { margin-top: 26px; }
+.hero-actions > .hero-cta { margin-top: 0; }
+.hero-cta-alt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  padding: 0 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, .16);
+  background: rgba(255, 255, 255, .03);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color .2s ease;
+}
+.hero-cta-alt:hover { background: rgba(255, 255, 255, .08); }
+/* Two lines under the buttons, in place of a row of checkmarks. */
+.hero-notes { margin-top: 26px; }
+.hero-note { margin: 0; font-size: 15px; font-weight: 500; line-height: 1.5; color: rgb(226, 232, 240); }
+.hero-note-fine { margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: rgb(148, 163, 184); }
 
 .hero-cta {
   display: inline-flex;
@@ -284,15 +281,15 @@
     0 0 0 1px rgba(96, 165, 250, .8),
     0 6px 14px -4px rgba(0, 0, 0, .45);
 }
-.hero-cta-trial { opacity: .75; font-weight: 400; }
 .hero-cta > svg { flex: none; transition: transform .25s; }
 .hero-cta:hover > svg { transform: translateX(3px); }
 
 @media (max-width: 559.98px) {
   .hero-cta { width: 100%; max-width: 360px; padding: 14px 20px; justify-content: center; gap: 10px; }
   .hero-cta > .hero-cta-label { display: flex; flex-direction: column; align-items: center; line-height: 1.25; text-align: center; }
-  .hero-cta-trial { font-size: 13px; margin-top: 3px; }
-  .hero-cta-trial .paren { display: none; }
+  /* The homepage's two buttons stack, the same width and height. */
+  .hero-actions { flex-direction: column; align-items: center; width: 100%; }
+  .hero-cta-alt { width: 100%; max-width: 360px; height: 52px; }
 }
 
 .hero-fine {
@@ -400,6 +397,8 @@
 @media (max-width: 767.98px) {
   .hero { padding-top: 112px; }
   .hero-eyebrow { font-size: 11px; letter-spacing: .14em; text-wrap: balance; line-height: 1.6; opacity: .85; } /* one line when it fits; two balanced lines when it doesn't */
+  .hero-title > .hero-eyebrow { line-height: 1.6; margin-bottom: 14px; }
+  .hero-note, .hero-note-fine { text-wrap: balance; }
   .hero-title { font-size: clamp(34px, 10vw, 42px); line-height: 1.06; letter-spacing: -.025em; text-wrap: balance; margin-top: 14px; }
   /* 23.22rem: Satoshi's 34ch at 16px (371.5px), in a unit that doesn't change while the fallback shows. */
   .hero-sub { font-size: 16px; line-height: 1.55; max-width: 23.22rem; margin-inline: auto; text-wrap: pretty; }
@@ -534,6 +533,122 @@
   from { transform: translateY(0); }
   to { transform: translateY(calc(var(--pps-travel) * -1)); }
 }
+
+/* ---------- Homepage hero, desktop (≥1024px; .hero--home, Hero.jsx) ----------
+   One screen, two columns: the copy on the left, the dashboard on the right. The dashboard keeps its
+   own 1062 × 664 design size and is zoomed as a whole (--mk-scale): a step for the window's width,
+   never taller than 65% of the window. It runs off the window's right edge and the hero clips it.
+   The grid's top padding is the bottom of the nav's button (51px: (64 − 38) / 2 + 38, nav.css), and
+   the hero centres the grid, so the dashboard sits midway between that button and the hero's foot.
+   The hero is one window tall, up to 920px; from there the next section shows beneath it.
+   The rays come from the top-right and reach 35% further left: the mirrored layer, stretched 1.35×
+   from the point that keeps its source on the hero's right edge. Phones and tablets are above. */
+@media (min-width: 1024px) {
+  .hero.hero--home {
+    display: flex;
+    align-items: center;
+    min-height: min(100vh, 920px);
+    padding-bottom: 0;
+    overflow: clip; /* the dashboard's right side and the rays' layer end at the hero's edges */
+    background-image:
+      radial-gradient(42% 60% at 80% 54%, rgba(59, 130, 246, .20), rgba(0, 0, 0, 0) 72%),
+      linear-gradient(rgb(20, 26, 38), rgb(17, 19, 24) 60%);
+  }
+  .hero--home .hero-decor { transform: scaleX(-1.35); transform-origin: 42.55% 50%; }
+  /* Softer rays, with the softness in the rays themselves instead of a live blur on moving layers:
+     each thin line is as wide as a 2.5px blur spreads it (√(w² + 12.5²)), centred where it was, and
+     dimmer by as much (the same light, spread wider). Measured against the prototype's
+     filter: blur(2.5px), with the animations paused at the same moment, no pixel differs by more than 2
+     of 255. The soft beams are left as they are: their prototype's blur(5px) changed no pixel by more
+     than 2, as their gradients already fade out before their edges. */
+  .hero--home .light-line.l1 { width: 18.8px; left: calc(-14% - 2.4px); --o: .239; }
+  .hero--home .light-line.l2 { width: 14.8px; left: calc(-10% - 3.4px); --o: .205; }
+  .hero--home .light-line.l3 { width: 24.4px; left: calc(-5% - 1.7px); --o: .241; }
+  .hero--home .light-line.l4 { width: 13.9px; left: calc(0% - 3.9px); --o: .151; }
+  .hero--home .light-line.l5 { width: 37.2px; left: calc(4% - 1.1px); --o: .198; }
+  .hero--home .light-line.l6 { width: 13.9px; left: calc(10% - 3.9px); --o: .108; }
+
+  .hero--home > .container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    column-gap: 56px;
+    align-items: center;
+    width: 100%;
+    padding-top: 51px;
+    padding-bottom: 0;
+  }
+
+  /* The copy (its alignment and width are Tailwind's lg: classes in Hero.jsx). It scrolls with the page. */
+  .hero--home .hero-copy { margin: 0; padding: 0; min-height: 0; justify-content: center; }
+  .hero--home .hero-copy .hero-title { font-size: clamp(44px, 1.6vw + 26px, 56px); line-height: 1.12; } /* over 56px, line one wraps */
+  .hero--home .hero-title > .hero-eyebrow { margin-bottom: 16px; }
+  .hero--home .hero-copy .hero-sub { margin-top: 26px; max-width: 31em; font-size: 18px; line-height: 1.6; text-wrap: pretty; }
+  .hero--home .hero-actions { justify-content: flex-start; margin-top: 34px; }
+
+  /* The dashboard, at its design size, zoomed. Inside, the preview and its toast are laid out for a
+     1062px-wide screen (preview.css's --dz, here fixed to that width). */
+  .hero--home {
+    --mk-step: .62;
+    --mk-scale: min(var(--mk-step), tan(atan2(65vh, 664px))); /* 65vh / 664px, as a number */
+  }
+  .hero--home .hero-mockup {
+    width: 1062px;
+    max-width: none;
+    margin: 0;
+    zoom: var(--mk-scale);
+    animation: none;
+  }
+  .hero--home .pl-preview,
+  .hero--home .mockup-holder > .pl-toast { --dz: calc(1062 / 1280); }
+
+  /* The toast: its usual top and look, its left edge near the right of the dashboard's visible part
+     (--toast-left, useHeroToastAnchor.js), at full width: a long message runs off the screen. */
+  .hero--home .mockup-holder > .pl-toast {
+    left: var(--toast-left, 534px);
+    right: auto;
+    width: max-content;
+    transform-origin: top left;
+  }
+
+  /* While a light preview is pending (hero.css, "Before the scripts run") it fades in, without the entrance. */
+  .pv-pending .hero--home .mockup-holder { animation: none; }
+}
+@media (min-width: 1100px) { .hero--home { --mk-step: .68; } }
+@media (min-width: 1280px) { .hero--home { --mk-step: .74; } }
+@media (min-width: 1440px) { .hero--home { --mk-step: .82; } }
+@media (min-width: 1680px) { .hero--home { --mk-step: .92; } }
+@media (min-width: 1920px) { .hero--home { --mk-step: 1; } }
+@media (min-width: 2400px) {
+  .hero--home { --mk-step: 1.12; }
+  .hero--home .hero-mockup { margin-left: 100px; }
+}
+@media (min-width: 1024px) and (prefers-contrast: more) {
+  .hero.hero--home { background: #111318; }
+}
+
+/* Motion, once on page load (none under reduced motion, where everything is drawn at rest): the
+   dashboard rises in, its charts draw left to right, the finished route's stops light up one by one
+   and its "Route complete" fades in. While the page scrolls its first 720px, the dashboard rises 72 of
+   its own pixels (49 on screen at 1126 × 717), a little faster than the copy, on the compositor
+   (a scroll-driven animation; where that's unsupported it simply doesn't move). */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .hero--home .mockup-holder { animation: hero-mockup-in .7s cubic-bezier(.2, .7, .2, 1) backwards; }
+  .hero--home .pl-line-chart { animation: hero-chart-wipe 1.3s cubic-bezier(.3, .6, .3, 1) .35s backwards; }
+  .hero--home .pl-route-seg.is-done { animation: hero-seg-in .3s ease-out backwards; animation-delay: calc(.7s + var(--i, 0) * 55ms); }
+  .hero--home .pl-route-status.is-done { animation: hero-fade-in .4s ease 1.75s backwards; }
+  @supports (animation-timeline: scroll()) {
+    .hero--home .hero-mockup {
+      animation: hero-mockup-rise linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px calc(720px / var(--mk-scale)); /* 720px of page: the element's zoom scales its lengths */
+    }
+  }
+}
+@keyframes hero-mockup-in { from { opacity: 0; transform: translateY(18px); } }
+@keyframes hero-chart-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+@keyframes hero-seg-in { from { opacity: .12; } }
+@keyframes hero-fade-in { from { opacity: 0; } }
+@keyframes hero-mockup-rise { to { transform: translateY(-72px); } }
 
 /* ---------- Compact hero type: /reserve (.rsv-hero) and /ai-and-automations (.ai-page .ai-hero) ----------
    Their markup is one component too (HeroHeading.jsx).

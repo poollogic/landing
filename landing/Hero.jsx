@@ -1,14 +1,12 @@
 import React, { lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowRight } from 'lucide-react';
-import DashboardPreview, { PreviewThemePill, PreviewThemeToggle } from './preview/DashboardPreview.jsx';
+import DashboardPreview, { PreviewThemeToggle } from './preview/DashboardPreview.jsx';
 import { getPreviewTheme, usePreviewTheme } from './preview/previewTheme.js';
 import PhoneFrame from './PhoneFrame.jsx';
-import LaptopDeck from './LaptopDeck.jsx';
 import './laptop.css';
 import usePhonePreviewScroll from './usePhonePreviewScroll.js';
 import { ctaHref, isReserving } from './onboarding.js';
-import useHeroScrollFx from './useHeroScrollFx.js';
-import useHydrated from './useHydrated.js';
+import useHeroToastAnchor from './useHeroToastAnchor.js';
 
 // Phones (<768px). Read before the first render, so the right preview paints straight
 // away (no flash, no layout shift); updates if the window crosses the breakpoint.
@@ -37,10 +35,8 @@ function useAfterPaint() {
 
 // The homepage hero. Background, light beams, type and CTA styling live in
 // landing/hero.css; layout and the entrance animation stay in Tailwind. On
-// desktop, useHeroScrollFx adds the scroll effect (fixed, fading headline).
-
-// What every account gets, in a row of checkmarks between the subhead and the button.
-const CHECKS = ['No credit card', 'Try it free for 30 days', 'We move your customers for you'];
+// desktop (hero.css, "Desktop") it's one screen: the copy on the left, the dashboard on the right,
+// running off the window's edge, its toast placed by useHeroToastAnchor.
 
 // Staggered entrance: 300ms fade-up (ease-mktg), skipped under reduced motion.
 const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
@@ -50,10 +46,8 @@ const Hero = () => {
   const isPhone = useIsPhone();
   const holderRef = useRef(null);
   const mockupRef = useRef(null);
-  const hydrated = useHydrated();
   usePhonePreviewScroll(holderRef, isPhone); // phones: the dashboard scrolls a little with the page
-  const heroRef = useRef(null);
-  useHeroScrollFx(heroRef);
+  useHeroToastAnchor(mockupRef);
   const showToast = useAfterPaint();
   // The pre-rendered page is drawn with the dark preview. When this visitor's is light, the page's
   // first script hid the preview (html.pv-pending, scripts/prerender.mjs) so it doesn't flash dark;
@@ -62,7 +56,7 @@ const Hero = () => {
     if (theme === getPreviewTheme()) document.documentElement.classList.remove('pv-pending');
   }, [theme]);
   return (
-  <section ref={heroRef} className="hero relative overflow-x-clip">
+  <section className="hero hero--home relative overflow-x-clip">
     <div className="hero-decor" aria-hidden="true">
       <div className="light-source" />
       <div className="light-shaft s1" />
@@ -74,33 +68,39 @@ const Hero = () => {
 
     <div className="container">
       {/* Text block */}
-      <div className={`hero-copy mx-auto flex max-w-4xl flex-col items-center text-center ${ENTER}`}>
-        <p className="hero-eyebrow">All-in-one pool route management software</p>
-
+      <div className={`hero-copy mx-auto flex max-w-4xl flex-col items-center text-center lg:mx-0 lg:max-w-none lg:items-start lg:text-left ${ENTER}`}>
+        {/* The eyebrow is part of the h1 ("Pool service software: Run your pool route. …"), drawn as
+            its own line; the colon is for readers and crawlers only. */}
         <h1 className="hero-title">
+          <span className="hero-eyebrow">Pool service software<span className="sr-only">: </span></span>
           <span className="hero-title-line">Run your pool route.</span>{' '}
           <span className="hero-title-line">Don’t let it run you.</span>
         </h1>
 
-        <h2 className="hero-sub">
-          Routing, chemical tracking, billing and late fees that run themselves, for your whole pool service business.
-        </h2>
+        <p className="hero-sub">
+          Routes, chemical tracking and billing for your pool service business. Invoices and late fees handle themselves.
+        </p>
 
-        <a
-          href={ctaHref(theme)}
-          className="hero-cta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
-        >
-          <span className="hero-cta-label">
-            Put Your Route on Autopilot <span className="hero-cta-trial"><span className="paren">(</span>{isReserving ? 'Reserve Your Spot' : 'Start 30-Day Trial'}<span className="paren">)</span></span>
-          </span>
-          <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
-        </a>
+        <div className="hero-actions">
+          <a
+            href={ctaHref(theme)}
+            className="hero-cta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
+          >
+            <span className="hero-cta-label">{isReserving ? 'Reserve your spot' : 'Start your free trial'}</span>
+            <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
+          </a>
+          <a
+            href="/pricing"
+            className="hero-cta-alt focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
+          >
+            See pricing
+          </a>
+        </div>
 
-        <ul className="hero-checks">
-          {CHECKS.map((c) => (
-            <li key={c}><span className="hero-check" aria-hidden="true">✓</span>{c}</li>
-          ))}
-        </ul>
+        <div className="hero-notes">
+          <p className="hero-note">Switching software? We can move your customers for you.</p>
+          <p className="hero-note-fine">Free for 30 days · No credit card</p>
+        </div>
       </div>
 
       {/* Below lg the rail and its account menu are hidden: the theme lives here instead. */}
@@ -111,9 +111,8 @@ const Hero = () => {
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
       <div ref={mockupRef} className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
         <div className="mockup-holder" ref={holderRef}>
-          {/* lg and up: the laptop's lid around the screen, and the black strip below it (laptop.css). */}
+          {/* lg and up: the bezel around the screen, a floating window (laptop.css). */}
           <div className="lt-bezel" aria-hidden="true" />
-          <div className="lt-strip" aria-hidden="true" />
           {/* Phones: the preview inside the shared iPhone frame (the Billing section's phone). It's
               always rendered, so the pre-rendered page is the same at every width; wider than a phone,
               hero.css takes the frame away and the dashboard sits in the holder on its own. */}
@@ -125,11 +124,7 @@ const Hero = () => {
         </div>
 
       </div>
-
-      {/* lg and up: the laptop's keyboard deck under the screen. */}
-      <LaptopDeck />
     </div>
-    {hydrated && <PreviewThemePill mockupRef={mockupRef} />}
   </section>
   );
 };

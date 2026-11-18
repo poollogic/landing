@@ -1,5 +1,5 @@
-// The homepage's one scroll listener, shared by its scroll-linked sections (useHeroScrollFx.js,
-// DaySection.jsx). Passive, and throttled to one requestAnimationFrame: each frame reads scrollY once
+// The homepage's one scroll listener, shared by its scroll-linked sections (DaySection.jsx).
+// Passive, and throttled to one requestAnimationFrame: each frame reads scrollY once
 // and hands it to every subscriber, which must only write (no layout reads; offsets are measured on
 // resize). Sections subscribe while they're on screen, so with none on screen there's no listener.
 

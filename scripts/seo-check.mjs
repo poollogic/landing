@@ -37,7 +37,7 @@ const HEROES = 'section.hero, section.pr-hero, section.rf-hero, main > header, m
 // first render. strictStatic: the served HTML must carry the page's text (a pre-rendered route).
 const ROUTES = [
   // The homepage: pre-rendered (its dashboard preview is .mockup-holder)
-  { path: '/', html: 'index.html', strictStatic: true, jsonLd: ['Organization', 'WebSite', 'SoftwareApplication', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-checks', '.hero-cta', '.mockup-holder'] },
+  { path: '/', html: 'index.html', strictStatic: true, jsonLd: ['Organization', 'WebSite', 'SoftwareApplication', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.hero-actions', '.hero-notes', '.mockup-holder'] },
   // AI, automations and integrations: pre-rendered (its assistant window is .ai-chat). Its top three
   // sections only for now, so no FAQPage: add it back with FULL_PAGE in pages/ai-integrations.jsx.
   { path: '/ai-and-automations', html: 'ai-and-automations.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
@@ -57,7 +57,7 @@ const ROUTES = [
   { path: '/technician-terms', html: 'technician-terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/workflow', html: 'workflow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];
-const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroScrollFx.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow']; // the heroes' own code
+const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow']; // the heroes' own code
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
 const STABLE_TOLERANCE_PX = 2;
 const CLS_BUDGET = 0.01; // we hold the new pages at zero; Google's "good" line is 0.1

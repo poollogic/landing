@@ -74,18 +74,6 @@
     descent-override: 24.55%;
     line-gap-override: 10.23%;
   }
-  /* The homepage button's "(Reserve Your Spot)" (.hero-cta-trial, 400): Satoshi sets its capitals and
-     brackets narrower than Arial's file match predicts, so the button resized when Satoshi arrived.
-     A narrower Arial, for that span alone; body text keeps the regular face. */
-  @font-face {
-    font-family: 'Satoshi Narrow Fallback';
-    src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('LiberationSans'), local('Arimo'), local('Arimo-Regular');
-    font-weight: 100 449;
-    size-adjust: 95.00%;
-    ascent-override: 106.31%;
-    descent-override: 25.26%;
-    line-gap-override: 10.52%;
-  }
   /* Satoshi's tabular digits are 660/1000 wide, Arial's 556: for figures set
      with tabular-nums (.font-tnum), digits get their own fallback, scaled to
      match (vertical metrics divided by the same factor). */
@@ -154,8 +142,6 @@
 }
 
 @layer components {
-  /* The homepage button's bracketed part, with its own fallback (see 'Satoshi Narrow Fallback'). */
-  .hero-cta-trial { font-family: Satoshi, 'Satoshi Narrow Fallback', 'Satoshi Fallback', ui-sans-serif, system-ui, sans-serif; }
   /* Eyebrows (all caps, letter-spaced) with their caps-matched fallback (see 'Satoshi Caps Fallback'). */
   .hero-eyebrow,
   .section-eyebrow { font-family: Satoshi, 'Satoshi Caps Fallback', 'Satoshi Fallback', ui-sans-serif, system-ui, sans-serif; }

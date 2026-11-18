@@ -27,7 +27,7 @@ Every indexable page is pre-rendered: the homepage (`pages/landing.jsx`, `landin
 
 ## SEO guardrails
 
-These apply to the homepage hero for now: `<section class="hero">`, including the dashboard preview inside it (`landing/Hero.jsx`, `landing/hero.css`, `landing/useHeroScrollFx.js`, `landing/preview/`), and to `/ai-and-automations` (its hero, and the whole page's text in the served HTML). `scripts/seo-check.mjs` enforces them (`npm run check:seo` after `npm run build`), and the deploy workflow runs it before deploying, so a broken rule stops the deploy.
+These apply to the homepage hero for now: `<section class="hero">`, including the dashboard preview inside it (`landing/Hero.jsx`, `landing/hero.css`, `landing/useHeroToastAnchor.js`, `landing/preview/`), and to `/ai-and-automations` (its hero, and the whole page's text in the served HTML). `scripts/seo-check.mjs` enforces them (`npm run check:seo` after `npm run build`), and the deploy workflow runs it before deploying, so a broken rule stops the deploy.
 
 1. **Crawlable text.** Search crawlers must be able to read the hero's `<h1>` and copy without waiting on animation.
    - Keep the headline and copy as real text in the DOM, never in images, canvas or SVG paths. Animate it with opacity and transforms only. Never mount it late, or after a scroll or timer.
@@ -49,7 +49,7 @@ These apply to the homepage hero for now: `<section class="hero">`, including th
    - Give every image, video, mockup and animated container a fixed width and height (or aspect ratio) before its scripts or fonts load.
    - Animate with `transform` and `opacity`, never with properties that change layout (`height`, `top`, `margin`, …).
    - Keep the metric-matched font fallbacks (`landing/landing.css`) in place.
-   - The check compares the layout boxes of each hero's eyebrow, headline, copy, button, fine print (the homepage's checkmarks row) and mockup at first render with their boxes after load, allowing ±2px. It also scrolls through the hero and keeps Google's layout-shift score for it under 0.01, on desktop and phone.
+   - The check compares the layout boxes of each hero's eyebrow, headline, copy, button, fine print (the homepage's two lines under its buttons) and mockup at first render with their boxes after load, allowing ±2px. It also scrolls through the hero and keeps Google's layout-shift score for it under 0.01, on desktop and phone.
 
 To widen the guardrails to more of the site, extend `SOURCE` and `ROUTES` at the top of `scripts/seo-check.mjs`, and update this section.
 
