@@ -72,13 +72,13 @@
   line-height: var(--label-leading);
 }
 
-/* On the dark sections: the hero, the day, the Financial Watchdog, Repairs, the reserve card and routes. */
-.lp-home :is(.hero, #day, #collections, #repairs, #reviews, #reserve, #routes) :is(.hero-sub, .dt-sub, .section-sub) { color: var(--subhead-on-dark); }
-.lp-home :is(.hero, #day, #collections, #repairs, #reviews, #reserve, #routes) :is(.section-eyebrow, .hero-eyebrow) { color: var(--eyebrow-on-dark); }
+/* On the dark sections: the hero, the day, the Financial Watchdog, Instant migration, the reserve card and routes. */
+.lp-home :is(.hero, #day, #collections, #switching, #reviews, #reserve, #routes) :is(.hero-sub, .dt-sub, .section-sub) { color: var(--subhead-on-dark); }
+.lp-home :is(.hero, #day, #collections, #switching, #reviews, #reserve, #routes) :is(.section-eyebrow, .hero-eyebrow) { color: var(--eyebrow-on-dark); }
 
 /* The dark sections' headings, desktop: one size (the AI page's), whatever their role elsewhere. */
 @media (min-width: 1024px) {
-  .lp-home :is(#day .dt-title, #collections .section-title, #repairs .section-title, #reserve .rsv-statement, #routes .section-title) {
+  .lp-home :is(#day .dt-title, #collections .section-title, #switching .section-title, #reserve .rsv-statement, #routes .section-title) {
     font-size: 36px;
     line-height: 1.11;
     letter-spacing: -0.02em;

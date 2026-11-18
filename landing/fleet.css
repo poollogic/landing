@@ -1,50 +1,157 @@
 /* "Fleet on autopilot" (FleetSection.jsx), between Repairs and Instant Migration. Header type and
-   spacing: home-roles.css. The cards are drawn in the app's Inter, as the hero dashboard and the
-   import demo are (its @font-face: preview/preview.css). One column below 900px; from 900px the
-   mileage and trucks cards stack on the left and the day card, as tall as they are, on the right. */
+   spacing: home-roles.css. One card drawn from the app's Fleet page, in the app's Inter (as the hero
+   dashboard and the import demo are; its @font-face: preview/preview.css): the title, the count tiles
+   over a full-width line, the tabs with the Trucks tab's dropdowns (or the Mileage tab's week), and
+   the tab's table in a box of its own. 920px wide at most, the #repairs steps' and #billing card's
+   width. Then three points. */
 
 .fl-section { background: #f8fafc; padding-inline: 24px; } /* top and bottom: --section-pad-y (home-roles.css) */
 .fl-inner { max-width: 1120px; margin: 0 auto; }
 #fleet .section-sub { max-width: 680px; }
 
-/* ---------- Panels ---------- */
-.fl-panels {
-  display: grid;
-  gap: 20px;
-  max-width: 1040px;
-  margin: 0 auto;
-}
-.fl-left { display: flex; flex-direction: column; gap: 20px; }
-.fl-left .fl-trucks { flex: 1; }
-@media (min-width: 900px) {
-  .fl-panels { grid-template-columns: 6fr 7fr; }
-  /* The slot has no height of its own, so the row is the left column's height and the card fills it. */
-  .fl-day-slot { position: relative; }
-  .fl-day { position: absolute; inset: 0; display: flex; flex-direction: column; }
-}
-
-/* ---------- Cards ---------- */
+/* ---------- The card ---------- */
 .fl-card {
+  max-width: 920px;
+  margin: 0 auto;
   background: #fff;
-  border: 1px solid #e6eaf0;
+  border: 1px solid rgb(230, 234, 240);
   border-radius: 18px;
-  overflow: hidden;
   box-shadow: 0 1px 2px rgba(8, 12, 24, .04), 0 12px 32px rgba(8, 12, 24, .05);
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   text-align: left;
 }
-.fl-card-head { padding: 22px 24px 16px; }
-.fl-card-title { margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.2px; color: #0e1117; }
-.fl-card-meta { margin: 4px 0 0; font-size: 13px; color: #8a8f98; }
+.fl-card-head { padding: 22px 24px 0; }
+.fl-card-title { margin: 0; font-size: 20px; font-weight: 600; color: rgb(14, 17, 23); }
 
-/* ---------- Tables ---------- */
-.fl-table { width: 100%; border-collapse: collapse; }
+/* Count tiles (the app's): content-wide, left-aligned, never stretched; a full-width line under them. */
+.fl-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 18px 24px 20px;
+  border-bottom: 1px solid rgb(232, 235, 240);
+  list-style: none;
+}
+.fl-tile {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  min-width: 140px;
+  padding: 8px 12px;
+  border: 1px solid rgb(236, 239, 243);
+  border-radius: 10px;
+  background: rgb(247, 248, 250);
+}
+.fl-tile-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: rgb(110, 116, 128);
+}
+.fl-tile-text { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.fl-tile-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: rgb(14, 17, 23); }
+.fl-tile-value {
+  margin-top: 4px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.44px;
+  font-variant-numeric: tabular-nums;
+  color: rgb(14, 17, 23);
+}
+
+/* The tabs, and on their right the Trucks tab's dropdowns or the Mileage tab's week. No line under the row. */
+.fl-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  padding: 18px 24px 0;
+}
+.fl-tabs { display: flex; gap: 22px; }
+.fl-tab {
+  position: relative;
+  padding: 0 0 8px;
+  border: 0;
+  background: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(110, 116, 128);
+  cursor: pointer;
+}
+.fl-tab.is-on { color: rgb(14, 17, 23); }
+.fl-tab.is-on::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 1px; background: rgb(46, 133, 255); }
+.fl-tab:focus-visible { outline: 2px solid rgb(46, 133, 255); outline-offset: 3px; border-radius: 4px; }
+.fl-range { margin: 0; font-size: 12.5px; color: rgb(138, 143, 152); }
+
+/* Dropdowns (the app's select): a button with its label and bold value, and a menu just below it. */
+.fl-controls { display: flex; flex-wrap: wrap; gap: 10px; }
+.fl-dd { position: relative; }
+.fl-dd-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px 7px 12px;
+  border: 1px solid rgb(226, 229, 234);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 13px;
+  line-height: 18px;
+  cursor: pointer;
+}
+.fl-dd-btn:focus-visible { outline: 2px solid rgb(46, 133, 255); outline-offset: 2px; }
+.fl-dd-label { color: rgb(110, 116, 128); }
+.fl-dd-value { font-weight: 600; color: rgb(14, 17, 23); }
+.fl-dd-chev { flex: none; color: rgb(140, 146, 156); }
+.fl-dd-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  z-index: 5;
+  margin: 0;
+  padding: 6px;
+  border: 1px solid rgb(232, 235, 240);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(8, 12, 24, .14), 0 2px 6px rgba(8, 12, 24, .06);
+  list-style: none;
+}
+.fl-dd-menu:focus { outline: none; }
+.fl-dd-menu--left { left: 0; min-width: 190px; }
+.fl-dd-menu--right { right: 0; min-width: 150px; }
+.fl-dd-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: rgb(14, 17, 23);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.fl-dd-item.is-active { background: rgb(245, 246, 248); }
+.fl-dd-tick { flex: none; color: rgb(46, 133, 255); }
+
+/* ---------- Tables: one at a time, each in its own box ---------- */
+.fl-table-box {
+  margin: 18px 24px 24px;
+  border: 1px solid rgb(230, 234, 240);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.fl-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .fl-table thead th {
-  padding-top: 0;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eef0f3;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgb(230, 234, 240);
+  background: rgb(247, 248, 250);
   font-size: 10.5px;
   font-weight: 500;
   line-height: 1.4;
@@ -52,82 +159,38 @@
   text-transform: uppercase;
   color: #a1a1a6;
 }
-.fl-table tbody tr + tr { border-top: 1px solid #f3f4f6; }
-.fl-table tbody th { font-weight: 600; color: #1d1d1f; }
-.fl-table th, .fl-table td { text-align: right; }
-.fl-table :is(th, td):first-child { text-align: left; padding-left: 24px; }
-.fl-table :is(th, td):last-child { padding-right: 24px; }
+.fl-table tbody :is(th, td) { padding: 14px 16px; }
+.fl-table tbody tr + tr { border-top: 1px solid rgb(236, 239, 243); }
+.fl-table tbody th { font-weight: 500; color: rgb(14, 17, 23); }
 
-/* Mileage */
-.fl-mileage :is(th, td) { padding-inline: 4px; }
-.fl-mileage tbody :is(th, td) { padding-block: 14px; font-size: 13.5px; color: #3a3a3c; }
-.fl-mileage tbody th, .fl-mileage .fl-total { font-weight: 600; color: #1d1d1f; }
+/* Mileage: the days and total right-aligned, as numbers. */
+.fl-mileage :is(th, td) { text-align: right; }
+.fl-mileage :is(th, td):first-child { text-align: left; }
+.fl-mileage tbody :is(th, td) { font-size: 13.5px; color: #3a3a3c; }
+.fl-mileage tbody th { color: rgb(14, 17, 23); }
+.fl-mileage .fl-total { font-weight: 600; color: #1d1d1f; }
 .fl-none { color: #c7c7cc; }
-.fl-selected { padding: 4px 6px; border-radius: 6px; background: var(--brand-blue); color: #fff; font-weight: 600; }
 
-/* Trucks */
-.fl-trucks :is(th, td) { padding-inline: 6px; white-space: nowrap; }
-.fl-trucks tbody :is(th, td) { padding-block: 15px; font-size: 13px; color: #6e6e73; }
-.fl-trucks tbody th { color: #1d1d1f; }
+/* Trucks: every column left-aligned. */
+.fl-trucks :is(th, td) { text-align: left; white-space: nowrap; }
+.fl-trucks tbody :is(th, td) { font-size: 13px; color: #6e6e73; }
+.fl-trucks tbody th { color: rgb(14, 17, 23); }
 .fl-checkin { display: block; font-size: 11.5px; color: #a1a1a6; }
 .fl-reading { display: block; font-weight: 500; color: #1d1d1f; }
 .fl-truck-sub { display: none; }
-.fl-pill { display: inline-block; padding: 4px 9px; border-radius: 999px; background: #f3f4f6; font-size: 11.5px; font-weight: 500; color: #6e6e73; }
-.fl-pill--alert { background: #fee2e2; color: #b91c1c; }
 
-/* ---------- Day ---------- */
-.fl-trips { padding-inline: 24px; border-top: 1px solid #eef0f3; }
-.fl-trip-list { list-style: none; margin: 0; padding: 0; }
-.fl-trip {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 18px;
-  align-items: center;
-  padding: 14px 0;
+/* "Miles left": neutral, or the app's red when an oil change is close. */
+.fl-pill {
+  display: inline-block;
+  padding: 4px 9px;
+  border: 1px solid rgb(236, 239, 243);
+  border-radius: 6px;
+  background: rgb(247, 248, 250);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: rgb(110, 116, 128);
 }
-.fl-trip + .fl-trip { border-top: 1px solid #f3f4f6; }
-.fl-trip-left { display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: baseline; }
-.fl-trip-n { font-size: 13px; color: #a1a1a6; }
-.fl-trip-route { display: block; font-size: 14px; color: #1d1d1f; }
-.fl-trip-time { display: block; margin-top: 3px; font-size: 12px; color: #8a8f98; }
-.fl-trip-mi { font-size: 14px; font-weight: 600; color: #1d1d1f; white-space: nowrap; }
-
-.fl-day-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 14px 24px;
-  border-top: 1px solid #eef0f3;
-  font-size: 13px;
-  color: #8a8f98;
-}
-.fl-day-foot strong { font-weight: 600; color: #1d1d1f; }
-.fl-export {
-  padding: 6px 12px;
-  border: 1px solid #e0e4ea;
-  border-radius: 8px;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: #0e1117;
-  white-space: nowrap;
-}
-
-@media (min-width: 900px) {
-  /* The trips scroll between the header and footer; the page carries on scrolling when they end. */
-  .fl-trips {
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #d5dae2 transparent;
-  }
-  .fl-trips::-webkit-scrollbar { width: 6px; }
-  .fl-trips::-webkit-scrollbar-thumb { background: #d5dae2; border-radius: 3px; }
-  /* Positioned so its shadow paints over the trips above it. */
-  .fl-day-foot { position: relative; background: #fff; box-shadow: 0 -10px 14px -10px rgba(8, 12, 24, .10); }
-}
-.fl-trips:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: -2px; }
+.fl-pill--alert { border-color: rgb(249, 196, 200); background: rgb(253, 237, 238); font-weight: 600; color: rgb(234, 51, 64); }
 
 /* ---------- Points ---------- */
 .fl-points {
@@ -142,26 +205,33 @@
 .fl-points h3 { margin: 0 0 8px; color: #0f172a; } /* size, weight and leading: the card-title role */
 .fl-points p { margin: 0; font-size: 15px; line-height: 1.6; color: #475569; }
 @media (min-width: 640px) { .fl-points { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1024px) { .fl-points { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; } }
+@media (min-width: 1024px) { .fl-points { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; max-width: 920px; } }
 
 /* ---------- Phones ---------- */
 @media (max-width: 560px) {
   .fl-points { margin-top: 40px; }
+  .fl-card-head { padding-inline: 16px; }
+  .fl-tiles { padding-inline: 16px; }
+  .fl-tile { min-width: 0; flex: 1 1 calc(50% - 5px); }
+  .fl-bar { padding-inline: 16px; }
+  .fl-table-box { margin: 16px; }
 
   /* Mileage: no weekend columns, tighter cells. */
   .fl-mileage :is(th, td):nth-child(7),
   .fl-mileage :is(th, td):nth-child(8) { display: none; }
-  .fl-mileage :is(th, td) { padding-inline: 3px; }
-  .fl-mileage :is(th, td):first-child { padding-left: 16px; }
-  .fl-mileage :is(th, td):last-child { padding-right: 16px; }
+  .fl-table :is(thead th, tbody th, tbody td) { padding-inline: 5px; }
+  .fl-table :is(th, td):first-child { padding-left: 10px; }
+  .fl-table :is(th, td):last-child { padding-right: 10px; }
+  .fl-mileage :is(th, td):not(:first-child):not(:last-child) { padding-inline: 3px; }
+  .fl-mileage tbody :is(th, td) { font-size: 12.5px; }
   .fl-mileage thead th { font-size: 10px; letter-spacing: .6px; }
+  /* The narrowest phones: a table still too wide scrolls sideways in its box rather than being cut off. */
+  .fl-table-box { overflow-x: auto; }
 
-  /* Trucks: the truck under the name instead of a column of its own. */
+  /* Trucks: the truck under the name instead of a column of its own; the name and truck may wrap, so
+     the three columns fit the card. */
   .fl-trucks :is(th, td):nth-child(2) { display: none; }
+  .fl-trucks tbody th { white-space: normal; }
+  .fl-pill { padding: 3px 7px; font-size: 11px; }
   .fl-truck-sub { display: block; font-size: 12px; font-weight: 400; color: #8a8f98; }
-
-  .fl-card-head { padding-inline: 16px; }
-  .fl-trips { padding-inline: 16px; }
-  .fl-day-foot { padding-inline: 16px; }
-  .fl-trip-route { font-size: 13.5px; }
 }

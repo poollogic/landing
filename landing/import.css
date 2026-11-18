@@ -4,7 +4,8 @@
    faint #94a3b8; hairlines #e5e7eb / #eef0f3 / #f1f3f6; green #16a34a;
    dark button #232325. */
 
-.im-section { overflow-x: clip; }
+.im-section { overflow-x: clip; background: #111318; }
+.im-section .section-title { color: #fff; } /* the eyebrow and subhead take the on-dark tokens (home-roles.css) */
 .im-demo-slot { max-width: 1040px; width: 100%; margin: 0 auto; text-align: left; }
 
 /* ---------- The import demo (a 1040px design, scaled to fit) ---------- */
@@ -221,5 +222,5 @@
 
 /* ---------- Closing line ---------- */
 .im-closing { margin-top: 56px; text-align: center; }
-.im-closing-a { font-size: 16px; color: #64748b; }
-.im-closing-b { margin-top: 6px; font-size: 17px; font-weight: 600; color: #0f172a; }
+.im-closing-a { font-size: 16px; color: #94a3b8; }
+.im-closing-b { margin-top: 6px; font-size: 17px; font-weight: 600; color: #f1f5f9; }
