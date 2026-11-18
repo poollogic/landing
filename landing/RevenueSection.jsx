@@ -52,9 +52,10 @@ const FADE_MS = 400; // the steps' cross-fade (revenue.css .rv-layer)
 // below 74.5% (the gap keeps it from flickering at the line).
 const OPEN_AT = 0.72;
 const CLOSE_AT = 0.745;
-// The fade at the stage's foot (revenue.css .rv-stage::after, 50px), in the dashboard's own pixels
-// at its 920px width: rows under it don't count as in view when the settings page scrolls.
-const FADE_ROOM = 72;
+// What hides the dashboard's foot (revenue.css .rv-crop): the crop, 112/920 of the stage's width,
+// and the 56px fade over the visible part's foot, in the dashboard's own pixels (1280 across a 920px
+// stage): rows under them don't count as in view when the settings page scrolls.
+const FADE_ROOM = Math.round((112 / 920) * 1280 + 56 * (1280 / 920));
 
 // Step 2's demo: where the settings start, and where they end (reduced motion shows the end).
 const START = { lateFees: false, autoPause: false, scroll: 'top', scrollMs: 0 };
@@ -181,8 +182,9 @@ function CollectionsDemo() {
 
     setDemo(START);
     at(600, () => {
-      const s = stage.getBoundingClientRect();
-      move({ x: s.width * 0.8, y: s.height * 0.86 }, 0);
+      // From low on the right of the part that shows (.rv-crop hides the stage's foot).
+      const shown = (stage.parentElement ?? stage).getBoundingClientRect();
+      move({ x: shown.width * 0.8, y: shown.height * 0.8 }, 0);
       cursor.classList.add('is-on');
     });
     at(650, () => move(pointAt('late-fees'), 850));
@@ -198,7 +200,6 @@ function CollectionsDemo() {
   return (
     <>
       <div className="rv-steps">
-        <p className="rv-steps-label">Tap one to try it</p>
         <div className="rv-steps-row">
           {STEPS.map((s, i) => {
             const on = step === i;
@@ -221,6 +222,8 @@ function CollectionsDemo() {
         </div>
       </div>
 
+      {/* The stage keeps its size (and the dashboard its scale); .rv-crop hides its foot. */}
+      <div className="rv-crop">
       <div ref={stageRef} className="rv-stage">
         <div className={`rv-layer rv-layer--dash${step === 0 ? ' is-on' : ''}`} inert={step === 0 ? undefined : ''}>
           <DashboardPreview stage browserBar={false} theme="dark" staticRail banner={{ open: bannerOpen }} />
@@ -231,6 +234,7 @@ function CollectionsDemo() {
           </DashboardPreview>
         </div>
         <Cursor cursorRef={cursorRef} ringRef={ringRef} />
+      </div>
       </div>
     </>
   );
