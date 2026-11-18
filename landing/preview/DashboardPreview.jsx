@@ -5,10 +5,20 @@ import PreviewSidebar from './PreviewSidebar.jsx';
 import PreviewPanel from './PreviewPanel.jsx';
 import { transitionPreviewTheme, usePreviewTheme } from './previewTheme.js';
 
-// Interactive, single-screen preview of the Poolnautics dashboard for the
-// landing hero. A picture with a few live controls: the account chip and the
-// Dark mode switch in its menu, and the (look-only) Sanitizer dropdown. Below lg the
-// theme is also set from the toggle above it (PreviewThemeToggle).
+// THE dashboard preview: the app's shell (rail and panel) with its dashboard, shared by the hero and
+// #collections (RevenueSection.jsx), so the two can't drift. A picture with a few live controls: the
+// account chip and the Dark mode switch in its menu, the Trends row's range switch, the Cost per
+// visit pool dropdown and the charts' hover (PreviewPanel.jsx). Below lg the theme is also set from
+// the toggle above it (PreviewThemeToggle).
+//
+// Options, for #collections (the hero uses none):
+//   browserBar  false: no browser toolbar over the screen
+//   theme       'dark' | 'light': this one, whatever the visitor chose for the hero
+//   staticRail  the rail as a picture: no account menu, so no Dark mode switch
+//   active      the rail's highlighted item (Dashboard)
+//   banner      the billing banner over the stat cards ({ open }); see PreviewPanel
+//   stage       laid out for a stage that scales it to its width (preview.css .pl-preview--stage)
+//   children    the panel in place of the dashboard (LateInvoicesView.jsx)
 
 // The toolbar's icons: lucide's drawings, inline, so the toolbar adds no shared icon module (and so
 // no request) to the page's chunks.
@@ -55,8 +65,9 @@ function BrowserBar() {
   );
 }
 
-export default function DashboardPreview() {
-  const theme = usePreviewTheme();
+export default function DashboardPreview({ browserBar = true, theme: fixedTheme, staticRail = false, active = 'Dashboard', banner, stage = false, children }) {
+  const sharedTheme = usePreviewTheme();
+  const theme = fixedTheme ?? sharedTheme;
   const chipRef = useRef(null);
   const menuRef = useRef(null);
   const switchRef = useRef(null);
@@ -83,8 +94,8 @@ export default function DashboardPreview() {
   }, [menuOpen]);
 
   return (
-    <section className={`theme-scope ${theme} pl-preview`} aria-label="Poolnautics dashboard preview">
-      <BrowserBar />
+    <section className={`theme-scope ${theme} pl-preview${stage ? ' pl-preview--stage' : ''}`} aria-label="Poolnautics dashboard preview">
+      {browserBar && <BrowserBar />}
       <div className="pl-frame">
         <PreviewSidebar
           menuOpen={menuOpen}
@@ -95,9 +106,11 @@ export default function DashboardPreview() {
           switchRef={switchRef}
           dark={theme === 'dark'}
           onThemeChange={(dark) => transitionPreviewTheme(dark ? 'dark' : 'light')}
+          active={active}
+          decorative={staticRail}
         />
         <div className="pl-main">
-          <PreviewPanel />
+          {children ?? <PreviewPanel banner={banner} />}
         </div>
       </div>
     </section>

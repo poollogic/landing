@@ -20,9 +20,10 @@ const LEAD_GAP = 3; // ...and stops this far short of the ring's edge
  * values (the finished months), now, accent? }]. `area`: the wash under the accent line (and a
  * fainter one under its lead-in). `accentWidth`: the accent line's stroke. `labelRoom`: px right of
  * the plot; `leftGutter`, px left of it for the tick labels. `tooltip(i)`: the card for month i (the
- * last is the running month).
+ * last is the running month). `labels`: the x labels to draw, one per month (null for none), when
+ * there are too many months to label them all; `months` otherwise.
  */
-export default function LineChart({ months, ticks, min, max, axis, series, height = 150, leftGutter, labelRoom = 12, area: withArea = true, accentWidth = 2, tooltip }) {
+export default function LineChart({ months, labels = months, ticks, min, max, axis, series, height = 150, leftGutter, labelRoom = 12, area: withArea = true, accentWidth = 2, tooltip }) {
   const wrapRef = useRef(null);
   const svgRef = useRef(null);
   const cardRef = useRef(null);
@@ -177,9 +178,9 @@ export default function LineChart({ months, ticks, min, max, axis, series, heigh
               {axis(t)}
             </text>
           ))}
-          {months.map((m, i) => (
+          {labels.map((m, i) => m && (
             <text
-              key={m}
+              key={i}
               x={left + x(i)}
               y={M.top + height + M.bottom - 8}
               textAnchor={i === 0 ? 'start' : 'middle'}

@@ -76,6 +76,20 @@
   --route-track: rgba(148, 163, 184, 0.16);
   --home-good: #34b864;
   --chart-context: rgba(255, 255, 255, 0.26);
+  /* Stat cards (the app's --tile-* tokens, ui/SummaryTiles.tsx). */
+  --tile-bg: var(--sidebar-bg);
+  --tile-edge: rgba(255, 255, 255, 0.07);
+  --tile-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --tile-label: rgb(152, 152, 157);
+  --tile-value: rgb(245, 245, 247);
+  --tile-unit: rgb(110, 110, 115);
+  /* Settings (LateInvoicesView.jsx): the raised card, its fields and switches. */
+  --set-card-bg: rgb(23, 26, 32);
+  --set-card-shadow: none;
+  --set-field-bg: rgba(255, 255, 255, 0.05);
+  --set-field-edge: rgba(255, 255, 255, 0.06);
+  --set-switch-off: rgba(255, 255, 255, 0.12);
+  --set-active-bg: rgba(255, 255, 255, 0.055);
 }
 
 .theme-scope.light {
@@ -120,6 +134,18 @@
   --route-track: rgba(15, 23, 42, 0.10);
   --home-good: #1e9e4a;
   --chart-context: rgb(190, 190, 198);
+  --tile-bg: var(--sidebar-bg);
+  --tile-edge: rgba(31, 31, 32, 0.07);
+  --tile-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --tile-label: #6e6e73;
+  --tile-value: #1d1d1f;
+  --tile-unit: #a1a1a6;
+  --set-card-bg: #ffffff;
+  --set-card-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --set-field-bg: #ffffff;
+  --set-field-edge: rgba(0, 0, 0, 0.12);
+  --set-switch-off: rgba(29, 29, 31, 0.18);
+  --set-active-bg: rgba(29, 29, 31, 0.055);
 }
 
 /* Crossfade fallback when the View Transitions API isn't available. */
@@ -254,7 +280,7 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   text-overflow: ellipsis;
 }
 .pl-rail-actions { display: flex; align-items: center; gap: 2px; }
-.pl-new { /* sidebar/SidebarNewMenu.tsx */
+.pl-new { /* sidebar/SidebarNewMenu.tsx: the app's blue in both themes */
   flex: 1;
   min-width: 0;
   height: 28px;
@@ -263,15 +289,10 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   gap: 8px;
   padding: 0 8px;
   border-radius: 6px;
-  border: 1px solid var(--ink-7);
-  background: var(--ink-5);
-  color: var(--ink-80);
+  background: rgb(59, 130, 246);
+  color: #fff;
+  font-size: 13px;
   font-weight: 500;
-}
-.light .pl-new {
-  border-color: transparent;
-  background: var(--neutral-ink);
-  color: var(--card);
 }
 .pl-rail-icon {
   width: 28px;
@@ -499,39 +520,117 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 }
 
 .pl-header { padding-top: 24px; }
-.pl-title { font-size: 22px; font-weight: 590; letter-spacing: -0.01em; color: var(--foreground); }
-.pl-subtitle { margin-top: 2px; color: var(--muted-foreground); }
+.pl-title { font-size: 22px; font-weight: 600; letter-spacing: -0.22px; color: var(--foreground); }
+.pl-subtitle { margin-top: 2px; font-size: 13px; color: var(--muted-foreground); }
 
-/* KPI row (ui/SummaryTiles.tsx) */
-.pl-kpis { margin-top: 24px; padding: 24px 0 8px; }
+/* Stat cards (ui/SummaryTiles.tsx, index.css .summary-tiles): four cards in one row, each as wide as
+   its words, 12px apart; on a phone two across, 8px apart, 12px 14px inside. */
+.pl-kpis { margin-top: 24px; padding: 24px 0 0; }
+.pl-alert + .pl-kpis { padding-top: 0; }
 .pl-kpi-grid {
-  margin: 0 -12px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 24px;
-  row-gap: 16px;
+  gap: 8px;
 }
 @media (min-width: 640px) {
-  .pl-kpi-grid { display: flex; flex-wrap: wrap; gap: 24px; }
+  .pl-kpi-grid { display: flex; flex-wrap: wrap; gap: 12px; }
 }
-.pl-kpi { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; padding: 8px 12px; border-radius: 6px; }
+.pl-kpi {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px 18px;
+  border: 1px solid var(--tile-edge);
+  border-radius: 14px;
+  background: var(--tile-bg);
+  box-shadow: var(--tile-shadow);
+}
+@media (max-width: 639.98px) {
+  .pl-kpi { padding: 12px 14px; min-height: 68px; }
+}
 .pl-kpi-label { display: flex; align-items: center; gap: 8px; max-width: 100%; }
 .pl-kpi-dot { width: 6px; height: 6px; flex: none; border-radius: 999px; }
-.pl-kpi-label span:last-child { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pl-kpi-dot--accent { background: rgb(59, 130, 246); }
+.pl-kpi-dot--ink { background: var(--foreground); }
+.pl-kpi-dot--muted { background: var(--tile-label); }
+.pl-kpi-label span:last-child { font-size: 12px; font-weight: 500; line-height: 16px; color: var(--tile-label); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pl-kpi-value {
   margin-top: 4px;
   max-width: 100%;
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 28px;
-  letter-spacing: -0.44px;
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 24px;
+  letter-spacing: -0.5px;
   font-variant-numeric: tabular-nums;
-  color: var(--foreground);
+  color: var(--tile-value);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.pl-kpi-unit { margin-left: 4px; font-size: 13px; font-weight: 400; letter-spacing: normal; color: var(--muted-foreground); }
+.pl-kpi-unit { margin-left: 4px; font-size: 12px; font-weight: 500; letter-spacing: normal; color: var(--tile-unit); }
+
+/* ---------- The billing banner (PreviewPanel BillingBanner; #collections only) ----------
+   Over the stat cards: the count and two buttons; open, a divider and the list. Its height animates
+   open and closed (a grid row from 0fr to 1fr), and what's under it moves down. */
+.pl-alert {
+  margin-top: 24px;
+  padding: 12px 12px 12px 16px;
+  border: 1px solid rgba(255, 0, 54, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 0, 54, 0.10);
+}
+.pl-alert-top { display: flex; align-items: center; gap: 12px; }
+.pl-alert-mark {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgb(230, 0, 49);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+}
+.pl-alert-text { flex: 1; min-width: 0; margin: 0; font-size: 14px; color: rgba(203, 213, 225, 0.62); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pl-alert-text b { font-weight: 600; color: #fff; }
+.pl-alert-btn {
+  flex: none;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: rgba(148, 163, 184, 0.09);
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+.pl-alert-btn.is-fix { background: rgb(230, 0, 49); }
+.pl-alert-chev { transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
+.pl-alert.is-open .pl-alert-chev { transform: rotate(180deg); }
+.pl-alert-more {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.pl-alert.is-open .pl-alert-more { grid-template-rows: 1fr; }
+.pl-alert-clip { min-height: 0; overflow: hidden; }
+.pl-alert-rows { margin: 12px 0 0; padding: 4px 0 0; list-style: none; border-top: 1px solid rgba(255, 0, 54, 0.16); }
+.pl-alert-row { height: 36px; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: rgb(241, 245, 249); }
+.pl-alert-dot { width: 5px; height: 5px; flex: none; border-radius: 999px; } /* no dot: its room kept, so the labels line up */
+.pl-alert-dot.is-billing { background: rgb(230, 0, 49); }
+.pl-alert-label { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pl-alert-hint { font-weight: 400; color: rgba(203, 213, 225, 0.62); }
+.pl-alert-count { flex: none; padding-right: 4px; font-weight: 600; font-variant-numeric: tabular-nums; color: #fff; }
+.light .pl-alert-text,
+.light .pl-alert-hint { color: var(--muted-foreground); }
+.light :is(.pl-alert-text b, .pl-alert-row, .pl-alert-count) { color: var(--foreground); }
+.light .pl-alert-btn:not(.is-fix) { background: var(--chip-bg); color: var(--foreground); }
 
 /* Charts (dashboard/dashLayout.ts DASH_TWO_COL, ui/TrendCard.tsx) */
 .pl-charts { margin-top: 32px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; }
@@ -649,6 +748,12 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   font-weight: 500;
 }
 .pl-seg-divider { width: 1px; height: 14px; flex: none; background: var(--segmented-divider); }
+.pl-seg-divider.is-hidden { opacity: 0; }
+/* Live (a range switch): buttons, drawn as the segments are. */
+button.pl-seg-item { border: 0; background: transparent; font: inherit; font-size: 12px; cursor: pointer; transition: background-color 150ms, color 150ms; }
+button.pl-seg-item:not(.is-active):hover { color: var(--segmented-fg-active); }
+button.pl-seg-item.is-active { background: var(--segmented-thumb-bg); }
+button.pl-seg-item:focus-visible { outline: none; box-shadow: 0 0 0 2px color-mix(in oklab, var(--ring) 50%, transparent); }
 
 /* Sanitizer chip + menu (ui/FilterChip.tsx) */
 .pl-chip-wrap { position: relative; }
@@ -713,7 +818,13 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
   color: var(--foreground);
   transition: background-color 150ms;
 }
-.pl-option:hover { background: var(--chip-menu-row-hover); }
+.pl-option:hover,
+.pl-option.is-active { background: var(--chip-menu-row-hover); }
+/* The Trends row's pool menu opens leftward from its chip: on the desktop hero the dashboard runs off
+   the window's right edge, and a menu opening rightward would be cut off there. */
+.pl-charts-hero .pl-listbox { left: auto; right: 0; transform-origin: top right; }
+.pl-listbox:focus { outline: none; }
+.pl-listbox [role='option']:not([aria-disabled]) { cursor: pointer; }
 
 /* Chart (ui/TrendChart.tsx) */
 .pl-chart { position: relative; }
@@ -772,6 +883,156 @@ html.pl-vt .mockup-holder { view-transition-name: pl-preview; }
 
 @media (prefers-reduced-motion: reduce) {
   .pl-preview *, .pl-preview *::before, .pl-preview *::after { transition-duration: 0s !important; }
+}
+
+/* ---------- Settings › Late invoices (LateInvoicesView.jsx) ----------
+   The panel with the settings column on its left (settings/settingsNav.ts) and the page beside it
+   (SettingsLayout, settings-page-pt-desktop 48px; the page 680px wide; its rows one card, the
+   app's .form-card: 12px corners, 16px inside, each row 16px top and bottom, a field column of 400px).
+   Its headings and paragraphs are scoped under .pl-set to outrank the site's element reset
+   (.mktg :where(p, h3)), which comes later. */
+.pl-set { flex-direction: row; padding: 0; }
+.pl-set-nav { width: 216px; flex: none; padding: 48px 12px 24px 16px; }
+.pl-set .pl-set-nav-title {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 0 0 14px;
+  padding: 0 10px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+.pl-set-group + .pl-set-group { margin-top: 18px; }
+.pl-set .pl-set-group-label {
+  margin: 0 0 4px;
+  padding: 0 10px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.77px;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.pl-set-item {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.01em;
+  color: var(--neutral-ink-2);
+}
+.pl-set-item svg { flex: none; color: var(--neutral-ink-4); }
+.pl-set-item.is-active { background: var(--set-active-bg); color: var(--foreground); }
+.pl-set-item.is-active svg { color: var(--foreground); }
+
+.pl-set-body { position: relative; flex: 1; min-width: 0; overflow: hidden; }
+/* The page scrolls by a transform, so a scroll takes exactly as long as asked (--set-ms, --set-y). */
+.pl-set-page {
+  position: relative;
+  max-width: 744px;
+  padding: 48px 40px 48px 24px;
+  transform: translateY(calc(-1 * var(--set-y, 0px)));
+  transition: transform var(--set-ms, 0ms) cubic-bezier(0.4, 0, 0.2, 1);
+}
+.pl-set .pl-set-title {
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+}
+.pl-set .pl-set-desc { max-width: 60ch; margin: 4px 0 0; font-size: 13px; color: var(--neutral-ink-2); }
+.pl-set .pl-set-section { margin: 32px 0 12px; font-size: 14px; font-weight: 500; color: var(--foreground); }
+.pl-set-card { padding: 0 16px; border-radius: 12px; background: var(--set-card-bg); box-shadow: var(--set-card-shadow); }
+.pl-set-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 32px;
+  min-height: 64px;
+  padding: 16px 0;
+}
+.pl-set-row.is-field { grid-template-columns: minmax(160px, 1fr) minmax(0, 400px); }
+.pl-set-words { min-width: 0; }
+.pl-set-label { display: flex; align-items: center; font-size: 13px; font-weight: 500; line-height: 18px; color: var(--foreground); }
+.pl-set-info { flex: none; margin-left: 5px; color: var(--muted-foreground); }
+.pl-set-tag {
+  margin-left: 8px;
+  padding: 3px 6px;
+  border-radius: 5px;
+  background: rgba(46, 133, 255, 0.18);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1;
+  color: rgb(147, 197, 253);
+}
+.light .pl-set-tag { background: rgba(46, 133, 255, 0.12); color: rgb(29, 95, 232); }
+.pl-set .pl-set-hint { margin: 3px 0 0; font-size: 12px; font-weight: 450; line-height: 17.4px; color: var(--muted-foreground); }
+.pl-set-control { display: flex; justify-content: flex-end; min-width: 0; }
+
+.pl-set-switch {
+  position: relative;
+  flex: none;
+  width: 36px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--set-switch-off);
+  transition: background-color 0.2s ease;
+}
+.pl-set-switch i {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.pl-set-switch.is-on { background: rgb(59, 130, 246); }
+.pl-set-switch.is-on i { transform: translateX(16px); }
+
+.pl-set-field {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: var(--set-field-bg);
+  box-shadow: inset 0 0 0 1px var(--set-field-edge);
+  font-size: 13px;
+  color: var(--foreground);
+}
+.pl-set-prefix { color: var(--muted-foreground); }
+.pl-set-value { flex: 1; min-width: 0; white-space: nowrap; }
+.pl-set-chev { flex: none; color: var(--muted-foreground); }
+
+/* Rows that open under a switch: their height animates (a grid row, 0fr to 1fr). */
+.pl-set-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+.pl-set-more.is-open { grid-template-rows: 1fr; }
+.pl-set-clip { min-height: 0; overflow: hidden; }
+
+/* ---------- On a stage (DashboardPreview stage; #collections, RevenueSection.jsx) ----------
+   No browser toolbar: the screen fills its stage, which is a size container as the hero's holder is,
+   so the frame is laid out 1280px wide and zoomed to the stage's width (--dz above) as one piece.
+   It runs off the stage's foot: the top corners round, the bottom edge square. */
+@media (min-width: 1024px) {
+  .pl-preview--stage { height: 100%; aspect-ratio: auto; border-radius: 12px 12px 0 0; }
+  .pl-preview--stage .pl-main { padding-bottom: 0; }
+  .pl-preview--stage .pl-panel { border-bottom: 0; border-radius: 12px 12px 0 0; }
 }
 
 /* ---------- Toasts (PreviewToast.jsx, a child of .mockup-holder) ----------

@@ -3,64 +3,63 @@ import { Check, ChevronDown } from 'lucide-react';
 import PreviewChart from './PreviewChart.jsx';
 import LineChart from './LineChart.jsx';
 import Segmented from './Segmented.jsx';
-import useHydrated from '../useHydrated.js';
-import { COST, COST_POOLS, GREETING, KPI_TILES, REVENUE, REVENUE_6M, ROUTES, SANITIZER_OPTIONS, TODAY, greetingAt, moneyAxis, moneyAxisCents } from './data.js';
+import {
+  BILLING_BANNER, COST, DASHBOARD_TITLE, KPI_TILES, RANGES, REVENUE, ROUTES, SANITIZER_OPTIONS, TODAY,
+  costRange, moneyAxis, moneyAxisCents, revenueAt, revenueRange,
+} from './data.js';
 
-// The dashboard's main panel (poollogic-web-app: Dashboard.tsx, ui/PagePanel,
-// ui/SummaryTiles, dashboard/RevenueTrendCard, dashboard/ChemCostPerVisitCard):
-// greeting, KPI row and the two Trends cards. Only the Sanitizer dropdown is
-// live, and it is look-only: the selection stays on All.
+// The dashboard's main panel (poollogic-web-app: Dashboard.tsx, ui/PagePanel, ui/SummaryTiles,
+// dashboard/DesktopTrends, dashboard/DesktopRouteProgress): the title and date, the billing banner
+// where a page asks for it (#collections), the stat cards, the Trends row and today's routes. Shared
+// by the hero and #collections (DashboardPreview.jsx). Live: the Trends row's 6M / 12M / 24M switch,
+// the Cost per visit pool dropdown and the charts' hover; the rest is a picture.
 
 const usd = (v) => `$${Math.round(v).toLocaleString('en-US')}`;
 const usdCents = (v) => `$${v.toFixed(2)}`;
+const costAxis = (v) => (Number.isInteger(v) ? `$${v}` : `$${v.toFixed(1)}`);
 
-/** Revenue hover: recurring + repairs & extras, which always add up to the month's total. */
+/** Revenue hover: recurring + repairs & extras, which always add up to the month's total. `i` is the
+    month in the whole history (data.js revenueAt). */
 function revenueTip(i) {
-  const total = REVENUE.bars[i];
-  const recurring = REVENUE.recurring[i];
-  const current = i === REVENUE.bars.length - 1;
+  const m = revenueAt(i);
   return {
-    title: REVENUE.months[i],
-    sub: current ? 'Month to date · Oct 1–20' : null,
+    title: m.title,
+    sub: m.running ? 'Month to date · Oct 1–20' : null,
     rows: [
-      { key: 'rec', label: 'Recurring', value: usd(recurring), swatch: 'var(--foreground)' },
-      { key: 'extra', label: 'Repairs & extras', value: usd(total - recurring), swatch: 'var(--muted-foreground)' },
-      { key: 'total', label: 'Total invoiced', value: usd(total), swatch: 'var(--chart-accent)', kind: 'bar', rule: true },
+      { key: 'rec', label: 'Recurring', value: usd(m.recurring), swatch: 'var(--muted-foreground)' },
+      { key: 'extra', label: 'Repairs & extras', value: usd(m.total - m.recurring), swatch: 'var(--muted-foreground)' },
+      { key: 'total', label: 'Total invoiced', value: usd(m.total), swatch: 'var(--chart-accent)', kind: 'line', rule: true },
     ],
   };
 }
 
-/** The hero's revenue hover (six months, the line chart): the month's total and what made it up. */
-function revenueTip6(i) {
-  const tip = revenueTip(REVENUE_6M.first + i);
+/** The phone's revenue hover (bars and a line over twelve months, PreviewCharts). */
+const REVENUE_FIRST_12 = revenueRange(12).first;
+function revenueTip12(i) {
+  const tip = revenueTip(REVENUE_FIRST_12 + i);
   const [rec, extra, total] = tip.rows;
-  return {
-    ...tip,
-    rows: [
-      { ...rec, swatch: 'var(--muted-foreground)' },
-      extra,
-      { ...total, kind: 'line' },
-    ],
-  };
+  return { ...tip, rows: [{ ...rec, swatch: 'var(--foreground)' }, extra, { ...total, kind: 'bar' }] };
 }
 
-/** The hero's cost per visit hover: the month (October "so far"), the team average with the accent
+/** Cost per visit hover: the month (the running one "so far"), the team average with the accent
     line's marker, then each technician, highest first. */
-function costTip6(i) {
-  const running = i === COST_POOLS.months.length - 1;
-  const at = (s) => (running ? s.now : s.values[i]);
-  const team = COST_POOLS.series.find((s) => s.accent);
-  const techs = COST_POOLS.series.filter((s) => !s.accent).sort((a, b) => at(b) - at(a));
-  return {
-    title: running ? `${COST_POOLS.monthNames[i]} · so far` : COST_POOLS.monthNames[i],
-    rows: [
-      { key: team.key, label: team.label, value: usdCents(at(team)), swatch: 'var(--chart-accent)', kind: 'line' },
-      ...techs.map((s) => ({ key: s.key, label: s.label, value: usdCents(at(s)), swatch: 'var(--chart-context)', kind: 'line' })),
-    ],
+function costTipFor(data) {
+  return (i) => {
+    const running = i === data.titles.length - 1;
+    const at = (s) => (running ? s.now : s.values[i]);
+    const team = data.series.find((s) => s.accent);
+    const techs = data.series.filter((s) => !s.accent).sort((a, b) => at(b) - at(a));
+    return {
+      title: running ? `${data.titles[i]} · so far` : data.titles[i],
+      rows: [
+        { key: team.key, label: team.label, value: usdCents(at(team)), swatch: 'var(--chart-accent)', kind: 'line' },
+        ...techs.map((s) => ({ key: s.key, label: s.label, value: usdCents(at(s)), swatch: 'var(--chart-context)', kind: 'line' })),
+      ],
+    };
   };
 }
 
-/** Cost per visit hover: each tech, highest first, then the team average. */
+/** The phone's cost per visit hover: each tech, highest first, then the team average. */
 function costTip(i) {
   const techs = COST.techs
     .filter((t) => t.values[i] != null)
@@ -72,44 +71,104 @@ function costTip(i) {
   };
 }
 
-/** ui/FilterChip.tsx "Sanitizer" / "All pools": opens and closes; its options only highlight. */
-function SanitizerDropdown({ label = 'Sanitizer' }) {
+/**
+ * ui/FilterChip.tsx: the pool type for Cost per visit. With `onChange` it's live: a press opens the
+ * menu, picking a type changes the chart, and the keyboard works as a listbox's (arrows, Home / End,
+ * Enter or Space to pick, Escape or Tab to close). Without it (the phone's card) its options only
+ * highlight and the choice stays on All.
+ */
+function PoolDropdown({ value = 'All', onChange, label }) {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
   const wrapRef = useRef(null);
+  const buttonRef = useRef(null);
+  const listRef = useRef(null);
   const id = useId();
+  const live = typeof onChange === 'function';
+  const shown = label ?? (value === 'All' ? 'All pools' : value);
 
   useEffect(() => {
     if (!open) return undefined;
     const onDown = (e) => { if (!wrapRef.current?.contains(e.target)) setOpen(false); };
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
     document.addEventListener('pointerdown', onDown);
-    document.addEventListener('keydown', onKey);
-    return () => {
-      document.removeEventListener('pointerdown', onDown);
-      document.removeEventListener('keydown', onKey);
-    };
+    return () => document.removeEventListener('pointerdown', onDown);
   }, [open]);
+
+  // Opening puts the keyboard on the chosen type.
+  useEffect(() => {
+    if (!open || !live) return;
+    setActive(Math.max(0, SANITIZER_OPTIONS.indexOf(value)));
+    listRef.current?.focus();
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const close = (refocus) => {
+    setOpen(false);
+    if (refocus) buttonRef.current?.focus();
+  };
+  const pick = (i) => {
+    onChange(SANITIZER_OPTIONS[i]);
+    close(true);
+  };
+  const onButtonKey = (e) => {
+    if (e.key === 'Escape') setOpen(false);
+    if (live && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) { e.preventDefault(); setOpen(true); }
+  };
+  const onListKey = (e) => {
+    const last = SANITIZER_OPTIONS.length - 1;
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive((i) => Math.min(last, i + 1)); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); setActive((i) => Math.max(0, i - 1)); }
+    else if (e.key === 'Home') { e.preventDefault(); setActive(0); }
+    else if (e.key === 'End') { e.preventDefault(); setActive(last); }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(active); }
+    else if (e.key === 'Escape') { e.preventDefault(); close(true); }
+    else if (e.key === 'Tab') close(false);
+  };
 
   return (
     <div ref={wrapRef} className="pl-chip-wrap pl-live">
       <button
+        ref={buttonRef}
         type="button"
         className="pl-chip"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={id}
+        aria-label={live ? `Pool type: ${shown}` : undefined}
         onClick={() => setOpen((v) => !v)}
+        onKeyDown={onButtonKey}
       >
-        {label}
+        {shown}
         <ChevronDown size={12} strokeWidth={1.75} aria-hidden="true" />
       </button>
-      <div id={id} role="listbox" aria-label="Sanitizer (preview)" className="pl-listbox" data-state={open ? 'open' : 'closed'}>
-        {SANITIZER_OPTIONS.map((o) => (
-          <div key={o} role="option" aria-selected={o === 'All'} aria-disabled={o === 'All' ? undefined : true} className="pl-option">
-            <span>{o}</span>
-            {o === 'All' && <Check size={14} strokeWidth={1.75} aria-hidden="true" />}
-          </div>
-        ))}
+      <div
+        ref={listRef}
+        id={id}
+        role="listbox"
+        tabIndex={live ? -1 : undefined}
+        aria-label={live ? 'Pool type' : 'Sanitizer (preview)'}
+        aria-activedescendant={live && open ? `${id}-${active}` : undefined}
+        className="pl-listbox"
+        data-state={open ? 'open' : 'closed'}
+        onKeyDown={live ? onListKey : undefined}
+      >
+        {SANITIZER_OPTIONS.map((o, i) => {
+          const chosen = o === value;
+          return (
+            <div
+              key={o}
+              id={`${id}-${i}`}
+              role="option"
+              aria-selected={chosen}
+              aria-disabled={live || chosen ? undefined : true}
+              className={`pl-option${live && open && i === active ? ' is-active' : ''}`}
+              onMouseEnter={live ? () => setActive(i) : undefined}
+              onClick={live ? () => pick(i) : undefined}
+            >
+              <span>{o}</span>
+              {chosen && <Check size={14} strokeWidth={1.75} aria-hidden="true" />}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -155,6 +214,12 @@ const Chevron = () => (
 const ArrowDownRight = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m7 7 10 10" /><path d="M17 7v10H7" /></svg>
 );
+const ChevronDownIcon = ({ className }) => (
+  <svg className={className} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+);
+const ArrowRightIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+);
 
 /** dashboard/DesktopTrends.tsx ChartHeader: a 32px label row, a 30px figure row, 32px to the chart. */
 function TrendHeader({ label, control, figure, aside }) {
@@ -173,63 +238,72 @@ function TrendHeader({ label, control, figure, aside }) {
 }
 
 /**
- * The hero's Trends row, as the app's (dashboard/DesktopTrends.tsx): Invoiced and Cost per visit
- * side by side in equal halves, on the page with no card, one 6M / 12M / 24M switch in the row's
- * corner for both, each with its label, its figure, and a 220px line chart over six months.
+ * The Trends row, as the app's (dashboard/DesktopTrends.tsx): Invoiced and Cost per visit side by
+ * side in equal halves, on the page with no card, one 6M / 12M / 24M switch in the row's corner for
+ * both, each with its label, its figure, and a 220px line chart. The switch and the pool dropdown
+ * are live; each preview keeps its own choice.
  */
 function HeroCharts() {
-  const allNow = COST_POOLS.series.find((x) => x.accent);
-  const change = ((allNow.now - allNow.values[allNow.values.length - 1]) / allNow.values[allNow.values.length - 1]) * 100;
+  const [range, setRange] = useState('6M');
+  const [pool, setPool] = useState('All');
+  const months = RANGES[range];
+  const revenue = revenueRange(months);
+  const cost = costRange(pool, months);
+  const team = cost.series.find((x) => x.accent);
+  const prev = team.values[team.values.length - 1];
+  const change = ((team.now - prev) / prev) * 100;
   return (
     <div className="pl-charts pl-charts-hero">
-      <div className="pl-trends-range" aria-hidden="true">
-        <Segmented options={['6M', '12M', '24M']} value="6M" />
+      <div className="pl-trends-range">
+        <Segmented options={Object.keys(RANGES)} value={range} onChange={setRange} label="Chart range" />
       </div>
 
       <div className="pl-trend" aria-hidden="true">
         <TrendHeader
           label={<>Invoiced <Chevron /></>}
-          figure={usd(REVENUE_6M.series[0].now)}
+          figure={usd(revenue.series[0].now)}
           aside="so far in Oct"
         />
         <LineChart
-          months={REVENUE_6M.months}
-          ticks={REVENUE_6M.ticks}
-          min={REVENUE_6M.min}
-          max={REVENUE_6M.max}
+          months={revenue.months}
+          labels={revenue.labels}
+          ticks={revenue.ticks}
+          min={revenue.min}
+          max={revenue.max}
           axis={moneyAxis}
-          series={REVENUE_6M.series}
+          series={revenue.series}
           leftGutter={40}
           labelRoom={12}
-          tooltip={revenueTip6}
+          tooltip={(i) => revenueTip(revenue.first + i)}
           height={220}
         />
       </div>
 
       <div className="pl-trend">
         <TrendHeader
-          label="Cost per visit"
-          control={<SanitizerDropdown label="All pools" />}
-          figure={usdCents(allNow.now)}
+          label={<span aria-hidden="true">Cost per visit</span>}
+          control={<PoolDropdown value={pool} onChange={setPool} />}
+          figure={<span aria-hidden="true">{usdCents(team.now)}</span>}
           aside={(
-            <>
+            <span aria-hidden="true">
               <span className="pl-trend-good"><ArrowDownRight />{Math.abs(change).toFixed(1)}%</span>
               {' '}vs Sep
-            </>
+            </span>
           )}
         />
         <div aria-hidden="true">
           <LineChart
-            months={COST_POOLS.months}
-            ticks={COST_POOLS.ticks}
-            min={COST_POOLS.min}
-            max={COST_POOLS.max}
-            axis={(v) => `$${Math.round(v)}`}
-            series={COST_POOLS.series}
+            months={cost.months}
+            labels={cost.labels}
+            ticks={cost.ticks}
+            min={cost.min}
+            max={cost.max}
+            axis={costAxis}
+            series={cost.series}
             leftGutter={40}
             area={false}
             accentWidth={2.25}
-            tooltip={costTip6}
+            tooltip={costTipFor(cost)}
             height={220}
           />
         </div>
@@ -255,7 +329,7 @@ export function PreviewCharts() {
             axis={moneyAxis}
             bars={{ color: 'var(--chart-accent)', values: REVENUE.bars }}
             lines={[{ key: 'recurring', color: 'var(--foreground)', values: REVENUE.recurring, smooth: true }]}
-            tooltip={revenueTip}
+            tooltip={revenueTip12}
           />
         </div>
       </div>
@@ -264,7 +338,7 @@ export function PreviewCharts() {
         <div className="pl-card-head">
           <div className="pl-card-title-row">
             <span className="pl-card-title" aria-hidden="true">Cost per visit</span>
-            <SanitizerDropdown />
+            <PoolDropdown label="Sanitizer" />
           </div>
           <Segmented options={['6M', '12M']} value="6M" />
         </div>
@@ -285,23 +359,61 @@ export function PreviewCharts() {
   );
 }
 
-export default function PreviewPanel() {
-  // The visitor's time of day, once in the browser (the pre-rendered page says afternoon).
-  const hydrated = useHydrated();
-  const greeting = hydrated ? greetingAt(new Date().getHours()) : GREETING;
+/**
+ * The billing banner (the dashboard's attention banner): the count of billing problems and other
+ * open items, Review all and Fix, and when `open`, the list under a divider. Opening animates its
+ * height and pushes what's below it down. A picture: #collections opens it as you scroll to it.
+ */
+function BillingBanner({ open }) {
+  const b = BILLING_BANNER;
+  return (
+    <div className={`pl-alert${open ? ' is-open' : ''}`} aria-hidden="true">
+      <div className="pl-alert-top">
+        <span className="pl-alert-mark">!</span>
+        <p className="pl-alert-text"><b>{b.problems} billing problems</b> · {b.other} other items open</p>
+        <span className="pl-alert-btn">Review all {b.problems + b.other}<ChevronDownIcon className="pl-alert-chev" /></span>
+        <span className="pl-alert-btn is-fix">{b.fix}<ArrowRightIcon /></span>
+      </div>
+      <div className="pl-alert-more">
+        <div className="pl-alert-clip">
+          <ul className="pl-alert-rows">
+            {b.rows.map((r) => (
+              <li key={r.key} className="pl-alert-row">
+                <span className={`pl-alert-dot${r.billing ? ' is-billing' : ''}`} />
+                <span className="pl-alert-label">
+                  {r.label}
+                  {r.hint && <span className="pl-alert-hint"> · {r.hint}</span>}
+                </span>
+                <span className="pl-alert-count">{r.count}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * `banner`: show the billing banner between the header and the stat cards; `banner.open`, its list.
+ * Off in the hero.
+ */
+export default function PreviewPanel({ banner }) {
   return (
     <div className="pl-panel">
       <div className="pl-header" aria-hidden="true">
-        <div className="pl-title">{greeting}</div>
+        <div className="pl-title">{DASHBOARD_TITLE}</div>
         <div className="pl-subtitle">{TODAY}</div>
       </div>
+
+      {banner && <BillingBanner open={!!banner.open} />}
 
       <div className="pl-kpis" aria-hidden="true">
         <div className="pl-kpi-grid">
           {KPI_TILES.map((t) => (
             <div key={t.key} className="pl-kpi">
               <span className="pl-kpi-label">
-                <span className="pl-kpi-dot" style={{ background: t.dot }} />
+                <span className={`pl-kpi-dot pl-kpi-dot--${t.dot}`} />
                 <span>{t.label}</span>
               </span>
               <span className="pl-kpi-value">

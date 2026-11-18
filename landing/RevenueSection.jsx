@@ -1,21 +1,34 @@
-import React, { useEffect, useRef, useSyncExternalStore } from 'react';
-import {
-  Bell, ChevronUp, CreditCard, FileText, LayoutDashboard, Package, Plus, Route, Search, Settings, Ticket, UserCog, Users,
-} from 'lucide-react';
+import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import SectionHeader from './SectionHeader.jsx';
-import { useRevenueStory, RevenueStoryStyles, FeatureBar, RevenueSettingsLayer, StoryCursor } from './RevenueStory.jsx';
+import DashboardPreview from './preview/DashboardPreview.jsx';
+import LateInvoicesView from './preview/LateInvoicesView.jsx';
 import RevenueMobileStory from './RevenueMobileStory.jsx';
 import './revenue.css';
 
-// Section 3: revenue protection. Centred copy, three numbered features, then a
-// decorative dashboard snippet whose red billing banner opens as it scrolls
-// into view and fades into the page at the bottom. On desktop (≥ 1024px) the
-// features row and the dashboard pin while the app "plays" a scroll story:
-// overdue notices → late fees → automatic pause (RevenueStory.jsx). All figures are MOCK data:
-// 5 billing problems = 2 + 3 (the red, critical rows) plus 2 estimates
-// waiting (not a billing problem, so no red dot); 7 in all.
+// "Financial watchdog" (#collections), dark. Desktop (≥ 1024px): two steps to tap, and under them a
+// stage showing THE dashboard preview, the hero's own component (preview/DashboardPreview.jsx), not a
+// copy: the same rail, stat cards, charts (their range switch, pool dropdown and hover) and route
+// rows, here without the browser toolbar, always dark, and scaled as one piece to the stage's width.
+//   Step 1  the dashboard with the billing banner, which opens as you scroll down to it
+//   Step 2  Settings › Late invoices (preview/LateInvoicesView.jsx), where a cursor turns on late
+//           fees and automatic pause, each time the step is shown
+// Auto-play: once the stage is 35% in view, step 1 for 8s (its line fills as the timer), then step 2
+// and its demo, then it stops. A tap on either step stops it for good. Below 1024px the phone story
+// (RevenueMobileStory.jsx) as it was. All figures are mock data.
 
-const FEATURES = [
+const STEPS = [
+  {
+    title: 'Nothing slips through the cracks',
+    body: 'A failed card or a past-due invoice turns your dashboard red from the first late day, with one tap to fix it. Reminders go out to the customer for you.',
+  },
+  {
+    title: 'Late fees and pauses on your terms',
+    body: 'Set a flat or percentage fee and a grace period once, and the billing run adds it. On Vision, customers who stop paying are paused automatically and resume when they pay.',
+  },
+];
+
+// The phone story's three beats (RevenueMobileStory.jsx), unchanged in this pass.
+const MOBILE_FEATURES = [
   {
     n: '01',
     title: 'Nothing slips through the cracks',
@@ -33,130 +46,200 @@ const FEATURES = [
   },
 ];
 
-const NAV = [
-  { label: 'Operations', items: [['Dashboard', LayoutDashboard, true], ['Requests', Ticket], ['Customers', Users], ['Routes', Route], ['Staff', UserCog], ['Settings', Settings]] },
-  { label: 'Money', items: [['Invoices', FileText], ['Payments', CreditCard]] },
-  { label: 'Catalog', items: [['Services & Parts', Package]] },
-];
+const AUTO_MS = 8000; // step 1's turn in the auto-play
+const FADE_MS = 400; // the steps' cross-fade (revenue.css .rv-layer)
+// The banner opens once its top edge is above 72% of the window's height, and closes once it's back
+// below 74.5% (the gap keeps it from flickering at the line).
+const OPEN_AT = 0.72;
+const CLOSE_AT = 0.745;
+// The fade at the stage's foot (revenue.css .rv-stage::after, 50px), in the dashboard's own pixels
+// at its 920px width: rows under it don't count as in view when the settings page scrolls.
+const FADE_ROOM = 72;
 
-// The app's own labels (dashboard/Dashboard.tsx attention sources).
-const ROWS = [
-  { label: 'Autopay declined', hint: 'Card declined · ACH returned', count: 2, critical: true },
-  { label: 'Invoices past due', note: '(overdue notices sent)', hint: 'Late fees applied', count: 3, critical: true },
-  { label: 'Estimates awaiting approval', hint: 'Sent to customers', count: 2 },
-];
+// Step 2's demo: where the settings start, and where they end (reduced motion shows the end).
+const START = { lateFees: false, autoPause: false, scroll: 'top', scrollMs: 0 };
+const FINAL = { lateFees: true, autoPause: true, scroll: 'bottom', scrollMs: 0 };
 
-const TILES = [
-  { label: 'Invoiced, month to date', dot: '#3885C6', value: '$52,720' },
-  { label: 'Recurring revenue', dot: '#fff', value: '$48,930', unit: '/mo' },
-  { label: 'Active customers', dot: 'rgba(203,213,225,.62)', value: '302', unit: '· 4 paused' },
-  { label: 'Average per customer', dot: 'rgba(203,213,225,.62)', value: '$162.02', unit: '/mo' },
-];
+// Desktop from 1024px up; below that, the phone story.
+const WIDE = '(min-width: 1024px)';
+const useMedia = (query, server) => useSyncExternalStore(
+  (cb) => { const mq = window.matchMedia(query); mq.addEventListener('change', cb); return () => mq.removeEventListener('change', cb); },
+  () => window.matchMedia(query).matches,
+  () => server,
+);
 
-const ICON = { size: 16, strokeWidth: 1.5, 'aria-hidden': true };
-
-/** Opens the banner when it crosses 35% up from the bottom of the screen going
- *  down; closes it only when it drops back below that line going up. */
-function useBannerReveal(ref) {
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return undefined;
-    if (!('IntersectionObserver' in window)) {
-      el.classList.add('open');
-      return undefined;
-    }
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) el.classList.add('open');
-        else if (e.rootBounds && e.boundingClientRect.top > e.rootBounds.bottom) el.classList.remove('open');
-      },
-      { rootMargin: '0px 0px -35% 0px' },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [ref]);
-}
-
-function DashboardSnippet() {
-  const bannerRef = useRef(null);
-  useBannerReveal(bannerRef);
+function Cursor({ cursorRef, ringRef }) {
   return (
-    <div className="rv-snippet" aria-hidden="true">
-      <div className="rv-frame">
-        <aside className="rv-side">
-          <div className="rv-co">Bayside Pool Co.</div>
-          <div className="rv-actions">
-            <span className="rv-new"><Plus {...ICON} /> New</span>
-            <span className="rv-ico"><Search {...ICON} /></span>
-            <span className="rv-ico rv-bell"><Bell {...ICON} /></span>
-          </div>
-          {NAV.map((g) => (
-            <div key={g.label} className="rv-group">
-              <div className="rv-glabel">{g.label}</div>
-              {g.items.map(([label, Icon, active]) => (
-                <div key={label} className={`rv-nav${active ? ' is-active' : ''}`}><Icon {...ICON} />{label}</div>
-              ))}
-            </div>
-          ))}
-        </aside>
-
-        <div className="rv-main">
-          <div className="rvs-dash">
-          <div className="rv-hello">Good evening, Alex</div>
-          <div className="rv-date">Monday, November 2, 2026</div>
-
-          <div className="rv-banner" ref={bannerRef}>
-            <div className="rv-banner-top">
-              <span className="rv-mark">!</span>
-              <p className="rv-banner-text">
-                <b>5 billing problems</b>
-              </p>
-              <span className="rv-ghost">Review all 7 <ChevronUp size={14} strokeWidth={2} className="rv-chev" /></span>
-              <span className="rv-fix">Fix 2 payments <span>→</span></span>
-            </div>
-            <ul className="rv-rows">
-              {ROWS.map((r) => (
-                <li key={r.label}>
-                  <span className={`rv-dot${r.critical ? ' is-red' : ''}`} />
-                  <span className="rv-row-label">{r.label}{r.note && <span className="rv-row-hint"> {r.note}</span>}{r.hint && <span className="rv-row-hint"> · {r.hint}</span>}</span>
-                  <span className="rv-row-count">{r.count}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="rv-tiles">
-            {TILES.map((t) => (
-              <div key={t.label} className="rv-tile">
-                <span className="rv-tile-label"><span style={{ background: t.dot }} />{t.label}</span>
-                <span className="rv-tile-value">{t.value}{t.unit && <small>{t.unit}</small>}</span>
-              </div>
-            ))}
-          </div>
-          </div>
-          <RevenueSettingsLayer />
-        </div>
-        <StoryCursor />
-      </div>
+    <div ref={cursorRef} className="rv-cursor" aria-hidden="true">
+      <span ref={ringRef} className="rv-ring" />
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <path d="M5 2.5v17.2l4.3-4.1 2.8 6.4 3.1-1.4-2.8-6.3 6-.3z" fill="#fff" stroke="#111" strokeWidth="1.3" strokeLinejoin="round" />
+      </svg>
     </div>
   );
 }
 
-// The desktop story runs from 1024px up (as RevenueStory.jsx does); below that the phone story.
-const WIDE = '(min-width: 1024px)';
-const useIsWide = () => useSyncExternalStore(
-  (cb) => { const mq = window.matchMedia(WIDE); mq.addEventListener('change', cb); return () => mq.removeEventListener('change', cb); },
-  () => window.matchMedia(WIDE).matches,
-  () => true,
-);
+function CollectionsDemo() {
+  const reduced = useMedia('(prefers-reduced-motion: reduce)', false);
+  const stageRef = useRef(null);
+  const cursorRef = useRef(null);
+  const ringRef = useRef(null);
+  const [step, setStep] = useState(0);
+  const [auto, setAuto] = useState('idle'); // idle → timing → done; off once a step is tapped
+  const [run, setRun] = useState(0); // counts step 2's showings, so its demo replays
+  const [bannerOpen, setBannerOpen] = useState(false);
+  const [demo, setDemo] = useState(START);
+
+  const show = (i) => {
+    setStep(i);
+    if (i === 1) setRun((n) => n + 1);
+  };
+  const choose = (i) => {
+    setAuto('off');
+    show(i);
+  };
+
+  // Auto-play starts once the stage is 35% in view...
+  useEffect(() => {
+    const el = stageRef.current;
+    if (auto !== 'idle' || !el || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver(([e]) => { if (e.intersectionRatio >= 0.34) setAuto('timing'); }, { threshold: [0, 0.35] });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [auto]);
+  // ...gives step 1 its 8 seconds, then shows step 2 and stops.
+  useEffect(() => {
+    if (auto !== 'timing') return undefined;
+    const t = window.setTimeout(() => { setAuto('done'); show(1); }, AUTO_MS);
+    return () => window.clearTimeout(t);
+  }, [auto]);
+
+  // The banner opens and closes with the page's scroll (OPEN_AT, CLOSE_AT).
+  useEffect(() => {
+    const banner = stageRef.current?.querySelector('.rv-layer--dash .pl-alert');
+    if (!banner) return undefined;
+    let open = false;
+    let frame = 0;
+    const check = () => {
+      frame = 0;
+      const top = banner.getBoundingClientRect().top;
+      const h = window.innerHeight;
+      if (!open && top < h * OPEN_AT) { open = true; setBannerOpen(true); }
+      else if (open && top > h * CLOSE_AT) { open = false; setBannerOpen(false); }
+    };
+    const onScroll = () => { if (!frame) frame = window.requestAnimationFrame(check); };
+    check();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  // Step 2's demo, each time it's shown: the cursor turns on late fees, the page scrolls, it turns on
+  // automatic pause, the page scrolls to the bottom. Off step 2, the settings go back to the start
+  // once the step has faded out.
+  useEffect(() => {
+    const stage = stageRef.current;
+    const cursor = cursorRef.current;
+    const ring = ringRef.current;
+    const timers = [];
+    const at = (ms, fn) => timers.push(window.setTimeout(fn, ms));
+    const cleanup = () => timers.forEach((t) => window.clearTimeout(t));
+    const hide = () => cursor?.classList.remove('is-on');
+    hide();
+
+    if (step !== 1) {
+      at(FADE_MS + 50, () => setDemo(START));
+      return cleanup;
+    }
+    if (reduced || !stage || !cursor || !ring) {
+      setDemo(FINAL);
+      return cleanup;
+    }
+
+    // A point on the stage, in its own pixels: a switch's middle, or a spot to start from.
+    const pointAt = (name) => {
+      const el = stage.querySelector(`.rv-layer--set [data-demo="${name}"]`);
+      const s = stage.getBoundingClientRect();
+      if (!el) return { x: s.width * 0.5, y: s.height * 0.5 };
+      const r = el.getBoundingClientRect();
+      return { x: r.left - s.left + r.width * 0.62, y: r.top - s.top + r.height * 0.55 };
+    };
+    const move = (p, ms) => {
+      cursor.style.setProperty('--cur-ms', `${ms}ms`);
+      cursor.style.setProperty('--cur-x', `${Math.round(p.x)}px`);
+      cursor.style.setProperty('--cur-y', `${Math.round(p.y)}px`);
+    };
+    const click = () => {
+      ring.classList.remove('is-go');
+      void ring.offsetWidth; // restart the ripple
+      ring.classList.add('is-go');
+    };
+
+    setDemo(START);
+    at(600, () => {
+      const s = stage.getBoundingClientRect();
+      move({ x: s.width * 0.8, y: s.height * 0.86 }, 0);
+      cursor.classList.add('is-on');
+    });
+    at(650, () => move(pointAt('late-fees'), 850));
+    at(1650, () => { click(); setDemo((d) => ({ ...d, lateFees: true })); });
+    at(3000, () => setDemo((d) => ({ ...d, scroll: 'pause', scrollMs: 900 })));
+    at(4050, () => move(pointAt('auto-pause'), 800));
+    at(5050, () => { click(); setDemo((d) => ({ ...d, autoPause: true })); });
+    at(5700, () => setDemo((d) => ({ ...d, scroll: 'bottom', scrollMs: 700 })));
+    at(6500, hide);
+    return cleanup;
+  }, [step, run, reduced]);
+
+  return (
+    <>
+      <div className="rv-steps">
+        <p className="rv-steps-label">Tap one to try it</p>
+        <div className="rv-steps-row">
+          {STEPS.map((s, i) => {
+            const on = step === i;
+            const timing = on && auto === 'timing' && i === 0;
+            const filled = on && !timing && !(auto === 'idle' && i === 0);
+            return (
+              <button
+                key={s.title}
+                type="button"
+                className={`rv-step${on ? ' is-active' : ''}${timing ? ' is-timing' : ''}${filled ? ' is-filled' : ''}`}
+                aria-pressed={on}
+                onClick={() => choose(i)}
+              >
+                <span className="rv-step-line" aria-hidden="true"><i /></span>
+                <span className="rv-step-title">{s.title}</span>
+                <span className="rv-step-body">{s.body}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div ref={stageRef} className="rv-stage">
+        <div className={`rv-layer rv-layer--dash${step === 0 ? ' is-on' : ''}`} inert={step === 0 ? undefined : ''}>
+          <DashboardPreview stage browserBar={false} theme="dark" staticRail banner={{ open: bannerOpen }} />
+        </div>
+        <div className={`rv-layer rv-layer--set${step === 1 ? ' is-on' : ''}`} inert={step === 1 ? undefined : ''}>
+          <DashboardPreview stage browserBar={false} theme="dark" staticRail active="Settings">
+            <LateInvoicesView {...demo} bottomInset={FADE_ROOM} />
+          </DashboardPreview>
+        </div>
+        <Cursor cursorRef={cursorRef} ringRef={ringRef} />
+      </div>
+    </>
+  );
+}
 
 export default function RevenueSection() {
-  const sectionRef = useRef(null);
-  const wide = useIsWide();
-  useRevenueStory(sectionRef, wide);
+  const wide = useMedia(WIDE, true);
   return (
-    <section ref={sectionRef} id="collections" className="rv" aria-labelledby="revenue-heading">
-      <RevenueStoryStyles />
+    <section id="collections" className="rv" aria-labelledby="revenue-heading">
       <div className="rv-inner container">
         <SectionHeader
           id="revenue-heading"
@@ -165,28 +248,10 @@ export default function RevenueSection() {
             <span className="rv-h2-a">Stop chasing customers</span>{' '}
             <span className="rv-h2-b">who ignore their invoices.</span>
           </>}
-          subtitle="Let Poolnautics play the bad guy. Reminders, late fees and service pauses follow your rules automatically, so you never send another awkward text."
+          subtitle="Let Poolnautics play the bad guy. Reminders and late fees follow your rules automatically, so you never send another awkward text."
         />
 
-        {wide ? (
-          <div className="rvs-track">
-            <div className="rvs-sticky">
-              <div className="rv-features">
-                {FEATURES.map((f) => (
-                  <div key={f.n} className="rv-feature">
-                    <FeatureBar />
-                    <h3 className="rv-ft">{f.title}</h3>
-                    <p className="rv-fd">{f.body}</p>
-                  </div>
-                ))}
-              </div>
-
-              <DashboardSnippet />
-            </div>
-          </div>
-        ) : (
-          <RevenueMobileStory features={FEATURES} />
-        )}
+        {wide ? <CollectionsDemo /> : <RevenueMobileStory features={MOBILE_FEATURES} />}
       </div>
     </section>
   );
