@@ -50,7 +50,7 @@ const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/te
 const isTechnicianTermsPath = (p) => p === '/technician-terms' || p === '/technician-terms/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 const isWorkflowPath = (p) => p === '/workflow' || p === '/workflow/';
-const isBillingPath = (p) => p === '/billing' || p === '/billing/';
+const isBillingPath = (p) => p === '/recurring-billing' || p === '/recurring-billing/'; // /billing 301s here (public/_redirects)
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
 
@@ -138,11 +138,11 @@ export const ROUTE_META = {
     path: '/workflow',
   },
   // Pre-rendered at build time (entry-server.jsx). The hero only so far: noindex, and not in the
-  // sitemap, nav or footer, until the rest of the page is built.
+  // sitemap, nav or footer, until the rest of the page is built. It was /billing until Nov 2026.
   billing: {
-    title: 'Pool Service Billing Software: Automatic Invoicing & Late Fees | Poolnautics',
-    description: 'Pool service billing software that runs itself. Give every customer their own rate and billing day; Poolnautics sends the invoices, charges autopay cards and sends late reminders every morning.',
-    path: '/billing',
+    title: 'Recurring Billing Software for Pool Service Companies | Poolnautics',
+    description: 'Recurring billing software for pool service companies. Give every customer their own rate, billing day and payment terms; Poolnautics sends the invoices and charges autopay cards for you.',
+    path: '/recurring-billing',
     robots: 'noindex,follow',
   },
 };

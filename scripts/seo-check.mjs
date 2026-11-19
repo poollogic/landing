@@ -55,9 +55,9 @@ const ROUTES = [
   { path: '/terms', html: 'terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/privacy', html: 'privacy.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/technician-terms', html: 'technician-terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
-  // Billing: pre-rendered, the AI page's hero as one centred column (its billing calendar is .bc-panel).
-  // The hero only so far, noindex (ROUTE_META.billing), so no JSON-LD yet.
-  { path: '/billing', html: 'billing.html', strictStatic: true, stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.bc-panel'] },
+  // Recurring billing (pages/billing.jsx): pre-rendered, the AI page's hero as one centred column (its
+  // billing calendar is .bc-panel). Still being built, noindex (ROUTE_META.billing), so no JSON-LD yet.
+  { path: '/recurring-billing', html: 'recurring-billing.html', strictStatic: true, stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.bc-panel'] },
   { path: '/workflow', html: 'workflow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];
 const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow', 'pages/billing.jsx', 'landing/billing-page']; // the heroes' own code

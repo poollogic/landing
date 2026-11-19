@@ -1,19 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
+import { useBillingClock, useStill } from './billingClock.js';
 
-// /billing's hero picture: 28 billing days, each with a dot per customer billed that day, and "today"
-// walking through them, one day every 1.6s, looping from the 28th back to the 1st (from the 4th on
-// load). Days before today are billed (green), today is blue, the rest are still to come. The line
-// under it says what that morning's billing run did. Day 1 is a Monday; no 29th to 31st.
-// Pauses while it's off screen or the tab is hidden; with reduced motion it holds still on the 14th.
-// Pre-rendered: the first render is the 4th on the server and in the browser alike; the effect takes
-// it from there. Styles: billing-page.css (.bc-*). All of it is an example, not real data.
+// /recurring-billing's hero picture: 28 billing days, each with a dot per customer billed that day, and
+// "today" walking through them, a day a tick of the page's clock (billingClock.js, every 1.6s, shared
+// with the month belt under the hero), looping from the 28th back to the 1st (from the 4th on load).
+// Days before today are billed (green), today is blue, the rest are still to come. The line under it
+// says what that morning's billing run did. Day 1 is a Monday; no 29th to 31st. The clock stops while
+// it's off screen or the tab is hidden; with reduced motion it holds still on the 14th. Pre-rendered:
+// the first render is the 4th on the server and in the browser alike. Styles: billing-page.css (.bc-*).
+// All of it is an example, not real data.
 
 // Customers billed on each day, the 1st to the 28th.
 const DOTS = [2, 1, 3, 0, 1, 2, 1, 4, 2, 1, 3, 0, 2, 3, 1, 2, 0, 3, 1, 2, 1, 4, 1, 0, 2, 3, 1, 2];
 const DAYS = DOTS.length;
 const START_DAY = 4;
 const STILL_DAY = 14; // reduced motion
-const STEP_MS = 1600;
+const KEY_DAYS = new Set([1, 7, 14, 21, 28]); // the only numbers shown below desktop
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 const ordinal = (n) => {
@@ -32,34 +34,8 @@ export function statusLine(day) {
 
 export default function BillingCalendar() {
   const ref = useRef(null);
-  const [today, setToday] = useState(START_DAY);
-
-  useEffect(() => {
-    const el = ref.current;
-    const still = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let timer = 0;
-    let inView = false;
-    const stop = () => { window.clearInterval(timer); timer = 0; };
-    const sync = () => {
-      if (still.matches) { stop(); setToday(STILL_DAY); return; }
-      if (inView && !document.hidden) {
-        if (!timer) timer = window.setInterval(() => setToday((d) => (d % DAYS) + 1), STEP_MS);
-      } else stop();
-    };
-    const io = typeof IntersectionObserver === 'undefined'
-      ? null
-      : new IntersectionObserver(([e]) => { inView = e.isIntersecting; sync(); });
-    if (io && el) io.observe(el); else inView = true;
-    document.addEventListener('visibilitychange', sync);
-    still.addEventListener('change', sync);
-    sync();
-    return () => {
-      stop();
-      io?.disconnect();
-      document.removeEventListener('visibilitychange', sync);
-      still.removeEventListener('change', sync);
-    };
-  }, []);
+  const tick = useBillingClock(ref);
+  const today = useStill() ? STILL_DAY : ((START_DAY - 1 + tick) % DAYS) + 1;
 
   return (
     <figure
@@ -68,7 +44,7 @@ export default function BillingCalendar() {
       aria-label="Example billing calendar: each customer is invoiced on their own billing day, every morning."
     >
       <div className="bc-head">
-        <span className="bc-title">Automatic billing</span>
+        <span className="bc-title">Invoices sent automatically</span>
         <span className="bc-legend"><i aria-hidden="true" />Each dot is a customer on their own billing day</span>
       </div>
       <div className="bc-days" aria-hidden="true">
@@ -81,7 +57,7 @@ export default function BillingCalendar() {
                 <span className="bc-stack">
                   {Array.from({ length: n }, (_, j) => <i key={j} />)}
                 </span>
-                <span className="bc-num">{day}</span>
+                <span className={`bc-num${KEY_DAYS.has(day) ? ' is-key' : ''}`}>{day}</span>
               </div>
             );
           })}
