@@ -70,7 +70,9 @@ export const FAQS = [
 /**
  * The FAQ layout: header on the left, questions on the right. Defaults are the
  * homepage's; /pricing passes its own items, title and background. Only the
- * homepage publishes the questions as Google FAQ data.
+ * homepage publishes the questions as Google FAQ data. align="center" stacks it:
+ * the header centred over the questions (/recurring-billing; faq.css .fq--center).
+ * An item's optional `more` shows on its own line under the answer (a link).
  */
 export default function FaqSection({
   items = FAQS,
@@ -82,6 +84,7 @@ export default function FaqSection({
   structuredData = true,
   // The homepage colours the eyebrow and subhead from its tokens (home-roles.css); /pricing keeps these.
   headColors = true,
+  align = 'left',
 }) {
   // Google's FAQ data, matching the questions on the page, only while it shows.
   useEffect(() => {
@@ -99,12 +102,12 @@ export default function FaqSection({
   }, [items, structuredData]);
 
   return (
-    <section id={id} className="fq section" style={background ? { background } : undefined} aria-labelledby={`${id}-heading`}>
+    <section id={id} className={`fq section${align === 'center' ? ' fq--center' : ''}`} style={background ? { background } : undefined} aria-labelledby={`${id}-heading`}>
       <div className="fq-inner container">
         <div className="fq-intro">
           {/* The grid's gap separates header and questions, so no header margin. */}
           <SectionHeader
-            align="left"
+            align={align}
             className="mb-0"
             id={`${id}-heading`}
             eyebrow={eyebrow}
@@ -122,7 +125,7 @@ export default function FaqSection({
                 <span>{f.q}</span>
                 <ChevronDown size={18} strokeWidth={2} aria-hidden="true" />
               </summary>
-              <p>{f.a}</p>
+              <p>{f.a}{f.more && <><br /><span className="fq-more">{f.more}</span></>}</p>
             </details>
           ))}
         </div>

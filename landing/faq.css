@@ -13,6 +13,15 @@
   .fq-inner { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); gap: 96px; align-items: start; }
   .fq-intro { position: sticky; top: 48px; }
 }
+/* Stacked (align="center"): the header centred over the questions, 760px wide at most. */
+.fq--center .fq-inner { grid-template-columns: minmax(0, 1fr); }
+.fq--center .fq-list { width: 100%; max-width: 760px; margin-inline: auto; }
+@media (min-width: 1024px) {
+  .fq--center .fq-inner { gap: var(--section-head-gap); }
+  .fq--center .fq-intro { position: static; }
+}
+/* A line under an answer (an item's `more`), a link. */
+.fq-more { display: inline-block; margin-top: 12px; }
 /* Header: SectionHeader. */
 .fq-sub a { color: #2e85ff; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 .fq-sub a:hover { text-decoration-thickness: 2px; }

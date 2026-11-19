@@ -109,6 +109,21 @@
   letter-spacing: -0.015em;
   color: #f8fafc;
 }
+/* A small label after an entry's title (/recurring-billing's "Vision"), in the app's face. */
+.dt-tag {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: rgba(46, 133, 255, .16);
+  color: rgb(125, 178, 255);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: normal;
+  vertical-align: 3px;
+}
 .dt-detail { margin: 3px 0 0; font-size: 15.5px; line-height: 1.5; color: #8b95a7; }
 
 .dt-results { display: flex; flex-direction: column; gap: 11px; margin: 14px 0 0; padding: 0; list-style: none; }

@@ -360,3 +360,62 @@
 @media (max-width: 359.98px) {
   .ai-page.billing-page .bp-settings { font-size: 14px; }
 }
+
+/* ======================= 4. Late invoices (LateInvoices.jsx) ======================= */
+/* The homepage's timeline section as it is (day.css: its ground, glow, widths, line and lighting, and
+   its tablet and phone layouts); here only the header's type and the closing line, which the
+   homepage takes from its own type roles (home-roles.css). */
+.ai-page.billing-page .bp-late .dt-eyebrow { color: var(--eyebrow-on-dark); }
+.ai-page.billing-page .bp-late .dt-title {
+  font-size: var(--statement-size); font-weight: 700; line-height: var(--statement-leading);
+  letter-spacing: var(--statement-tracking); color: #f8fafc;
+}
+.ai-page.billing-page .bp-late .dt-sub {
+  font-size: var(--subhead-size); line-height: var(--subhead-leading); color: var(--subhead-on-dark);
+}
+.ai-page.billing-page .bp-late-close { margin-top: 56px; font-size: 20px; font-weight: 600; line-height: 1.4; color: #fff; }
+
+/* ======================= 5. Plans (PlansTable.jsx) ======================= */
+.ai-page.billing-page .bp-plans { padding: 112px 0; background: #fff; }
+.ai-page.billing-page .bp-plans-head { margin-bottom: 0; }
+.ai-page.billing-page :is(.bp-plans, #billing-faq) .section-eyebrow { color: var(--eyebrow-on-light); }
+.ai-page.billing-page :is(.bp-plans, #billing-faq) .section-title {
+  font-size: 32px; font-weight: 700; line-height: 1.18; letter-spacing: -.019em; color: rgb(15, 23, 42);
+}
+.ai-page.billing-page .bp-plans .section-sub { max-width: 560px; font-size: 18px; line-height: 1.6; color: rgb(71, 85, 105); }
+
+.ai-page.billing-page .bp-plans-table { width: 100%; max-width: 760px; margin: 56px auto 0; table-layout: fixed; border-collapse: collapse; }
+.ai-page.billing-page .bp-plans-col { width: 110px; }
+.ai-page.billing-page .bp-plans-table thead th {
+  padding: 0 0 14px; border-bottom: 1px solid rgb(203, 213, 225);
+  font-size: 15px; font-weight: 600; line-height: 22px; color: rgb(15, 23, 42); text-align: center;
+}
+.ai-page.billing-page .bp-plans-table thead th:first-child { text-align: left; color: rgb(100, 116, 139); }
+.ai-page.billing-page .bp-plans-table tbody tr { border-bottom: 1px solid rgb(241, 245, 249); }
+.ai-page.billing-page .bp-plans-table tbody th {
+  padding: 16px 16px 16px 0;
+  font-size: 16px; font-weight: 400; line-height: 24px; color: rgb(51, 65, 85); text-align: left;
+}
+.ai-page.billing-page .bp-plans-table td { padding: 16px 0; text-align: center; vertical-align: middle; }
+.ai-page.billing-page .bp-plans-check { display: inline-block; vertical-align: middle; color: rgb(46, 133, 255); }
+.ai-page.billing-page .bp-plans-dash { display: inline-block; width: 12px; height: 2px; border-radius: 1px; vertical-align: middle; background: rgb(203, 213, 225); }
+
+.ai-page.billing-page .bp-plans-more { margin-top: 36px; text-align: center; font-size: 15px; font-weight: 600; }
+.ai-page.billing-page :is(.bp-plans-more, .fq-more) a {
+  font-weight: 600; color: rgb(29, 95, 232);
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+}
+.ai-page.billing-page :is(.bp-plans-more, .fq-more) a:hover { text-decoration-thickness: 2px; }
+
+/* ======================= 6. FAQ (FaqSection.jsx, align="center") ======================= */
+/* The homepage's accordion and its colours there (faq.css, .lp-home #faq), on this page's grey. */
+.ai-page.billing-page #billing-faq { padding-block: 112px; background: rgb(248, 250, 252); }
+.ai-page.billing-page #billing-faq .fq-item p { color: #475569; }
+
+@media (max-width: 1023.98px) {
+  .ai-page.billing-page .bp-plans-col { width: 64px; }
+  .ai-page.billing-page .bp-plans-table tbody th { font-size: 15px; line-height: 22px; padding-right: 12px; }
+}
+@media (max-width: 599.98px) {
+  .ai-page.billing-page :is(.bp-plans, #billing-faq) .section-title { font-size: 28px; line-height: 1.2; }
+}
