@@ -28,7 +28,7 @@ export default function MonthBelt() {
   const chips = [];
   for (let i = at - SIDE - 1; i <= at + SIDE; i += 1) chips.push(i);
   return (
-    <div ref={ref} className="bp-belt" aria-hidden="true">
+    <div ref={ref} className="bp-belt" aria-hidden="true" data-nosnippet="">
       {chips.map((i) => {
         const off = i - at;
         const state = off < 0 ? 'sent' : off === 0 ? 'current' : 'upcoming';

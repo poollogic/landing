@@ -124,7 +124,7 @@ export default function DayTimeline({ entries }) {
             {e.time ? <time className="dt-time" dateTime={e.time}>{e.label}</time> : <span className="dt-time">{e.label}</span>}
             <span className="dt-dot" aria-hidden="true" />
             <div className="dt-body">
-              <h3 className="dt-entry-title">{e.title}{e.tag && <span className="dt-tag">{e.tag}</span>}</h3>
+              <h3 className="dt-entry-title">{e.title}{e.tag && <><span className="dt-tag-gap"> </span><span className="dt-tag">{e.tag}</span></>}</h3>
               {e.detail && <p className="dt-detail">{e.detail}</p>}
               {e.results && (
                 <ul className="dt-results">

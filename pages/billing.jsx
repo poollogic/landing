@@ -18,7 +18,7 @@ import { Footer } from '../components/site-chrome.jsx';
 // /recurring-billing (it was /billing): recurring billing in depth. On /ai-and-automations' design (its
 // page wrapper, nav, hero ground, type and buttons: ai.css, landing/ai/shared.jsx); only this page's
 // own layouts live in landing/billing-page/billing-page.css, under .billing-page. Still being built:
-// noindex (ROUTE_META.billing), and not in the sitemap, nav or footer. Its sections: hero (dark),
+// indexed, in the sitemap, linked from the nav's Features menu. Its sections: hero (dark),
 // statement and belt (white), settings and invoice (grey), late invoices (dark), plans (white), FAQ
 // (grey); a closing section comes later. Pre-rendered (entry-server.jsx),
 // so no window or document while rendering. The hero's calendar and the belt under it run on one
@@ -66,9 +66,31 @@ export const FAQ = [
   },
 ];
 
-// Structured data for the pre-rendered <head> (entry-server.jsx): the FAQ, its answers as shown
-// (the link under one answer included).
+// Structured data for the pre-rendered <head> (entry-server.jsx): the page (about the product,
+// index.html's site-wide SoftwareApplication #software), where it sits, and the FAQ, its answers as
+// shown (the link under one answer included).
+const PAGE_URL = `${ORIGIN}/recurring-billing`;
 export const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${PAGE_URL}#webpage`,
+    url: PAGE_URL,
+    name: 'Recurring Billing Software for Pool Service Companies',
+    description: 'Recurring billing software for pool service companies. Give every customer their own rate, billing day and payment terms; Poolnautics sends the invoices and charges autopay cards for you.',
+    inLanguage: 'en-US',
+    dateModified: '2026-11-19',
+    isPartOf: { '@id': `${ORIGIN}/#website` },
+    about: { '@id': `${ORIGIN}/#software` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
+      { '@type': 'ListItem', position: 2, name: 'Recurring billing', item: PAGE_URL },
+    ],
+  },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',

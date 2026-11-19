@@ -70,7 +70,7 @@ function Invoice({ frequency, terms, autopay, surcharge, uid }) {
   const total = RATE * f.qty;
   return (
     <div className="bp-invoice-wrap">
-      <figure className="bp-invoice" aria-label="Example invoice, made from the settings">
+      <figure className="bp-invoice" aria-label="Example invoice, made from the settings" data-nosnippet="">
         <div className="inv-top">
           <div className="inv-logo">
             <Emblem id={uid} />

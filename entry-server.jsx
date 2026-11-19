@@ -27,7 +27,7 @@ export const PRERENDERED = {
   '/ai-and-automations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
   '/pricing': { meta: ROUTE_META.pricing, jsonLd: pricingData },
   '/workflow': { meta: ROUTE_META.workflow, jsonLd: workflowData },
-  '/recurring-billing': { meta: ROUTE_META.billing, jsonLd: billingData }, // noindex until the page is built out (its meta's robots)
+  '/recurring-billing': { meta: ROUTE_META.billing, jsonLd: billingData },
   // The rest of the indexable pages: their own <head> and text in the served HTML, not the empty page
   // (whose head was the homepage's, canonical included, until JavaScript ran).
   '/contact': { meta: ROUTE_META.contact },

@@ -137,13 +137,12 @@ export const ROUTE_META = {
     description: 'Automate your pool service business without building it yourself. Poolnautics turns repair requests into quotes, work orders and paid invoices, with no Zapier required.',
     path: '/workflow',
   },
-  // Pre-rendered at build time (entry-server.jsx). The hero only so far: noindex, and not in the
-  // sitemap, nav or footer, until the rest of the page is built. It was /billing until Nov 2026.
+  // Pre-rendered at build time (entry-server.jsx). Indexed from Nov 19, 2026 (in the sitemap, linked
+  // from the nav's Features menu). It was /billing until Nov 2026.
   billing: {
     title: 'Recurring Billing Software for Pool Service Companies | Poolnautics',
     description: 'Recurring billing software for pool service companies. Give every customer their own rate, billing day and payment terms; Poolnautics sends the invoices and charges autopay cards for you.',
     path: '/recurring-billing',
-    robots: 'noindex,follow',
   },
 };
 

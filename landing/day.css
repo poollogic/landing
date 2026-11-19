@@ -109,7 +109,10 @@
   letter-spacing: -0.015em;
   color: #f8fafc;
 }
-/* A small label after an entry's title (/recurring-billing's "Vision"), in the app's face. */
+/* A small label after an entry's title (/recurring-billing's "Vision"), in the app's face. The space
+   before it (.dt-tag-gap) takes no room, so the title reads "Pause warning Vision" as text, not
+   "Pause warningVision", and can still wrap there; the gap is the tag's margin. */
+.dt-tag-gap { font-size: 0; }
 .dt-tag {
   display: inline-block;
   margin-left: 10px;

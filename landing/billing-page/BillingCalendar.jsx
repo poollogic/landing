@@ -41,6 +41,7 @@ export default function BillingCalendar() {
     <figure
       ref={ref}
       className="bc-panel"
+      data-nosnippet=""
       aria-label="Example billing calendar: each customer is invoiced on their own billing day, every morning."
     >
       <div className="bc-head">
