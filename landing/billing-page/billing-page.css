@@ -215,14 +215,13 @@
 }
 
 /* ======================= 3. Settings and invoice ======================= */
-/* Two columns, 1040px at most: the copy and the settings card (flexible), and the invoice (420px).
+/* Two columns, 1024px at most: the copy and the settings card (flexible), and the invoice (380px).
    Both are the invoice's height: the heading's capitals start at the invoice's top edge (text-box
-   trims the space over them), and the card, which takes the rest of the column, ends at its bottom
-   edge, its rows sharing the height evenly. */
+   trims the space over them), and the card sits at the foot of the column, ending at its bottom edge. */
 .ai-page.billing-page .bp-setup { padding: 112px 0; background: rgb(248, 250, 252); }
 .ai-page.billing-page .bp-setup-grid {
-  max-width: 1040px; margin-inline: auto;
-  display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 112px; align-items: stretch;
+  max-width: 1024px; margin-inline: auto;
+  display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 112px; align-items: stretch;
 }
 .ai-page.billing-page .bp-setup-copy { display: flex; flex-direction: column; min-width: 0; }
 .ai-page.billing-page .bp-setup-title {
@@ -250,6 +249,14 @@
 .ai-page.billing-page .bp-set-value { font-weight: 600; color: rgb(15, 23, 42); text-align: right; transition: color .2s; }
 .ai-page.billing-page .bp-set-value.is-dim { color: rgb(203, 213, 225); }
 .ai-page.billing-page .bp-set-pair { display: inline-flex; align-items: center; gap: 12px; }
+
+/* Desktop: the card at its natural height (rows about 47px, not stretched), 440px wide at most, at
+   the foot of the column, so its bottom edge is the invoice's; the space above it takes up the rest. */
+@media (min-width: 1024px) {
+  .ai-page.billing-page .bp-settings { flex: none; max-width: 440px; margin-top: auto; }
+  .ai-page.billing-page .bp-set-row { flex: none; padding: 12px 0; font-size: 14.5px; }
+  .ai-page.billing-page .bp-set-row--freq { padding: 8px 0; }
+}
 
 /* Billing frequency: a segmented control */
 .ai-page.billing-page .bp-seg { display: inline-flex; padding: 3px; border-radius: 8px; background: rgb(241, 245, 249); }
@@ -285,7 +292,7 @@
 .ai-page.billing-page :is(.bp-switch, .bp-seg-item):focus-visible { outline: 2px solid rgb(59, 130, 246); outline-offset: 2px; }
 
 /* The invoice: a US Letter sheet drawn at 600 x 776 and scaled as one piece (CSS zoom) to its column's
-   width: 420px on desktop (70%). Its measurements below are at the drawn size. */
+   width: 380px on desktop (63%). Its measurements below are at the drawn size. */
 .ai-page.billing-page .bp-invoice-wrap { container-type: inline-size; min-width: 0; }
 .ai-page.billing-page .bp-invoice {
   position: relative; box-sizing: border-box; width: 600px; height: 776px; overflow: hidden;
@@ -373,7 +380,7 @@
 .ai-page.billing-page .bp-late .dt-sub {
   font-size: var(--subhead-size); line-height: var(--subhead-leading); color: var(--subhead-on-dark);
 }
-.ai-page.billing-page .bp-late-close { margin-top: 56px; font-size: 20px; font-weight: 600; line-height: 1.4; color: #fff; }
+.ai-page.billing-page .bp-late-close { max-width: 560px; margin: 56px auto 0; font-size: 20px; font-weight: 600; line-height: 1.35; color: #fff; text-wrap: balance; }
 
 /* ======================= 5. Plans (PlansTable.jsx) ======================= */
 .ai-page.billing-page .bp-plans { padding: 112px 0; background: #fff; }

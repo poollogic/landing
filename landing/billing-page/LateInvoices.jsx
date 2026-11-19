@@ -1,52 +1,63 @@
-import React, { useRef } from 'react';
-import DayTimeline, { F, useTimelineScroll } from '../DayTimeline.jsx';
+import React from 'react';
+import { F, TimelineSection } from '../DayTimeline.jsx';
 
-// /recurring-billing's late invoices: what happens to the invoice above (Dana's, $145, Net 15) when it
-// isn't paid, as the homepage's scroll-lit timeline (DayTimeline.jsx, day.css), dated instead of timed.
-// Add an entry to LATE and it appears in order. This page's own sizes: billing-page.css (.bp-late).
+// /recurring-billing's late invoices: every email and notice that follows when the invoice above
+// (Dana's, $145, Net 15, due May 20) isn't paid, as the homepage's scroll-lit timeline
+// (DayTimeline.jsx, day.css), dated instead of timed, each entry tagged with who hears about it. Add an
+// entry to LATE and it appears in order. This page's own type: billing-page.css (.bp-late).
+
+const EMAIL = { text: 'Email to customer', kind: 'email' };
 
 const LATE = [
   {
-    time: '2025-05-05', label: 'May 5', title: 'Invoice emailed to Dana',
+    time: '2025-05-05', label: 'May 5', title: 'Invoice emailed',
     detail: <><F>$145.00</F>, due <F>May 20</F>. Sent in the 8:30 AM billing run.</>,
+    audience: EMAIL,
   },
   {
-    time: '2025-05-20', label: 'May 20', title: 'The due date passes',
-    detail: <>Net 15 is up and the invoice is still unpaid. Nothing for you to do.</>,
-  },
-  {
-    time: '2025-05-21', label: 'May 21', title: 'First reminder emailed',
-    detail: <>A friendly note with a link to pay, the day after the due date.</>,
+    time: '2025-05-21', label: 'May 21', title: 'Friendly reminder',
+    detail: <>A link to pay, plus a heads-up that a late fee will be added on <F>May 30</F> unless it’s paid.</>,
+    audience: EMAIL,
   },
   {
     time: '2025-05-30', label: 'May 30', title: 'Late fee added',
-    detail: <>Your 10-day grace period ends. <F>$25</F> goes on the invoice and a firmer reminder is sent. New balance <F>$170.00</F>.</>,
+    detail: <><F>$25</F> goes on the invoice. The firmer email says “Action required: Invoice is 10 days overdue” and shows the new total of <F>$170.00</F>.</>,
+    audience: EMAIL,
+  },
+  {
+    time: '2025-06-05', label: 'Jun 5', title: 'June’s invoice goes out as usual',
+    detail: <><F>$145.00</F>, due <F>Jun 20</F>. Billing doesn’t stall because one invoice is late.</>,
+    audience: EMAIL,
+  },
+  {
+    time: '2025-06-16', label: 'Jun 16', title: 'Pause warning', tag: 'Vision',
+    detail: <>Everything past due, late fees included, the date service pauses (<F>Thursday, June 19</F>) and a Pay button.</>,
+    audience: EMAIL,
   },
   {
     time: '2025-06-19', label: 'Jun 19', title: 'Service paused', tag: 'Vision',
-    detail: <><F>30 days</F> past due. Service stops until they pay, and paused months aren’t billed.</>,
+    detail: <><F>30 days</F> past due. No extra email, because the warning already gave the date. July’s invoice won’t go out while they’re paused.</>,
+    audience: { text: 'No email', kind: 'other' },
+  },
+  {
+    label: 'They pay', title: 'One payment clears everything',
+    detail: <>The Pay button settles every overdue invoice at once. You’re told the next morning, and service resumes when you say so.</>,
+    audience: { text: 'You’re notified', kind: 'other' },
   },
 ];
 
 export default function LateInvoices() {
-  const ref = useRef(null);
-  const live = useTimelineScroll(ref);
   return (
-    <section ref={ref} id="late-invoices" className={`dt-section bp-late${live ? ' is-live' : ''}`} aria-labelledby="bp-late-title">
-      <div className="dt-glow" aria-hidden="true" />
-      <div className="dt-inner">
-        <p className="section-eyebrow dt-eyebrow">Late invoices</p>
-        <h2 id="bp-late-title" className="dt-title">
-          <span className="dt-title-line">When someone doesn’t pay,</span>{' '}
-          <span className="dt-title-line">you don’t have to chase them.</span>
-        </h2>
-        <p className="dt-sub">
-          Take the invoice above and leave it unpaid. Here’s everything Poolnautics does about it, on rules you
-          set once.
-        </p>
-        <DayTimeline entries={LATE} />
-        <p className="bp-late-close dt-reveal">Once they pay, it stops there.</p>
-      </div>
-    </section>
+    <TimelineSection
+      id="late-invoices"
+      headingId="bp-late-title"
+      className="bp-late"
+      eyebrow="Late invoices"
+      title={['When someone doesn’t pay,', 'you don’t have to chase them.']}
+      sub="Take the invoice above and leave it unpaid. Here’s every email and notice that follows, on rules you set once."
+      entries={LATE}
+    >
+      <p className="bp-late-close dt-reveal">Five emails before a pause. At least five days apart, never two on the same day.</p>
+    </TimelineSection>
   );
 }

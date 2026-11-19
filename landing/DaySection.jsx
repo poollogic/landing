@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import DayTimeline, { F, NB, useTimelineScroll } from './DayTimeline.jsx';
+import React from 'react';
+import { F, NB, TimelineSection } from './DayTimeline.jsx';
 
 // "Meet your new office manager": a day at Bayside Pool Co. (demo data, matching the hero's) as a
 // timeline, after "The only software your pool company needs". The timeline and its scroll lighting
@@ -50,33 +50,23 @@ const ENTRIES = [
 ];
 
 export default function DaySection() {
-  const ref = useRef(null);
-  const live = useTimelineScroll(ref);
-
   return (
-    <section ref={ref} id="day" className={`dt-section${live ? ' is-live' : ''}`} aria-labelledby="day-heading">
-      <div className="dt-glow" aria-hidden="true" />
-      <div className="dt-inner">
-        <p className="section-eyebrow dt-eyebrow">A day with Poolnautics</p>
-        <h2 id="day-heading" className="dt-title">
-          <span className="dt-title-line">Meet your new office manager</span>{' '}
-          <span className="dt-title-line">who never calls in sick.</span>
-        </h2>
-        <p className="dt-sub">
-          Here’s its Tuesday at Bayside Pool Co. Billing, routes and trucks, exactly as Poolnautics handled them.
-        </p>
-
-        <DayTimeline entries={ENTRIES} />
-
-        <div className="dt-close dt-reveal">
-          <p className="dt-close-1">You sent one quote. It did the rest.</p>
-          <p className="dt-close-2">The less you have to do, the more you can do.</p>
-          <a href="#reserve" className="hero-cta dt-cta">
-            Reserve your spot
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-          </a>
-        </div>
+    <TimelineSection
+      id="day"
+      headingId="day-heading"
+      eyebrow="A day with Poolnautics"
+      title={['Meet your new office manager', 'who never calls in sick.']}
+      sub="Here’s its Tuesday at Bayside Pool Co. Billing, routes and trucks, exactly as Poolnautics handled them."
+      entries={ENTRIES}
+    >
+      <div className="dt-close dt-reveal">
+        <p className="dt-close-1">You sent one quote. It did the rest.</p>
+        <p className="dt-close-2">The less you have to do, the more you can do.</p>
+        <a href="#reserve" className="hero-cta dt-cta">
+          Reserve your spot
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+        </a>
       </div>
-    </section>
+    </TimelineSection>
   );
 }

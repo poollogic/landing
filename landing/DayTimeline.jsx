@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import useBrowserLayoutEffect from './useBrowserLayoutEffect.js';
 import { onScrollFrame } from './scrollFrame.js';
 import './day.css';
 
-// The scroll-lit timeline: the homepage's "A day with Poolnautics" (DaySection.jsx) and
-// /recurring-billing's late invoices (landing/billing-page/LateInvoices.jsx). Each page brings its own
-// section (.dt-section, .dt-glow, .dt-inner), header and closing; this is the timeline itself, drawn
-// from a list of entries, and the hook that lights it. Styles: day.css (.dt-*).
+// The scroll-lit timeline section: the homepage's "A day with Poolnautics" (DaySection.jsx) and
+// /recurring-billing's late invoices (landing/billing-page/LateInvoices.jsx). TimelineSection takes a
+// header (eyebrow, heading lines, subhead) and a list of entries, and whatever follows the timeline
+// (its closing) as children. Styles: day.css (.dt-*).
 // All of it is in the pre-rendered HTML and fully visible without JavaScript. With it (and without
 // reduced motion), the section gets .is-live: a blue line fills down the timeline as the page
 // scrolls, the entry at the marker (56% of the window) is lit and the rest dimmed, and anything in the
@@ -14,9 +14,10 @@ import './day.css';
 // section is on screen; offsets are measured on resize only, and each frame writes only the line's
 // transform and, when they change, the entries' states.
 //
-// An entry: { time (its <time dateTime>, e.g. "07:26" or "2025-05-05"), label (shown in the left
-// column), title, tag (a small label after the title), detail, results (a ticked list), note (a
-// tech's note) }; all but time, label and title are optional.
+// An entry: { label (the left column), time (optional: a date or time for its <time dateTime>),
+// title, tag (a small label after the title), detail, results (a ticked list), note (a tech's note),
+// audience (a tag under the detail, lit with its entry: { text, kind: 'email' | 'other' }) }; all but
+// label and title are optional.
 
 // Figures shown brighter than the text around them.
 export const F = ({ children }) => <span className="dt-fig">{children}</span>;
@@ -119,11 +120,11 @@ export default function DayTimeline({ entries }) {
       <div className="dt-progress" aria-hidden="true" />
       <ol className="dt-list">
         {entries.map((e) => (
-          <li key={e.time} className="dt-entry">
-            <time className="dt-time" dateTime={e.time}>{e.label}</time>
+          <li key={e.time ?? e.label} className="dt-entry">
+            {e.time ? <time className="dt-time" dateTime={e.time}>{e.label}</time> : <span className="dt-time">{e.label}</span>}
             <span className="dt-dot" aria-hidden="true" />
             <div className="dt-body">
-              <h3 className="dt-entry-title">{e.title}{e.tag && <>{' '}<span className="dt-tag">{e.tag}</span></>}</h3>
+              <h3 className="dt-entry-title">{e.title}{e.tag && <span className="dt-tag">{e.tag}</span>}</h3>
               {e.detail && <p className="dt-detail">{e.detail}</p>}
               {e.results && (
                 <ul className="dt-results">
@@ -136,9 +137,32 @@ export default function DayTimeline({ entries }) {
                 </blockquote>
               )}
             </div>
+            {e.audience && <p className={`dt-audience dt-audience--${e.audience.kind ?? 'other'}`}>{e.audience.text}</p>}
           </li>
         ))}
       </ol>
     </div>
+  );
+}
+
+/** The whole section: its glow, centred header, the timeline, then `children` (its closing). */
+export function TimelineSection({ id, headingId, className = '', eyebrow, title, sub, entries, children }) {
+  const ref = useRef(null);
+  const live = useTimelineScroll(ref);
+  return (
+    <section ref={ref} id={id} className={`dt-section${className ? ` ${className}` : ''}${live ? ' is-live' : ''}`} aria-labelledby={headingId}>
+      <div className="dt-glow" aria-hidden="true" />
+      <div className="dt-inner">
+        <p className="section-eyebrow dt-eyebrow">{eyebrow}</p>
+        <h2 id={headingId} className="dt-title">
+          {title.map((line, i) => <React.Fragment key={i}>{i > 0 && ' '}<span className="dt-title-line">{line}</span></React.Fragment>)}
+        </h2>
+        <p className="dt-sub">{sub}</p>
+
+        <DayTimeline entries={entries} />
+
+        {children}
+      </div>
+    </section>
   );
 }
