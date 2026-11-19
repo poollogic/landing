@@ -6,12 +6,13 @@ import { API_DOCS_URL } from '../aiFacts.js';
 // the preserved old homepage's (components/site-chrome.jsx, styled in components/site-nav.css).
 
 // The Features menu: what the app does, and where to read about each. Most are homepage sections
-// (rooted at / so they work from every page) until a feature gets a page of its own.
+// (rooted at / so they work from every page) until a feature gets a page of its own (billing:
+// /recurring-billing; repairs: /workflow).
 // Two columns of features, each with a line on what it does (the copy is the homepage's). Read as
 // rows: Billing and Repairs on top, Collections and Switching below...
 export const FEATURE_COLUMNS = [
   [
-    { label: 'Billing on autopilot', desc: 'Every customer invoiced on their own schedule and paid in one tap', href: '/#billing', Icon: Receipt },
+    { label: 'Billing on autopilot', desc: 'Every customer invoiced on their own schedule and paid in one tap', href: '/recurring-billing', Icon: Receipt },
     { label: 'Collections', desc: 'Late fees, overdue notices and service pauses that run themselves', href: '/#collections', Icon: ShieldAlert },
   ],
   [
