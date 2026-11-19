@@ -55,9 +55,12 @@ const ROUTES = [
   { path: '/terms', html: 'terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/privacy', html: 'privacy.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/technician-terms', html: 'technician-terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
+  // Billing: pre-rendered, the AI page's hero as one centred column (its billing calendar is .bc-panel).
+  // The hero only so far, noindex (ROUTE_META.billing), so no JSON-LD yet.
+  { path: '/billing', html: 'billing.html', strictStatic: true, stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.bc-panel'] },
   { path: '/workflow', html: 'workflow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];
-const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow']; // the heroes' own code
+const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow', 'pages/billing.jsx', 'landing/billing-page']; // the heroes' own code
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
 const STABLE_TOLERANCE_PX = 2;
 const CLS_BUDGET = 0.01; // we hold the new pages at zero; Google's "good" line is 0.1

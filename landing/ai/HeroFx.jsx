@@ -8,8 +8,14 @@ import React, { useEffect, useRef } from 'react';
 // figure inside it. Styles: ai.css (.ai-hero-fade, .ai-hero-smoke, .ai-hero-beam).
 // It starts once the page has loaded and the browser is idle, so the effects never compete with the
 // first paint or the page becoming usable.
+//
+// Options, for /billing (the AI page uses neither):
+//   target   the selector of what the light falls on (the AI page's assistant window by default)
+//   stacked  the copy sits above it at every width, centred: the beam fades in under the copy, as the
+//            AI page's does where it stacks, instead of falling from the top through the headline
+//   beamAt   where across it the beam lands, 0 to 1 (0.4 by default; 0.5 on a centred page)
 
-export default function HeroFx() {
+export default function HeroFx({ target = 'figure.ai-chat', stacked = false, beamAt = 0.4 }) {
   const smokeRef = useRef(null);
   const beamRef = useRef(null);
 
@@ -22,9 +28,9 @@ export default function HeroFx() {
         const smoke = smokeRef.current;
         const beam = beamRef.current;
         const hero = beam?.parentElement;
-        const card = hero?.querySelector('figure.ai-chat');
+        const card = hero?.querySelector(target);
         if (cancelled || !card) return;
-        stop = startHeroFx({ hero, card, smoke, beam });
+        stop = startHeroFx({ hero, card, smoke, beam, stacked, beamAt });
       },
       () => {}, // decoration: if the chunk won't load, the hero stays as it is
     );
@@ -39,7 +45,7 @@ export default function HeroFx() {
       if ('cancelIdleCallback' in window) cancelIdleCallback(idle); else clearTimeout(idle);
       stop?.();
     };
-  }, []);
+  }, [target, stacked, beamAt]);
 
   return (
     <>

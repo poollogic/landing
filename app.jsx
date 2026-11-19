@@ -18,6 +18,7 @@ const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
 const TechnicianTermsPage = lazy(() => import('./pages/technician-terms.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
 const WorkflowPage = lazy(() => import('./pages/workflow.jsx'));
+const BillingPage = lazy(() => import('./pages/billing.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 // Customer reviews: only with VITE_REVIEWS=1 (landing/reviews/config.js). Off, both addresses show the
 // homepage, marked noindex, like any unknown address, and none of it is built. On, writing a review is a
@@ -49,6 +50,7 @@ const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/te
 const isTechnicianTermsPath = (p) => p === '/technician-terms' || p === '/technician-terms/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 const isWorkflowPath = (p) => p === '/workflow' || p === '/workflow/';
+const isBillingPath = (p) => p === '/billing' || p === '/billing/';
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
 
@@ -135,6 +137,14 @@ export const ROUTE_META = {
     description: 'Automate your pool service business without building it yourself. Poolnautics turns repair requests into quotes, work orders and paid invoices, with no Zapier required.',
     path: '/workflow',
   },
+  // Pre-rendered at build time (entry-server.jsx). The hero only so far: noindex, and not in the
+  // sitemap, nav or footer, until the rest of the page is built.
+  billing: {
+    title: 'Pool Service Billing Software: Automatic Invoicing & Late Fees | Poolnautics',
+    description: 'Pool service billing software that runs itself. Give every customer their own rate and billing day; Poolnautics sends the invoices, charges autopay cards and sends late reminders every morning.',
+    path: '/billing',
+    robots: 'noindex,follow',
+  },
 };
 
 const setMeta = (selector, attr, value) => {
@@ -195,6 +205,7 @@ const App = ({ path: pathProp }) => {
     else if (isTechnicianTermsPath(path)) meta = ROUTE_META.technicianTerms;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
     else if (isWorkflowPath(path)) meta = ROUTE_META.workflow;
+    else if (isBillingPath(path)) meta = ROUTE_META.billing;
     else if (isReviewsPath(path)) meta = ROUTE_META.reviews;
     else if (isReviewWritePath(path)) meta = ROUTE_META.reviewWrite;
     // Any other address shows the homepage; keep those copies out of search results.
@@ -296,6 +307,17 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
           <AiIntegrationsPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // Billing: the AI page's design, so it brings the same dark nav and the footer itself. Pre-rendered.
+  if (isBillingPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
+          <BillingPage />
         </Suspense>
       </ErrorBoundary>
     );

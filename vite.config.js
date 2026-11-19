@@ -14,11 +14,11 @@ import { join, resolve } from 'node:path';
 // text renders in a metric-matched fallback until they arrive (landing.css).
 // A page's EARLY_FONTS start at once instead: the homepage hero's headline font, so it's in
 // place for the first paint more often (a late swap moved the headline on slower machines).
-const ROUTE_PAGES = { '/': 'pages/landing.jsx', '/pricing': 'pages/pricing.jsx', '/reserve': 'pages/reserve.jsx', '/ai-and-automations': 'pages/ai-integrations.jsx', '/workflow': 'pages/workflow.jsx', '/contact': 'pages/contact.jsx', '/tech-app': 'pages/tech-app.jsx', '/partners': 'pages/partners.jsx', '/partners/kit': 'pages/partner-kit.jsx', '/partners/terms': 'pages/partner-terms.jsx', '/terms': 'pages/terms.jsx', '/privacy': 'pages/privacy.jsx', '/technician-terms': 'pages/technician-terms.jsx' };
+const ROUTE_PAGES = { '/': 'pages/landing.jsx', '/pricing': 'pages/pricing.jsx', '/reserve': 'pages/reserve.jsx', '/ai-and-automations': 'pages/ai-integrations.jsx', '/workflow': 'pages/workflow.jsx', '/contact': 'pages/contact.jsx', '/tech-app': 'pages/tech-app.jsx', '/partners': 'pages/partners.jsx', '/partners/kit': 'pages/partner-kit.jsx', '/partners/terms': 'pages/partner-terms.jsx', '/terms': 'pages/terms.jsx', '/privacy': 'pages/privacy.jsx', '/technician-terms': 'pages/technician-terms.jsx', '/billing': 'pages/billing.jsx' };
 const MARKETING_FONTS = ['/fonts/Satoshi-Regular.woff2', '/fonts/Satoshi-Medium.woff2', '/fonts/Satoshi-Bold.woff2'];
 // Extra fonts a page's first screen uses: the homepage hero's dashboard preview is drawn in Inter
 // (preview/preview.css), which the browser would otherwise only find once that CSS applies.
-const PAGE_FONTS = { '/': ['/fonts/Inter-latin.woff2'] };
+const PAGE_FONTS = { '/': ['/fonts/Inter-latin.woff2'], '/billing': ['/fonts/Inter-latin.woff2'] }; // /billing: its hero's billing calendar
 // Fonts a page starts downloading straight away, with the main script: the homepage's h1 (.hero-title, 700).
 const EARLY_FONTS = { '/': ['/fonts/Satoshi-Bold.woff2'] };
 const SITE_FONTS = ['/fonts/Geist.woff2']; // the rest of the site

@@ -16,19 +16,22 @@ const SC = 0.75; // canvases render at 75% resolution
 const NARROW = '(max-width: 959.98px)'; // ai.css: the hero stacks below this
 
 /**
- * @param {{ hero: HTMLElement, card: HTMLElement, smoke: HTMLCanvasElement, beam: HTMLCanvasElement }} els
- *   The hero section, the assistant window (figure.ai-chat) and the two canvases.
+ * @param {{ hero: HTMLElement, card: HTMLElement, smoke: HTMLCanvasElement, beam: HTMLCanvasElement, stacked?: boolean }} els
+ *   The hero section, the assistant window (figure.ai-chat, or HeroFx's target) and the two canvases.
+ *   stacked: the copy is above the window at every width (/billing), so the beam always fades in under
+ *   the copy, as it does below 960px; the smoke keeps its own rule. beamAt: where across the window
+ *   the beam lands, 0 to 1 (0.4 by default).
  * @returns {() => void} Stops both and releases their WebGL contexts.
  */
-export default function startHeroFx({ hero, card, smoke, beam }) {
+export default function startHeroFx({ hero, card, smoke, beam, stacked = false, beamAt = 0.4 }) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const narrow = matchMedia(NARROW);
   const copy = hero.querySelector('.ai-hero-copy');
   const cardBox = () => ({ hr: hero.getBoundingClientRect(), c: card.getBoundingClientRect() });
-  const run = (start, cv) => {
+  const run = (start, cv, opts) => {
     let gl = null;
     try {
-      return start(cv, (g) => (gl = g), { hero, card, copy, narrow, cardBox, reduce });
+      return start(cv, (g) => (gl = g), { hero, card, copy, narrow, cardBox, reduce, ...opts });
     } catch {
       lose(gl); // a shader that won't compile, or a render target that won't work: skip it
       return null;
@@ -37,9 +40,10 @@ export default function startHeroFx({ hero, card, smoke, beam }) {
   // The smoke now, the beam in the browser's next idle moment: each one's set-up (compiling its shaders)
   // is its own task, so neither holds the page up for long.
   const stops = [run(startSmoke, smoke)];
+  const beamOpts = { beamAt, ...(stacked ? { narrow: { matches: true } } : null) }; // stacked: the beam's narrow test, always true
   let stopped = false;
   const later = 'requestIdleCallback' in window ? requestIdleCallback : (f) => setTimeout(f, 50);
-  const beamTask = later(() => { if (!stopped) stops.push(run(startBeam, beam)); });
+  const beamTask = later(() => { if (!stopped) stops.push(run(startBeam, beam, beamOpts)); });
   return () => {
     stopped = true;
     if ('cancelIdleCallback' in window) cancelIdleCallback(beamTask); else clearTimeout(beamTask);
@@ -231,7 +235,7 @@ o=vec4(col*a,a);}`,
 
 /* ---------- Beam: light falling onto the window's top edge, over the smoke ---------- */
 
-function startBeam(cv, keep, { hero, copy, narrow, cardBox, reduce }) {
+function startBeam(cv, keep, { hero, copy, narrow, cardBox, reduce, beamAt }) {
   const gl = cv.getContext('webgl', { premultipliedAlpha: true, alpha: true, ...GL_OPTS });
   if (!gl || gl.isContextLost()) return null;
   keep(gl);
@@ -287,7 +291,7 @@ float a=clamp(I,0.,.92);gl_FragColor=vec4(col*a,a);}`;
     const { hr, c } = cardBox(); const w = Math.round(hr.width * SC), hh = Math.round(hr.height * SC);
     if (cv.width !== w || cv.height !== hh) { cv.width = w; cv.height = hh; gl.viewport(0, 0, w, hh); }
     const L = (c.left - hr.left) * SC, R = (c.right - hr.left) * SC, T = hh - (c.top - hr.top) * SC, B = hh - (c.bottom - hr.top) * SC;
-    gl.uniform2f(U.r, w, hh); gl.uniform4f(U.cb, L, R, T, B); gl.uniform1f(U.bx, L + (R - L) * .4); gl.uniform1f(U.k, SC);
+    gl.uniform2f(U.r, w, hh); gl.uniform4f(U.cb, L, R, T, B); gl.uniform1f(U.bx, L + (R - L) * beamAt); gl.uniform1f(U.k, SC);
     // Narrow: invisible above 12px under the copy, full strength from 24px above the window; the pulse
     // falls from where it fades in. Wide: the fade's edges far above the canvas (fade = 1), pulses from the top.
     if (narrow.matches && copy) {

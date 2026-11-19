@@ -1,0 +1,114 @@
+/* /billing's own layouts (pages/billing.jsx). Everything else (nav, hero ground and light, type,
+   buttons, colours) is the AI page's design: ai.css, hero.css, landing.css. Every rule here is under
+   .ai-page.billing-page, so it outranks the shared rules it adjusts whatever order the stylesheets
+   load in, and touches no other page. */
+
+/* The billing calendar is drawn in Inter, like the app mockups (preview/preview.css's face). */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ---------- Hero: the AI page's, as one centred column ----------
+   The copy (760px at most, its paragraph 640px), then the calendar (920px at most), 36px under the
+   fine print. From 960px the AI hero already fills the first screen under the nav and centres its
+   content in it (ai.css); the column scales as one piece below. */
+.ai-page.billing-page .bp-hero-stack { max-width: 920px; margin-inline: auto; }
+.ai-page.billing-page .ai-hero-copy { max-width: 760px; margin-inline: auto; text-align: center; }
+.ai-page.billing-page .ai-hero .hero-sub { max-width: 640px; margin-inline: auto; text-wrap: balance; }
+.ai-page.billing-page .ai-hero .hero-fine { text-align: center; }
+.ai-page.billing-page .bp-hero-visual { margin-top: 36px; }
+/* Short screens: the whole column (copy and calendar) scales as one piece (CSS zoom, so its layout
+   shrinks too), the AI hero's way (ai.css --ai-zh): steps every 20px of screen height, each sized for
+   the bottom of its step so the column (618px at full size) keeps at least 40px above and below it
+   under the 64px nav: (height - 64 - 80) / 618. Full size from 760px up. Fixed per screen size from the
+   first render: nothing moves. From 960px, where the AI hero fills the first screen. */
+@media (min-width: 960px) {
+  .ai-page.billing-page .bp-hero-stack { zoom: var(--bp-zh, 1); }
+  @media (max-height: 759.98px) { .ai-page.billing-page .bp-hero-stack { --bp-zh: .964; } }
+  @media (max-height: 739.98px) { .ai-page.billing-page .bp-hero-stack { --bp-zh: .932; } }
+  @media (max-height: 719.98px) { .ai-page.billing-page .bp-hero-stack { --bp-zh: .899; } }
+  @media (max-height: 699.98px) { .ai-page.billing-page .bp-hero-stack { --bp-zh: .867; } }
+  @media (max-height: 679.98px) { .ai-page.billing-page .bp-hero-stack { --bp-zh: .835; } }
+  @media (max-height: 659.98px) { .ai-page.billing-page .bp-hero-stack { --bp-zh: .803; } }
+  @media (max-height: 639.98px) { .ai-page.billing-page .bp-hero-stack { --bp-zh: .770; } }
+  @media (max-height: 619.98px) { .ai-page.billing-page .bp-hero-stack { --bp-zh: .738; } }
+}
+/* The headline breaks after "Billing" on desktop; below that it wraps as it fits. */
+@media (min-width: 1024px) {
+  .ai-page.billing-page .bp-title-line { display: block; }
+}
+
+/* ---------- The billing calendar (BillingCalendar.jsx) ---------- */
+.ai-page.billing-page .bc-panel {
+  width: 100%; max-width: 920px; margin: 0 auto;
+  border-radius: 20px;
+  background: rgba(9, 13, 22, .84);
+  box-shadow: 0 0 0 1px rgba(46, 133, 255, .12), inset 0 0 70px rgba(0, 0, 0, .35), 0 30px 80px rgba(0, 0, 0, .45);
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  text-align: left;
+  overflow: hidden;
+}
+.ai-page.billing-page .bc-head {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px;
+  padding: 14px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  font-size: 13px; line-height: 20px;
+}
+.ai-page.billing-page .bc-title { font-weight: 600; color: #fff; }
+.ai-page.billing-page .bc-legend { display: inline-flex; align-items: center; gap: 8px; color: rgb(148, 163, 184); }
+.ai-page.billing-page .bc-legend > i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: rgb(71, 85, 105); }
+
+.ai-page.billing-page .bc-days { padding: 18px 16px 6px; }
+.ai-page.billing-page .bc-grid { display: grid; grid-template-columns: repeat(28, minmax(0, 1fr)); }
+.ai-page.billing-page .bc-day {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 6px 0 8px; border-radius: 8px;
+  transition: background-color .4s;
+}
+/* The dots stack up from the bottom of a 56px column (room for four). */
+.ai-page.billing-page .bc-stack { height: 56px; display: flex; flex-direction: column-reverse; align-items: center; gap: 5px; }
+.ai-page.billing-page .bc-stack > i {
+  flex: none; width: 9px; height: 9px; border-radius: 50%;
+  background: rgb(51, 65, 85);
+  transition: background-color .4s, box-shadow .4s;
+}
+.ai-page.billing-page .bc-num {
+  font-size: 11px; line-height: 16px; color: rgb(100, 116, 139);
+  font-variant-numeric: tabular-nums;
+  transition: color .4s;
+}
+.ai-page.billing-page .bc-day.is-past .bc-stack > i { background: rgb(34, 197, 94); }
+.ai-page.billing-page .bc-day.is-today { background: rgba(46, 133, 255, .12); }
+.ai-page.billing-page .bc-day.is-today .bc-stack > i { background: rgb(46, 133, 255); box-shadow: 0 0 10px rgba(46, 133, 255, .7); }
+.ai-page.billing-page .bc-day.is-today .bc-num { font-weight: 600; color: #fff; }
+
+/* What today's run did, after the AI chat header's live dot (its green, ai.css .ai-chat .ai-live-dot). */
+.ai-page.billing-page .bc-status {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 22px 16px;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+  font-size: 13px; line-height: 20px; color: rgb(203, 213, 225);
+}
+.ai-page.billing-page .bc-status .ai-live-dot { background: #34d399; box-shadow: 0 0 0 3px rgba(52, 211, 153, .15), 0 0 8px rgba(52, 211, 153, .6); }
+.ai-page.billing-page .bc-status-text { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-page.billing-page :is(.bc-day, .bc-stack > i, .bc-num) { transition: none; }
+}
+
+/* Below desktop (its own design comes later): nothing breaks. Under 640px the days keep a 600px layout,
+   scaled to the panel's width (CSS zoom, so their layout shrinks too), and the status may take two lines,
+   held at two so the panel's height doesn't change as it walks. */
+@media (max-width: 639.98px) {
+  .ai-page.billing-page .bc-head { padding: 12px 16px; }
+  .ai-page.billing-page .bc-days { padding: 14px 10px 4px; container-type: inline-size; }
+  .ai-page.billing-page .bc-grid { width: 600px; zoom: tan(atan2(100cqw, 600px)); }
+  .ai-page.billing-page .bc-status { align-items: flex-start; padding: 12px 16px 14px; }
+  .ai-page.billing-page .bc-status .ai-live-dot { margin-top: 6.5px; }
+  .ai-page.billing-page .bc-status-text { min-height: 40px; white-space: normal; }
+}
