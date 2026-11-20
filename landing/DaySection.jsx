@@ -1,5 +1,7 @@
 import React from 'react';
 import { F, NB, TimelineSection } from './DayTimeline.jsx';
+import { ctaHref, isReserving } from './onboarding.js';
+import { usePreviewTheme } from './preview/previewTheme.js';
 
 // "Meet your new office manager": a day at Bayside Pool Co. (demo data, matching the hero's) as a
 // timeline, after "The only software your pool company needs". The timeline and its scroll lighting
@@ -50,6 +52,7 @@ const ENTRIES = [
 ];
 
 export default function DaySection() {
+  const theme = usePreviewTheme();
   return (
     <TimelineSection
       id="day"
@@ -62,8 +65,9 @@ export default function DaySection() {
       <div className="dt-close dt-reveal">
         <p className="dt-close-1">You sent one quote. It did the rest.</p>
         <p className="dt-close-2">The less you have to do, the more you can do.</p>
-        <a href="#reserve" className="hero-cta dt-cta">
-          Reserve your spot
+        {/* While the site takes reservations: the pricing section's form below (#reserve). Otherwise the trial. */}
+        <a href={isReserving ? '#reserve' : ctaHref(theme)} className="hero-cta dt-cta">
+          {isReserving ? 'Reserve your spot' : 'Start your free trial'}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
         </a>
       </div>

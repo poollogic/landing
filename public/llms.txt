@@ -2,7 +2,7 @@
 
 > Pool service software for pool route companies. Recurring billing and autopay, late fees and overdue reminders that run themselves, routing, chemical tracking, service reports, quotes and work orders, a technician app, and free white-glove migration from Skimmer, QuickBooks or any spreadsheet.
 
-Poolnautics is priced by active customers, with unlimited technicians and office staff on every plan. Paused customers don't count toward the price. New pool companies are onboarded in small groups, and the Poolnautics team moves their customers over for them.
+Poolnautics is priced by active customers, with unlimited technicians and office staff on every plan. Paused customers don't count toward the price. New pool companies can start a 30-day free trial with no card needed (https://app.poolnautics.app/signup), and the Poolnautics team moves their customers over for them.
 
 ## Plans
 

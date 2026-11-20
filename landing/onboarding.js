@@ -4,7 +4,7 @@ import { trialHref } from './preview/previewTheme.js';
 //   'reserve'  the buttons say "Reserve your spot" and open /reserve (every
 //              account starts with a white-glove onboarding call)
 //   'open'     the buttons start the 30-day free trial in the app, as before
-export const ONBOARDING = 'reserve';
+export const ONBOARDING = 'open'; // open since 2026-11-20 (was 'reserve')
 export const isReserving = ONBOARDING === 'reserve';
 
 // Where a sign-up button goes.

@@ -12,7 +12,7 @@ import { flushSync } from 'react-dom';
 export const KEY = 'pl-preview-theme';
 export const TOUCH_QUERY = '(hover: none) and (pointer: coarse)';
 export const DARK_QUERY = '(prefers-color-scheme: dark)';
-const APP_URL = 'https://app.poollogic.app';
+const APP_URL = 'https://app.poolnautics.app'; // app.poollogic.app redirects here
 
 const media = (q) => {
   try {
@@ -68,8 +68,8 @@ const subscribe = (fn) => {
 
 export const usePreviewTheme = () => useSyncExternalStore(subscribe, getPreviewTheme, () => 'dark');
 
-/** Sign-up / trial link carrying the chosen theme; the app reads ?theme= on sign-up. */
-export const trialHref = (t) => `${APP_URL}/?theme=${t}`;
+/** The trial: the app's sign-up form (/signup: "Create your account. 30 days free"), carrying the chosen theme. */
+export const trialHref = (t) => `${APP_URL}/signup?theme=${t}`;
 
 /**
  * Switch the theme with a ~300ms crossfade of the preview only: the View
