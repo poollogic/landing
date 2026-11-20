@@ -48,7 +48,7 @@ const ROUTES = [
   // The rest of the indexable pages, pre-rendered too. Contact's hero is the homepage kind (.hero); the
   // others' is their heading block.
   { path: '/contact', html: 'contact.html', strictStatic: true, stable: ['.ct-eyebrow', '#contact-heading', '.hero-sub'] },
-  { path: '/tech-app', html: 'tech-app.html', strictStatic: true, hero: 'main > section:first-of-type', stable: ['h1'] },
+  { path: '/tech-app', html: 'tech-app.html', strictStatic: true, jsonLd: ['MobileApplication'], hero: 'main > section:first-of-type', stable: ['h1'] },
   { path: '/partners', html: 'partners.html', strictStatic: true, hero: 'main > section:first-of-type', stable: ['h1'] },
   { path: '/partners/kit', html: 'partners/kit.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/partners/terms', html: 'partners/terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
@@ -60,7 +60,7 @@ const ROUTES = [
   { path: '/recurring-billing', html: 'recurring-billing.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.bc-panel'] },
   { path: '/workflow', html: 'workflow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];
-const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow', 'pages/billing.jsx', 'landing/billing-page']; // the heroes' own code
+const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow', 'pages/billing.jsx', 'landing/billing-page', 'landing/AppStoreBadge.jsx']; // the heroes' own code (and the App Store badge, in /tech-app's)
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
 const STABLE_TOLERANCE_PX = 2;
 const CLS_BUDGET = 0.01; // we hold the new pages at zero; Google's "good" line is 0.1

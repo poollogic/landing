@@ -30,12 +30,16 @@
 .ta-list li:last-child { padding-bottom: 0; }
 .ta-list h3 { letter-spacing: -0.3px; color: #0f172a; margin: 0 0 10px; } /* size and weight: the card-title role */
 .ta-list p { font-size: 16px; line-height: 1.65; color: #475569; margin: 0; text-wrap: pretty; }
+/* Under the points: the App Store badge and who it's for. */
+.ta-copy { min-width: 0; }
+.ta-get { display: flex; align-items: center; gap: 16px; margin-top: 28px; padding-top: 28px; border-top: 1px solid #E4E8EF; }
+.ta-get p { margin: 0; font-size: 14px; line-height: 1.5; color: #64748b; text-wrap: pretty; }
 
 /* Desktop: the phone at 80% (262 × 551px) beside a 520px column, centred as a pair. */
 @media (min-width: 1024px) {
   .ta-grid { grid-template-columns: 262px 520px; column-gap: 80px; }
   .ta-phone-col { width: 262px; }
-  .ta-list { width: 520px; }
+  .ta-list, .ta-get { width: 520px; }
   #technicians .pn-phone.ta-pn-front { --pn-zoom: .56; }
 }
 
@@ -43,4 +47,5 @@
   .ta-grid { grid-template-columns: 1fr; gap: 56px; }
   .ta-phone-col { display: flex; justify-content: center; }
   .ta-list { max-width: 520px; margin: 0 auto; }
+  .ta-get { max-width: 520px; margin-inline: auto; }
 }

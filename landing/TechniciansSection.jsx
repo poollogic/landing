@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import SectionHeader from './SectionHeader.jsx';
+import AppStoreBadge from './AppStoreBadge.jsx';
 import initPnPhones from './technicians/pnPhone.js';
 import PN_ICONS from './technicians/pn-icons.html?raw';
 import PN_PHONE_READINGS from './technicians/pn-phone-readings.html?raw';
@@ -34,20 +35,27 @@ export default function TechniciansSection() {
         <div className="ta-grid">
           <div className="ta-phone-col" dangerouslySetInnerHTML={{ __html: PN_PHONE_READINGS }} />
 
-          <ul className="ta-list">
-            <li>
-              <h3>Reports they can’t fake</h3>
-              <p>Every report is stamped with the phone’s GPS location the moment it’s sent. Photos come from the in-app camera only, and at least one is required, so your customer always sees the pool their tech just left.</p>
-            </li>
-            <li>
-              <h3>The readings you require</h3>
-              <p>Pick which readings your techs have to test, and set your own ideal range for each. Anything outside it is flagged on the spot, and a skipped reading has to be explained before the report will send.</p>
-            </li>
-            <li>
-              <h3>Mileage that logs itself</h3>
-              <p>The phone’s GPS tracks every drive. Your dashboard gets a stop-by-stop breakdown with the miles between each one, ready for taxes and bookkeeping.</p>
-            </li>
-          </ul>
+          <div className="ta-copy">
+            <ul className="ta-list">
+              <li>
+                <h3>Reports they can’t fake</h3>
+                <p>Every report is stamped with the phone’s GPS location the moment it’s sent. Photos come from the in-app camera only, and at least one is required, so your customer always sees the pool their tech just left.</p>
+              </li>
+              <li>
+                <h3>The readings you require</h3>
+                <p>Pick which readings your techs have to test, and set your own ideal range for each. Anything outside it is flagged on the spot, and a skipped reading has to be explained before the report will send.</p>
+              </li>
+              <li>
+                <h3>Mileage that logs itself</h3>
+                <p>The phone’s GPS tracks every drive. Your dashboard gets a stop-by-stop breakdown with the miles between each one, ready for taxes and bookkeeping.</p>
+              </li>
+            </ul>
+            {/* The app on the App Store, for the techs: they sign in with an invite from the office. */}
+            <div className="ta-get">
+              <AppStoreBadge />
+              <p>Free on iPhone. Your techs sign in with an invite from your office.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

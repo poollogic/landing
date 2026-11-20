@@ -548,11 +548,15 @@
   /* Site footer (components/site-chrome.jsx Footer): the same dark bar on every page. Links go
      white on hover with the nav's glow (.nav-links a:hover in landing/hero.css). */
   .site-footer { background: #0e1015; border-top: 1px solid rgba(148, 163, 184, .10); padding: 24px 0; }
-  .site-footer .footer-bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: rgb(148, 163, 184); }
+  .site-footer .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: rgb(148, 163, 184); }
   .site-footer-links { display: inline-flex; align-items: center; gap: 20px; flex-wrap: wrap; }
   .site-footer-link { font-size: 13px; line-height: 1.4; color: rgb(148, 163, 184); text-decoration: none; transition: color .3s, text-shadow .3s; }
   .site-footer-link:hover,
   .site-footer-link:focus-visible { color: #F8FAFC; text-shadow: 0 0 18px rgba(147, 197, 253, .55); }
+  /* Apple's App Store badge as a link (landing/AppStoreBadge.jsx): its own size, never stretched. */
+  .app-store-badge { display: inline-flex; flex: none; align-self: center; line-height: 0; border-radius: 8px; }
+  .app-store-badge img { display: block; max-width: none; }
+  .app-store-badge:focus-visible { outline: 2px solid #60a5fa; outline-offset: 3px; }
 
   @media (max-width: 520px) {
     .footer-grid {

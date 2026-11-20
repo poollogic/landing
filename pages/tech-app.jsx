@@ -5,6 +5,7 @@ import '../landing/ai/ai.css';
 import '../landing/tech-app.css';
 import Nav from '../landing/Nav.jsx';
 import { PrimaryCta, Ticks, header, headerLight } from '../landing/ai/shared.jsx';
+import AppStoreBadge, { APP_STORE_ID, APP_STORE_URL } from '../landing/AppStoreBadge.jsx';
 import HeroHeading from '../landing/HeroHeading.jsx';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { TRIAL_DAYS } from '../aiFacts.js';
@@ -100,6 +101,28 @@ const RELIABILITY = [
   ['No double entry', 'The same data the office sees, written once, by the person who saw the pool.'],
 ];
 
+// Structured data, in the pre-rendered page's <head> (entry-server.jsx): the technician app on the App
+// Store (free, iOS 15.1 or later, as its listing says), published by Poolnautics (index.html's Organization).
+const ORIGIN = 'https://getpoolnautics.com';
+export const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'MobileApplication',
+    '@id': `${ORIGIN}/tech-app#app`,
+    name: 'Poolnautics',
+    description: 'The field app for pool service technicians: the day’s route, service reports with readings, chemicals and photos, and work orders, working offline. Technicians sign in with an invite from their pool service company.',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'iOS 15.1 or later',
+    downloadUrl: APP_STORE_URL,
+    sameAs: APP_STORE_URL,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    publisher: { '@id': `${ORIGIN}/#organization` },
+    url: `${ORIGIN}/tech-app`,
+  },
+];
+// Safari on iPhone: Apple's "Open in the App Store" banner, on this page only (entry-server.jsx).
+export const appBanner = `<meta name="apple-itunes-app" content="app-id=${APP_STORE_ID}">`;
+
 const TechAppPage = () => {
   const theme = usePreviewTheme();
   return (
@@ -118,6 +141,7 @@ const TechAppPage = () => {
                 </HeroHeading>
                 <div className="ai-cta-row">
                   <PrimaryCta theme={theme} />
+                  <AppStoreBadge height={48} priority />
                 </div>
                 <p className="hero-fine">The {TRIAL_DAYS}-day trial includes all of it.</p>
               </div>
@@ -227,6 +251,7 @@ const TechAppPage = () => {
             })}
             <div className="ai-cta-row ai-cta-row--center">
               <PrimaryCta theme={theme} />
+              <AppStoreBadge height={48} />
             </div>
             <p className="hero-fine tk-close-fine">The {TRIAL_DAYS}-day trial includes all of it.</p>
           </div>

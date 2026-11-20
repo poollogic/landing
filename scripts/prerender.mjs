@@ -50,7 +50,7 @@ function setTag(html, pattern, replacement, what) {
   return html.replace(pattern, replacement);
 }
 
-for (const [route, { meta, jsonLd: data = [], headScript }] of Object.entries(PRERENDERED)) {
+for (const [route, { meta, jsonLd: data = [], headScript, headTags = [] }] of Object.entries(PRERENDERED)) {
   const url = ORIGIN + meta.path;
   const title = meta.ogTitle || meta.title;
   const description = meta.ogDescription || meta.description;
@@ -86,7 +86,8 @@ for (const [route, { meta, jsonLd: data = [], headScript }] of Object.entries(PR
     `<noscript><link rel="stylesheet" crossorigin href="${href}"></noscript>`,
   ]);
   const script = headScript ? [`<script>${headScript}</script>`] : [];
-  html = setTag(html, /<\/head>/, `${[...script, ...css, ...lazyCss, ...data.map(jsonLd)].join('\n')}\n</head>`, '</head>');
+  // headTags: a page's own extra <meta> tags (/tech-app: the App Store banner).
+  html = setTag(html, /<\/head>/, `${[...headTags, ...script, ...css, ...lazyCss, ...data.map(jsonLd)].join('\n')}\n</head>`, '</head>');
 
   const markup = await render(route);
   html = setTag(html, /<div id="root"><\/div>/, `<div id="root" data-prerendered="${route}">${markup}</div>`, 'empty #root');

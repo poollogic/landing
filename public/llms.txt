@@ -19,6 +19,6 @@ Customers' payments go to the pool company's own Stripe account; Poolnautics tak
 - [Recurring billing](https://getpoolnautics.com/recurring-billing): each customer's own rate, billing day and payment terms; invoices sent in the morning billing run (8:30 AM weekdays, 10:30 AM weekends) and autopay charged; what happens when an invoice goes unpaid (reminders, late fees, pausing); billing on each plan; billing questions
 - [Repair requests, diagnostics and work orders](https://getpoolnautics.com/workflow): how a repair goes from a request to a quote or invoice, a work order and a paid invoice, with one step for the office
 - [AI and automations](https://getpoolnautics.com/ai-and-automations): connecting Claude, Grok, ChatGPT or your own AI, automations, and the API
-- [Technician app](https://getpoolnautics.com/tech-app): the phone app for routes, chemistry and service reports
+- [Technician app](https://getpoolnautics.com/tech-app): the phone app for routes, chemistry and service reports. Free on the App Store for iPhone (https://apps.apple.com/us/app/id6829012346); technicians sign in with an invite from their company.
 - [Partner program](https://getpoolnautics.com/partners)
 - [Contact](https://getpoolnautics.com/contact)

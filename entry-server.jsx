@@ -6,6 +6,7 @@ import { structuredData as aiIntegrationsData } from './pages/ai-integrations.js
 import { structuredData as pricingData } from './pages/pricing.jsx';
 import { structuredData as workflowData } from './pages/workflow.jsx';
 import { structuredData as billingData } from './pages/billing.jsx';
+import { structuredData as techAppData, appBanner } from './pages/tech-app.jsx';
 import { homeFirstPaintScript } from './landing/firstPaint.js';
 import { FAQS } from './landing/FaqSection.jsx';
 
@@ -31,7 +32,7 @@ export const PRERENDERED = {
   // The rest of the indexable pages: their own <head> and text in the served HTML, not the empty page
   // (whose head was the homepage's, canonical included, until JavaScript ran).
   '/contact': { meta: ROUTE_META.contact },
-  '/tech-app': { meta: ROUTE_META.techApp },
+  '/tech-app': { meta: ROUTE_META.techApp, jsonLd: techAppData, headTags: [appBanner] },
   '/partners': { meta: ROUTE_META.partners },
   '/partners/kit': { meta: ROUTE_META.partnerKit },
   '/partners/terms': { meta: ROUTE_META.partnerTerms },

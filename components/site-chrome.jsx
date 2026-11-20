@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import AppStoreBadge from '../landing/AppStoreBadge.jsx';
 import { I } from './icons.jsx';
 import BrandLogo from './brand-logo.jsx';
 import FeaturesMenu, { LINKS } from '../landing/FeaturesMenu.jsx';
@@ -70,6 +71,7 @@ const Footer = () =>
         <a href="/partners" className="site-footer-link">Partners</a>
         <a href="/terms" className="site-footer-link">Terms</a>
         <a href="/privacy" className="site-footer-link">Privacy</a>
+        <AppStoreBadge />
       </span>
     </div>
   </footer>;
