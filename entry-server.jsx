@@ -39,6 +39,7 @@ export const PRERENDERED = {
   '/terms': { meta: ROUTE_META.terms },
   '/privacy': { meta: ROUTE_META.privacy },
   '/technician-terms': { meta: ROUTE_META.technicianTerms },
+  '/delete-account': { meta: ROUTE_META.deleteAccount },
 };
 
 /** The route's markup for #root, once every lazy part has loaded (the same tree main.jsx hydrates). */

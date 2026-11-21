@@ -16,6 +16,7 @@ const AiIntegrationsPage = lazy(() => import('./pages/ai-integrations.jsx'));
 const PartnersPage = lazy(() => import('./pages/partners.jsx'));
 const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
 const TechnicianTermsPage = lazy(() => import('./pages/technician-terms.jsx'));
+const DeleteAccountPage = lazy(() => import('./pages/delete-account.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
 const WorkflowPage = lazy(() => import('./pages/workflow.jsx'));
 const BillingPage = lazy(() => import('./pages/billing.jsx'));
@@ -48,6 +49,8 @@ const isPartnersPath = (p) => p === '/partners' || p === '/partners/';
 const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/terms/';
 // The phone app's sign-in links here (the box on its location screen).
 const isTechnicianTermsPath = (p) => p === '/technician-terms' || p === '/technician-terms/';
+// Google Play's account deletion page: the URL is in the Play Console listing, so it stays exactly this.
+const isDeleteAccountPath = (p) => p === '/delete-account' || p === '/delete-account/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 const isWorkflowPath = (p) => p === '/workflow' || p === '/workflow/';
 const isBillingPath = (p) => p === '/recurring-billing' || p === '/recurring-billing/'; // /billing 301s here (public/_redirects)
@@ -109,6 +112,11 @@ export const ROUTE_META = {
     title: 'Technician App Terms — Poolnautics',
     description: 'What a pool technician agrees to when they first sign in to the Poolnautics app: location on service reports, mileage logging, route review during work hours, and changing location access.',
     path: '/technician-terms',
+  },
+  deleteAccount: {
+    title: 'Delete your account — Poolnautics',
+    description: 'How to delete your Poolnautics account, in the app or without it, and what is deleted and what is kept, for technicians using the Poolnautics app and for pool service companies.',
+    path: '/delete-account',
   },
   partnerTerms: {
     title: 'Partner Program Terms — Poolnautics',
@@ -202,6 +210,7 @@ const App = ({ path: pathProp }) => {
     else if (isPartnersPath(path)) meta = ROUTE_META.partners;
     else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
     else if (isTechnicianTermsPath(path)) meta = ROUTE_META.technicianTerms;
+    else if (isDeleteAccountPath(path)) meta = ROUTE_META.deleteAccount;
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
     else if (isWorkflowPath(path)) meta = ROUTE_META.workflow;
     else if (isBillingPath(path)) meta = ROUTE_META.billing;
@@ -343,6 +352,20 @@ const App = ({ path: pathProp }) => {
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
             <TechnicianTermsPage />
+          </Suspense>
+        </ErrorBoundary>
+        <Footer />
+      </>
+    );
+  }
+
+  if (isDeleteAccountPath(path)) {
+    return (
+      <>
+        <SiteHeader tone="light" />
+        <ErrorBoundary>
+          <Suspense fallback={<RouteFallback />}>
+            <DeleteAccountPage />
           </Suspense>
         </ErrorBoundary>
         <Footer />

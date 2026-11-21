@@ -55,6 +55,7 @@ const ROUTES = [
   { path: '/terms', html: 'terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/privacy', html: 'privacy.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/technician-terms', html: 'technician-terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
+  { path: '/delete-account', html: 'delete-account.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   // Recurring billing (pages/billing.jsx): pre-rendered, the AI page's hero as one centred column (its
   // billing calendar is .bc-panel). Its page, breadcrumbs and FAQ are structured data.
   { path: '/recurring-billing', html: 'recurring-billing.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.bc-panel'] },

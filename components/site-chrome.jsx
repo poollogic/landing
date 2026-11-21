@@ -71,6 +71,7 @@ const Footer = () =>
         <a href="/partners" className="site-footer-link">Partners</a>
         <a href="/terms" className="site-footer-link">Terms</a>
         <a href="/privacy" className="site-footer-link">Privacy</a>
+        <a href="/delete-account" className="site-footer-link">Delete account</a>
         <AppStoreBadge />
       </span>
     </div>
