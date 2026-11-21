@@ -71,31 +71,6 @@
   margin: 0 auto;
   background: linear-gradient(#e2e8f0, #94a3b8);
 }
-.op-pill {
-  display: inline-flex;
-  align-items: center;
-  margin: 12px 0 0;
-  padding: 14px 24px;
-  border-radius: 14px;
-  background: #0f172a;
-  box-shadow: 0 14px 34px rgba(15, 23, 42, .22);
-  white-space: nowrap;
-}
-.op-pill-head { display: inline-flex; align-items: center; gap: 8px; }
-.op-pill-handles { font-size: 13.5px; font-weight: 500; color: #93c5fd; }
-.op-pill-areas {
-  margin-left: 16px;
-  padding-left: 16px;
-  border-left: 1px solid rgba(255, 255, 255, .22);
-  display: flex;
-  list-style: none;
-  font-size: 13.5px;
-  font-weight: 500;
-  color: #cbd5e1;
-}
-.op-pill-areas { --dot-gap: 9px; }
-.op-pill-areas li + li::before { content: '·'; margin: 0 var(--dot-gap); color: #64748b; }
-
 /* Tablet: cards stacked, each card's four items in two columns. */
 @media (max-width: 1040px) {
   .op-section { padding: 112px 32px 96px; }
@@ -106,7 +81,7 @@
   .op-list li { white-space: nowrap; }
 }
 
-/* Phone: one column throughout; the pill becomes a block of two centred lines. */
+/* Phone: one column throughout. */
 @media (max-width: 760px) {
   .op-section { padding: 88px 20px 76px; }
   .op-lede { margin-top: 20px; }
@@ -116,24 +91,8 @@
   .op-list { display: flex; gap: 14px; }
   .op-list li { font-size: 15.5px; line-height: 1.4; }
   .op-line { height: 24px; }
-  .op-pill {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    border-radius: 14px;
-    padding: 16px 12px;
-  }
-  .op-pill-head { gap: 8px; }
-  .op-pill-head svg { height: 16px !important; width: auto !important; }
-  .op-pill-handles { font-size: 14.5px; }
-  .op-pill-areas { margin: 0; padding: 0; border: 0; font-size: 13px; --dot-gap: 6px; }
-}
-@media (max-width: 380px) {
-  .op-pill-areas { font-size: 12px; --dot-gap: 5px; }
 }
 @media (max-width: 340px) {
-  .op-pill-areas { font-size: 11.5px; --dot-gap: 3px; }
   .op-list li { font-size: 15px; }
 }
 
@@ -141,7 +100,7 @@
 .op-anim:not(.is-in) .op-rise { opacity: 0; transform: translateY(14px); }
 .op-anim:not(.is-in) .op-x { opacity: 0; transform: scale(0) rotate(-45deg); }
 .op-anim:not(.is-in) .op-line { transform: scaleY(0); }
-.op-anim:not(.is-in) .op-pill { opacity: 0; transform: translateY(12px); }
+.op-anim:not(.is-in) .fc { opacity: 0; transform: translateY(12px); }
 
 .op-anim .op-line { transform-origin: top; }
 .op-anim.is-in .op-rise { transition: opacity .6s ease, transform .6s ease; }
@@ -153,7 +112,7 @@
   transition-delay: var(--d);
 }
 .op-anim.is-in .op-line { transition: transform .35s ease 1.45s; }
-.op-anim.is-in .op-pill {
+.op-anim.is-in .fc {
   transition: opacity .5s ease 1.7s, transform .6s cubic-bezier(.2, .9, .3, 1.2) 1.7s;
 }
 

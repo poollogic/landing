@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+import { FEATURE_LIST } from './landing/featureGroups.js';
 
 // Every route shares one index.html, and each page is a lazy chunk, so the
 // browser would only find a page's code after the main script has run. This
@@ -24,6 +25,32 @@ const EARLY_FONTS = { '/': ['/fonts/Satoshi-Bold.woff2'] };
 const SITE_FONTS = ['/fonts/Geist.woff2']; // the rest of the site
 // Pre-rendered pages drawn in Geist (the site's own pages, not the marketing ones): they get Geist, not Satoshi.
 const GEIST_PAGES = new Set(['/partners', '/partners/kit', '/partners/terms', '/terms', '/privacy', '/technician-terms', '/delete-account']);
+
+// The SoftwareApplication JSON-LD (#software in index.html) lists every feature: the homepage feature
+// card's, from landing/featureGroups.js, so the two never drift. index.html leaves "featureList" empty
+// and this writes it in, in dev and in builds (so every pre-rendered page has it too). It fails the
+// build rather than ship an empty or broken list.
+function featureListJsonLd() {
+  return {
+    name: 'feature-list-json-ld',
+    transformIndexHtml: {
+      order: 'pre',
+      handler(html) {
+        const re = /(<script type="application\/ld\+json">)([^<]*"@id": "https:\/\/getpoolnautics\.com\/#software"[^<]*)(<\/script>)/;
+        const m = html.match(re);
+        if (!m || !m[2].includes('"featureList": []')) throw new Error('index.html: the #software JSON-LD with an empty "featureList": [] was not found');
+        const list = JSON.stringify(FEATURE_LIST, null, 2).replace(/\n/g, '\n  ');
+        const block = m[2].replace('"featureList": []', `"featureList": ${list}`);
+        JSON.parse(block); // throws if the result isn't valid JSON
+        // A function, not a replacement string: the block has prices like "$1,299", which a string
+        // would read as "insert group 1".
+        const out = html.replace(re, (_, open, _old, close) => open + block + close);
+        if (!out.includes(block)) throw new Error('featureListJsonLd: the #software JSON-LD was not written as built');
+        return out;
+      },
+    },
+  };
+}
 
 function routePreloads() {
   return {
@@ -105,7 +132,7 @@ function previewLikePages() {
 }
 
 export default defineConfig({
-  plugins: [react(), routePreloads(), previewLikePages()],
+  plugins: [react(), featureListJsonLd(), routePreloads(), previewLikePages()],
   build: {
     // ".r2" in every built file name: new URLs for all JS and CSS, so nothing
     // cached under an old name (see public/_headers) can be served for them.

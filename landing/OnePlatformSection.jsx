@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Wordmark } from '../components/brand-logo.jsx';
+import FeatureCard from './FeatureCard.jsx';
 import './one-platform.css';
 
 // "The only software your pool company needs": straight after the hero. What owners still do by hand with other pool software,
-// in three cards, then the pill that says Poolnautics handles all of it. Names no competitor.
+// in three cards, then the card that says Poolnautics handles all of it, with every feature
+// (FeatureCard.jsx). Names no competitor.
 //
 // It plays once as it comes into view (one-platform.css): the copy rises, the X markers pop in one
-// by one, the connector draws down and the pill rises. The pre-rendered page draws it finished; the
+// by one, the connector draws down and the feature card rises. The pre-rendered page draws it finished; the
 // animation is only set up when the section is still below the window, so nothing on screen blinks
 // out, and never with reduced motion.
 
@@ -24,7 +25,6 @@ const CARDS = [
     items: ['Policing service reports', 'Scrambling when a tech calls out', 'Guessing your cost per stop', 'Tracking mileage and oil changes'],
   },
 ];
-const AREAS = ['Routes', 'Technicians', 'Billing', 'Payments', 'Fleet'];
 
 const Cross = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#dc2626" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
@@ -81,17 +81,7 @@ export default function OnePlatformSection() {
         </div>
 
         <div className="op-line" aria-hidden="true" />
-        <div className="op-pill">
-          <span className="op-pill-head">
-            <Wordmark bg="dark" height={15} style={{ display: 'inline-block' }} />
-            <span className="sr-only">Poolnautics</span>
-            <span className="op-pill-handles">handles all of it</span>
-          </span>
-          {/* A list, so crawlers and screen readers get five plain items; the dots are drawn in CSS. */}
-          <ul className="op-pill-areas">
-            {AREAS.map((a) => <li key={a}>{a}</li>)}
-          </ul>
-        </div>
+        <FeatureCard />
       </div>
     </section>
   );
