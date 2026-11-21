@@ -1,4 +1,5 @@
 import React, { useId, useState } from 'react';
+import { RATE } from './billingDemo.js'; // the page's $145, shared with the totals further down
 
 // /recurring-billing's settings section: a customer's billing settings (left) and the invoice they
 // produce (right), a copy of the customer invoice page on portal.poolnautics.app drawn as a sheet of US
@@ -7,7 +8,6 @@ import React, { useId, useState } from 'react';
 // surcharge shows or hides its line. Styles: billing-page.css (.bp-setup, .bp-set-*, .inv-*). An
 // example customer and company, not real data.
 
-const RATE = 145;
 const INVOICE_DATE = Date.UTC(2025, 4, 5); // 05/05/2025, the customer's billing day
 const DAY_MS = 86400000;
 

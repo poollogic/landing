@@ -10,6 +10,8 @@ import BillingSetup from '../landing/billing-page/BillingSetup.jsx';
 import LateInvoices from '../landing/billing-page/LateInvoices.jsx';
 import PlansTable from '../landing/billing-page/PlansTable.jsx';
 import FaqSection from '../landing/FaqSection.jsx';
+import { BILLING_TITLE, BILLING_DESCRIPTION } from '../landing/billing-page/billingMeta.js';
+import { HowCustomersPay, FailedPayments, CardFees, BeyondRate, YourMoney, ClosingCta } from '../landing/billing-page/PaymentAutomation.jsx';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { FOCUS, PrimaryCta } from '../landing/ai/shared.jsx';
 import HeroHeading from '../landing/HeroHeading.jsx';
@@ -18,9 +20,12 @@ import { Footer } from '../components/site-chrome.jsx';
 // /recurring-billing (it was /billing): recurring billing in depth. On /ai-and-automations' design (its
 // page wrapper, nav, hero ground, type and buttons: ai.css, landing/ai/shared.jsx); only this page's
 // own layouts live in landing/billing-page/billing-page.css, under .billing-page. Still being built:
-// indexed, in the sitemap, linked from the nav's Features menu. Its sections: hero (dark),
-// statement and belt (white), settings and invoice (grey), late invoices (dark), plans (white), FAQ
-// (grey); a closing section comes later. Pre-rendered (entry-server.jsx),
+// indexed, in the sitemap, linked from the nav's Features menu, the page for "pool service payment
+// automation". Its sections: hero (dark), statement and belt (white), settings and invoice (grey),
+// how customers pay (white), late invoices (dark), failed payments (grey), card fees (white), beyond
+// the monthly rate (grey), your money (dark), plans (white), FAQ (grey), closing call to action
+// (dark); the payment automation ones are landing/billing-page/PaymentAutomation.jsx. The month's
+// example figures (the hero's dots, the $145 rate, the totals) are billingDemo.js. Pre-rendered (entry-server.jsx),
 // so no window or document while rendering. The hero's calendar and the belt under it run on one
 // clock (billingClock.js).
 
@@ -76,10 +81,10 @@ export const structuredData = [
     '@type': 'WebPage',
     '@id': `${PAGE_URL}#webpage`,
     url: PAGE_URL,
-    name: 'Recurring Billing Software for Pool Service Companies',
-    description: 'Recurring billing software for pool service companies. Give every customer their own rate, billing day and payment terms; Poolnautics sends the invoices and charges autopay cards for you.',
+    name: BILLING_TITLE,
+    description: BILLING_DESCRIPTION,
     inLanguage: 'en-US',
-    dateModified: '2026-11-19',
+    dateModified: '2026-11-21',
     isPartOf: { '@id': `${ORIGIN}/#website` },
     about: { '@id': `${ORIGIN}/#software` },
   },
@@ -117,7 +122,7 @@ export default function BillingPage() {
               <div className="ai-hero-copy bp-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
                 <HeroHeading
                   id="billing-hero-title"
-                  eyebrow="Recurring billing"
+                  eyebrow="Recurring billing & payment automation"
                   title={<><span className="bp-title-line">Pool Service Billing</span>{' '}<span className="bp-title-line">Software That Runs Itself</span></>}
                 >
                   Set each customer’s rate and billing day once. Poolnautics sends the invoice every morning it’s
@@ -155,13 +160,22 @@ export default function BillingPage() {
           </div>
         </section>
 
-        {/* 4. Late invoices (dark): what happens to that invoice if it isn't paid, the homepage's timeline. */}
+        {/* 4. How customers pay (white): the three ways, as a When / Then card, and the month's totals. */}
+        <HowCustomersPay />
+
+        {/* 5. Late invoices (dark): what happens to that invoice if it isn't paid, the homepage's timeline. */}
         <LateInvoices />
 
-        {/* 5. Plans (white): billing on Insight and Vision. */}
+        {/* 6–9. Failed payments (grey), card fees (white), beyond the monthly rate (grey), your money (dark). */}
+        <FailedPayments />
+        <CardFees />
+        <BeyondRate />
+        <YourMoney />
+
+        {/* 10. Plans (white): billing on Insight and Vision. */}
         <PlansTable />
 
-        {/* 6. FAQ (light grey), the homepage's accordion, stacked; its FAQPage data is in the <head>. */}
+        {/* 11. FAQ (light grey), the homepage's accordion, stacked; its FAQPage data is in the <head>. */}
         <FaqSection
           id="billing-faq"
           items={FAQ}
@@ -171,6 +185,9 @@ export default function BillingPage() {
           structuredData={false}
           headColors={false}
         />
+
+        {/* 12. The closing call to action (dark). */}
+        <ClosingCta />
       </main>
       <Footer />
     </div>

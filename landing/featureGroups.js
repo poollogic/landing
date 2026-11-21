@@ -2,7 +2,7 @@
 // (FeatureCard.jsx, under the pain cards in OnePlatformSection.jsx) and for the featureList of the
 // SoftwareApplication JSON-LD (#software in index.html, written in at build time by vite.config.js).
 // Plain data, no JSX: vite.config.js imports it too. Order matters, of the groups and of each group's
-// features. A link is an in-page section id (#billing …) or a page.
+// features. A link is an in-page section id (#collections …) or a page (billing's goes to /recurring-billing).
 
 export const FEATURE_GROUPS = [
   {
@@ -17,7 +17,7 @@ export const FEATURE_GROUPS = [
       'Chemicals added to invoices',
       'Invoices printed & mailed for you',
     ],
-    link: { label: 'See how billing works', href: '#billing' },
+    link: { label: 'See how billing works', href: '/recurring-billing' },
   },
   {
     id: 'paid',

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useBillingClock, useStill } from './billingClock.js';
+import { DOTS } from './billingDemo.js';
 
 // /recurring-billing's hero picture: 28 billing days, each with a dot per customer billed that day, and
 // "today" walking through them, a day a tick of the page's clock (billingClock.js, every 1.6s, shared
@@ -10,8 +11,8 @@ import { useBillingClock, useStill } from './billingClock.js';
 // the first render is the 4th on the server and in the browser alike. Styles: billing-page.css (.bc-*).
 // All of it is an example, not real data.
 
-// Customers billed on each day, the 1st to the 28th.
-const DOTS = [2, 1, 3, 0, 1, 2, 1, 4, 2, 1, 3, 0, 2, 3, 1, 2, 0, 3, 1, 2, 1, 4, 1, 0, 2, 3, 1, 2];
+// Customers billed on each day, the 1st to the 28th (billingDemo.js: the same month as the totals
+// further down the page).
 const DAYS = DOTS.length;
 const START_DAY = 4;
 const STILL_DAY = 14; // reduced motion

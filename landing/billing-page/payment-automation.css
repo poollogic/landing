@@ -1,0 +1,239 @@
+/* /recurring-billing's payment automation sections (PaymentAutomation.jsx), on /ai-and-automations'
+   type. Every rule is under .ai-page.billing-page, like billing-page.css. Content 1024px wide at most
+   (.bp-setup-grid's width, so the sections line up with it), centred heads and the closing section
+   760px. Desktop 900px and up; tablet 700–899px (the two-column layouts stay two columns); phone below
+   700px (one column, section heads centred, reading content left). */
+
+.ai-page.billing-page .pa-section { padding-block: 112px; }
+.ai-page.billing-page .pa-white { background: #fff; }
+.ai-page.billing-page .pa-grey { background: rgb(248, 250, 252); }
+.ai-page.billing-page .pa-dark { background: rgb(17, 19, 24); }
+.ai-page.billing-page .pa-inner { max-width: 1024px; margin-inline: auto; }
+
+/* ---------- Heads ---------- */
+.ai-page.billing-page .pa-head--center { max-width: 760px; margin-inline: auto; text-align: center; }
+.ai-page.billing-page .pa-eyebrow {
+  margin: 0 0 14px;
+  font-size: 13px; font-weight: 600; line-height: 1.4; letter-spacing: .14em; text-transform: uppercase;
+  color: #64748b;
+}
+.ai-page.billing-page .pa-h2 {
+  margin: 0;
+  font-size: 38px; font-weight: 600; line-height: 1.14; letter-spacing: -0.02em;
+  color: #0f172a; text-wrap: balance;
+}
+.ai-page.billing-page .pa-h2-a { display: block; color: #64748b; }
+.ai-page.billing-page .pa-h2-b { display: block; color: #0f172a; }
+.ai-page.billing-page .pa-split .pa-h2,
+.ai-page.billing-page .pa-money .pa-h2 { font-size: 34px; } /* in a two-column layout */
+.ai-page.billing-page .pa-sub { margin: 16px 0 0; font-size: 18px; line-height: 1.55; color: #475569; text-wrap: pretty; }
+.ai-page.billing-page .pa-head--center .pa-sub { text-wrap: balance; }
+.ai-page.billing-page .pa-dark .pa-eyebrow { color: rgb(147, 164, 191); }
+.ai-page.billing-page .pa-dark .pa-h2,
+.ai-page.billing-page .pa-dark .pa-h2-b { color: #f8fafc; }
+.ai-page.billing-page .pa-dark .pa-h2-a { color: #94a3b8; }
+.ai-page.billing-page .pa-dark .pa-sub { color: #94a3b8; }
+
+/* ---------- Two columns: copy and a product card (A; B mirrored) ---------- */
+.ai-page.billing-page .pa-split {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center;
+}
+.ai-page.billing-page .pa-copy { min-width: 0; }
+.ai-page.billing-page .pa-split--mirror .pa-visual { order: -1; } /* the card on the left */
+
+/* ---------- Product cards: a When / Then timeline ---------- */
+.ai-page.billing-page .pa-product {
+  border: 1px solid rgb(226, 232, 240); border-radius: 18px; background: #fff;
+  box-shadow: 0 30px 60px -30px rgba(15, 23, 42, .28);
+  text-align: left;
+}
+.ai-page.billing-page .pa-product-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 18px 22px; border-bottom: 1px solid rgb(226, 232, 240);
+}
+.ai-page.billing-page .pa-product-label {
+  margin: 0 0 3px; font-size: 11px; font-weight: 700; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; color: #2e85ff;
+}
+.ai-page.billing-page .pa-product-title { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.35; color: #0f172a; }
+.ai-page.billing-page .pa-pill {
+  flex: none; padding: 5px 10px; border-radius: 999px; background: rgba(22, 163, 74, .12);
+  font-size: 12px; font-weight: 600; line-height: 1.3; color: #15803d; white-space: nowrap;
+}
+.ai-page.billing-page .pa-steps { margin: 0; padding: 22px 22px 6px; list-style: none; }
+.ai-page.billing-page .pa-step { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 14px; padding-bottom: 18px; }
+/* The line joining one tile to the next. */
+.ai-page.billing-page .pa-step:not(:last-child)::before {
+  content: ''; position: absolute; left: 15px; top: 36px; bottom: 4px; width: 2px; border-radius: 1px;
+  background: rgba(46, 133, 255, .25);
+}
+.ai-page.billing-page .pa-step-icon {
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 9px; background: #2e85ff; color: #fff;
+}
+.ai-page.billing-page .pa-step-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-top: 1px; }
+.ai-page.billing-page .pa-step-kind { font-size: 10.5px; font-weight: 700; line-height: 1.3; letter-spacing: .08em; text-transform: uppercase; color: #94a3b8; }
+.ai-page.billing-page .pa-step-title { font-size: 15.5px; font-weight: 600; line-height: 1.35; color: #0f172a; }
+.ai-page.billing-page .pa-step-note { font-size: 13.5px; line-height: 1.45; color: #64748b; }
+
+/* A's card follows the chosen option: the others are hidden (all three are in the HTML). */
+.ai-page.billing-page .pa-visual > .pa-product[hidden] { display: none; }
+.ai-page.billing-page .pa-visual > .pa-product[id]:not([hidden]) { animation: pa-fade .25s ease; }
+@keyframes pa-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---------- A. How customers pay: the options ---------- */
+.ai-page.billing-page .pa-choose {
+  margin: 32px 0 0; font-size: 12px; font-weight: 600; line-height: 1.4; letter-spacing: .1em; text-transform: uppercase; color: #64748b;
+}
+.ai-page.billing-page .pa-choose-hint { margin-left: 8px; font-weight: 500; letter-spacing: 0; text-transform: none; color: #2e85ff; }
+.ai-page.billing-page .pa-options { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.ai-page.billing-page .pa-option {
+  display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 10px 16px;
+  border: 1px solid rgb(226, 232, 240); border-radius: 12px; background: #fff;
+  font: inherit; font-size: 15.5px; font-weight: 500; line-height: 1.35; color: #0f172a; text-align: left; cursor: pointer;
+  transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+}
+.ai-page.billing-page .pa-option:hover { border-color: rgb(203, 213, 225); }
+.ai-page.billing-page .pa-option.is-on { border-color: #2e85ff; box-shadow: 0 0 0 1px #2e85ff; background: rgba(46, 133, 255, .07); }
+.ai-page.billing-page .pa-option:focus-visible { outline: 2px solid #2e85ff; outline-offset: 2px; }
+.ai-page.billing-page .pa-radio {
+  flex: none; width: 18px; height: 18px; border: 1.5px solid rgb(203, 213, 225); border-radius: 50%; background: #fff;
+}
+.ai-page.billing-page .pa-option.is-on .pa-radio { border-color: #2e85ff; background: #2e85ff; box-shadow: inset 0 0 0 3.5px #fff; }
+
+/* ---------- A. The month's totals ---------- */
+.ai-page.billing-page .pa-totals {
+  margin-top: 56px; padding: 24px; border: 1px solid rgb(226, 232, 240); border-radius: 18px; background: rgb(248, 250, 252);
+}
+.ai-page.billing-page .pa-totals-label { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 13px; font-weight: 600; line-height: 1.4; color: #475569; }
+.ai-page.billing-page .pa-dot { width: 8px; height: 8px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 3px rgba(22, 163, 74, .15); }
+.ai-page.billing-page .pa-totals-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin: 18px 0 0; }
+.ai-page.billing-page .pa-total { display: flex; flex-direction: column-reverse; gap: 4px; min-width: 0; }
+.ai-page.billing-page .pa-total dt { font-size: 14px; line-height: 1.4; color: #64748b; }
+.ai-page.billing-page .pa-total dd { margin: 0; font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: #0f172a; font-variant-numeric: tabular-nums; }
+
+/* ---------- B. Check list ---------- */
+.ai-page.billing-page .pa-checks { display: flex; flex-direction: column; gap: 12px; margin: 28px 0 0; padding: 0; list-style: none; }
+.ai-page.billing-page .pa-checks li { display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.4; color: #1e293b; text-align: left; }
+.ai-page.billing-page .pa-tick {
+  display: grid; place-items: center; flex: none; width: 20px; height: 20px; border-radius: 6px; background: rgba(22, 163, 74, .14);
+}
+.ai-page.billing-page .pa-tick svg { display: block; }
+
+/* ---------- Two cards side by side (C, D) ---------- */
+.ai-page.billing-page .pa-pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; margin-top: 56px; text-align: left; }
+.ai-page.billing-page .pa-card { min-width: 0; padding: 24px; border: 1px solid rgb(226, 232, 240); border-radius: 18px; }
+.ai-page.billing-page .pa-white .pa-card { background: rgb(248, 250, 252); }
+.ai-page.billing-page .pa-grey .pa-card { background: #fff; }
+.ai-page.billing-page .pa-card-label {
+  margin: 0; font-size: 12px; font-weight: 700; line-height: 1.4; letter-spacing: .1em; text-transform: uppercase; color: #64748b;
+}
+.ai-page.billing-page .pa-card-label--blue { font-size: 11px; color: #2e85ff; }
+
+/* ---------- C. The calculator ---------- */
+.ai-page.billing-page .pa-slider { margin-top: 20px; }
+.ai-page.billing-page .pa-slider-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.ai-page.billing-page .pa-slider label { font-size: 15px; font-weight: 500; line-height: 1.4; color: #0f172a; }
+.ai-page.billing-page .pa-slider-value { font-size: 15px; font-weight: 700; color: #0f172a; font-variant-numeric: tabular-nums; }
+.ai-page.billing-page .pa-slider input { display: block; width: 100%; margin: 10px 0 0; accent-color: #2e85ff; cursor: pointer; }
+.ai-page.billing-page .pa-calc-rows { margin: 24px 0 0; }
+.ai-page.billing-page .pa-calc-rows > div {
+  display: flex; justify-content: space-between; gap: 12px; padding: 11px 12px;
+  border-top: 1px solid rgb(226, 232, 240); font-size: 15px; line-height: 1.4; color: #334155;
+}
+.ai-page.billing-page .pa-calc-rows dd { margin: 0; font-variant-numeric: tabular-nums; color: #0f172a; }
+.ai-page.billing-page .pa-calc-rows > div.is-keep {
+  margin-top: 4px; border-top: 0; border-radius: 10px; background: rgba(22, 163, 74, .10); font-weight: 700; color: #15803d;
+}
+.ai-page.billing-page .pa-calc-rows > div.is-keep dd { color: #15803d; }
+.ai-page.billing-page .pa-dark-card {
+  display: flex; flex-direction: column; min-width: 0; padding: 28px; border-radius: 18px; background: rgb(17, 19, 24);
+}
+.ai-page.billing-page .pa-dark-card .pa-card-label { color: rgb(147, 164, 191); }
+.ai-page.billing-page .pa-big { margin: 18px 0 0; font-size: 60px; font-weight: 700; line-height: 1; letter-spacing: -0.03em; color: #fff; font-variant-numeric: tabular-nums; }
+.ai-page.billing-page .pa-big span { font-size: 20px; font-weight: 500; letter-spacing: 0; color: #94a3b8; }
+.ai-page.billing-page .pa-big-note { margin: 16px 0 0; font-size: 16px; line-height: 1.5; color: #cbd5e1; }
+.ai-page.billing-page .pa-fine { margin: auto 0 0; padding-top: 24px; font-size: 13px; line-height: 1.45; color: #7c8aa0; }
+
+/* ---------- D. Beyond the monthly rate ---------- */
+.ai-page.billing-page .pa-h3 { margin: 8px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; color: #0f172a; }
+.ai-page.billing-page .pa-p { margin: 8px 0 0; font-size: 15.5px; line-height: 1.55; color: #475569; }
+.ai-page.billing-page .pa-snippet { margin-top: 18px; overflow: hidden; border: 1px solid rgb(226, 232, 240); border-radius: 10px; background: #fff; }
+.ai-page.billing-page .pa-snippet > div {
+  display: flex; justify-content: space-between; gap: 12px; padding: 10px 12px; font-size: 14px; line-height: 1.4; color: #334155;
+}
+.ai-page.billing-page .pa-snippet > div > span:last-child:not(:first-child) { flex: none; font-variant-numeric: tabular-nums; }
+.ai-page.billing-page .pa-snippet > div.is-green { border-top: 1px solid rgb(226, 232, 240); background: rgba(22, 163, 74, .08); font-weight: 600; color: #15803d; }
+.ai-page.billing-page .pa-more { margin: 36px 0 0; text-align: center; }
+.ai-page.billing-page .pa-more a { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: rgb(29, 95, 232); }
+.ai-page.billing-page .pa-more a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- E. Your money ---------- */
+.ai-page.billing-page .pa-money { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: start; }
+.ai-page.billing-page .pa-money-big { margin: 0; font-size: 24px; font-weight: 500; line-height: 1.4; letter-spacing: -0.01em; color: #f8fafc; text-wrap: pretty; }
+.ai-page.billing-page .pa-money-small { margin: 16px 0 0; font-size: 15.5px; line-height: 1.6; color: #94a3b8; }
+
+/* ---------- F. Closing call to action ---------- */
+.ai-page.billing-page .pa-close-inner { max-width: 760px; margin-inline: auto; text-align: center; }
+.ai-page.billing-page .pa-close .pa-close-title { font-size: 38px; }
+.ai-page.billing-page .pa-close .pa-sub { text-wrap: balance; }
+.ai-page.billing-page .pa-close-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 24px; margin-top: 32px; }
+.ai-page.billing-page .pa-close-row .ai-cta { margin-top: 0; }
+.ai-page.billing-page .pa-text-link {
+  font-size: 16px; font-weight: 600; color: #cbd5e1;
+  text-decoration: underline; text-decoration-color: rgba(203, 213, 225, .35); text-underline-offset: 4px;
+}
+.ai-page.billing-page .pa-text-link:hover { color: #fff; text-decoration-color: rgba(255, 255, 255, .6); }
+.ai-page.billing-page .pa-close-fine { margin: 20px 0 0; font-size: 13.5px; line-height: 1.5; color: #94a3b8; }
+
+/* ---------- Below 900px ---------- */
+@media (max-width: 899.98px) {
+  .ai-page.billing-page .pa-section { padding-block: 96px; }
+  .ai-page.billing-page .pa-h2,
+  .ai-page.billing-page .pa-split .pa-h2,
+  .ai-page.billing-page .pa-money .pa-h2,
+  .ai-page.billing-page .pa-close .pa-close-title { font-size: 28px; line-height: 1.18; }
+  /* Tablet: the two-column layouts stay two columns, top-aligned, 40px apart. */
+  .ai-page.billing-page .pa-split,
+  .ai-page.billing-page .pa-money { gap: 40px; align-items: start; }
+  .ai-page.billing-page .pa-big { font-size: 52px; }
+  .ai-page.billing-page .pa-money-big { font-size: 21px; }
+}
+
+/* ---------- Phone (below 700px): one column ---------- */
+@media (max-width: 699.98px) {
+  .ai-page.billing-page .pa-section { padding-block: 80px; }
+  .ai-page.billing-page .pa-sub { font-size: 16px; }
+  /* Every section head centred; reading content stays left. */
+  .ai-page.billing-page .pa-head { text-align: center; }
+  .ai-page.billing-page .pa-choose { text-align: center; }
+  .ai-page.billing-page :is(.pa-split, .pa-money, .pa-pair) { grid-template-columns: minmax(0, 1fr); }
+  .ai-page.billing-page .pa-split { gap: 40px; }
+  .ai-page.billing-page .pa-split--mirror .pa-visual { order: 0; } /* copy first, then the card */
+  .ai-page.billing-page .pa-checks { width: fit-content; max-width: 100%; margin-inline: auto; }
+  .ai-page.billing-page .pa-pair { gap: 16px; margin-top: 40px; }
+
+  /* The totals: a row each, caption left and number right, thin rules between. */
+  .ai-page.billing-page .pa-totals { margin-top: 40px; padding: 20px; }
+  .ai-page.billing-page .pa-totals-grid { grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 10px; }
+  .ai-page.billing-page .pa-total { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 12px; padding: 12px 0; }
+  .ai-page.billing-page .pa-total + .pa-total { border-top: 1px solid rgb(226, 232, 240); }
+  .ai-page.billing-page .pa-total dt { font-size: 15px; }
+  .ai-page.billing-page .pa-total dd { font-size: 20px; }
+
+  .ai-page.billing-page .pa-steps { padding: 20px 18px 4px; }
+  .ai-page.billing-page .pa-product-head { padding: 16px 18px; }
+  .ai-page.billing-page .pa-dark-card { padding: 24px; }
+  .ai-page.billing-page .pa-big { font-size: 48px; }
+
+  /* Your money: the question and the answer centred, the small paragraph left. */
+  .ai-page.billing-page .pa-money { gap: 24px; }
+  .ai-page.billing-page .pa-money-big { font-size: 20px; text-align: center; text-wrap: balance; }
+  .ai-page.billing-page .pa-money-small { text-align: left; }
+
+  .ai-page.billing-page .pa-close-row { flex-direction: column; align-items: stretch; }
+  .ai-page.billing-page .pa-close-row .pa-text-link { align-self: center; padding: 6px 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-page.billing-page .pa-visual > .pa-product[id]:not([hidden]) { animation: none; }
+  .ai-page.billing-page .pa-option { transition: none; }
+}

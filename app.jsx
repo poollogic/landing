@@ -4,6 +4,7 @@ import { installReviewLinks, isOAuthReturn } from './landing/reviews/openReview.
 import { Nav, Footer } from './components/site-chrome.jsx';
 import SiteHeader from './landing/Nav.jsx';
 import { payoutRange } from './partnerProgram.js';
+import { BILLING_TITLE, BILLING_DESCRIPTION } from './landing/billing-page/billingMeta.js';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -148,8 +149,8 @@ export const ROUTE_META = {
   // Pre-rendered at build time (entry-server.jsx). Indexed from Nov 19, 2026 (in the sitemap, linked
   // from the nav's Features menu). It was /billing until Nov 2026.
   billing: {
-    title: 'Recurring Billing Software for Pool Service Companies | Poolnautics',
-    description: 'Recurring billing software for pool service companies. Give every customer their own rate, billing day and payment terms; Poolnautics sends the invoices and charges autopay cards for you.',
+    title: BILLING_TITLE, // landing/billing-page/billingMeta.js, shared with the page's WebPage JSON-LD
+    description: BILLING_DESCRIPTION,
     path: '/recurring-billing',
   },
 };
