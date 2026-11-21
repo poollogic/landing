@@ -12,7 +12,7 @@ const VERSION = '2026-11-17';
 const EFFECTIVE = 'November 17, 2026';
 // The page's last edit. A change that technicians must agree to again moves VERSION (and the app's
 // agreement version) instead.
-const UPDATED = 'November 18, 2026';
+const UPDATED = 'November 20, 2026';
 
 const SECTIONS = [
   { id: 'about', title: 'About these terms' },
@@ -152,7 +152,7 @@ const TechnicianTermsPage = () => {
                 <li><strong style={{ color: 'var(--ink-2)' }}>No liability.</strong> To the fullest extent the law allows, Poolnautics isn't responsible for any fine, ticket, citation, penalty, tow, impound, lapse in coverage, denied claim, or other loss or harm that comes from your use of, reliance on, or inability to use or show any document, copy, date or reminder in the app.</li>
               </ul>
               <p>The app says the same thing where the card is shown. The first time you open your insurance card, you're asked to confirm that you understand it's a convenience copy only.</p>
-              <p><strong style={{ color: 'var(--ink-2)' }}>The copy on your phone.</strong> The app keeps one copy of your vehicle's insurance card on your phone so you can open it without a signal. It's updated when you open Fleet Management with a connection, so it may not be the latest card, and it's deleted when you sign out. Keep your phone locked: anyone with access to your unlocked phone may be able to see it.</p>
+              <p><strong style={{ color: 'var(--ink-2)' }}>The copy on your phone.</strong> The app keeps a copy of your vehicle's insurance card and registration on your phone so you can open them without a signal. They're updated when you open Fleet Management with a connection, so they may not be the latest versions, and they're deleted when you sign out. Keep your phone locked: anyone with access to your unlocked phone may be able to see them.</p>
             </Section>
 
             <Section id="information" title="8. Your information">
