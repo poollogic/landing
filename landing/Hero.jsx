@@ -1,30 +1,31 @@
 import React, { lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowRight } from 'lucide-react';
-import DashboardPreview, { PreviewThemeToggle } from './preview/DashboardPreview.jsx';
+import DashboardPreview from './preview/DashboardPreview.jsx';
 import { getPreviewTheme, usePreviewTheme } from './preview/previewTheme.js';
 import PhoneFrame from './PhoneFrame.jsx';
 import './laptop.css';
-import usePhonePreviewScroll from './usePhonePreviewScroll.js';
+import HeroPhoneDash from './HeroPhoneDash.jsx';
+import useHeroCardScroll from './useHeroCardScroll.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import useHeroToastAnchor from './useHeroToastAnchor.js';
 
-// Phones (<768px). Read before the first render, so the right preview paints straight
-// away (no flash, no layout shift); updates if the window crosses the breakpoint.
-const PHONE_QUERY = '(max-width: 767.98px)';
-const subscribePhone = (fn) => {
-  const mq = window.matchMedia(PHONE_QUERY);
+// Phones and tablets (below lg), where the hero shows the dashboard card (HeroPhoneDash) instead of
+// the desktop dashboard. Updates if the window crosses the breakpoint; false on the server.
+const BELOW_LG_QUERY = '(max-width: 1023.98px)';
+const subscribeBelowLg = (fn) => {
+  const mq = window.matchMedia(BELOW_LG_QUERY);
   mq.addEventListener('change', fn);
   return () => mq.removeEventListener('change', fn);
 };
-const useIsPhone = () => useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
+const useIsBelowLg = () => useSyncExternalStore(subscribeBelowLg, () => window.matchMedia(BELOW_LG_QUERY).matches, () => false);
 
 // The billing-run toast is decoration: absolutely positioned (it can't move
-// anything), hidden on phones, and only loaded once the page has painted.
+// anything), hidden below lg, and only loaded once the page has painted.
 const PreviewToast = lazy(() => import('./preview/PreviewToast.jsx'));
 function useAfterPaint() {
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    if (window.matchMedia(PHONE_QUERY).matches) return undefined; // display:none there anyway
+    if (window.matchMedia(BELOW_LG_QUERY).matches) return undefined; // display:none there anyway
     const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 200));
     const cancel = window.cancelIdleCallback || clearTimeout;
     const id = idle(() => setReady(true), { timeout: 1500 });
@@ -36,17 +37,18 @@ function useAfterPaint() {
 // The homepage hero. Background, light beams, type and CTA styling live in
 // landing/hero.css; layout and the entrance animation stay in Tailwind. On
 // desktop (hero.css, "Desktop") it's one screen: the copy on the left, the dashboard on the right,
-// running off the window's edge, its toast placed by useHeroToastAnchor.
+// running off the window's edge, its toast placed by useHeroToastAnchor. Below lg the dashboard is
+// the phone dashboard card (HeroPhoneDash), whose list moves with the page (useHeroCardScroll).
 
 // Staggered entrance: 300ms fade-up (ease-mktg), skipped under reduced motion.
 const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 
 const Hero = () => {
   const theme = usePreviewTheme();
-  const isPhone = useIsPhone();
+  const isBelowLg = useIsBelowLg();
   const holderRef = useRef(null);
   const mockupRef = useRef(null);
-  usePhonePreviewScroll(holderRef, isPhone); // phones: the dashboard scrolls a little with the page
+  useHeroCardScroll(holderRef, isBelowLg);
   useHeroToastAnchor(mockupRef);
   const showToast = useAfterPaint();
   // The pre-rendered page is drawn with the dark preview. When this visitor's is light, the page's
@@ -65,6 +67,8 @@ const Hero = () => {
       <div className="light-shaft s4" />
       {[1, 2, 3, 4, 5, 6].map((n) => <div key={n} className={`light-line l${n}`} />)}
     </div>
+    {/* Below lg: the top of the hero flat in the page's colour, under the iPhone status bar (hero.css). */}
+    <div className="hero-top-flat" aria-hidden="true" />
 
     <div className="container">
       {/* Text block */}
@@ -103,21 +107,17 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Below lg the rail and its account menu are hidden: the theme lives here instead. */}
-      <div className={`hero-toggle flex justify-center lg:hidden [animation-delay:150ms] ${ENTER}`}>
-        <PreviewThemeToggle />
-      </div>
-
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
       <div ref={mockupRef} className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
         <div className="mockup-holder" ref={holderRef}>
           {/* lg and up: the bezel around the screen, a floating window (laptop.css). */}
           <div className="lt-bezel" aria-hidden="true" />
-          {/* Phones: the preview inside the shared iPhone frame (the Billing section's phone). It's
-              always rendered, so the pre-rendered page is the same at every width; wider than a phone,
-              hero.css takes the frame away and the dashboard sits in the holder on its own. */}
-          <PhoneFrame className="bz-phone--embedded hero-phone" statusBar={theme === 'dark' ? 'light' : 'dark'}>
+          {/* Both dashboards are always rendered, so the pre-rendered page is the same at every width.
+              lg and up, hero.css takes the frame away and the desktop dashboard sits in the holder on
+              its own. Below lg the frame is the dark card, showing only the phone dashboard. */}
+          <PhoneFrame className="bz-phone--embedded hero-phone">
             <DashboardPreview />
+            <HeroPhoneDash />
           </PhoneFrame>
           <div className="preview-glint" aria-hidden="true" />
           {showToast && <Suspense fallback={null}><PreviewToast /></Suspense>}

@@ -1077,7 +1077,7 @@ button.pl-seg-item:focus-visible { outline: none; box-shadow: 0 0 0 2px color-mi
     transform: scale(var(--dz));
   }
 }
-@media (max-width: 767.98px) {
+@media (max-width: 1023.98px) { /* below lg the homepage hero shows its dashboard card instead */
   .mockup-holder > .pl-toast { display: none; }
 }
 /* Before the first drops in. */

@@ -165,26 +165,18 @@
 /* ---------- Before the scripts run (the pre-rendered page, scripts/prerender.mjs) ----------
    The page's first script adds these to <html>, so its first paint already matches what the scripts
    will draw; the scripts then take them off.
-   .pv-pending: this visitor's preview is light, but the page was drawn dark. The preview (and its
-   phone toggle) stay transparent until it's redrawn (Hero.jsx), then fade in. */
-.mockup-holder,
-.hero-toggle { transition: opacity .2s ease; }
-.pv-pending .mockup-holder,
-.pv-pending .hero-toggle { opacity: 0; transition: none; }
+   .pv-pending: this visitor's preview is light, but the page was drawn dark. The preview stays
+   transparent until it's redrawn (Hero.jsx), then fades in. lg and up only: below lg the hero shows
+   the dashboard card, which is dark whatever the theme. */
+.mockup-holder { transition: opacity .2s ease; }
+@media (min-width: 1024px) {
+  .pv-pending .mockup-holder { opacity: 0; transition: none; }
+}
 
 /* Hero copy */
 
-/* Copy → mockup gap, equal to the gap above the copy. Below lg the theme
-   toggle sits between them, so it takes the gap and the mockup follows it. */
+/* Copy → mockup gap, equal to the gap above the copy. Below lg, the card's (end of this file). */
 .hero-mockup { margin-top: clamp(72px, 11vh, 128px); }
-@media (max-width: 1023.98px) {
-  .hero-toggle { margin-top: clamp(72px, 11vh, 128px); }
-  .hero-mockup { margin-top: 2.5rem; }
-}
-/* Phones: the preview runs edge to edge, out through the container's gutters. */
-@media (max-width: 767.98px) {
-  .hero-mockup { margin-inline: calc(-1 * var(--gutter)); }
-}
 
 @media (min-width: 1024px) {
   .hero { padding-top: 0; }
@@ -414,7 +406,7 @@
   background: radial-gradient(closest-side, rgba(96, 165, 250, .4), rgba(46, 133, 255, .14) 55%, transparent);
 }
 
-/* ---------- Phones (<768px): tighter hero copy, a labelled preview toggle ---------- */
+/* ---------- Phones (<768px): tighter hero copy ---------- */
 @media (max-width: 767.98px) {
   .hero { padding-top: 112px; }
   .hero-eyebrow { font-size: 11px; letter-spacing: .14em; text-wrap: balance; line-height: 1.6; opacity: .85; } /* one line when it fits; two balanced lines when it doesn't */
@@ -425,35 +417,20 @@
   .hero-sub { font-size: 16px; line-height: 1.55; max-width: 23.22rem; margin-inline: auto; text-wrap: pretty; }
   .hero-cta { margin-top: 28px; }
   .hero-fine { font-size: 12.5px; max-width: 40ch; margin-inline: auto; text-wrap: balance; opacity: .8; }
-  /* "Preview" beside a compact pill toggle */
-  .hero-toggle { margin-top: 40px; flex-direction: row; align-items: center; justify-content: center; gap: 10px; }
-  .hero-toggle::before { content: "Preview"; font-size: 12px; font-weight: 500; opacity: .55; }
-  .hero-toggle .pl-theme-toggle {
-    padding: 3px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, .04);
-    border: 1px solid rgba(255, 255, 255, .08);
-    box-shadow: none;
-  }
-  .hero-toggle .pl-theme-toggle button { height: 28px; padding: 0 12px; font-size: 13px; border-radius: 999px; gap: 6px; }
-  .hero-toggle .pl-theme-toggle button svg { width: 13px; height: 13px; }
 }
 
-/* ---------- Phones: the dashboard preview inside an iPhone ----------
-   The iPhone is the shared frame (PhoneFrame.jsx / phone.css, the Billing section's phone),
-   scaled from its natural 262px to 342px wide (24px from each edge on a 390px screen).
-   .mockup-holder::before/::after stay the blue glow above it. The preview's theme (dark |
-   light) follows the visitor's device on phones (previewTheme.js). */
-/* Wider than a phone, the hero's phone frame (always rendered, Hero.jsx) steps aside: no box, no
-   side buttons, island, home bar or status bar, and the dashboard takes the holder's child styles. */
-@media (min-width: 768px) {
+/* ---------- lg and up: the desktop dashboard on its own ----------
+   The hero's phone frame (always rendered, Hero.jsx) steps aside: no box, no side buttons, island or
+   home bar, and the dashboard takes the holder's child styles. The phone dashboard card's markup
+   (HeroPhoneDash) is hidden. */
+@media (min-width: 1024px) {
   .hero-phone,
   .hero-phone > .bz-screen { display: contents; }
   .hero-phone::before,
   .hero-phone::after,
   .hero-phone .bz-island,
   .hero-phone .bz-home,
-  .hero-phone .bz-statusbar-overlay { display: none; }
+  .hero-phone .hero-dash { display: none; }
   .mockup-holder > .hero-phone > .bz-screen > .pl-preview {
     position: relative;
     z-index: 1;
@@ -473,86 +450,182 @@
   .mockup-holder > .preview-glint { top: -32px; }
   .mockup-holder::after { top: -81px; z-index: -1; }
 }
-@media (max-width: 767.98px) {
-  .hero-mockup { position: relative; margin-inline: auto; margin-top: 22px; padding-bottom: 40px; display: flex; justify-content: center; }
-  .hero-mockup .mockup-holder { position: relative; width: 342px; flex: none; }
-  .hero-mockup .preview-glint { display: none; }
+/* ---------- Phones and tablets (below lg): the dashboard card ----------
+   The app's phone dashboard (HeroPhoneDash.jsx) in a frameless dark card, like /ai-and-automations'
+   chat window: the container's full width, 486px tall, a blue edge on the top and sides, fading out
+   at the bottom into the next section, with a soft blue glow behind its top edge. The phone frame
+   (PhoneFrame.jsx) is the card: no bezel, rim, side buttons, island or home bar, and no zoom. Its
+   header stays put while the list under it moves with the page (useHeroCardScroll.js). */
+@media (max-width: 1023.98px) {
+  /* The faded card's foot meets the next (white) section: no space under it. */
+  .hero.hero--home,
+  .hero--home > .container,
+  .hero--home .hero-mockup { padding-bottom: 0; }
+  .hero--home .hero-mockup { margin-top: 56px; }
 
-  /* The glow (.mockup-holder::before line, ::after bloom) sits behind the phone, never over it. */
-  .hero-mockup .mockup-holder::before { z-index: 0; }
-  .hero-mockup .hero-phone {
-    z-index: 1;
-    zoom: 1.3053; /* 342 / 262 */
-    box-shadow:
-      var(--bz-rim),
-      0 30px 60px -18px rgba(0, 0, 0, .85),
-      0 -8px 54px -8px rgba(46, 133, 255, .30);
-  }
-  /* The screen: the preview's own background (white in light, no grey strip). */
-  .hero-phone .bz-screen { background: rgb(17, 19, 24); }
-  .hero-phone .bz-screen:has(.pl-preview.light) { background: #fff; }
-  .hero-phone .pl-preview { height: 100%; border-radius: 0; box-shadow: none; }
-
-  /* The dashboard at phone scale: laid out 350px wide, zoomed into the 244px screen
-     (≈91% overall), clear of the status bar, fading out at the bottom. */
-  .hero-phone .pl-frame {
-    width: 350px; height: 815px; overflow: hidden; zoom: .6971; padding-top: 48px; /* 244 / 350; 815 × .6971 = the screen's height, so the fade lands at its foot */
-    /* Top: the dashboard slides under the status bar as it scrolls (usePhonePreviewScroll).
-       Bottom: it fades out above the home indicator. */
-    -webkit-mask-image: linear-gradient(#000 88%, transparent 99%); /* top: the solid status bar below */
-            mask-image: linear-gradient(#000 88%, transparent 99%);
-  }
-  /* The dashboard keeps its full height (the frame clips it at the screen), so scrolling
-     it reveals the rest of the cost chart rather than a cut-off panel. */
-  .hero-phone .pl-frame { align-items: flex-start; }
-  /* Scroll-linked drift (usePhonePreviewScroll.js measures --pps-*): a CSS animation on
-     the phone's view timeline, so the compositor moves it in step with the scroll. */
-  .hero-phone { view-timeline: --hero-phone block; }
-  .hero-phone .pl-main.is-scroll-linked {
-    animation: hero-phone-drift linear both;
-    animation-timing-function: ease-in-out;
-    animation-timeline: --hero-phone;
-    animation-range: cover var(--pps-from) cover var(--pps-to);
-  }
-  .hero-phone .pl-preview:not(.dark) .pl-frame { background: #fff; }
-  .hero-mockup { margin-top: 16px; }
-
-  /* Solid iOS status bar (PhoneFrame's overlay) that the scroll-linked .pl-main slides under,
-     with a short fade below it. --sb-fade is the screen colour for the preview's theme. */
-  .hero-phone .bz-statusbar-overlay { --sb-fade: rgb(17, 19, 24); background: var(--sb-fade); }
-  /* The fade is a strip under the bar, not a box-shadow: Safari left a stale dark shadow when the
-     preview switched to light after load (it repaints the bar but not shadow outside it). */
-  .hero-phone .bz-statusbar-overlay::after {
-    content: '';
+  /* The top of the hero flat in the page's colour (the iPhone status bar sits over it): solid for
+     90px, then into the hero's gradients by 240px. Over .hero-decor, under .container. */
+  .hero > .hero-top-flat {
     position: absolute;
+    top: 0;
     left: 0;
     right: 0;
-    top: 100%;
-    height: 16px; /* in the overlay's 390px space, scaled to the screen */
-    background: linear-gradient(var(--sb-fade), transparent);
+    height: 240px;
+    z-index: 0;
     pointer-events: none;
+    background: linear-gradient(to bottom, rgb(17, 19, 24) 0, rgb(17, 19, 24) 90px, rgba(17, 19, 24, 0) 100%);
   }
-  .hero-phone .bz-statusbar-overlay.is-dark { --sb-fade: #fff; } /* dark text = light preview (Hero.jsx) */
 
-  /* dashboard tweaks inside the phone only */
-  .hero-mockup .pl-kpi-label,
-  .hero-mockup .pl-kpi-label *,
-  .hero-mockup .pl-kpi-label span:last-child { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.3; } /* beats .pl-kpi-label span:last-child */
-  .hero-mockup .pl-card-head { flex-wrap: nowrap; gap: 6px; justify-content: space-between; }
-  .hero-mockup .pl-card-head .pl-seg .pl-seg-item { padding-inline: 9px; }
-  .hero-mockup .pl-header { padding-top: 14px; }
-  .hero-mockup .pl-kpis { margin-top: 10px; padding-top: 16px; }
-  .hero-mockup .pl-charts { margin-top: 22px; }
-}
-/* very small phones (iPhone SE etc.) */
-@media (max-width: 369.98px) {
-  .hero-mockup .mockup-holder { width: 300px; }
-  .hero-mockup .hero-phone { zoom: 1.145; } /* 300 / 262 */
+  .hero--home .preview-glint,
+  .hero--home .mockup-holder::before { display: none; }
+  /* The glow behind the card's top edge: about 340 × 160, centred, ~70px above it. */
+  .hero--home .mockup-holder:has(.hero-dash)::after { /* :has: outranks the light preview's dimming */
+    left: 50%;
+    right: auto;
+    top: -70px;
+    width: 340px;
+    height: 160px;
+    z-index: 0;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(46, 133, 255, .38), transparent);
+    filter: blur(24px);
+    animation: none;
+    opacity: 1;
+  }
+
+  /* The card. */
+  .hero--home .hero-phone {
+    z-index: 1; /* over the glow (.bz-phone--embedded sets auto) */
+    zoom: 1;
+    width: 100%;
+    height: 486px;
+    padding: 0;
+    border-radius: 20px 20px 0 0;
+    background: rgb(17, 19, 24);
+    border: 1px solid rgba(86, 150, 255, .30);
+    border-bottom: 0;
+    box-shadow: none;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
+  }
+  .hero-phone::before,
+  .hero-phone::after,
+  .hero-phone .bz-island,
+  .hero-phone .bz-home,
+  .hero-phone .bz-statusbar-overlay,
+  .hero-phone .pl-preview { display: none; }
+  .hero-phone > .bz-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    background: none;
+  }
 }
 
-@keyframes hero-phone-drift {
+/* The phone dashboard (HeroPhoneDash.jsx): the app's PhoneHome in its dark theme. Inter, white,
+   16px either side. Shown below lg only (the card); from lg it's display: none (above). */
+.hero-dash {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  color: #fff;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+}
+.hero-dash svg { flex: none; display: block; }
+.hd-muted { color: rgba(203, 213, 225, .62); }
+.hd-strong { color: #fff; }
+/* The pinned header: over the list as it moves up under it. */
+.hd-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 16px;
+  background: rgb(17, 19, 24);
+}
+.hd-title { font-size: 17px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
+.hd-date { font-weight: 400; color: rgba(226, 232, 240, .55); }
+.hd-actions { margin-left: auto; display: inline-flex; align-items: center; gap: 16px; color: rgba(226, 232, 240, .85); }
+.hd-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: #3b82f6;
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .18), 0 4px 14px rgba(59, 130, 246, .55);
+}
+/* The list: moves up with the page (useHeroCardScroll.js). */
+.hd-list { padding: 0 16px; will-change: transform; }
+.hd-search-well {
+  padding: 4px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .025);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+}
+.hd-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .03);
+  font-size: 16px;
+  color: rgba(226, 232, 240, .48);
+}
+.hd-section { margin-top: 22px; }
+.hd-section-head {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 36px;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(203, 213, 225, .62);
+}
+.hd-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
+  font-size: 14px;
+}
+.hd-row-icon { color: rgba(226, 232, 240, .48); }
+.hd-row-icon.is-critical { color: rgb(255, 0, 54); }
+.hd-row-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hd-row-value { flex: none; font-variant-numeric: tabular-nums; white-space: nowrap; color: rgba(226, 232, 240, .7); }
+.hd-chevron { width: 14px; flex: none; color: rgba(226, 232, 240, .32); }
+/* A route's stops done: the app's 44 × 4 bar in the accent, then "X of Y" (green with a tick when done). */
+.hd-route { display: inline-flex; align-items: center; gap: 10px; }
+.hd-route-bar { position: relative; width: 44px; height: 4px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, .12); }
+.hd-route-bar > span { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: #3b82f6; }
+.hd-route-count { color: #fff; }
+.hd-route-count.is-done { display: inline-flex; align-items: center; gap: 4px; color: #34b864; }
+/* Scroll-linked (useHeroCardScroll.js sets --hd-*): a CSS animation on the card's view timeline, so the
+   compositor moves the list in step with the scroll; smoothstep easing. */
+@media (max-width: 1023.98px) {
+  .hero-phone { view-timeline: --hero-card block; }
+  .hd-list.is-scroll-linked {
+    animation: hero-card-list linear both;
+    animation-timing-function: cubic-bezier(.3333, 0, .6667, 1); /* smoothstep */
+    animation-timeline: --hero-card;
+    animation-range: cover var(--hd-from) cover var(--hd-to);
+  }
+}
+@keyframes hero-card-list {
   from { transform: translateY(0); }
-  to { transform: translateY(calc(var(--pps-travel) * -1)); }
+  to { transform: translateY(calc(var(--hd-travel) * -1)); }
 }
 
 /* ---------- Homepage hero, desktop (≥1024px; .hero--home, Hero.jsx) ----------
