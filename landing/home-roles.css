@@ -91,6 +91,14 @@
   padding-top: var(--section-pad-y);
   padding-bottom: var(--section-pad-y);
 }
+/* Below lg: every section after the hero 80px top and bottom, #platform and #day included (their own
+   rules in one-platform.css and day.css are less specific). The hero keeps no padding at its foot. */
+@media (max-width: 1023.98px) {
+  .lp-home :is(#platform, #billing, #day, #technicians, #collections, #repairs, #fleet, #reviews, #switching, #founder, #reserve, #routes, #faq) {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+}
 /* Header → content (the FAQ's two-column header keeps its own). */
 .lp-home :is(#billing, #collections, #technicians, #repairs, #fleet, #switching, #routes) .section-head { margin-bottom: var(--head-to-content); }
 /* Desktop #collections (RevenueSection.jsx): the steps 48px under the heading, and no padding under

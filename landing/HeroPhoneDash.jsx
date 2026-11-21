@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, Calendar, Check, ChevronRight, CircleAlert, Clock, FileText, Mail, MapPin, Plus, Repeat, Search } from 'lucide-react';
+import { Bell, Calendar, Check, ChevronRight, CircleAlert, Clock, FileText, Mail, MapPin, Plus, Repeat } from 'lucide-react';
 
 // The homepage hero's card below lg (hero.css, "Phones and tablets: the dashboard card"): the app's
 // phone dashboard (web app, src/components/dashboard/phone/PhoneHome.tsx) as static markup, dark only,
@@ -66,10 +66,6 @@ export default function HeroPhoneDash() {
       </div>
 
       <div className="hd-list">
-        <div className="hd-search-well">
-          <div className="hd-search"><Search size={16} {...ICON} />Search</div>
-        </div>
-
         <Section title="Needs attention">
           <Row icon={Mail} critical label="1 invoice to mail" />
           <Row icon={Clock} critical label="2 invoices past due" />

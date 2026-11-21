@@ -156,3 +156,9 @@
 .op-anim.is-in .op-pill {
   transition: opacity .5s ease 1.7s, transform .6s cubic-bezier(.2, .9, .3, 1.2) 1.7s;
 }
+
+/* Below lg: the cards closer together, with less padding (after the tablet and phone rules, so it wins). */
+@media (max-width: 1023.98px) {
+  .op-cards { gap: 10px; }
+  .op-card { padding: 16px 18px; }
+}

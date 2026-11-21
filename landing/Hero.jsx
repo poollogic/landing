@@ -93,6 +93,8 @@ const Hero = () => {
             <span className="hero-cta-label">{isReserving ? 'Reserve your spot' : 'Start your free trial'}</span>
             <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
           </a>
+          {/* Below lg: the trial's terms right under its button, in place of .hero-note-fine (hero.css). */}
+          <p className="hero-cta-fine">Free for 30 days · No credit card</p>
           <a
             href="/pricing"
             className="hero-cta-alt cta-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
@@ -106,6 +108,9 @@ const Hero = () => {
           <p className="hero-note-fine">Free for 30 days · No credit card</p>
         </div>
       </div>
+
+      {/* Below lg: a line over the dashboard card (hero.css). */}
+      <p className="hero-card-caption">The whole office, on your phone.</p>
 
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
       <div ref={mockupRef} className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
