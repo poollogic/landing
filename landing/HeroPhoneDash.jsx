@@ -34,17 +34,23 @@ const Section = ({ title, link = false, children }) => (
   </div>
 );
 
-/** A route's stops done: the app's short bar, then "X of Y" (a green tick once it's finished). */
-const RouteValue = ({ done, total }) => (
-  <span className="hd-route">
-    <span className="hd-route-bar"><span style={{ width: `${(done / total) * 100}%` }} /></span>
-    {done === total ? (
-      <span className="hd-route-count is-done"><Check size={13} strokeWidth={2.25} aria-hidden="true" />{done} of {total}</span>
-    ) : (
-      <span className="hd-route-count">{done} of {total}</span>
-    )}
-  </span>
-);
+/**
+ * A route's stops done: "X of Y" (a green tick once it's finished), then the short bar, green when
+ * finished and blue while under way. The bars sit last, so every route's lines up over the next.
+ */
+const RouteValue = ({ done, total }) => {
+  const finished = done === total;
+  return (
+    <span className="hd-route">
+      {finished ? (
+        <span className="hd-route-count is-done"><Check size={13} strokeWidth={2.25} aria-hidden="true" />{done} of {total}</span>
+      ) : (
+        <span className="hd-route-count">{done} of {total}</span>
+      )}
+      <span className={`hd-route-bar${finished ? ' is-done' : ''}`}><span style={{ width: `${(done / total) * 100}%` }} /></span>
+    </span>
+  );
+};
 
 /** The menu: three lines, the middle one shorter. */
 const MenuIcon = () => (

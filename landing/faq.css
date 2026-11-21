@@ -60,3 +60,9 @@
   .fq-item summary { font-size: 16.5px; padding: 18px 0; }
   .fq-item p { padding-right: 0; font-size: 15.5px; }
 }
+
+/* The homepage's FAQ below lg: the header centred, like every section's; the questions stay left. */
+@media (max-width: 1023.98px) {
+  .lp-home #faq .section-head { text-align: center; }
+  .lp-home #faq .section-head .section-sub { margin-inline: auto; }
+}

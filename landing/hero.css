@@ -432,7 +432,8 @@
   .hero-phone .bz-home,
   .hero-phone .hero-dash,
   .hero--home .hero-cta-fine,
-  .hero--home .hero-card-caption { display: none; }
+  .hero--home .hero-card-caption,
+  .hero--home .hero-card-sub { display: none; }
   .mockup-holder > .hero-phone > .bz-screen > .pl-preview {
     position: relative;
     z-index: 1;
@@ -475,7 +476,7 @@
     width: auto;
     max-width: none;
     height: auto;
-    margin-top: 22px;
+    margin-top: 8px;
     padding: 8px 10px;
     border: 0;
     border-radius: 0;
@@ -491,7 +492,7 @@
   }
   .hero--home .hero-cta-alt:hover { background: none; }
   .hero--home .hero-notes { display: none; }
-  /* A line over the card. */
+  /* Two lines over the card. */
   .hero--home .hero-card-caption {
     margin: 64px 0 0;
     font-size: 17px;
@@ -500,6 +501,15 @@
     letter-spacing: -0.01em;
     color: #f1f5f9;
     text-align: center;
+  }
+  .hero--home .hero-card-sub {
+    max-width: 290px;
+    margin: 8px auto 0;
+    font-size: 14px;
+    line-height: 1.45;
+    color: #94a3b8;
+    text-align: center;
+    text-wrap: balance;
   }
 
   /* The top of the hero flat in the page's colour (the iPhone status bar sits over it): solid for
@@ -638,21 +648,23 @@
 .hd-row-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hd-row-value { flex: none; font-variant-numeric: tabular-nums; white-space: nowrap; color: rgba(226, 232, 240, .7); }
 .hd-chevron { width: 14px; flex: none; color: rgba(226, 232, 240, .32); }
-/* A route's stops done: the app's 44 × 4 bar in the accent, then "X of Y" (green with a tick when done). */
+/* A route's stops done: "X of Y" (green with a tick when done), then the app's 44 × 4 bar: blue while
+   under way, green like the count once done. */
 .hd-route { display: inline-flex; align-items: center; gap: 10px; }
 .hd-route-bar { position: relative; width: 44px; height: 4px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, .12); }
 .hd-route-bar > span { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: #3b82f6; }
+.hd-route-bar.is-done > span { background: #34b864; }
 .hd-route-count { color: #fff; }
 .hd-route-count.is-done { display: inline-flex; align-items: center; gap: 4px; color: #34b864; }
-/* Scroll-linked (useHeroCardScroll.js sets --hd-*): a CSS animation on the card's view timeline, so the
-   compositor moves the list in step with the scroll; smoothstep easing. */
+/* Scroll-linked (useHeroCardScroll.js sets --hd-travel): a CSS animation on the card's view timeline, so
+   the compositor moves the list in step with the scroll; smoothstep easing. */
 @media (max-width: 1023.98px) {
   .hero-phone { view-timeline: --hero-card block; }
   .hd-list.is-scroll-linked {
     animation: hero-card-list linear both;
     animation-timing-function: cubic-bezier(.3333, 0, .6667, 1); /* smoothstep */
     animation-timeline: --hero-card;
-    animation-range: cover var(--hd-from) cover var(--hd-to);
+    animation-range: contain 0% contain 100%; /* from the whole card on screen to its top at the window's top */
   }
 }
 @keyframes hero-card-list {

@@ -49,6 +49,11 @@
 /* The homepage section's headline: the statement role (home-roles.css), under its eyebrow. */
 .rsv-sec .rsv-statement { margin-top: var(--eyebrow-to-title); color: #f8fafc; text-wrap: balance; }
 .rsv-sec .hero-sub { margin-inline: 0; max-width: 30rem; text-wrap: pretty; }
+/* Below lg: the homepage section's header centred, like every section's; the points under it stay left. */
+@media (max-width: 1023.98px) {
+  .rsv-sec .rsv-intro > :is(.hero-eyebrow, .rsv-statement, .hero-sub) { text-align: center; }
+  .rsv-sec .rsv-intro > .hero-sub { margin-inline: auto; }
+}
 
 /* The homepage's reserve section: dark, after the light founder section (the site's section padding) */
 /* The homepage section: a cousin of /reserve's light, not a copy. Instead of the hero's light from

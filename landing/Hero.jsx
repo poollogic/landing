@@ -109,8 +109,9 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Below lg: a line over the dashboard card (hero.css). */}
-      <p className="hero-card-caption">The whole office, on your phone.</p>
+      {/* Below lg: two lines over the dashboard card (hero.css). */}
+      <p className="hero-card-caption">Built for your desktop and your phone.</p>
+      <p className="hero-card-sub">Billing, customers and route management. Not just the tech app.</p>
 
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
       <div ref={mockupRef} className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>

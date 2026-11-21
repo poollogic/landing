@@ -11,3 +11,9 @@
 
 /* The kicker is a standard eyebrow (home-roles.css): its gap to the heading is the heading's own margin. */
 #founder .founder-eyebrow { margin-bottom: 0; }
+
+/* Below lg: the header centred, like every section's (md and up it already is: md:text-center). The
+   letter under it stays left-aligned. */
+@media (max-width: 1023.98px) {
+  #founder .founder-head { text-align: center; }
+}
