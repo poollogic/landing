@@ -8,8 +8,8 @@ import React, { useEffect, useState } from 'react';
 // agreement version it records (SIGNIN_AGREEMENT_VERSION in the app), so a
 // change here that needs agreeing again moves both together.
 
-const VERSION = '2026-11-17';
-const EFFECTIVE = 'November 17, 2026';
+const VERSION = '2026-11-20';
+const EFFECTIVE = 'November 20, 2026';
 // The page's last edit. A change that technicians must agree to again moves VERSION (and the app's
 // agreement version) instead.
 const UPDATED = 'November 20, 2026';
