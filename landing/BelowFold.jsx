@@ -51,10 +51,10 @@ export default function BelowFold() {
   return (
     <>
       <OnePlatformSection />
-      <DaySection />
       <BillingSection />
-      <RevenueSection />
+      <DaySection />
       <TechniciansSection />
+      <RevenueSection />
       <RepairsSection />
       <FleetSection />
       {/* Off unless VITE_REVIEWS=1 (reviews/config.js); with it off, none of its code ships. */}

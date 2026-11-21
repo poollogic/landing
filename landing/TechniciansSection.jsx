@@ -7,7 +7,7 @@ import PN_PHONE_READINGS from './technicians/pn-phone-readings.html?raw';
 import './technicians/pn-phone.css';
 import './technicians.css';
 
-// "Technicians on autopilot": between the Financial Watchdog (#collections) and Repairs (#repairs). The
+// "Technicians on autopilot": between the day timeline (#day) and the Financial Watchdog (#collections). The
 // service report's first page (the readings) in a phone beside three points. The phone, its icons and
 // its script are the approved design (poolnautics-service-report.html), copied unchanged into
 // landing/technicians/ and placed as they are: the phone and its icons are in the pre-rendered HTML,

@@ -1,4 +1,4 @@
-/* "Billing on autopilot" (BillingSection.jsx), between the day timeline and the Financial Watchdog.
+/* "Billing on autopilot" (BillingSection.jsx), between "Other pool software…" (#platform) and the day timeline.
    Desktop above 1040px, tablet 641–1040px, phone 640px and below. The card's three columns sit side
    by side down to 761px and stack below it, where the dividers turn horizontal and the arrows point
    down. Colours: the approved design's (ink #0e1117, body #4a5568, labels #56657f, lines #e3e8f0 /
@@ -8,6 +8,7 @@
 .ba-section {
   padding-inline: 24px; /* top and bottom: --section-pad-y (home-roles.css) */
   background: #f8fafc;
+  border-top: 1px solid rgb(226, 232, 240); /* the white #platform above is nearly the same colour */
 }
 .ba-inner {
   display: flex;
