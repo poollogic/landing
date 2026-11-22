@@ -11,7 +11,7 @@ import './feature-card.css';
 // feature-card.css.
 //
 // One set of panels, two layouts. Up to 1040px (where the pain cards above stack) each group is a
-// button row (aria-expanded) over its panel, one open at a time, "Billing & payments" first. Wider, a
+// button row (aria-expanded) over its panel, at most one open at a time, all closed at first. Wider, a
 // rail of the eight names (a tablist) sits
 // beside the panels, which become its tabpanels: hovering or clicking a name selects it, and one is
 // always selected. Every feature is in the pre-rendered HTML; closed and unselected panels are only
@@ -46,7 +46,7 @@ export default function FeatureCard() {
   const theme = usePreviewTheme();
   const isDesktop = useIsDesktop();
   // The open dropdown (null: none), and the selected tab on a wide screen (always one).
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(null);
   const [tab, setTab] = useState(0);
   const tabRefs = useRef([]);
 

@@ -198,11 +198,6 @@
   margin-top: 1.25rem;
   text-wrap: balance;
 }
-/* "Run your pool route. / Don't let it run you." – one sentence per line (each may wrap on phones) */
-.hero-title-line { display: block; }
-/* The homepage's eyebrow is the first line of its h1 (Hero.jsx): the same look, line height and gap
-   to the headline as the eyebrow paragraph it replaced (20px; 14px on phones; 16px on desktop). */
-.hero-title > .hero-eyebrow { display: block; line-height: 1.5; margin-bottom: 1.25rem; }
 .hero-copy > .hero-title { margin-top: 0; }
 .hero-sub {
   font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
@@ -240,10 +235,25 @@
   transition: background-color .2s ease;
 }
 .hero-cta-alt:hover { background: rgba(255, 255, 255, .08); }
-/* Two lines under the buttons, in place of a row of checkmarks. */
-.hero-notes { margin-top: 26px; }
-.hero-note { margin: 0; font-size: 15px; font-weight: 500; line-height: 1.5; color: rgb(226, 232, 240); }
-.hero-note-fine { margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: rgb(148, 163, 184); }
+/* The homepage's offer, in green ticks (Hero.jsx): "We'll move your customers over" on its own row, then
+   "Free for 30 days" and "No card to start" side by side, neither row wrapping. Centred; from lg, under
+   both buttons and in line with the copy ("Homepage hero, desktop"). */
+.hero-ticks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 16px;
+  row-gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(226, 232, 240, .72);
+}
+.hero-ticks > li { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.hero-ticks > li:first-child { flex-basis: 100%; justify-content: center; }
+.hero-ticks svg { flex: none; color: #34d399; }
 
 .hero-cta {
   display: inline-flex;
@@ -410,8 +420,6 @@
 @media (max-width: 767.98px) {
   .hero { padding-top: 112px; }
   .hero-eyebrow { font-size: 11px; letter-spacing: .14em; text-wrap: balance; line-height: 1.6; opacity: .85; } /* one line when it fits; two balanced lines when it doesn't */
-  .hero-title > .hero-eyebrow { line-height: 1.6; margin-bottom: 14px; }
-  .hero-note, .hero-note-fine { text-wrap: balance; }
   .hero-title { font-size: clamp(34px, 10vw, 42px); line-height: 1.06; letter-spacing: -.025em; text-wrap: balance; margin-top: 14px; }
   /* 23.22rem: Satoshi's 34ch at 16px (371.5px), in a unit that doesn't change while the fallback shows. */
   .hero-sub { font-size: 16px; line-height: 1.55; max-width: 23.22rem; margin-inline: auto; text-wrap: pretty; }
@@ -431,7 +439,6 @@
   .hero-phone .bz-island,
   .hero-phone .bz-home,
   .hero-phone .hero-dash,
-  .hero--home .hero-cta-fine,
   .hero--home .hero-card-caption,
   .hero--home .hero-card-sub { display: none; }
   .mockup-holder > .hero-phone > .bz-screen > .pl-preview {
@@ -466,12 +473,11 @@
   .hero--home .hero-mockup { padding-bottom: 0; }
   .hero--home .hero-mockup { margin-top: 30px; }
 
-  /* The copy, tighter: the buttons stacked, the trial's terms right under its button, "See pricing" as
-     a text link, and no notes under them (the switching line is left out below lg). */
+  /* The copy, tighter: the buttons stacked, the ticks right under the primary, then "See pricing" as a
+     text link, underlined in the buttons' blue. */
   .hero.hero--home { padding-top: 96px; }
   .hero--home .hero-sub { margin-top: 22px; }
   .hero--home .hero-actions { flex-direction: column; align-items: center; gap: 0; margin-top: 24px; }
-  .hero--home .hero-cta-fine { margin: 14px 0 0; font-size: 13.5px; line-height: 1.5; color: #94a3b8; text-align: center; }
   .hero--home .hero-cta-alt {
     width: auto;
     max-width: none;
@@ -487,12 +493,11 @@
     line-height: 1.4;
     color: #cbd5e1;
     text-decoration: underline;
-    text-decoration-color: rgba(203, 213, 225, .35);
+    text-decoration-color: #3b82f6;
     text-underline-offset: 4px;
   }
   .hero--home .hero-cta-alt:hover { background: none; }
-  .hero--home .hero-notes { display: none; }
-  /* Two lines over the card. */
+  /* Two lines over the card (hidden on phones, below). */
   .hero--home .hero-card-caption {
     margin: 64px 0 0;
     font-size: 17px;
@@ -640,11 +645,9 @@
   align-items: center;
   gap: 12px;
   height: 52px;
-  border-bottom: 1px solid rgba(255, 255, 255, .07);
   font-size: 14px;
 }
-.hd-row-icon { color: rgba(226, 232, 240, .48); }
-.hd-row-icon.is-critical { color: rgb(255, 0, 54); }
+.hd-row-icon { color: rgba(226, 232, 240, .48); } /* every row's, the app's red ones too: a calmer preview */
 .hd-row-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hd-row-value { flex: none; font-variant-numeric: tabular-nums; white-space: nowrap; color: rgba(226, 232, 240, .7); }
 .hd-chevron { width: 14px; flex: none; color: rgba(226, 232, 240, .32); }
@@ -670,6 +673,46 @@
 @keyframes hero-card-list {
   from { transform: translateY(0); }
   to { transform: translateY(calc(var(--hd-travel) * -1)); }
+}
+
+/* ---------- Homepage hero, phones (below 640px, the type tokens' phone step) ----------
+   The first screen is the copy, centred in the space above a 66px strip at the screen's foot: the
+   card's top, its header row only. The card carries on below the fold, whole, then 56px of the hero
+   before the next section. No lines over the card. A slow blue glow drifts behind that strip. */
+@media (max-width: 639.98px) {
+  .hero.hero--home { padding-top: 84px; padding-bottom: 56px; }
+  .hero--home .hero-copy {
+    min-height: calc(100vh - 84px - 66px);
+    min-height: calc(100svh - 84px - 66px);
+    justify-content: center;
+  }
+  .hero--home .hero-card-caption,
+  .hero--home .hero-card-sub { display: none; }
+  .hero--home .hero-mockup { margin-top: 0; }
+
+  .hero--home::after {
+    content: "";
+    position: absolute;
+    left: -25%;
+    right: -25%;
+    top: calc(100vh - 250px);
+    top: calc(100svh - 250px);
+    height: 380px;
+    background: radial-gradient(48% 50% at 50% 58%, rgba(46, 133, 255, .42), rgba(46, 133, 255, .14) 46%, rgba(46, 133, 255, 0) 72%);
+    filter: blur(12px);
+    pointer-events: none;
+    z-index: 0;
+    animation: heroGlowDrift 9s ease-in-out infinite alternate;
+  }
+  .hero--home > .container { position: relative; z-index: 1; }
+}
+@keyframes heroGlowDrift {
+  0%   { transform: translate3d(-9%, 6px, 0) scale(1);    opacity: .5;  }
+  50%  { transform: translate3d(4%, -8px, 0) scale(1.18); opacity: .95; }
+  100% { transform: translate3d(10%, 4px, 0) scale(1.05); opacity: .6;  }
+}
+@media (max-width: 639.98px) and (prefers-reduced-motion: reduce) {
+  .hero--home::after { animation: none; opacity: .7; }
 }
 
 /* ---------- Homepage hero, desktop (≥1024px; .hero--home, Hero.jsx) ----------
@@ -719,9 +762,11 @@
   /* The copy (its alignment and width are Tailwind's lg: classes in Hero.jsx). It scrolls with the page. */
   .hero--home .hero-copy { margin: 0; padding: 0; min-height: 0; justify-content: center; }
   .hero--home .hero-copy .hero-title { font-size: clamp(44px, 1.6vw + 26px, 56px); line-height: 1.12; } /* over 56px, line one wraps */
-  .hero--home .hero-title > .hero-eyebrow { margin-bottom: 16px; }
   .hero--home .hero-copy .hero-sub { margin-top: 26px; max-width: 31em; font-size: 18px; line-height: 1.6; text-wrap: pretty; }
   .hero--home .hero-actions { justify-content: flex-start; margin-top: 34px; }
+  /* The ticks on their own rows under both buttons (after "See pricing"), 26px below them, left-aligned. */
+  .hero--home .hero-ticks { order: 1; flex-basis: 100%; justify-content: flex-start; margin-top: 14px; }
+  .hero--home .hero-ticks > li:first-child { justify-content: flex-start; }
 
   /* The dashboard, at its design size, zoomed. Inside, the preview and its toast are laid out for a
      1062px-wide screen (preview.css's --dz, here fixed to that width). */

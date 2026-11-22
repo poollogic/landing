@@ -1,4 +1,4 @@
-/* "The only software your pool company needs" (OnePlatformSection.jsx), after the hero. Plain: white, no icons, shadows on the
+/* "Other pool software takes your time." (OnePlatformSection.jsx), after the hero. Plain: white, no icons, shadows on the
    cards or hover effects. Desktop above 1040px, tablet 761–1040px, phone 760px and below. */
 
 .op-section {
@@ -14,15 +14,11 @@
   color: #0f172a;
   text-wrap: balance;
 }
-/* "Poolnautics does the work." on one line, wherever it fits: from 540px wide. On narrower phones it's
-   wider than the heading at the phone size (~420px at 390), so there it may break. */
+/* Two sentences, each starting its own line. "Poolnautics gives it back." stays whole from 540px wide;
+   on narrower phones it may break. */
+.op-title-line { display: block; }
 .op-keep { white-space: nowrap; }
 @media (max-width: 539.98px) { .op-keep { white-space: normal; } }
-.op-lede {
-  max-width: 640px;
-  margin: 26px auto 0;
-  text-wrap: balance;
-}
 /* A long gap before the list, so the section reads in two beats: the statement, then the list. */
 .op-sub {
   margin: 68px 0 20px;
@@ -84,7 +80,6 @@
 /* Phone: one column throughout. */
 @media (max-width: 760px) {
   .op-section { padding: 88px 20px 76px; }
-  .op-lede { margin-top: 20px; }
   .op-sub { margin-top: 48px; }
   .op-cards { gap: 12px; }
   .op-card { padding: 20px 20px 22px; border-radius: 16px; }
@@ -105,7 +100,6 @@
 .op-anim .op-line { transform-origin: top; }
 .op-anim.is-in .op-rise { transition: opacity .6s ease, transform .6s ease; }
 .op-anim.is-in .op-title { transition-delay: .06s; }
-.op-anim.is-in .op-lede { transition-delay: .14s; }
 .op-anim.is-in .op-still { transition-delay: .22s; }
 .op-anim.is-in .op-x {
   transition: transform .4s cubic-bezier(.3, 1.6, .5, 1), opacity .2s ease;

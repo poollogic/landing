@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import FeatureCard from './FeatureCard.jsx';
 import './one-platform.css';
 
-// "The only software your pool company needs": straight after the hero. What owners still do by hand with other pool software,
+// "Other pool software takes your time. Poolnautics gives it back.": straight after the hero. What owners still do by hand with other pool software,
 // in three cards, then the card that says Poolnautics handles all of it, with every feature
 // (FeatureCard.jsx). Names no competitor.
 //
@@ -57,12 +57,12 @@ export default function OnePlatformSection() {
     <section ref={ref} id="platform" className={`op-section${cls}`} aria-labelledby="op-heading">
       <div className="op-inner">
         <h2 id="op-heading" className="op-title op-rise">
-          Other pool software gives you a place to do the work. <span className="op-keep">Poolnautics does the work.</span>
+          <span className="op-title-line">Other pool software takes your time.</span>{' '}
+          <span className="op-title-line op-keep">Poolnautics gives it back.</span>
         </h2>
-        <p className="op-lede op-rise">The only software your pool company needs.</p>
 
         <div className="op-rise op-still">
-          <p className="op-sub">With most pool software, you’re still…</p>
+          <p className="op-sub">Cross these off your job description.</p>
           <div className="op-cards">
             {CARDS.map((card, c) => (
               <div key={card.title} className="op-card">

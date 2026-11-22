@@ -43,7 +43,7 @@
   letter-spacing: var(--closing-tracking);
 }
 
-.lp-home :is(.hero-sub, .op-lede, .dt-sub, .section-sub) {
+.lp-home :is(.hero-sub, .dt-sub, .section-sub) {
   font-size: var(--subhead-size);
   font-weight: var(--subhead-weight);
   line-height: var(--subhead-leading);
@@ -51,7 +51,7 @@
   color: var(--subhead-on-light);
 }
 /* Emphasis inside a subhead keeps its colour, at the subhead's weight. */
-.lp-home :is(.hero-sub, .op-lede, .dt-sub, .section-sub) :is(strong, b, em) { font-weight: var(--subhead-weight); }
+.lp-home :is(.hero-sub, .dt-sub, .section-sub) :is(strong, b, em) { font-weight: var(--subhead-weight); }
 
 /* .rvm-text h3: the Financial Watchdog's feature titles on phones (the desktop steps: revenue.css). */
 .lp-home :is(.rp-card-title, .ta-list h3, .fl-points h3, .rvm-text h3, .op-card-title) {
@@ -111,6 +111,6 @@
 .lp-home .section-head .section-sub { margin-top: var(--title-to-subhead); }
 /* Desktop: every section's intro line 16px under its heading, 672px wide at most under a centred one. */
 @media (min-width: 1024px) {
-  .lp-home :is(#platform .op-lede, #day .dt-sub, #reserve .hero-sub) { margin-top: 16px; }
-  .lp-home :is(#platform .op-lede, #day .dt-sub, :is(#billing, #collections, #technicians, #repairs, #fleet, #reviews, #switching, #routes) .section-head--center .section-sub) { max-width: 672px; }
+  .lp-home :is(#day .dt-sub, #reserve .hero-sub) { margin-top: 16px; }
+  .lp-home :is(#day .dt-sub, :is(#billing, #collections, #technicians, #repairs, #fleet, #reviews, #switching, #routes) .section-head--center .section-sub) { max-width: 672px; }
 }

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import DashboardPreview from './preview/DashboardPreview.jsx';
 import { getPreviewTheme, usePreviewTheme } from './preview/previewTheme.js';
 import PhoneFrame from './PhoneFrame.jsx';
@@ -40,6 +40,9 @@ function useAfterPaint() {
 // running off the window's edge, its toast placed by useHeroToastAnchor. Below lg the dashboard is
 // the phone dashboard card (HeroPhoneDash), whose list moves with the page (useHeroCardScroll).
 
+// The offer under the primary button.
+const TICKS = ['We’ll move your customers over', 'Free for 30 days', 'No card to start'];
+
 // Staggered entrance: 300ms fade-up (ease-mktg), skipped under reduced motion.
 const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 
@@ -73,16 +76,10 @@ const Hero = () => {
     <div className="container">
       {/* Text block */}
       <div className={`hero-copy mx-auto flex max-w-4xl flex-col items-center text-center lg:mx-0 lg:max-w-none lg:items-start lg:text-left ${ENTER}`}>
-        {/* The eyebrow is part of the h1 ("Pool service software: Run your pool route. …"), drawn as
-            its own line; the colon is for readers and crawlers only. */}
-        <h1 className="hero-title">
-          <span className="hero-eyebrow">Pool service software<span className="sr-only">: </span></span>
-          <span className="hero-title-line">Run your pool route.</span>{' '}
-          <span className="hero-title-line">Don’t let it run you.</span>
-        </h1>
+        <h1 className="hero-title">The software built to run and grow your pool business</h1>
 
         <p className="hero-sub">
-          Routes, chemical tracking and billing for your pool service business. Invoices and late fees handle themselves.
+          Billing, routes and service reports run themselves, so you can take on more pools without more office work.
         </p>
 
         <div className="hero-actions">
@@ -93,8 +90,13 @@ const Hero = () => {
             <span className="hero-cta-label">{isReserving ? 'Reserve your spot' : 'Start your free trial'}</span>
             <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
           </a>
-          {/* Below lg: the trial's terms right under its button, in place of .hero-note-fine (hero.css). */}
-          <p className="hero-cta-fine">Free for 30 days · No credit card</p>
+          {/* The offer in three ticks: one row, then two (hero.css). Between the buttons in the markup, so
+              below lg they sit under the primary; from lg they wrap onto their own row under both. */}
+          <ul className="hero-ticks">
+            {TICKS.map((t) => (
+              <li key={t}><Check size={14} strokeWidth={2.25} aria-hidden="true" />{t}</li>
+            ))}
+          </ul>
           <a
             href="/pricing"
             className="hero-cta-alt cta-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
@@ -102,14 +104,9 @@ const Hero = () => {
             See pricing
           </a>
         </div>
-
-        <div className="hero-notes">
-          <p className="hero-note">Switching software? We can move your customers for you.</p>
-          <p className="hero-note-fine">Free for 30 days · No credit card</p>
-        </div>
       </div>
 
-      {/* Below lg: two lines over the dashboard card (hero.css). */}
+      {/* 640px to lg: two lines over the dashboard card; hidden on phones and from lg (hero.css). */}
       <p className="hero-card-caption">Built for your desktop and your phone.</p>
       <p className="hero-card-sub">Billing, customers and route management. Not just the tech app.</p>
 
@@ -122,7 +119,7 @@ const Hero = () => {
               lg and up, hero.css takes the frame away and the desktop dashboard sits in the holder on
               its own. Below lg the frame is the dark card, showing only the phone dashboard. */}
           <PhoneFrame className="bz-phone--embedded hero-phone">
-            <DashboardPreview />
+            <DashboardPreview liveDate />
             <HeroPhoneDash />
           </PhoneFrame>
           <div className="preview-glint" aria-hidden="true" />

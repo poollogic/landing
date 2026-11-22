@@ -19,6 +19,7 @@ import { transitionPreviewTheme, usePreviewTheme } from './previewTheme.js';
 //   banner      the billing banner over the stat cards ({ open }); see PreviewPanel
 //   stage       laid out for a stage that scales it to its width (preview.css .pl-preview--stage)
 //   children    the panel in place of the dashboard (LateInvoicesView.jsx)
+//   liveDate    the header's date is today's, on the visitor's clock (the hero; see PreviewPanel)
 
 // The toolbar's icons: lucide's drawings, inline, so the toolbar adds no shared icon module (and so
 // no request) to the page's chunks.
@@ -65,7 +66,7 @@ function BrowserBar() {
   );
 }
 
-export default function DashboardPreview({ browserBar = true, theme: fixedTheme, staticRail = false, active = 'Dashboard', banner, stage = false, children }) {
+export default function DashboardPreview({ browserBar = true, theme: fixedTheme, staticRail = false, active = 'Dashboard', banner, stage = false, liveDate = false, children }) {
   const sharedTheme = usePreviewTheme();
   const theme = fixedTheme ?? sharedTheme;
   const chipRef = useRef(null);
@@ -110,7 +111,7 @@ export default function DashboardPreview({ browserBar = true, theme: fixedTheme,
           decorative={staticRail}
         />
         <div className="pl-main">
-          {children ?? <PreviewPanel banner={banner} />}
+          {children ?? <PreviewPanel banner={banner} liveDate={liveDate} />}
         </div>
       </div>
     </section>

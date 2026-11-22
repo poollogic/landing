@@ -1,9 +1,10 @@
 import React from 'react';
 import { Bell, Calendar, Check, ChevronRight, CircleAlert, Clock, FileText, Mail, MapPin, Plus, Repeat } from 'lucide-react';
+import useLiveDate from './preview/liveDate.js';
 
 // The homepage hero's card below lg (hero.css, "Phones and tablets: the dashboard card"): the app's
 // phone dashboard (web app, src/components/dashboard/phone/PhoneHome.tsx) as static markup, dark only,
-// with Bayside Pool Co.'s demo day. The header stays put while the list under it moves with the page
+// with Bayside Pool Co.'s demo day, dated today (liveDate.js). The header stays put while the list under it moves with the page
 // (useHeroCardScroll.js). Always rendered, so the pre-rendered page is the same at every width; from lg
 // up hero.css hides it and the desktop dashboard shows instead. Decoration: hidden from screen readers,
 // and no headings, so the page's outline stays the hero's own.
@@ -11,9 +12,9 @@ import { Bell, Calendar, Check, ChevronRight, CircleAlert, Clock, FileText, Mail
 const ICON = { strokeWidth: 2, 'aria-hidden': true };
 
 /** One row: icon, label (and a muted detail), value, then a chevron, or its space when it opens nothing. */
-const Row = ({ icon: Icon, critical = false, label, detail, value, chevron = true }) => (
+const Row = ({ icon: Icon, label, detail, value, chevron = true }) => (
   <div className="hd-row">
-    <Icon size={18} {...ICON} className={`hd-row-icon${critical ? ' is-critical' : ''}`} />
+    <Icon size={18} {...ICON} className="hd-row-icon" />
     <span className="hd-row-label">
       {label}
       {detail && <span className="hd-muted"> · {detail}</span>}
@@ -60,10 +61,14 @@ const MenuIcon = () => (
 );
 
 export default function HeroPhoneDash() {
+  // Today on the visitor's clock (liveDate.js). Until the page runs, the demo's date holds the space, unseen.
+  const today = useLiveDate();
   return (
     <div className="hero-dash" aria-hidden="true">
       <div className="hd-header">
-        <span className="hd-title">Tuesday <span className="hd-date">Oct 20</span></span>
+        <span className="hd-title" style={today ? undefined : { visibility: 'hidden' }}>
+          {today?.weekday ?? 'Tuesday'} <span className="hd-date">{today?.short ?? 'Oct 20'}</span>
+        </span>
         <span className="hd-actions">
           <Bell size={20} {...ICON} />
           <MenuIcon />
@@ -73,8 +78,8 @@ export default function HeroPhoneDash() {
 
       <div className="hd-list">
         <Section title="Needs attention">
-          <Row icon={Mail} critical label="1 invoice to mail" />
-          <Row icon={Clock} critical label="2 invoices past due" />
+          <Row icon={Mail} label="1 invoice to mail" />
+          <Row icon={Clock} label="2 invoices past due" />
           <Row icon={CircleAlert} label="1 urgent request" />
           <Row icon={FileText} label="2 estimates awaiting approval" />
         </Section>
@@ -86,7 +91,7 @@ export default function HeroPhoneDash() {
 
         <Section title="Money" link>
           <Row icon={Repeat} label="Recurring" value={<span className="hd-strong">$48,930/mo</span>} chevron={false} />
-          <Row icon={Calendar} label="Next billing" detail="Oct 21" value="9 invoices" />
+          <Row icon={Calendar} label="Next billing" detail={<span style={today ? undefined : { visibility: 'hidden' }}>{today?.tomorrow ?? 'Oct 21'}</span>} value="9 invoices" />
         </Section>
       </div>
     </div>

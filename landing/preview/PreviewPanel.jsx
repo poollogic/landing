@@ -7,6 +7,7 @@ import {
   BILLING_BANNER, COST, DASHBOARD_TITLE, KPI_TILES, RANGES, REVENUE, ROUTES, SANITIZER_OPTIONS, TODAY,
   costRange, moneyAxis, moneyAxisCents, revenueAt, revenueRange,
 } from './data.js';
+import useLiveDate from './liveDate.js';
 
 // The dashboard's main panel (poollogic-web-app: Dashboard.tsx, ui/PagePanel, ui/SummaryTiles,
 // dashboard/DesktopTrends, dashboard/DesktopRouteProgress): the title and date, the billing banner
@@ -397,13 +398,17 @@ function BillingBanner({ open }) {
 /**
  * `banner`: show the billing banner between the header and the stat cards; `banner.open`, its list.
  * Off in the hero.
+ * `liveDate`: the subtitle is today's date on the visitor's clock (liveDate.js), not the demo's TODAY.
+ * Until the page runs (the pre-rendered page, while React takes it over) TODAY holds its line, unseen.
  */
-export default function PreviewPanel({ banner }) {
+export default function PreviewPanel({ banner, liveDate = false }) {
+  const today = useLiveDate();
+  const date = liveDate ? today?.long : TODAY;
   return (
     <div className="pl-panel">
       <div className="pl-header" aria-hidden="true">
         <div className="pl-title">{DASHBOARD_TITLE}</div>
-        <div className="pl-subtitle">{TODAY}</div>
+        <div className="pl-subtitle" style={date ? undefined : { visibility: 'hidden' }}>{date ?? TODAY}</div>
       </div>
 
       {banner && <BillingBanner open={!!banner.open} />}
