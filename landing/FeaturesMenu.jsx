@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { ArrowRight, ArrowRightLeft, ChevronDown, Receipt, Route, ShieldAlert, Sparkles, Wrench } from 'lucide-react';
+import { ArrowRight, ArrowRightLeft, CalendarDays, ChevronDown, Receipt, Route, ShieldAlert, Sparkles, Wrench } from 'lucide-react';
 import { API_DOCS_URL } from '../aiFacts.js';
 
 // The header's links, shared by the site header (landing/Nav.jsx, styled in landing/nav.css) and
@@ -23,7 +23,9 @@ export const FEATURE_COLUMNS = [
 // ...a column of plain links...
 const AI_PAGE = { label: 'AI & automations', href: '/ai-and-automations', Icon: Sparkles };
 const ROUTES_LINK = { label: 'Route transfers', href: '/#routes', Icon: Route };
+const ROUTE_SOFTWARE = { label: 'Routes & scheduling', href: '/pool-route-software', Icon: CalendarDays };
 const MORE_LINKS = [
+  ROUTE_SOFTWARE,
   AI_PAGE,
   { label: 'API docs', href: API_DOCS_URL },
   { label: 'Partner program', href: '/partners' },
@@ -33,9 +35,9 @@ const MORE_LINKS = [
 // ...and what's new, along the bottom.
 const NEWS = { title: 'New', text: 'Connect Claude, Grok, ChatGPT or your own AI', href: AI_PAGE.href };
 // The phone menu: the features row by row, as the grid reads, then the plain links it carries (the AI
-// page and Route transfers, in that column's order).
+// page, Routes & scheduling and Route transfers).
 const [LEFT, RIGHT] = FEATURE_COLUMNS;
-export const MENU_FEATURES = [...LEFT.flatMap((item, i) => [item, RIGHT[i]]), AI_PAGE, ROUTES_LINK];
+export const MENU_FEATURES = [...LEFT.flatMap((item, i) => [item, RIGHT[i]]), ROUTE_SOFTWARE, AI_PAGE, ROUTES_LINK];
 
 // The links beside the menu.
 export const LINKS = [

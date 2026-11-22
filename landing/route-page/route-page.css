@@ -1,0 +1,163 @@
+/* /pool-route-software's own pictures and pieces (pages/route-software.jsx). The page wears
+   /recurring-billing's classes (.ai-page.billing-page), so its hero, section heads, two-column layouts,
+   cards, FAQ and closing section are billing-page.css's and payment-automation.css's; only what's new
+   is here, under .ai-page.route-page. Breakpoints are theirs: 900px and 700px. */
+
+/* The app's pictures in Inter, as /recurring-billing's are (its @font-face: billing-page.css). */
+.ai-page.route-page :is(.rb-panel, .rp-card) { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
+
+/* ======================= Hero: the route board ======================= */
+/* One day's routes, a column per technician, a stop mid-drag. Fixed sizes: nothing in it moves. */
+.ai-page.route-page .rb-panel {
+  width: 920px; max-width: 100%; margin: 0 auto;
+  border-radius: 20px;
+  background: rgba(9, 13, 22, .84);
+  box-shadow: 0 0 0 1px rgba(46, 133, 255, .12), inset 0 0 70px rgba(0, 0, 0, .35), 0 30px 80px rgba(0, 0, 0, .45);
+  text-align: left;
+  overflow: hidden;
+}
+.ai-page.route-page .rb-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  height: 50px; padding: 0 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  font-size: 13px;
+}
+.ai-page.route-page .rb-title { font-weight: 600; color: #fff; }
+.ai-page.route-page .rb-days { display: inline-flex; gap: 4px; }
+.ai-page.route-page .rb-days > span {
+  padding: 4px 10px; border-radius: 999px; color: rgb(148, 163, 184); line-height: 18px;
+}
+.ai-page.route-page .rb-days > .is-on { background: rgba(46, 133, 255, .16); color: #93c5fd; font-weight: 600; }
+.ai-page.route-page .rb-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 16px 18px 18px; }
+.ai-page.route-page .rb-col { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.ai-page.route-page .rb-col-head {
+  display: flex; align-items: center; gap: 8px; height: 28px; margin-bottom: 2px;
+  font-size: 13px; color: rgb(148, 163, 184); white-space: nowrap;
+}
+.ai-page.route-page .rb-col-head b { font-weight: 600; color: #e2e8f0; }
+.ai-page.route-page .rb-col-head > span:last-child { margin-left: auto; }
+.ai-page.route-page .rb-avatar {
+  display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(46, 133, 255, .18); color: #93c5fd; font-size: 11px; font-weight: 700;
+}
+.ai-page.route-page .rb-stop,
+.ai-page.route-page .rb-slot {
+  display: flex; align-items: center; gap: 8px;
+  height: 46px; padding: 0 10px;
+  border-radius: 10px;
+}
+.ai-page.route-page .rb-stop { background: rgba(255, 255, 255, .04); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); }
+.ai-page.route-page .rb-grip { flex: none; color: rgba(148, 163, 184, .55); }
+.ai-page.route-page .rb-n {
+  flex: none; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 6px;
+  background: rgba(255, 255, 255, .06); color: rgb(203, 213, 225); font-size: 11px; font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.ai-page.route-page .rb-stop-text { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.ai-page.route-page .rb-stop-text b { font-size: 12.5px; font-weight: 500; color: #f1f5f9; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ai-page.route-page .rb-stop-text span { font-size: 11px; color: rgb(148, 163, 184); white-space: nowrap; }
+/* The stop being dragged: lifted out of its column towards the next, over the drop slot. */
+.ai-page.route-page .rb-stop.is-lifted {
+  position: relative; z-index: 1;
+  background: rgb(30, 41, 59);
+  box-shadow: inset 0 0 0 1px rgba(96, 165, 250, .7), 0 18px 30px -8px rgba(0, 0, 0, .6);
+  transform: translateX(38%) rotate(-2deg);
+}
+.ai-page.route-page .rb-stop.is-lifted .rb-grip { color: #93c5fd; }
+.ai-page.route-page .rb-slot {
+  justify-content: center;
+  border: 1px dashed rgba(96, 165, 250, .55);
+  background: rgba(46, 133, 255, .06);
+  font-size: 12px; color: #93c5fd;
+}
+.ai-page.route-page .rb-more { height: 20px; padding-left: 10px; font-size: 12px; line-height: 20px; color: rgb(100, 116, 139); }
+/* Phones: two technicians, and the dragged stop stays in its column. */
+@media (max-width: 699.98px) {
+  .ai-page.route-page .rb-head { padding: 0 16px; }
+  .ai-page.route-page .rb-days > span:nth-child(n + 4) { display: none; }
+  .ai-page.route-page .rb-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 14px 12px 16px; }
+  .ai-page.route-page .rb-col:nth-child(3) { display: none; }
+  .ai-page.route-page .rb-grip { display: none; }
+  .ai-page.route-page .rb-stop.is-lifted { transform: rotate(-2deg); }
+}
+
+/* ======================= Section cards ======================= */
+.ai-page.route-page .rp-card { text-align: left; }
+.ai-page.route-page .rp-rows { margin: 14px 0 0; padding: 0; list-style: none; }
+.ai-page.route-page .rp-rows li {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 56px; padding: 10px 0;
+  border-top: 1px solid rgb(226, 232, 240);
+}
+.ai-page.route-page .rp-rows li:first-child { border-top: 0; }
+.ai-page.route-page .rp-icon {
+  flex: none; display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 9px;
+  background: rgba(46, 133, 255, .1); color: #2e85ff;
+}
+.ai-page.route-page .rp-row-text { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.ai-page.route-page .rp-row-text b { font-size: 14px; font-weight: 600; line-height: 1.35; color: #0f172a; }
+.ai-page.route-page .rp-row-text span { font-size: 13px; line-height: 1.4; color: #64748b; }
+.ai-page.route-page .rp-value { flex: none; font-size: 14px; font-weight: 600; color: #0f172a; font-variant-numeric: tabular-nums; }
+.ai-page.route-page .rp-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin: 6px 0 0; padding-top: 14px; border-top: 1px solid rgb(226, 232, 240);
+  font-size: 13px; line-height: 1.45; color: #64748b;
+}
+.ai-page.route-page .rp-foot b { font-weight: 600; color: #0f172a; }
+.ai-page.route-page .rp-foot b + span { font-size: 15px; font-weight: 700; color: #0f172a; font-variant-numeric: tabular-nums; }
+.ai-page.route-page .rp-foot > svg { flex: none; color: #2e85ff; }
+.ai-page.route-page .rp-settings .rp-foot { justify-content: flex-start; }
+
+/* A recurring stop's settings. */
+.ai-page.route-page .rp-fields { margin: 14px 0 0; }
+.ai-page.route-page .rp-fields > div {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 52px; border-top: 1px solid rgb(226, 232, 240);
+}
+.ai-page.route-page .rp-fields > div:first-child { border-top: 0; }
+.ai-page.route-page .rp-fields dt { font-size: 14px; color: #475569; }
+.ai-page.route-page .rp-fields dd { margin: 0; }
+.ai-page.route-page .rp-select {
+  display: inline-flex; align-items: center; height: 32px; padding: 0 12px;
+  border: 1px solid rgb(226, 232, 240); border-radius: 8px; background: #fff;
+  font-size: 13.5px; font-weight: 500; color: #0f172a;
+}
+.ai-page.route-page .rp-seg { display: inline-flex; padding: 3px; border-radius: 9px; background: rgb(241, 245, 249); }
+.ai-page.route-page .rp-seg > span { padding: 5px 10px; border-radius: 7px; font-size: 12.5px; font-weight: 500; color: #64748b; white-space: nowrap; }
+.ai-page.route-page .rp-seg > .is-on { background: #fff; color: #0f172a; box-shadow: 0 1px 2px rgba(15, 23, 42, .12); }
+
+/* The technician app's four points, as the homepage's #technicians list. */
+.ai-page.route-page .rp-points { margin: 28px 0 0; padding: 0; list-style: none; text-align: left; }
+.ai-page.route-page .rp-points li { padding: 16px 0; border-top: 1px solid rgb(226, 232, 240); }
+.ai-page.route-page .rp-points li:first-child { padding-top: 0; border-top: 0; }
+.ai-page.route-page .rp-points h3 { margin: 0 0 4px; font-size: 16px; font-weight: 600; line-height: 1.35; color: #0f172a; }
+.ai-page.route-page .rp-points p { margin: 0; font-size: 15px; line-height: 1.55; color: #475569; text-wrap: pretty; }
+
+/* The service report phone (technicians/pn-phone.css): 0.62 is about 290px wide. */
+/* Its reading rulers run on past the phone's edge (the script scrolls them): the band clips them sideways. */
+.ai-page.route-page .rp-app { overflow-x: clip; }
+.ai-page.route-page .rp-phone { display: flex; justify-content: center; }
+.ai-page.route-page .rp-phone .pn-phone { --pn-zoom: .62; margin: 0 auto; }
+@media (hover: none), (pointer: coarse) {
+  .ai-page.route-page .rp-phone .pn-scroll { overflow: hidden; } /* never traps a phone's scrolling */
+}
+
+/* A text link under a section's copy (as payment-automation.css's .pa-more). */
+.ai-page.route-page .rp-more { margin: 24px 0 0; }
+.ai-page.route-page .rp-more a { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: rgb(29, 95, 232); text-align: left; }
+.ai-page.route-page .rp-more a svg { flex: none; }
+.ai-page.route-page .rp-more a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* The import demo, under a centred head. */
+/* Its pointer and scaled panels reach past its box, as on the homepage (import.css .im-section). */
+.ai-page.route-page .rp-import-band { overflow-x: clip; }
+.ai-page.route-page .rp-import { margin-top: 48px; }
+
+/* The handover card on the dark band (route.css's .ra-section supplies its colours). */
+.ai-page.route-page .ra-section .pa-visual { min-width: 0; }
+
+@media (max-width: 699.98px) {
+  .ai-page.route-page .rp-more { text-align: center; }
+  .ai-page.route-page .rp-points { max-width: 520px; margin-inline: auto; }
+  .ai-page.route-page .rp-import { margin-top: 36px; }
+}

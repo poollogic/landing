@@ -59,7 +59,8 @@ const METRICS = [
   },
 ];
 
-function Handover() {
+/** The handover card; also /pool-route-software's (pages/route-software.jsx), in a .ra-section. */
+export function Handover() {
   return (
     <div className="ra-panel">
       <div className="ra-panel-head">

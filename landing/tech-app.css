@@ -34,3 +34,8 @@
 
 /* The closing call to action's trial note, centred under the button. */
 .ai-page .tk-close-fine { text-align: center; }
+
+/* The closing's link to /pool-route-software, under the fine print. */
+.ai-page .tk-close-more { margin: 14px 0 0; text-align: center; font-size: 15px; line-height: 1.5; }
+.ai-page .tk-close-more a { color: #cbd5e1; text-decoration: underline; text-decoration-color: #3b82f6; text-underline-offset: 4px; }
+.ai-page .tk-close-more a:hover { color: #fff; }

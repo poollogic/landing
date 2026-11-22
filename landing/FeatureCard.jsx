@@ -35,12 +35,18 @@ const Check = () => (
   </span>
 );
 
-const GroupLink = ({ link }) => link && (
+const OneLink = ({ link }) => (
   <a className="fc-link" href={link.href}>
     {link.label}
     <ArrowRight size={14} strokeWidth={2.2} aria-hidden="true" />
   </a>
 );
+// A group's link, or its two side by side (wrapping on a narrow phone).
+const GroupLink = ({ link }) => {
+  if (!link) return null;
+  if (!Array.isArray(link)) return <OneLink link={link} />;
+  return <div className="fc-links">{link.map((l) => <OneLink key={l.href} link={l} />)}</div>;
+};
 
 export default function FeatureCard() {
   const theme = usePreviewTheme();

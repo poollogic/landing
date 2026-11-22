@@ -108,6 +108,9 @@
 .fc-link svg { flex: none; transition: transform .2s ease; }
 .fc-link:hover svg { transform: translateX(2px); }
 .fc-list + .fc-link { margin-top: 8px; }
+/* Two links side by side (Routes & technicians), wrapping on a narrow phone. */
+.fc-links { display: flex; flex-wrap: wrap; column-gap: 22px; row-gap: 10px; margin: 8px 13px 16px; }
+.fc-links > .fc-link { margin: 0; }
 .fc-panel-inner > .fc-list:last-child { padding-bottom: 12px; } /* a group with no link */
 
 /* ---------- Footer: the button, then the line and the note, centred ---------- */
@@ -203,6 +206,8 @@
   .fc-panel-inner > .fc-list:last-child { padding-bottom: 0; }
   .fc-link,
   .fc-list + .fc-link { margin: auto 0 0; padding-top: 12px; font-size: 14.5px; align-self: flex-start; }
+  .fc-list + .fc-links { margin: auto 0 0; padding-top: 12px; align-self: flex-start; }
+  .fc-links > .fc-link { margin: 0; padding-top: 0; }
 
   /* Footer: the line and the note on the left, the button on the right. */
   .fc-foot {

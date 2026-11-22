@@ -5,6 +5,7 @@ import { Nav, Footer } from './components/site-chrome.jsx';
 import SiteHeader from './landing/Nav.jsx';
 import { payoutRange } from './partnerProgram.js';
 import { BILLING_TITLE, BILLING_DESCRIPTION } from './landing/billing-page/billingMeta.js';
+import { ROUTE_TITLE, ROUTE_DESCRIPTION } from './landing/route-page/routeMeta.js';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -21,6 +22,7 @@ const DeleteAccountPage = lazy(() => import('./pages/delete-account.jsx'));
 const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
 const WorkflowPage = lazy(() => import('./pages/workflow.jsx'));
 const BillingPage = lazy(() => import('./pages/billing.jsx'));
+const RouteSoftwarePage = lazy(() => import('./pages/route-software.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 // Customer reviews: only with VITE_REVIEWS=1 (landing/reviews/config.js). Off, both addresses show the
 // homepage, marked noindex, like any unknown address, and none of it is built. On, writing a review is a
@@ -55,6 +57,7 @@ const isDeleteAccountPath = (p) => p === '/delete-account' || p === '/delete-acc
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 const isWorkflowPath = (p) => p === '/workflow' || p === '/workflow/';
 const isBillingPath = (p) => p === '/recurring-billing' || p === '/recurring-billing/'; // /billing 301s here (public/_redirects)
+const isRouteSoftwarePath = (p) => p === '/pool-route-software' || p === '/pool-route-software/';
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
 
@@ -84,8 +87,8 @@ export const ROUTE_META = {
     path: '/ai-and-automations',
   },
   techApp: {
-    title: 'Tech app — Poolnautics',
-    description: 'The Poolnautics tech app: routes, chemistry logging, GPS-verified service reports, and equipment notes from the field.',
+    title: 'Pool Service Technician App | Poolnautics',
+    description: 'Pool service technician app from Poolnautics: routes, chemistry logging, GPS-verified service reports and equipment notes from the field.',
     path: '/tech-app',
   },
   contact: {
@@ -141,8 +144,8 @@ export const ROUTE_META = {
   },
   // Pre-rendered at build time (entry-server.jsx).
   workflow: {
-    title: 'Pool Service Automation & Repair Workflow | Poolnautics',
-    description: 'Automate your pool service business without building it yourself. Poolnautics turns repair requests into quotes, work orders and paid invoices, with no Zapier required.',
+    title: 'Pool Repair & Work Order Software | Poolnautics',
+    description: 'Repair requests, quotes, work orders and invoices for pool service companies. Poolnautics takes every repair from the tech’s request to a paid invoice.',
     path: '/workflow',
   },
   // Pre-rendered at build time (entry-server.jsx). Indexed from Nov 19, 2026 (in the sitemap, linked
@@ -151,6 +154,12 @@ export const ROUTE_META = {
     title: BILLING_TITLE, // landing/billing-page/billingMeta.js, shared with the page's WebPage JSON-LD
     description: BILLING_DESCRIPTION,
     path: '/recurring-billing',
+  },
+  // Pre-rendered at build time (entry-server.jsx). Indexed from Nov 21, 2026: "pool route software".
+  routeSoftware: {
+    title: ROUTE_TITLE, // landing/route-page/routeMeta.js, shared with the page's WebPage JSON-LD
+    description: ROUTE_DESCRIPTION,
+    path: '/pool-route-software',
   },
 };
 
@@ -214,6 +223,7 @@ const App = ({ path: pathProp }) => {
     else if (isPartnerKitPath(path)) meta = ROUTE_META.partnerKit;
     else if (isWorkflowPath(path)) meta = ROUTE_META.workflow;
     else if (isBillingPath(path)) meta = ROUTE_META.billing;
+    else if (isRouteSoftwarePath(path)) meta = ROUTE_META.routeSoftware;
     else if (isReviewsPath(path)) meta = ROUTE_META.reviews;
     else if (isReviewWritePath(path)) meta = ROUTE_META.reviewWrite;
     // Any other address shows the homepage; keep those copies out of search results.
@@ -326,6 +336,17 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
           <BillingPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // Route software: /recurring-billing's design. Pre-rendered.
+  if (isRouteSoftwarePath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
+          <RouteSoftwarePage />
         </Suspense>
       </ErrorBoundary>
     );

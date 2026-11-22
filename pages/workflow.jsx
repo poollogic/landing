@@ -131,7 +131,7 @@ function Hero({ theme }) {
       <div className="rf-inner rf-hero-grid">
         <div className="rf-hero-copy">
           <p className="rf-hero-eyebrow">Pool service automation</p>
-          <h1 id="rf-hero-heading" className="rf-hero-title">Automate your pool service workflow.</h1>
+          <h1 id="rf-hero-heading" className="rf-hero-title">Pool repair work orders that run from request to paid</h1>
           <p className="rf-hero-sub">
             A tech spots a problem. You set a price. Poolnautics handles the approval, the work order, the invoice and the
             payment, so no finished job goes unbilled.

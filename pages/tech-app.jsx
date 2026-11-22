@@ -134,7 +134,7 @@ const TechAppPage = () => {
           <div className="container">
             <div className="ai-hero-grid">
               <div className="ai-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
-                <HeroHeading id="tech-hero-title" eyebrow="The technician app" title="The tech app, built for the truck">
+                <HeroHeading id="tech-hero-title" eyebrow="The technician app" title="The pool service technician app, built for the truck">
                   Most pool software hands the tech a form and hopes for the best. The Poolnautics app enforces what
                   matters, calculates what’s tedious and flags what’s drifting, so a new hire runs the route like a
                   ten-year vet, and the report writes itself.
@@ -254,6 +254,8 @@ const TechAppPage = () => {
               <AppStoreBadge height={48} />
             </div>
             <p className="hero-fine tk-close-fine">The {TRIAL_DAYS}-day trial includes all of it.</p>
+            {/* The office side of the route: building it, recurring stops, mileage, cost per visit. */}
+            <p className="tk-close-more"><a href="/pool-route-software">See how routes are built and scheduled</a></p>
           </div>
         </section>
       </main>

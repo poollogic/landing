@@ -24,8 +24,9 @@ const cents = (c) => `$${(c / 100).toFixed(2)}`;
 
 /* ---------- Shared pieces ---------- */
 
-/** A section head: eyebrow, a two-tone H2 (its first sentence muted, on its own line) and a sub. */
-function Head({ id, eyebrow, a, b, sub, center = false }) {
+/** A section head: eyebrow, a two-tone H2 (its first sentence muted, on its own line) and a sub.
+    Also /pool-route-software's (pages/route-software.jsx). */
+export function Head({ id, eyebrow, a, b, sub, center = false }) {
   return (
     <div className={`pa-head${center ? ' pa-head--center' : ''}`}>
       <p className="pa-eyebrow">{eyebrow}</p>
@@ -37,7 +38,7 @@ function Head({ id, eyebrow, a, b, sub, center = false }) {
   );
 }
 
-const Tick = () => (
+export const Tick = () => (
   <span className="pa-tick" aria-hidden="true">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M5 12.5l4.5 4.5L19 7.5" />
