@@ -17,7 +17,7 @@ export const FEATURE_GROUPS = [
       'One-click invoices',
       'Chemicals added to invoices',
       'Invoices printed & mailed for you',
-      'QuickBooks integration',
+      'QuickBooks Online integration (coming soon)', // QuickBooks: flip to available when Intuit approves production keys
     ],
     link: { label: 'See the pool billing software', href: '/pool-service-billing' },
   },

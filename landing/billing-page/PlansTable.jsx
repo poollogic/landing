@@ -14,7 +14,8 @@ const ROWS = [
   ['Late fees applied automatically', true, true],
   ['Automatic overdue reminders', true, true],
   ['Chemicals on invoices', true, true],
-  // Not built yet: "Soon" in each plan's column, and the Coming soon pill after the name.
+  // Not live yet: "Soon" in each plan's column, and the Coming soon pill after the name.
+  // QuickBooks: flip to available when Intuit approves production keys (true, true)
   ['QuickBooks Online sync', 'soon', 'soon'],
   ['Automatic pause for customers who don’t pay', false, true],
   ['Invoices emailed from your own domain', false, true],

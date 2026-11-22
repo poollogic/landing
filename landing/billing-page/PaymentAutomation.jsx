@@ -363,15 +363,20 @@ export function YourMoney() {
 /** The "Coming soon" pill (payment-automation.css .pa-soon). Also PlansTable's QuickBooks row. */
 export const ComingSoon = () => <span className="pa-soon">Coming soon</span>;
 
+// What the sync sends, checked against the web app's sync (routes/hono/quickbooks): customers
+// matched by email, then name and street; every line booked to the one product or service the
+// company picks; credit memos not sent; each deposit comes to the payout to the cent.
 const QB_ROWS = [
-  ['Customers', 'Matched to the ones you already have by name or email, so there are no duplicates.'],
-  ['Invoices', 'Same number, line items, sales tax and due date.'],
+  ['Customers', 'Matched to the ones already in QuickBooks by email or name, or added as new ones.'],
+  ['Invoices', 'Same number, line items, discounts, sales tax and due date.'],
   ['Payments', 'Card, bank, check or cash, marked paid against the right invoice.'],
-  ['Voids, refunds and credits', 'Recorded the same way in QuickBooks.'],
-  ['Stripe payouts', 'A bank deposit with Stripe’s fee as an expense, so it matches your bank statement.'],
-  ['Services and parts', 'Mapped to your QuickBooks products, so income lands in the right accounts.'],
+  ['Refunds and voids', 'Refunds and lost disputes as refund receipts. An invoice you cancel is voided in QuickBooks.'],
+  ['Stripe payouts', 'A bank deposit with Stripe’s fees as an expense, so it matches your bank statement.'],
+  ['Services and parts', 'Booked to the QuickBooks product or service you choose, each line with its description.'],
 ];
 
+// QuickBooks: flip to available when Intuit approves production keys (the Coming soon pill, the
+// "Soon you’ll" / "will" wording here, the table's caption and column, and the note below).
 export function QuickBooksSync() {
   return (
     <section className="pa-section pa-white" aria-labelledby="pa-qb-title">
@@ -382,7 +387,7 @@ export function QuickBooksSync() {
           eyebrow={<>Pool service software with QuickBooks sync <ComingSoon /></>}
           a="You keep working in Poolnautics."
           b="Your books fill themselves in."
-          sub="Soon you’ll connect QuickBooks Online once, and every customer, invoice, payment and Stripe payout will show up in your books, already matched. Included in every plan."
+          sub="Soon you’ll connect QuickBooks Online once, and every customer, invoice, payment, refund and Stripe payout will show up in your books, already matched. Included in Insight and Vision."
         />
         <div className="pa-qb-card">
           <table className="pa-qb-table">
@@ -408,7 +413,7 @@ export function QuickBooksSync() {
             </tbody>
           </table>
         </div>
-        <p className="pa-qb-note">Poolnautics stays the record. The sync will run one way, into QuickBooks Online. Expenses, payroll and bills stay in QuickBooks.</p>
+        <p className="pa-qb-note">Poolnautics stays the record. The sync will run one way, from Poolnautics into QuickBooks Online; changes made in QuickBooks don’t come back. QuickBooks Desktop isn’t supported. Expenses, payroll and bills stay in QuickBooks.</p>
       </div>
     </section>
   );

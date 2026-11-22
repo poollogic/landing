@@ -29,7 +29,7 @@ const INSIGHT_FEATURES = [
   'Zero-click billing & autopay',
   'Card fees passed on to your customers',
   'Late fees & overdue reminders that run themselves',
-  'QuickBooks integration',
+  'QuickBooks Online integration (coming soon)', // QuickBooks: flip to available when Intuit approves production keys
   'Drag-and-drop routing & offline technician app',
   'Free white-glove migration',
 ];
@@ -61,7 +61,6 @@ const FEATURED_PLAN = 'vision';
 const customersLabel = (stop) => (stop === CUSTOM ? 'More than 2,500 active customers' : `Up to ${num(STOPS[stop])} active customers`);
 
 // Comparison table: [feature, in Insight, in Vision, page about it], by category.
-// TODO(owner): QuickBooks Online, Desktop or both? The label may become "QuickBooks Online sync".
 // TODO(owner): one-line explanations for "Vanishing Discount" price adjuster and Route handover tool.
 const COMPARE = [
   ['Routing & Operations', [
@@ -79,7 +78,7 @@ const COMPARE = [
     ['Card fees passed on to customers, where state law allows', true, true],
     ['Late fees applied automatically', true, true],
     ['Automatic overdue reminders', true, true],
-    ['QuickBooks integration', true, true],
+    ['QuickBooks Online integration (coming soon)', true, true], // QuickBooks: flip to available when Intuit approves production keys
     ['Automatic pause for customers who don’t pay', false, true],
     ['“Vanishing Discount” price adjuster', false, true],
   ]],

@@ -85,10 +85,12 @@ export const FAQ = [
     more: <a href="/pricing">{PRICING_LINK}</a>,
     moreHtml: `<a href="${ORIGIN}/pricing">${PRICING_LINK}</a>`,
   },
+  // QuickBooks: flip to available when Intuit approves production keys
   {
     q: 'Does Poolnautics work with QuickBooks?',
-    a: 'A QuickBooks Online sync is coming soon, on every plan. Connect it once and your customers, invoices, payments, refunds and Stripe payouts will appear in your books automatically. Today you can import your customer list from a QuickBooks export.',
+    a: 'A QuickBooks Online sync is coming soon, on both plans, Insight and Vision. QuickBooks Desktop isn’t supported. Connect it once and Poolnautics will send your customers, invoices (with sales tax), payments, refunds, and each Stripe payout as a bank deposit with its fees. It runs one way, from Poolnautics to QuickBooks. Today you can import your customer list from a QuickBooks export.',
   },
+  // QuickBooks: flip to available when Intuit approves production keys
   {
     q: 'Is Poolnautics pool service accounting software?',
     a: 'It handles billing and payments. A QuickBooks Online sync is coming soon to keep your books up to date; expenses, payroll and tax filing stay in QuickBooks.',

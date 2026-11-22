@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 //   Poolnautics LLC               the business behind Poolnautics (a Florida LLC): launch only once
 //                                 it's active on sunbiz.org, spelled exactly as filed
 //   Florida                       governing state
-//   November 20, 2026             updated date
+//   November 22, 2026             updated date
 //   privacy@getpoolnautics.com    contact email
 //
 // Subprocessors listed below reflect the current stack — confirm before going live
@@ -40,6 +40,15 @@ const SECTIONS = [
 const PrivacyPage = () => {
   const [activeId, setActiveId] = useState(SECTIONS[0].id);
 
+  // A link to a section (the Terms' /privacy#leaving, #retention) opens at it:
+  // the page is drawn after the browser's own jump to the hash, so it never landed.
+  useEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id) return;
+    const frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   useEffect(() => {
     const headings = SECTIONS.map((s) => document.getElementById(s.id)).filter(Boolean);
     if (!headings.length) return;
@@ -69,7 +78,7 @@ const PrivacyPage = () => {
           </p>
           <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> May 15, 2026</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 20, 2026</span>
+            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> November 22, 2026</span>
             <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
           </div>
         </header>
@@ -124,6 +133,7 @@ const PrivacyPage = () => {
                 <li><strong>Signing in with Google or Apple:</strong> office users can create an account or sign in with Google or Apple, through our authentication provider, Supabase. We then receive their name, email address, and an ID for that Google or Apple account. We never receive their Google or Apple password, and we don't get access to anything else in that account. If they use Apple's Hide My Email, we receive a relay address that Apple forwards to them, in place of their real email address.</li>
                 <li><strong>Billing information:</strong> billing contact and payment method details. Card data is handled by Stripe — <strong>we never see, receive, or store full card numbers, CVV codes, or other sensitive payment details</strong>.</li>
                 <li><strong>Usage data:</strong> features used, pages visited, IP address, browser and device characteristics, sign-in timestamps, and other operational metadata.</li>
+                <li><strong>QuickBooks Online connection:</strong> if a Subscriber connects QuickBooks Online, the QuickBooks company's ID and name; the access tokens Intuit issues, stored encrypted and never shown; the Subscriber's QuickBooks choices (start date, accounts, product or service, tax rate); and the QuickBooks IDs of the records Poolnautics has sent. We don't copy a Subscriber's books into Poolnautics.</li>
               </ul>
 
               <h3 style={subHeadStyle}>From End Customers (entered by Subscribers, stored by Poolnautics)</h3>
@@ -198,6 +208,7 @@ const PrivacyPage = () => {
                 <li><strong>Automatically</strong> — through browser local storage for sign-in and UI preferences, and through server logs that record requests to the service.</li>
                 <li><strong>From the technician app</strong> — on technicians' phones, as described in Section 2, depending on the features the Subscriber turns on and the permissions the technician allows on their phone.</li>
                 <li><strong>From third parties</strong> — Stripe returns card metadata (brand, last four, expiry) after an End Customer saves a payment method. Identity-verification or anti-fraud signals may also be returned by Stripe.</li>
+                <li><strong>From a connected QuickBooks Online</strong> — if a Subscriber connects QuickBooks Online, Poolnautics reads from it the company's name and settings, its products and services, accounts, and tax rates, and the customers and transactions it needs to match and update what it sends. It doesn't copy the Subscriber's books into Poolnautics.</li>
               </ul>
             </Section>
 
@@ -213,6 +224,7 @@ const PrivacyPage = () => {
                 <li>Comply with legal obligations, including tax and accounting rules.</li>
               </ul>
               <p>We do not sell personal information. We do not use End Customer data to advertise to End Customers.</p>
+              <p>Data Poolnautics reads from or sends to a Subscriber's QuickBooks Online is used only to keep that Subscriber's QuickBooks matching what is recorded in Poolnautics. We do not sell it, use it for advertising, or use it to train AI models.</p>
             </Section>
 
             <Section id="legal-basis" title="5. Legal Basis for Processing">
@@ -314,6 +326,9 @@ const PrivacyPage = () => {
                 />
               </div>
               <p style={{ marginTop: 18 }}>If we add or change a subprocessor, we'll update this list. We do not sell personal information to third parties.</p>
+
+              <h3 id="connected-services" style={{ ...subHeadStyle, scrollMarginTop: 96 }}>Services a Subscriber Connects</h3>
+              <p>When a Subscriber connects QuickBooks Online, Poolnautics sends to Intuit Inc., at the Subscriber's direction: End Customer names, email addresses, phone numbers, and billing and service addresses; invoices and their lines, discounts, fees, and sales tax; payments (the method, date, and reference, such as a check number or Stripe payment ID, but never card or bank account numbers); refunds and lost disputes; and the amounts and fees of the Subscriber's Stripe payouts, which Poolnautics reads from the Subscriber's Stripe account. Intuit is not a Poolnautics subprocessor: QuickBooks Online is a service the Subscriber chose, and Intuit handles this data under the Subscriber's agreement with Intuit and Intuit's <a href="https://www.intuit.com/privacy/statement/" target="_blank" rel="noreferrer noopener" style={{ color: 'var(--accent)' }}>Global Privacy Statement</a>.</p>
             </Section>
 
             <Section id="security" title="7. Data Security">
@@ -322,6 +337,7 @@ const PrivacyPage = () => {
                 <li>HTTPS / TLS 1.2+ encryption for all traffic between users and Poolnautics.</li>
                 <li>Stripe handles all sensitive cardholder data in a PCI-DSS Level 1 compliant environment. <strong>Poolnautics never sees or stores full card numbers.</strong></li>
                 <li>Database encryption at rest, provided by our database host.</li>
+                <li>QuickBooks access tokens are encrypted at rest (AES-256-GCM) and bound to the Subscriber's account.</li>
                 <li>Row-level access controls so that staff at one Subscriber's organization cannot access another Subscriber's customer data.</li>
                 <li>Internal access restrictions — only authorized Poolnautics personnel can access systems containing personal information, and only for legitimate operational reasons.</li>
               </ul>
@@ -377,6 +393,7 @@ const PrivacyPage = () => {
                 <li><strong>What we keep after deletion.</strong> Our own business records about the Subscriber: a record that its account existed and was closed (its name, email address, Stripe account and customer IDs, the dates, and why); each payment it took through Poolnautics, without the payer's name or any End Customer details (the amount, date, Stripe IDs, and Poolnautics' fee); our bills to it, including Mail Service bills and letters, without recipients' names or addresses; and sales commission records. We keep these for as long as we need them for tax and accounting, card disputes, legal claims, and our legal obligations, which is generally at least seven years. We also keep the list of email addresses that bounced or reported our emails as spam, without the Subscriber's name, to protect email delivery for every Subscriber.</li>
                 <li><strong>Backups and our providers.</strong> Deleted data remains in our database backups until they expire, within 7 days, and copies of photos held in Cloudflare's network expire within 7 days. Our email, error-monitoring, background-job, and printing-and-mailing providers keep their own logs (such as the address an email went to) for their own retention periods; we don't delete those when a Subscriber's account is deleted.</li>
               </ul>
+              <p><strong>QuickBooks Online.</strong> Disconnecting QuickBooks, in Poolnautics or in QuickBooks, revokes Poolnautics' access at Intuit and deletes the access tokens at once. Poolnautics keeps the list of records it sent (their QuickBooks IDs) so that reconnecting the same QuickBooks company doesn't send them twice; that list is deleted when the Subscriber's account is deleted or when the Subscriber connects a different QuickBooks company. Deleting a Subscriber's account also revokes Poolnautics' access to its QuickBooks.</p>
             </Section>
 
             <Section id="end-customer-rights" title="11. End Customer Rights">
@@ -406,9 +423,9 @@ const PrivacyPage = () => {
               <h3 style={subHeadStyle}>Categories of Personal Information We Collect (CCPA / CPRA Notice at Collection)</h3>
               <p>In the past twelve months, we have collected the following categories of personal information as defined under Cal. Civ. Code § 1798.140(v). The categories below apply to Subscribers and, where data is entered by a Subscriber, to End Customers. We have not "sold" or "shared" personal information in those terms' CCPA sense.</p>
               <ul>
-                <li><strong>Identifiers</strong> — name, email address, postal address, phone number, IP address, account identifiers. <em>Sources:</em> directly from Subscribers; from Subscribers on behalf of End Customers; automatically from server logs. <em>Purposes:</em> account creation, service delivery, billing, communications, security. <em>Disclosed to:</em> the subprocessors listed in Section 6.</li>
+                <li><strong>Identifiers</strong> — name, email address, postal address, phone number, IP address, account identifiers. <em>Sources:</em> directly from Subscribers; from Subscribers on behalf of End Customers; automatically from server logs. <em>Purposes:</em> account creation, service delivery, billing, communications, security. <em>Disclosed to:</em> the subprocessors listed in Section 6, or services a Subscriber connects, described in that Section.</li>
                 <li><strong>Customer records / contact and account information</strong> (Cal. Civ. Code § 1798.80(e)) — billing contact, business name, service addresses, and, for vehicles used by Subscriber personnel, the insurance policy numbers and other details shown on insurance cards and registrations. <em>Sources, purposes, and disclosures:</em> same as Identifiers.</li>
-                <li><strong>Commercial information</strong> — invoices, estimates, payment history, services purchased or provided. <em>Sources:</em> Subscribers; Stripe (payment status). <em>Purposes:</em> service delivery, billing, record-keeping. <em>Disclosed to:</em> Stripe; database and email subprocessors.</li>
+                <li><strong>Commercial information</strong> — invoices, estimates, payment history, services purchased or provided. <em>Sources:</em> Subscribers; Stripe (payment status). <em>Purposes:</em> service delivery, billing, record-keeping. <em>Disclosed to:</em> Stripe; database and email subprocessors; or services a Subscriber connects (see Section 6).</li>
                 <li><strong>Internet or other electronic network activity</strong> — browser type, device, pages visited, request metadata, sign-in timestamps. <em>Sources:</em> automatically from your interactions with the service. <em>Purposes:</em> security, fraud prevention, operations, basic analytics. <em>Disclosed to:</em> hosting and CDN subprocessors.</li>
                 <li><strong>Geolocation information</strong> — approximate location derived from IP address, used for security, fraud prevention, and analytics; and, for Subscriber personnel using the technician app, precise location as described in Section 2, collected only with the technician's permission on their phone and processed on the Subscriber's behalf. <em>Disclosed to:</em> the database and hosting subprocessors listed in Section 6.</li>
                 <li><strong>Professional or employment-related information</strong> — the business identity of the Subscriber and its staff (organization name, role), and the work records the technician app creates for a Subscriber (service visit locations, mileage records, drive history, location agreements, and app status), and vehicle and fleet documents (vehicle records, registration photos, and insurance cards).</li>
