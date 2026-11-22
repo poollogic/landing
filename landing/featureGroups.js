@@ -17,6 +17,7 @@ export const FEATURE_GROUPS = [
       'One-click invoices',
       'Chemicals added to invoices',
       'Invoices printed & mailed for you',
+      'QuickBooks integration',
     ],
     link: { label: 'See the pool billing software', href: '/pool-service-billing' },
   },

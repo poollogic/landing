@@ -42,7 +42,7 @@ const ROUTES = [
   // sections only for now, so no FAQPage: add it back with FULL_PAGE in pages/ai-integrations.jsx.
   { path: '/ai-and-automations', html: 'ai-and-automations.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
   // Pricing: pre-rendered, with its plans and FAQ as structured data. Its hero is the heading block.
-  { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'BreadcrumbList', 'FAQPage'], hero: 'section.pr-hero', stable: ['.section-eyebrow', '#pricing-heading', '.section-sub'] },
+  { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'BreadcrumbList', 'FAQPage'], hero: 'section.pr-hero', stable: ['#pricing-heading', '.section-sub'] },
   // Requests, diagnostics and work orders: pre-rendered. Its FAQ and
   // breadcrumbs are structured data; its screenshots are PhoneFrame / BrowserFrame (landing/workflow).
   // The rest of the indexable pages, pre-rendered too. Contact's hero is the homepage kind (.hero); the
