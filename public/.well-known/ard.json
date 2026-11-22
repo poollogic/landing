@@ -56,7 +56,7 @@
       "identifier": "urn:air:getpoolnautics.com:docs:api",
       "displayName": "Poolnautics API documentation",
       "type": "text/html",
-      "url": "https://app.poollogic.app/docs/api",
+      "url": "https://app.poolnautics.app/docs/api",
       "description": "Reference documentation for the Poolnautics API.",
       "tags": ["API", "developer documentation"],
       "representativeQueries": [

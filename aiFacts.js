@@ -4,7 +4,7 @@
 
 export const AI_PLAN = 'Vision'; // AI, automations and integrations are all on this plan
 export const TRIAL_DAYS = 30; // the trial includes everything in Vision
-export const API_DOCS_URL = 'https://app.poollogic.app/docs/api';
+export const API_DOCS_URL = 'https://app.poolnautics.app/docs/api';
 
 // AI assistant connection (Poolnautics' built-in MCP server)
 export const MCP_CLIENTS = ['Claude Code', 'Cursor', 'VS Code']; // plus any app that connects to an MCP server with a key
