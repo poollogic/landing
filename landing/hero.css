@@ -681,6 +681,13 @@
    before the next section. No lines over the card. A slow blue glow drifts behind that strip. */
 @media (max-width: 639.98px) {
   .hero.hero--home { padding-top: 84px; padding-bottom: 56px; }
+  /* The headline in three set lines ("Pool service software / built to run and grow / your business")
+     and the subhead in two, one sentence each. Each line keeps a 3% margin in the 16px-gutter column:
+     the headline's longest is 9.47 times its font size, so it's 36px from 390px wide down to 30px at
+     320px; the subhead's first sentence is 20.4 times its size, so it's 16px from 365px wide. */
+  .lp-home .hero--home .hero-title { font-size: clamp(30px, calc((100vw - 32px) / 9.75), 36px); }
+  .lp-home .hero--home .hero-sub { font-size: clamp(14px, calc((100vw - 32px) / 20.8), 16px); }
+  .hero--home :is(.hero-title-line, .hero-sub-line) { display: block; white-space: nowrap; }
   .hero--home .hero-copy {
     min-height: calc(100vh - 84px - 66px);
     min-height: calc(100svh - 84px - 66px);

@@ -76,10 +76,16 @@ const Hero = () => {
     <div className="container">
       {/* Text block */}
       <div className={`hero-copy mx-auto flex max-w-4xl flex-col items-center text-center lg:mx-0 lg:max-w-none lg:items-start lg:text-left ${ENTER}`}>
-        <h1 className="hero-title">The software built to run and grow your pool business</h1>
+        {/* On phones each span is a line of its own (hero.css); wider, the headline wraps as it fits. */}
+        <h1 className="hero-title">
+          <span className="hero-title-line">Pool service software</span>{' '}
+          <span className="hero-title-line">built to run and grow</span>{' '}
+          <span className="hero-title-line">your business</span>
+        </h1>
 
         <p className="hero-sub">
-          Billing, routes and service reports run themselves, so you can take on more pools without more office work.
+          <span className="hero-sub-line">Billing, routes and service reports on autopilot.</span>{' '}
+          <span className="hero-sub-line">Cut your overhead. Add more pools.</span>
         </p>
 
         <div className="hero-actions">

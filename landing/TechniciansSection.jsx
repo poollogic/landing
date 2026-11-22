@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import SectionHeader from './SectionHeader.jsx';
+import { ArrowRight } from 'lucide-react';
 import AppStoreBadge from './AppStoreBadge.jsx';
 import initPnPhones from './technicians/pnPhone.js';
 import PN_ICONS from './technicians/pn-icons.html?raw';
@@ -53,7 +54,10 @@ export default function TechniciansSection() {
             {/* The app on the App Store, for the techs: they sign in with an invite from the office. */}
             <div className="ta-get">
               <AppStoreBadge />
-              <p>Free on iPhone. Your techs sign in with an invite from your office.</p>
+              <p>
+                Free on iPhone. Your techs sign in with an invite from your office.
+                <a className="ta-link" href="/tech-app">See the tech app<ArrowRight size={14} strokeWidth={2.2} aria-hidden="true" /></a>
+              </p>
             </div>
           </div>
         </div>
