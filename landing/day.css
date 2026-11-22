@@ -1,7 +1,7 @@
 /* "Meet your new office manager" (DaySection.jsx). Desktop above 1040px, tablet 641–1040px, phone
    640px and below. Everything shows in full without JavaScript; .is-live (set by the script, never
-   with reduced motion) turns on the dimming, the filling line and the rise-ins, which change only
-   opacity and transform. The dots, lines, ticks and glow are CSS shapes, hidden from screen readers. */
+   with reduced motion) turns on the dimming (by colour), the filling line and the rise-ins (opacity and
+   transform). The dots, lines, ticks and glow are CSS shapes, hidden from screen readers. */
 
 .dt-section {
   position: relative;
@@ -10,6 +10,8 @@
   background: #08090c;
   color: #f8fafc;
   text-align: center;
+  --dt-lit: #f8fafc; /* each text's own colour, below; the dimming mixes it with --dt-dim */
+  --dt-dim: #748094; /* 4.76:1 on the darkest backdrop it dims onto (the .03 white tint): AA's 4.5 */
 }
 .dt-glow {
   position: absolute;
@@ -32,7 +34,7 @@
   margin: 22px auto 0;
   text-wrap: balance;
 }
-.dt-fig { color: #e2e8f0; font-variant-numeric: tabular-nums; }
+.dt-fig { --dt-lit: #e2e8f0; color: var(--dt-lit); font-variant-numeric: tabular-nums; }
 .dt-nb { white-space: nowrap; }
 
 /* ---------- Timeline ---------- */
@@ -64,7 +66,8 @@
 .dt-time {
   font-size: 15px;
   line-height: 28px;
-  color: #6f7a8c;
+  --dt-lit: #748094;
+  color: var(--dt-lit);
   text-align: right;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -107,7 +110,8 @@
   font-weight: 500;
   line-height: 28px;
   letter-spacing: -0.015em;
-  color: #f8fafc;
+  --dt-lit: #f8fafc;
+  color: var(--dt-lit);
 }
 /* A small label after an entry's title (/pool-service-billing's "Vision"), in the app's face. The space
    before it (.dt-tag-gap) takes no room, so the title reads "Pause warning Vision" as text, not
@@ -119,7 +123,8 @@
   padding: 2px 7px;
   border-radius: 5px;
   background: rgba(46, 133, 255, .16);
-  color: rgb(125, 178, 255);
+  --dt-lit: rgb(125, 178, 255);
+  color: var(--dt-lit);
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   font-size: 11px;
   font-weight: 600;
@@ -127,7 +132,7 @@
   letter-spacing: normal;
   vertical-align: 3px;
 }
-.dt-detail { margin: 3px 0 0; font-size: 15.5px; line-height: 1.5; color: #8b95a7; }
+.dt-detail { margin: 3px 0 0; font-size: 15.5px; line-height: 1.5; --dt-lit: #8b95a7; color: var(--dt-lit); }
 
 .dt-results { display: flex; flex-direction: column; gap: 11px; margin: 14px 0 0; padding: 0; list-style: none; }
 .dt-results li {
@@ -135,7 +140,8 @@
   grid-template-columns: 22px 1fr;
   font-size: 16px;
   line-height: 23px;
-  color: #aab3c2;
+  --dt-lit: #aab3c2;
+  color: var(--dt-lit);
 }
 .dt-results li::before { /* a small tick */
   content: '';
@@ -146,7 +152,7 @@
   border-bottom: 1.5px solid #2e85ff;
   transform: rotate(-45deg);
 }
-.dt-results .dt-fig { color: #f1f5f9; }
+.dt-results .dt-fig { --dt-lit: #f1f5f9; }
 
 .dt-note {
   margin: 9px 0 0;
@@ -155,10 +161,11 @@
   font-size: 14.5px;
   line-height: 1.5;
   font-style: italic;
-  color: #8b95a7;
+  --dt-lit: #8b95a7;
+  color: var(--dt-lit);
 }
 .dt-note p { margin: 0; }
-.dt-note-label { font-style: normal; color: #6f7a8c; }
+.dt-note-label { font-style: normal; --dt-lit: #748094; color: var(--dt-lit); }
 
 /* Who hears about an entry (an entry's `audience`), under its text. It sits outside .dt-body, so the
    body's dimming doesn't fade it: it has its own dimmed and lit looks, lit once its entry is reached
@@ -183,16 +190,22 @@
 .is-live .dt-entry:not([data-state='passed'], [data-state='current']) .dt-audience {
   border-color: rgba(255, 255, 255, .06);
   background: rgba(255, 255, 255, .03);
-  color: rgb(86, 97, 115);
+  color: var(--dt-dim);
 }
 
-/* Dimming: the time and the text, never the dot. */
-.is-live .dt-time,
-.is-live .dt-body { opacity: .34; transition: opacity .45s ease; }
-.is-live [data-state='passed'] .dt-time,
-.is-live [data-state='passed'] .dt-body { opacity: .62; }
-.is-live [data-state='current'] .dt-time,
-.is-live [data-state='current'] .dt-body { opacity: 1; }
+/* Dimming: the time and the text, never the dot. By colour, not opacity, so dimmed text still passes
+   WCAG AA contrast (4.5:1, Lighthouse's audit): entries not reached yet are --dt-dim, passed ones
+   halfway between their own colour and it, the reached one its own. (The time is already near 4.5:1,
+   so any fade took it, and all the rest, below.) The ticks and the note's rule still fade. */
+.is-live :is(.dt-time, .dt-body, .dt-body *) { transition: color .45s ease, background-color .45s ease, border-color .45s ease, opacity .45s ease; }
+.is-live .dt-entry:not([data-state='passed'], [data-state='current']) :is(.dt-time, .dt-body, .dt-body *) { color: var(--dt-dim); }
+.is-live [data-state='passed'] :is(.dt-time, .dt-body, .dt-body *) { color: color-mix(in srgb, var(--dt-lit) 50%, var(--dt-dim)); }
+.is-live .dt-entry:not([data-state='current']) .dt-tag { background: rgba(255, 255, 255, .03); }
+.is-live .dt-entry:not([data-state='passed'], [data-state='current']) .dt-results li::before { opacity: .34; }
+.is-live [data-state='passed'] .dt-results li::before { opacity: .62; }
+.is-live .dt-results li::before { transition: opacity .45s ease; }
+.is-live .dt-entry:not([data-state='passed'], [data-state='current']) .dt-note { border-left-color: rgba(255, 255, 255, .055); }
+.is-live [data-state='passed'] .dt-note { border-left-color: rgba(255, 255, 255, .1); }
 
 /* ---------- Stats and closing ---------- */
 .dt-close { max-width: 760px; margin: 132px auto 0; }

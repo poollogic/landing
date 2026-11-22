@@ -93,7 +93,7 @@ export default function FounderSection() {
               aria-expanded={open}
               aria-controls="founder-story"
               onClick={() => setOpen((o) => !o)}
-              className="mt-2.5 inline-flex md:hidden items-center gap-1.5 border-0 bg-transparent p-0 text-[16px] font-semibold text-[#2E85FF] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2E85FF]"
+              className="mt-2.5 inline-flex md:hidden items-center gap-1.5 border-0 bg-transparent p-0 text-[16px] font-semibold text-[#256cd0] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#2E85FF]"
             >
               {open ? 'Show less' : 'Read the full story'}
               <ChevronDown size={14} strokeWidth={2.2} aria-hidden="true" className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />

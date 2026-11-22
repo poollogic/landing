@@ -52,7 +52,7 @@
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
-  color: rgb(110, 116, 128);
+  color: rgb(107, 113, 125);
 }
 .fl-tile-text { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .fl-tile-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: rgb(14, 17, 23); }
@@ -83,13 +83,13 @@
   background: none;
   font-size: 15px;
   font-weight: 500;
-  color: rgb(110, 116, 128);
+  color: rgb(107, 113, 125);
   cursor: pointer;
 }
 .fl-tab.is-on { color: rgb(14, 17, 23); }
 .fl-tab.is-on::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 1px; background: rgb(46, 133, 255); }
 .fl-tab:focus-visible { outline: 2px solid rgb(46, 133, 255); outline-offset: 3px; border-radius: 4px; }
-.fl-range { margin: 0; font-size: 12.5px; color: rgb(138, 143, 152); }
+.fl-range { margin: 0; font-size: 12.5px; color: rgb(107, 113, 125); }
 
 /* Dropdowns (the app's select): a button with its label and bold value, and a menu just below it. */
 .fl-controls { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -107,7 +107,7 @@
   cursor: pointer;
 }
 .fl-dd-btn:focus-visible { outline: 2px solid rgb(46, 133, 255); outline-offset: 2px; }
-.fl-dd-label { color: rgb(110, 116, 128); }
+.fl-dd-label { color: rgb(107, 113, 125); }
 .fl-dd-value { font-weight: 600; color: rgb(14, 17, 23); }
 .fl-dd-chev { flex: none; color: rgb(140, 146, 156); }
 .fl-dd-menu {
@@ -157,7 +157,7 @@
   line-height: 1.4;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #a1a1a6;
+  color: #6e6e73;
 }
 .fl-table tbody :is(th, td) { padding: 14px 16px; }
 .fl-table tbody tr + tr { border-top: 1px solid rgb(236, 239, 243); }
@@ -175,7 +175,7 @@
 .fl-trucks :is(th, td) { text-align: left; white-space: nowrap; }
 .fl-trucks tbody :is(th, td) { font-size: 13px; color: #6e6e73; }
 .fl-trucks tbody th { color: rgb(14, 17, 23); }
-.fl-checkin { display: block; font-size: 11.5px; color: #a1a1a6; }
+.fl-checkin { display: block; font-size: 11.5px; color: #6e6e73; }
 .fl-reading { display: block; font-weight: 500; color: #1d1d1f; }
 .fl-truck-sub { display: none; }
 
@@ -188,9 +188,9 @@
   background: rgb(247, 248, 250);
   font-size: 11.5px;
   font-weight: 500;
-  color: rgb(110, 116, 128);
+  color: rgb(107, 113, 125);
 }
-.fl-pill--alert { border-color: rgb(249, 196, 200); background: rgb(253, 237, 238); font-weight: 600; color: rgb(234, 51, 64); }
+.fl-pill--alert { border-color: rgb(249, 196, 200); background: rgb(253, 237, 238); font-weight: 600; color: rgb(204, 44, 56); }
 
 /* ---------- Points ---------- */
 .fl-points {
@@ -233,5 +233,5 @@
   .fl-trucks :is(th, td):nth-child(2) { display: none; }
   .fl-trucks tbody th { white-space: normal; }
   .fl-pill { padding: 3px 7px; font-size: 11px; }
-  .fl-truck-sub { display: block; font-size: 12px; font-weight: 400; color: #8a8f98; }
+  .fl-truck-sub { display: block; font-size: 12px; font-weight: 400; color: rgb(107, 113, 125); }
 }
