@@ -19,7 +19,7 @@ const ROUTE_PAGES = { '/': 'pages/landing.jsx', '/pricing': 'pages/pricing.jsx',
 const MARKETING_FONTS = ['/fonts/Satoshi-Regular.woff2', '/fonts/Satoshi-Medium.woff2', '/fonts/Satoshi-Bold.woff2'];
 // Extra fonts a page's first screen uses: the homepage hero's dashboard preview is drawn in Inter
 // (preview/preview.css), which the browser would otherwise only find once that CSS applies.
-const PAGE_FONTS = { '/': ['/fonts/Inter-latin.woff2'], '/pool-service-billing': ['/fonts/Inter-latin.woff2'], '/pool-route-software': ['/fonts/Inter-latin.woff2'] }; // /pool-service-billing: its billing calendar, chips, settings and invoice; /pool-route-software: its route board
+const PAGE_FONTS = { '/': ['/fonts/Inter-latin.woff2'], '/pool-service-billing': ['/fonts/Inter-latin.woff2'], '/pool-route-software': ['/fonts/Inter-latin.woff2'] }; // /pool-service-billing: its month chips, settings and invoice; /pool-route-software: its route board
 // Fonts a page starts downloading straight away, with the main script: the homepage's h1 (.hero-title, 700).
 const EARLY_FONTS = { '/': ['/fonts/Satoshi-Bold.woff2'] };
 const SITE_FONTS = ['/fonts/Geist.woff2']; // the rest of the site

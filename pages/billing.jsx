@@ -32,6 +32,8 @@ import { Footer } from '../components/site-chrome.jsx';
 const ORIGIN = 'https://getpoolnautics.com';
 const REPAIRS_LINK = 'See how repairs and diagnostics work';
 const PRICING_LINK = 'See pricing';
+// The offer under the hero's buttons.
+const HERO_TICKS = ['Free for 30 days', 'No credit card', 'Included in every plan'];
 
 // The FAQ: shown in #billing-faq (FaqSection) and sent as FAQPage structured data (structuredData
 // below, in the pre-rendered <head>), from this one list, so the two always match.
@@ -135,9 +137,10 @@ export default function BillingPage() {
     <div className="mktg ai-page billing-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
       <Nav />
       <main>
-        {/* 1. Hero: the AI page's ground and type (no smoke or beam: the calendar's "today" is its only
-            motion), as one centred column: the copy, then the billing calendar. */}
-        <section className="hero ai-hero bp-hero relative overflow-x-clip" aria-labelledby="billing-hero-title">
+        {/* 1. Hero: the AI page's ground and type (no smoke or beam), as one centred column: the copy,
+            filling the first screen but for the top 96px of the billing panel under it, then the panel,
+            which plays once (BillingCalendar.jsx), its payout card over its bottom-right corner. */}
+        <section className="hero ai-hero bp-hero bp-hero--billing relative overflow-x-clip" aria-labelledby="billing-hero-title">
           <div className="ai-hero-fade" aria-hidden="true" />
           <div className="container">
             <div className="bp-hero-stack">
@@ -155,7 +158,16 @@ export default function BillingPage() {
                   <PrimaryCta theme={theme} />
                   <a href="/pricing" className={`ai-cta-ghost cta-secondary ${FOCUS}`}>See pricing</a>
                 </div>
-                <p className="hero-fine">Automatic invoicing is included in every plan.</p>
+                <ul className="bp-hero-ticks">
+                  {HERO_TICKS.map((t) => (
+                    <li key={t}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M5 12.5l4.5 4.5L19 7.5" />
+                      </svg>
+                      {t}
+                    </li>
+                  ))}
+                </ul>
               </div>
               <div className="bp-hero-visual animate-mktg-fade-up motion-reduce:animate-none [animation-delay:150ms]">
                 <BillingCalendar />

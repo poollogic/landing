@@ -1,8 +1,9 @@
-// /pool-service-billing's example month, in one place so its pictures agree: the hero calendar's dots
-// (BillingCalendar.jsx), the settings card's rate (BillingSetup.jsx) and the "That same month, added
-// up" totals (PaymentAutomation.jsx). All of it is an example, not real data.
+// /pool-service-billing's example month, in one place so its pictures agree: the month (DOTS), the
+// settings card's rate (BillingSetup.jsx) and the "That same month, added up" totals
+// (PaymentAutomation.jsx). The hero's billing panel has its own figures (BillingCalendar.jsx). All of
+// it is an example, not real data.
 
-/** Customers billed on each day, the 1st to the 28th: a dot each in the hero calendar. */
+/** Customers billed on each day, the 1st to the 28th. */
 export const DOTS = [2, 1, 3, 0, 1, 2, 1, 4, 2, 1, 3, 0, 2, 3, 1, 2, 0, 3, 1, 2, 1, 4, 1, 0, 2, 3, 1, 2];
 
 /** The page's monthly rate, in dollars ($145 / month, Dana's weekly pool service). */
