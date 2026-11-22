@@ -4,8 +4,7 @@ import React, { memo, useEffect, useRef } from 'react';
 // stat cards, the collection bar, a dot calendar (a dot per customer on their own billing day, the 1st
 // to the 28th, "today" the 19th) and this morning's run, with the payout card over its bottom-right
 // corner. Styles: billing-page.css (.bc-panel, .bh-*). All of it is an example, not real data, and no
-// month or date is named. Its figures are this file's own (not billingDemo.js's, which the totals
-// further down the page use).
+// month or date is named. Its figures are this file's own.
 //
 // The markup is the finished picture: it's what the pre-rendered page shows, with JavaScript off, and
 // with reduced motion. With motion allowed, the script below puts it back to its start (every dot

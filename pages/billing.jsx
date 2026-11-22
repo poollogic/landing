@@ -25,7 +25,7 @@ import { Footer } from '../components/site-chrome.jsx';
 // how customers pay (white), late invoices (dark), failed payments (grey), card fees (white), beyond
 // the monthly rate (grey), your money (dark), plans (white), FAQ (grey), closing call to action
 // (dark); the payment automation ones are landing/billing-page/PaymentAutomation.jsx. The month's
-// example figures (the hero's dots, the $145 rate, the totals) are billingDemo.js. Pre-rendered (entry-server.jsx),
+// example rate ($145) is billingDemo.js; the hero panel's figures are its own (BillingCalendar.jsx). Pre-rendered (entry-server.jsx),
 // so no window or document while rendering. The hero's calendar and the belt under it run on one
 // clock (billingClock.js).
 
@@ -195,7 +195,7 @@ export default function BillingPage() {
           </div>
         </section>
 
-        {/* 4. How customers pay (white): the three ways, as a When / Then card, and the month's totals. */}
+        {/* 4. How customers pay (white): the three ways, as a When / Then card. */}
         <HowCustomersPay />
 
         {/* 5. Late invoices (dark): what happens to that invoice if it isn't paid, the homepage's timeline. */}

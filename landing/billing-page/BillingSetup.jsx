@@ -1,5 +1,5 @@
 import React, { useId, useState } from 'react';
-import { RATE } from './billingDemo.js'; // the page's $145, shared with the totals further down
+import { RATE } from './billingDemo.js'; // the page's $145, shared with the chemicals snippet further down
 
 // /pool-service-billing's settings section: a customer's billing settings (left) and the invoice they
 // produce (right), a copy of the customer invoice page on portal.poolnautics.app drawn as a sheet of US

@@ -1,17 +1,6 @@
-// /pool-service-billing's example month, in one place so its pictures agree: the month (DOTS), the
-// settings card's rate (BillingSetup.jsx) and the "That same month, added up" totals
-// (PaymentAutomation.jsx). The hero's billing panel has its own figures (BillingCalendar.jsx). All of
-// it is an example, not real data.
-
-/** Customers billed on each day, the 1st to the 28th. */
-export const DOTS = [2, 1, 3, 0, 1, 2, 1, 4, 2, 1, 3, 0, 2, 3, 1, 2, 0, 3, 1, 2, 1, 4, 1, 0, 2, 3, 1, 2];
+// /pool-service-billing's example rate, in one place so its pictures agree: the settings card
+// (BillingSetup.jsx) and the chemicals snippet in "Beyond the monthly rate" (PaymentAutomation.jsx).
+// The hero's billing panel has its own figures (BillingCalendar.jsx). An example, not real data.
 
 /** The page's monthly rate, in dollars ($145 / month, Dana's weekly pool service). */
 export const RATE = 145;
-
-/** Customers with no email on file, whose invoices are printed and mailed. */
-export const MAILED = 2;
-
-export const CUSTOMERS = DOTS.reduce((a, n) => a + n, 0); // 48
-export const EMAILED = CUSTOMERS - MAILED; // 46
-export const BILLED = CUSTOMERS * RATE; // $6,960

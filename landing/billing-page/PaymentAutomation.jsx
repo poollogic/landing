@@ -4,11 +4,11 @@ import {
 } from 'lucide-react';
 import { PrimaryCta } from '../ai/shared.jsx';
 import { usePreviewTheme } from '../preview/previewTheme.js';
-import { BILLED, CUSTOMERS, EMAILED, MAILED, RATE } from './billingDemo.js';
+import { RATE } from './billingDemo.js';
 import './payment-automation.css';
 
 // /pool-service-billing's payment automation sections (pages/billing.jsx), on /ai-and-automations' type:
-//   A  HowCustomersPay   how a customer pays, as a "When / Then" card per option, then the month's totals
+//   A  HowCustomersPay   how a customer pays, as a "When / Then" card per option
 //   B  FailedPayments    what happens when an autopay card fails
 //   C  CardFees          a calculator: the card fees a company stops paying by passing them on
 //   D  BeyondRate        chemicals and repairs on the invoice too
@@ -16,8 +16,8 @@ import './payment-automation.css';
 //   F  ClosingCta        the page's last call to action (dark, after the FAQ)
 //   G  QuickBooksSync    the QuickBooks Online sync, coming soon (white, after E)
 // Every option's and every card's text is in the pre-rendered HTML; choosing only shows and hides.
-// Styles: payment-automation.css (.pa-*). Examples, not real data; the month's figures come from
-// billingDemo.js, the same numbers as the hero's calendar.
+// Styles: payment-automation.css (.pa-*). Examples, not real data; the $145 rate comes from
+// billingDemo.js, as the settings card's does.
 
 const fmt = new Intl.NumberFormat('en-US');
 const money = (dollars) => `$${fmt.format(dollars)}`;
@@ -120,14 +120,6 @@ const PAY_OPTIONS = [
   },
 ];
 
-const TOTALS = [
-  { n: fmt.format(CUSTOMERS), label: 'customers billed' },
-  { n: fmt.format(EMAILED), label: 'invoices emailed' },
-  { n: fmt.format(MAILED), label: 'invoices mailed' },
-  { n: money(BILLED), label: 'billed' },
-  { n: '0', label: 'buttons pressed' },
-];
-
 export function HowCustomersPay() {
   const [sel, setSel] = useState(0);
   const refs = useRef([]);
@@ -187,18 +179,6 @@ export function HowCustomersPay() {
                 />
               ))}
             </div>
-          </div>
-
-          <div className="pa-totals">
-            <p className="pa-totals-label"><span className="pa-dot" aria-hidden="true" />That same month, added up</p>
-            <dl className="pa-totals-grid">
-              {TOTALS.map((t) => (
-                <div key={t.label} className="pa-total">
-                  <dt>{t.label}</dt>
-                  <dd>{t.n}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
         </div>
       </div>

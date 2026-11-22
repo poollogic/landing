@@ -99,17 +99,6 @@
 }
 .ai-page.billing-page .pa-option.is-on .pa-radio { border-color: #2e85ff; background: #2e85ff; box-shadow: inset 0 0 0 3.5px #fff; }
 
-/* ---------- A. The month's totals ---------- */
-.ai-page.billing-page .pa-totals {
-  margin-top: 56px; padding: 24px; border: 1px solid rgb(226, 232, 240); border-radius: 18px; background: rgb(248, 250, 252);
-}
-.ai-page.billing-page .pa-totals-label { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 13px; font-weight: 600; line-height: 1.4; color: #475569; }
-.ai-page.billing-page .pa-dot { width: 8px; height: 8px; border-radius: 50%; background: #16a34a; box-shadow: 0 0 0 3px rgba(22, 163, 74, .15); }
-.ai-page.billing-page .pa-totals-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin: 18px 0 0; }
-.ai-page.billing-page .pa-total { display: flex; flex-direction: column-reverse; gap: 4px; min-width: 0; }
-.ai-page.billing-page .pa-total dt { font-size: 14px; line-height: 1.4; color: #64748b; }
-.ai-page.billing-page .pa-total dd { margin: 0; font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: #0f172a; font-variant-numeric: tabular-nums; }
-
 /* ---------- B. Check list ---------- */
 .ai-page.billing-page .pa-checks { display: flex; flex-direction: column; gap: 12px; margin: 28px 0 0; padding: 0; list-style: none; }
 .ai-page.billing-page .pa-checks li { display: flex; align-items: center; gap: 12px; font-size: 16px; line-height: 1.4; color: #1e293b; text-align: left; }
@@ -239,14 +228,6 @@
   .ai-page.billing-page .pa-split--mirror .pa-visual { order: 0; } /* copy first, then the card */
   .ai-page.billing-page .pa-checks { width: fit-content; max-width: 100%; margin-inline: auto; }
   .ai-page.billing-page .pa-pair { gap: 16px; margin-top: 40px; }
-
-  /* The totals: a row each, caption left and number right, thin rules between. */
-  .ai-page.billing-page .pa-totals { margin-top: 40px; padding: 20px; }
-  .ai-page.billing-page .pa-totals-grid { grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 10px; }
-  .ai-page.billing-page .pa-total { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 12px; padding: 12px 0; }
-  .ai-page.billing-page .pa-total + .pa-total { border-top: 1px solid rgb(226, 232, 240); }
-  .ai-page.billing-page .pa-total dt { font-size: 15px; }
-  .ai-page.billing-page .pa-total dd { font-size: 20px; }
 
   .ai-page.billing-page .pa-steps { padding: 20px 18px 4px; }
   .ai-page.billing-page .pa-product-head { padding: 16px 18px; }
