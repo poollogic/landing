@@ -119,7 +119,9 @@ export default function PreviewSidebar({ menuOpen, onToggleMenu, flash, chipRef,
           <div className="pl-menu-who" aria-hidden="true">
             <div className="pl-menu-company">{IDENTITY.company}</div>
             <div className="pl-menu-name">{IDENTITY.name}</div>
-            <div className="pl-menu-email">{IDENTITY.email}</div>
+            {/* The @ in its own element: Cloudflare's email obfuscation rewrites any address it finds in the
+                served HTML and adds a render-blocking script (email-decode.min.js) to decode it. */}
+            <div className="pl-menu-email">{IDENTITY.email.split('@')[0]}<span>@</span>{IDENTITY.email.split('@')[1]}</div>
           </div>
           <div className="pl-menu-divider" />
           <div className="pl-menu-row" aria-hidden="true"><FileText size={16} strokeWidth={1.75} /><span className="pl-menu-row-label">Docs</span></div>
