@@ -138,7 +138,7 @@ const LIMITS = [
   },
 ];
 
-export default function Guardrails({ focus }) {
+export default function Guardrails({ focus, cta = null }) {
   const [picked, setPicked] = useState(0);
   const [playing, setPlaying] = useState(null); // the exchange rising in, or null (shown as it is)
   const [typed, setTyped] = useState(null); // the question being typed into the composer
@@ -243,6 +243,8 @@ export default function Guardrails({ focus }) {
             ))}
           </div>
         </details>
+        {/* The trial button the page passes in, under everything (pages/ai-integrations.jsx SectionCta). */}
+        {cta}
       </div>
     </section>
   );

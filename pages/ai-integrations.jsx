@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {
-  ArrowRight, BookOpen, Bot, Check, Hash, Mail, MessageSquare, Webhook, Workflow, Inbox,
+  ArrowRight, BookOpen, Bot, CalendarDays, Check, Hash, Mail, MessageSquare, Webhook, Workflow, Inbox,
 } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
@@ -105,18 +105,18 @@ const FAQ = [
 const AUTOMATION_FAQ = [
   {
     q: 'What is pool service automation software?',
-    a: 'Pool service automation software helps pool companies automate recurring business tasks such as customer communications, billing reminders, lead follow-ups, service notifications and administrative workflows.',
+    a: 'Pool service automation software, also called pool service management software or pool business software, handles a pool company’s recurring work automatically: billing reminders, lead follow-ups, customer messages and service notifications.',
   },
   {
     q: 'Can I connect ChatGPT to my pool service software?',
-    a: 'Poolnautics supports connections to ChatGPT, Claude, Grok and other compatible AI assistants through its built-in MCP server, allowing authorized assistants to access business information and perform permitted actions.',
+    a: 'Yes. Poolnautics has a built-in MCP server, so ChatGPT, Claude or Grok can look up customers and invoices and take the actions you allow. It can never charge a card, refund a payment or change a price without your approval.',
   },
   {
     q: 'Can pool service software automate customer follow-ups?',
     a: 'Yes. Poolnautics includes configurable workflows that can automatically send text messages, emails and notifications based on business events, timing and conditions.',
   },
   {
-    q: 'Can Poolnautics automate billing?',
+    q: 'Does pool service billing software send invoices and reminders automatically?',
     a: 'Yes. Recurring invoices go out on schedule, and customers on autopay are charged automatically. Overdue reminders go out on schedule, late fees follow your rules, and a failed autopay payment is retried, with the customer emailed a link to update their card if it still can’t go through.',
   },
   {
@@ -140,10 +140,10 @@ export const structuredData = [
     '@type': 'WebPage',
     '@id': `${PAGE_URL}#webpage`,
     url: PAGE_URL,
-    name: 'Pool Service Automation & AI Integrations',
-    description: 'Automate pool service workflows, follow-ups and billing. Connect ChatGPT, Claude, Grok or your own AI to your pool business data with Poolnautics.',
+    name: 'Pool Service Automation Software with AI',
+    description: 'Pool service software that automates billing, lead follow-ups and reminders on its own. Connect ChatGPT, Claude or Grok to your pool business. 30-day trial.',
     inLanguage: 'en-US',
-    dateModified: '2026-11-15',
+    dateModified: '2026-11-22',
     isPartOf: { '@id': `${ORIGIN}/#website` },
     about: { '@id': `${ORIGIN}/#software` },
   },
@@ -219,6 +219,26 @@ function DocsCta() {
   );
 }
 
+/** The hero's second button: a walkthrough, requested on the contact page (its "Get a demo" tab, the
+ *  default; the office replies to set up a time). Styled as DocsCta. */
+function WalkthroughCta() {
+  return (
+    <a href="/contact" className={`ai-cta-ghost cta-secondary ${FOCUS}`}>
+      <CalendarDays size={17} strokeWidth={1.75} aria-hidden="true" />
+      Book a walkthrough
+    </a>
+  );
+}
+
+/** The trial button at the foot of a section: the hero's, centered, 48px below the section's content. */
+function SectionCta({ theme }) {
+  return (
+    <div className="ai-cta-row ai-cta-row--center ai-cta-row--section" data-reveal="">
+      <PrimaryCta theme={theme} />
+    </div>
+  );
+}
+
 /* ---------- The page ---------- */
 
 export default function AiIntegrationsPage() {
@@ -236,14 +256,14 @@ export default function AiIntegrationsPage() {
           <div className="container">
             <div className="ai-hero-grid">
               <div className="ai-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
-                <HeroHeading id="ai-hero-title" eyebrow="Pool service automation" title="Pool Service Automation Built for the Way You Work">
-                  Built-in automations handle the routine on their own: lead follow-ups, overdue reminders, failed-payment
-                  links and review requests. For everything else, securely connect ChatGPT, Claude, Grok or your own AI to
+                <HeroHeading id="ai-hero-title" eyebrow="Pool service automation" title="Pool Service Automation Software That Handles the Routine for You">
+                  Poolnautics is pool service software with the automations already built in: lead follow-ups, overdue
+                  reminders, failed-payment links and review requests. For everything else, securely connect ChatGPT, Claude, Grok or your own AI to
                   your pool service data.
                 </HeroHeading>
                 <div className="ai-cta-row">
                   <PrimaryCta theme={theme} />
-                  <DocsCta />
+                  <WalkthroughCta />
                 </div>
                 <p className="hero-fine">
                   AI, automations and integrations are on the {AI_PLAN} plan. The {TRIAL_DAYS}-day trial includes all of it.
@@ -268,14 +288,16 @@ export default function AiIntegrationsPage() {
                 align: 'left',
                 id: 'automations-heading',
                 eyebrow: 'Automations',
-                title: 'Pool service automations built into Poolnautics.',
+                // "follow-up" never breaks across lines.
+                title: <>Pool service billing and <span className="whitespace-nowrap">follow-up</span> automations, built in.</>,
                 subtitle: [
-                  'You don’t have to be an expert in durable execution, triggers, retries, idempotency or audit trails. We already built them in.',
+                  'If a text fails, it’s sent again. Nothing goes out twice. Nothing goes out during quiet hours. You don’t set any of that up.',
                   'An automation here is just a process that’s been standardized: lead follow-up, onboarding, turning estimates into jobs, recurring invoices, fleet.',
                 ],
                 className: 'mb-0',
               })}
             />
+            <SectionCta theme={theme} />
           </div>
         </section>
 
@@ -355,11 +377,12 @@ export default function AiIntegrationsPage() {
                 be revoked on its own.
               </p>
             </div>
+            <SectionCta theme={theme} />
           </div>
         </section>
 
         {/* 7. Guardrails (white): ask it for something it shouldn't do (Guardrails.jsx). */}
-        <Guardrails focus={FOCUS} />
+        <Guardrails focus={FOCUS} cta={<SectionCta theme={theme} />} />
 
         {/* 8. The technician app (light grey): no AI, on purpose. Ends with the page's call to action. */}
         <section id="technician-app" className="section ai-light ai-tech bg-slate-50" data-theme="light" aria-labelledby="tech-app-heading">
@@ -370,8 +393,8 @@ export default function AiIntegrationsPage() {
                   align: 'left',
                   id: 'tech-app-heading',
                   eyebrow: 'The technician app',
-                  title: 'Does the technician app use AI? No, on purpose.',
-                  subtitle: 'AI works in the office. The tech app is the bridge between visits: the route, the readings, the photos, done. Nothing new to learn, so a tech can run it on day one.',
+                  title: 'A pool service app your techs can run on day one. No AI, on purpose.',
+                  subtitle: 'AI works in the office. The pool service app is the bridge between visits: the route, the readings, the photos, done. Nothing new to learn, so a tech can run it on day one.',
                   className: 'mb-0',
                 })}
                 <Ticks items={TECH_APP} className="ai-tech-ticks" />
@@ -397,7 +420,7 @@ export default function AiIntegrationsPage() {
                 id: 'leads-heading',
                 eyebrow: 'Lead capture',
                 title: 'Capture pool service leads from any form or ad',
-                subtitle: 'Every company gets a lead link. Point your website forms and lead ads at it, no code, and every lead lands in Poolnautics with its source, ready for follow-up.',
+                subtitle: 'Every company gets a lead link. Point your website forms and lead ads at it, no code, and every pool service lead lands in Poolnautics with its source, ready for follow-up.',
               })}
             </div>
             <div data-reveal="">
@@ -406,6 +429,7 @@ export default function AiIntegrationsPage() {
             <p className="ai-note ai-note--center" data-reveal="">
               Sources: {LEAD_SOURCES.join(', ')} and more.
             </p>
+            <SectionCta theme={theme} />
           </div>
         </section>
 
@@ -638,7 +662,7 @@ export default function AiIntegrationsPage() {
                 align: 'left',
                 id: 'automation-faq-heading',
                 eyebrow: 'FAQ',
-                title: 'Frequently Asked Questions',
+                title: 'Pool service automation software FAQ',
                 className: 'mb-0',
               })}
             </div>

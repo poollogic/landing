@@ -159,6 +159,7 @@
 .ai-page .ai-cta-row { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
 .ai-page .ai-cta-row--center { justify-content: center; }
 .ai-page .ai-cta-row--left { margin-top: 32px; }
+.ai-page .ai-cta-row--section { margin-top: 48px; } /* a section's trial button, under its content (SectionCta) */
 .ai-page .ai-cta { margin-top: 0; }
 @media (max-width: 1023.98px) {
   .ai-page .ai-cta { height: 56px; padding: 0 26px 0 30px; border-radius: var(--ai-r-button); }

@@ -29,7 +29,7 @@ export default function Routine() {
         <div className="ai-routine-inner">
           <SectionHeader
             id="routine-heading"
-            title={<><span>The routine runs itself.</span>{' '}<span>The exceptions are one request away.</span></>}
+            title={<><span>Pool business software</span>{' '}<span>where the routine runs itself.</span></>}
             subtitle="Most automation tools leave the process to you. Poolnautics has automated billing and follow-ups built in, so your AI is only needed for everything else."
           />
 

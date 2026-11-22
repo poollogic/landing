@@ -19,7 +19,7 @@ const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayout
 // (STANCE) are built from the same pieces, so they can't drift apart.
 const MCP = 'through the built-in MCP server';
 const API = `build your own pool service API integration with ${WEBHOOK_EVENTS.length} signed webhooks`;
-const CSV = 'Export everything as CSV, on every plan.';
+const CSV = 'Unlike most pool software, you can export everything as CSV, on every plan.';
 const STANCE = [
   ['data', CSV],
   ['tools', `Connected ${MCP}, or ${API}.`],
@@ -69,7 +69,7 @@ export default function Stance() {
     <section ref={ref} className="section ai-stance bg-white" data-theme="light" aria-label="Why Poolnautics">
       <div className="container">
         <h2 className="ai-stance-line" data-reveal="">
-          <span>Most pool software is built to lock you in.</span>{' '}
+          <span>Most pool company software locks you in.</span>{' '}
           <span>Poolnautics is built to connect.</span>
         </h2>
         <p className="ai-stance-trio">
