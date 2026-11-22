@@ -10,6 +10,7 @@ import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
 import { Footer } from '../components/site-chrome.jsx';
 import { BRACKETS } from '../pricingPlans.js';
+import { QUICKBOOKS_SYNC_SHOWN } from '../landing/quickbooksSync.js';
 
 // /pricing: a dark top section (hero, then the pricing slab: the customer slider and billing switch
 // on a raised plate, the two plans as wells pressed into it), the comparison (white), "No hidden
@@ -20,7 +21,7 @@ import { BRACKETS } from '../pricingPlans.js';
 const INSIGHT = 'Insight';
 const VISION = 'Vision';
 
-// What each plan's card lists, seven each, as the app gates them (poollogic-web-app
+// What each plan's card lists (seven each, six on Insight while QuickBooks is hidden), as the app gates them (poollogic-web-app
 // src/lib/planFeatures.ts): card fees are on every plan; automatic pause, fleet, mileage,
 // automations, AI connections, bulk email and the API are Vision's. Everything else is in the
 // comparison table (COMPARE).
@@ -29,7 +30,8 @@ const INSIGHT_FEATURES = [
   'Zero-click billing & autopay',
   'Card fees passed on to your customers',
   'Late fees & overdue reminders that run themselves',
-  'QuickBooks Online integration (coming soon)', // QuickBooks: flip to available when Intuit approves production keys
+  // QuickBooks: flip to available when Intuit approves production keys; hidden for now (landing/quickbooksSync.js).
+  ...(QUICKBOOKS_SYNC_SHOWN ? ['QuickBooks Online integration (coming soon)'] : []),
   'Drag-and-drop routing & offline technician app',
   'Free white-glove migration',
 ];
@@ -78,7 +80,8 @@ const COMPARE = [
     ['Card fees passed on to customers, where state law allows', true, true],
     ['Late fees applied automatically', true, true],
     ['Automatic overdue reminders', true, true],
-    ['QuickBooks Online integration (coming soon)', true, true], // QuickBooks: flip to available when Intuit approves production keys
+    // QuickBooks: flip to available when Intuit approves production keys; hidden for now (landing/quickbooksSync.js).
+    ...(QUICKBOOKS_SYNC_SHOWN ? [['QuickBooks Online integration (coming soon)', true, true]] : []),
     ['Automatic pause for customers who don’t pay', false, true],
     ['“Vanishing Discount” price adjuster', false, true],
   ]],

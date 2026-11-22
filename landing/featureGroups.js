@@ -5,6 +5,8 @@
 // features. A link is an in-page section id (#collections …) or a page (billing's goes to /pool-service-billing);
 // a group may have two (an array).
 
+import { QUICKBOOKS_SYNC_SHOWN } from './quickbooksSync.js';
+
 export const FEATURE_GROUPS = [
   {
     id: 'billing',
@@ -17,7 +19,8 @@ export const FEATURE_GROUPS = [
       'One-click invoices',
       'Chemicals added to invoices',
       'Invoices printed & mailed for you',
-      'QuickBooks Online integration (coming soon)', // QuickBooks: flip to available when Intuit approves production keys
+      // QuickBooks: flip to available when Intuit approves production keys; hidden for now (quickbooksSync.js).
+      ...(QUICKBOOKS_SYNC_SHOWN ? ['QuickBooks Online integration (coming soon)'] : []),
     ],
     link: { label: 'See the pool billing software', href: '/pool-service-billing' },
   },

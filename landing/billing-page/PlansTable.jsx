@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionHeader from '../SectionHeader.jsx';
 import { ComingSoon } from './PaymentAutomation.jsx';
+import { QUICKBOOKS_SYNC_SHOWN } from '../quickbooksSync.js';
 
 // /pool-service-billing's plans: what billing comes with on Insight and Vision, as a real table (the
 // feature is each row's header). Keep it in step with /pricing's "Compare plans" (pages/pricing.jsx).
@@ -14,9 +15,9 @@ const ROWS = [
   ['Late fees applied automatically', true, true],
   ['Automatic overdue reminders', true, true],
   ['Chemicals on invoices', true, true],
-  // Not live yet: "Soon" in each plan's column, and the Coming soon pill after the name.
-  // QuickBooks: flip to available when Intuit approves production keys (true, true)
-  ['QuickBooks Online sync', 'soon', 'soon'],
+  // Not live yet: "Soon" in each plan's column, and the Coming soon pill after the name; hidden for
+  // now (landing/quickbooksSync.js). QuickBooks: flip to available when Intuit approves production keys (true, true)
+  ...(QUICKBOOKS_SYNC_SHOWN ? [['QuickBooks Online sync', 'soon', 'soon']] : []),
   ['Automatic pause for customers who don’t pay', false, true],
   ['Invoices emailed from your own domain', false, true],
   ['Invoicing when a job’s done', false, true],
