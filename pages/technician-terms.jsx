@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import LegalPage, { Section } from '../components/legal/LegalPage.jsx';
 
 // Technician App Terms — what a technician agrees to with the box on the
 // phone app's location screen ("I agree to the Technician App Terms and have
@@ -33,172 +34,91 @@ const SECTIONS = [
 const link = { color: 'var(--accent)' };
 const Privacy = () => <a href="/privacy" style={link}>Privacy Policy</a>;
 
-const TechnicianTermsPage = () => {
-  const [activeId, setActiveId] = useState(SECTIONS[0].id);
+const TechnicianTermsPage = () => (
+  <LegalPage
+    title="Technician App Terms"
+    meta={[['Effective', EFFECTIVE], ['Updated', UPDATED], ['Version', VERSION], ['Provider', 'Poolnautics LLC']]}
+    intro={<>These terms cover using the Poolnautics app as a pool technician. You agree to them by checking the box on the app's location screen the first time you sign in. These terms are a short summary; the full <a href="/terms" style={link}>Terms of Service</a> and <Privacy /> also apply.</>}
+    toc={SECTIONS}
+  >
+    <div className="legal-summary">
+      <strong style={{ color: 'var(--ink-2)' }}>In short:</strong> your company decides which features are on and how your information is used. Each service report records where it was sent from. If your company turns them on, the app logs your miles and your company may review the routes you drive during work hours. You can change location access in your phone's Settings at any time. The insurance card in the app is a convenience copy only: always carry your official proof of insurance.
+    </div>
 
-  // Highlight TOC entry for the section currently in the upper portion of the viewport.
-  useEffect(() => {
-    const headings = SECTIONS.map((s) => document.getElementById(s.id)).filter(Boolean);
-    if (!headings.length) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActiveId(visible[0].target.id);
-      },
-      { rootMargin: '-15% 0px -70% 0px', threshold: 0 },
-    );
-    headings.forEach((h) => obs.observe(h));
-    return () => obs.disconnect();
-  }, []);
+    <Section id="about" title="1. About these terms">
+      <p>These Technician App Terms ("Terms") are between you and Poolnautics LLC ("Poolnautics," "we," "us"). They apply when you use the Poolnautics technician app as a technician, employee or subcontractor of a pool service company that uses Poolnautics ("your company").</p>
+      <p>You accept these Terms by checking the box on the app's location screen ("I agree to the Technician App Terms and have read the Privacy Policy") the first time you sign in. If we change them, the app will ask you to agree again.</p>
+    </Section>
 
-  return (
-    <main style={{ background: 'var(--bg)', color: 'var(--ink-2)', minHeight: '100vh' }}>
-      <div className="container" style={{ paddingTop: 'var(--page-top)', paddingBottom: 'var(--page-bottom)' }}>
-        {/* Title block */}
-        <header style={{ maxWidth: 880, marginBottom: 40 }}>
-          <h1 style={{ fontSize: 'clamp(36px, 4.4vw, 56px)', letterSpacing: '-0.035em', lineHeight: 1.05, color: 'var(--ink)' }}>
-            Technician App Terms
-          </h1>
-          <p style={{ marginTop: 16, fontSize: 16, color: 'var(--ink-4)', lineHeight: 1.6, maxWidth: 640 }}>
-            These terms cover using the Poolnautics app as a pool technician. You agree to them by checking the box on the app's location screen the first time you sign in. These terms are a short summary; the full <a href="/terms" style={link}>Terms of Service</a> and <Privacy /> also apply.
-          </p>
-          <div style={{ marginTop: 22, display: 'flex', gap: 28, flexWrap: 'wrap', fontSize: 13.5, color: 'var(--ink-5)' }}>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Effective:</strong> {EFFECTIVE}</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Updated:</strong> {UPDATED}</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Version:</strong> {VERSION}</span>
-            <span><strong style={{ color: 'var(--ink-3)', fontWeight: 600 }}>Provider:</strong> Poolnautics LLC</span>
-          </div>
-        </header>
+    <Section id="company" title="2. Your company is in charge">
+      <p>Your company chose Poolnautics and controls your account. It decides which features are turned on for you, what you can see in the app, and how the information you create is used, stored and shared.</p>
+      <p>Your company is responsible for giving you any notices and getting any consents the law requires before turning on location features for you. Questions about how your information is used should go to your company first.</p>
+      <p><strong style={{ color: 'var(--ink-2)' }}>If your company leaves Poolnautics, or deactivates you.</strong> If your company's Poolnautics plan ends, or your company is deleting its account, deactivates you or removes you from its team, the app stops working for you the next time your phone contacts Poolnautics: you can't sign in, load your route or start a stop. If the plan has ended, the app first tries to send a report for a visit you've already started; otherwise, anything not yet sent from your phone is discarded. The app then signs you out and erases your company's information it keeps on your phone, including customers, gate codes, photos, your saved route, unsent reports, truck documents and mileage. When your company's account is deleted (normally 60 days after its plan ends, or sooner if it asks), your account with it is deleted too. If your company deactivated you and reactivates you, you can sign in again. Your company's records are kept and deleted as the <Privacy /> describes.</p>
+    </Section>
 
-        {/* Two-column layout — sticky TOC on the left, body on the right */}
-        <div className="terms-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 220px) minmax(0, 720px)',
-          gap: 80,
-          alignItems: 'start',
-        }}>
-          {/* Sticky TOC */}
-          <nav className="terms-toc" style={{ position: 'sticky', top: 96, display: 'flex', flexDirection: 'column', gap: 2, fontSize: 13.5 }}>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-5)', marginBottom: 12 }}>
-              On this page
-            </div>
-            {SECTIONS.map((s) => (
-              <a key={s.id} href={`#${s.id}`} style={{
-                padding: '6px 0',
-                color: activeId === s.id ? 'var(--accent)' : 'var(--ink-4)',
-                fontWeight: activeId === s.id ? 600 : 400,
-                borderLeft: activeId === s.id ? '2px solid var(--accent)' : '2px solid transparent',
-                paddingLeft: 10,
-                marginLeft: -12,
-                transition: 'color .15s ease, border-color .15s ease',
-                lineHeight: 1.4,
-              }}>{s.title}</a>
-            ))}
-          </nav>
+    <Section id="location" title="3. Location in the app">
+      <p><strong style={{ color: 'var(--ink-2)' }}>Service reports.</strong> Each service report and "can't service" report records the phone's location when it's sent, to confirm the visit. Your company sees it, and it appears in the service report your company sends its customer.</p>
+      <p><strong style={{ color: 'var(--ink-2)' }}>Mileage logging.</strong> If your company turns it on for you, the app records your location while your route is under way to work out the miles you drive between stops.</p>
+      <p><strong style={{ color: 'var(--ink-2)' }}>Drive history ("Show full drive").</strong> Your company may review the routes you drive during work hours. When it does, the app records your location during work hours, including when the app is closed if location access is set to Always.</p>
+      <p>You can change the app's location access at any time in your phone's Settings. Some features, like visit confirmation and mileage, don't work without it. The <Privacy /> explains what's collected, who sees it and how long it's kept.</p>
+    </Section>
 
-          {/* Body */}
-          <article style={{ fontSize: 16, lineHeight: 1.7, color: 'var(--ink-3)' }}>
-            <div style={{
-              marginBottom: 36, padding: '16px 20px', borderRadius: 12,
-              background: 'var(--bg-soft)', border: '1px solid var(--line)',
-              fontSize: 14.5, lineHeight: 1.6, color: 'var(--ink-3)',
-            }}>
-              <strong style={{ color: 'var(--ink-2)' }}>In short:</strong> your company decides which features are on and how your information is used. Each service report records where it was sent from. If your company turns them on, the app logs your miles and your company may review the routes you drive during work hours. You can change location access in your phone's Settings at any time. The insurance card in the app is a convenience copy only: always carry your official proof of insurance.
-            </div>
+    <Section id="using" title="4. Using the app">
+      <p>Keep your sign-in to yourself and don't let anyone else use your account. Send accurate reports, readings and photos.</p>
+      <p>Don't use apps or settings that fake your phone's location, and don't try to interfere with how the app records location or mileage. On Android phones, the app notes locations the phone reports as simulated.</p>
+    </Section>
 
-            <Section id="about" title="1. About these terms">
-              <p>These Technician App Terms ("Terms") are between you and Poolnautics LLC ("Poolnautics," "we," "us"). They apply when you use the Poolnautics technician app as a technician, employee or subcontractor of a pool service company that uses Poolnautics ("your company").</p>
-              <p>You accept these Terms by checking the box on the app's location screen ("I agree to the Technician App Terms and have read the Privacy Policy") the first time you sign in. If we change them, the app will ask you to agree again.</p>
-            </Section>
+    <Section id="mileage" title="5. Mileage records">
+      <p>Mileage worked out by the app is a record-keeping aid, not tax, payroll or legal advice. Phones can miss or misjudge locations because of signal, settings, battery or other conditions, so some miles may be estimated (and marked) or missing.</p>
+      <p>Keep your own records, such as daily odometer readings, and review them with a tax professional if you use them for taxes. You can download your own mileage in the app under Settings › Mileage.</p>
+    </Section>
 
-            <Section id="company" title="2. Your company is in charge">
-              <p>Your company chose Poolnautics and controls your account. It decides which features are turned on for you, what you can see in the app, and how the information you create is used, stored and shared.</p>
-              <p>Your company is responsible for giving you any notices and getting any consents the law requires before turning on location features for you. Questions about how your information is used should go to your company first.</p>
-              <p><strong style={{ color: 'var(--ink-2)' }}>If your company leaves Poolnautics, or deactivates you.</strong> If your company's Poolnautics plan ends, or your company is deleting its account, deactivates you or removes you from its team, the app stops working for you the next time your phone contacts Poolnautics: you can't sign in, load your route or start a stop. If the plan has ended, the app first tries to send a report for a visit you've already started; otherwise, anything not yet sent from your phone is discarded. The app then signs you out and erases your company's information it keeps on your phone, including customers, gate codes, photos, your saved route, unsent reports, truck documents and mileage. When your company's account is deleted (normally 60 days after its plan ends, or sooner if it asks), your account with it is deleted too. If your company deactivated you and reactivates you, you can sign in again. Your company's records are kept and deleted as the <Privacy /> describes.</p>
-            </Section>
+    <Section id="vehicle" title="6. Your vehicle's information">
+      <p>Your company may use Poolnautics to keep records about the vehicle you drive for work, such as its make, model and license plate, a photo of its registration, and its insurance card.</p>
+      <p>Your company may require you to add your vehicle's make, model, license plate and plate expiry before you can start your route in the app each day. Your company decides whether this is required, and can exempt you or unlock the app for you for a day.</p>
+      <p>You agree that the information and documents you add are accurate, that you'll keep them up to date, and that you have the right to share them. Documents you add, such as a photo of your registration or insurance card, are shared with your company.</p>
+    </Section>
 
-            <Section id="location" title="3. Location in the app">
-              <p><strong style={{ color: 'var(--ink-2)' }}>Service reports.</strong> Each service report and "can't service" report records the phone's location when it's sent, to confirm the visit. Your company sees it, and it appears in the service report your company sends its customer.</p>
-              <p><strong style={{ color: 'var(--ink-2)' }}>Mileage logging.</strong> If your company turns it on for you, the app records your location while your route is under way to work out the miles you drive between stops.</p>
-              <p><strong style={{ color: 'var(--ink-2)' }}>Drive history ("Show full drive").</strong> Your company may review the routes you drive during work hours. When it does, the app records your location during work hours, including when the app is closed if location access is set to Always.</p>
-              <p>You can change the app's location access at any time in your phone's Settings. Some features, like visit confirmation and mileage, don't work without it. The <Privacy /> explains what's collected, who sees it and how long it's kept.</p>
-            </Section>
+    <Section id="vehicle-documents" title="7. Insurance card and vehicle documents are a convenience only">
+      <p>The copy of your vehicle's insurance card, registration or other documents in the Poolnautics app is provided only for your convenience. <strong style={{ color: 'var(--ink-2)' }}>It is not official proof of insurance or registration, and you must not rely on it.</strong></p>
+      <ul>
+        <li><strong style={{ color: 'var(--ink-2)' }}>Always carry official proof.</strong> You're responsible for carrying the official proof of insurance, registration and any other documents the law or your company requires, in the form the law requires, at all times while driving.</li>
+        <li><strong style={{ color: 'var(--ink-2)' }}>It may not be available or accurate.</strong> The app or your phone may fail, run out of battery, lack a signal, be lost, or not show the document when you need it. The copy may be out of date, incomplete, unreadable, or not the current card. We don't promise that it will be available, accurate or current, or that any police officer, court, insurer or other authority will accept it.</li>
+        <li><strong style={{ color: 'var(--ink-2)' }}>Not legal advice.</strong> Whether an electronic copy is accepted as proof of insurance depends on the law where you are and on the person asking. We don't say that showing the copy in the app meets any legal requirement.</li>
+        <li><strong style={{ color: 'var(--ink-2)' }}>Reminders aren't guaranteed.</strong> Reminders about plate or insurance expiry are a courtesy. They may be late, missed or not delivered, and they depend on the dates entered being correct. You and your company are responsible for renewing on time.</li>
+        <li><strong style={{ color: 'var(--ink-2)' }}>No liability.</strong> To the fullest extent the law allows, Poolnautics isn't responsible for any fine, ticket, citation, penalty, tow, impound, lapse in coverage, denied claim, or other loss or harm that comes from your use of, reliance on, or inability to use or show any document, copy, date or reminder in the app.</li>
+      </ul>
+      <p>The app says the same thing where the card is shown. The first time you open your insurance card, you're asked to confirm that you understand it's a convenience copy only.</p>
+      <p><strong style={{ color: 'var(--ink-2)' }}>The copy on your phone.</strong> The app keeps a copy of your vehicle's insurance card and registration on your phone so you can open them without a signal. They're updated when you open Fleet Management with a connection, so they may not be the latest versions, and they're deleted when you sign out. Keep your phone locked: anyone with access to your unlocked phone may be able to see them.</p>
+    </Section>
 
-            <Section id="using" title="4. Using the app">
-              <p>Keep your sign-in to yourself and don't let anyone else use your account. Send accurate reports, readings and photos.</p>
-              <p>Don't use apps or settings that fake your phone's location, and don't try to interfere with how the app records location or mileage. On Android phones, the app notes locations the phone reports as simulated.</p>
-            </Section>
+    <Section id="information" title="8. Your information">
+      <p>The <Privacy /> describes the information the app collects, who can see it, and how long it's kept. Your company also has its own policies about the information it keeps.</p>
+    </Section>
 
-            <Section id="mileage" title="5. Mileage records">
-              <p>Mileage worked out by the app is a record-keeping aid, not tax, payroll or legal advice. Phones can miss or misjudge locations because of signal, settings, battery or other conditions, so some miles may be estimated (and marked) or missing.</p>
-              <p>Keep your own records, such as daily odometer readings, and review them with a tax professional if you use them for taxes. You can download your own mileage in the app under Settings › Mileage.</p>
-            </Section>
+    <Section id="warranty" title="9. No warranty">
+      <p>The app is provided "as is" and "as available." Location technology isn't perfect, and we don't promise that recorded locations, routes, times or mileage will be complete, accurate or always available.</p>
+    </Section>
 
-            <Section id="vehicle" title="6. Your vehicle's information">
-              <p>Your company may use Poolnautics to keep records about the vehicle you drive for work, such as its make, model and license plate, a photo of its registration, and its insurance card.</p>
-              <p>Your company may require you to add your vehicle's make, model, license plate and plate expiry before you can start your route in the app each day. Your company decides whether this is required, and can exempt you or unlock the app for you for a day.</p>
-              <p>You agree that the information and documents you add are accurate, that you'll keep them up to date, and that you have the right to share them. Documents you add, such as a photo of your registration or insurance card, are shared with your company.</p>
-            </Section>
+    <Section id="liability" title="10. Limitation of liability">
+      <p>To the fullest extent the law allows, Poolnautics isn't liable for losses that come from using, relying on, or being unable to use the app, including records that are missing, estimated or inaccurate, and the vehicle documents, dates and reminders described in Section 7. Decisions about pay, reimbursement or your work are made by your company, not by Poolnautics.</p>
+    </Section>
 
-            <Section id="vehicle-documents" title="7. Insurance card and vehicle documents are a convenience only">
-              <p>The copy of your vehicle's insurance card, registration or other documents in the Poolnautics app is provided only for your convenience. <strong style={{ color: 'var(--ink-2)' }}>It is not official proof of insurance or registration, and you must not rely on it.</strong></p>
-              <ul>
-                <li><strong style={{ color: 'var(--ink-2)' }}>Always carry official proof.</strong> You're responsible for carrying the official proof of insurance, registration and any other documents the law or your company requires, in the form the law requires, at all times while driving.</li>
-                <li><strong style={{ color: 'var(--ink-2)' }}>It may not be available or accurate.</strong> The app or your phone may fail, run out of battery, lack a signal, be lost, or not show the document when you need it. The copy may be out of date, incomplete, unreadable, or not the current card. We don't promise that it will be available, accurate or current, or that any police officer, court, insurer or other authority will accept it.</li>
-                <li><strong style={{ color: 'var(--ink-2)' }}>Not legal advice.</strong> Whether an electronic copy is accepted as proof of insurance depends on the law where you are and on the person asking. We don't say that showing the copy in the app meets any legal requirement.</li>
-                <li><strong style={{ color: 'var(--ink-2)' }}>Reminders aren't guaranteed.</strong> Reminders about plate or insurance expiry are a courtesy. They may be late, missed or not delivered, and they depend on the dates entered being correct. You and your company are responsible for renewing on time.</li>
-                <li><strong style={{ color: 'var(--ink-2)' }}>No liability.</strong> To the fullest extent the law allows, Poolnautics isn't responsible for any fine, ticket, citation, penalty, tow, impound, lapse in coverage, denied claim, or other loss or harm that comes from your use of, reliance on, or inability to use or show any document, copy, date or reminder in the app.</li>
-              </ul>
-              <p>The app says the same thing where the card is shown. The first time you open your insurance card, you're asked to confirm that you understand it's a convenience copy only.</p>
-              <p><strong style={{ color: 'var(--ink-2)' }}>The copy on your phone.</strong> The app keeps a copy of your vehicle's insurance card and registration on your phone so you can open them without a signal. They're updated when you open Fleet Management with a connection, so they may not be the latest versions, and they're deleted when you sign out. Keep your phone locked: anyone with access to your unlocked phone may be able to see them.</p>
-            </Section>
+    <Section id="changes" title="11. Changes">
+      <p>We may update these Terms. When we do, we'll change the date at the top, and the app will ask you to agree to the new version before you continue.</p>
+    </Section>
 
-            <Section id="information" title="8. Your information">
-              <p>The <Privacy /> describes the information the app collects, who can see it, and how long it's kept. Your company also has its own policies about the information it keeps.</p>
-            </Section>
+    <Section id="contact" title="12. Contact">
+      <p>Questions about your work or your information: contact your company. Questions about these Terms: contact Poolnautics through the details on our <a href="/contact" style={link}>Contact</a> page.</p>
+    </Section>
 
-            <Section id="warranty" title="9. No warranty">
-              <p>The app is provided "as is" and "as available." Location technology isn't perfect, and we don't promise that recorded locations, routes, times or mileage will be complete, accurate or always available.</p>
-            </Section>
-
-            <Section id="liability" title="10. Limitation of liability">
-              <p>To the fullest extent the law allows, Poolnautics isn't liable for losses that come from using, relying on, or being unable to use the app, including records that are missing, estimated or inaccurate, and the vehicle documents, dates and reminders described in Section 7. Decisions about pay, reimbursement or your work are made by your company, not by Poolnautics.</p>
-            </Section>
-
-            <Section id="changes" title="11. Changes">
-              <p>We may update these Terms. When we do, we'll change the date at the top, and the app will ask you to agree to the new version before you continue.</p>
-            </Section>
-
-            <Section id="contact" title="12. Contact">
-              <p>Questions about your work or your information: contact your company. Questions about these Terms: contact Poolnautics through the details on our <a href="/contact" style={link}>Contact</a> page.</p>
-            </Section>
-
-            <Section id="fit" title="13. How these terms fit together">
-              {/* Arbitration (Terms of Service §17) is included for now; a lawyer decides (owner, 2026-11-09).
-                  If it's excluded, the conflict sentence ends "…the Terms of Service control, except Section 17 (Dispute Resolution & Arbitration)." */}
-              <p>These Technician App Terms are a plain-language summary for technicians and don't cover everything. Your use of Poolnautics is also governed by our full <a href="/terms" style={link}>Terms of Service</a> and our <Privacy />, which are part of these Terms. If anything here conflicts with the Terms of Service, the Terms of Service control. Nothing in these Terms limits any rights you have under the law.</p>
-            </Section>
-          </article>
-        </div>
-      </div>
-    </main>
-  );
-};
-
-const Section = ({ id, title, children }) => (
-  <section id={id} style={{ scrollMarginTop: 96, marginBottom: 36 }}>
-    <h2 style={{
-      fontSize: 22,
-      fontWeight: 700,
-      letterSpacing: '-0.015em',
-      color: 'var(--ink)',
-      marginBottom: 12,
-      lineHeight: 1.3,
-    }}>{title}</h2>
-    <div className="terms-body">{children}</div>
-  </section>
+    <Section id="fit" title="13. How these terms fit together">
+      {/* Arbitration (Terms of Service §17) is included for now; a lawyer decides (owner, 2026-11-09).
+          If it's excluded, the conflict sentence ends "…the Terms of Service control, except Section 17 (Dispute Resolution & Arbitration)." */}
+      <p>These Technician App Terms are a plain-language summary for technicians and don't cover everything. Your use of Poolnautics is also governed by our full <a href="/terms" style={link}>Terms of Service</a> and our <Privacy />, which are part of these Terms. If anything here conflicts with the Terms of Service, the Terms of Service control. Nothing in these Terms limits any rights you have under the law.</p>
+    </Section>
+  </LegalPage>
 );
+
 
 export default TechnicianTermsPage;
