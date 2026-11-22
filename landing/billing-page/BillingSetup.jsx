@@ -1,7 +1,7 @@
 import React, { useId, useState } from 'react';
 import { RATE } from './billingDemo.js'; // the page's $145, shared with the totals further down
 
-// /recurring-billing's settings section: a customer's billing settings (left) and the invoice they
+// /pool-service-billing's settings section: a customer's billing settings (left) and the invoice they
 // produce (right), a copy of the customer invoice page on portal.poolnautics.app drawn as a sheet of US
 // Letter paper. The settings work, and the invoice follows them: the frequency sets the line, its
 // quantity and the totals; the terms set the due date; autopay swaps "Pay now" for "Paid"; the
@@ -148,7 +148,7 @@ export default function BillingSetup() {
   return (
     <div className="bp-setup-grid">
       <div className="bp-setup-copy">
-        <h2 id="bp-setup-title" className="bp-setup-title">Get paid every month without doing the billing.</h2>
+        <h2 id="bp-setup-title" className="bp-setup-title">Pool service invoice software that sends itself.</h2>
         <p className="bp-setup-sub">
           Set a customer up once, with their own rate, billing day and payment terms. Their invoice goes out on
           schedule without you.

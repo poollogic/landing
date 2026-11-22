@@ -58,7 +58,7 @@ const ROUTES = [
   { path: '/delete-account', html: 'delete-account.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   // Recurring billing (pages/billing.jsx): pre-rendered, the AI page's hero as one centred column (its
   // billing calendar is .bc-panel). Its page, breadcrumbs and FAQ are structured data.
-  { path: '/recurring-billing', html: 'recurring-billing.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.bc-panel'] },
+  { path: '/pool-service-billing', html: 'pool-service-billing.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.bc-panel'] },
   { path: '/pool-route-software', html: 'pool-route-software.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.rb-panel'] },
   { path: '/workflow', html: 'workflow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];

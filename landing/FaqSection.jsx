@@ -71,7 +71,7 @@ export const FAQS = [
  * The FAQ layout: header on the left, questions on the right. Defaults are the
  * homepage's; /pricing passes its own items, title and background. Only the
  * homepage publishes the questions as Google FAQ data. align="center" stacks it:
- * the header centred over the questions (/recurring-billing; faq.css .fq--center).
+ * the header centred over the questions (/pool-service-billing; faq.css .fq--center).
  * An item's optional `more` shows on its own line under the answer (a link).
  */
 export default function FaqSection({

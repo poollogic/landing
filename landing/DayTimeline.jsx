@@ -4,7 +4,7 @@ import { onScrollFrame } from './scrollFrame.js';
 import './day.css';
 
 // The scroll-lit timeline section: the homepage's "A day with Poolnautics" (DaySection.jsx) and
-// /recurring-billing's late invoices (landing/billing-page/LateInvoices.jsx). TimelineSection takes a
+// /pool-service-billing's late invoices (landing/billing-page/LateInvoices.jsx). TimelineSection takes a
 // header (eyebrow, heading lines, subhead) and a list of entries, and whatever follows the timeline
 // (its closing) as children. Styles: day.css (.dt-*).
 // All of it is in the pre-rendered HTML and fully visible without JavaScript. With it (and without

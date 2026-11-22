@@ -56,7 +56,7 @@ const isTechnicianTermsPath = (p) => p === '/technician-terms' || p === '/techni
 const isDeleteAccountPath = (p) => p === '/delete-account' || p === '/delete-account/';
 const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 const isWorkflowPath = (p) => p === '/workflow' || p === '/workflow/';
-const isBillingPath = (p) => p === '/recurring-billing' || p === '/recurring-billing/'; // /billing 301s here (public/_redirects)
+const isBillingPath = (p) => p === '/pool-service-billing' || p === '/pool-service-billing/'; // /billing 301s here (public/_redirects)
 const isRouteSoftwarePath = (p) => p === '/pool-route-software' || p === '/pool-route-software/';
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
@@ -149,11 +149,11 @@ export const ROUTE_META = {
     path: '/workflow',
   },
   // Pre-rendered at build time (entry-server.jsx). Indexed from Nov 19, 2026 (in the sitemap, linked
-  // from the nav's Features menu). It was /billing until Nov 2026.
+  // from the nav's Features menu). It was /billing, then /recurring-billing until Nov 22, 2026.
   billing: {
     title: BILLING_TITLE, // landing/billing-page/billingMeta.js, shared with the page's WebPage JSON-LD
     description: BILLING_DESCRIPTION,
-    path: '/recurring-billing',
+    path: '/pool-service-billing',
   },
   // Pre-rendered at build time (entry-server.jsx). Indexed from Nov 21, 2026: "pool route software".
   routeSoftware: {
@@ -341,7 +341,7 @@ const App = ({ path: pathProp }) => {
     );
   }
 
-  // Route software: /recurring-billing's design. Pre-rendered.
+  // Route software: /pool-service-billing's design. Pre-rendered.
   if (isRouteSoftwarePath(path)) {
     return (
       <ErrorBoundary>

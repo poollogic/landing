@@ -1,7 +1,7 @@
 import React from 'react';
 import { F, TimelineSection } from '../DayTimeline.jsx';
 
-// /recurring-billing's late invoices: every email and notice that follows when the invoice above
+// /pool-service-billing's late invoices: every email and notice that follows when the invoice above
 // (Dana's, $145, Net 15, due May 20) isn't paid, as the homepage's scroll-lit timeline
 // (DayTimeline.jsx, day.css), dated instead of timed, each entry tagged with who hears about it. Add an
 // entry to LATE and it appears in order. This page's own type: billing-page.css (.bp-late).

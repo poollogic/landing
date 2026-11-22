@@ -1,4 +1,4 @@
-/* /recurring-billing's payment automation sections (PaymentAutomation.jsx), on /ai-and-automations'
+/* /pool-service-billing's payment automation sections (PaymentAutomation.jsx), on /ai-and-automations'
    type. Every rule is under .ai-page.billing-page, like billing-page.css. Content 1024px wide at most
    (.bp-setup-grid's width, so the sections line up with it), centred heads and the closing section
    760px. Desktop 900px and up; tablet 700–899px (the two-column layouts stay two columns); phone below
@@ -184,6 +184,35 @@
 .ai-page.billing-page .pa-text-link:hover { color: #fff; text-decoration-color: rgba(255, 255, 255, .6); }
 .ai-page.billing-page .pa-close-fine { margin: 20px 0 0; font-size: 13.5px; line-height: 1.5; color: #94a3b8; }
 
+/* ---------- G. QuickBooks sync (coming soon) ---------- */
+/* The "Coming soon" pill: light blue, blue text (also the plans table's QuickBooks row). */
+.ai-page.billing-page .pa-soon {
+  display: inline-block; margin-left: 6px; padding: 3px 9px; border-radius: 999px; vertical-align: 1px;
+  background: rgba(46, 133, 255, .12); color: rgb(29, 95, 232);
+  font-size: 10.5px; font-weight: 600; line-height: 1.4; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
+}
+.ai-page.billing-page .pa-qb-card {
+  max-width: 880px; margin: 56px auto 0; padding: 8px 28px;
+  border: 1px solid rgb(226, 232, 240); border-radius: 18px; background: rgb(248, 250, 252);
+}
+.ai-page.billing-page .pa-qb-table { width: 100%; border-collapse: collapse; text-align: left; }
+.ai-page.billing-page .pa-qb-table thead th {
+  padding: 16px 0 14px; border-bottom: 1px solid rgb(203, 213, 225);
+  font-size: 14px; font-weight: 600; line-height: 20px; color: rgb(100, 116, 139);
+}
+.ai-page.billing-page .pa-qb-table thead th:first-child { width: 290px; }
+.ai-page.billing-page .pa-qb-table tbody tr + tr { border-top: 1px solid rgb(226, 232, 240); }
+.ai-page.billing-page .pa-qb-table tbody th {
+  padding: 16px 24px 16px 0; vertical-align: top;
+  font-size: 16px; font-weight: 600; line-height: 24px; color: #0f172a;
+}
+.ai-page.billing-page .pa-qb-table tbody th .bp-plans-check { margin: -2px 10px 0 0; }
+.ai-page.billing-page .pa-qb-table td { padding: 16px 0; vertical-align: top; font-size: 16px; line-height: 24px; color: #475569; }
+.ai-page.billing-page .pa-qb-note {
+  max-width: 640px; margin: 20px auto 0; text-align: center; text-wrap: balance;
+  font-size: 14px; line-height: 1.55; color: #64748b;
+}
+
 /* ---------- Below 900px ---------- */
 @media (max-width: 899.98px) {
   .ai-page.billing-page .pa-section { padding-block: 96px; }
@@ -228,6 +257,13 @@
   .ai-page.billing-page .pa-money { gap: 24px; }
   .ai-page.billing-page .pa-money-big { font-size: 20px; text-align: center; text-wrap: balance; }
   .ai-page.billing-page .pa-money-small { text-align: left; }
+
+  /* QuickBooks: each row stacked, the name over what it becomes; the column names hidden. */
+  .ai-page.billing-page .pa-qb-card { margin-top: 40px; padding: 4px 20px; }
+  .ai-page.billing-page .pa-qb-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .ai-page.billing-page .pa-qb-table :is(tbody, tr, th, td) { display: block; }
+  .ai-page.billing-page .pa-qb-table tbody th { padding: 16px 0 4px; }
+  .ai-page.billing-page .pa-qb-table td { padding: 0 0 16px 28px; font-size: 15px; line-height: 22px; }
 
   .ai-page.billing-page .pa-close-row { flex-direction: column; align-items: stretch; }
   .ai-page.billing-page .pa-close-row .pa-text-link { align-self: center; padding: 6px 10px; }

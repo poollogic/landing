@@ -1,6 +1,6 @@
 import { useEffect, useSyncExternalStore } from 'react';
 
-// One clock for /recurring-billing's moving pictures, so they never drift apart: the hero's billing
+// One clock for /pool-service-billing's moving pictures, so they never drift apart: the hero's billing
 // calendar takes a day per tick, and the month belt under it (MonthBelt.jsx) a step per second tick,
 // in the same render. It ticks every 1.6s while either picture is on screen and the tab is showing,
 // and stops otherwise (each one registers itself with useBillingClock). With reduced motion it never

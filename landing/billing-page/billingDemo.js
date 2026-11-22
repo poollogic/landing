@@ -1,4 +1,4 @@
-// /recurring-billing's example month, in one place so its pictures agree: the hero calendar's dots
+// /pool-service-billing's example month, in one place so its pictures agree: the hero calendar's dots
 // (BillingCalendar.jsx), the settings card's rate (BillingSetup.jsx) and the "That same month, added
 // up" totals (PaymentAutomation.jsx). All of it is an example, not real data.
 

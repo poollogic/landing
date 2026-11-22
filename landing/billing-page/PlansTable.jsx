@@ -1,7 +1,8 @@
 import React from 'react';
 import SectionHeader from '../SectionHeader.jsx';
+import { ComingSoon } from './PaymentAutomation.jsx';
 
-// /recurring-billing's plans: what billing comes with on Insight and Vision, as a real table (the
+// /pool-service-billing's plans: what billing comes with on Insight and Vision, as a real table (the
 // feature is each row's header). Keep it in step with /pricing's "Compare plans" (pages/pricing.jsx).
 // Styles: billing-page.css (.bp-plans).
 
@@ -13,6 +14,8 @@ const ROWS = [
   ['Late fees applied automatically', true, true],
   ['Automatic overdue reminders', true, true],
   ['Chemicals on invoices', true, true],
+  // Not built yet: "Soon" in each plan's column, and the Coming soon pill after the name.
+  ['QuickBooks Online sync', 'soon', 'soon'],
   ['Automatic pause for customers who don’t pay', false, true],
   ['Invoices emailed from your own domain', false, true],
   ['Invoicing when a job’s done', false, true],
@@ -33,7 +36,7 @@ export default function PlansTable() {
           id="bp-plans-title"
           className="bp-plans-head"
           eyebrow="Plans"
-          title="Recurring billing is in every plan."
+          title="Automated pool billing software is in every plan."
           subtitle="No add-on and no per-invoice fee. We never take a cut of your customers’ payments."
         />
         <table className="bp-plans-table">
@@ -52,8 +55,12 @@ export default function PlansTable() {
           <tbody>
             {ROWS.map(([feature, ...on]) => (
               <tr key={feature}>
-                <th scope="row">{feature}</th>
-                {on.map((yes, i) => <td key={PLANS[i]}>{yes ? <Included plan={PLANS[i]} /> : <NotIncluded plan={PLANS[i]} />}</td>)}
+                <th scope="row">{feature}{on.includes('soon') && <>{' '}<ComingSoon /></>}</th>
+                {on.map((yes, i) => (
+                  <td key={PLANS[i]}>
+                    {yes === 'soon' ? <span className="bp-plans-soon">Soon</span> : yes ? <Included plan={PLANS[i]} /> : <NotIncluded plan={PLANS[i]} />}
+                  </td>
+                ))}
               </tr>
             ))}
           </tbody>

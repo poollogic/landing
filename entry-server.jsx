@@ -29,7 +29,7 @@ export const PRERENDERED = {
   '/ai-and-automations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
   '/pricing': { meta: ROUTE_META.pricing, jsonLd: pricingData },
   '/workflow': { meta: ROUTE_META.workflow, jsonLd: workflowData },
-  '/recurring-billing': { meta: ROUTE_META.billing, jsonLd: billingData },
+  '/pool-service-billing': { meta: ROUTE_META.billing, jsonLd: billingData },
   '/pool-route-software': { meta: ROUTE_META.routeSoftware, jsonLd: routeSoftwareData },
   // The rest of the indexable pages: their own <head> and text in the served HTML, not the empty page
   // (whose head was the homepage's, canonical included, until JavaScript ran).

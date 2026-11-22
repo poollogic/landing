@@ -7,13 +7,14 @@ import { usePreviewTheme } from '../preview/previewTheme.js';
 import { BILLED, CUSTOMERS, EMAILED, MAILED, RATE } from './billingDemo.js';
 import './payment-automation.css';
 
-// /recurring-billing's payment automation sections (pages/billing.jsx), on /ai-and-automations' type:
+// /pool-service-billing's payment automation sections (pages/billing.jsx), on /ai-and-automations' type:
 //   A  HowCustomersPay   how a customer pays, as a "When / Then" card per option, then the month's totals
 //   B  FailedPayments    what happens when an autopay card fails
 //   C  CardFees          a calculator: the card fees a company stops paying by passing them on
 //   D  BeyondRate        chemicals and repairs on the invoice too
 //   E  YourMoney         where the money goes (dark)
 //   F  ClosingCta        the page's last call to action (dark, after the FAQ)
+//   G  QuickBooksSync    the QuickBooks Online sync, coming soon (white, after E)
 // Every option's and every card's text is in the pre-rendered HTML; choosing only shows and hides.
 // Styles: payment-automation.css (.pa-*). Examples, not real data; the month's figures come from
 // billingDemo.js, the same numbers as the hero's calendar.
@@ -152,7 +153,7 @@ export function HowCustomersPay() {
                 eyebrow="Payment automation"
                 a="You’re on the route at 8:30."
                 b="Your payments collect themselves."
-                sub="Built for mobile pool service businesses. Set a customer up once and Poolnautics bills them, collects, and sends the receipt."
+                sub="Built for pool service companies. Set a customer up once and Poolnautics bills them, collects, and sends the receipt."
               />
               <p className="pa-choose" id={labelId}>How customers pay <span className="pa-choose-hint">Tap one</span></p>
               <div className="pa-options" role="radiogroup" aria-labelledby={labelId}>
@@ -352,7 +353,7 @@ export function BeyondRate() {
               </div>
             </div>
           </div>
-          <p className="pa-more"><a href="/ai-and-automations">See how automations work<ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" /></a></p>
+          <p className="pa-more"><a href="/ai-and-automations">See how pool service automation works<ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" /></a></p>
         </div>
       </div>
     </section>
@@ -372,6 +373,62 @@ export function YourMoney() {
             <p className="pa-money-small">Poolnautics never holds your money, never charges a per-invoice fee, and never sees or stores a full card number. You pay for your plan and nothing else, however much you bill.</p>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- G. QuickBooks sync (white, coming soon), after Your money ---------- */
+
+/** The "Coming soon" pill (payment-automation.css .pa-soon). Also PlansTable's QuickBooks row. */
+export const ComingSoon = () => <span className="pa-soon">Coming soon</span>;
+
+const QB_ROWS = [
+  ['Customers', 'Matched to the ones you already have by name or email, so there are no duplicates.'],
+  ['Invoices', 'Same number, line items, sales tax and due date.'],
+  ['Payments', 'Card, bank, check or cash, marked paid against the right invoice.'],
+  ['Voids, refunds and credits', 'Recorded the same way in QuickBooks.'],
+  ['Stripe payouts', 'A bank deposit with Stripe’s fee as an expense, so it matches your bank statement.'],
+  ['Services and parts', 'Mapped to your QuickBooks products, so income lands in the right accounts.'],
+];
+
+export function QuickBooksSync() {
+  return (
+    <section className="pa-section pa-white" aria-labelledby="pa-qb-title">
+      <div className="container">
+        <Head
+          id="pa-qb-title"
+          center
+          eyebrow={<>Pool service software with QuickBooks sync <ComingSoon /></>}
+          a="You keep working in Poolnautics."
+          b="Your books fill themselves in."
+          sub="Soon you’ll connect QuickBooks Online once, and every customer, invoice, payment and Stripe payout will show up in your books, already matched. Included in every plan."
+        />
+        <div className="pa-qb-card">
+          <table className="pa-qb-table">
+            <caption className="sr-only">What the QuickBooks Online sync will send</caption>
+            <thead>
+              <tr>
+                <th scope="col">In Poolnautics</th>
+                <th scope="col">Will show up in QuickBooks as</th>
+              </tr>
+            </thead>
+            <tbody>
+              {QB_ROWS.map(([what, as]) => (
+                <tr key={what}>
+                  <th scope="row">
+                    <svg className="bp-plans-check" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M5 12.5 10 17.5 19 7" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {what}
+                  </th>
+                  <td>{as}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="pa-qb-note">Poolnautics stays the record. The sync will run one way, into QuickBooks Online. Expenses, payroll and bills stay in QuickBooks.</p>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useBillingClock, useStill } from './billingClock.js';
 
-// The statement section's belt (/recurring-billing): a row of month chips, "Jan 7" to "Dec 7", looping
+// The statement section's belt (/pool-service-billing): a row of month chips, "Jan 7" to "Dec 7", looping
 // forever. The chip in the centre is the invoice just sent ("current"), the ones left of it were sent,
 // the ones right of it are scheduled. Every second tick of the page's clock (billingClock.js: every
 // 3.2s, in the same render as the hero calendar's step) the row ticks one chip to the left and rests.

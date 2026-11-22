@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useBillingClock, useStill } from './billingClock.js';
 import { DOTS } from './billingDemo.js';
 
-// /recurring-billing's hero picture: 28 billing days, each with a dot per customer billed that day, and
+// /pool-service-billing's hero picture: 28 billing days, each with a dot per customer billed that day, and
 // "today" walking through them, a day a tick of the page's clock (billingClock.js, every 1.6s, shared
 // with the month belt under the hero), looping from the 28th back to the 1st (from the 4th on load).
 // Days before today are billed (green), today is blue, the rest are still to come. The line under it

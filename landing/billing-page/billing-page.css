@@ -1,4 +1,4 @@
-/* /recurring-billing's own layouts (pages/billing.jsx). Everything else (nav, hero ground, type,
+/* /pool-service-billing's own layouts (pages/billing.jsx). Everything else (nav, hero ground, type,
    buttons, colours) is the AI page's design: ai.css, hero.css, landing.css. Every rule here is under
    .ai-page.billing-page, so it outranks the shared rules it adjusts whatever order the stylesheets
    load in, and touches no other page. The page is set in Satoshi (landing.css); the app's own pictures
@@ -405,6 +405,7 @@
 }
 .ai-page.billing-page .bp-plans-table td { padding: 16px 0; text-align: center; vertical-align: middle; }
 .ai-page.billing-page .bp-plans-check { display: inline-block; vertical-align: middle; color: rgb(46, 133, 255); }
+.ai-page.billing-page .bp-plans-soon { font-size: 13px; font-weight: 500; line-height: 18px; color: rgb(148, 163, 184); }
 .ai-page.billing-page .bp-plans-dash { display: inline-block; width: 12px; height: 2px; border-radius: 1px; vertical-align: middle; background: rgb(203, 213, 225); }
 
 .ai-page.billing-page .bp-plans-more { margin-top: 36px; text-align: center; font-size: 15px; font-weight: 600; }

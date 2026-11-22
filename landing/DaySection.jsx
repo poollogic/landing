@@ -5,7 +5,7 @@ import { usePreviewTheme } from './preview/previewTheme.js';
 
 // "Meet your new office manager": a day at Bayside Pool Co. (demo data, matching the hero's) as a
 // timeline, after "The only software your pool company needs". The timeline and its scroll lighting
-// are DayTimeline.jsx (shared with /recurring-billing); this is the section, its day and its closing,
+// are DayTimeline.jsx (shared with /pool-service-billing); this is the section, its day and its closing,
 // which rises in once (.dt-reveal).
 
 const ENTRIES = [

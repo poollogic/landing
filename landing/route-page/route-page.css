@@ -1,9 +1,9 @@
 /* /pool-route-software's own pictures and pieces (pages/route-software.jsx). The page wears
-   /recurring-billing's classes (.ai-page.billing-page), so its hero, section heads, two-column layouts,
+   /pool-service-billing's classes (.ai-page.billing-page), so its hero, section heads, two-column layouts,
    cards, FAQ and closing section are billing-page.css's and payment-automation.css's; only what's new
    is here, under .ai-page.route-page. Breakpoints are theirs: 900px and 700px. */
 
-/* The app's pictures in Inter, as /recurring-billing's are (its @font-face: billing-page.css). */
+/* The app's pictures in Inter, as /pool-service-billing's are (its @font-face: billing-page.css). */
 .ai-page.route-page :is(.rb-panel, .rp-card) { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
 
 /* ======================= Hero: the route board ======================= */

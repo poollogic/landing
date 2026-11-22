@@ -11,13 +11,13 @@ import LateInvoices from '../landing/billing-page/LateInvoices.jsx';
 import PlansTable from '../landing/billing-page/PlansTable.jsx';
 import FaqSection from '../landing/FaqSection.jsx';
 import { BILLING_TITLE, BILLING_DESCRIPTION } from '../landing/billing-page/billingMeta.js';
-import { HowCustomersPay, FailedPayments, CardFees, BeyondRate, YourMoney, ClosingCta } from '../landing/billing-page/PaymentAutomation.jsx';
+import { HowCustomersPay, FailedPayments, CardFees, BeyondRate, YourMoney, QuickBooksSync, ClosingCta } from '../landing/billing-page/PaymentAutomation.jsx';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { FOCUS, PrimaryCta } from '../landing/ai/shared.jsx';
 import HeroHeading from '../landing/HeroHeading.jsx';
 import { Footer } from '../components/site-chrome.jsx';
 
-// /recurring-billing (it was /billing): recurring billing in depth. On /ai-and-automations' design (its
+// /pool-service-billing (it was /billing, then /recurring-billing): recurring billing in depth. On /ai-and-automations' design (its
 // page wrapper, nav, hero ground, type and buttons: ai.css, landing/ai/shared.jsx); only this page's
 // own layouts live in landing/billing-page/billing-page.css, under .billing-page. Still being built:
 // indexed, in the sitemap, linked from the nav's Features menu, the page for "pool service payment
@@ -31,6 +31,7 @@ import { Footer } from '../components/site-chrome.jsx';
 
 const ORIGIN = 'https://getpoolnautics.com';
 const REPAIRS_LINK = 'See how repairs and diagnostics work';
+const PRICING_LINK = 'See pricing';
 
 // The FAQ: shown in #billing-faq (FaqSection) and sent as FAQPage structured data (structuredData
 // below, in the pre-rendered <head>), from this one list, so the two always match.
@@ -68,13 +69,34 @@ export const FAQ = [
   {
     q: 'Can I pause billing for a customer?',
     a: 'Yes. On Vision, service pauses by itself when an invoice goes unpaid for the number of days you set. On Insight you can place a billing hold yourself. Paused months aren’t billed, and the customer picks back up on their next billing day.',
+  },  {
+    q: 'What is pool service billing software?',
+    a: 'Software that bills your pool customers for you. Poolnautics sends each customer’s invoice on their own billing day, charges cards on autopay, sends reminders, adds late fees and follows up on failed payments, on rules you set once.',
+  },
+  {
+    q: 'Can customers pay by bank account?',
+    a: 'Yes. Customers can pay by credit card or bank account, including on autopay.',
+  },
+  {
+    q: 'How much does it cost?',
+    a: 'Recurring billing is included in every plan, with no add-on and no per-invoice fee. Plans are priced by your number of active customers.',
+    more: <a href="/pricing">{PRICING_LINK}</a>,
+    moreHtml: `<a href="${ORIGIN}/pricing">${PRICING_LINK}</a>`,
+  },
+  {
+    q: 'Does Poolnautics work with QuickBooks?',
+    a: 'A QuickBooks Online sync is coming soon, on every plan. Connect it once and your customers, invoices, payments, refunds and Stripe payouts will appear in your books automatically. Today you can import your customer list from a QuickBooks export.',
+  },
+  {
+    q: 'Is Poolnautics pool service accounting software?',
+    a: 'It handles billing and payments. A QuickBooks Online sync is coming soon to keep your books up to date; expenses, payroll and tax filing stay in QuickBooks.',
   },
 ];
 
 // Structured data for the pre-rendered <head> (entry-server.jsx): the page (about the product,
 // index.html's site-wide SoftwareApplication #software), where it sits, and the FAQ, its answers as
 // shown (the link under one answer included).
-const PAGE_URL = `${ORIGIN}/recurring-billing`;
+const PAGE_URL = `${ORIGIN}/pool-service-billing`;
 export const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -84,7 +106,7 @@ export const structuredData = [
     name: BILLING_TITLE,
     description: BILLING_DESCRIPTION,
     inLanguage: 'en-US',
-    dateModified: '2026-11-21',
+    dateModified: '2026-11-22',
     isPartOf: { '@id': `${ORIGIN}/#website` },
     about: { '@id': `${ORIGIN}/#software` },
   },
@@ -93,7 +115,7 @@ export const structuredData = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
-      { '@type': 'ListItem', position: 2, name: 'Recurring billing', item: PAGE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Pool service billing software', item: PAGE_URL },
     ],
   },
   {
@@ -122,7 +144,7 @@ export default function BillingPage() {
               <div className="ai-hero-copy bp-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
                 <HeroHeading
                   id="billing-hero-title"
-                  eyebrow="Recurring billing & payment automation"
+                  eyebrow="Automated pool billing & invoicing software"
                   title={<><span className="bp-title-line">Pool Service Billing</span>{' '}<span className="bp-title-line">Software That Runs Itself</span></>}
                 >
                   Set each customer’s rate and billing day once. Poolnautics sends the invoice every morning it’s
@@ -145,10 +167,11 @@ export default function BillingPage() {
         {/* 2. The statement: when billing starts and that it repeats, over a belt of monthly invoices. */}
         <section className="bp-statement" aria-labelledby="bp-statement-title">
           <div className="container">
-            <h2 id="bp-statement-title" className="bp-statement-title">
+            {/* A <p>, not a heading: the page's first h2 is the settings section's. */}
+            <p id="bp-statement-title" className="bp-statement-title">
               <span className="bp-statement-a">Start them today, or set a start date 10 days out.</span>{' '}
               <span className="bp-statement-b">Billing begins that day and repeats every month.</span>
-            </h2>
+            </p>
             <MonthBelt />
           </div>
         </section>
@@ -172,6 +195,9 @@ export default function BillingPage() {
         <BeyondRate />
         <YourMoney />
 
+        {/* 9b. QuickBooks Online sync, coming soon (white). */}
+        <QuickBooksSync />
+
         {/* 10. Plans (white): billing on Insight and Vision. */}
         <PlansTable />
 
@@ -179,7 +205,7 @@ export default function BillingPage() {
         <FaqSection
           id="billing-faq"
           items={FAQ}
-          title="Questions about recurring billing."
+          title="Pool service billing software questions."
           subtitle={null}
           align="center"
           structuredData={false}

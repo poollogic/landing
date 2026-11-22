@@ -24,7 +24,7 @@ import { FOCUS, PrimaryCta } from '../landing/ai/shared.jsx';
 import { Footer } from '../components/site-chrome.jsx';
 
 // /pool-route-software: routes and scheduling, the page for "pool route software" and "pool service
-// scheduling software". /recurring-billing's design throughout (its page classes, so billing-page.css
+// scheduling software". /pool-service-billing's design throughout (its page classes, so billing-page.css
 // and payment-automation.css style it: hero, section heads, two-column layouts, cards, FAQ and the
 // closing section); this page's own pictures are landing/route-page/route-page.css (.rp-*, .rb-*).
 // Reused as they are: the homepage's service report phone (#technicians), its import demo
@@ -58,7 +58,7 @@ export const FAQ = [
   homeFaq('How does selling a route work?'),
 ];
 
-// Structured data for the pre-rendered <head> (entry-server.jsx), as /recurring-billing's: the page
+// Structured data for the pre-rendered <head> (entry-server.jsx), as /pool-service-billing's: the page
 // (about the product, index.html's site-wide SoftwareApplication #software), where it sits, the FAQ.
 export const structuredData = [
   {
@@ -182,7 +182,7 @@ export default function RouteSoftwarePage() {
       <div dangerouslySetInnerHTML={{ __html: PN_ICONS }} />
       <Nav />
       <main>
-        {/* 1. Hero (dark): /recurring-billing's, the route board in place of its calendar. */}
+        {/* 1. Hero (dark): /pool-service-billing's, the route board in place of its calendar. */}
         <section className="hero ai-hero bp-hero relative overflow-x-clip" aria-labelledby="route-hero-title">
           <div className="ai-hero-fade" aria-hidden="true" />
           <div className="container">
@@ -263,7 +263,7 @@ export default function RouteSoftwarePage() {
                       <li key={t}><Tick />{t}</li>
                     ))}
                   </ul>
-                  <p className="rp-more"><a href="/recurring-billing">Billing runs on its own schedule: see recurring billing<ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" /></a></p>
+                  <p className="rp-more"><a href="/pool-service-billing">Billing runs on its own schedule: see recurring billing<ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" /></a></p>
                 </div>
                 <div className="pa-visual">
                   <StopSettings />
