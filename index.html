@@ -573,12 +573,9 @@
     }
   }
 
-  /* Nav: hide center links on tablet, sign-in on small mobile */
+  /* Nav: hide center links on tablet. (Sign in stays in the bar on phones: landing/nav.css.) */
   @media (max-width: 880px) {
     .nav-links { display: none !important; }
-  }
-  @media (max-width: 480px) {
-    .nav-signin { display: none !important; }
   }
 
   /* Hero proof bar: stack slots vertically on small screens, hide separators.

@@ -120,6 +120,21 @@
   transition: background .2s, color .2s;
 }
 .site-nav .nav-dd-more a:hover { background: var(--bg-muted); color: var(--ink); }
+/* FeaturesMenu's column 3 is two labelled groups, and each feature title carries an arrow for the
+   new header's hover (landing/nav.css). This older header keeps its own look: small grey labels, no
+   arrow. */
+.site-nav .nav-dd-group ul { display: flex; flex-direction: column; gap: 4px; }
+.site-nav .nav-dd-group + .nav-dd-group { margin-top: 10px; }
+.site-nav .nav-dd-group-label {
+  margin: 0;
+  padding: 4px 12px 2px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-5);
+}
+.site-nav .nav-dd-arrow { display: none; }
 
 .site-nav .nav-dd-news {
   display: flex;
@@ -145,4 +160,10 @@
   .site-nav .nav-dd-trigger svg,
   .site-nav .nav-dd-panel,
   .site-nav .nav-dd.is-open .nav-dd-panel { transition: none; }
+}
+
+/* This older header hides Sign in on small phones (index.html did, for every header, until the new
+   header kept it in the bar). */
+@media (max-width: 480px) {
+  .site-nav .nav-signin { display: none !important; }
 }

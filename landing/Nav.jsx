@@ -24,13 +24,19 @@ const Nav = ({ hideCta = false, current, tone = 'dark' }) => {
   const [open, setOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const ref = useRef(null);
+  const burger = useRef(null);
   const theme = usePreviewTheme();
   const light = tone === 'light' ? ' is-light' : '';
 
   // Close the mobile menu on Escape, outside click, or growing past the menu's widths.
   useEffect(() => {
     if (!open) return undefined;
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    // Escape: focus goes back to the menu button, as the Features dropdown's does to its own.
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return;
+      setOpen(false);
+      burger.current?.focus();
+    };
     const onDown = (e) => { if (!ref.current?.contains(e.target)) setOpen(false); };
     const mq = window.matchMedia(`(min-width: ${MENU_MAX + 0.02}px)`);
     const onResize = (e) => { if (e.matches) setOpen(false); };
@@ -74,6 +80,7 @@ const Nav = ({ hideCta = false, current, tone = 'dark' }) => {
           )}
           <button
             type="button"
+            ref={burger}
             className="nav-burger"
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
@@ -85,17 +92,23 @@ const Nav = ({ hideCta = false, current, tone = 'dark' }) => {
         </div>
 
         <nav id="lp-nav-menu" className="nav-menu" aria-label="Mobile" hidden={!open}>
-          <p className="nav-menu-label">Features</p>
-          {MENU_FEATURES.map(({ label, href, Icon }) => (
-            <a key={href} href={href} className="menu-feature" onClick={close}>
-              <Icon size={18} strokeWidth={1.75} aria-hidden="true" />
-              {label}
-            </a>
-          ))}
+          {/* Features: a heading, always open, then its links. Sign in is in the bar at every width.
+              TODO(owner): "Features" looks like Pricing and Contact but isn't tappable. Link it to a
+              features overview page, if one is made, or make it a smaller grey label. */}
+          <p className="nav-menu-label" id="lp-nav-menu-features">Features</p>
+          <div className="menu-features" role="group" aria-labelledby="lp-nav-menu-features">
+            {MENU_FEATURES.map(({ label, href }) => (
+              <a key={href} href={href} className="menu-feature" onClick={close}>{label}</a>
+            ))}
+          </div>
           <hr />
-          {LINKS.map(([label, href]) => <a key={label} href={href} aria-current={href === current ? 'page' : undefined} onClick={close}>{label}</a>)}
-          <a href={APP_URL} className="menu-signin" onClick={close}>Sign in</a>
-          {!hideCta && <a href={ctaHref(theme)} className="menu-trial" onClick={close}>{isReserving ? 'Reserve your spot' : 'Start free trial'}</a>}
+          {LINKS.map(([label, href]) => <a key={label} href={href} className="menu-main" aria-current={href === current ? 'page' : undefined} onClick={close}>{label}</a>)}
+          {!hideCta && (
+            <a href={ctaHref(theme)} className="menu-trial" onClick={close}>
+              {isReserving ? 'Reserve your spot' : 'Start free trial'}
+              <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+            </a>
+          )}
         </nav>
       </div>
     </header>

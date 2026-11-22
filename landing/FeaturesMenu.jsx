@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { ArrowRight, ArrowRightLeft, CalendarDays, ChevronDown, Receipt, Route, ShieldAlert, Sparkles, Wrench } from 'lucide-react';
+import React, { useEffect, useId, useRef } from 'react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { API_DOCS_URL } from '../aiFacts.js';
 
 // The header's links, shared by the site header (landing/Nav.jsx, styled in landing/nav.css) and
@@ -12,25 +12,27 @@ import { API_DOCS_URL } from '../aiFacts.js';
 // rows: Billing and Repairs on top, Collections and Switching below...
 export const FEATURE_COLUMNS = [
   [
-    { label: 'Billing on autopilot', desc: 'Every customer invoiced on their own schedule and paid in one tap', href: '/pool-service-billing', Icon: Receipt },
-    { label: 'Collections', desc: 'Late fees, overdue notices and service pauses that run themselves', href: '/#collections', Icon: ShieldAlert },
+    { label: 'Billing on autopilot', desc: 'Every customer invoiced on their own schedule and paid in one tap', href: '/pool-service-billing' },
+    { label: 'Collections', desc: 'Late fees, overdue notices and service pauses that run themselves', href: '/#collections' },
   ],
   [
-    { label: 'Repairs on autopilot', desc: 'Requests, diagnostics and work orders that run from quote to paid', href: '/workflow', Icon: Wrench },
-    { label: 'Switching', desc: 'Bring your Skimmer or QuickBooks customers over in minutes', href: '/#switching', Icon: ArrowRightLeft },
+    { label: 'Repairs on autopilot', desc: 'Requests, diagnostics and work orders that run from quote to paid', href: '/workflow' },
+    { label: 'Switching', desc: 'Bring your Skimmer or QuickBooks customers over in minutes', href: '/#switching' },
   ],
 ];
-// ...a column of plain links...
-const AI_PAGE = { label: 'AI & automations', href: '/ai-and-automations', Icon: Sparkles };
-const ROUTES_LINK = { label: 'Route transfers', href: '/#routes', Icon: Route };
-const ROUTE_SOFTWARE = { label: 'Routes & scheduling', href: '/pool-route-software', Icon: CalendarDays };
-const MORE_LINKS = [
-  ROUTE_SOFTWARE,
-  AI_PAGE,
-  { label: 'API docs', href: API_DOCS_URL },
-  { label: 'Partner program', href: '/partners' },
-  ROUTES_LINK,
-  { label: 'Questions', href: '/#faq' },
+// ...a column of plain links in two labelled groups...
+const AI_PAGE = { label: 'AI & automations', href: '/ai-and-automations' };
+const ROUTES_LINK = { label: 'Route transfers', href: '/#routes' };
+const ROUTE_SOFTWARE = { label: 'Routes & scheduling', href: '/pool-route-software' };
+// TODO(owner): is Route transfers right under Product, and Questions under Resources?
+// TODO(owner): API docs, Partner program and Questions aren't in the phone menu (MENU_FEATURES). Intended?
+const MORE_GROUPS = [
+  ['Product', [ROUTE_SOFTWARE, AI_PAGE, ROUTES_LINK]],
+  ['Resources', [
+    { label: 'API docs', href: API_DOCS_URL },
+    { label: 'Partner program', href: '/partners' },
+    { label: 'Questions', href: '/#faq' },
+  ]],
 ];
 // ...and what's new, along the bottom.
 const NEWS = { title: 'New', text: 'Connect Claude, Grok, ChatGPT or your own AI', href: AI_PAGE.href };
@@ -52,6 +54,7 @@ const FeaturesMenu = ({ open, setOpen }) => {
   const ref = useRef(null);
   const timer = useRef(0);
   const viaHover = useRef(false);
+  const groupId = useId();
 
   useEffect(() => () => clearTimeout(timer.current), []);
 
@@ -118,22 +121,32 @@ const FeaturesMenu = ({ open, setOpen }) => {
               {items.map(({ label, desc, href }) => (
                 <li key={href}>
                   <a href={href} className="nav-dd-feature" onClick={() => setOpen(false)}>
-                    <span className="nav-dd-label">{label}</span>
+                    <span className="nav-dd-label">
+                      {label}
+                      <ArrowRight size={14} strokeWidth={2} className="nav-dd-arrow" aria-hidden="true" />
+                    </span>
                     <span className="nav-dd-desc">{desc}</span>
                   </a>
                 </li>
               ))}
             </ul>
           ))}
-          <ul className="nav-dd-col nav-dd-more">
-            {MORE_LINKS.map(({ label, href }) => (
-              <li key={href}><a href={href} onClick={() => setOpen(false)}>{label}</a></li>
+          <div className="nav-dd-col nav-dd-more">
+            {MORE_GROUPS.map(([title, links], g) => (
+              <div key={title} className="nav-dd-group">
+                <p className="nav-dd-group-label" id={`${groupId}-${g}`}>{title}</p>
+                <ul aria-labelledby={`${groupId}-${g}`}>
+                  {links.map(({ label, href }) => (
+                    <li key={href}><a href={href} onClick={() => setOpen(false)}>{label}</a></li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
         <a href={NEWS.href} className="nav-dd-news" onClick={() => setOpen(false)}>
           <span><b>{NEWS.title}</b> {NEWS.text}</span>
-          <span className="nav-dd-news-more">Learn more <ArrowRight size={15} strokeWidth={1.8} aria-hidden="true" /></span>
+          <span className="nav-dd-news-more">Learn more <ArrowRight size={14} strokeWidth={1.8} aria-hidden="true" /></span>
         </a>
       </div>
     </div>
