@@ -54,7 +54,7 @@ export default function BillingSection() {
         <SectionHeader
           id="billing-heading"
           eyebrow="Billing on autopilot"
-          title="Never think about billing again. Set it once."
+          title="Pool billing software you set once and never think about again."
           subtitle="Give each customer a rate and their own billing day. The invoices go out by themselves from then on. No more billing everyone on the 1st."
         />
 

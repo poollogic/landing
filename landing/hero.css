@@ -210,6 +210,14 @@
   text-wrap: balance; /* two even lines, no word left dangling */
 }
 .hero-sub strong { color: #E2E8F0; font-weight: 500; }
+/* The homepage's subhead in two wordings (Hero.jsx): the long one from 1100px, the short one below.
+   Not from lg: the long one needs a ~461px column for two lines, and the copy is 441–478px wide at
+   1024–1100px, so it'd take three there. */
+.hero--home .hero-sub-wide { display: none; }
+@media (min-width: 1100px) {
+  .hero--home .hero-sub-wide { display: inline; }
+  .hero--home .hero-sub-narrow { display: none; }
+}
 
 /* The homepage's buttons, under the subhead: the primary and "See pricing" (26px above and below). */
 .hero-actions {
@@ -236,7 +244,7 @@
 }
 .hero-cta-alt:hover { background: rgba(255, 255, 255, .08); }
 /* The homepage's offer, in green ticks (Hero.jsx): "We'll move your customers over" on its own row, then
-   "Free for 30 days" and "No card to start" side by side, neither row wrapping. Centred; from lg, under
+   "Free for 30 days" and "No credit card" side by side, neither row wrapping. Centred; from lg, under
    both buttons and in line with the copy ("Homepage hero, desktop"). */
 .hero-ticks {
   display: flex;

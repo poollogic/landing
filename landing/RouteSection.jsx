@@ -150,7 +150,7 @@ export default function RouteSection() {
         <SectionHeader
           id="route-heading"
           eyebrow="Route acquisition"
-          title="Buy, sell, and transfer routes in seconds."
+          title="Buy, sell and transfer pool routes in seconds."
           subtitle="Selling a route on Poolnautics takes one code. And because every number lives in one place, you walk into the sale knowing exactly what your route is worth."
           titleClassName="ra-h2"
         />

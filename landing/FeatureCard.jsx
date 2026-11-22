@@ -82,7 +82,8 @@ export default function FeatureCard() {
       <p className="fc-head">
         <Wordmark style={{ display: 'inline-block' }} />
         <span className="sr-only">Poolnautics</span>{' '}
-        <span className="fc-handles">handles all of it</span>
+        {/* The words before "handles all of it" show only where the long line fits (feature-card.css). */}
+        <span className="fc-handles"><span className="fc-handles-more">is the pool company software that </span>handles all of it</span>
       </p>
 
       <div className="fc-body">

@@ -34,7 +34,12 @@
   vertical-align: -0.198em;
 }
 .fc-head svg path:first-child { fill: #0f172a; }
-.fc-handles { font-weight: 500; color: #2563eb; }
+.fc-handles { font-weight: 500; color: #0f172a; }
+/* "is the pool company software that": only where the whole line fits on one line. It needs 561px at
+   20px and the header has 100vw − 90px (670px at most) up to 1040px, so it fits from ~651px; 680px leaves
+   room. From 1041px (26px) it needs 730px of 898px. */
+.fc-handles-more { display: none; }
+@media (min-width: 680px) { .fc-handles-more { display: inline; } }
 
 /* ---------- Up to 1040px: dropdowns ---------- */
 .fc-rail { display: none; }

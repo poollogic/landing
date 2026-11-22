@@ -1,10 +1,10 @@
 import React from 'react';
 import { Bell, Calendar, Check, ChevronRight, CircleAlert, Clock, FileText, Mail, MapPin, Plus, Repeat } from 'lucide-react';
-import useLiveDate from './preview/liveDate.js';
+import { HERO_DATE } from './preview/data.js';
 
 // The homepage hero's card below lg (hero.css, "Phones and tablets: the dashboard card"): the app's
 // phone dashboard (web app, src/components/dashboard/phone/PhoneHome.tsx) as static markup, dark only,
-// with Bayside Pool Co.'s demo day, dated today (liveDate.js). The header stays put while the list under it moves with the page
+// with Bayside Pool Co.'s demo day, dated HERO_DATE (preview/data.js). The header stays put while the list under it moves with the page
 // (useHeroCardScroll.js). Always rendered, so the pre-rendered page is the same at every width; from lg
 // up hero.css hides it and the desktop dashboard shows instead. Decoration: hidden from screen readers,
 // and no headings, so the page's outline stays the hero's own.
@@ -61,13 +61,11 @@ const MenuIcon = () => (
 );
 
 export default function HeroPhoneDash() {
-  // Today on the visitor's clock (liveDate.js). Until the page runs, the demo's date holds the space, unseen.
-  const today = useLiveDate();
   return (
     <div className="hero-dash" aria-hidden="true">
       <div className="hd-header">
-        <span className="hd-title" style={today ? undefined : { visibility: 'hidden' }}>
-          {today?.weekday ?? 'Tuesday'} <span className="hd-date">{today?.short ?? 'Oct 20'}</span>
+        <span className="hd-title">
+          {HERO_DATE.weekday} <span className="hd-date">{HERO_DATE.short}</span>
         </span>
         <span className="hd-actions">
           <Bell size={20} {...ICON} />
@@ -91,7 +89,7 @@ export default function HeroPhoneDash() {
 
         <Section title="Money" link>
           <Row icon={Repeat} label="Recurring" value={<span className="hd-strong">$48,930/mo</span>} chevron={false} />
-          <Row icon={Calendar} label="Next billing" detail={<span style={today ? undefined : { visibility: 'hidden' }}>{today?.tomorrow ?? 'Oct 21'}</span>} value="9 invoices" />
+          <Row icon={Calendar} label="Next billing" detail={HERO_DATE.next} value="9 invoices" />
         </Section>
       </div>
     </div>

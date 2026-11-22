@@ -65,7 +65,7 @@ const SITE_ORIGIN = 'https://getpoolnautics.com';
 
 export const ROUTE_META = {
   home: {
-    title: 'Pool Service Software for Routes, Billing & AI | Poolnautics',
+    title: 'Pool Service Software: Billing, Routes & Scheduling | Poolnautics',
     description: 'Poolnautics is pool service software that puts billing, routes and service reports on autopilot. Cut your overhead and add more pools. Free for 30 days.',
     ogTitle: 'Poolnautics | Pool service software built to run and grow your business',
     path: '/',

@@ -29,7 +29,7 @@ export function ReserveIntro({ as: Heading = 'h2', id, price = false }) {
           {/* The homepage's statement role (home-roles.css), not the h1's size. */}
           <Heading id={id} className="rsv-statement">See our simple pricing.</Heading>
           <p className="hero-sub">
-            No demo, no sales call. Pick how many customers you have and <strong>your rate shows up instantly</strong>.
+            Pool service software pricing with no demo and no sales call. Pick how many customers you have and <strong>your rate shows up instantly</strong>.
           </p>
         </>
       ) : (

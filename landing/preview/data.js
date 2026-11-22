@@ -14,6 +14,10 @@ export const IDENTITY = {
 export const DASHBOARD_TITLE = 'Today’s dashboard';
 export const TODAY = 'Tuesday, October 20, 2026';
 
+/** The homepage hero's date (the desktop preview's subtitle, HeroPhoneDash's header and "Next billing"):
+    fixed in October, like the charts it sits over. */
+export const HERO_DATE = { weekday: 'Friday', short: 'Oct 23', long: 'Friday, October 23, 2026', next: 'Oct 24' };
+
 /** The stat cards (ui/SummaryTiles.tsx). `dot`: the dot's colour role (preview.css .pl-kpi-dot--*). */
 export const KPI_TILES = [
   { key: 'invoiced', label: 'Invoiced, month to date', dot: 'accent', value: '$52,720' },

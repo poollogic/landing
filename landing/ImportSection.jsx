@@ -14,7 +14,7 @@ export default function ImportSection() {
           id="import-heading"
           eyebrow="Instant migration"
           title="The fastest way to switch pool software."
-          subtitle="Drop in your Skimmer or QuickBooks export and your whole customer list is in, mapped and billing-ready in under 2 minutes. No migration calls. No waiting on support. And once you’re here, adding a new customer takes seconds."
+          subtitle="Switching pool service software shouldn’t take weeks. Drop in your Skimmer or QuickBooks export and your whole customer list is in, mapped and billing-ready in under 2 minutes. No migration calls. No waiting on support. And once you’re here, adding a new customer takes seconds."
         />
 
         <div className="im-demo-slot">

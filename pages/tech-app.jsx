@@ -97,7 +97,7 @@ const STEPS = [
 
 const RELIABILITY = [
   ['Offline-first', 'Submit reports with no signal. They send once the app is open with signal again.'],
-  ['Low spec friendly', 'Runs on iPhones with iOS 15.1 or later and Android 7 or later.'],
+  ['Low spec friendly', 'Runs on iPhones with iOS 15.1 or later. Android coming soon.'],
   ['No double entry', 'The same data the office sees, written once, by the person who saw the pool.'],
 ];
 

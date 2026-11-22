@@ -59,7 +59,7 @@ export default function DaySection() {
       headingId="day-heading"
       eyebrow="A day with Poolnautics"
       title={['Meet your new office manager', 'who never calls in sick.']}
-      sub="Here’s its Tuesday at Bayside Pool Co. Billing, routes and trucks, exactly as Poolnautics handled them."
+      sub="Pool service management software that does the managing. Here’s its Tuesday at Bayside Pool Co.: billing, routes and trucks, exactly as it handled them."
       entries={ENTRIES}
     >
       <div className="dt-close dt-reveal">

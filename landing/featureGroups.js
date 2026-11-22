@@ -18,7 +18,7 @@ export const FEATURE_GROUPS = [
       'Chemicals added to invoices',
       'Invoices printed & mailed for you',
     ],
-    link: { label: 'See how billing works', href: '/recurring-billing' },
+    link: { label: 'See the pool billing software', href: '/recurring-billing' },
   },
   {
     id: 'paid',
@@ -47,7 +47,7 @@ export const FEATURE_GROUPS = [
     ],
     link: [
       { label: 'See the technician app', href: '/tech-app' },
-      { label: 'See the route software', href: '/pool-route-software' },
+      { label: 'See the route and scheduling software', href: '/pool-route-software' },
     ],
   },
   {

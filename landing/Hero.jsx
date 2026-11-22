@@ -1,6 +1,7 @@
 import React, { lazy, Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import DashboardPreview from './preview/DashboardPreview.jsx';
+import { HERO_DATE } from './preview/data.js';
 import { getPreviewTheme, usePreviewTheme } from './preview/previewTheme.js';
 import PhoneFrame from './PhoneFrame.jsx';
 import './laptop.css';
@@ -41,7 +42,7 @@ function useAfterPaint() {
 // the phone dashboard card (HeroPhoneDash), whose list moves with the page (useHeroCardScroll).
 
 // The offer under the primary button.
-const TICKS = ['We’ll move your customers over', 'Free for 30 days', 'No card to start'];
+const TICKS = ['We’ll move your customers over', 'Free for 30 days', 'No credit card'];
 
 // Staggered entrance: 300ms fade-up (ease-mktg), skipped under reduced motion.
 const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
@@ -83,9 +84,14 @@ const Hero = () => {
           <span className="hero-title-line">your business</span>
         </h1>
 
+        {/* Two wordings, both in the markup: the long one from 1100px, the short one below (hero.css). On
+            phones each short sentence is a line of its own. */}
         <p className="hero-sub">
-          <span className="hero-sub-line">Billing, routes and service reports on autopilot.</span>{' '}
-          <span className="hero-sub-line">Cut your overhead. Add more pools.</span>
+          <span className="hero-sub-wide">Pool business software that puts billing, routes and service reports on autopilot. Cut your overhead. Add more pools.</span>
+          <span className="hero-sub-narrow">
+            <span className="hero-sub-line">Billing, routes and service reports on autopilot.</span>{' '}
+            <span className="hero-sub-line">Cut your overhead. Add more pools.</span>
+          </span>
         </p>
 
         <div className="hero-actions">
@@ -125,7 +131,7 @@ const Hero = () => {
               lg and up, hero.css takes the frame away and the desktop dashboard sits in the holder on
               its own. Below lg the frame is the dark card, showing only the phone dashboard. */}
           <PhoneFrame className="bz-phone--embedded hero-phone">
-            <DashboardPreview liveDate />
+            <DashboardPreview date={HERO_DATE.long} />
             <HeroPhoneDash />
           </PhoneFrame>
           <div className="preview-glint" aria-hidden="true" />

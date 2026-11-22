@@ -28,7 +28,7 @@ export default function TechniciansSection() {
         <SectionHeader
           id="technicians-heading"
           eyebrow="Technicians on autopilot"
-          title="Service reports you never have to babysit."
+          title="A pool service app with reports you never have to babysit."
           subtitle="Your techs get one simple app. You get proof every pool was serviced, the readings you require, and every mile logged."
           titleClassName="text-slate-900"
         />
@@ -55,7 +55,7 @@ export default function TechniciansSection() {
             <div className="ta-get">
               <AppStoreBadge />
               <p>
-                Free on iPhone. Your techs sign in with an invite from your office.
+                Free on iPhone. Android coming soon. Your techs sign in with an invite from your office.
                 <a className="ta-link" href="/tech-app">See the tech app<ArrowRight size={14} strokeWidth={2.2} aria-hidden="true" /></a>
               </p>
             </div>
