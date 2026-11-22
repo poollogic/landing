@@ -45,3 +45,8 @@ test('framing, plugins, base and form targets are locked down', () => {
     assert.ok(p.includes(d), d);
   }
 });
+
+test('upgrade-insecure-requests only when enforced: report-only ignores it and logs a console error', () => {
+  assert.ok(buildPolicy({ hashes: new Set() }).includes('upgrade-insecure-requests'));
+  assert.ok(!buildPolicy({ hashes: new Set(), reportOnly: true }).includes('upgrade-insecure-requests'));
+});

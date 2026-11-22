@@ -63,7 +63,7 @@ export function inlineHandlerHashes(html) {
   return hashes;
 }
 
-export function buildPolicy({ hashes, handlers = new Set(), supabase, signin }) {
+export function buildPolicy({ hashes, handlers = new Set(), supabase, signin, reportOnly = false }) {
   const connect = new Set(["'self'", supabase, origin(signin) ?? ALLOW.app, ALLOW.turnstile, ALLOW.analyticsBeacon].filter(Boolean));
   const handlerPart = handlers.size ? `'unsafe-hashes' ${[...handlers].sort().join(' ')}` : '';
   return [
@@ -79,7 +79,9 @@ export function buildPolicy({ hashes, handlers = new Set(), supabase, signin }) 
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'self'",
-    'upgrade-insecure-requests',
+    // Only when enforced: a report-only policy can't upgrade requests, and browsers log an error for it
+    // (Lighthouse: "Browser errors were logged to the console").
+    ...(reportOnly ? [] : ['upgrade-insecure-requests']),
   ].join('; ');
 }
 
@@ -102,6 +104,7 @@ function main() {
     handlers,
     supabase: origin(process.env.VITE_SUPABASE_URL),
     signin: process.env.VITE_REVIEWS_SIGNIN_URL,
+    reportOnly: process.env.CSP_MODE === 'report-only',
   });
   const headersPath = join(DIST, '_headers');
   const current = existsSync(headersPath) ? readFileSync(headersPath, 'utf8') : '';
