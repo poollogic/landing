@@ -37,6 +37,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://getpoolnautics.com/claude</loc>
+    <lastmod>2026-11-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://getpoolnautics.com/tech-app</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

@@ -17,7 +17,7 @@ import { IDENTITY } from './data.js';
 const ICON = { size: 16, strokeWidth: 1.25, absoluteStrokeWidth: true, 'aria-hidden': true };
 
 /** nav/NavIcons.tsx InvoiceIcon, outline, at the rail's 16px / 1.25 stroke. */
-const InvoiceIcon = () => (
+export const InvoiceIcon = () => (
   <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.875} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <rect x="4" y="2" width="16" height="20" rx="2.5" />
     <rect x="7.5" y="5.5" width="4.5" height="3.5" rx="1" />

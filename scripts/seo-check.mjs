@@ -41,6 +41,8 @@ const ROUTES = [
   // AI, automations and integrations: pre-rendered (its assistant window is .ai-chat). Its top three
   // sections only for now, so no FAQPage: add it back with FULL_PAGE in pages/ai-integrations.jsx.
   { path: '/ai-and-automations', html: 'ai-and-automations.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
+  // The Claude connector (pages/claude.jsx): pre-rendered, the AI page's hero with its own demo (.claude-demo).
+  { path: '/claude', html: 'claude.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.claude-hero-ticks', '.claude-demo'] },
   // Pricing: pre-rendered, with its plans and FAQ as structured data. Its hero is the heading block.
   { path: '/pricing', html: 'pricing.html', strictStatic: true, jsonLd: ['WebPage', 'SoftwareApplication', 'BreadcrumbList', 'FAQPage'], hero: 'section.pr-hero', stable: ['#pricing-heading', '.section-sub'] },
   // Requests, diagnostics and work orders: pre-rendered. Its FAQ and
@@ -62,7 +64,7 @@ const ROUTES = [
   { path: '/pool-route-software', html: 'pool-route-software.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.rb-panel'] },
   { path: '/workflow', html: 'workflow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];
-const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/HeroPhoneDash.jsx', 'landing/useHeroCardScroll.js', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow', 'pages/billing.jsx', 'landing/billing-page', 'pages/route-software.jsx', 'landing/route-page', 'landing/AppStoreBadge.jsx']; // the heroes' own code (and the App Store badge, in /tech-app's)
+const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/HeroPhoneDash.jsx', 'landing/useHeroCardScroll.js', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/claude.jsx', 'landing/claude', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow', 'pages/billing.jsx', 'landing/billing-page', 'pages/route-software.jsx', 'landing/route-page', 'landing/AppStoreBadge.jsx']; // the heroes' own code (and the App Store badge, in /tech-app's)
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
 const STABLE_TOLERANCE_PX = 2;
 const CLS_BUDGET = 0.01; // we hold the new pages at zero; Google's "good" line is 0.1

@@ -69,6 +69,7 @@ const Footer = () =>
       <span className="site-footer-links">
         <a href="/pool-route-software" className="site-footer-link">Route software</a>
         <a href="/ai-and-automations" className="site-footer-link">AI &amp; automations</a>
+        <a href="/claude" className="site-footer-link">Claude</a>
         <a href="/partners" className="site-footer-link">Partners</a>
         <a href="/terms" className="site-footer-link">Terms</a>
         <a href="/privacy" className="site-footer-link">Privacy</a>

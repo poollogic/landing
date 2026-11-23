@@ -15,6 +15,7 @@ const ContactPage = lazy(() => import('./pages/contact.jsx'));
 const PricingPage = lazy(() => import('./pages/pricing.jsx'));
 const ReservePage = lazy(() => import('./pages/reserve.jsx'));
 const AiIntegrationsPage = lazy(() => import('./pages/ai-integrations.jsx'));
+const ClaudePage = lazy(() => import('./pages/claude.jsx'));
 const PartnersPage = lazy(() => import('./pages/partners.jsx'));
 const PartnerTermsPage = lazy(() => import('./pages/partner-terms.jsx'));
 const TechnicianTermsPage = lazy(() => import('./pages/technician-terms.jsx'));
@@ -48,6 +49,7 @@ const isContactPath = (p) => p === '/contact' || p === '/contact/';
 const isPricingPath = (p) => p === '/pricing' || p === '/pricing/';
 const isReservePath = (p) => p === '/reserve' || p === '/reserve/';
 export const isAiIntegrationsPath = (p) => p === '/ai-and-automations' || p === '/ai-and-automations/';
+const isClaudePath = (p) => p === '/claude' || p === '/claude/';
 const isPartnersPath = (p) => p === '/partners' || p === '/partners/';
 const isPartnerTermsPath = (p) => p === '/partners/terms' || p === '/partners/terms/';
 // The phone app's sign-in links here (the box on its location screen).
@@ -85,6 +87,12 @@ export const ROUTE_META = {
     title: 'Pool Service Automation Software with AI | Poolnautics',
     description: 'Pool service software that automates billing, lead follow-ups and reminders on its own. Connect ChatGPT, Claude or Grok to your pool business. 30-day trial.',
     path: '/ai-and-automations',
+  },
+  // The Claude connector (pages/claude.jsx). Pre-rendered.
+  claude: {
+    title: 'Poolnautics for Claude | Run Your Pool Company with Claude',
+    description: 'The Poolnautics connector for Claude. Send quotes, reassign requests, chase late invoices and check routes from Claude on your desk or your phone, inside limits you set.',
+    path: '/claude',
   },
   techApp: {
     title: 'Pool Service Technician App | Poolnautics',
@@ -216,6 +224,7 @@ const App = ({ path: pathProp }) => {
     else if (isPricingPath(path)) meta = ROUTE_META.pricing;
     else if (isReservePath(path)) meta = ROUTE_META.reserve;
     else if (isAiIntegrationsPath(path)) meta = ROUTE_META.aiIntegrations;
+    else if (isClaudePath(path)) meta = ROUTE_META.claude;
     else if (isPartnersPath(path)) meta = ROUTE_META.partners;
     else if (isPartnerTermsPath(path)) meta = ROUTE_META.partnerTerms;
     else if (isTechnicianTermsPath(path)) meta = ROUTE_META.technicianTerms;
@@ -325,6 +334,18 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
           <AiIntegrationsPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // The Claude connector: the AI page's design, so it brings the same dark nav and the footer itself.
+  // Pre-rendered: keep the tree here the same as entry-server.jsx renders it.
+  if (isClaudePath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
+          <ClaudePage />
         </Suspense>
       </ErrorBoundary>
     );

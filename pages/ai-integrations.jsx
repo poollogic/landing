@@ -376,6 +376,7 @@ export default function AiIntegrationsPage() {
                 <strong>You stay in control.</strong> Only an owner or admin can connect an assistant, and any connection can
                 be revoked on its own.
               </p>
+              <a href="/claude" className={`ai-link ${FOCUS}`}>Using Claude? See Poolnautics for Claude <ArrowRight size={15} strokeWidth={2} aria-hidden="true" /></a>
             </div>
             <SectionCta theme={theme} />
           </div>

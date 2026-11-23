@@ -3,6 +3,7 @@ import { Writable } from 'node:stream';
 import { renderToPipeableStream } from 'react-dom/server';
 import App, { ROUTE_META } from './app.jsx';
 import { structuredData as aiIntegrationsData } from './pages/ai-integrations.jsx';
+import { structuredData as claudeData } from './pages/claude.jsx';
 import { structuredData as pricingData } from './pages/pricing.jsx';
 import { structuredData as workflowData } from './pages/workflow.jsx';
 import { structuredData as billingData } from './pages/billing.jsx';
@@ -27,6 +28,7 @@ const homeFaq = {
 export const PRERENDERED = {
   '/': { meta: ROUTE_META.home, headScript: homeFirstPaintScript, jsonLd: [homeFaq] }, // Organization, WebSite, software: index.html
   '/ai-and-automations': { meta: ROUTE_META.aiIntegrations, jsonLd: aiIntegrationsData },
+  '/claude': { meta: ROUTE_META.claude, jsonLd: claudeData },
   '/pricing': { meta: ROUTE_META.pricing, jsonLd: pricingData },
   '/workflow': { meta: ROUTE_META.workflow, jsonLd: workflowData },
   '/pool-service-billing': { meta: ROUTE_META.billing, jsonLd: billingData },

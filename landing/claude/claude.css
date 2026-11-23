@@ -1,0 +1,211 @@
+/* /claude's own layouts (pages/claude.jsx, landing/claude/ClaudeDemo.jsx). Everything else (nav, hero,
+   bands, headers, ticks, cards, FAQ, buttons, type and colours) is the shared design: ai.css, hero.css,
+   landing.css. Scoped to .ai-page like ai.css, so the shared files loading after this one don't win. */
+
+/* ---------- Hero ---------- */
+/* The page dark with a soft blue glow behind the demo, in place of the AI page's navy and beam. */
+.ai-page .hero.claude-hero {
+  background-color: #111318;
+  background-image: radial-gradient(680px 440px at 74% -60px, rgba(46, 133, 255, .22), transparent 70%);
+}
+/* Stacked (below 960px), the demo under the copy: no room needed for a beam between them. */
+.ai-page .claude-hero .ai-hero-grid { gap: 56px; }
+@media (min-width: 960px) {
+  .ai-page .claude-hero .ai-hero-grid { grid-template-columns: 430px minmax(0, 1fr); gap: 72px; }
+}
+/* The demo is drawn at 1:1 (it scales itself to its column, below), so not the AI page's chat zoom. */
+@media (min-width: 1024px) {
+  .ai-page .claude-hero .ai-hero-visual { zoom: 1; }
+}
+
+/* Three ticks under the buttons, in place of the fine print. */
+.ai-page .claude-hero-ticks { margin-top: 28px; display: grid; gap: 10px; }
+.ai-page .claude-hero-ticks li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.5; color: #94a3b8; }
+.ai-page .claude-hero-ticks svg { flex: none; margin-top: 3px; color: var(--brand-blue); }
+
+/* ---------- The demo (ClaudeDemo.jsx) ----------
+   A 520px stage: the window (440px tall) at the top, the phone (73%) over its bottom-left, hanging 80px
+   below it. Fixed sizes from the first render. In a column under 460px wide the stage is laid out at
+   460px and zoomed to fit (the homepage mock's container trick, preview.css). */
+.ai-page .claude-demo { container-type: inline-size; }
+.ai-page .claude-stage {
+  --claude-row-h: 54px;
+  position: relative; width: 100%; height: 520px;
+}
+@container (max-width: 459.98px) {
+  .ai-page .claude-stage { width: 460px; zoom: tan(atan2(100cqw, 460px)); }
+}
+
+/* The window: the homepage mock's frame, rail and panel (preview.css, dark theme), at a fixed size. */
+.ai-page .claude-window {
+  position: absolute; top: 0; left: 24px; right: 0; height: 440px;
+  overflow: hidden; border-radius: 14px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .08), 0 30px 80px -24px rgba(0, 0, 0, .7), var(--mktg-glow);
+}
+.ai-page .claude-app { height: 100%; }
+.ai-page .claude-app *, .ai-page .claude-app *::before, .ai-page .claude-app *::after { box-sizing: border-box; }
+.ai-page .claude-app svg { display: inline-block; }
+/* preview.css sizes these by the screen; here they're the same at every width. */
+.ai-page .claude-app .pl-frame { background: #0b0c0f; }
+.ai-page .claude-app .pl-rail { display: flex; width: 168px; }
+.ai-page .claude-app .pl-main { padding: 8px 8px 8px 0; }
+.ai-page .claude-app .pl-panel { padding: 0 18px; border: 1px solid var(--panel-edge); border-radius: 12px; }
+.ai-page .claude-app.dark .pl-panel::after { display: block; }
+
+.ai-page .claude-panel-head { display: flex; align-items: center; justify-content: space-between; height: 60px; flex: none; }
+.ai-page .claude-panel-title { font-size: 18px; font-weight: 600; letter-spacing: -.01em; color: var(--foreground); white-space: nowrap; }
+.ai-page .claude-bell { position: relative; display: grid; place-items: center; width: 30px; height: 30px; color: var(--neutral-ink-3); }
+.ai-page .claude-badge {
+  position: absolute; top: 0; right: -2px; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 999px;
+  background: #2E85FF; color: #fff; font-size: 10px; font-weight: 600; line-height: 1; box-shadow: 0 0 0 2px var(--card);
+  animation: claude-pop .35s ease; /* keyed by its count: each new number pops in */
+}
+
+/* The rows: fixed slots, moved with transforms, so a row sliding in moves nothing's layout. */
+.ai-page .claude-lists { position: relative; flex: 1; }
+.ai-page .claude-list { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s .3s; }
+.ai-page .claude-list.is-on { opacity: 1; visibility: visible; transition: opacity .3s ease; }
+.ai-page .claude-row {
+  position: absolute; top: 0; left: -8px; right: -8px; height: calc(var(--claude-row-h) - 4px);
+  display: flex; align-items: center; gap: 12px; padding: 0 8px; border-radius: 8px;
+  translate: 0 0;
+  transition: transform .45s var(--ai-ease), translate .45s var(--ai-ease), opacity .35s ease, background-color .6s ease;
+}
+.ai-page .claude-row::after { /* the hairline between rows */
+  content: ''; position: absolute; left: 8px; right: 8px; bottom: -2px; height: 1px; background: rgba(255, 255, 255, .05);
+}
+.ai-page .claude-row.is-flash { background-color: rgba(46, 133, 255, .16); transition-duration: .45s, .45s, .35s, .15s; }
+.ai-page .claude-row.is-hidden { opacity: 0; }
+.ai-page .claude-row.is-entering { translate: 0 -10px; }
+.ai-page .claude-row-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ai-page .claude-row-title { font-size: 13.5px; font-weight: 500; line-height: 18px; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ai-page .claude-row-sub { font-size: 12px; line-height: 16px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.ai-page .claude-pill {
+  flex: none; display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px; border-radius: 999px;
+  font-size: 12px; font-weight: 500; white-space: nowrap; animation: claude-pop .35s ease;
+}
+.ai-page .claude-pill--tech { padding-left: 4px; background: rgba(148, 163, 184, .12); color: #e2e8f0; }
+.ai-page .claude-initial { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 999px; color: #fff; font-size: 9.5px; font-weight: 600; }
+.ai-page .claude-pill--amber { background: rgba(245, 158, 11, .14); color: #fbbf24; }
+.ai-page .claude-pill--red { background: rgba(239, 68, 68, .14); color: #f87171; }
+.ai-page .claude-pill--green { background: rgba(34, 197, 94, .14); color: #4ade80; }
+@keyframes claude-pop { from { opacity: 0; scale: .92; } to { opacity: 1; scale: 1; } }
+
+/* The toast, bottom-right of the panel. */
+.ai-page .claude-toast {
+  position: absolute; right: 14px; bottom: 14px; z-index: 60; max-width: calc(100% - 28px);
+  display: flex; align-items: center; gap: 8px; padding: 9px 14px 9px 12px; border-radius: 10px;
+  background: #1a1d24; box-shadow: 0 0 0 1px rgba(255, 255, 255, .08), 0 12px 28px -8px rgba(0, 0, 0, .6);
+  font-size: 12.5px; font-weight: 500; line-height: 1.35; color: var(--foreground);
+  opacity: 0; translate: 0 8px; transition: opacity .3s ease, translate .45s var(--ai-ease);
+}
+.ai-page .claude-toast.is-in { opacity: 1; translate: 0 0; }
+.ai-page .claude-toast-dot { flex: none; width: 8px; height: 8px; border-radius: 999px; background: #2E85FF; box-shadow: 0 0 0 3px rgba(46, 133, 255, .2); }
+.ai-page .claude-toast.is-amber .claude-toast-dot { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, .2); }
+.ai-page .claude-toast-via { flex: none; font-weight: 400; color: var(--muted-foreground); }
+
+/* The phone: the site's iPhone frame (phone.css) at 73%, over the window's bottom-left. */
+.ai-page .claude-phone-wrap { position: absolute; left: 0; bottom: 0; z-index: 2; zoom: .73; }
+.ai-page .claude-phone { box-shadow: var(--bz-rim), 0 40px 70px -24px rgba(0, 0, 0, .9); }
+.ai-page .claude-phone .bz-screen { background: #1f1e1d; }
+.ai-page .claude-chat {
+  position: absolute; inset: 0; display: flex; flex-direction: column; padding: 44px 0 22px;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; color: #ece9e2; text-align: left;
+}
+.ai-page .claude-chat-head {
+  display: flex; align-items: center; justify-content: space-between; flex: none; height: 38px; padding: 0 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+.ai-page .claude-chat-name { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.ai-page .claude-chat-tag { padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); font-size: 10.5px; font-weight: 500; color: rgba(236, 233, 226, .7); }
+.ai-page .claude-chat-body { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 16px 14px; }
+.ai-page .claude-msg { font-size: 14px; line-height: 1.45; animation: claude-in .35s ease both; }
+.ai-page .claude-msg--you { align-self: flex-end; max-width: 86%; padding: 9px 12px; border-radius: 16px 16px 4px 16px; background: #34322f; }
+.ai-page .claude-msg--claude { color: #ece9e2; }
+@keyframes claude-in { from { opacity: 0; translate: 0 4px; } to { opacity: 1; translate: 0 0; } }
+.ai-page .claude-status { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: rgba(236, 233, 226, .62); animation: claude-in .3s ease both; }
+.ai-page .claude-status-mark {
+  flex: none; width: 11px; height: 11px; border-radius: 999px;
+  border: 1.5px solid rgba(236, 233, 226, .5); border-top-color: transparent; animation: claude-spin .8s linear infinite;
+}
+.ai-page .claude-status.is-used .claude-status-mark { width: 8px; height: 8px; margin-inline: 1.5px; border: 0; background: #22c55e; animation: none; }
+@keyframes claude-spin { to { rotate: 360deg; } }
+.ai-page .claude-input {
+  flex: none; display: flex; align-items: center; height: 42px; margin: 0 12px; padding: 0 14px; border-radius: 21px;
+  background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08);
+  font-size: 13.5px; white-space: nowrap; overflow: hidden;
+}
+.ai-page .claude-input-placeholder { color: rgba(236, 233, 226, .4); }
+/* The newest characters stay in view as the line fills. */
+.ai-page .claude-input-text { display: flex; justify-content: flex-end; min-width: 0; width: 100%; overflow: hidden; direction: rtl; }
+.ai-page .claude-input-text > * { direction: ltr; }
+.ai-page .claude-caret { flex: none; width: 1.5px; height: 16px; margin-left: 1px; background: #ece9e2; animation: claude-blink 1s steps(1) infinite; }
+@keyframes claude-blink { 50% { opacity: 0; } }
+
+/* The scene buttons, under the demo, right-aligned. */
+.ai-page .claude-try { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; }
+.ai-page .claude-try-label { margin-right: 4px; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--mktg-text-muted); }
+.ai-page .claude-try-btn {
+  height: 32px; padding: 0 13px; border-radius: 999px; font-size: 13px; font-weight: 500; color: #cbd5e1;
+  background: rgba(255, 255, 255, .04); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1);
+  transition: background-color .2s, box-shadow .2s, color .2s;
+}
+.ai-page .claude-try-btn:hover { background: rgba(255, 255, 255, .08); color: #f8fafc; }
+.ai-page .claude-try-btn[aria-pressed='true'] { color: #fff; background: rgba(46, 133, 255, .16); box-shadow: inset 0 0 0 1px rgba(46, 133, 255, .55); }
+@media (max-width: 559.98px) {
+  .ai-page .claude-try { justify-content: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-page :is(.claude-row, .claude-list, .claude-toast) { transition: none; }
+  .ai-page :is(.claude-pill, .claude-badge, .claude-msg, .claude-status) { animation: none; }
+  .ai-page .claude-status-mark, .ai-page .claude-caret { animation: none; }
+}
+
+/* ---------- 2. Where Claude fits: .ai-define's columns, the answer level with the heading ---------- */
+.ai-page .claude-fits .section-title { color: theme('colors.slate.900'); }
+@media (min-width: 1000px) {
+  .ai-page .claude-fits .ai-define-answer .section-sub { margin-top: 0; }
+}
+.ai-page .claude-fits .ai-link { margin-top: 20px; }
+
+/* ---------- 3. Your playbook: ticks with a bold lead-in ---------- */
+.ai-page .claude-playbook-ticks { margin-top: 0; gap: 16px; }
+.ai-page .claude-playbook-ticks strong { font-weight: 600; color: theme('colors.slate.900'); }
+@media (max-width: 1023.98px) {
+  .ai-page .claude-playbook-ticks { margin-top: 8px; }
+}
+
+/* ---------- 4. The day-to-day: six plain groups ---------- */
+.ai-page .claude-asks { margin-top: var(--head-to-content); display: grid; gap: 40px 48px; }
+@media (min-width: 640px) { .ai-page .claude-asks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .ai-page .claude-asks { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.ai-page .claude-ask-group h3 {
+  padding-bottom: 12px; border-bottom: 1px solid rgba(255, 255, 255, .08);
+  font-size: 17px; line-height: 1.35; font-weight: 600; letter-spacing: -.01em; color: #f8fafc;
+}
+.ai-page .claude-ask-group ul { margin-top: 14px; display: grid; gap: 10px; }
+.ai-page .claude-ask-group li { font-size: 16px; line-height: 1.5; color: #94a3b8; text-wrap: pretty; }
+.ai-page .claude-asks-note { margin-top: 40px; color: #94a3b8; }
+
+/* ---------- 5. Setup: three steps, the number in the icon tile ---------- */
+.ai-page .claude-steps { margin-top: var(--head-to-content); }
+@media (min-width: 900px) { .ai-page .ai-pillars.claude-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 600px) and (max-width: 899.98px) { .ai-page .ai-pillars.claude-steps { grid-template-columns: minmax(0, 1fr); } }
+.ai-page .claude-step-n { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ---------- 6. Guardrails: the "can't" card beside four points ---------- */
+.ai-page .claude-guard { margin-top: var(--head-to-content); display: grid; gap: 40px; }
+@media (min-width: 1024px) { .ai-page .claude-guard { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 64px; align-items: start; } }
+.ai-page .claude-cant .ai-routine-list { margin-bottom: 0; }
+.ai-page .claude-cant .ai-routine-list svg { color: theme('colors.slate.400'); }
+.ai-page .claude-guard-points { display: grid; gap: 28px; }
+.ai-page .claude-guard-points h3 { font-size: 18px; line-height: 1.4; font-weight: 600; letter-spacing: -.01em; color: theme('colors.slate.900'); }
+.ai-page .claude-guard-points p { margin-top: 6px; font-size: 16px; line-height: 1.6; color: #475569; text-wrap: pretty; }
+
+/* ---------- 7. FAQ: a link in an answer ---------- */
+.ai-page .claude-qa a { color: theme('colors.slate.900'); text-decoration: underline; text-decoration-color: var(--brand-blue); text-underline-offset: 3px; }
+
+/* ---------- 8. Closing ---------- */
+.ai-page .claude-close-fine { text-align: center; }
