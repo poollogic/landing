@@ -532,6 +532,25 @@ html.nav-locked { overflow: hidden; }
 .is-light .nav-menu .menu-main:active { color: #2563EB; }
 .is-light .nav-menu .menu-main + .menu-main,
 .is-light .nav-menu hr { border-top-color: #E4E4E7; }
+/* ---------- Light, over a white hero (.is-light.is-over): /ai-and-automations ----------
+   Positioned like the dark nav (absolute, over the hero), in the page's own type. Links slate, the
+   wordmark ink, and "Start free trial" a solid ink button. */
+.lp-nav.is-light.is-over { position: absolute; font-family: inherit; }
+.is-over .nav-links > a,
+.is-over .nav-dd-trigger,
+.is-over .nav-signin { color: #334155; }
+.is-over .nav-links > a:hover,
+.is-over .nav-links > a[aria-current="page"],
+.is-over .nav-links .nav-dd-trigger:hover,
+.is-over .nav-links .nav-dd.is-open .nav-dd-trigger,
+.is-over .nav-signin:hover { color: #0B1220; }
+.is-over .lp-nav-wordmark svg path:first-child { fill: #0B1220; }
+.is-over .nav-trial { color: #fff; background: #0B1220; box-shadow: 0 1px 2px rgba(11, 18, 32, .12); }
+.is-over .nav-trial::before { display: none; }
+.is-over .nav-trial::after { background: #0B1220; transition: background-color .2s; }
+.is-over .nav-trial:hover { color: #fff; box-shadow: 0 8px 20px -10px rgba(11, 18, 32, .55); }
+.is-over .nav-trial:hover::after { background: #1E293B; }
+
 /* The menu's blue button keeps its own colours over the light menu. */
 .is-light .nav-menu .menu-trial { color: #fff; background: #2F6BF2; }
 .is-light .nav-menu .menu-trial:active { background: #2A5FDC; }

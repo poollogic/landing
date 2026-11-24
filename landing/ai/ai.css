@@ -154,6 +154,95 @@
   .ai-page .ai-hero .hero-fine { text-align: center; margin-inline: auto; text-wrap: balance; }
 }
 
+/* ---------- Light hero (/ai-and-automations, .ai-hero--light) ----------
+   The same grid, breakpoints and scaling as the dark hero above (still /tech-app's, billing's and
+   route's), on white: no beam, smoke or fade, no buttons. Copy left, ending in the "connect your AI"
+   chips; right, "Approved quote to paid invoice" (QuoteToPaid.jsx) at 93%. */
+.ai-page .hero.ai-hero--light { background: #fff; }
+.ai-page .ai-hero--light .hero-title { color: #0B1220; }
+.ai-page .ai-hero--light .hero-sub { color: #475569; }
+/* The dark hero's scaling was for its 632px chat window on shorter and narrower screens; this column
+   (about 430px tall, at 93%) fits without it, so from 1024px it's always at its 93%. 960–1024px keeps
+   the grid's width scaling, so the copy still fits. */
+.ai-page .ai-hero--light .ai-hero-grid { --ai-zh: 1; }
+@media (min-width: 1024px) { .ai-page .ai-hero--light .ai-hero-visual { zoom: 1; } }
+/* Stacked: the dark hero's 128px was room for the beam; here, the stack simply follows the copy. */
+@media (max-width: 959.98px) { .ai-page .ai-hero--light .ai-hero-grid { gap: 64px; } }
+.ai-page .ai-hero-connect { margin-top: 34px; padding-top: 28px; border-top: 1px solid #E8ECF2; }
+.ai-page .ai-hero-connect-label { font-size: 15px; line-height: 1.4; font-weight: 600; color: #0B1220; }
+.ai-page .ai-hero-chips { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
+.ai-page .ai-hero-chip {
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 15px 8px 11px;
+  border: 1px solid #D5DBE5; border-radius: 999px; background: #fff;
+  font-size: 14px; line-height: 20px; font-weight: 600; color: #0B1220;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
+}
+.ai-page a.ai-hero-chip:hover { border-color: var(--brand-blue); box-shadow: 0 6px 16px -8px rgba(46, 133, 255, .45); transform: translateY(-1px); }
+.ai-page .ai-hero-chip-mark { display: block; flex: none; width: 18px; height: 18px; object-fit: contain; }
+.ai-page .ai-hero-chip-mark.is-missing { border-radius: 999px; background: #E2E8F0; } /* TODO: the company's logo file */
+
+/* The automation: built at 440px, shown at 93% beside the copy, right-aligned to the content edge;
+   stacked, under the copy at up to 440px. */
+.ai-page .ai-q2p { width: 100%; max-width: 440px; }
+@media (min-width: 960px) { .ai-page .ai-q2p { width: 440px; zoom: .93; margin-left: auto; } }
+.ai-page .ai-q2p-stack { position: relative; display: flex; flex-direction: column; }
+.ai-page :is(.ai-q2p-lines, .ai-q2p-dots) { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.ai-page .ai-q2p-lines { z-index: 0; }
+.ai-page .ai-q2p-dots { z-index: 2; }
+.ai-page .ai-q2p-line { fill: none; stroke: #CFD8E4; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.ai-page .ai-q2p-line.is-blue { stroke: var(--brand-blue); }
+.ai-page .ai-q2p-progress { transition: stroke-dashoffset .55s cubic-bezier(.4, 0, .2, 1), opacity .15s; }
+.ai-page .ai-q2p-branch { opacity: 0; transition: opacity .3s; }
+.ai-page .ai-q2p-branch.is-lit { opacity: 1; }
+.ai-page .ai-q2p-dot { fill: #fff; stroke: #CFD8E4; stroke-width: 1.75; transition: fill .3s, stroke .3s; }
+.ai-page .ai-q2p-dot.is-running { stroke: var(--brand-blue); }
+.ai-page .ai-q2p-dot.is-done { fill: var(--brand-blue); stroke: var(--brand-blue); }
+
+/* People's cards (the customer, the technician): full width. */
+.ai-page .ai-q2p-card {
+  --q2p-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 16px 30px -22px rgba(15, 23, 42, .3);
+  position: relative; z-index: 1; padding: 14px 18px 15px;
+  border: 1px solid #E1E7F0; border-radius: 16px; background: #fff; box-shadow: var(--q2p-shadow);
+  transition: border-color .3s, box-shadow .3s;
+}
+.ai-page .ai-q2p-card:not([data-step="0"]) { margin-top: 18px; } /* by step, not :first-child: the SVGs come first once drawn */
+.ai-page .ai-q2p-card[data-step="2"] { margin-top: 38px; } /* "5 hours later" */
+/* Automatic steps: inset 34px left and 46px right, flatter. */
+.ai-page .ai-q2p-card.is-auto {
+  --q2p-shadow: 0 0 #0000;
+  margin-left: 34px; margin-right: 46px; padding: 11px 16px 12px;
+  border-color: #E3E8F0; border-radius: 14px;
+}
+.ai-page .ai-q2p-body { transition: opacity .3s; }
+.ai-page .ai-q2p-card.is-waiting .ai-q2p-body { opacity: .5; }
+.ai-page .ai-q2p-card.is-running { border-color: var(--brand-blue); box-shadow: 0 0 0 4px rgba(46, 133, 255, .12), var(--q2p-shadow); }
+.ai-page .ai-q2p-card.is-done { border-color: #B9D6FF; }
+.ai-page .ai-q2p-card.is-paid.is-done {
+  border-color: rgba(16, 185, 129, .45);
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, .08), 0 1px 2px rgba(15, 23, 42, .04), 0 16px 32px -18px rgba(16, 185, 129, .35);
+}
+.ai-page .ai-q2p-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.ai-page .ai-q2p-who {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10.5px; line-height: 16px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #94A3B8;
+}
+.ai-page .ai-q2p-card.is-auto .ai-q2p-who { color: var(--brand-blue); }
+.ai-page .ai-q2p-time { font-size: 11.5px; line-height: 16px; color: #9AA6B6; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ai-page .ai-q2p-title { margin-top: 4px; font-size: 16px; line-height: 1.35; font-weight: 600; color: #0B1220; text-wrap: pretty; }
+.ai-page .ai-q2p-card.is-auto .ai-q2p-title { margin-top: 3px; font-size: 14.5px; }
+.ai-page .ai-q2p-detail { margin-top: 4px; font-size: 13px; line-height: 1.45; color: #64748B; }
+.ai-page .ai-q2p-paid { margin-top: 6px; display: flex; align-items: center; gap: 10px; }
+.ai-page .ai-q2p-amount { font-size: 25px; line-height: 1.15; font-weight: 700; letter-spacing: -.02em; color: #0B1220; font-variant-numeric: tabular-nums; }
+.ai-page .ai-q2p-tag { padding: 4px 10px; border-radius: 999px; background: rgba(16, 185, 129, .13); font-size: 11.5px; line-height: 1.2; font-weight: 600; color: #047857; }
+.ai-page .ai-q2p-later {
+  position: absolute; z-index: 2; transform: translate(50%, -50%); white-space: nowrap;
+  padding: 3px 10px; border: 1px solid #E1E7F0; border-radius: 999px; background: #fff;
+  font-size: 11px; line-height: 1.3; font-weight: 600; color: #64748B;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-page :is(.ai-q2p-card, .ai-q2p-body, .ai-q2p-progress, .ai-q2p-branch, .ai-q2p-dot) { transition: none; }
+}
+
 /* CTAs: the hero's primary button, and a quiet secondary beside it. On desktop both are the site's one
    button size (hero.css, "Main buttons"); the sizes here are for phones and tablets. */
 .ai-page .ai-cta-row { margin-top: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
@@ -1067,7 +1156,8 @@
     linear-gradient(180deg, #0a0f1c 0%, #0c1120 60%, #0e1117 100%);
 }
 
-/* ---------- 2. The routine runs itself (Routine.jsx) ---------- */
+/* ---------- 2. The routine runs itself (Routine.jsx, #routine) ----------
+   Its cards' classes are /claude's guardrails card's too, so everything new here is under #routine. */
 .ai-page .ai-routine-inner { max-width: theme('maxWidth.5xl'); margin-inline: auto; }
 .ai-page #routine .section-head { margin-bottom: var(--head-to-content); }
 /* The first heading after the hero: the statement role (as the homepage's first section), all dark. */
@@ -1075,7 +1165,8 @@
   font-size: var(--statement-size); line-height: var(--statement-leading);
   font-weight: var(--statement-weight); letter-spacing: var(--statement-tracking); color: theme('colors.slate.900');
 }
-.ai-page #routine .section-title > span { display: block; text-wrap: balance; }
+.ai-page #routine .section-title { text-wrap: balance; }
+@screen md { .ai-page #routine .section-title > span { display: block; text-wrap: balance; } } /* two lines, broken after "follow-ups" */
 .ai-page #routine .section-sub { text-wrap: balance; } /* the shared measure: .section-sub's 42rem */
 .ai-page .ai-routine-cards { display: grid; gap: theme('spacing.6'); }
 @screen md { .ai-page .ai-routine-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -1107,6 +1198,17 @@
   font-size: theme('fontSize.meta'); line-height: theme('lineHeight.5'); color: var(--subhead-on-light);
 }
 .ai-page .ai-routine-foot strong { font-weight: var(--fw-semibold); color: theme('colors.slate.900'); }
+/* On the light grey band: white cards with a hairline and a soft shadow; the requests as chips. */
+.ai-page #routine .ai-routine-card {
+  background: #fff; border: 1px solid #E3E8F0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 18px 36px -28px rgba(15, 23, 42, .25);
+}
+.ai-page #routine .ai-routine-bubbles li { background: #F5F7FB; box-shadow: inset 0 0 0 1px #E6EAF1; }
+.ai-page #routine .ai-routine-link {
+  margin-top: 14px; align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; line-height: 20px; font-weight: 600; color: var(--brand-blue);
+}
+.ai-page #routine .ai-routine-link:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- 3. Automations (Automations.jsx): the follow-ups, then the card; side by side from 900px ---------- */
 .ai-page .ai-auto { display: grid; gap: 48px; }

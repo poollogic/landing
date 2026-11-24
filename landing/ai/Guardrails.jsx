@@ -11,7 +11,7 @@ import { PRICE_PROPOSALS, SEND_LIMITS } from '../../aiFacts.js';
 // answer rise in (at once with reduced motion). The tool chips are the app's real tools; the two
 // refusals have none, because no tool to charge or refund exists. Below 900px the window sits under the
 // list, and tapping a request scrolls its answer into view. Under both, "See every limit" opens the
-// full lists. The figures are the hero demo's (AssistantChat.jsx); the limits come from aiFacts.js.
+// full lists. The figures are the old hero demo's (now /claude's, landing/claude/hero/ClaudeChat.jsx); the limits come from aiFacts.js.
 // Styles: ai.css ("Guardrails", and the window's).
 
 const Dots = ({ items }) => (

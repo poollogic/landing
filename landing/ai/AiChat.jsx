@@ -1,8 +1,8 @@
 import React from 'react';
 import { ArrowUp, Check, ChevronRight, Plug, Plus, X } from 'lucide-react';
 
-// The "Your AI assistant" window, shared by the hero (AssistantChat.jsx, dark) and Guardrails
-// (Guardrails.jsx, light): the shell (title bar with "Poolnautics connected", the conversation, the
+// The "Your AI assistant" window, Guardrails' (Guardrails.jsx, light; the old dark hero's is now
+// /claude's own copy, landing/claude/hero/): the shell (title bar with "Poolnautics connected", the conversation, the
 // composer) and its parts. One set of markup; the theme is CSS variables on the root (.ai-chat--light
 // sets them; every rule falls back to the dark value), so the hero renders exactly as it did. Styles:
 // ai.css ("The assistant window").

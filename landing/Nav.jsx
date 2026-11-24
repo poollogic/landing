@@ -6,8 +6,9 @@ import { Wordmark } from '../components/brand-logo.jsx';
 import FeaturesMenu, { LINKS, MENU_FEATURES } from './FeaturesMenu.jsx';
 import './nav.css';
 
-// The site header. Dark, absolutely positioned over the hero, on the homepage, /pricing, /contact
-// and /ai-and-automations; light (tone="light"), in the page's flow, on the legal and partner pages.
+// The site header. Dark, absolutely positioned over the hero, on the homepage, /pricing and /contact;
+// light (tone="light"), in the page's flow, on the legal and partner pages; light over a white hero
+// (tone="light" overlay) on /ai-and-automations.
 // Either way it scrolls away with the page. Styles live in landing/nav.css.
 
 const APP_URL = 'https://app.poolnautics.app/';
@@ -20,13 +21,15 @@ const MENU_MAX = 880;
 // current: the page's own path (e.g. '/pricing'), so its link shows as the page you're on. A prop,
 // not window.location, so a pre-rendered page renders the same on the server.
 // tone: 'dark' or 'light', the page's background.
-const Nav = ({ hideCta = false, current, tone = 'dark' }) => {
+// overlay: with tone="light", over a white hero like the dark one (absolute, the page's own type), not
+// in the page's flow: /ai-and-automations. Its colours: nav.css ("Light, over a white hero").
+const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false }) => {
   const [open, setOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const ref = useRef(null);
   const burger = useRef(null);
   const theme = usePreviewTheme();
-  const light = tone === 'light' ? ' is-light' : '';
+  const light = tone === 'light' ? ` is-light${overlay ? ' is-over' : ''}` : '';
 
   // Close the mobile menu on Escape, outside click, or growing past the menu's widths.
   useEffect(() => {

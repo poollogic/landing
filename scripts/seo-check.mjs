@@ -40,7 +40,7 @@ const ROUTES = [
   { path: '/', html: 'index.html', strictStatic: true, jsonLd: ['Organization', 'WebSite', 'SoftwareApplication', 'FAQPage'], stable: ['.hero-title', '.hero-sub', '.hero-actions', '.hero-ticks', '.mockup-holder'] },
   // AI, automations and integrations: pre-rendered (its assistant window is .ai-chat). Its top three
   // sections only for now, so no FAQPage: add it back with FULL_PAGE in pages/ai-integrations.jsx.
-  { path: '/ai-and-automations', html: 'ai-and-automations.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.ai-chat'] },
+  { path: '/ai-and-automations', html: 'ai-and-automations.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-title', '.hero-sub', '.ai-hero-connect', '.ai-q2p'] },
   // The Claude connector (pages/claude.jsx): pre-rendered, its own copy of the AI page's hero (landing/claude/hero/, ch- classes).
   { path: '/claude', html: 'claude.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ch-cta-row', '.hero-fine', '.ch-chat'] },
   // Pricing: pre-rendered, with its plans and FAQ as structured data. Its hero is the heading block.

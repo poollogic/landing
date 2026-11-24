@@ -1,13 +1,12 @@
 import React, { useRef } from 'react';
 import {
-  ArrowRight, BookOpen, Bot, CalendarDays, Check, Hash, Mail, MessageSquare, Webhook, Workflow, Inbox,
+  ArrowRight, BookOpen, Bot, Check, Hash, Mail, MessageSquare, Webhook, Workflow, Inbox,
 } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
 import '../landing/ai/ai.css';
 import Nav from '../landing/Nav.jsx';
-import AssistantChat from '../landing/ai/AssistantChat.jsx';
-import HeroFx from '../landing/ai/HeroFx.jsx';
+import QuoteToPaid from '../landing/ai/QuoteToPaid.jsx';
 import EventFeed from '../landing/ai/EventFeed.jsx';
 import Automations from '../landing/ai/Automations.jsx';
 import McpDiagram from '../landing/ai/McpDiagram.jsx';
@@ -219,17 +218,6 @@ function DocsCta() {
   );
 }
 
-/** The hero's second button: a walkthrough, requested on the contact page (its "Get a demo" tab, the
- *  default; the office replies to set up a time). Styled as DocsCta. */
-function WalkthroughCta() {
-  return (
-    <a href="/contact" className={`ai-cta-ghost cta-secondary ${FOCUS}`}>
-      <CalendarDays size={17} strokeWidth={1.75} aria-hidden="true" />
-      Book a walkthrough
-    </a>
-  );
-}
-
 /** The trial button at the foot of a section: the hero's, centered, 48px below the section's content. */
 function SectionCta({ theme }) {
   return (
@@ -237,6 +225,27 @@ function SectionCta({ theme }) {
       <PrimaryCta theme={theme} />
     </div>
   );
+}
+
+/* ---------- The hero's "connect your AI" chips ---------- */
+
+// Each company's official logo file, stored in this repo (public/brand/), never hotlinked or redrawn.
+// TODO(owner): add the files and set `logo` (e.g. '/brand/claude.svg'). Until then each chip shows a
+// plain grey 18px slot where its mark goes, so adding a file changes nothing else.
+// TODO(owner): ChatGPT's and Grok's destinations aren't decided; until they are, those chips aren't links.
+const AI_CHIPS = [
+  { name: 'Claude', href: '/claude', logo: null },
+  { name: 'ChatGPT', href: null, logo: null },
+  { name: 'Grok', href: null, logo: null },
+];
+
+function AiChip({ name, href, logo }) {
+  const mark = logo
+    ? <img src={logo} alt="" width={18} height={18} fetchPriority="high" className="ai-hero-chip-mark" />
+    : <span className="ai-hero-chip-mark is-missing" aria-hidden="true" />;
+  return href
+    ? <a href={href} className={`ai-hero-chip ${FOCUS}`}>{mark}{name}</a>
+    : <span className="ai-hero-chip">{mark}{name}</span>;
 }
 
 /* ---------- The page ---------- */
@@ -247,30 +256,29 @@ export default function AiIntegrationsPage() {
   useReveal(pageRef);
   return (
     <div ref={pageRef} className="mktg ai-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
-      <Nav />
+      <Nav tone="light" overlay />
       <main>
-        {/* 1. Hero: the homepage hero's type on a deep-navy ground, with a beam of light falling onto the
-            assistant window and smoke rising off it (HeroFx, WebGL, browser only); copy left, the assistant right. */}
-        <section className="hero ai-hero relative overflow-x-clip" aria-labelledby="ai-hero-title">
-          <HeroFx />
+        {/* 1. Hero (light): the copy, then the AIs you can connect, left; "Approved quote to paid invoice"
+            (QuoteToPaid.jsx), right. The dark hero's grid and breakpoints, on white (ai.css, "Light hero").
+            /claude keeps the dark hero, in its own copy (landing/claude/hero/). */}
+        <section className="hero ai-hero ai-hero--light relative overflow-x-clip" data-theme="light" aria-labelledby="ai-hero-title">
           <div className="container">
             <div className="ai-hero-grid">
               <div className="ai-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
-                <HeroHeading id="ai-hero-title" eyebrow="Pool service automation" title="Pool Service Automation Software That Handles the Routine for You">
+                <HeroHeading id="ai-hero-title" title="Pool Service Automation Software That Handles the Routine for You">
                   Poolnautics is pool service software with the automations already built in: lead follow-ups, overdue
                   reminders, failed-payment links and review requests. For everything else, securely connect ChatGPT, Claude, Grok or your own AI to
                   your pool service data.
                 </HeroHeading>
-                <div className="ai-cta-row">
-                  <PrimaryCta theme={theme} />
-                  <WalkthroughCta />
+                <div className="ai-hero-connect">
+                  <p className="ai-hero-connect-label" id="ai-hero-connect-label">You can also connect your AI through our MCP</p>
+                  <ul className="ai-hero-chips" aria-labelledby="ai-hero-connect-label">
+                    {AI_CHIPS.map((c) => <li key={c.name}><AiChip {...c} /></li>)}
+                  </ul>
                 </div>
-                <p className="hero-fine">
-                  AI, automations and integrations are on the {AI_PLAN} plan. The {TRIAL_DAYS}-day trial includes all of it.
-                </p>
               </div>
               <div className="ai-hero-visual animate-mktg-fade-up motion-reduce:animate-none [animation-delay:150ms]">
-                <AssistantChat />
+                <QuoteToPaid />
               </div>
             </div>
           </div>
