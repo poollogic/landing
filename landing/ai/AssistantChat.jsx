@@ -26,8 +26,6 @@ import AiChat, { AiChatReply, AiChatTool, AiChatTurn, AiChatUser } from './AiCha
 // screen readers get the whole transcript (a hidden copy) instead of the half-played one, and
 // nothing is announced as it appears. Reduced motion keeps the finished conversation, scrolled to
 // its end. The window and its parts are AiChat.jsx's (theme dark). Styles: ai.css (.ai-chat*, .ai-approval*).
-// /claude's hero uses it too, with its own window title and label (title, label); the defaults are
-// this page's.
 
 const OVERDUE = [
   ['Kim Wexler', '42 days late', 'warn', '$385.00'],
@@ -70,10 +68,7 @@ function ApprovalCard() {
   );
 }
 
-export default function AssistantChat({
-  title = 'Your AI assistant',
-  label = 'Example conversation: an AI assistant connected to Poolnautics',
-}) {
+export default function AssistantChat() {
   const [ref, bodyRef, frame] = useAiChatDemo(SCRIPT);
   const played = !!frame; // playing, or played and settled: the entrance fades are off for good
   const f = frame?.settled ? null : frame; // the frame while it plays
@@ -165,8 +160,7 @@ export default function AssistantChat({
       rootRef={ref}
       bodyRef={bodyRef}
       className={played ? 'is-demo' : undefined}
-      title={title}
-      aria-label={label}
+      aria-label="Example conversation: an AI assistant connected to Poolnautics"
       bodyProps={{ tabIndex: 0, role: 'region', 'aria-label': 'Example conversation' }}
       typed={f?.typed}
       press={f?.press}

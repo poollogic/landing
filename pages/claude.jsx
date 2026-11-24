@@ -3,11 +3,12 @@ import { ArrowRight, Ban } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
 import '../landing/ai/ai.css';
+import '../landing/claude/hero/claudeHero.css';
 import '../landing/claude/claude.css';
 import Nav from '../landing/Nav.jsx';
 import HeroHeading from '../landing/HeroHeading.jsx';
-import AssistantChat from '../landing/ai/AssistantChat.jsx';
-import HeroFx from '../landing/ai/HeroFx.jsx';
+import ClaudeChat from '../landing/claude/hero/ClaudeChat.jsx';
+import HeroFx from '../landing/claude/hero/HeroFx.jsx';
 import AddToClaudeDialog from '../landing/claude/AddToClaudeDialog.jsx';
 import { Wordmark } from '../components/brand-logo.jsx';
 import useReveal from '../landing/ai/useReveal.js';
@@ -19,8 +20,9 @@ import { Footer } from '../components/site-chrome.jsx';
 
 // /claude: the Poolnautics connector for Claude, the follow-on to /ai-and-automations (built-in
 // automations and "bring any AI"); this one is running the business from Claude. Built as that page
-// is, on its design: the dark nav; its hero, which is that page's hero itself (HeroFx's beam and smoke,
-// the .ai-hero grid and scaling, AssistantChat's demo, titled "Claude"), only the words differ; section bands (.ai-band: white and light grey;
+// is, on its design: the dark nav; its hero, a copy of that page's hero as it stood on 2026-11-23
+// (landing/claude/hero/: the beam and smoke, the grid and its scaling, the chat demo titled "Claude";
+// classes ch-), kept apart so that page's hero can change without this one; section bands (.ai-band: white and light grey;
 // .ai-band-dark), headers (landing/ai/shared.jsx), tick lists, cards, FAQ and closing call to action,
 // all from ai.css, which /tech-app, /pool-service-billing and /pool-route-software share too. Only this
 // page's own layouts are in landing/claude/claude.css (claude- prefix). Pre-rendered (entry-server.jsx
@@ -135,10 +137,11 @@ export const structuredData = [
 
 /* ---------- Buttons ---------- */
 
-/** Opens the "Add to Claude" popup (onOpen gets the button, for focus to come back to). */
-function AddToClaudeCta({ onOpen }) {
+/** Opens the "Add to Claude" popup (onOpen gets the button, for focus to come back to). size: the
+ *  hero's own button class (ch-cta, claudeHero.css) or the shared one (ai-cta, the closing section). */
+function AddToClaudeCta({ onOpen, size = 'ai-cta' }) {
   return (
-    <button type="button" aria-haspopup="dialog" onClick={(e) => onOpen(e.currentTarget)} className={`hero-cta ai-cta ${FOCUS}`}>
+    <button type="button" aria-haspopup="dialog" onClick={(e) => onOpen(e.currentTarget)} className={`hero-cta ${size} ${FOCUS}`}>
       <span className="hero-cta-label">Add to Claude</span>
       <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
     </button>
@@ -181,20 +184,20 @@ export default function ClaudePage() {
     <div ref={pageRef} className="mktg ai-page claude-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
       <Nav />
       <main>
-        {/* 1. Hero: /ai-and-automations' hero (the same markup, CSS and scripts: HeroFx's beam and smoke
-            on the assistant window, the .ai-hero grid and its scaling), with this page's words. */}
-        <section className="hero ai-hero relative overflow-x-clip" aria-labelledby="claude-hero-title">
+        {/* 1. Hero: /ai-and-automations' hero as it stood on 2026-11-23, copied (landing/claude/hero/,
+            claudeHero.css: the beam and smoke on the chat window, the grid and its scaling), with this page's words. */}
+        <section className="hero ch-hero relative overflow-x-clip" aria-labelledby="claude-hero-title">
           <HeroFx />
           <div className="container">
-            <div className="ai-hero-grid">
-              <div className="ai-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
+            <div className="ch-hero-grid">
+              <div className="ch-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
                 <LogoPair />
                 <HeroHeading id="claude-hero-title" title="Scale and automate your pool company with our Claude MCP connector">
                   Poolnautics hands Claude the full blueprint for your work orders, routes, billing and follow-ups. You
                   never have to teach it how a pool business runs.
                 </HeroHeading>
-                <div className="ai-cta-row">
-                  <AddToClaudeCta onOpen={openDialog} />
+                <div className="ch-cta-row">
+                  <AddToClaudeCta onOpen={openDialog} size="ch-cta" />
                 </div>
                 <p className="hero-fine claude-trial-line">
                   New to Poolnautics?{' '}
@@ -203,8 +206,8 @@ export default function ClaudePage() {
                   </a>
                 </p>
               </div>
-              <div className="ai-hero-visual animate-mktg-fade-up motion-reduce:animate-none [animation-delay:150ms]">
-                <AssistantChat title="Claude" label="Example conversation: Claude connected to Poolnautics" />
+              <div className="ch-hero-visual animate-mktg-fade-up motion-reduce:animate-none [animation-delay:150ms]">
+                <ClaudeChat />
               </div>
             </div>
           </div>

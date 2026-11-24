@@ -1,6 +1,6 @@
-/* /claude's own pieces (pages/claude.jsx, landing/claude/AddToClaudeDialog.jsx). The hero is the
-   /ai-and-automations hero itself (ai.css: .ai-hero, its grid, scaling, beam and smoke), with nothing
-   overridden here but its eyebrow. Everything else (nav, bands, headers, ticks, cards, FAQ, buttons,
+/* /claude's own pieces (pages/claude.jsx, landing/claude/AddToClaudeDialog.jsx). The hero is its own
+   copy of /ai-and-automations' hero (hero/claudeHero.css: .ch-hero, its grid, scaling, beam and smoke);
+   here, only its eyebrow and trial line. Everything else (nav, bands, headers, ticks, cards, FAQ, buttons,
    type and colours) is the shared design: ai.css, hero.css, landing.css. Scoped to .ai-page like
    ai.css, so the shared files loading after this one don't win. */
 
