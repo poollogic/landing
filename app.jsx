@@ -90,7 +90,7 @@ export const ROUTE_META = {
   },
   // The Claude connector (pages/claude.jsx). Pre-rendered.
   claude: {
-    title: 'Poolnautics for Claude | Run Your Pool Company with Claude',
+    title: 'Claude Connector for Pool Service Software | Poolnautics',
     description: 'The Poolnautics connector for Claude. Send quotes, reassign requests, chase late invoices and check routes from Claude on your desk or your phone, inside limits you set.',
     path: '/claude',
   },

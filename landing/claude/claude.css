@@ -1,176 +1,33 @@
-/* /claude's own layouts (pages/claude.jsx, landing/claude/ClaudeDemo.jsx). Everything else (nav, hero,
-   bands, headers, ticks, cards, FAQ, buttons, type and colours) is the shared design: ai.css, hero.css,
-   landing.css. Scoped to .ai-page like ai.css, so the shared files loading after this one don't win. */
+/* /claude's own pieces (pages/claude.jsx, landing/claude/AddToClaudeDialog.jsx). The hero is the
+   /ai-and-automations hero itself (ai.css: .ai-hero, its grid, scaling, beam and smoke), with nothing
+   overridden here but its eyebrow. Everything else (nav, bands, headers, ticks, cards, FAQ, buttons,
+   type and colours) is the shared design: ai.css, hero.css, landing.css. Scoped to .ai-page like
+   ai.css, so the shared files loading after this one don't win. */
 
-/* ---------- Hero ---------- */
-/* The page dark with a soft blue glow behind the demo, in place of the AI page's navy and beam. */
-.ai-page .hero.claude-hero {
-  background-color: #111318;
-  background-image: radial-gradient(680px 440px at 74% -60px, rgba(46, 133, 255, .22), transparent 70%);
+/* ---------- 1. Hero: the logo pair in the eyebrow, and the trial line under the button ---------- */
+/* "poolnautics + Claude": the nav's wordmark (17px), a muted +, and Claude (placeholder text until we
+   have Anthropic's wordmark file). Inline, so the wordmark sits on the text's baseline: its box runs
+   from the l's top to the p's tail, and the baseline is 78% of the way down. */
+.ai-page .claude-logos {
+  display: block; text-transform: none; letter-spacing: normal; opacity: 1;
+  font-size: 17px; line-height: 24px; white-space: nowrap; color: #f8fafc;
 }
-/* Stacked (below 960px), the demo under the copy: no room needed for a beam between them. */
-.ai-page .claude-hero .ai-hero-grid { gap: 56px; }
-@media (min-width: 960px) {
-  .ai-page .claude-hero .ai-hero-grid { grid-template-columns: 430px minmax(0, 1fr); gap: 72px; }
+.ai-page .claude-logos-plus { margin: 0 9px; font-size: 15px; font-weight: 400; color: #64748b; }
+.ai-page .claude-logos-claude { font-weight: 600; letter-spacing: -.01em; }
+.ai-page .claude-trial-line a {
+  color: #cbd5e1; text-decoration: underline; text-decoration-color: rgba(148, 163, 184, .5); text-underline-offset: 3px;
+  transition: color .2s, text-decoration-color .2s;
 }
-/* The demo is drawn at 1:1 (it scales itself to its column, below), so not the AI page's chat zoom. */
-@media (min-width: 1024px) {
-  .ai-page .claude-hero .ai-hero-visual { zoom: 1; }
-}
+.ai-page .claude-trial-line a:hover { color: #f8fafc; text-decoration-color: var(--brand-blue); }
 
-/* Three ticks under the buttons, in place of the fine print. */
-.ai-page .claude-hero-ticks { margin-top: 28px; display: grid; gap: 10px; }
-.ai-page .claude-hero-ticks li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.5; color: #94a3b8; }
-.ai-page .claude-hero-ticks svg { flex: none; margin-top: 3px; color: var(--brand-blue); }
-
-/* ---------- The demo (ClaudeDemo.jsx) ----------
-   A 520px stage: the window (440px tall) at the top, the phone (73%) over its bottom-left, hanging 80px
-   below it. Fixed sizes from the first render. In a column under 460px wide the stage is laid out at
-   460px and zoomed to fit (the homepage mock's container trick, preview.css). */
-.ai-page .claude-demo { container-type: inline-size; }
-.ai-page .claude-stage {
-  --claude-row-h: 54px;
-  position: relative; width: 100%; height: 520px;
-}
-@container (max-width: 459.98px) {
-  .ai-page .claude-stage { width: 460px; zoom: tan(atan2(100cqw, 460px)); }
-}
-
-/* The window: the homepage mock's frame, rail and panel (preview.css, dark theme), at a fixed size. */
-.ai-page .claude-window {
-  position: absolute; top: 0; left: 24px; right: 0; height: 440px;
-  overflow: hidden; border-radius: 14px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .08), 0 30px 80px -24px rgba(0, 0, 0, .7), var(--mktg-glow);
-}
-.ai-page .claude-app { height: 100%; }
-.ai-page .claude-app *, .ai-page .claude-app *::before, .ai-page .claude-app *::after { box-sizing: border-box; }
-.ai-page .claude-app svg { display: inline-block; }
-/* preview.css sizes these by the screen; here they're the same at every width. */
-.ai-page .claude-app .pl-frame { background: #0b0c0f; }
-.ai-page .claude-app .pl-rail { display: flex; width: 168px; }
-.ai-page .claude-app .pl-main { padding: 8px 8px 8px 0; }
-.ai-page .claude-app .pl-panel { padding: 0 18px; border: 1px solid var(--panel-edge); border-radius: 12px; }
-.ai-page .claude-app.dark .pl-panel::after { display: block; }
-
-.ai-page .claude-panel-head { display: flex; align-items: center; justify-content: space-between; height: 60px; flex: none; }
-.ai-page .claude-panel-title { font-size: 18px; font-weight: 600; letter-spacing: -.01em; color: var(--foreground); white-space: nowrap; }
-.ai-page .claude-bell { position: relative; display: grid; place-items: center; width: 30px; height: 30px; color: var(--neutral-ink-3); }
-.ai-page .claude-badge {
-  position: absolute; top: 0; right: -2px; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 999px;
-  background: #2E85FF; color: #fff; font-size: 10px; font-weight: 600; line-height: 1; box-shadow: 0 0 0 2px var(--card);
-  animation: claude-pop .35s ease; /* keyed by its count: each new number pops in */
-}
-
-/* The rows: fixed slots, moved with transforms, so a row sliding in moves nothing's layout. */
-.ai-page .claude-lists { position: relative; flex: 1; }
-.ai-page .claude-list { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s .3s; }
-.ai-page .claude-list.is-on { opacity: 1; visibility: visible; transition: opacity .3s ease; }
-.ai-page .claude-row {
-  position: absolute; top: 0; left: -8px; right: -8px; height: calc(var(--claude-row-h) - 4px);
-  display: flex; align-items: center; gap: 12px; padding: 0 8px; border-radius: 8px;
-  translate: 0 0;
-  transition: transform .45s var(--ai-ease), translate .45s var(--ai-ease), opacity .35s ease, background-color .6s ease;
-}
-.ai-page .claude-row::after { /* the hairline between rows */
-  content: ''; position: absolute; left: 8px; right: 8px; bottom: -2px; height: 1px; background: rgba(255, 255, 255, .05);
-}
-.ai-page .claude-row.is-flash { background-color: rgba(46, 133, 255, .16); transition-duration: .45s, .45s, .35s, .15s; }
-.ai-page .claude-row.is-hidden { opacity: 0; }
-.ai-page .claude-row.is-entering { translate: 0 -10px; }
-.ai-page .claude-row-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.ai-page .claude-row-title { font-size: 13.5px; font-weight: 500; line-height: 18px; color: var(--foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ai-page .claude-row-sub { font-size: 12px; line-height: 16px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-.ai-page .claude-pill {
-  flex: none; display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px; border-radius: 999px;
-  font-size: 12px; font-weight: 500; white-space: nowrap; animation: claude-pop .35s ease;
-}
-.ai-page .claude-pill--tech { padding-left: 4px; background: rgba(148, 163, 184, .12); color: #e2e8f0; }
-.ai-page .claude-initial { display: grid; place-items: center; width: 16px; height: 16px; border-radius: 999px; color: #fff; font-size: 9.5px; font-weight: 600; }
-.ai-page .claude-pill--amber { background: rgba(245, 158, 11, .14); color: #fbbf24; }
-.ai-page .claude-pill--red { background: rgba(239, 68, 68, .14); color: #f87171; }
-.ai-page .claude-pill--green { background: rgba(34, 197, 94, .14); color: #4ade80; }
-@keyframes claude-pop { from { opacity: 0; scale: .92; } to { opacity: 1; scale: 1; } }
-
-/* The toast, bottom-right of the panel. */
-.ai-page .claude-toast {
-  position: absolute; right: 14px; bottom: 14px; z-index: 60; max-width: calc(100% - 28px);
-  display: flex; align-items: center; gap: 8px; padding: 9px 14px 9px 12px; border-radius: 10px;
-  background: #1a1d24; box-shadow: 0 0 0 1px rgba(255, 255, 255, .08), 0 12px 28px -8px rgba(0, 0, 0, .6);
-  font-size: 12.5px; font-weight: 500; line-height: 1.35; color: var(--foreground);
-  opacity: 0; translate: 0 8px; transition: opacity .3s ease, translate .45s var(--ai-ease);
-}
-.ai-page .claude-toast.is-in { opacity: 1; translate: 0 0; }
-.ai-page .claude-toast-dot { flex: none; width: 8px; height: 8px; border-radius: 999px; background: #2E85FF; box-shadow: 0 0 0 3px rgba(46, 133, 255, .2); }
-.ai-page .claude-toast.is-amber .claude-toast-dot { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245, 158, 11, .2); }
-.ai-page .claude-toast-via { flex: none; font-weight: 400; color: var(--muted-foreground); }
-
-/* The phone: the site's iPhone frame (phone.css) at 73%, over the window's bottom-left. */
-.ai-page .claude-phone-wrap { position: absolute; left: 0; bottom: 0; z-index: 2; zoom: .73; }
-.ai-page .claude-phone { box-shadow: var(--bz-rim), 0 40px 70px -24px rgba(0, 0, 0, .9); }
-.ai-page .claude-phone .bz-screen { background: #1f1e1d; }
-.ai-page .claude-chat {
-  position: absolute; inset: 0; display: flex; flex-direction: column; padding: 44px 0 22px;
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; color: #ece9e2; text-align: left;
-}
-.ai-page .claude-chat-head {
-  display: flex; align-items: center; justify-content: space-between; flex: none; height: 38px; padding: 0 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, .06);
-}
-.ai-page .claude-chat-name { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
-.ai-page .claude-chat-tag { padding: 3px 8px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); font-size: 10.5px; font-weight: 500; color: rgba(236, 233, 226, .7); }
-.ai-page .claude-chat-body { flex: 1; min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 12px; padding: 16px 14px; }
-.ai-page .claude-msg { font-size: 14px; line-height: 1.45; animation: claude-in .35s ease both; }
-.ai-page .claude-msg--you { align-self: flex-end; max-width: 86%; padding: 9px 12px; border-radius: 16px 16px 4px 16px; background: #34322f; }
-.ai-page .claude-msg--claude { color: #ece9e2; }
-@keyframes claude-in { from { opacity: 0; translate: 0 4px; } to { opacity: 1; translate: 0 0; } }
-.ai-page .claude-status { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: rgba(236, 233, 226, .62); animation: claude-in .3s ease both; }
-.ai-page .claude-status-mark {
-  flex: none; width: 11px; height: 11px; border-radius: 999px;
-  border: 1.5px solid rgba(236, 233, 226, .5); border-top-color: transparent; animation: claude-spin .8s linear infinite;
-}
-.ai-page .claude-status.is-used .claude-status-mark { width: 8px; height: 8px; margin-inline: 1.5px; border: 0; background: #22c55e; animation: none; }
-@keyframes claude-spin { to { rotate: 360deg; } }
-.ai-page .claude-input {
-  flex: none; display: flex; align-items: center; height: 42px; margin: 0 12px; padding: 0 14px; border-radius: 21px;
-  background: rgba(255, 255, 255, .06); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08);
-  font-size: 13.5px; white-space: nowrap; overflow: hidden;
-}
-.ai-page .claude-input-placeholder { color: rgba(236, 233, 226, .4); }
-/* The newest characters stay in view as the line fills. */
-.ai-page .claude-input-text { display: flex; justify-content: flex-end; min-width: 0; width: 100%; overflow: hidden; direction: rtl; }
-.ai-page .claude-input-text > * { direction: ltr; }
-.ai-page .claude-caret { flex: none; width: 1.5px; height: 16px; margin-left: 1px; background: #ece9e2; animation: claude-blink 1s steps(1) infinite; }
-@keyframes claude-blink { 50% { opacity: 0; } }
-
-/* The scene buttons, under the demo, right-aligned. */
-.ai-page .claude-try { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; }
-.ai-page .claude-try-label { margin-right: 4px; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--mktg-text-muted); }
-.ai-page .claude-try-btn {
-  height: 32px; padding: 0 13px; border-radius: 999px; font-size: 13px; font-weight: 500; color: #cbd5e1;
-  background: rgba(255, 255, 255, .04); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1);
-  transition: background-color .2s, box-shadow .2s, color .2s;
-}
-.ai-page .claude-try-btn:hover { background: rgba(255, 255, 255, .08); color: #f8fafc; }
-.ai-page .claude-try-btn[aria-pressed='true'] { color: #fff; background: rgba(46, 133, 255, .16); box-shadow: inset 0 0 0 1px rgba(46, 133, 255, .55); }
-@media (max-width: 559.98px) {
-  .ai-page .claude-try { justify-content: flex-start; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ai-page :is(.claude-row, .claude-list, .claude-toast) { transition: none; }
-  .ai-page :is(.claude-pill, .claude-badge, .claude-msg, .claude-status) { animation: none; }
-  .ai-page .claude-status-mark, .ai-page .claude-caret { animation: none; }
-}
-
-/* ---------- 2. Where Claude fits: .ai-define's columns, the answer level with the heading ---------- */
+/* ---------- 3. Where Claude fits (below the blueprint): .ai-define's columns, the answer level with the heading ---------- */
 .ai-page .claude-fits .section-title { color: theme('colors.slate.900'); }
 @media (min-width: 1000px) {
   .ai-page .claude-fits .ai-define-answer .section-sub { margin-top: 0; }
 }
 .ai-page .claude-fits .ai-link { margin-top: 20px; }
 
-/* ---------- 3. Your playbook: ticks with a bold lead-in ---------- */
+/* ---------- 2. The Poolnautics blueprint (#playbook): ticks with a bold lead-in ---------- */
 .ai-page .claude-playbook-ticks { margin-top: 0; gap: 16px; }
 .ai-page .claude-playbook-ticks strong { font-weight: 600; color: theme('colors.slate.900'); }
 @media (max-width: 1023.98px) {
@@ -209,3 +66,61 @@
 
 /* ---------- 8. Closing ---------- */
 .ai-page .claude-close-fine { text-align: center; }
+
+/* ---------- The "Add to Claude" popup (AddToClaudeDialog.jsx) ----------
+   A <dialog> in the top layer: a dark card over the dimmed, slightly blurred page. The element itself
+   is the full-screen layer (no padding, no box), so a click on it is a click on the backdrop. */
+.ai-page .claude-dialog {
+  position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none;
+  margin: 0; padding: 16px; border: 0; background: transparent; color: inherit; overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.ai-page .claude-dialog[open] { display: flex; }
+.ai-page .claude-dialog::backdrop { background: rgba(4, 7, 14, .66); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.ai-page .claude-dialog-card {
+  position: relative; width: 100%; max-width: 480px; margin: auto; padding: 32px;
+  border-radius: 20px; background: #0E1422; border: 1px solid rgba(46, 133, 255, .22);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .04);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ai-page .claude-dialog[open] .claude-dialog-card { animation: claude-dialog-in .22s cubic-bezier(.2, .8, .2, 1) both; }
+}
+@keyframes claude-dialog-in { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: none; } }
+.ai-page .claude-dialog-close {
+  position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 36px; height: 36px;
+  border-radius: 10px; color: #94a3b8; transition: background-color .2s, color .2s;
+}
+.ai-page .claude-dialog-close:hover { background: rgba(255, 255, 255, .06); color: #f8fafc; }
+.ai-page .claude-dialog-title { padding-right: 36px; font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: -.015em; color: #f8fafc; }
+.ai-page .claude-dialog-title:focus { outline: none; }
+.ai-page .claude-dialog-sub { margin-top: 6px; font-size: 15px; line-height: 1.5; color: #94a3b8; }
+.ai-page .claude-dialog-steps { margin-top: 24px; display: grid; gap: 20px; }
+.ai-page .claude-dialog-step { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 14px; }
+.ai-page .claude-dialog-n {
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 999px;
+  background: rgba(46, 133, 255, .14); box-shadow: inset 0 0 0 1px rgba(46, 133, 255, .35);
+  font-size: 13px; font-weight: 600; color: #cfe0ff; font-variant-numeric: tabular-nums;
+}
+.ai-page .claude-dialog-step h3 { padding-top: 3px; font-size: 16px; line-height: 1.4; font-weight: 600; color: #f8fafc; }
+.ai-page .claude-dialog-step p { margin-top: 4px; font-size: 14.5px; line-height: 1.55; color: #94a3b8; text-wrap: pretty; }
+.ai-page .claude-dialog-copy { margin-top: 10px; display: flex; gap: 8px; }
+.ai-page .claude-dialog-copy { align-items: flex-start; }
+.ai-page .claude-dialog-url {
+  flex: 1; min-width: 0; min-height: 44px; display: flex; align-items: center; padding: 10px; border-radius: 10px;
+  background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .1);
+  font: 500 12.5px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: #e2e8f0;
+  user-select: all; -webkit-user-select: all;
+}
+.ai-page .claude-dialog-copy-btn {
+  flex: none; min-width: 76px; height: 44px; padding: 0 14px; border-radius: 10px;
+  background: linear-gradient(180deg, var(--brand-blue), var(--ai-blue-deep)); color: #fff;
+  font-size: 14px; font-weight: 600; transition: filter .2s;
+}
+.ai-page .claude-dialog-copy-btn:hover { filter: brightness(1.08); }
+.ai-page .claude-dialog-foot { margin-top: 24px; padding-top: 18px; border-top: 1px solid rgba(255, 255, 255, .08); font-size: 14.5px; line-height: 1.55; color: #cbd5e1; }
+@media (max-width: 479.98px) {
+  .ai-page .claude-dialog-card { padding: 28px 20px 24px; }
+  .ai-page .claude-dialog-title { font-size: 20px; }
+  .ai-page .claude-dialog-step { grid-template-columns: 26px minmax(0, 1fr); gap: 12px; }
+  .ai-page .claude-dialog-copy { flex-direction: column; align-items: stretch; } /* the link gets the full width */
+}

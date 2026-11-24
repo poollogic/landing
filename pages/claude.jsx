@@ -1,12 +1,15 @@
 import React, { useRef } from 'react';
-import { ArrowRight, Ban, Check } from 'lucide-react';
+import { ArrowRight, Ban } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
 import '../landing/ai/ai.css';
 import '../landing/claude/claude.css';
 import Nav from '../landing/Nav.jsx';
 import HeroHeading from '../landing/HeroHeading.jsx';
-import ClaudeDemo from '../landing/claude/ClaudeDemo.jsx';
+import AssistantChat from '../landing/ai/AssistantChat.jsx';
+import HeroFx from '../landing/ai/HeroFx.jsx';
+import AddToClaudeDialog from '../landing/claude/AddToClaudeDialog.jsx';
+import { Wordmark } from '../components/brand-logo.jsx';
 import useReveal from '../landing/ai/useReveal.js';
 import { FOCUS, Ticks, header, headerLight } from '../landing/ai/shared.jsx';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
@@ -16,7 +19,8 @@ import { Footer } from '../components/site-chrome.jsx';
 
 // /claude: the Poolnautics connector for Claude, the follow-on to /ai-and-automations (built-in
 // automations and "bring any AI"); this one is running the business from Claude. Built as that page
-// is, on its design: the dark nav, its hero (.ai-hero), section bands (.ai-band: white and light grey;
+// is, on its design: the dark nav; its hero, which is that page's hero itself (HeroFx's beam and smoke,
+// the .ai-hero grid and scaling, AssistantChat's demo, titled "Claude"), only the words differ; section bands (.ai-band: white and light grey;
 // .ai-band-dark), headers (landing/ai/shared.jsx), tick lists, cards, FAQ and closing call to action,
 // all from ai.css, which /tech-app, /pool-service-billing and /pool-route-software share too. Only this
 // page's own layouts are in landing/claude/claude.css (claude- prefix). Pre-rendered (entry-server.jsx
@@ -27,22 +31,16 @@ import { Footer } from '../components/site-chrome.jsx';
 // requests, never route stops; it can't charge a card, refund, approve a quote for a customer or
 // change a price without an owner or admin. No tool count, no "one click", no setup time.
 
-// ---- Links to wire up ----
-// TODO: the Poolnautics listing in Claude's connector directory, once it's published (the web app's
-// docs/ai-connections.md, "Claude's connector directory"). Until then the button goes to the setup steps.
-export const CLAUDE_CONNECTOR_LINK = '#setup';
+// ---- Links ----
+// "Add to Claude" opens the popup (AddToClaudeDialog.jsx: the connector link to copy and paste in
+// Claude). Once Poolnautics is listed in Claude's connector directory (the web app's
+// docs/ai-connections.md), the popup can point there too.
 // The trial: wherever the AI page's "Start your 30-day trial" goes (landing/onboarding.js).
 const trialLink = (theme) => ctaHref(theme);
 const TRIAL_LABEL = isReserving ? 'Reserve your spot' : `Start your ${TRIAL_DAYS}-day trial`;
 
 const ORIGIN = 'https://getpoolnautics.com';
 const PAGE_URL = `${ORIGIN}/claude`;
-
-const HERO_TICKS = [
-  'Works in the Claude app on your phone',
-  'Can’t charge a card or change a price on its own',
-  `On the ${AI_PLAN} plan, and included in the ${TRIAL_DAYS}-day trial`,
-];
 
 const PLAYBOOK = [
   ['Your catalog.', 'Every quote uses your price. Claude never makes one up.'],
@@ -137,12 +135,25 @@ export const structuredData = [
 
 /* ---------- Buttons ---------- */
 
-function AddToClaudeCta() {
+/** Opens the "Add to Claude" popup (onOpen gets the button, for focus to come back to). */
+function AddToClaudeCta({ onOpen }) {
   return (
-    <a href={CLAUDE_CONNECTOR_LINK} className={`hero-cta ai-cta ${FOCUS}`}>
+    <button type="button" aria-haspopup="dialog" onClick={(e) => onOpen(e.currentTarget)} className={`hero-cta ai-cta ${FOCUS}`}>
       <span className="hero-cta-label">Add to Claude</span>
       <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
-    </a>
+    </button>
+  );
+}
+
+/** The hero's eyebrow: "poolnautics + Claude". Claude is plain text until we have Anthropic's
+ *  wordmark file, which goes in its place unaltered (never drawn or imitated here). */
+function LogoPair() {
+  return (
+    <div className="hero-eyebrow claude-logos" role="img" aria-label="Poolnautics + Claude">
+      <Wordmark bg="dark" height={17} style={{ display: 'inline-block', verticalAlign: '-3.7px' }} />
+      <span className="claude-logos-plus">+</span>
+      <span className="claude-logos-claude">Claude</span>
+    </div>
   );
 }
 
@@ -163,38 +174,66 @@ function Answer({ a, link }) {
 export default function ClaudePage() {
   const theme = usePreviewTheme();
   const pageRef = useRef(null);
+  const dialogRef = useRef(null);
+  const openDialog = (from) => dialogRef.current?.open(from);
   useReveal(pageRef);
   return (
     <div ref={pageRef} className="mktg ai-page claude-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
       <Nav />
       <main>
-        {/* 1. Hero: copy left; right, Claude on a phone changing a Poolnautics window (ClaudeDemo). */}
-        <section className="hero ai-hero claude-hero relative overflow-x-clip" aria-labelledby="claude-hero-title">
+        {/* 1. Hero: /ai-and-automations' hero (the same markup, CSS and scripts: HeroFx's beam and smoke
+            on the assistant window, the .ai-hero grid and its scaling), with this page's words. */}
+        <section className="hero ai-hero relative overflow-x-clip" aria-labelledby="claude-hero-title">
+          <HeroFx />
           <div className="container">
             <div className="ai-hero-grid">
               <div className="ai-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
-                <HeroHeading id="claude-hero-title" eyebrow="Poolnautics for Claude" title="Run your pool company with Claude">
-                  Send the quote. Cover the sick tech. Chase the late invoice. Text Claude from the truck and it’s done in Poolnautics.
+                <LogoPair />
+                <HeroHeading id="claude-hero-title" title="Scale and automate your pool company with our Claude MCP connector">
+                  Poolnautics hands Claude the full blueprint for your work orders, routes, billing and follow-ups. You
+                  never have to teach it how a pool business runs.
                 </HeroHeading>
                 <div className="ai-cta-row">
-                  <AddToClaudeCta />
-                  <TrialCta theme={theme} />
+                  <AddToClaudeCta onOpen={openDialog} />
                 </div>
-                <ul className="claude-hero-ticks">
-                  {HERO_TICKS.map((t) => (
-                    <li key={t}><Check size={16} strokeWidth={2.4} aria-hidden="true" /><span>{t}</span></li>
-                  ))}
-                </ul>
+                <p className="hero-fine claude-trial-line">
+                  New to Poolnautics?{' '}
+                  <a href={trialLink(theme)} className={FOCUS}>
+                    {isReserving ? 'Reserve your spot' : `Start a ${TRIAL_DAYS}-day trial`} <span aria-hidden="true">→</span>
+                  </a>
+                </p>
               </div>
               <div className="ai-hero-visual animate-mktg-fade-up motion-reduce:animate-none [animation-delay:150ms]">
-                <ClaudeDemo />
+                <AssistantChat title="Claude" label="Example conversation: Claude connected to Poolnautics" />
               </div>
             </div>
           </div>
         </section>
 
-        {/* 2. Where Claude fits (white): heading left, the answer right (.ai-define's two columns). */}
-        <section id="where-claude-fits" className="section ai-band ai-light bg-white" data-theme="light" aria-labelledby="fits-heading">
+        {/* 2. The Poolnautics blueprint (white): the header left, what Claude reads first right. */}
+        <section id="playbook" className="section ai-band ai-light bg-white" data-theme="light" aria-labelledby="playbook-heading">
+          <div className="container">
+            <div className="ai-split ai-split--even claude-playbook" data-reveal="">
+              {headerLight({
+                align: 'left',
+                id: 'playbook-heading',
+                eyebrow: 'The Poolnautics blueprint',
+                title: 'Claude already knows how your pool company runs.',
+                subtitle: 'You don’t explain your pool service software to Claude every morning. Our MCP connector hands it the Poolnautics blueprint first, so it does the job your way, like a good office manager would.',
+                className: 'mb-0',
+              })}
+              <Ticks
+                className="claude-playbook-ticks"
+                items={PLAYBOOK.map(([lead, rest]) => (
+                  <React.Fragment key={lead}><strong>{lead}</strong> {rest}</React.Fragment>
+                ))}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* 3. Where Claude fits (light grey): heading left, the answer right (.ai-define's two columns). */}
+        <section id="where-claude-fits" className="section ai-band ai-light bg-slate-50" data-theme="light" aria-labelledby="fits-heading">
           <div className="container">
             <div className="ai-define claude-fits" data-reveal="">
               {headerLight({
@@ -214,28 +253,6 @@ export default function ClaudePage() {
                   See what’s already automated <ArrowRight size={15} strokeWidth={2} aria-hidden="true" />
                 </a>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 3. Your playbook (light grey): the header left, what Claude reads first right. */}
-        <section id="playbook" className="section ai-band ai-light bg-slate-50" data-theme="light" aria-labelledby="playbook-heading">
-          <div className="container">
-            <div className="ai-split ai-split--even claude-playbook" data-reveal="">
-              {headerLight({
-                align: 'left',
-                id: 'playbook-heading',
-                eyebrow: 'Your playbook',
-                title: 'It already knows how you run things.',
-                subtitle: 'You don’t explain your business to Claude every morning. It looks things up in Poolnautics first, like a good office manager would, then does the job your way.',
-                className: 'mb-0',
-              })}
-              <Ticks
-                className="claude-playbook-ticks"
-                items={PLAYBOOK.map(([lead, rest]) => (
-                  <React.Fragment key={lead}><strong>{lead}</strong> {rest}</React.Fragment>
-                ))}
-              />
             </div>
           </div>
         </section>
@@ -362,7 +379,7 @@ export default function ClaudePage() {
               className: 'mb-0',
             })}
             <div className="ai-cta-row ai-cta-row--center">
-              <AddToClaudeCta />
+              <AddToClaudeCta onOpen={openDialog} />
               <TrialCta theme={theme} />
             </div>
             <p className="hero-fine claude-close-fine">The {TRIAL_DAYS}-day trial includes everything. Your data exports as CSV, any time.</p>
@@ -370,6 +387,7 @@ export default function ClaudePage() {
         </section>
       </main>
       <Footer />
+      <AddToClaudeDialog ref={dialogRef} />
     </div>
   );
 }
