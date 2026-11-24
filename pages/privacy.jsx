@@ -6,7 +6,7 @@ import LegalPage, { Section } from '../components/legal/LegalPage.jsx';
 //   Poolnautics LLC               the business behind Poolnautics (a Florida LLC): launch only once
 //                                 it's active on sunbiz.org, spelled exactly as filed
 //   Florida                       governing state
-//   November 22, 2026             updated date
+//   November 24, 2026             updated date
 //   privacy@getpoolnautics.com    contact email
 //
 // Subprocessors listed below reflect the current stack — confirm before going live
@@ -41,7 +41,7 @@ const SECTIONS = [
 const PrivacyPage = () => (
   <LegalPage
     title="Privacy Policy"
-    meta={[['Effective', 'May 15, 2026'], ['Updated', 'November 22, 2026'], ['Provider', 'Poolnautics LLC']]}
+    meta={[['Effective', 'May 15, 2026'], ['Updated', 'November 24, 2026'], ['Provider', 'Poolnautics LLC']]}
     intro={<>How Poolnautics collects, uses, and protects information from the pool service businesses that use our software and the customers they serve.</>}
     toc={SECTIONS}
     card={{ href: '#end-customer-rights' }}
@@ -67,7 +67,8 @@ const PrivacyPage = () => (
         <li><strong>Account information:</strong> name, email address, phone number, organization name, business address.</li>
         <li><strong>Signing in with Google or Apple:</strong> office users can create an account or sign in with Google or Apple, through our authentication provider, Supabase. We then receive their name, email address, and an ID for that Google or Apple account. We never receive their Google or Apple password, and we don't get access to anything else in that account. If they use Apple's Hide My Email, we receive a relay address that Apple forwards to them, in place of their real email address.</li>
         <li><strong>Billing information:</strong> billing contact and payment method details. Card data is handled by Stripe — <strong>we never see, receive, or store full card numbers, CVV codes, or other sensitive payment details</strong>.</li>
-        <li><strong>Usage data:</strong> features used, pages visited, IP address, browser and device characteristics, sign-in timestamps, and other operational metadata.</li>
+        <li><strong>Usage data:</strong> features used, pages visited, IP address, browser and device characteristics, sign-in timestamps, and other operational metadata. For AI assistant connections a Subscriber makes: the connection's name and level of access, which of the Service's tools and help topics it uses and when, and a record of each change it makes or email it sends (see "AI activity" below). We don't receive a Subscriber's conversations with its AI assistant, only the requests the assistant makes to Poolnautics.</li>
+        <li><strong>AI activity:</strong> for each change an AI assistant connection makes in a Subscriber's account, or email it sends to an End Customer, we record what it did, when, which connection, which request, customer, quote or invoice it concerned, and whether it went through. We don't record lookups, and we never store what the assistant was asked. We keep these records for 180 days. The Subscriber's admins and managers can see them.</li>
         <li><strong>QuickBooks Online connection:</strong> if a Subscriber connects QuickBooks Online, the QuickBooks company's ID and name; the access tokens Intuit issues, stored encrypted, never shown, and renewed automatically while the Subscriber stays connected; the Subscriber's QuickBooks choices (start date, accounts, product or service, tax rate); and the QuickBooks IDs of the records Poolnautics has sent. We don't copy a Subscriber's books into Poolnautics.</li>
       </ul>
 
@@ -155,7 +156,7 @@ const PrivacyPage = () => (
         <li>Communicate with Subscribers about account activity, billing, product updates, and support requests.</li>
         <li>Communicate with End Customers <strong>on a Subscriber's behalf</strong> — for example, sending invoice notifications, payment receipts, autopay decline notices, or service pause notices that the Subscriber has configured or chosen to send.</li>
         <li>Maintain and improve the service, including diagnosing errors, measuring performance, and developing new features.</li>
-        <li>Detect, prevent, and respond to fraud, security incidents, and abuse.</li>
+        <li>Detect, prevent, and respond to fraud, security incidents, and abuse, and enforce our <a href="/terms#acceptable-use" style={{ color: 'var(--accent)' }}>Terms of Service</a>, including noticing when the way an AI assistant connection uses the Service suggests the Service is being copied. This uses counts and patterns of use, not the content of conversations.</li>
         <li>Comply with legal obligations, including tax and accounting rules.</li>
       </ul>
       <p>We do not sell personal information. We do not use End Customer data to advertise to End Customers.</p>
@@ -230,9 +231,9 @@ const PrivacyPage = () => (
           link="https://www.mapbox.com/legal/privacy"
         />
         <SubprocessorRow
-          name="Anthropic"
-          purpose="AI features in the Poolnautics web app: reading the customer lists and documents a Subscriber uploads so they can be imported, and drafting emails a Subscriber asks for. This is separate from any AI assistant a Subscriber connects to its own account, which is the Subscriber's own choice and provider."
-          shared="For customer import: the uploaded customer list or document and the names of the Subscriber's technicians. For email drafts: the points the Subscriber enters and its company name."
+          name="Anthropic (ended November 23, 2026)"
+          purpose="Until November 23, 2026: AI features in the Poolnautics web app, reading the customer lists and documents a Subscriber uploaded so they could be imported, and drafting emails a Subscriber asked for. Poolnautics removed these features on November 23, 2026, and no longer uses Anthropic as a subprocessor."
+          shared="Until November 23, 2026: for customer import, the uploaded customer list or document and the names of the Subscriber's technicians; for email drafts, the points the Subscriber entered and its company name."
           link="https://www.anthropic.com/legal/privacy"
         />
         <SubprocessorRow
@@ -243,14 +244,14 @@ const PrivacyPage = () => (
         />
         <SubprocessorRow
           name="Better Stack"
-          purpose="Error monitoring for our web app, our app server, and the Poolnautics technician app."
-          shared="Details of errors: what went wrong, which part of the service, the app version, account and company IDs, and identifiers from connected services like Intuit (such as its error code and request ID). For errors in the web app, also the page or request address and recent activity on the page (such as pages visited and requests made) at the time of the error, with access links and sign-in details removed. No request contents, photos or readings, and from our app server, no customer details. From the technician app, error reports and problem reports, as described in Section 2: what went wrong, the app version and update, the phone's model and operating system version, the names of up to 8 recently opened app screens, and the account and company IDs; for problem reports, also a reference number and how many uploads are waiting or couldn't be sent, but not what the technician wrote. Customer records, readings, photos and service report contents are never included."
+          purpose="Error monitoring for our web app, our app server, and the Poolnautics technician app, and alerting our team when an AI assistant connection looks like it is mapping the Service."
+          shared="Details of errors: what went wrong, which part of the service, the app version, account and company IDs, and identifiers from connected services like Intuit (such as its error code and request ID). For errors in the web app, also the page or request address and recent activity on the page (such as pages visited and requests made) at the time of the error, with access links and sign-in details removed. No request contents, photos or readings, and from our app server, no customer details. From the technician app, error reports and problem reports, as described in Section 2: what went wrong, the app version and update, the phone's model and operating system version, the names of up to 8 recently opened app screens, and the account and company IDs; for problem reports, also a reference number and how many uploads are waiting or couldn't be sent, but not what the technician wrote. Customer records, readings, photos and service report contents are never included. For an AI assistant connection that looks like it is mapping the Service: the company ID, the connection's ID and name, and how many of the Service's toolkits, tool descriptions, and help topics it read within an hour."
           link="https://betterstack.com/privacy"
         />
         <SubprocessorRow
           name="Slack"
-          purpose="Alerting our team to the most serious server and technician app errors, and delivering feedback sent from the technician app to the Poolnautics team."
-          shared="For server error alerts: the error, which part of the service, and the company ID. For technician app error alerts: the error, the screen it happened on, the company ID and the app version. For feedback: what the technician wrote, their name and company, and the app and phone details described in Section 2 (for problem reports, also recent screen names and whether anything on the phone is waiting to upload)."
+          purpose="Alerting our team to the most serious server and technician app errors and to AI assistant connections that look like they are mapping the Service, and delivering feedback sent from the technician app to the Poolnautics team."
+          shared="For server error alerts: the error, which part of the service, and the company ID. For technician app error alerts: the error, the screen it happened on, the company ID and the app version. For feedback: what the technician wrote, their name and company, and the app and phone details described in Section 2 (for problem reports, also recent screen names and whether anything on the phone is waiting to upload). For AI assistant connection alerts: what the connection read, as counts, and the company and connection it concerns."
           link="https://slack.com/trust/privacy/privacy-policy"
         />
         <SubprocessorRow
@@ -264,6 +265,7 @@ const PrivacyPage = () => (
 
       <h3 id="connected-services">Services a Subscriber Connects</h3>
       <p>When a Subscriber connects QuickBooks Online, Poolnautics sends to Intuit Inc., at the Subscriber's direction: End Customer names, email addresses, phone numbers, and billing and service addresses; invoices and their lines, discounts, fees, and sales tax; payments (the method, date, and reference, such as a check number or Stripe payment ID, but never card or bank account numbers); refunds and lost disputes; and the amounts and fees of the Subscriber's Stripe payouts, which Poolnautics reads from the Subscriber's Stripe account. Intuit is not a Poolnautics subprocessor: QuickBooks Online is a service the Subscriber chose, and Intuit handles this data under the Subscriber's agreement with Intuit and Intuit's <a href="https://www.intuit.com/privacy/statement/" target="_blank" rel="noreferrer noopener" style={{ color: 'var(--accent)' }}>Global Privacy Statement</a>.</p>
+      <p>When a Subscriber's owner or admin connects an AI assistant to its account (such as Claude, ChatGPT, or Grok, or a developer tool such as Claude Code, Codex, or Cursor), the assistant reads, and at the level of access the owner or admin chooses works with, the Subscriber's data in Poolnautics. That assistant is the Subscriber's own choice and provider, not a Poolnautics subprocessor, and what it receives is handled under that provider's terms. Section 7 of our <a href="/terms#connected-tools" style={{ color: 'var(--accent)' }}>Terms of Service</a> also covers these connections.</p>
     </Section>
 
     <Section id="security" title="7. Data Security">
@@ -301,6 +303,7 @@ const PrivacyPage = () => (
         <li><strong>End Customer data</strong> — retained while the Subscriber's account exists. Deleted on the Subscriber's request, on the End Customer's request once forwarded to the Subscriber, or when the Subscriber's account is deleted. That includes the End Customer's invoices and payment records with the Subscriber: they are the Subscriber's records, and keeping any it needs, for taxes or otherwise, is the Subscriber's responsibility.</li>
         <li><strong>Service report photos</strong> — photos added to service reports are deleted about two months after the visit. Photos added to requests and quotes are kept with them.</li>
         <li><strong>Technician app data</strong> — drive history is deleted 30 days after it is recorded. App status is deleted once a phone has not reported for 60 days. Mileage records are kept as part of the Subscriber's business records for as long as its account exists, and are deleted on the Subscriber's request or when its account is deleted. A technician's location agreements are kept as a record with the Subscriber's account data, including after the technician deletes their account. A phone's push notification token is deleted when the technician signs out of the app, 90 days after it stops working, or after 180 days without use. Service report locations and the record of when drive history was turned on are kept with the Subscriber's other account data, as described above. Vehicle records are covered below.</li>
+        <li><strong>AI activity</strong> — AI activity records (see Section 2) are kept for 180 days.</li>
         <li><strong>Vehicle and fleet records</strong> — the vehicle records, truck check-ins (with their odometer and oil-change-sticker photos), oil change history, and documents described in Section 2. Files are kept in private storage that only the Subscriber's account can reach.
           <ul style={{ marginTop: 8 }}>
             <li>While the technician is on the Subscriber's account, their vehicle record, check-ins, oil change history, and documents are kept, so the Subscriber has its vehicle history. Check-in readings have no time limit; deleting them is the Subscriber's choice. Check-in photos are kept with their check-in.</li>

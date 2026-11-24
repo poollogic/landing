@@ -6,7 +6,7 @@ import LegalPage, { Section } from '../components/legal/LegalPage.jsx';
 //   Poolnautics LLC               the business behind Poolnautics: a Florida LLC, active on sunbiz.org
 //                                 (document L26000558408, filed 11/02/2026), spelled as filed
 //   Florida                       governing state
-//   November 22, 2026             updated date
+//   November 24, 2026             updated date
 //   legal@getpoolnautics.com      general legal contact email
 //   copyright@getpoolnautics.com  DMCA designated agent email
 //   212 48th St N, St. Petersburg, FL 33713   DMCA notices: the LLC's mailing address on sunbiz.org
@@ -43,7 +43,7 @@ const SECTIONS = [
 const TermsPage = () => (
   <LegalPage
     title="Terms of Service"
-    meta={[['Effective', 'November 22, 2026 (existing accounts: 30 days after emailed notice)'], ['Updated', 'November 22, 2026'], ['Provider', 'Poolnautics LLC']]}
+    meta={[['Effective', 'November 22, 2026 (existing accounts: 30 days after emailed notice)'], ['Updated', 'November 24, 2026'], ['Provider', 'Poolnautics LLC']]}
     intro={<>These terms govern your use of Poolnautics. Please read them carefully — by creating an account or using the service, you agree to them, including the binding arbitration and class-action waiver in Section 17.</>}
     toc={SECTIONS}
     card={{ href: '#customers' }}
@@ -82,7 +82,7 @@ const TermsPage = () => (
 
       <h3>Third-Party Services and Infrastructure</h3>
       <p>Poolnautics is built on, and depends on, services provided by other companies that Poolnautics does not own or control ("Third-Party Services"). These include, among others, cloud hosting and computing, databases and data storage (such as Supabase), authentication, file and photo storage, content delivery and DNS (such as Cloudflare), payment processing (Stripe), email delivery (such as Resend), text messaging through the Subscriber's own provider, printing and mailing, AI services, mapping, geocoding, and routing, push notifications, app stores, analytics, and other software libraries and application programming interfaces (APIs). The current list of providers that process personal data is in our <a href="/privacy" style={{ color: 'var(--accent)' }}>Privacy Policy</a>.</p>
-      <p>Some features use third-party AI providers (currently Anthropic), and only when you use them. Importing customers from a document sends that document and your technicians' names to the provider. Drafting a bulk email sends your company name and the points you type.</p>
+      <p>Until November 23, 2026, some features used a third-party AI provider (Anthropic), and only when you used them. Importing customers from a document sent that document and your technicians' names to the provider. Drafting a bulk email sent your company name and the points you typed. Poolnautics removed those features on November 23, 2026, and now runs no AI of its own. An AI assistant you connect to your account is a Connected Tool (see Section 7).</p>
       <p>Third-Party Services can and periodically do experience outages, slowdowns, errors, maintenance, security incidents, data loss or corruption, or changes to how their services work, including changes to their features, APIs, pricing, policies, or availability, or a decision to suspend or discontinue a service. When that happens, all or part of Poolnautics may be unavailable, slow, or work incorrectly. For example, you may be unable to log in or sync the mobile app, invoices, reminders, or notifications may be delayed or not delivered, payments may fail or be delayed, Automated Features may not run or may run late, map and route information may be inaccurate, or recent changes may not be saved.</p>
       <p>Poolnautics chooses its providers with care and will use commercially reasonable efforts to work around or recover from a Third-Party Service problem once we are aware of it, but <strong>Poolnautics is not responsible for the acts, omissions, availability, or performance of any Third-Party Service</strong>, and, to the maximum extent permitted by law, is not liable for any loss or damage caused by them. Any liability Poolnautics may have is subject to Section 14 (Disclaimers & Limitation of Liability). We may add, replace, or stop using any Third-Party Service at any time. Where a Third-Party Service has its own terms that apply to you (for example, the Stripe Agreements), you are responsible for complying with them.</p>
 
@@ -215,6 +215,7 @@ const TermsPage = () => (
       <p>If you use a Connected Tool, you are solely responsible for making sure that it prices jobs appropriately, quotes and bills only work you intend to do and for the right End Customer, and sends accurate, lawful content, and for monitoring and correcting what it does.</p>
       <p>A quote asks the End Customer to approve the work at the price shown; sending one does not bind the End Customer, and a quote sent through a Connected Tool is no different. An End Customer's approval is approval of the quote as it was sent, and any mistake in it, including a price that is too low or too high, is a matter between you and your End Customer. An invoice sent through a Connected Tool is not charged automatically; the End Customer pays it themselves.</p>
       <p>Poolnautics places some limits on what Connected Tools can do (for example, a Connected Tool cannot charge a card or bank account), but those limits are not a review of its work. Poolnautics does not review, approve, or guarantee the actions or output of any Connected Tool and is not responsible for them, or for the company that provides it. Connected Tools are Third-Party Services under Section 3.</p>
+      <p>AI assistant connections are provided so you can run your own business. When you connect one, you agree not to use it to copy Poolnautics, work out how it's built, or build a competing product (see Section 9). To keep the Service secure and to enforce these Terms, we monitor how each connection uses the Service, such as which of the Service's tools and help topics it uses and how often. We don't receive your conversations with your AI assistant, only the requests it makes to Poolnautics. If we reasonably believe a connection is being used in breach of these Terms, we may suspend or revoke that connection, and may suspend your account as described in Section 13.</p>
 
       <h3 id="quickbooks">QuickBooks Online</h3>
       <p>Where the QuickBooks Online integration is available on your account, you may connect your QuickBooks Online company to Poolnautics (Settings › Integrations). Whether to connect it, the start date, the accounts and the product or service you choose, and whether to start or stop sending are your decisions. By connecting it, you authorize Poolnautics to access your QuickBooks Online company through Intuit's accounting API and, on your behalf, to create and update in it, or link to matching records already in your QuickBooks rather than duplicate them: customers; invoices, with their lines, discounts, late fees, card processing fees and sales tax; payments; refund receipts; and one or more bank deposits for each Stripe payout, with the processing fees Stripe took from it. Poolnautics reads from your QuickBooks only what it needs to do this: your company's name and settings, products and services, accounts, tax rates, and the customers and transactions it needs to match and update what it sends.</p>
@@ -322,6 +323,8 @@ const TermsPage = () => (
         <li>Resell, sublicense, or otherwise commercially exploit the service except as expressly permitted.</li>
         <li>Reverse-engineer, decompile, or attempt to extract the source code of the service.</li>
         <li>Use automated scrapers, bots, or other tools to access the service in a manner not intended by the user interface.</li>
+        <li>Use the Service, including through any Connected Tool or AI assistant connection, to copy or reproduce the Service, or to build, or help anyone build, a product or service that competes with it.</li>
+        <li>Compile, extract, or systematically collect the Service's features, design, documentation, help content, or the instructions, tool descriptions, and other materials the Service provides to Connected Tools, except as needed to use the Service for your own business.</li>
         <li>Send spam, phishing messages, or any unsolicited communications through Poolnautics-provided email or messaging features.</li>
         <li>Upload malware, viruses, or any content designed to disrupt the service or other users.</li>
         <li>Attempt to gain unauthorized access to other accounts, systems, or data.</li>
@@ -405,6 +408,7 @@ const TermsPage = () => (
     <Section id="termination" title="13. Termination & Suspension">
       <h3>Suspension</h3>
       <p>We may suspend your account, or specific features of your account, at any time — with or without prior notice — if (a) a payment to Poolnautics fails or is reversed, (b) we reasonably suspect fraud, abuse, or a security risk, (c) you exceed the usage limits shown in the Service or our API documentation, or (d) we need to investigate a potential breach of these Terms. Suspension is a temporary measure and may be lifted once the underlying issue is resolved. If a suspended account is not restored within a reasonable period, we may terminate it under the section below.</p>
+      <p>We may suspend or revoke an AI assistant connection, an API key, or another Connected Tool's access to your account at any time if we reasonably believe it is being used in breach of these Terms, including the rules on copying the Service in Section 9 (Acceptable Use).</p>
       <p>We may automatically pause a Subscriber's outgoing customer email if its bounce or spam-complaint rate gets too high. While it is paused, invoices, reminders and notices are not emailed, and only Poolnautics can lift the pause.</p>
 
       <h3>Termination</h3>
