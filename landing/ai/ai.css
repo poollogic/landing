@@ -156,11 +156,12 @@
 
 /* ---------- Light hero (/ai-and-automations, .ai-hero--light) ----------
    The same grid, breakpoints and scaling as the dark hero above (still /tech-app's, billing's and
-   route's), on white: no beam, smoke or fade, no buttons. Copy left, ending in the "connect your AI"
-   chips; right, "Approved quote to paid invoice" (QuoteToPaid.jsx) at 93%. */
-.ai-page .hero.ai-hero--light { background: #fff; }
+   route's), on light grey: no beam, smoke or fade, no buttons. Copy left, ending in the "connect your
+   AI" chips; right, "Approved quote to paid invoice" (QuoteToPaid.jsx) at 93%. */
+.ai-page .hero.ai-hero--light { background: #F8FAFC; }
 .ai-page .ai-hero--light .hero-title { color: #0B1220; }
-.ai-page .ai-hero--light .hero-sub { color: #475569; }
+/* Two lines on desktop, 20px under the headline. */
+.ai-page .hero.ai-hero--light .hero-sub { max-width: 520px; margin-top: 20px; line-height: 1.58; color: #475569; }
 /* The dark hero's scaling was for its 632px chat window on shorter and narrower screens; this column
    (about 430px tall, at 93%) fits without it, so from 1024px it's always at its 93%. 960–1024px keeps
    the grid's width scaling, so the copy still fits. */
@@ -168,18 +169,18 @@
 @media (min-width: 1024px) { .ai-page .ai-hero--light .ai-hero-visual { zoom: 1; } }
 /* Stacked: the dark hero's 128px was room for the beam; here, the stack simply follows the copy. */
 @media (max-width: 959.98px) { .ai-page .ai-hero--light .ai-hero-grid { gap: 64px; } }
-.ai-page .ai-hero-connect { margin-top: 34px; padding-top: 28px; border-top: 1px solid #E8ECF2; }
+.ai-page .ai-hero-connect { margin-top: 32px; }
 .ai-page .ai-hero-connect-label { font-size: 15px; line-height: 1.4; font-weight: 600; color: #0B1220; }
 .ai-page .ai-hero-chips { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
 .ai-page .ai-hero-chip {
-  display: inline-flex; align-items: center; gap: 8px; padding: 8px 15px 8px 11px;
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 15px;
   border: 1px solid #D5DBE5; border-radius: 999px; background: #fff;
   font-size: 14px; line-height: 20px; font-weight: 600; color: #0B1220;
   transition: border-color .2s, box-shadow .2s, transform .2s;
 }
 .ai-page a.ai-hero-chip:hover { border-color: var(--brand-blue); box-shadow: 0 6px 16px -8px rgba(46, 133, 255, .45); transform: translateY(-1px); }
+.ai-page .ai-hero-chip:has(.ai-hero-chip-mark) { padding-left: 11px; } /* with its logo (TODO: the files) */
 .ai-page .ai-hero-chip-mark { display: block; flex: none; width: 18px; height: 18px; object-fit: contain; }
-.ai-page .ai-hero-chip-mark.is-missing { border-radius: 999px; background: #E2E8F0; } /* TODO: the company's logo file */
 
 /* The automation: built at 440px, shown at 93% beside the copy, right-aligned to the content edge;
    stacked, under the copy at up to 440px. */
@@ -241,6 +242,28 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .ai-page :is(.ai-q2p-card, .ai-q2p-body, .ai-q2p-progress, .ai-q2p-branch, .ai-q2p-dot) { transition: none; }
+}
+
+/* ---------- 2. The trial band (TrialBand, pages/ai-integrations.jsx): dark, centred, under the hero ---------- */
+.ai-page .ai-trial-band {
+  padding: 84px 0; text-align: center;
+  background:
+    radial-gradient(900px 340px at 50% -30%, rgba(46, 133, 255, .36), transparent 62%),
+    linear-gradient(180deg, #0B1222, #0D1428);
+}
+.ai-page .ai-trial-band-title { font-size: 36px; line-height: 1.15; font-weight: 600; letter-spacing: -.02em; color: #F8FAFC; text-wrap: balance; }
+.ai-page .ai-trial-band-ask { margin-top: 14px; font-size: 21px; line-height: 1.4; font-weight: 500; color: #9DB3D6; text-wrap: balance; }
+.ai-page .ai-trial-band-sub { max-width: 540px; margin: 12px auto 0; font-size: 16.5px; line-height: 1.6; color: #B4C2D9; text-wrap: pretty; }
+.ai-page .ai-trial-band-cta { display: flex; justify-content: center; margin-top: 28px; }
+.ai-page .ai-trial-band-ticks { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 24px; margin-top: 20px; font-size: 14.5px; line-height: 1.4; color: #9FB0CB; }
+.ai-page .ai-trial-band-ticks li { display: inline-flex; align-items: center; gap: 8px; }
+.ai-page .ai-trial-band-tick { display: grid; place-items: center; flex: none; width: 18px; height: 18px; border-radius: 999px; background: rgba(46, 133, 255, .16); box-shadow: inset 0 0 0 1px rgba(46, 133, 255, .4); color: var(--brand-blue); }
+@media (max-width: 559.98px) {
+  .ai-page .ai-trial-band { padding: 72px 0; }
+  .ai-page .ai-trial-band-title { font-size: 30px; }
+  .ai-page .ai-trial-band-ask { font-size: 19px; }
+  .ai-page .ai-trial-band-cta .ai-cta { width: 100%; max-width: 360px; }
+  .ai-page .ai-trial-band-ticks { flex-direction: column; align-items: center; }
 }
 
 /* CTAs: the hero's primary button, and a quiet secondary beside it. On desktop both are the site's one
@@ -711,9 +734,12 @@
 .ai-page .ai-facts code { font-size: 13px; color: #E2E8F0; }
 
 /* ---------- 6. Automations ---------- */
-/* The automation card (AutomationFlow.jsx), light, on #automations' white. Not clipped, so the delay
-   menu can hang below it. */
-.ai-page .ai-flow { margin: 0; border-radius: var(--ai-r-panel); background: #fff; box-shadow: var(--ai-light-card-shadow); }
+/* The automation card (AutomationFlow.jsx), on #automations' white, in the hero's card style
+   (.ai-q2p-card). Not clipped, so the delay menu can hang below it. */
+.ai-page .ai-flow {
+  margin: 0; border: 1px solid #E1E7F0; border-radius: 18px; background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 20px 40px -26px rgba(15, 23, 42, .3);
+}
 .ai-page .ai-flow-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: var(--ai-card-pad); border-bottom: 1px solid rgba(15, 23, 42, .07); }
 .ai-page .ai-flow-head > span:first-child { display: grid; gap: 4px; }
 .ai-page .ai-flow-label { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--brand-blue); }
@@ -722,25 +748,38 @@
 .ai-page .ai-flow-stack { display: grid; } /* every timeline in one cell: the card is the tallest one's height */
 .ai-page .ai-flow-steps { grid-area: 1 / 1; position: relative; padding: var(--ai-card-pad) var(--ai-card-pad) 4px; }
 .ai-page .ai-flow-steps.is-ghost { visibility: hidden; }
-/* The timeline: each step but the last draws it from its icon's centre down to the next one's. */
+/* The timeline: each step but the last draws it from its icon's centre down to the next one's; grey,
+   blue once the next step is reached (.is-through). */
 .ai-page .ai-flow-step:not(:last-child)::before {
   content: ''; position: absolute; left: 17px; top: 18px; bottom: -18px; width: 2px;
-  background: linear-gradient(var(--seg-from, var(--brand-blue)), var(--seg-to, rgba(46, 133, 255, .25)));
+  background: #CFD8E4; transition: background-color .35s;
 }
+.ai-page .ai-flow-step.is-through::before { background: var(--brand-blue); }
 .ai-page .ai-flow-step { position: relative; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 16px; padding-bottom: 20px; }
-.ai-page .ai-flow-node { position: relative; z-index: 1; display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--ai-r-button); color: #fff; background: var(--brand-blue); box-shadow: 0 0 0 4px #fff, inset 0 1px 0 rgba(255, 255, 255, .25); }
-.ai-page .ai-flow-step.is-wait .ai-flow-node { width: 26px; height: 26px; margin: 5px; border-radius: 50%; color: #475569; background: #fff; box-shadow: 0 0 0 4px #fff, inset 0 0 0 1px #cbd5e1; }
-.ai-page .ai-flow-body { display: grid; gap: 2px; padding-top: 1px; min-width: 0; }
+.ai-page .ai-flow-node {
+  position: relative; z-index: 1; display: grid; place-items: center; width: 36px; height: 36px; border-radius: var(--ai-r-button);
+  border: 1px solid #BCD8FF; color: var(--brand-blue); background: #EEF5FF; box-shadow: 0 0 0 4px #fff; /* the ring masks the line */
+  transition: background-color .35s, border-color .35s, color .35s;
+}
+.ai-page .ai-flow-step.is-wait .ai-flow-node { width: 26px; height: 26px; margin: 5px; border: 0; border-radius: 50%; color: #475569; background: #fff; box-shadow: 0 0 0 4px #fff, inset 0 0 0 1px #cbd5e1; }
+.ai-page .ai-flow-body { display: grid; gap: 2px; padding-top: 1px; min-width: 0; transition: opacity .35s; }
+/* Not reached yet in the play-through (AutomationFlow.jsx): the body at 45%, the icon tile grey. */
+.ai-page .ai-flow-step.is-dim .ai-flow-body { opacity: .45; }
+.ai-page .ai-flow-step.is-dim .ai-flow-node { border-color: #E1E7F0; color: #9AA6B6; background: #F3F6FA; }
+.ai-page .ai-flow-step.is-wait.is-dim .ai-flow-node { color: #9AA6B6; background: #F3F6FA; box-shadow: 0 0 0 4px #fff, inset 0 0 0 1px #E1E7F0; }
+@media (prefers-reduced-motion: reduce) {
+  .ai-page .ai-flow-step::before, .ai-page .ai-flow-node, .ai-page .ai-flow-body { transition: none; }
+}
 .ai-page .ai-flow-step.is-wait .ai-flow-body { grid-auto-flow: column; justify-content: start; align-items: center; gap: 10px; padding-top: 2px; }
-.ai-page .ai-flow-kind { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #64748b; }
+.ai-page .ai-flow-kind { font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #94A3B8; }
 .ai-page .ai-flow-title { font-size: 15px; font-weight: 600; color: #0b1220; }
 .ai-page .ai-flow-detail { font-size: 14px; color: #64748b; }
 /* The message, as a sent text, with its delivery line. */
 .ai-page .ai-flow-msg {
   display: grid; margin-top: 8px; padding: 10px 14px; border-radius: 16px 16px 16px 5px;
-  font-size: 14px; line-height: 1.5; color: theme('colors.slate.900'); background: #eef4ff; border: 1px solid rgba(46, 133, 255, .20);
+  font-size: 14px; line-height: 1.5; color: theme('colors.slate.900'); background: #F8FAFC; border: 1px solid #E3E8F0; box-shadow: none;
 }
-.ai-page .ai-flow-msg-status { justify-self: end; margin-top: 8px; font-size: 11.5px; line-height: 1; font-weight: 600; color: #5b6b82; }
+.ai-page .ai-flow-msg-status { justify-self: end; margin-top: 8px; font-size: 11.5px; line-height: 1; font-weight: 600; color: #047857; }
 .ai-page .ai-flow .ai-switch { background: #cbd5e1; }
 .ai-page .ai-flow .ai-switch.is-on { background: var(--brand-blue); }
 /* A newly picked example fades in. */
@@ -907,7 +946,7 @@
 
 @media (prefers-reduced-motion: reduce) { html:has(.ai-page) { scroll-behavior: auto; } } /* index.html smooths every jump */
 
-/* ---------- 4. The stance (Stance.jsx): white, type only ---------- */
+/* ---------- 3. The stance (Stance.jsx): white, type only ---------- */
 /* Padding: the homepage's (below). The headline takes the section-title role, muted then dark; no blue. */
 .ai-page .ai-stance { text-align: center; }
 .ai-page .ai-stance-line { /* an h2: the site's heading colour doesn't apply (each sentence has its own) */
@@ -918,124 +957,22 @@
 .ai-page .ai-stance-line > span { display: block; text-wrap: balance; } /* one sentence per line */
 .ai-page .ai-stance-line > span:first-child { color: theme('colors.slate.500'); }
 .ai-page .ai-stance-line > span:last-child { color: theme('colors.slate.900'); }
-/* "Your data. | Your tools. | Your AI.": one row between hairlines; a list on a rail on phones. 24px
-   (Tailwind's text-2xl), between the heading and the intro text. */
-.ai-page .ai-stance-trio {
-  display: flex; justify-content: center; margin: theme('spacing.11') 0 0;
-  font-size: theme('fontSize.2xl'); line-height: theme('lineHeight.8'); font-weight: var(--fw-medium);
-  letter-spacing: var(--closing-tracking); color: theme('colors.slate.900');
-}
-.ai-page .ai-stance-item { padding: 0 theme('spacing.7'); }
-.ai-page .ai-stance-item + .ai-stance-item { border-left: 1px solid theme('colors.slate.200'); }
-.ai-page .ai-stance-your { font-weight: var(--fw-regular); color: theme('colors.slate.400'); }
 .ai-page .ai-stance-fine {
-  max-width: theme('maxWidth.2xl'); margin: theme('spacing.5') auto 0; text-wrap: balance;
+  max-width: 620px; margin: theme('spacing.5') auto 0; text-wrap: balance;
   font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--subhead-weight); color: var(--subhead-on-light);
 }
-@media (max-width: 639.98px) {
-  .ai-page .ai-stance-trio { flex-direction: column; align-items: center; gap: 6px; }
-  .ai-page .ai-stance-item { padding: 0; }
-  .ai-page .ai-stance-item + .ai-stance-item { border-left: 0; }
-}
-/* The entrance, once (Stance.jsx sets data-entrance only when it will play): hidden at once, then
-   the three rise in 160ms apart and the fine print fades in after them. */
-.ai-page .ai-stance[data-entrance="waiting"] .ai-stance-item { opacity: 0; transform: translateY(8px); }
-.ai-page .ai-stance[data-entrance="waiting"] .ai-stance-fine { opacity: 0; }
-.ai-page .ai-stance[data-entrance="in"] .ai-stance-item { transition: opacity .7s ease, transform .7s ease; }
-.ai-page .ai-stance[data-entrance="in"] .ai-stance-item:nth-child(2) { transition-delay: 160ms; }
-.ai-page .ai-stance[data-entrance="in"] .ai-stance-item:nth-child(3) { transition-delay: 320ms; }
-.ai-page .ai-stance[data-entrance="in"] .ai-stance-fine { transition: opacity .7s ease .7s; }
-
-/* Below 768px: left-aligned, and "Your data. / Your tools. / Your AI." become a list on a rail, each with its
-   line from the fine print under it (.ai-stance-desc, hidden on desktop, which keeps .ai-stance-fine). A
-   blue line runs down the rail, pausing at the middle dot, every 4.4s; each dot fills as the line reaches
-   it. Stance.jsx measures the rail into --rail, --midpx and --mid. */
-.ai-page .ai-stance-desc { display: none; }
-@media (max-width: 767.98px) {
-  .ai-page .ai-stance .container { padding-inline: theme('spacing.6'); }
-  .ai-page .ai-stance-line { text-align: left; margin: 0; }
-  .ai-page .ai-stance-trio {
-    position: relative; display: flex; flex-direction: column; align-items: stretch; gap: 0;
-    margin: 44px 0 0; padding-left: 30px; text-align: left;
-  }
-  .ai-page .ai-stance-item {
-    position: relative; display: block; padding: 16px 0 18px;
-    font-size: theme('fontSize.2xl'); font-weight: var(--fw-semibold); letter-spacing: var(--closing-tracking); line-height: var(--closing-leading);
-    border-bottom: 1px solid theme('colors.slate.200');
-  }
-  .ai-page .ai-stance-item:last-child { border-bottom: 0; }
-  .ai-page .ai-stance-item + .ai-stance-item { border-left: 0; } /* the desktop row's dividers */
-  .ai-page .ai-stance-desc {
-    display: block; margin-top: theme('spacing.[1.5]'); letter-spacing: 0;
-    font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--subhead-weight); color: var(--subhead-on-light);
-  }
-  .ai-page .ai-stance-fine { display: none; }
-  /* The dots, and the resting rail between them */
-  .ai-page .ai-stance-item::before {
-    content: ''; position: absolute; left: -30px; top: 24px; z-index: 1; box-sizing: border-box;
-    width: 12px; height: 12px; border: 2px solid var(--brand-blue); border-radius: 50%; background: var(--bg);
-  }
-  .ai-page .ai-stance-item:not(:last-child)::after {
-    content: ''; position: absolute; left: -25px; top: 36px; bottom: -24px;
-    width: 2px; background: rgba(46, 133, 255, .18);
-  }
-  /* The line that fills the rail, and its glowing tip */
-  .ai-page .ai-stance-trio::before {
-    content: ''; position: absolute; left: 5px; top: 30px; width: 2px; height: var(--rail, 0px);
-    border-radius: 2px; background: linear-gradient(to bottom, var(--brand-blue), var(--ai-blue-400)); transform-origin: 50% 0;
-    animation: ai-stance-fill 4.4s linear infinite;
-  }
-  .ai-page .ai-stance-trio::after {
-    content: ''; position: absolute; left: 3px; top: 27px; z-index: 2; width: 6px; height: 6px; border-radius: 50%;
-    background: var(--ai-blue-100); box-shadow: 0 0 0 1px var(--brand-blue), 0 0 10px 3px rgba(46, 133, 255, .55); pointer-events: none;
-    animation: ai-stance-tip-move 4.4s linear infinite, ai-stance-tip-fade 4.4s linear infinite;
-  }
-  .ai-page .ai-stance-item:nth-child(1)::before { animation: ai-stance-dot-1 4.4s linear infinite; }
-  .ai-page .ai-stance-item:nth-child(2)::before { animation: ai-stance-dot-2 4.4s linear infinite; }
-  .ai-page .ai-stance-item:nth-child(3)::before { animation: ai-stance-dot-3 4.4s linear infinite; }
-}
-@media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
-  .ai-page .ai-stance-trio::before, .ai-page .ai-stance-trio::after { display: none; }
-  .ai-page .ai-stance-item:nth-child(n)::before { animation: none; } /* :nth-child(n): as specific as each dot's own animation */
-}
-@keyframes ai-stance-fill {
-  0% { transform: scaleY(0); opacity: 1; animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
-  26% { transform: scaleY(var(--mid, .5)); opacity: 1; animation-timing-function: linear; }
-  36% { transform: scaleY(var(--mid, .5)); opacity: 1; animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
-  62% { transform: scaleY(1); opacity: 1; animation-timing-function: linear; }
-  84% { transform: scaleY(1); opacity: 1; }
-  97%, 100% { transform: scaleY(1); opacity: 0; }
-}
-@keyframes ai-stance-tip-move {
-  0% { transform: translateY(0); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
-  26% { transform: translateY(var(--midpx, 0px)); animation-timing-function: linear; }
-  36% { transform: translateY(var(--midpx, 0px)); animation-timing-function: cubic-bezier(.65, 0, .35, 1); }
-  62%, 100% { transform: translateY(var(--rail, 0px)); }
-}
-@keyframes ai-stance-tip-fade {
-  0% { opacity: 0; }
-  3%, 23% { opacity: 1; }
-  26%, 36% { opacity: 0; }
-  39%, 59% { opacity: 1; }
-  62%, 100% { opacity: 0; }
-}
-@keyframes ai-stance-dot-1 {
-  0% { background: #F5F5F7; transform: scale(1); }
-  2% { background: var(--brand-blue); transform: scale(1.35); }
-  9%, 84% { background: var(--brand-blue); transform: scale(1); }
-  97%, 100% { background: var(--bg); transform: scale(1); }
-}
-@keyframes ai-stance-dot-2 {
-  0%, 25% { background: #F5F5F7; transform: scale(1); }
-  27% { background: var(--brand-blue); transform: scale(1.35); }
-  34%, 84% { background: var(--brand-blue); transform: scale(1); }
-  97%, 100% { background: var(--bg); transform: scale(1); }
-}
-@keyframes ai-stance-dot-3 {
-  0%, 61% { background: #F5F5F7; transform: scale(1); }
-  63% { background: var(--brand-blue); transform: scale(1.35); }
-  70%, 84% { background: var(--brand-blue); transform: scale(1); }
-  97%, 100% { background: var(--bg); transform: scale(1); }
+/* Your AI. | The blueprint. | The protection layer.: three columns between hairlines; one a row below 820px. */
+.ai-page .ai-stance-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 980px; margin: 44px auto 0; text-align: left; }
+.ai-page .ai-stance-col { padding: 0 32px; }
+.ai-page .ai-stance-col + .ai-stance-col { border-left: 1px solid #E3E8F0; }
+.ai-page .ai-stance-col h3 { font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: var(--closing-tracking); color: #0B1220; }
+.ai-page .ai-stance-your { font-weight: var(--fw-regular); color: theme('colors.slate.400'); }
+.ai-page .ai-stance-col p { margin-top: 10px; font-size: 15px; line-height: 1.55; color: #475569; text-wrap: pretty; }
+@media (max-width: 819.98px) {
+  .ai-page .ai-stance-cols { grid-template-columns: minmax(0, 1fr); max-width: 560px; }
+  .ai-page .ai-stance-col { padding: 22px 0; }
+  .ai-page .ai-stance-col:last-child { padding-bottom: 0; }
+  .ai-page .ai-stance-col + .ai-stance-col { border-left: 0; border-top: 1px solid #E3E8F0; }
 }
 
 
@@ -1090,8 +1027,13 @@
 @media (min-width: 900px) { .ai-page .ai-gr { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: center; } }
 .ai-page .ai-gr-pick { margin: 0; }
 /* The answer: AiChat in its light theme (the window's rules and .ai-chat--light, above), scaled 0.9 at a
-   fixed 519px, so it never changes size between answers. These are only what's inside the answers. */
+   fixed height (below), so it never changes size between answers. These are only what's inside the answers. */
 .ai-page .ai-gr-panel { scroll-margin-top: theme('spacing.24'); }
+/* Tall enough for the longest answer ("Send Jimmy McGill his invoice") from 360px up; it's taller where
+   the window is narrow and its lines wrap more. In the window's own px (before its 0.9 zoom). */
+.ai-page .ai-gr-panel.ai-chat { height: 576px; }
+@media (max-width: 439.98px) { .ai-page .ai-gr-panel.ai-chat { height: 616px; } }
+@media (max-width: 399.98px) { .ai-page .ai-gr-panel.ai-chat { height: 636px; } }
 .ai-page .ai-gr-steps { display: grid; gap: 6px; }
 .ai-page .ai-gr-steps li { display: flex; align-items: center; gap: theme('spacing.2'); font-weight: var(--fw-medium); color: theme('colors.slate.900'); }
 .ai-page .ai-gr-step-n {
@@ -1113,19 +1055,6 @@
 .ai-page .ai-gr-history { display: flex; gap: theme('spacing.2'); margin-bottom: 6px; color: theme('colors.slate.700'); }
 .ai-page .ai-gr-history b { font-weight: var(--fw-semibold); color: theme('colors.slate.900'); }
 .ai-page .ai-gr-history-dot { flex: none; width: theme('spacing.2'); height: theme('spacing.2'); margin-top: .5em; border-radius: 999px; background: var(--brand-blue); }
-/* "See every limit": closed, a text link; open, the three lists. */
-.ai-page .ai-gr-limits { max-width: theme('maxWidth.5xl'); margin: 88px auto 0; text-align: center; }
-.ai-page .ai-gr-limits summary { list-style: none; cursor: pointer; margin-top: 0; }
-.ai-page .ai-gr-limits summary::-webkit-details-marker { display: none; }
-.ai-page .ai-gr-limits-body {
-  display: grid; gap: theme('spacing.8'); margin-top: theme('spacing.8'); text-align: left;
-  font-size: theme('fontSize.sm'); line-height: theme('lineHeight.6'); color: var(--subhead-on-light);
-}
-@screen md { .ai-page .ai-gr-limits-body { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.ai-page .ai-gr-limits-body h3 {
-  margin-bottom: theme('spacing.3');
-  font-size: var(--card-title-size); line-height: var(--card-title-leading); font-weight: var(--card-title-weight); color: theme('colors.slate.900');
-}
 
 /* ---------- 8. The technician app, light grey: blue checks, slate text; the phone as it was ---------- */
 .ai-page #technician-app .section-title { text-wrap: balance; } /* not "purpose." alone */
@@ -1135,8 +1064,7 @@
 .ai-page .ai-tech .ai-tech-close {
   font-size: var(--subhead-size); line-height: var(--subhead-leading); font-weight: var(--fw-semibold); color: theme('colors.slate.900');
 }
-.ai-page .ai-tech-cta { display: flex; flex-direction: column; align-items: center; gap: theme('spacing.3'); margin-top: var(--head-to-content); text-align: center; }
-.ai-page .ai-tech-cta p { font-size: theme('fontSize.meta'); line-height: theme('lineHeight.5'); color: var(--subhead-on-light); }
+.ai-page .ai-tech-cta { margin-top: var(--head-to-content); text-align: center; font-size: theme('fontSize.meta'); line-height: theme('lineHeight.5'); color: var(--subhead-on-light); }
 
 /* ---------- Shared by /tech-app: a standard band (.ai-band, above), cards and columns ---------- */
 /* The light card: the automation card's and the light assistant window's outline and shadow. */
@@ -1224,7 +1152,6 @@
 }
 .ai-page .ai-pick-row:hover { border-color: #cbd5e1; }
 .ai-page .ai-pick-row.is-on { border-color: var(--brand-blue); background: #eff6ff; color: #0b1220; }
-.ai-page #automations .ai-pick-row:not(.is-on) { background: var(--bg); } /* white on the light section */
 .ai-page .ai-pick-row:has(input:focus-visible),
 .ai-page .ai-mcp-level:has(input:focus-visible) { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
 .ai-page .ai-auto .ai-link { margin-top: 28px; }
@@ -1325,9 +1252,11 @@
 .ai-page .ai-mcp.is-off .ai-mcp-hub { border-color: rgba(148, 163, 184, .2); box-shadow: none; }
 .ai-page .ai-mcp-hub-label { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ai-blue-200); }
 .ai-page .ai-mcp.is-off .ai-mcp-hub-label { color: var(--mktg-text-muted); }
-.ai-page .ai-mcp-count { display: grid; margin-top: 10px; }
-.ai-page .ai-mcp-count > span:first-child { font-size: 56px; line-height: 1; font-weight: 700; letter-spacing: -.03em; color: #fff; }
-.ai-page .ai-mcp-of { margin-top: 6px; font-size: 13px; }
+/* The chosen level, named (no tool counts: they go stale). */
+.ai-page .ai-mcp-level-now { display: grid; gap: 6px; margin-top: 14px; }
+.ai-page .ai-mcp-level-cap { font-size: 10.5px; line-height: 1.3; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #7C8AA0; }
+.ai-page .ai-mcp-level-name { font-size: 21px; line-height: 1.25; font-weight: 700; letter-spacing: -.01em; color: #fff; animation: ai-swap .2s ease; transition: color .3s; }
+.ai-page .ai-mcp.is-off .ai-mcp-level-name { color: var(--mktg-text-muted); }
 .ai-page .ai-mcp-switch {
   display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; padding: 4px 6px; cursor: pointer;
   border: 0; border-radius: var(--ai-r-button); background: none; font-size: 13px; font-weight: 600; color: var(--ai-blue-200);
@@ -1352,7 +1281,6 @@
 .ai-page .ai-mcp-cap.is-lit { opacity: 1; border-color: rgba(46, 133, 255, .35); }
 .ai-page .ai-mcp-cap-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .ai-page .ai-mcp-cap-top b { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: #f8fafc; }
-.ai-page .ai-mcp-cap-top span { flex: none; font-size: 12.5px; white-space: nowrap; }
 .ai-page .ai-mcp-cap ul { display: grid; gap: 6px; margin-top: 10px; }
 .ai-page .ai-mcp-cap li { display: flex; gap: 8px; font-size: 13.5px; line-height: 1.45; color: #cbd5e1; }
 .ai-page .ai-mcp-cap li svg { flex: none; margin-top: 3px; color: var(--brand-blue); transition: color .3s; }

@@ -1,18 +1,31 @@
 import React, { useEffect, useRef, useState } from 'react';
 import SectionHeader from '../SectionHeader.jsx';
 import AiChat, { AiChatDetail, AiChatReply, AiChatStatus, AiChatTool, AiChatTurn, AiChatUser } from './AiChat.jsx';
-import { PRICE_PROPOSALS, SEND_LIMITS } from '../../aiFacts.js';
+import { SEND_LIMITS } from '../../aiFacts.js';
 
 // #guardrails (white): "try asking" for something the AI shouldn't do. Five requests on the left (a
 // radio group, the Automations follow-ups' rows), the assistant's answer on the right in the hero's
-// window (AiChat.jsx) in its light theme, scaled 0.9 at a fixed height. All five answers are in the
+// window (AiChat.jsx) in its light theme, scaled 0.9 at a fixed height (ai.css, .ai-gr-panel). All five answers are in the
 // markup (the others hidden), stacked in one cell, so crawlers read every one and the window never
 // changes size. Picking one types it into the composer, then the question, the tool call and the
 // answer rise in (at once with reduced motion). The tool chips are the app's real tools; the two
 // refusals have none, because no tool to charge or refund exists. Below 900px the window sits under the
-// list, and tapping a request scrolls its answer into view. Under both, "See every limit" opens the
-// full lists. The figures are the old hero demo's (now /claude's, landing/claude/hero/ClaudeChat.jsx); the limits come from aiFacts.js.
+// list, and tapping a request scrolls its answer into view. Under both, the button the page passes in
+// (cta: "Connect your AI"). The figures are the old hero demo's (now /claude's,
+// landing/claude/hero/ClaudeChat.jsx); the send limit comes from aiFacts.js.
 // Styles: ai.css ("Guardrails", and the window's).
+
+/** Numbered steps in a reply's inset ("How an approved job gets charged", "How a send works"). */
+const NumberedSteps = ({ items }) => (
+  <ol className="ai-gr-steps">
+    {items.map((s, i) => (
+      <li key={s}>
+        <span className="ai-gr-step-n">{i + 1}</span>
+        <span>{s}</span>
+      </li>
+    ))}
+  </ol>
+);
 
 const Dots = ({ items }) => (
   <ul className="ai-gr-dots">{items.map((t) => <li key={t}>{t}</li>)}</ul>
@@ -26,14 +39,7 @@ const ASKS = [
         <AiChatStatus tone="no">Can’t do that</AiChatStatus>
         <p>I can’t charge a card, at any access level. Charges come from your billing: autopay on recurring invoices, and jobs the customer approved with an automatic charge.</p>
         <AiChatDetail label="How an approved job gets charged">
-          <ol className="ai-gr-steps">
-            {['Customer approves and agrees to the charge', 'Work is done and the invoice is sent', 'Card is charged'].map((s, i) => (
-              <li key={s}>
-                <span className="ai-gr-step-n">{i + 1}</span>
-                <span>{s}</span>
-              </li>
-            ))}
-          </ol>
+          <NumberedSteps items={['Customer approves and agrees to the charge', 'Work is done and the invoice is sent', 'Card is charged']} />
         </AiChatDetail>
       </>
     ),
@@ -78,13 +84,16 @@ const ASKS = [
     answer: (
       <>
         <AiChatStatus tone="done">Done, and on the record</AiChatStatus>
-        <p>Sent under your company’s name, with a link to pay.</p>
+        <p>Sent under your company’s name, with a link to pay. Nothing went out until you confirmed the preview.</p>
+        <AiChatDetail label="How a send works">
+          <NumberedSteps items={['I show a preview: who it’s for, the total, how it’s paid', 'You confirm it', 'It’s sent, and logged on the request']} />
+        </AiChatDetail>
         <AiChatDetail>
           <p className="ai-gr-history">
             <span className="ai-gr-history-dot" aria-hidden="true" />
             <span>Invoice INV-1042 sent to Jimmy McGill by <b>Office laptop (AI assistant)</b></span>
           </p>
-          <Dots items={[`No drafts over ${SEND_LIMITS.maxInvoice}`, `At most ${SEND_LIMITS.emailsPerDay} customer emails a day per connection`]} />
+          <Dots items={[`At most ${SEND_LIMITS.emailsPerDay} customer emails a day, one per invoice`]} />
         </AiChatDetail>
       </>
     ),
@@ -95,50 +104,13 @@ const ASKS = [
     answer: (
       <>
         <AiChatStatus tone="no">Ignored</AiChatStatus>
-        <p>Text inside your records is information, never instructions. I read the message; I don’t follow it.</p>
+        <p>Text inside your records is information, never instructions. And whatever a message says, a refund isn’t something any AI can do here.</p>
       </>
     ),
   },
 ];
 
-const LIMITS = [
-  {
-    title: 'No access level can ever',
-    items: [
-      'Charge a card',
-      'Refund a payment',
-      'Record or void a payment',
-      'Add charges',
-      'Change a price on its own',
-      'Change recurring services, discounts, late fees or autopay',
-    ],
-  },
-  {
-    title: 'Price proposals',
-    items: [
-      'Off until an owner or admin turns it on',
-      `No customer’s price moves more than ${PRICE_PROPOSALS.maxChangePercent}% in one proposal`,
-      'New prices start at each customer’s next bill',
-      'A price that changed since the proposal is skipped, never overwritten',
-      'Customers aren’t emailed until you announce it',
-      `A proposal no one decides expires after ${PRICE_PROPOSALS.expiresDays} days`,
-    ],
-  },
-  {
-    title: 'Sending',
-    items: [
-      `No drafts over ${SEND_LIMITS.maxInvoice}`,
-      'Not the billing run’s own invoices',
-      'No drafts with a payment attached',
-      'No links in its note to the customer',
-      `At most ${SEND_LIMITS.emailsPerDay} customer emails per connection per 24 hours`,
-      'One send per document per connection per 24 hours',
-      'Sends tied to a request show on its history with the connection’s name',
-    ],
-  },
-];
-
-export default function Guardrails({ focus, cta = null }) {
+export default function Guardrails({ cta = null }) {
   const [picked, setPicked] = useState(0);
   const [playing, setPlaying] = useState(null); // the exchange rising in, or null (shown as it is)
   const [typed, setTyped] = useState(null); // the question being typed into the composer
@@ -204,7 +176,6 @@ export default function Guardrails({ focus, cta = null }) {
           <AiChat
             theme="light"
             scale={0.9}
-            height={519}
             as="div"
             id="ai-gr-panel"
             rootRef={panelRef}
@@ -232,18 +203,7 @@ export default function Guardrails({ focus, cta = null }) {
           </AiChat>
         </div>
 
-        <details className="ai-gr-limits">
-          <summary className={`ai-link ${focus}`}>See every limit</summary>
-          <div className="ai-gr-limits-body">
-            {LIMITS.map((l) => (
-              <div key={l.title}>
-                <h3>{l.title}</h3>
-                <Dots items={l.items} />
-              </div>
-            ))}
-          </div>
-        </details>
-        {/* The trial button the page passes in, under everything (pages/ai-integrations.jsx SectionCta). */}
+        {/* The button the page passes in, under the demo (pages/ai-integrations.jsx ConnectAiCta). */}
         {cta}
       </div>
     </section>

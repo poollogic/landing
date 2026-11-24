@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Clock } from 'lucide-react';
 import DelayControl from './DelayControl.jsx';
 
@@ -10,11 +10,17 @@ import DelayControl from './DelayControl.jsx';
 // All four timelines are in the card, stacked in one cell, the others hidden (out of sight, of the
 // keyboard and of screen readers), so the card is always the tallest one's height and never jumps.
 // The picked one is keyed by its example, so a new one fades in. Each step but the last draws the line
-// down to the next step's icon, fading from blue as it goes, so the line always ends at the last icon.
+// down to the next step's icon: grey, and blue once the step it leads to is reached.
+// Play-through: the first time the card is 35% on screen, and every time an example is picked, the
+// steps start faded and light up one after another, STEP_MS apart, then hold. Opacity and colour
+// only, so nothing moves. The server (and the first render) shows every step lit, so the
+// pre-rendered page and reduced motion show the finished state; the steps fade only once this runs.
 
-const fade = (i, n) => `rgba(46, 133, 255, ${(1 - (0.75 * i) / Math.max(1, n - 1)).toFixed(3)})`;
+const FIRST_MS = 250; // from the trigger to the first step
+const STEP_MS = 650; // between steps
+const ALL = Number.MAX_SAFE_INTEGER; // every step lit
 
-function Steps({ example, delay, onDelay, hidden }) {
+function Steps({ example, delay, onDelay, hidden, lit }) {
   const n = example.steps.length;
   return (
     <ol
@@ -24,8 +30,7 @@ function Steps({ example, delay, onDelay, hidden }) {
       {example.steps.map(({ kind, icon: Icon, title, detail, message, wait }, i) => (
         <li
           key={kind + (title || 'wait')}
-          className={`ai-flow-step${wait ? ' is-wait' : ''}`}
-          style={i < n - 1 ? { '--seg-from': fade(i, n), '--seg-to': fade(i + 1, n) } : undefined}
+          className={`ai-flow-step${wait ? ' is-wait' : ''}${i < lit ? '' : ' is-dim'}${i < n - 1 && i + 1 < lit ? ' is-through' : ''}`}
         >
           <span className="ai-flow-node" aria-hidden="true">{wait ? <Clock size={13} strokeWidth={2} /> : <Icon size={15} strokeWidth={2} />}</span>
           <div className="ai-flow-body">
@@ -47,8 +52,43 @@ function Steps({ example, delay, onDelay, hidden }) {
 
 export default function AutomationFlow({ examples, picked, delays, onDelay }) {
   const example = examples[picked];
+  const ref = useRef(null);
+  const [lit, setLit] = useState(ALL);
+  const timers = useRef([]);
+  const playRef = useRef(null);
+  const pickedRef = useRef(picked);
+
+  // The first time it's on screen.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const clear = () => { timers.current.forEach(clearTimeout); timers.current = []; };
+    playRef.current = (n) => {
+      clear();
+      setLit(0);
+      for (let k = 1; k <= n; k++) timers.current.push(setTimeout(() => setLit(k === n ? ALL : k), FIRST_MS + STEP_MS * (k - 1)));
+    };
+    let seen = false;
+    if (el.getBoundingClientRect().top > window.innerHeight) setLit(0); // below the fold: faded until it plays
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting || seen) return;
+      seen = true;
+      io.disconnect();
+      playRef.current(examples[pickedRef.current].steps.length);
+    }, { threshold: 0.35 });
+    io.observe(el);
+    return () => { io.disconnect(); clear(); playRef.current = null; };
+  }, [examples]);
+
+  // And every time an example is picked.
+  useEffect(() => {
+    if (pickedRef.current === picked) return;
+    pickedRef.current = picked;
+    playRef.current?.(examples[picked].steps.length);
+  }, [picked, examples]);
+
   return (
-    <figure className="ai-flow" aria-label={`Example automation: ${example.name}`}>
+    <figure ref={ref} className="ai-flow" aria-label={`Example automation: ${example.name}`}>
       <figcaption className="ai-flow-head">
         <span>
           <span className="ai-flow-label">Built into Poolnautics</span>
@@ -65,6 +105,7 @@ export default function AutomationFlow({ examples, picked, delays, onDelay }) {
             key={i === picked ? e.key : `ghost-${e.key}`}
             example={e}
             hidden={i !== picked}
+            lit={i === picked ? lit : ALL}
             delay={delays[e.key]}
             onDelay={i === picked ? (d) => onDelay(e.key, d) : () => {}}
           />

@@ -1,59 +1,31 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Check, Lock } from 'lucide-react';
-import { ACCESS_LEVELS, MCP_TOOL_COUNT } from '../../aiFacts.js';
+import { ACCESS_LEVELS } from '../../aiFacts.js';
 
 // #connect-ai's diagram: the three access levels (a radio group) on the left, the Poolnautics MCP
-// hub in the middle with the tools available at the chosen level, and what the assistant can do
-// on the right. Cards up to the chosen level are lit; the hub's switch turns AI access off (the
-// count runs down to 0, everything greys out) and choosing a level turns it back on. From 900px the
+// hub in the middle naming the chosen level, and what the assistant can do on the right. No tool
+// counts (they go stale). Cards up to the chosen level are lit; the hub's switch turns AI access off
+// (everything greys out) and choosing a level turns it back on. From 900px the
 // two column labels share a row and the columns start level under it (the labels are grid items of
 // their own, so the hub needs no spacer). Curved lines join each level to the hub and the hub to
 // each capability card, drawn between their measured edges after layout, again on resize and
 // whenever the level or the switch changes; the server renders none, so nothing moves. Under the
-// diagram, one line on what no level can do. Counts from aiFacts.js (ACCESS_LEVELS). Styles: ai.css
-// ("AI assistant / MCP").
+// diagram, one line on what no level can do. Level names from aiFacts.js (ACCESS_LEVELS). Styles:
+// ai.css ("AI assistant / MCP").
 
 const ASK = [
   'Who owes us more than 30 days?',
   'Raise everyone with no increase in a year by $10.',
   'Send all three a reminder.',
 ];
-// What each level adds, with the tools it adds (the first level's count is its own total).
+// What each level adds.
 const CAPS = [
   { title: 'Look things up', items: ['Customers, invoices and quotes', 'Receivables, revenue and visits'] },
   { title: 'Work the office queue', items: ['Assign requests, draft invoices', 'Change monthly prices for groups of customers, once you approve'] },
   { title: 'Email your customers', items: ['Send invoices and quotes'] },
 ];
 const NEVER_ITEMS = ['Charge a card', 'Refund a payment', 'Change a price without your approval'];
-const TOTALS = ACCESS_LEVELS.map((_, i) => ACCESS_LEVELS.slice(0, i + 1).reduce((n, l) => n + l.tools, 0));
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
-
-// The hub's number counts to its new value over 350ms (at once with reduced motion).
-function useCount(target) {
-  const [shown, setShown] = useState(target);
-  const from = useRef(target);
-  useEffect(() => {
-    const start = from.current;
-    if (start === target) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      from.current = target;
-      setShown(target);
-      return undefined;
-    }
-    const t0 = performance.now();
-    let raf = 0;
-    const step = (now) => {
-      const p = Math.min(1, (now - t0) / 350);
-      const value = Math.round(start + (target - start) * (1 - (1 - p) ** 3));
-      from.current = value;
-      setShown(value);
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [target]);
-  return shown;
-}
 
 const curve = (x1, y1, x2, y2) => {
   const dx = (x2 - x1) / 2;
@@ -63,7 +35,6 @@ const curve = (x1, y1, x2, y2) => {
 export default function McpDiagram() {
   const [level, setLevel] = useState(1); // Make changes
   const [on, setOn] = useState(true);
-  const count = useCount(on ? TOTALS[level] : 0);
 
   // The lines: measured from the rows, the hub and the cards, relative to the diagram.
   const ref = useRef(null);
@@ -132,9 +103,9 @@ export default function McpDiagram() {
       <div className="ai-mcp-mid">
         <div className="ai-mcp-hub">
           <p className="ai-mcp-hub-label">Poolnautics MCP</p>
-          <p className="ai-mcp-count" aria-live="polite">
-            <span className="font-tnum">{count}</span>
-            <span className="ai-mcp-of">of {MCP_TOOL_COUNT} tools</span>
+          <p className="ai-mcp-level-now" aria-live="polite">
+            <span className="ai-mcp-level-cap">Access level</span>
+            <span key={level} className="ai-mcp-level-name">{ACCESS_LEVELS[level].name}</span>
           </p>
           <button type="button" role="switch" aria-checked={on} className="ai-mcp-switch" onClick={() => setOn((v) => !v)}>
             <span className={`ai-switch${on ? ' is-on' : ''}`} aria-hidden="true"><i /></span>
@@ -153,7 +124,6 @@ export default function McpDiagram() {
           <div key={c.title} className={`ai-mcp-cap${on && i <= level ? ' is-lit' : ''}`}>
             <p className="ai-mcp-cap-top">
               <b>{c.title}</b>
-              <span>{i === 0 ? '' : '+'}{ACCESS_LEVELS[i].tools} tools</span>
             </p>
             <ul>
               {c.items.map((t) => <li key={t}><Check size={14} strokeWidth={2.4} aria-hidden="true" />{t}</li>)}

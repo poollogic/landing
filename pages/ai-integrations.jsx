@@ -169,9 +169,9 @@ export const structuredData = [
 // [icon, tag, title, text, the section it links to]
 const PILLARS = [
   [Workflow, 'No-code', 'Automatic follow-ups', 'Texts, emails and alerts go out on their own, with waits, conditions and quiet hours.', '#automations'],
-  [Bot, `${MCP_TOOL_COUNT} MCP tools`, 'Your AI, connected', 'Ask who owes what, assign requests and send invoices from the AI you already use.', '#connect-ai'],
+  [Bot, 'MCP server', 'Your AI, connected', 'Your AI is handed the Poolnautics blueprint, so there’s nothing to teach it.', '#connect-ai'],
   [Inbox, 'Forms + ads', 'Leads from anywhere', 'Your lead link catches forms and ad leads, tags the source and starts the follow-up.', '#leads'],
-  [Webhook, `${WEBHOOK_EVENTS.length} webhooks`, 'Every event streams out', 'New leads, finished visits and failed payments, sent to Zapier, n8n or your own app.', '#webhooks'],
+  [Webhook, 'Signed webhooks', 'Every event streams out', 'New leads, finished visits and failed payments, sent to Zapier, n8n or your own app.', '#webhooks'],
 ];
 
 const CHECKLIST = [
@@ -218,20 +218,51 @@ function DocsCta() {
   );
 }
 
-/** The trial button at the foot of a section: the hero's, centered, 48px below the section's content. */
-function SectionCta({ theme }) {
+/** Guardrails' button, under the demo: where an owner connects their AI (the hero's button, centered). */
+function ConnectAiCta() {
   return (
     <div className="ai-cta-row ai-cta-row--center ai-cta-row--section" data-reveal="">
-      <PrimaryCta theme={theme} />
+      <a href={CONNECT_AI_URL} className={`hero-cta ai-cta ${FOCUS}`}>
+        <span className="hero-cta-label">Connect your AI</span>
+        <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
+      </a>
     </div>
+  );
+}
+const CONNECT_AI_URL = 'https://app.poolnautics.app/settings/ai-assistants';
+
+/* ---------- The trial band, under the hero (dark) ---------- */
+
+// The page's trial buttons: the nav's, this band's and the closing section's (Morning.jsx); no others.
+const TRIAL_TICKS = [`Free for ${TRIAL_DAYS} days`, 'No card needed', 'Export your data any time'];
+
+function TrialBand({ theme }) {
+  return (
+    <section className="ai-trial-band" aria-labelledby="trial-band-heading">
+      <div className="container">
+        <h2 id="trial-band-heading" className="ai-trial-band-title">Not on Poolnautics yet?</h2>
+        <p className="ai-trial-band-ask">How much of last week went to chasing invoices?</p>
+        <p className="ai-trial-band-sub">
+          Poolnautics does that part for you. Try it free and see what your week looks like when the routine runs itself.
+        </p>
+        <div className="ai-trial-band-cta">
+          <PrimaryCta theme={theme} label="Start your free trial" />
+        </div>
+        <ul className="ai-trial-band-ticks">
+          {TRIAL_TICKS.map((t) => (
+            <li key={t}><span className="ai-trial-band-tick" aria-hidden="true"><Check size={11} strokeWidth={3} /></span>{t}</li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
 
 /* ---------- The hero's "connect your AI" chips ---------- */
 
 // Each company's official logo file, stored in this repo (public/brand/), never hotlinked or redrawn.
-// TODO(owner): add the files and set `logo` (e.g. '/brand/claude.svg'). Until then each chip shows a
-// plain grey 18px slot where its mark goes, so adding a file changes nothing else.
+// TODO(owner): add the files and set `logo` (e.g. '/brand/claude.svg'). Until then each chip shows
+// its name only (no placeholder); a logo goes 18px square before the name.
 // TODO(owner): ChatGPT's and Grok's destinations aren't decided; until they are, those chips aren't links.
 const AI_CHIPS = [
   { name: 'Claude', href: '/claude', logo: null },
@@ -240,9 +271,7 @@ const AI_CHIPS = [
 ];
 
 function AiChip({ name, href, logo }) {
-  const mark = logo
-    ? <img src={logo} alt="" width={18} height={18} fetchPriority="high" className="ai-hero-chip-mark" />
-    : <span className="ai-hero-chip-mark is-missing" aria-hidden="true" />;
+  const mark = logo ? <img src={logo} alt="" width={18} height={18} fetchPriority="high" className="ai-hero-chip-mark" /> : null;
   return href
     ? <a href={href} className={`ai-hero-chip ${FOCUS}`}>{mark}{name}</a>
     : <span className="ai-hero-chip">{mark}{name}</span>;
@@ -258,17 +287,16 @@ export default function AiIntegrationsPage() {
     <div ref={pageRef} className="mktg ai-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
       <Nav tone="light" overlay />
       <main>
-        {/* 1. Hero (light): the copy, then the AIs you can connect, left; "Approved quote to paid invoice"
-            (QuoteToPaid.jsx), right. The dark hero's grid and breakpoints, on white (ai.css, "Light hero").
+        {/* 1. Hero (light grey): the copy, then the AIs you can connect, left; "Approved quote to paid invoice"
+            (QuoteToPaid.jsx), right. The dark hero's grid and breakpoints, on #F8FAFC (ai.css, "Light hero").
             /claude keeps the dark hero, in its own copy (landing/claude/hero/). */}
         <section className="hero ai-hero ai-hero--light relative overflow-x-clip" data-theme="light" aria-labelledby="ai-hero-title">
           <div className="container">
             <div className="ai-hero-grid">
               <div className="ai-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
                 <HeroHeading id="ai-hero-title" title="Pool Service Automation Software That Handles the Routine for You">
-                  Poolnautics is pool service software with the automations already built in: lead follow-ups, overdue
-                  reminders, failed-payment links and review requests. For everything else, securely connect ChatGPT, Claude, Grok or your own AI to
-                  your pool service data.
+                  Pool service software with a built-in MCP server and automations: lead follow-ups, overdue reminders
+                  and failed-payment links.
                 </HeroHeading>
                 <div className="ai-hero-connect">
                   <p className="ai-hero-connect-label" id="ai-hero-connect-label">You can also connect your AI through our MCP</p>
@@ -284,11 +312,17 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
-        {/* 2. The routine runs itself (white): what runs on its own beside what you'd ask your AI for (Routine.jsx). */}
+        {/* 2. The trial band (dark), right under the hero. */}
+        <TrialBand theme={theme} />
+
+        {/* 3. The stance (white): your AI, the blueprint, the protection layer (Stance.jsx). */}
+        <Stance />
+
+        {/* 4. The routine runs itself (light grey): what runs on its own beside what you'd ask your AI for (Routine.jsx). */}
         <Routine />
 
-        {/* 3. Automations (light): pick a built-in follow-up on the left, see it run on the right (Automations.jsx). */}
-        <section id="automations" className="section ai-light bg-slate-50" data-theme="light" aria-labelledby="automations-heading">
+        {/* 5. Automations (white): pick a built-in follow-up on the left, see it run on the right (Automations.jsx). */}
+        <section id="automations" className="section ai-light bg-white" data-theme="light" aria-labelledby="automations-heading">
           <div className="container">
             <Automations
               focus={FOCUS}
@@ -305,14 +339,10 @@ export default function AiIntegrationsPage() {
                 className: 'mb-0',
               })}
             />
-            <SectionCta theme={theme} />
           </div>
         </section>
 
-        {/* 4. The stance, white, after Automations (Stance.jsx). */}
-        <Stance />
-
-        {/* 5. The definition, then the four pillars (each links to its section): dark. */}
+        {/* 6. The definition, then the four pillars (each links to its section): dark. */}
         <section id="what-is-ai-ready" className="section bg-mktg-page" aria-labelledby="what-is-heading">
           <div className="container">
             <div className="ai-define" data-reveal="">
@@ -327,11 +357,6 @@ export default function AiIntegrationsPage() {
                 <p className="ai-define-lead">
                   Software your AI assistant can safely work inside. It reads your business data, sends every event to
                   your other tools, and runs your follow-ups on its own.
-                </p>
-                <p className="ai-define-detail">
-                  In Poolnautics: a built-in MCP server, {WEBHOOK_EVENTS.length} signed webhook events and{' '}
-                  <span className="whitespace-nowrap">no-code</span> automations, with hard limits: no charges, no refunds,
-                  and no price change without your approval.
                 </p>
               </div>
             </div>
@@ -360,7 +385,7 @@ export default function AiIntegrationsPage() {
           </div>
         </section>
 
-        {/* 6. Connecting an assistant (MCP): the levels, the hub and what each level can do (McpDiagram.jsx). */}
+        {/* 7. Connecting an assistant (MCP): the levels, the hub and what each level can do (McpDiagram.jsx). */}
         <section id="connect-ai" className="section ai-connect" aria-labelledby="connect-heading">
           <div className="container">
             <div className="section-head section-head--center ai-connect-head" data-reveal="">
@@ -369,11 +394,11 @@ export default function AiIntegrationsPage() {
                 Connect Claude, ChatGPT or Grok <span className="ai-break">to your pool service software</span>
               </h2>
               <p className="section-sub text-mktg-muted">
-                Your assistant gets {MCP_TOOL_COUNT} tools. You choose how far it can go.
+                You choose how far your assistant can go.
               </p>
               <p className="ai-works">
                 <span className="ai-works-label">Works with</span>
-                {['Claude', 'ChatGPT', 'Grok', ...MCP_CLIENTS, 'Your own agent'].map((c) => <span key={c}>{c}</span>)}
+                {['Claude', 'ChatGPT', 'Grok', 'Your own agent'].map((c) => <span key={c}>{c}</span>)}
               </p>
             </div>
             <div data-reveal="">
@@ -386,14 +411,13 @@ export default function AiIntegrationsPage() {
               </p>
               <a href="/claude" className={`ai-link ${FOCUS}`}>Using Claude? See Poolnautics for Claude <ArrowRight size={15} strokeWidth={2} aria-hidden="true" /></a>
             </div>
-            <SectionCta theme={theme} />
           </div>
         </section>
 
-        {/* 7. Guardrails (white): ask it for something it shouldn't do (Guardrails.jsx). */}
-        <Guardrails focus={FOCUS} cta={<SectionCta theme={theme} />} />
+        {/* 8. Guardrails (white): ask it for something it shouldn't do (Guardrails.jsx), then where to connect your AI. */}
+        <Guardrails cta={<ConnectAiCta />} />
 
-        {/* 8. The technician app (light grey): no AI, on purpose. Ends with the page's call to action. */}
+        {/* 9. The technician app (light grey): no AI, on purpose. */}
         <section id="technician-app" className="section ai-light ai-tech bg-slate-50" data-theme="light" aria-labelledby="tech-app-heading">
           <div className="container">
             <div className="ai-split ai-split--tech">
@@ -414,14 +438,11 @@ export default function AiIntegrationsPage() {
                 <TechPhone />
               </div>
             </div>
-            <div className="ai-tech-cta" data-reveal="">
-              <PrimaryCta theme={theme} />
-              <p>The {TRIAL_DAYS}-day trial includes all of it.</p>
-            </div>
+            <p className="ai-tech-cta" data-reveal="">The {TRIAL_DAYS}-day trial includes all of it.</p>
           </div>
         </section>
 
-        {/* 9. Leads in (live since 2026-11-14), under the technician app. */}
+        {/* 10. Leads in (live since 2026-11-14), under the technician app. */}
         <section id="leads" className="section bg-mktg-page" aria-labelledby="leads-heading">
           <div className="container">
             <div data-reveal="">
@@ -438,7 +459,6 @@ export default function AiIntegrationsPage() {
             <p className="ai-note ai-note--center" data-reveal="">
               Sources: {LEAD_SOURCES.join(', ')} and more.
             </p>
-            <SectionCta theme={theme} />
           </div>
         </section>
 
