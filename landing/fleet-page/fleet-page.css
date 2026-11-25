@@ -1,0 +1,130 @@
+/* /pool-service-fleet-management (pages/fleet-management.jsx): the approved reference's own blocks
+   (fleet-page-reference.html, 2026-11-25): the Fleet card in the hero, the oil change track and the office
+   notice, the document cards, the "who drives what" list and the link card to the mileage page. .flt-*,
+   under .fleet-page. What this page shares with /pool-service-mileage-tracking (the gutter, the light hero's
+   sizes, the section spacing and headings, the phone beside three points, the dark section's cards, the
+   questions) is landing/feature-page/feature-page.css (.fp-*, the colour tokens too). The check-in screen
+   in the phone: landing/technicians/pn-phone-checkin.css. Desktop above 1020px; tablet 721–1020px (the
+   hero stacks, the document cards go to one column); phone 720px and below (one column). */
+
+/* The headline: four spans, one line each on a phone ("Pool Service / Fleet Management / That Keeps
+   Itself / Up to Date"), flowing as one sentence wider. */
+.fleet-page .flt-hl { display: inline; }
+
+/* ======================= 1. Hero: the Fleet card ======================= */
+/* Every truck as a bar of how far through its oil change it is (the app's Fleet overview). */
+.fleet-page .flt-fo { width: 100%; max-width: 460px; margin-left: auto; padding: 24px 26px; background: #fff; border: 1px solid var(--fp-line); border-radius: 20px; box-shadow: 0 18px 44px rgba(8, 12, 24, .06); line-height: normal; }
+.fleet-page .flt-fo-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.fleet-page .flt-fo-head b { font-size: 16px; line-height: 22px; font-weight: 600; color: var(--fp-ink); }
+.fleet-page .flt-fo-head span { font-size: 13px; color: var(--fp-muted); }
+.fleet-page .flt-fo-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 16px 0 0; padding: 0 0 18px; border-bottom: 1px solid #edf1f6; list-style: none; }
+.fleet-page .flt-fo-tile { padding: 10px 12px; border-radius: 10px; background: #f5f7fa; border: 1px solid #edf0f4; }
+.fleet-page .flt-fo-tile span { display: block; font-size: 12px; line-height: 16px; color: var(--fp-muted); }
+.fleet-page .flt-fo-tile b { display: block; margin-top: 2px; font-size: 20px; line-height: 24px; font-weight: 700; color: var(--fp-ink); }
+.fleet-page .flt-fo-trucks { margin: 0; padding: 0; list-style: none; }
+/* Every truck has its top line, the first one too (the reference's ":first-of-type" rule meant to drop it
+   matches nothing there), so a 2px line sits under the counts, as in the reference. */
+.fleet-page .flt-fo-truck { padding: 16px 0; border-top: 1px solid #edf1f6; }
+.fleet-page .flt-fo-truck:last-child { padding-bottom: 0; }
+.fleet-page .flt-fo-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.fleet-page .flt-fo-row b { font-size: 15px; line-height: 22px; font-weight: 600; color: var(--fp-ink); }
+.fleet-page .flt-fo-row b span { margin-left: 6px; font-weight: 400; color: var(--fp-muted); }
+.fleet-page .flt-fo-left { font-size: 13px; line-height: 18px; font-weight: 600; color: var(--fp-muted); white-space: nowrap; }
+.fleet-page .flt-fo-left--soon { padding: 2px 8px; border-radius: 6px; background: var(--fp-ink); color: #fff; }
+.fleet-page .flt-fo-left--due { padding: 2px 8px; border-radius: 6px; background: #dc2626; color: #fff; }
+.fleet-page .flt-fo-bar { margin-top: 10px; height: 6px; border-radius: 3px; background: #edf1f6; overflow: hidden; }
+.fleet-page .flt-fo-bar i { display: block; width: var(--p); height: 100%; border-radius: 3px; background: var(--fp-blue); }
+.fleet-page .flt-fo-bar--soon i { background: var(--fp-ink); } /* within 500 miles of due */
+.fleet-page .flt-fo-bar--due i { background: #dc2626; } /* at or past it */
+.fleet-page .flt-fo-sub { margin-top: 8px; font-size: 13px; line-height: 18px; color: var(--fp-muted); }
+
+/* ======================= 3. The oil change track ======================= */
+.fleet-page .flt-ot { max-width: 920px; margin: 64px auto 0; padding: 30px 32px 32px; background: #fff; border: 1px solid var(--fp-line); border-radius: 20px; box-shadow: 0 18px 44px rgba(8, 12, 24, .06); }
+.fleet-page .flt-ot-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+.fleet-page .flt-ot-head b { font-size: 16px; line-height: 22px; font-weight: 600; color: var(--fp-ink); }
+.fleet-page .flt-ot-head b span { margin-left: 6px; font-weight: 400; color: var(--fp-muted); }
+.fleet-page .flt-ot-head em { font-style: normal; font-size: 13px; line-height: 18px; color: var(--fp-muted); }
+.fleet-page .flt-ot-wrap { position: relative; margin-top: 56px; }
+/* The track runs from the last oil change to 500 miles past due. Each zone and fill is placed from its
+   mileages (--a, --b: % along the track, from fleetFacts.js), and the marker and labels at --at. */
+.fleet-page .flt-ot-track { position: relative; height: 12px; border-radius: 6px; background: #edf1f6; overflow: hidden; }
+.fleet-page .flt-ot-track > i { position: absolute; top: 0; bottom: 0; left: var(--a); width: calc(var(--b) - var(--a)); }
+.fleet-page .flt-ot-z-soon { background: rgba(14, 17, 23, .16); }
+.fleet-page .flt-ot-z-late { background: rgba(220, 38, 38, .2); }
+.fleet-page .flt-ot-fill { background: var(--fp-blue); }
+.fleet-page .flt-ot-fill--soon { background: var(--fp-ink); }
+.fleet-page .flt-ot-fill--late { background: #dc2626; }
+.fleet-page .flt-ot-pin { position: absolute; left: var(--at); bottom: calc(100% + 9px); transform: translateX(-50%); padding: 5px 10px; border-radius: 8px; background: var(--fp-ink); color: #fff; font-size: 12.5px; line-height: 18px; font-weight: 600; white-space: nowrap; }
+.fleet-page .flt-ot-pin::after { content: ""; position: absolute; left: 50%; top: 100%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--fp-ink); }
+.fleet-page .flt-ot-scale { position: relative; height: 20px; margin-top: 10px; font-size: 12px; line-height: 16px; color: var(--fp-muted); }
+.fleet-page .flt-ot-scale > span { position: absolute; top: 0; left: var(--at); white-space: nowrap; }
+.fleet-page .flt-ot-scale .flt-ot-s1 { transform: translateX(-50%); }
+.fleet-page .flt-ot-scale .flt-ot-s2 { transform: translateX(-30%); font-weight: 600; color: var(--fp-ink); }
+.fleet-page .flt-ot-legend { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin: 28px 0 0; padding: 26px 0 0; border-top: 1px solid #edf1f6; list-style: none; }
+.fleet-page .flt-ot-legend h3 { display: flex; align-items: center; gap: 9px; margin: 0; font-size: 16px; line-height: 22px; font-weight: 600; color: #0f172a; }
+.fleet-page .flt-ot-legend h3::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+.fleet-page .flt-ot-legend p { margin: 8px 0 0; font-size: 14.5px; line-height: 22px; color: #475569; }
+/* A sample of the notice the office's bell gets. */
+.fleet-page .flt-notice { display: flex; align-items: center; gap: 14px; max-width: 920px; margin: 20px auto 0; padding: 16px 20px; border-radius: 14px; background: #fff; border: 1px solid var(--fp-line); }
+.fleet-page .flt-bell { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: rgba(46, 133, 255, .1); color: var(--fp-blue-ink); }
+.fleet-page .flt-notice b { display: block; font-size: 14.5px; line-height: 20px; font-weight: 600; color: var(--fp-ink); }
+.fleet-page .flt-notice p { margin: 0; font-size: 14px; line-height: 20px; color: var(--fp-muted); }
+
+/* ======================= 4. Vehicle documents (dark): three outlined cards ======================= */
+.fleet-page .flt-docs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; max-width: 980px; margin: 72px auto 0; padding: 0; list-style: none; }
+.fleet-page .flt-docs .fp-x-card h3 { margin: 0; font-size: 18px; line-height: 24px; font-weight: 600; color: #fff; }
+.fleet-page .flt-when { margin-top: 8px; }
+.fleet-page .flt-when b { display: block; font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #94a3b8; }
+.fleet-page .flt-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.fleet-page .flt-when b + .flt-chips { margin-top: 6px; }
+.fleet-page .flt-chips li { padding: 3px 10px; border-radius: 999px; border: 1px solid rgba(148, 163, 184, .28); font-size: 12px; line-height: 16px; font-weight: 600; color: #e2e8f0; }
+.fleet-page .flt-doc-points { list-style: none; margin: 6px 0 0; padding: 16px 0 0; border-top: 1px solid rgba(148, 163, 184, .12); }
+.fleet-page .flt-doc-points li { position: relative; padding: 0 0 10px 18px; font-size: 14px; line-height: 21px; color: rgba(226, 232, 240, .78); }
+.fleet-page .flt-doc-points li:last-child { padding-bottom: 0; }
+.fleet-page .flt-doc-points li::before { content: ""; position: absolute; left: 2px; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: var(--fp-blue); }
+
+/* ======================= 5. Who drives what ======================= */
+.fleet-page .flt-drives { max-width: 920px; margin: 72px auto 0; padding: 0; list-style: none; background: #fff; border: 1px solid var(--fp-line); border-radius: 18px; box-shadow: 0 12px 32px rgba(8, 12, 24, .05); overflow: hidden; }
+.fleet-page .flt-drive { display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 20px 28px; border-top: 1px solid #edf1f6; }
+.fleet-page .flt-drive:first-child { border-top: 0; }
+.fleet-page .flt-drive b { font-size: 16px; line-height: 22px; font-weight: 600; color: var(--fp-ink); }
+.fleet-page .flt-drive p { margin: 0; font-size: 15px; line-height: 22px; color: #475569; }
+.fleet-page .flt-tag { padding: 3px 10px; border-radius: 6px; font-size: 12.5px; line-height: 18px; font-weight: 600; white-space: nowrap; }
+.fleet-page .flt-tag--yes { background: rgba(22, 163, 74, .14); color: #15803d; }
+.fleet-page .flt-tag--no { background: #eef1f5; color: var(--fp-muted); }
+/* The two points under the list: two across, at the list's width. */
+.fleet-page .fp-points.flt-two { max-width: 920px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* ======================= 6. The link card to the mileage page ======================= */
+.fleet-page .flt-band { display: grid; grid-template-columns: 1.3fr auto; gap: 40px; align-items: center; max-width: 920px; margin: 0 auto; padding: 40px 44px; background: #fff; border: 1px solid var(--fp-line); border-radius: 20px; box-shadow: 0 18px 44px rgba(8, 12, 24, .06); }
+.fleet-page .flt-band h2 { margin: 0; font-size: 26px; line-height: 1.2; font-weight: 600; letter-spacing: -.4px; color: #0f172a; }
+.fleet-page .flt-band p { margin: 10px 0 0; font-size: 16px; line-height: 26px; color: #475569; }
+
+/* ======================= Tablet: 1020px and below ======================= */
+@media (max-width: 1020px) {
+  .fleet-page .flt-fo { margin: 0 auto; }
+  .fleet-page .flt-docs { grid-template-columns: 1fr; max-width: 560px; }
+  .fleet-page .flt-drive { grid-template-columns: 160px minmax(0, 1fr) auto; gap: 16px; padding: 18px 20px; }
+}
+
+/* ======================= Phone: 720px and below ======================= */
+@media (max-width: 720px) {
+  .fleet-page .flt-hl { display: block; }
+  .fleet-page .flt-fo { max-width: none; padding: 20px 18px; }
+  .fleet-page .flt-ot { margin-top: 40px; padding: 24px 20px 26px; }
+  .fleet-page .flt-ot-head { flex-direction: column; gap: 2px; }
+  .fleet-page .flt-ot-scale .flt-ot-s1 { display: none; }
+  .fleet-page .flt-ot-scale .flt-ot-s2 { left: auto; right: 0; transform: none; }
+  .fleet-page .flt-ot-legend { grid-template-columns: 1fr; gap: 20px; }
+  .fleet-page .flt-notice { align-items: flex-start; margin-top: 14px; }
+  .fleet-page .flt-docs { gap: 14px; margin-top: 40px; }
+  .fleet-page .flt-drives { margin-top: 40px; }
+  /* Each row becomes a small card: the name with its tag at the top right, the sentence beneath. */
+  .fleet-page .flt-drive { grid-template-columns: 1fr auto; grid-template-areas: "n t" "p p"; gap: 6px 12px; padding: 18px; }
+  .fleet-page .flt-drive b { grid-area: n; }
+  .fleet-page .flt-drive p { grid-area: p; }
+  .fleet-page .flt-drive .flt-tag { grid-area: t; }
+  .fleet-page .fp-points.flt-two { grid-template-columns: 1fr; }
+  .fleet-page .flt-band { grid-template-columns: 1fr; gap: 22px; padding: 28px 24px; }
+  .fleet-page .flt-band h2 { font-size: 22px; }
+}

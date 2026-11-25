@@ -4,8 +4,9 @@ import { PrimaryCta } from './shared.jsx';
 import { TRIAL_DAYS } from '../../aiFacts.js';
 
 // The dark trial band: "Not on Poolnautics yet?", the trial button and three ticks. Under the hero on
-// /ai-and-automations (pages/ai-integrations.jsx); the closing section of /pool-service-mileage-tracking
-// (pages/mileage-tracking.jsx). Styles: ai.css (.ai-trial-band*), so the page must be an .ai-page.
+// /ai-and-automations (pages/ai-integrations.jsx); the closing section of /pool-service-mileage-tracking and
+// /pool-service-fleet-management (landing/feature-page/FeaturePage.jsx). Styles: ai.css (.ai-trial-band*), so
+// the page must be an .ai-page.
 
 // The trial buttons on /ai-and-automations: the nav's, this band's and the closing section's (Morning.jsx); no others.
 const TRIAL_TICKS = [`Free for ${TRIAL_DAYS} days`, 'No card needed', 'Export your data any time'];

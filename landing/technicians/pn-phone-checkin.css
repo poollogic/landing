@@ -1,0 +1,56 @@
+/* The tech app's truck check-in, in the Poolnautics phone: the sheet that opens from the "Truck check-in"
+   notification, over the dimmed route screen. Drawn from the app itself (release/2.2.0,
+   mobile/src/components/technician-portal/TruckCheckinSheet.tsx, with ActionSheet.tsx's FloatingSheet,
+   TextField, PrimaryButton and the light theme's tokens): an iPhone Pro Max's 440pt-wide screen, at the
+   app's own sizes. Filled in: the odometer and the next oil change typed, both photos taken, the note
+   opened. Used on /pool-service-fleet-management (pages/fleet-management.jsx): <div class="pn-phone
+   fp-phone"><div class="pn-screen pn-route pn-checkin">, the top of the route screen (pn-phone-route.css)
+   under the sheet. The phone's frame: landing/feature-page/feature-phone.css. */
+
+/* The route screen behind, dimmed (the sheet's scrim); the status bar stays above it, as iOS draws it. */
+.pn-checkin .pn-status { position: relative; z-index: 4; }
+.pn-checkin .pn-ci-scrim { position: absolute; inset: 0; z-index: 3; background: rgba(15, 23, 42, 0.52); }
+
+/* The sheet: a white card 16pt from the sides, and the "Later" card under it, above the home indicator. */
+.pn-checkin .pn-ci-sheet { position: absolute; z-index: 4; left: 16px; right: 16px; bottom: 42px; display: flex; flex-direction: column; gap: 16px; }
+.pn-checkin .pn-ci-card { padding: 24px 16px 16px; border-radius: 12px; border: 0.5px solid var(--pn-border); background: var(--pn-card); line-height: normal; }
+
+.pn-checkin .pn-ci-head { display: flex; align-items: center; gap: 12px; }
+.pn-checkin .pn-ci-icon { flex: none; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 22px; background: var(--pn-fill); color: var(--pn-ink); }
+.pn-checkin .pn-ci-names { min-width: 0; }
+.pn-checkin .pn-ci-title { font-size: 22px; line-height: 28px; font-weight: 600; color: var(--pn-ink); }
+.pn-checkin .pn-ci-sub { margin-top: 1px; font-size: 13px; color: var(--pn-ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pn-checkin .pn-ci-text { margin-top: 16px; font-size: 13px; line-height: 19px; color: var(--pn-ink-2); }
+
+/* A reading: its label (the last one quietly on the right), a big number field with "mi", the photo beside it. */
+.pn-checkin .pn-ci-reading { margin-top: 24px; }
+.pn-checkin .pn-ci-labels { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.pn-checkin .pn-ci-labels span { font-size: 12.5px; font-weight: 500; color: var(--pn-ink); }
+.pn-checkin .pn-ci-labels em { font-style: normal; font-size: 12px; color: var(--pn-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pn-checkin .pn-ci-row { display: flex; align-items: flex-start; gap: 8px; }
+.pn-checkin .pn-ci-field { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; height: 52px; padding: 0 40px 0 12px; border: 1px solid #e5e5e5; border-radius: 8px; background: #fff; font-size: 20px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--pn-ink); }
+.pn-checkin .pn-ci-field i { position: absolute; top: 0; bottom: 0; right: 13px; display: flex; align-items: center; font-style: normal; font-size: 14px; font-weight: 400; color: var(--pn-ink-3); }
+
+/* A photo taken: the photo in a green edge, and its remove button. */
+.pn-checkin .pn-ci-photo { position: relative; flex: none; width: 76px; height: 52px; }
+.pn-checkin .pn-ci-shot { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; overflow: hidden; border: 2px solid var(--pn-success); border-radius: 8px; }
+.pn-checkin .pn-ci-shot--odo { background: radial-gradient(60px 40px at 50% 60%, #26303f, #0c0f17); }
+.pn-checkin .pn-ci-shot--odo span { padding: 3px 5px; border-radius: 3px; background: #05070b; box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.3); font-size: 10px; line-height: 12px; font-weight: 600; letter-spacing: 0.12em; color: #e6ecf5; }
+.pn-checkin .pn-ci-shot--sticker { background: linear-gradient(165deg, #c9d3df, #aab6c5); }
+.pn-checkin .pn-ci-shot--sticker span { padding: 4px 6px; border-radius: 3px; background: #fff; box-shadow: 0 2px 5px rgba(8, 12, 24, 0.22); transform: rotate(-3deg); font-size: 10px; line-height: 12px; font-weight: 700; color: #0e1117; }
+.pn-checkin .pn-ci-remove { position: absolute; top: 4px; right: 4px; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 10px; background: rgba(15, 23, 42, 0.52); color: #fff; }
+
+/* The note, opened: its label, "Optional", and the empty field's placeholder. */
+.pn-checkin .pn-ci-note { margin-top: 24px; }
+.pn-checkin .pn-ci-area { min-height: 72px; padding: 10px 12px; border: 1px solid #e5e5e5; border-radius: 8px; background: #fff; font-size: 16px; line-height: 20px; color: var(--pn-ink-4); }
+
+/* "Send Mileage": the app's large primary button. */
+.pn-checkin .pn-ci-send {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  height: 48px; margin-top: 24px; padding-bottom: 2px;
+  border-radius: 8px;
+  background: linear-gradient(#4A96FF, #2275F0);
+  box-shadow: 0 0 0 0.67px #1A62D4, inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 2px rgba(30, 58, 138, 0.18);
+  color: #fff; font-size: 14px; line-height: 21px; font-weight: 500; letter-spacing: -0.16px;
+}
+.pn-checkin .pn-ci-later { display: flex; align-items: center; justify-content: center; height: 56px; border-radius: 12px; border: 0.5px solid var(--pn-border); background: var(--pn-card); font-size: 15px; font-weight: 600; color: var(--pn-ink); }

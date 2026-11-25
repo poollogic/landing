@@ -9,6 +9,7 @@ import { structuredData as workflowData } from './pages/workflow.jsx';
 import { structuredData as billingData } from './pages/billing.jsx';
 import { structuredData as routeSoftwareData } from './pages/route-software.jsx';
 import { structuredData as mileageData } from './pages/mileage-tracking.jsx';
+import { structuredData as fleetData } from './pages/fleet-management.jsx';
 import { structuredData as techAppData, appBanner } from './pages/tech-app.jsx';
 import { homeFirstPaintScript } from './landing/firstPaint.js';
 import { FAQS } from './landing/FaqSection.jsx';
@@ -35,6 +36,7 @@ export const PRERENDERED = {
   '/pool-service-billing': { meta: ROUTE_META.billing, jsonLd: billingData },
   '/pool-route-software': { meta: ROUTE_META.routeSoftware, jsonLd: routeSoftwareData },
   '/pool-service-mileage-tracking': { meta: ROUTE_META.mileage, jsonLd: mileageData },
+  '/pool-service-fleet-management': { meta: ROUTE_META.fleet, jsonLd: fleetData },
   // The rest of the indexable pages: their own <head> and text in the served HTML, not the empty page
   // (whose head was the homepage's, canonical included, until JavaScript ran).
   '/contact': { meta: ROUTE_META.contact },

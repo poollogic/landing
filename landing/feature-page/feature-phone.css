@@ -1,0 +1,98 @@
+/* The phone on the Vision plan feature pages (/pool-service-mileage-tracking, /pool-service-fleet-management):
+   the site's Poolnautics phone (.pn-phone), its frame, status bar, cards and blue button. These are the same
+   rules as pn-phone.css's (the design files share them), repeated here rather than importing
+   pn-phone.css, which would put that stylesheet in a bundle shared with the homepage and
+   /pool-route-software and change what those pages load. Scoped to .fp-phone, so the service report phone
+   (pn-phone.css) is untouched. FeaturePage.jsx's FeaturePhone draws it: <div class="pn-phone fp-phone">
+   <div class="pn-screen …">, the island and the status bar, then a screen from landing/technicians/
+   (pn-phone-route.css: the route list; pn-phone-checkin.css: the truck check-in). */
+
+/* The frame: 468px wide at --pn-zoom 1, light theme */
+.pn-phone.fp-phone {
+  --pn-zoom: 1;
+  --pn-bg: #f5f5f5;
+  --pn-card: #ffffff;
+  --pn-ink: #1d1d1f;
+  --pn-ink-2: #3a3a3c;
+  --pn-ink-3: #6e6e73;
+  --pn-icon: #8e8e93;
+  --pn-ink-4: #aeaeb2;
+  --pn-fill: #f7f7f8;
+  --pn-fill-open: #e8e8ea;
+  --pn-hairline: rgba(0, 0, 0, 0.06);
+  --pn-border: rgba(0, 0, 0, 0.08);
+  --pn-primary: #2E85FF;
+  --pn-primary-wash: rgba(46, 133, 255, 0.12);
+  --pn-success: #10b981;
+  --pn-success-wash: rgba(16, 185, 129, 0.12);
+  --pn-bar: rgba(255, 255, 255, 0.72);
+  --pn-bar-edge: rgba(255, 255, 255, 0.7);
+  --pn-bar-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+
+  zoom: var(--pn-zoom);
+  position: relative;
+  box-sizing: border-box;
+  flex: none;
+  width: 468px;
+  padding: 14px;
+  border-radius: 70px;
+  background: #0b0b0d;
+  box-shadow:
+    inset 0 0 0 2px #3b3b40,
+    0 0 0 1px #1a1a1d,
+    0 50px 90px -30px rgba(15, 23, 42, 0.45),
+    0 24px 40px -24px rgba(15, 23, 42, 0.3);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-align: left;
+  line-height: 1.2;
+}
+.fp-phone *,
+.fp-phone *::before,
+.fp-phone *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.fp-phone svg { display: block; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+
+/* The screen: 440 × 956, an iPhone Pro Max */
+.fp-phone .pn-screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 956px;
+  overflow: hidden;
+  border-radius: 56px;
+  background: var(--pn-bg);
+  color: var(--pn-ink);
+}
+.fp-phone .pn-island {
+  position: absolute; top: 11px; left: 50%; z-index: 5;
+  width: 126px; height: 37px; margin-left: -63px;
+  border-radius: 20px; background: #000;
+}
+
+/* Status bar */
+.fp-phone .pn-status {
+  flex: none;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 62px; padding: 6px 46px 0 58px;
+  font-size: 17px; font-weight: 600; letter-spacing: -0.2px;
+  font-variant-numeric: tabular-nums;
+}
+.fp-phone .pn-status__right { display: flex; align-items: center; gap: 7px; }
+.fp-phone .pn-status svg { fill: currentColor; stroke: none; }
+
+.fp-phone .pn-card {
+  background: var(--pn-card);
+  border: 0.5px solid var(--pn-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.fp-phone .pn-button {
+  position: relative;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  height: 48px; margin-top: 12px;
+  border-radius: 8px;
+  border: 1px solid #1A62D4;
+  background: linear-gradient(#4A96FF, #2275F0);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 4px 10px rgba(30, 58, 138, 0.22);
+  color: #fff; font-size: 14px; font-weight: 600;
+}

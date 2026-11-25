@@ -7,6 +7,7 @@ import { payoutRange } from './partnerProgram.js';
 import { BILLING_TITLE, BILLING_DESCRIPTION } from './landing/billing-page/billingMeta.js';
 import { ROUTE_TITLE, ROUTE_DESCRIPTION } from './landing/route-page/routeMeta.js';
 import { MILEAGE_TITLE, MILEAGE_DESCRIPTION } from './landing/mileage-page/mileageMeta.js';
+import { FLEET_TITLE, FLEET_DESCRIPTION } from './landing/fleet-page/fleetMeta.js';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -26,6 +27,7 @@ const WorkflowPage = lazy(() => import('./pages/workflow.jsx'));
 const BillingPage = lazy(() => import('./pages/billing.jsx'));
 const RouteSoftwarePage = lazy(() => import('./pages/route-software.jsx'));
 const MileageTrackingPage = lazy(() => import('./pages/mileage-tracking.jsx'));
+const FleetManagementPage = lazy(() => import('./pages/fleet-management.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 // Customer reviews: only with VITE_REVIEWS=1 (landing/reviews/config.js). Off, both addresses show the
 // homepage, marked noindex, like any unknown address, and none of it is built. On, writing a review is a
@@ -64,6 +66,7 @@ const isBillingPath = (p) => p === '/pool-service-billing' || p === '/pool-servi
 const isRouteSoftwarePath = (p) => p === '/pool-route-software' || p === '/pool-route-software/';
 // Exactly this address (Cloudflare 308s the trailing-slash and .html forms to it).
 const isMileagePath = (p) => p === '/pool-service-mileage-tracking';
+const isFleetPath = (p) => p === '/pool-service-fleet-management';
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
 
@@ -179,6 +182,12 @@ export const ROUTE_META = {
     description: MILEAGE_DESCRIPTION,
     path: '/pool-service-mileage-tracking',
   },
+  // Pre-rendered at build time (entry-server.jsx). Fleet management, from Nov 25, 2026.
+  fleet: {
+    title: FLEET_TITLE, // landing/fleet-page/fleetMeta.js, shared with the page's WebPage JSON-LD
+    description: FLEET_DESCRIPTION,
+    path: '/pool-service-fleet-management',
+  },
 };
 
 const setMeta = (selector, attr, value) => {
@@ -244,6 +253,7 @@ const App = ({ path: pathProp }) => {
     else if (isBillingPath(path)) meta = ROUTE_META.billing;
     else if (isRouteSoftwarePath(path)) meta = ROUTE_META.routeSoftware;
     else if (isMileagePath(path)) meta = ROUTE_META.mileage;
+    else if (isFleetPath(path)) meta = ROUTE_META.fleet;
     else if (isReviewsPath(path)) meta = ROUTE_META.reviews;
     else if (isReviewWritePath(path)) meta = ROUTE_META.reviewWrite;
     // Any other address shows the homepage; keep those copies out of search results.
@@ -390,6 +400,17 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
           <MileageTrackingPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // Fleet management: the mileage page's sibling (landing/feature-page/), its own sections. Pre-rendered.
+  if (isFleetPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
+          <FleetManagementPage />
         </Suspense>
       </ErrorBoundary>
     );

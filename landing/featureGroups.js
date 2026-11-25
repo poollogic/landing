@@ -79,7 +79,7 @@ export const FEATURE_GROUPS = [
       'Vehicle documents & expirations',
       'Mileage export for taxes',
     ],
-    link: { label: 'See fleet tracking', href: '#fleet' },
+    link: { label: 'See fleet tracking', href: '/pool-service-fleet-management' },
   },
   {
     id: 'comms',
