@@ -2,7 +2,7 @@
    cards or hover effects. Desktop above 1040px, tablet 761–1040px, phone 760px and below. */
 
 .op-section {
-  padding: 112px 24px;
+  padding: 112px var(--gutter); /* the site's gutter (index.html); phones keep their own, below */
   background: #fff;
   text-align: center;
 }
@@ -69,7 +69,7 @@
 }
 /* Tablet: cards stacked, each card's four items in two columns. */
 @media (max-width: 1040px) {
-  .op-section { padding: 112px 32px 96px; }
+  .op-section { padding: 112px var(--gutter) 96px; }
   .op-sub { margin-top: 56px; }
   .op-cards { grid-template-columns: minmax(0, 1fr); max-width: 720px; margin: 0 auto; gap: 14px; }
   .op-card { padding: 22px 28px 24px; }
@@ -77,6 +77,10 @@
   .op-list li { white-space: nowrap; }
 }
 
+/* Under 768px the sides keep the fixed padding they had before the site gutter: 32px, then 20px on phones. */
+@media (max-width: 767.98px) {
+  .op-section { padding-inline: 32px; }
+}
 /* Phone: one column throughout. */
 @media (max-width: 760px) {
   .op-section { padding: 88px 20px 76px; }

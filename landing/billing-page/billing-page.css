@@ -16,8 +16,8 @@
 }
 .ai-page.billing-page :is(.bp-belt, .bp-settings, .bp-invoice) { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
 
-/* Below desktop: 24px at the sides (nav and footer too). */
-@media (max-width: 1023.98px) {
+/* Phones: 24px at the sides (nav and footer too). From 768px the page takes the site's gutter (index.html). */
+@media (max-width: 767.98px) {
   .ai-page.billing-page { --gutter: 24px; }
 }
 

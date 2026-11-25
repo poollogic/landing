@@ -2,13 +2,11 @@ import React, { useRef, useState, useSyncExternalStore } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { Wordmark } from '../components/brand-logo.jsx';
 import { FEATURE_GROUPS } from './featureGroups.js';
-import { ctaHref, isReserving } from './onboarding.js';
-import { usePreviewTheme } from './preview/previewTheme.js';
 import './feature-card.css';
 
 // "Poolnautics handles all of it": every feature, in eight groups (featureGroups.js, which also feeds
 // the homepage's featureList JSON-LD), under the pain cards in OnePlatformSection.jsx. Styles:
-// feature-card.css.
+// feature-card.css. The card ends at the groups: no footer or button (the hero has the button).
 //
 // One set of panels, two layouts. Up to 1040px (where the pain cards above stack) each group is a
 // button row (aria-expanded) over its panel, at most one open at a time, all closed at first. Wider, a
@@ -49,7 +47,6 @@ const GroupLink = ({ link }) => {
 };
 
 export default function FeatureCard() {
-  const theme = usePreviewTheme();
   const isDesktop = useIsDesktop();
   // The open dropdown (null: none), and the selected tab on a wide screen (always one).
   const [open, setOpen] = useState(null);
@@ -143,17 +140,6 @@ export default function FeatureCard() {
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="fc-foot">
-        <a href={isReserving ? '#reserve' : ctaHref(theme)} className="hero-cta fc-cta">
-          {isReserving ? 'Reserve your spot' : 'Start your free trial'}
-          <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
-        </a>
-        <div className="fc-foot-text">
-          <p className="fc-foot-line">Every feature is included in your 30-day trial. No credit card.</p>
-          <p className="fc-foot-note">Some features are part of the Vision plan. <a href="/pricing">Compare plans</a></p>
-        </div>
       </div>
     </div>
   );

@@ -5,7 +5,11 @@
    the tab's table in a box of its own. 920px wide at most, the #repairs steps' and #billing card's
    width. Then three points. */
 
-.fl-section { background: #f8fafc; padding-inline: 24px; } /* top and bottom: --section-pad-y (home-roles.css) */
+.fl-section { background: #f8fafc; padding-inline: var(--gutter); } /* the site's gutter (index.html); top and bottom: --section-pad-y (home-roles.css) */
+/* Phones (under 768px) keep the 24px they had before the site gutter. */
+@media (max-width: 767.98px) {
+  .fl-section { padding-inline: 24px; }
+}
 .fl-inner { max-width: 1120px; margin: 0 auto; }
 #fleet .section-sub { max-width: 680px; }
 

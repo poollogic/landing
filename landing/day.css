@@ -6,7 +6,7 @@
 .dt-section {
   position: relative;
   overflow: hidden;
-  padding: 112px 24px;
+  padding: 112px var(--gutter); /* the site's gutter (index.html); phones keep their own, below */
   background: #08090c;
   color: #f8fafc;
   text-align: center;
@@ -229,7 +229,11 @@
 
 /* ---------- Tablet ---------- */
 @media (max-width: 1040px) {
-  .dt-section { padding: 112px 32px; }
+  .dt-section { padding: 112px var(--gutter); }
+}
+/* Under 768px the sides keep the fixed padding they had before the site gutter: 32px, then 20px on phones. */
+@media (max-width: 767.98px) {
+  .dt-section { padding-inline: 32px; }
 }
 
 /* ---------- Phone: the line at the left edge, each time above its title ---------- */

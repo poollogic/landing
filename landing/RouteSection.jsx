@@ -49,7 +49,8 @@ const METRICS = [
     chart: (
       <span className="ra-mix-wrap">
         <span className="ra-mix"><span style={{ flex: 28 }} /><span style={{ flex: 16 }} /><span style={{ flex: 4 }} /></span>
-        <span className="ra-mix-caption">16 chlorine · 4 other</span>
+        {/* No break inside a count: on a narrow card it wraps after the dot, never before "other". */}
+        <span className="ra-mix-caption">{'16 chlorine · 4 other'}</span>
       </span>
     ),
   },

@@ -1,7 +1,8 @@
 /* "Poolnautics handles all of it" (FeatureCard.jsx), under the pain cards in #platform. The pain
    cards' fill, border and corners (one-platform.css .op-card), the width of their row. Up to 1040px
    (where the pain cards stack) the groups are dropdowns, one open at a time; wider, a rail of names
-   beside a panel of the selected group. Ink #0f172a / #1e293b, muted #64748b / #94a3b8, line #e2e8f0, blue #2563eb, green #16a34a. */
+   beside a panel of the selected group. The card ends at the groups (no footer). Ink #0f172a / #1e293b,
+   links #0e1117, muted #64748b / #94a3b8, line #e2e8f0, blue #2563eb (focus rings), green #16a34a. */
 
 .fc {
   margin: 12px 0 0;
@@ -108,39 +109,17 @@
   margin: 8px 13px 16px;
   font-size: 14px;
   font-weight: 600;
-  color: #2563eb;
+  color: #0e1117;
 }
 .fc-link svg { flex: none; transition: transform .2s ease; }
+/* Not blue, so the hover says it's a link: underlined, and the arrow steps right. */
+.fc-link:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .fc-link:hover svg { transform: translateX(2px); }
 .fc-list + .fc-link { margin-top: 8px; }
 /* Two links side by side (Routes & technicians), wrapping on a narrow phone. */
 .fc-links { display: flex; flex-wrap: wrap; column-gap: 22px; row-gap: 10px; margin: 8px 13px 16px; }
 .fc-links > .fc-link { margin: 0; }
 .fc-panel-inner > .fc-list:last-child { padding-bottom: 12px; } /* a group with no link */
-
-/* ---------- Footer: the button, then the line and the note, centred ---------- */
-.fc-foot {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 10px;
-  padding: 22px 14px 12px;
-  border-top: 1px solid #e2e8f0;
-  text-align: center;
-}
-.hero-cta.fc-cta {
-  justify-content: center;
-  width: 100%;
-  max-width: none;
-  height: 48px;
-  margin: 0;
-  padding: 0 20px;
-  border-radius: 12px;
-}
-.fc-foot-text { display: contents; }
-.fc-foot-line { margin: 14px 0 0; font-size: 13.5px; line-height: 1.45; color: #0f172a; text-wrap: balance; }
-.fc-foot-note { margin: 6px 0 0; font-size: 12.5px; line-height: 1.45; color: #64748b; text-wrap: balance; }
-.fc-foot-note a { color: #475569; text-decoration: underline; text-underline-offset: 2px; }
 
 /* ---------- Wide (1041px and up): the rail and its panel ----------
    From the pain cards' own breakpoint (one-platform.css: stacked and 720px wide up to 1040px), not
@@ -149,10 +128,11 @@
   .fc { padding: 0; }
   .fc-head { margin: 0; padding: 38px 40px 26px; font-size: 26px; }
 
+  /* 40px under the rail and the panel's link: about the 38px over the heading. */
   .fc-body {
     display: grid;
     grid-template-columns: 250px minmax(0, 1fr);
-    padding: 6px 40px 0;
+    padding: 6px 40px 40px;
   }
   .fc-rail { display: flex; flex-direction: column; grid-column: 1; grid-row: 1; }
   .fc-tab {
@@ -213,20 +193,6 @@
   .fc-list + .fc-link { margin: auto 0 0; padding-top: 12px; font-size: 14.5px; align-self: flex-start; }
   .fc-list + .fc-links { margin: auto 0 0; padding-top: 12px; align-self: flex-start; }
   .fc-links > .fc-link { margin: 0; padding-top: 0; }
-
-  /* Footer: the line and the note on the left, the button on the right. */
-  .fc-foot {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 32px;
-    margin: 26px 40px 0;
-    padding: 24px 0 30px;
-    text-align: left;
-  }
-  .fc-foot-text { display: block; }
-  .fc-foot-line { margin: 0; font-size: 15px; }
-  .fc-foot-note { margin-top: 4px; font-size: 13px; }
-  .hero-cta.fc-cta { order: 2; flex: none; width: auto; height: 48px; padding: 0 28px; }
 }
 @keyframes fc-fade {
   from { opacity: 0; }

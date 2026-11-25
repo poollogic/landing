@@ -4,7 +4,11 @@
    design's: ground #08090c, cards #12151c on #20252f, quiet text #7c8aa0, stars #f5b942 / #2a303c, the
    Verified pill in the one blue. */
 
-.lr-section { background: #08090c; padding-inline: 24px; } /* top and bottom: --section-pad-y (home-roles.css) */
+.lr-section { background: #08090c; padding-inline: var(--gutter); } /* the site's gutter (index.html); top and bottom: --section-pad-y (home-roles.css) */
+/* Phones (under 768px) keep the 24px they had before the site gutter. */
+@media (max-width: 767.98px) {
+  .lr-section { padding-inline: 24px; }
+}
 .lr-inner { max-width: 1120px; margin: 0 auto; }
 .lr-section .section-head .section-title { max-width: 720px; margin-inline: auto; text-wrap: balance; }
 .lr-section .section-head .section-sub { max-width: 680px; }
@@ -62,7 +66,10 @@ a.lr-company:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- /reviews: the page around them ---------- */
 .lr-page { background: #08090c; }
-.lr-page-main { flex: 1; display: flex; flex-direction: column; padding: calc(var(--header-h, 64px) + 72px) 24px 72px; }
+.lr-page-main { flex: 1; display: flex; flex-direction: column; padding: calc(var(--header-h, 64px) + 72px) var(--gutter) 72px; } /* sides: the site's gutter */
+@media (max-width: 767.98px) {
+  .lr-page-main { padding-inline: 24px; } /* phones keep the 24px they had before the site gutter */
+}
 /* Shorter than the window (no reviews yet, or a few): centred between the nav and the footer, 72px
    clear of each. Taller: the free space is gone and it reads top down as before. */
 .lr-page-main > .lr-inner { width: 100%; margin-block: auto; }

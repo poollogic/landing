@@ -96,6 +96,11 @@
 }
 
 .ra-pin { margin: 22px auto 0; display: flex; align-items: center; justify-content: center; gap: 10px; }
+/* From 768px: the label and the code on one line; where the card is too narrow for both (about 280px of
+   content, e.g. /pool-route-software's two-column band at 768px), the label goes above the code, centred. */
+@media (min-width: 768px) {
+  .ra-pin { flex-wrap: wrap; row-gap: 8px; }
+}
 .ra-pin-label {
   padding: 4px 9px; border-radius: 999px; background: rgba(96, 165, 250, .12);
   font-size: 10.5px; font-weight: 600; letter-spacing: .08em; color: var(--ra-tint-soft);

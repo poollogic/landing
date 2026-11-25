@@ -179,7 +179,11 @@
     --shadow-card: 0 1px 2px rgba(0,0,0,.04), 0 1px 1px rgba(0,0,0,.02);
     --shadow-pop: 0 24px 60px -20px rgba(15,23,42,.18), 0 8px 20px -8px rgba(15,23,42,.10);
     --shadow-screen: 0 40px 100px -30px rgba(15, 23, 42, 0.25), 0 12px 30px -10px rgba(15,23,42,.12);
-    /* Marketing layout: one content width and one vertical rhythm for every page. */
+    /* Marketing layout: one content width and one vertical rhythm for every page.
+       --gutter is the left and right padding of every page's nav, sections and footer. This is its phone
+       value; from 768px it's clamp(32px, 5vw, 64px) (the rule after this block). Anything that pads a
+       page's sides uses it, and a wrapper that holds the content width sizes itself from it,
+       calc(var(--container-max) + 2 * var(--gutter)) like .container, so content stays 1120px wide. */
     --container-max: 1120px;
     --gutter: clamp(16px, 4vw, 32px);
     --section-y: clamp(64px, 10vw, 128px);
@@ -241,6 +245,10 @@
     --eyebrow-on-light: #56657f;
     --eyebrow-on-dark: #93a4bf;
   }
+  /* Tablet and desktop: the site's one gutter. 38px at 768, 51px at 1024, 64px from 1280. */
+  @media (min-width: 768px) {
+    :root { --gutter: clamp(32px, 5vw, 64px); }
+  }
   @media (min-width: 640px) {
     :root {
       --hero-title-size: 44px;
@@ -301,7 +309,8 @@
   a { color: inherit; text-decoration: none; }
   button { font: inherit; cursor: pointer; }
 
-  /* 1120px of content, centred, with fluid gutters. Nav, sections and footer all use it. */
+  /* 1120px of content, centred, with the site's gutter (--gutter) at the sides. Nav, sections and footer
+     all use it. The max-width counts the gutter, so the content stays 1120px whatever the gutter is. */
   .container {
     max-width: calc(var(--container-max) + 2 * var(--gutter));
     margin-inline: auto;

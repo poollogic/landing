@@ -1,5 +1,9 @@
 /* "Technicians on autopilot" (TechniciansSection.jsx). The phone's own styles: technicians/pn-phone.css. */
-.ta-section { background: #f8fafc; padding-inline: 24px; } /* top and bottom: --section-pad-y (home-roles.css) */
+.ta-section { background: #f8fafc; padding-inline: var(--gutter); } /* the site's gutter (index.html); top and bottom: --section-pad-y (home-roles.css) */
+/* Phones (under 768px) keep the 24px they had before the site gutter. */
+@media (max-width: 767.98px) {
+  .ta-section { padding-inline: 24px; }
+}
 .ta-inner { max-width: 1040px; margin: 0 auto; }
 #technicians .section-head .section-sub { max-width: 600px; margin-left: auto; margin-right: auto; }
 

@@ -1160,6 +1160,7 @@
 .ai-page .ai-delay { position: relative; display: flex; align-items: center; gap: 10px; }
 .ai-page .ai-delay-box {
   display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px 0 12px; cursor: pointer;
+  flex: none; white-space: nowrap; /* "90 seconds" on one line; in a narrow card the note beside it wraps instead */
   border: 1px solid #cbd5e1; border-radius: var(--ai-r-button); background: #fff;
   font-size: 14px; font-weight: 600; color: #0b1220; transition: border-color .2s;
 }

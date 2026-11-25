@@ -320,12 +320,13 @@ export default function RouteSoftwarePage() {
                   </ul>
                 </div>
                 <div className="pa-visual">
+                  {/* Each address kept whole (no-break spaces): on a narrow card a trip wraps after its arrow. */}
                   <ListCard
                     label="Justin · Tuesday"
                     rows={[
-                      { Icon: MapPin, t: '1182 Laurel Ct → 233 Oakmont Ln', value: '1.8 mi' },
-                      { Icon: MapPin, t: '233 Oakmont Ln → 7700 Ridgeway Rd', value: '0.9 mi' },
-                      { Icon: MapPin, t: '7700 Ridgeway Rd → 49 Harbor Cir', value: '2.6 mi' },
+                      { Icon: MapPin, t: '1182 Laurel Ct → 233 Oakmont Ln', value: '1.8 mi' },
+                      { Icon: MapPin, t: '233 Oakmont Ln → 7700 Ridgeway Rd', value: '0.9 mi' },
+                      { Icon: MapPin, t: '7700 Ridgeway Rd → 49 Harbor Cir', value: '2.6 mi' },
                       { Icon: MoveHorizontal, t: '12 more stops', value: '17.1 mi' },
                     ]}
                     foot={<><b>Total</b><span>22.4 mi</span></>}
