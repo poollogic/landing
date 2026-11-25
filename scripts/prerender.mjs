@@ -64,6 +64,14 @@ for (const [route, { meta, jsonLd: data = [], headScript, headTags = [] }] of Ob
   html = setTag(html, /<meta property="og:url" content="[^"]*">/, `<meta property="og:url" content="${url}">`, 'og:url');
   html = setTag(html, /<meta name="twitter:title" content="[^"]*">/, `<meta name="twitter:title" content="${esc(title)}">`, 'twitter:title');
   html = setTag(html, /<meta name="twitter:description" content="[^"]*">/, `<meta name="twitter:description" content="${esc(description)}">`, 'twitter:description');
+  // An article's og:type (the guides); every other page keeps the template's "website".
+  if (meta.ogType) html = setTag(html, /<meta property="og:type" content="[^"]*">/, `<meta property="og:type" content="${meta.ogType}">`, 'og:type');
+  // A page's own share image (1200 × 630, like /og-image.png); every other page keeps the site's.
+  if (meta.ogImage) {
+    html = setTag(html, /<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${ORIGIN}${meta.ogImage}">`, 'og:image');
+    html = setTag(html, /<meta name="twitter:image" content="[^"]*">/, `<meta name="twitter:image" content="${ORIGIN}${meta.ogImage}">`, 'twitter:image');
+    if (meta.ogImageAlt) html = setTag(html, /<meta property="og:image:alt" content="[^"]*">/, `<meta property="og:image:alt" content="${esc(meta.ogImageAlt)}">`, 'og:image:alt');
+  }
 
   // The page's own stylesheets (and the site's, already linked in the template) go in the page.
   html = html.replace(/<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g, (_, href) => inlineCss(href));

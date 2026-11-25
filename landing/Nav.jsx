@@ -23,9 +23,16 @@ const MENU_MAX = 880;
 // tone: 'dark' or 'light', the page's background.
 // overlay: with tone="light", over a white hero like the dark one (absolute, the page's own type), not
 // in the page's flow: /ai-and-automations. Its colours: nav.css ("Light, over a white hero").
-const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false }) => {
+// autoHide: fixed at the top instead of scrolling away: it slides out when the visitor scrolls down and
+// back in when they scroll up, on a solid dark ground once the page is off the top (nav.css "Auto-hide").
+// At the very top it looks as it always does. For a page whose hero has no buttons, so "Start free
+// trial" stays in reach: /pool-service-price-increases. Dark tone only for now (a light page would need
+// a light ground).
+const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHide = false }) => {
   const [open, setOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [tucked, setTucked] = useState(false);
   const ref = useRef(null);
   const burger = useRef(null);
   const theme = usePreviewTheme();
@@ -56,6 +63,35 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false }) => {
     };
   }, [open]);
 
+  // Auto-hide: off the top, a solid ground; past the bar's own height, scrolling down tucks it away and
+  // scrolling up brings it back (4px of travel either way first, so a trackpad's jitter doesn't flicker
+  // it). Keyboard focus inside it brings it back too. Read once per frame.
+  useEffect(() => {
+    if (!autoHide) return undefined;
+    const header = ref.current;
+    let lastY = Math.max(0, window.scrollY);
+    let frame = 0;
+    const read = () => {
+      frame = 0;
+      const y = Math.max(0, window.scrollY);
+      const barH = header?.offsetHeight || 64;
+      setScrolled(y > 0);
+      if (y <= barH) { setTucked(false); lastY = y; return; }
+      if (y > lastY + 4) { setTucked(true); lastY = y; } else if (y < lastY - 4) { setTucked(false); lastY = y; }
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(read); };
+    const onFocus = () => setTucked(false);
+    read();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    header?.addEventListener('focusin', onFocus);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      header?.removeEventListener('focusin', onFocus);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [autoHide]);
+  const autoHideClass = autoHide ? ` is-autohide${scrolled ? ' is-scrolled' : ''}${tucked && !open && !featuresOpen ? ' is-tucked' : ''}` : '';
+
   // Unlock straight away (not after the re-render), so a /#section link can scroll the page.
   const close = () => {
     document.documentElement.classList.remove('nav-locked');
@@ -64,7 +100,7 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false }) => {
 
   return (
     <>
-    <header className={`lp-nav${light}`} ref={ref}>
+    <header className={`lp-nav${light}${autoHideClass}`} ref={ref}>
       <div className="lp-nav-bar container">
         <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg={tone} /></a>
 

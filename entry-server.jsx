@@ -10,6 +10,8 @@ import { structuredData as billingData } from './pages/billing.jsx';
 import { structuredData as routeSoftwareData } from './pages/route-software.jsx';
 import { structuredData as mileageData } from './pages/mileage-tracking.jsx';
 import { structuredData as fleetData } from './pages/fleet-management.jsx';
+import { structuredData as priceData } from './pages/price-increases.jsx';
+import { structuredData as guideRaisePricesData } from './pages/guide-raise-prices.jsx';
 import { structuredData as techAppData, appBanner } from './pages/tech-app.jsx';
 import { homeFirstPaintScript } from './landing/firstPaint.js';
 import { FAQS } from './landing/FaqSection.jsx';
@@ -37,6 +39,12 @@ export const PRERENDERED = {
   '/pool-route-software': { meta: ROUTE_META.routeSoftware, jsonLd: routeSoftwareData },
   '/pool-service-mileage-tracking': { meta: ROUTE_META.mileage, jsonLd: mileageData },
   '/pool-service-fleet-management': { meta: ROUTE_META.fleet, jsonLd: fleetData },
+  '/pool-service-price-increases': { meta: ROUTE_META.priceIncreases, jsonLd: priceData },
+  // The Article's image is its share image (ROUTE_META's ogImage).
+  '/guides/how-to-raise-prices': {
+    meta: ROUTE_META.guideRaisePrices,
+    jsonLd: guideRaisePricesData.map((d) => (d['@type'] === 'Article' ? { ...d, image: `https://getpoolnautics.com${ROUTE_META.guideRaisePrices.ogImage}` } : d)),
+  },
   // The rest of the indexable pages: their own <head> and text in the served HTML, not the empty page
   // (whose head was the homepage's, canonical included, until JavaScript ran).
   '/contact': { meta: ROUTE_META.contact },

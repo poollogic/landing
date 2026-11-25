@@ -8,6 +8,8 @@ import { BILLING_TITLE, BILLING_DESCRIPTION } from './landing/billing-page/billi
 import { ROUTE_TITLE, ROUTE_DESCRIPTION } from './landing/route-page/routeMeta.js';
 import { MILEAGE_TITLE, MILEAGE_DESCRIPTION } from './landing/mileage-page/mileageMeta.js';
 import { FLEET_TITLE, FLEET_DESCRIPTION } from './landing/fleet-page/fleetMeta.js';
+import { GUIDE_TITLE, GUIDE_DESCRIPTION, GUIDE_OG_TITLE, GUIDE_OG_IMAGE_ALT } from './landing/guides/raisePricesMeta.js';
+import { PRICE_TITLE, PRICE_DESCRIPTION, PRICE_OG_TITLE, PRICE_OG_IMAGE_ALT } from './landing/price-page/priceMeta.js';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -28,6 +30,8 @@ const BillingPage = lazy(() => import('./pages/billing.jsx'));
 const RouteSoftwarePage = lazy(() => import('./pages/route-software.jsx'));
 const MileageTrackingPage = lazy(() => import('./pages/mileage-tracking.jsx'));
 const FleetManagementPage = lazy(() => import('./pages/fleet-management.jsx'));
+const PriceIncreasesPage = lazy(() => import('./pages/price-increases.jsx'));
+const GuideRaisePricesPage = lazy(() => import('./pages/guide-raise-prices.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 // Customer reviews: only with VITE_REVIEWS=1 (landing/reviews/config.js). Off, both addresses show the
 // homepage, marked noindex, like any unknown address, and none of it is built. On, writing a review is a
@@ -67,6 +71,8 @@ const isRouteSoftwarePath = (p) => p === '/pool-route-software' || p === '/pool-
 // Exactly this address (Cloudflare 308s the trailing-slash and .html forms to it).
 const isMileagePath = (p) => p === '/pool-service-mileage-tracking';
 const isFleetPath = (p) => p === '/pool-service-fleet-management';
+const isPricePath = (p) => p === '/pool-service-price-increases';
+const isGuideRaisePricesPath = (p) => p === '/guides/how-to-raise-prices';
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
 
@@ -188,6 +194,27 @@ export const ROUTE_META = {
     description: FLEET_DESCRIPTION,
     path: '/pool-service-fleet-management',
   },
+  // Pre-rendered at build time (entry-server.jsx). Raising prices, from Nov 25, 2026. Its own share title
+  // and image (scripts/prerender.mjs writes ogImage into og:image and twitter:image).
+  priceIncreases: {
+    title: PRICE_TITLE, // landing/price-page/priceMeta.js, shared with the page's WebPage JSON-LD
+    description: PRICE_DESCRIPTION,
+    ogTitle: PRICE_OG_TITLE,
+    ogImage: '/og/pool-service-price-increases.png', // 1200 × 630, this page's own (public/og/)
+    ogImageAlt: PRICE_OG_IMAGE_ALT,
+    path: '/pool-service-price-increases',
+  },
+  // Pre-rendered at build time (entry-server.jsx). The first guide, from Nov 25, 2026: an article (og:type),
+  // its own share title and image.
+  guideRaisePrices: {
+    title: GUIDE_TITLE, // landing/guides/raisePricesMeta.js, shared with the page's Article JSON-LD
+    description: GUIDE_DESCRIPTION,
+    ogTitle: GUIDE_OG_TITLE,
+    ogType: 'article',
+    ogImage: '/og/how-to-raise-prices.png', // 1200 × 630, this page's own (public/og/)
+    ogImageAlt: GUIDE_OG_IMAGE_ALT,
+    path: '/guides/how-to-raise-prices',
+  },
 };
 
 const setMeta = (selector, attr, value) => {
@@ -254,6 +281,8 @@ const App = ({ path: pathProp }) => {
     else if (isRouteSoftwarePath(path)) meta = ROUTE_META.routeSoftware;
     else if (isMileagePath(path)) meta = ROUTE_META.mileage;
     else if (isFleetPath(path)) meta = ROUTE_META.fleet;
+    else if (isPricePath(path)) meta = ROUTE_META.priceIncreases;
+    else if (isGuideRaisePricesPath(path)) meta = ROUTE_META.guideRaisePrices;
     else if (isReviewsPath(path)) meta = ROUTE_META.reviews;
     else if (isReviewWritePath(path)) meta = ROUTE_META.reviewWrite;
     // Any other address shows the homepage; keep those copies out of search results.
@@ -411,6 +440,28 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
           <FleetManagementPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // Raising prices: the billing page's dark hero without buttons, the feature pages' sections. Pre-rendered.
+  if (isPricePath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0E1117' }} />}>
+          <PriceIncreasesPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // The first guide: a long-form article under the light nav. Pre-rendered.
+  if (isGuideRaisePricesPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
+          <GuideRaisePricesPage />
         </Suspense>
       </ErrorBoundary>
     );

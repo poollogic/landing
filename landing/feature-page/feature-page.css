@@ -7,14 +7,16 @@
    questions list and the link. Components: FeaturePage.jsx. Each page's own blocks: mileage-page.css
    (.mtk-*), fleet-page.css (.flt-*).
    Everything is under .feature-page (the page's wrapper); rules that adjust a shared piece of the site (the
-   gutter, the AI page's light hero, the heading classes, the buttons) are under .ai-page.feature-page, so
-   they outrank the shared rules whatever order the stylesheets load in, and touch no other page.
+   AI page's light hero, the heading classes, the buttons) are under .ai-page.feature-page, so they
+   outrank the shared rules whatever order the stylesheets load in, and touch no other page. The hero
+   rules are the light hero's only (.ai-hero--light): /pool-service-price-increases uses these sections
+   under a dark hero of its own. The gutter is each page's (mileage-page.css, fleet-page.css).
    Desktop above 1020px; tablet 721–1020px (the hero stacks); phone 720px and below (one column).
    Ink #0e1117, blue #2e85ff / #1d5fe8, muted #56657f, lines #e3e8f0 / #edf1f6. */
 
-/* The site's gutter token, at these pages' value (the nav and the footer are inside the page too). */
+/* Colour tokens. The gutter is each page's own: mileage-page.css and fleet-page.css set theirs;
+   /pool-service-price-increases keeps the site's. */
 .ai-page.feature-page {
-  --gutter: clamp(20px, 5vw, 64px);
   --fp-ink: #0e1117;
   --fp-blue: #2e85ff;
   --fp-blue-ink: #1d5fe8;
@@ -44,7 +46,7 @@
 /* ======================= The hero: /ai-and-automations' light hero ======================= */
 /* This hero stacks below 1021px, before the AI hero's width scaling would start: none here. */
 .ai-page.feature-page .ai-hero-grid { --ai-zw: 1; margin-top: 0; align-items: center; }
-.ai-page.feature-page .ai-hero .hero-title { margin-top: 0; font-size: 44px; line-height: 1.05; letter-spacing: -1.54px; }
+.ai-page.feature-page .ai-hero--light .hero-title { margin-top: 0; font-size: 44px; line-height: 1.05; letter-spacing: -1.54px; }
 .ai-page.feature-page .hero.ai-hero--light .hero-sub { max-width: 520px; margin-top: 20px; font-size: 17px; line-height: 1.58; letter-spacing: normal; color: #475569; }
 /* The wordmark in the sentence: the feature card heading's inline logo, 1.02em tall, its letters on the
    text's baseline (the bottom 20.6% of its box is the "p"'s descender: brand-logo.jsx). */
@@ -117,15 +119,15 @@
 
 /* ======================= Tablet: 1020px and below ======================= */
 @media (max-width: 1020px) {
-  .ai-page.feature-page .hero.ai-hero { display: block; min-height: 0; padding: 116px 0 80px; }
+  .ai-page.feature-page .hero.ai-hero--light { display: block; min-height: 0; padding: 116px 0 80px; }
   .ai-page.feature-page .ai-hero-grid { grid-template-columns: minmax(0, 1fr); gap: 64px; }
   .feature-page .fp-how { grid-template-columns: 280px minmax(0, 1fr); gap: 48px; }
 }
 
 /* ======================= Phone: 720px and below ======================= */
 @media (max-width: 720px) {
-  .ai-page.feature-page .ai-hero .hero-title { font-size: 36px; }
-  .ai-page.feature-page .ai-hero .hero-sub { max-width: 520px; }
+  .ai-page.feature-page .ai-hero--light .hero-title { font-size: 36px; }
+  .ai-page.feature-page .ai-hero--light .hero-sub { max-width: 520px; }
   .feature-page .fp-hero-cta { flex-direction: column; align-items: stretch; gap: 10px; margin-top: 28px; }
   .ai-page.feature-page .fp-hero-cta :is(.hero-cta, .fp-ghost) { justify-content: center; width: 100%; max-width: none; height: 48px; }
   .feature-page .fp-notes { gap: 10px 16px; margin-top: 18px; }

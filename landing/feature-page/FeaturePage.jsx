@@ -92,9 +92,9 @@ function Head({ id, eyebrow, title, sub }) {
 
 /** A section: white, tint (light grey) or dark, with its centred heading when it has one (otherwise its
  *  own content carries the h2 that `id` names). */
-export function FeatureSection({ tone, id, eyebrow, title, sub, children }) {
+export function FeatureSection({ tone, id, eyebrow, title, sub, className, children }) {
   return (
-    <section className={`fp-sec fp-sec--${tone}`} aria-labelledby={id}>
+    <section className={`fp-sec fp-sec--${tone}${className ? ` ${className}` : ''}`} aria-labelledby={id}>
       <div className="container">
         {title && <Head id={id} eyebrow={eyebrow} title={title} sub={sub} />}
         {children}

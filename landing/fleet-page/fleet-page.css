@@ -7,6 +7,9 @@
    in the phone: landing/technicians/pn-phone-checkin.css. Desktop above 1020px; tablet 721–1020px (the
    hero stacks, the document cards go to one column); phone 720px and below (one column). */
 
+/* The site's gutter token, at this page's value (the nav and the footer are inside the page too). */
+.ai-page.fleet-page { --gutter: clamp(20px, 5vw, 64px); }
+
 /* The headline: four spans, one line each on a phone ("Pool Service / Fleet Management / That Keeps
    Itself / Up to Date"), flowing as one sentence wider. */
 .fleet-page .flt-hl { display: inline; }

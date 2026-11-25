@@ -33,6 +33,23 @@
   right: 0;
   z-index: 100;
 }
+/* Auto-hide (Nav autoHide, dark tone): fixed instead of absolute, so it stays at the top; at the very
+   top it looks as above. Off the top, a solid dark ground; tucked away (is-tucked) while the visitor
+   scrolls down, back as soon as they scroll up. Transform and colour only: nothing under it moves. */
+.lp-nav.is-autohide {
+  position: fixed;
+  transition: transform .28s cubic-bezier(.3, .7, .3, 1), background-color .2s ease;
+}
+.lp-nav.is-autohide.is-scrolled {
+  background: rgba(8, 9, 12, .9);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+}
+.lp-nav.is-autohide.is-tucked { transform: translateY(-100%); }
+@media (prefers-reduced-motion: reduce) {
+  .lp-nav.is-autohide { transition: none; }
+}
+
 .lp-nav-bar { /* width and gutters come from .container */
   height: 64px;
   display: flex;

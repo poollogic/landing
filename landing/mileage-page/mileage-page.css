@@ -6,6 +6,9 @@
    (.mtk-*), under .mileage-page. Desktop above 1020px; tablet 721–1020px (the hero stacks); phone 720px and
    below (one column). */
 
+/* The site's gutter token, at this page's value (the nav and the footer are inside the page too). */
+.ai-page.mileage-page { --gutter: clamp(20px, 5vw, 64px); }
+
 .mileage-page .mtk-num { font-variant-numeric: lining-nums tabular-nums; }
 /* The route card inherits the browser's line height, as the reference's does (the site's base is 1.5). */
 .mileage-page .mtk-route { line-height: normal; }
