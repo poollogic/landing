@@ -18,6 +18,7 @@ Customers' payments go to the pool company's own Stripe account; Poolnautics tak
 - [Pricing](https://getpoolnautics.com/pricing): plans, what each includes, prices by company size, and pricing questions
 - [Recurring billing](https://getpoolnautics.com/pool-service-billing): each customer's own rate, billing day and payment terms; invoices sent in the morning billing run (8:30 AM weekdays, 10:30 AM weekends) and autopay charged; what happens when an invoice goes unpaid (reminders, late fees, pausing); billing on each plan; billing questions
 - [Repair requests, diagnostics and work orders](https://getpoolnautics.com/workflow): how a repair goes from a request to a quote or invoice, a work order and a paid invoice, with one step for the office
+- [Mileage tracking](https://getpoolnautics.com/pool-service-mileage-tracking): Poolnautics measures the miles between every stop by GPS, leaves the commute out, and gives you a stop-by-stop mileage log to export for your accountant
 - [AI and automations](https://getpoolnautics.com/ai-and-automations): connecting Claude, Grok, ChatGPT or your own AI, automations, and the API
 - [Poolnautics for Claude](https://getpoolnautics.com/claude): the Poolnautics connector for Claude: what it does, how to set it up, and its limits
 - [Technician app](https://getpoolnautics.com/tech-app): the phone app for routes, chemistry and service reports. Free on the App Store for iPhone (https://apps.apple.com/us/app/id6829012346); technicians sign in with an invite from their company.

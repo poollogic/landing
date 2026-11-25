@@ -6,6 +6,7 @@ import SiteHeader from './landing/Nav.jsx';
 import { payoutRange } from './partnerProgram.js';
 import { BILLING_TITLE, BILLING_DESCRIPTION } from './landing/billing-page/billingMeta.js';
 import { ROUTE_TITLE, ROUTE_DESCRIPTION } from './landing/route-page/routeMeta.js';
+import { MILEAGE_TITLE, MILEAGE_DESCRIPTION } from './landing/mileage-page/mileageMeta.js';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -24,6 +25,7 @@ const PartnerKitPage = lazy(() => import('./pages/partner-kit.jsx'));
 const WorkflowPage = lazy(() => import('./pages/workflow.jsx'));
 const BillingPage = lazy(() => import('./pages/billing.jsx'));
 const RouteSoftwarePage = lazy(() => import('./pages/route-software.jsx'));
+const MileageTrackingPage = lazy(() => import('./pages/mileage-tracking.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 // Customer reviews: only with VITE_REVIEWS=1 (landing/reviews/config.js). Off, both addresses show the
 // homepage, marked noindex, like any unknown address, and none of it is built. On, writing a review is a
@@ -60,6 +62,8 @@ const isPartnerKitPath = (p) => p === '/partners/kit' || p === '/partners/kit/';
 const isWorkflowPath = (p) => p === '/workflow' || p === '/workflow/';
 const isBillingPath = (p) => p === '/pool-service-billing' || p === '/pool-service-billing/'; // /billing 301s here (public/_redirects)
 const isRouteSoftwarePath = (p) => p === '/pool-route-software' || p === '/pool-route-software/';
+// Exactly this address (Cloudflare 308s the trailing-slash and .html forms to it).
+const isMileagePath = (p) => p === '/pool-service-mileage-tracking';
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
 
@@ -169,6 +173,12 @@ export const ROUTE_META = {
     description: ROUTE_DESCRIPTION,
     path: '/pool-route-software',
   },
+  // Pre-rendered at build time (entry-server.jsx). Mileage tracking, from Nov 25, 2026.
+  mileage: {
+    title: MILEAGE_TITLE, // landing/mileage-page/mileageMeta.js, shared with the page's WebPage JSON-LD
+    description: MILEAGE_DESCRIPTION,
+    path: '/pool-service-mileage-tracking',
+  },
 };
 
 const setMeta = (selector, attr, value) => {
@@ -233,6 +243,7 @@ const App = ({ path: pathProp }) => {
     else if (isWorkflowPath(path)) meta = ROUTE_META.workflow;
     else if (isBillingPath(path)) meta = ROUTE_META.billing;
     else if (isRouteSoftwarePath(path)) meta = ROUTE_META.routeSoftware;
+    else if (isMileagePath(path)) meta = ROUTE_META.mileage;
     else if (isReviewsPath(path)) meta = ROUTE_META.reviews;
     else if (isReviewWritePath(path)) meta = ROUTE_META.reviewWrite;
     // Any other address shows the homepage; keep those copies out of search results.
@@ -368,6 +379,17 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#111318' }} />}>
           <RouteSoftwarePage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // Mileage tracking: /ai-and-automations' light hero and nav, its own sections. Pre-rendered.
+  if (isMileagePath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
+          <MileageTrackingPage />
         </Suspense>
       </ErrorBoundary>
     );

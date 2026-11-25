@@ -244,7 +244,7 @@
   .ai-page :is(.ai-q2p-card, .ai-q2p-body, .ai-q2p-progress, .ai-q2p-branch, .ai-q2p-dot) { transition: none; }
 }
 
-/* ---------- 2. The trial band (TrialBand, pages/ai-integrations.jsx): dark, centred, under the hero ---------- */
+/* ---------- 2. The trial band (landing/ai/TrialBand.jsx): dark, centred, under the hero (and closing /pool-service-mileage-tracking) ---------- */
 .ai-page .ai-trial-band {
   padding: 84px 0; text-align: center;
   background:

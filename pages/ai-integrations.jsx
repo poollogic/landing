@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {
-  ArrowRight, BookOpen, Bot, Check, Hash, Mail, MessageSquare, Webhook, Workflow, Inbox,
+  ArrowRight, BookOpen, Bot, Hash, Mail, MessageSquare, Webhook, Workflow, Inbox,
 } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
@@ -16,6 +16,7 @@ import Stance from '../landing/ai/Stance.jsx';
 import Routine from '../landing/ai/Routine.jsx';
 import Guardrails from '../landing/ai/Guardrails.jsx';
 import Morning from '../landing/ai/Morning.jsx';
+import TrialBand from '../landing/ai/TrialBand.jsx'; // the dark band under the hero (also /pool-service-mileage-tracking's close)
 import Code, { formatJson } from '../landing/ai/Code.jsx';
 import useReveal from '../landing/ai/useReveal.js';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
@@ -230,33 +231,6 @@ function ConnectAiCta() {
   );
 }
 const CONNECT_AI_URL = 'https://app.poolnautics.app/settings/ai-assistants';
-
-/* ---------- The trial band, under the hero (dark) ---------- */
-
-// The page's trial buttons: the nav's, this band's and the closing section's (Morning.jsx); no others.
-const TRIAL_TICKS = [`Free for ${TRIAL_DAYS} days`, 'No card needed', 'Export your data any time'];
-
-function TrialBand({ theme }) {
-  return (
-    <section className="ai-trial-band" aria-labelledby="trial-band-heading">
-      <div className="container">
-        <h2 id="trial-band-heading" className="ai-trial-band-title">Not on Poolnautics yet?</h2>
-        <p className="ai-trial-band-ask">How much of last week went to chasing invoices?</p>
-        <p className="ai-trial-band-sub">
-          Poolnautics does that part for you. Try it free and see what your week looks like when the routine runs itself.
-        </p>
-        <div className="ai-trial-band-cta">
-          <PrimaryCta theme={theme} label="Start your free trial" />
-        </div>
-        <ul className="ai-trial-band-ticks">
-          {TRIAL_TICKS.map((t) => (
-            <li key={t}><span className="ai-trial-band-tick" aria-hidden="true"><Check size={11} strokeWidth={3} /></span>{t}</li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
 
 /* ---------- The hero's "connect your AI" chips ---------- */
 
