@@ -48,7 +48,7 @@ const VISION_FEATURES = [
 
 // Prices per month by active customers live in pricingPlans.js (the Partner Program
 // reads them too). STOPS: each bracket's top, for the slider.
-const STOPS = [50, 100, 250, 500, 1000, 1500, 2500]; // the slider opens on the first, the starter
+const STOPS = [50, 150, 250, 500, 1000, 1500, 2500]; // the slider opens on the first, the starter
 const CUSTOM = STOPS.length; // the slider's last stop: more than 2,500
 // Phones label four stops under the slider: the first, every other one after it while it stays clear of
 // the last, and the last ("2,500+"). Every stop is still on the slider.

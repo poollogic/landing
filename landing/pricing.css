@@ -54,31 +54,25 @@
 .mktg.pricing-page .pr-slab { position: relative; isolation: isolate; max-width: 900px; margin-inline: auto; }
 /* The glow, centred 20px below the panel's top edge, behind the slab (z-index −1 in the slab's own
    stacking layer). As wide as the page (100vw, centred on the slab; the wrapper clips it sideways), its
-   height twice the glow's 150px reach, so nothing cuts it off. It blooms in once: opacity and scale,
-   from its centre. Tablets and phones: a wider, shallower glow, a little closer to the edge. */
+   height twice the glow's 150px reach, so nothing cuts it off. It's there from the first paint, with no
+   entrance. Tablets and phones: a wider, shallower glow, a little closer to the edge. */
 .mktg.pricing-page .pr-glow {
   position: absolute; z-index: -1; left: 50%; top: -130px;
   width: 100vw; height: 300px; margin-left: -50vw;
   background: radial-gradient(40% 150px at 50% 150px, rgba(59, 130, 246, .36), rgba(59, 130, 246, .12) 50%, rgba(0, 0, 0, 0) 100%);
   pointer-events: none;
-  transform-origin: 50% 150px;
-  animation: pr-glow-in 1.1s cubic-bezier(.2, .7, .2, 1) .25s both;
 }
-@keyframes pr-glow-in { from { opacity: 0; transform: scale(.82); } to { opacity: 1; transform: scale(1); } }
 @media (min-width: 641px) and (max-width: 1023.98px) {
   .mktg.pricing-page .pr-glow {
-    top: -122px; height: 280px; transform-origin: 50% 140px;
+    top: -122px; height: 280px;
     background: radial-gradient(52% 140px at 50% 140px, rgba(59, 130, 246, .36), rgba(59, 130, 246, .12) 50%, rgba(0, 0, 0, 0) 100%);
   }
 }
 @media (max-width: 640px) {
   .mktg.pricing-page .pr-glow {
-    top: -104px; height: 240px; transform-origin: 50% 120px;
+    top: -104px; height: 240px;
     background: radial-gradient(70% 120px at 50% 120px, rgba(59, 130, 246, .36), rgba(59, 130, 246, .12) 50%, rgba(0, 0, 0, 0) 100%);
   }
-}
-@media (prefers-reduced-motion: reduce) {
-  .mktg.pricing-page .pr-glow { animation: none; }
 }
 
 /* 2a. Top strip: readout and billing switch, then the slider. Below 920px the switch gets its own

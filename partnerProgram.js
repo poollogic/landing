@@ -33,7 +33,7 @@ export const PARTNER = {
 
   // ── What the partner earns ───────────────────────────────────────────────
   // Flat amount per referred company, by plan, one per bracket in pricingPlans.js
-  // (same order: 0–50, 51–100, 101–250, 251–500, 501–1,000, 1,001–1,500, 1,501–2,500).
+  // (same order: 0–50, 51–150, 151–250, 251–500, 501–1,000, 1,001–1,500, 1,501–2,500).
   // Set by the owner: about two months' price, in easy round numbers. null: no payout (the starter
   // bracket, up to 50 active customers: the owner, Nov 26, 2026).
   // The /partners share image (public/og/partners.png) shows the range: see shareImages.js if it changes.

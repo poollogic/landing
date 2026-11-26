@@ -10,8 +10,8 @@
 // when they change, update shareImages.js and run `npm run og` to regenerate it (npm test fails until then).
 export const BRACKETS = [
   ['0–50', 49, 79],
-  ['51–100', 99, 159],
-  ['101–250', 199, 319],
+  ['51–150', 99, 159], // up to 150 from Nov 26, 2026 (was 100): more customers for the same price
+  ['151–250', 199, 319],
   ['251–500', 349, 559],
   ['501–1,000', 599, 959],
   ['1,001–1,500', 849, 1359],
