@@ -23,7 +23,7 @@ import { SupportPhoneRow, useSupportLine } from '../landing/contact/SupportLine.
 // (reserve.css); the rest is contact.css.
 
 const APP_URL = 'https://app.poolnautics.app/';
-const HELLO = 'hello@getpoolnautics.com';
+const CONTACT_EMAIL = 'contact@getpoolnautics.com';
 
 // In the switch's order; the first is the one the page opens on.
 const TOPICS = {
@@ -48,7 +48,30 @@ const DEFAULT_TOPIC = 'question';
 // line under "Other ways to reach us". While it's off, nothing on the page mentions the line.
 const SUPPORT_LINE_LIVE = true;
 
+// "Book a demo" (Sales): scrolls up to the form and switches it to "Get a demo" (ContactCard listens for
+// this event). Without JavaScript the link itself does the same with a page load.
+const DEMO_EVENT = 'ct-pick-topic';
+const DEMO_HREF = '/contact?topic=demo#contact-heading';
+function goToDemo(e) {
+  e.preventDefault();
+  window.dispatchEvent(new CustomEvent(DEMO_EVENT, { detail: 'demo' }));
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Up to the heading or the form card, whichever starts higher (on wide screens the card sits above the
+  // heading, so its "Get a demo" tab stays in view), with a little room above; near the top of the page,
+  // all the way up (the header isn't fixed, so it comes back into view too).
+  const tops = ['contact-heading', 'ct-form-card'].map((id) => document.getElementById(id)?.getBoundingClientRect().top).filter((t) => t != null);
+  const target = Math.min(...tops) + window.scrollY - 24;
+  window.scrollTo({ top: target < 240 ? 0 : target, behavior: reduce ? 'auto' : 'smooth' });
+  // The keyboard lands on the demo tab too, without a second jump.
+  window.setTimeout(() => document.querySelector('.ct-topic[aria-pressed="true"]')?.focus({ preventScroll: true }), 0);
+}
+
 const WAYS = [
+  {
+    title: 'Sales',
+    body: 'Evaluating Poolnautics? Book a demo on your own routes or ask about pricing.',
+    links: [['Book a demo', DEMO_HREF, false, goToDemo]],
+  },
   SUPPORT_LINE_LIVE ? {
     title: 'Customer support',
     body: 'Already using Poolnautics? Sign in or email us for help.',
@@ -62,7 +85,7 @@ const WAYS = [
   },
   {
     title: 'Partner program',
-    body: `Earn a flat ${payoutRange()} for every pool company you refer.`,
+    body: `Earn a flat ${payoutRange()} for each qualifying pool company.`,
     links: [['partners@getpoolnautics.com', 'mailto:partners@getpoolnautics.com'], ['How the program works', '/partners']],
   },
   {
@@ -74,6 +97,11 @@ const WAYS = [
     title: 'Legal and privacy',
     body: 'Contracts, your data, and requests about either.',
     links: [['legal@getpoolnautics.com', 'mailto:legal@getpoolnautics.com'], ['privacy@getpoolnautics.com', 'mailto:privacy@getpoolnautics.com']],
+  },
+  {
+    title: 'Company',
+    body: <>Poolnautics LLC<br />Headquartered in St. Petersburg, Florida</>,
+    links: [],
   },
 ];
 
@@ -110,7 +138,7 @@ function Success({ topic, name, already, onReset }) {
       <h2>{already ? 'We already have it.' : `Thanks${first ? `, ${first}` : ''}. Got it.`}</h2>
       <p>
         {already ? 'We’ll be in touch soon.' : `${TOPICS[topic].done} A confirmation is on its way to your inbox.`}
-        {' '}Need us sooner? Email <a href={`mailto:${HELLO}`} className="ct-inline">{HELLO}</a>.
+        {' '}Need us sooner? Email <a href={`mailto:${CONTACT_EMAIL}`} className="ct-inline">{CONTACT_EMAIL}</a>.
       </p>
       <button type="button" className={`ct-again ${FOCUS}`} onClick={onReset}>Send another message</button>
     </div>
@@ -144,6 +172,14 @@ function ContactCard() {
     setFields({});
     window.history.replaceState(null, '', next === DEFAULT_TOPIC ? '/contact' : `/contact?topic=${next}`);
   };
+  // The Sales card's "Book a demo" (goToDemo).
+  const pickRef = useRef(pick);
+  pickRef.current = pick;
+  useEffect(() => {
+    const on = (e) => { if (isTopic(e.detail)) pickRef.current(e.detail); };
+    window.addEventListener(DEMO_EVENT, on);
+    return () => window.removeEventListener(DEMO_EVENT, on);
+  }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -176,7 +212,7 @@ function ContactCard() {
   };
 
   return (
-    <div className="rsv-card ct-card-form">
+    <div id="ct-form-card" className="rsv-card ct-card-form">
       {status === 'done' ? (
         <Success topic={topic} {...result} onReset={reset} />
       ) : (
@@ -240,7 +276,7 @@ function ContactCard() {
 
           {status === 'error' && (
             <p role="alert" className="rsv-alert">
-              {error} You can also email us at <a href={`mailto:${HELLO}`}>{HELLO}</a>.
+              {error} You can also email us at <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
             </p>
           )}
 
@@ -248,7 +284,7 @@ function ContactCard() {
             <span className="hero-cta-label">{status === 'sending' ? 'Sending…' : t.submit}</span>
             <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
           </button>
-          <p className="ct-form-note">We only use your details to reply. No spam, ever.</p>
+          <p className="ct-form-note">We use your details only to respond to your request. <a href="/privacy" className="ct-inline">Privacy Policy</a></p>
           {t.fine && <p className="rsv-fine">{t.fine}</p>}
         </form>
       )}
@@ -269,16 +305,16 @@ export default function ContactPage() {
                 <span className="ct-eyebrow">Contact</span>
                 <h1 id="contact-heading" className="hero-title">Talk to our team.</h1>
                 <p className="hero-sub">
-                  Get a demo on your own routes, ask a question, or apply to the Partner Program. A real person
-                  replies within one business day.
+                  Get a demo on your own routes, ask a question, or apply to the Partner Program. Our team replies
+                  within one business day.
                 </p>
                 <ul className="ct-perks">
                   <li><Check strokeWidth={2.5} />A live walkthrough on your own routes</li>
-                  <li><Check strokeWidth={2.5} />Straight answers from the people who build it</li>
-                  <li><Check strokeWidth={2.5} />No sales sequence, no bots</li>
-                  {SUPPORT_LINE_LIVE && <li><Check strokeWidth={2.5} />A direct phone line once you’re a customer</li>}
+                  <li><Check strokeWidth={2.5} />Answers from our product specialists</li>
+                  <li><Check strokeWidth={2.5} />No bots, no sales pressure</li>
+                  {SUPPORT_LINE_LIVE && <li><Check strokeWidth={2.5} />Phone support for every customer</li>}
                 </ul>
-                <p className="ct-direct">Prefer email? <a href={`mailto:${HELLO}`} className="ct-inline">{HELLO}</a></p>
+                <p className="ct-direct">Prefer email? <a href={`mailto:${CONTACT_EMAIL}`} className="ct-inline">{CONTACT_EMAIL}</a></p>
               </div>
               <ContactCard />
             </div>
@@ -287,11 +323,10 @@ export default function ContactPage() {
 
         <section className="ct-more" aria-labelledby="ct-more-heading">
           <div className="container">
-            {/* The heading is for screen readers; the cards speak for themselves. */}
-            <h2 id="ct-more-heading" className="sr-only">Other ways to reach us</h2>
+            <h2 id="ct-more-heading" className="ct-more-title">Other ways to reach us</h2>
             <p className="ct-more-sub">
-              Every address goes to a real person.
-              {SUPPORT_LINE_LIVE && ' Customers get our direct line. Signing in keeps spam calls off it.'}
+              Each team has its own inbox
+              {SUPPORT_LINE_LIVE ? ', and every customer gets phone support. Sign in to see the support line.' : '.'}
             </p>
             <ul className="ct-ways">
               {WAYS.map(({ title, body, bodySignedIn, phone, links }) => (
@@ -300,15 +335,17 @@ export default function ContactPage() {
                   {/* In the corner, out of the flow, so it doesn't change the card's size. */}
                   {phone && support.line && <button type="button" className={`ct-signout ${FOCUS}`} onClick={support.signOut}>Sign out</button>}
                   <p>{phone && support.line ? bodySignedIn : body}</p>
+                  {(phone || links.length > 0) && (
                   <div className="ct-way-links">
                     {phone && <SupportPhoneRow line={support.line} numberRef={support.numberRef} openSignIn={support.openSignIn} fallbackUrl={APP_URL} />}
-                    {links.map(([label, href, external]) => (
-                      <a key={href} href={href} className={FOCUS}>
+                    {links.map(([label, href, external, onClick]) => (
+                      <a key={href} href={href} className={FOCUS} onClick={onClick}>
                         {label}
                         {external ? <ArrowUpRight size={15} strokeWidth={1.8} aria-hidden="true" /> : !href.startsWith('mailto:') && <ArrowRight size={15} strokeWidth={1.8} aria-hidden="true" />}
                       </a>
                     ))}
                   </div>
+                  )}
                 </li>
               ))}
             </ul>

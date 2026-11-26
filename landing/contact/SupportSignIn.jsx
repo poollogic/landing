@@ -30,6 +30,11 @@ export default function SupportSignIn({ message = '', onClose, onLine }) {
       if (!alive.current) return;
       if (!client) { setStep({ name: 'error', message: MESSAGES.unreachable, retry: start }); return; }
       setDb(client);
+      // Already signed in here (a kept sign-in whose check came back empty, e.g. the line wasn't set up
+      // yet): check it again straight away instead of asking them to sign in twice.
+      const { data } = await client.auth.getSession();
+      if (!alive.current) return;
+      if (data.session) { check(client, data.session, { kept: true }); return; }
       setStep({ name: 'signin', message, key: Date.now() });
     } catch {
       if (alive.current) setStep({ name: 'error', message: MESSAGES.unreachable, retry: start });
@@ -42,15 +47,16 @@ export default function SupportSignIn({ message = '', onClose, onLine }) {
     return () => { alive.current = false; };
   }, [start]);
 
-  const check = async (client, session) => {
+  // `kept`: a sign-in from an earlier visit. If Supabase no longer accepts it, they just sign in again.
+  const check = async (client, session, { kept = false } = {}) => {
     setStep({ name: 'checking' });
     const { status, line } = await fetchLine(session);
     if (status === 200) { onLine(line); onClose({ toNumber: true }); return; }
     if (!alive.current) return;
     if (status === 403) { await signOut(client); signIn(NOT_ELIGIBLE); return; }
-    if (status === 401) { await signOut(client); signIn(SIGN_IN_LOST); return; }
+    if (status === 401) { await signOut(client); signIn(kept ? '' : SIGN_IN_LOST); return; }
     if (status === 404) { setStep({ name: 'unavailable' }); return; }
-    setStep({ name: 'error', message: status === 429 ? TOO_MANY : MESSAGES.unreachable, retry: () => check(client, session) });
+    setStep({ name: 'error', message: status === 429 ? TOO_MANY : MESSAGES.unreachable, retry: () => check(client, session, { kept }) });
   };
 
   // Opens as a modal, keyboard on the first field; the page underneath stays put.
@@ -98,7 +104,7 @@ export default function SupportSignIn({ message = '', onClose, onLine }) {
         {step.name === 'unavailable' && (
           <>
             {title('You’re signed in')}
-            <p className="pn-sub">Our direct line isn’t set up yet. Email support@getpoolnautics.com and a real person will help you.</p>
+            <p className="pn-sub">Our direct line isn’t set up yet. Email support@getpoolnautics.com and we’ll help you.</p>
             <button type="button" className="pn-submit" onClick={close}>Done</button>
           </>
         )}

@@ -7,7 +7,7 @@ import {
 } from './supportSession.js';
 
 // The direct support line in /contact's "Customer support" card. The page (and its pre-rendered HTML)
-// always starts signed out: a blurred dummy number, never the real one, and "Sign in to view". The real
+// always starts signed out: a blurred "(•••) •••-••••" (dots, no digits, real or fake), and "Sign in to view". The real
 // number exists only on the server (server/supportLine.js); the browser asks for it after load, and only
 // if this browser holds a sign-in from here (supportSession.js), or once the visitor signs in through the
 // popup (SupportSignIn.jsx, loaded on the click). The answer is kept in memory and dropped on sign-out,
@@ -16,7 +16,6 @@ import {
 const SupportSignIn = lazy(() => import('./SupportSignIn.jsx'));
 const warmSignIn = () => { import('./SupportSignIn.jsx').catch(() => {}); getSupportClient().catch(() => {}); };
 
-export const DUMMY_NUMBER = '(000) 000-0000'; // what the blur shows: never the real number
 
 /** { line, signIn, signOut, dialog } for the card. `line` is null until a signed-in check passes. */
 export function useSupportLine(enabled = true) {
@@ -110,8 +109,9 @@ export function SupportPhoneRow({ line, numberRef, openSignIn, fallbackUrl }) {
           </>
         ) : (
           <>
-            <span className="ct-phone-dummy" aria-hidden="true">{DUMMY_NUMBER}</span>
-            <span className="sr-only">Direct phone line, shown after you sign in.</span>
+            {/* Dots, not digits: no number, real or fake, for a crawler to read. */}
+            <span className="ct-phone-dummy" aria-hidden="true">(•••) •••-••••</span>
+            <span className="sr-only">Customer support line, shown after you sign in.</span>
             <span className="ct-phone-end">
               {signInAvailable() ? (
                 <button type="button" className={`ct-phone-btn ${FOCUS}`} onClick={openSignIn} onPointerEnter={warmSignIn} onFocus={warmSignIn}>

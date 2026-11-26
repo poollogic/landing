@@ -128,7 +128,7 @@ export const ROUTE_META = {
   },
   contact: {
     title: 'Contact Poolnautics — Get a Demo or Ask a Question',
-    description: 'Get a demo on your own routes, ask a question, or reach Poolnautics support, partnerships and legal. A real person replies within one business day.',
+    description: 'Get a demo on your own routes, ask a question, or reach Poolnautics support, partnerships and legal. Our team replies within one business day.',
     ...shareImage('contact'),
     path: '/contact',
   },

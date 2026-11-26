@@ -217,8 +217,9 @@
 /* ---------- Other ways to reach us ---------- */
 /* Its heading is for screen readers only (sr-only): the line under it starts the section. */
 .ct-page .ct-more { position: relative; padding: 0 0 96px; }
-.ct-page .ct-more-sub { margin-top: 0; font-size: 16px; color: #94a3b8; }
-.ct-page .ct-ways { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 40px 0 0; padding: 0; list-style: none; }
+.ct-page .ct-more-title { margin: 0; font-size: 28px; font-weight: 600; line-height: 1.2; letter-spacing: -.02em; color: #fff; text-wrap: balance; }
+.ct-page .ct-more-sub { margin-top: 8px; font-size: 16px; color: #94a3b8; }
+.ct-page .ct-ways { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 40px 0 0; padding: 0; list-style: none; }
 .ct-page .ct-way {
   position: relative;
   display: flex;
@@ -253,8 +254,8 @@
 .ct-page .ct-way-links svg { flex: none; color: #64748b; transition: transform .2s; }
 .ct-page .ct-way-links a:hover svg { transform: translate(2px, -1px); }
 
-/* The support phone line (pages/contact.jsx, landing/contact/SupportLine.jsx). Signed out: a blurred dummy
-   number, never the real one, and "Sign in to view". Signed in: the number (a tel: link) and the hours.
+/* The support phone line (pages/contact.jsx, landing/contact/SupportLine.jsx). Signed out: a blurred
+   "(•••) •••-••••" (dots, no digits), and "Sign in to view". Signed in: the number (a tel: link) and the hours.
    One 28px row where the card is wide enough; below that (four cards across, a narrow phone), both states
    take the same two lines: number, then the button or the hours, each 28px. The row is a size container,
    so the switch depends only on its own width and never on which state is showing: the card keeps its
@@ -271,6 +272,7 @@
   .ct-page .ct-phone.is-in .ct-phone-end { grid-column: 2; }
 }
 .ct-page .ct-phone-dummy {
+  /* "(•••) •••-••••", blurred: dots, not digits, so there's no number (real or fake) for a crawler to read. */
   display: flex; align-items: center;
   font-size: 14px; font-weight: 600; letter-spacing: .02em; color: rgb(245, 245, 247);
   white-space: nowrap; filter: blur(5px); opacity: .85; user-select: none; pointer-events: none;
@@ -296,9 +298,6 @@
 .ct-page .ct-way .ct-signout:hover { color: #cbd5e1; }
 
 /* ---------- Narrower screens ---------- */
-@media (max-width: 1179.98px) {
-  .ct-page .ct-ways { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 /* One column: the heading, then the form */
 @media (max-width: 999.98px) {
   .ct-page .hero.ct-hero { min-height: 0; padding: 120px 0 72px; }
