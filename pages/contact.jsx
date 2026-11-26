@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowRight, ArrowUpRight, Check, Phone } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Check } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
 import '../landing/reserve.css';
@@ -12,6 +12,7 @@ import { CheckDot, FOCUS } from '../landing/ReserveSize.jsx';
 import { Footer } from '../components/site-chrome.jsx';
 import { CUSTOMER_OPTIONS } from '../formOptions.js';
 import { payoutRange } from '../partnerProgram.js';
+import { SupportPhoneRow, useSupportLine } from '../landing/contact/SupportLine.jsx';
 
 // /contact: a short heading, the form (a demo, a question or a Partner Program application, picked
 // with the switch at its top), then the other ways to reach us. Kept deliberately sparse. The form posts
@@ -38,20 +39,20 @@ const TOPICS = {
 const isTopic = (t) => Object.hasOwn(TOPICS, t);
 const DEFAULT_TOPIC = 'question';
 
-// The direct support phone line for customers, trials included (the owner, Nov 26, 2026). The number lives
-// only in the app: this page never has it, so it can't leak from here. The "Customer support" card shows a
-// blurred dummy number and "Sign in to view", which opens the app screen that shows the real one
-// (SUPPORT_LINE_URL). Off until that screen exists: then set its address and turn this on, which also
-// shows the hero bullet and the line under "Other ways to reach us". While it's off, nothing on the page
-// mentions the line.
-const SUPPORT_LINE_LIVE = false;
-const SUPPORT_LINE_URL = `${APP_URL}support`; // TODO(owner): the app screen with the number; not built yet
-const DUMMY_NUMBER = '(000) 000-0000'; // what the blur hides: never the real number
+// The direct support phone line for customers, trials included (the owner, Nov 26, 2026). The number and
+// hours live only on the server (server/supportLine.js, Cloudflare secrets SUPPORT_PHONE and SUPPORT_HOURS):
+// this page and its code never have them. The "Customer support" card shows a blurred dummy number and
+// "Sign in to view", which opens the review popup's sign-in; once signed in (kept in this browser), the
+// page asks /api/support-line for the number (landing/contact/SupportLine.jsx).
+// Off until the number is set on the server: then turn this on, which also shows the hero bullet and the
+// line under "Other ways to reach us". While it's off, nothing on the page mentions the line.
+const SUPPORT_LINE_LIVE = true;
 
 const WAYS = [
   SUPPORT_LINE_LIVE ? {
     title: 'Customer support',
     body: 'Already using Poolnautics? Sign in or email us for help.',
+    bodySignedIn: 'Call our direct line or email us, and we’ll help you sort it out.',
     phone: true,
     links: [['support@getpoolnautics.com', 'mailto:support@getpoolnautics.com']],
   } : {
@@ -256,6 +257,7 @@ function ContactCard() {
 }
 
 export default function ContactPage() {
+  const support = useSupportLine(SUPPORT_LINE_LIVE);
   return (
     <div className="mktg ct-page relative flex min-h-screen flex-col font-sans text-mktg-muted antialiased">
       <Nav current="/contact" />
@@ -292,19 +294,14 @@ export default function ContactPage() {
               {SUPPORT_LINE_LIVE && ' Customers get our direct line. Signing in keeps spam calls off it.'}
             </p>
             <ul className="ct-ways">
-              {WAYS.map(({ title, body, phone, links }) => (
+              {WAYS.map(({ title, body, bodySignedIn, phone, links }) => (
                 <li key={title} className="ct-way">
                   <h3>{title}</h3>
-                  <p>{body}</p>
+                  {/* In the corner, out of the flow, so it doesn't change the card's size. */}
+                  {phone && support.line && <button type="button" className={`ct-signout ${FOCUS}`} onClick={support.signOut}>Sign out</button>}
+                  <p>{phone && support.line ? bodySignedIn : body}</p>
                   <div className="ct-way-links">
-                    {phone && (
-                      <div className="ct-phone">
-                        <Phone size={15} strokeWidth={2} aria-hidden="true" />
-                        <span className="ct-phone-dummy" aria-hidden="true">{DUMMY_NUMBER}</span>
-                        <span className="sr-only">Direct phone line, shown in Poolnautics after you sign in.</span>
-                        <a href={SUPPORT_LINE_URL} className={`ct-phone-btn ${FOCUS}`}>Sign in to view</a>
-                      </div>
-                    )}
+                    {phone && <SupportPhoneRow line={support.line} numberRef={support.numberRef} openSignIn={support.openSignIn} fallbackUrl={APP_URL} />}
                     {links.map(([label, href, external]) => (
                       <a key={href} href={href} className={FOCUS}>
                         {label}
@@ -319,6 +316,7 @@ export default function ContactPage() {
         </section>
       </main>
       <Footer />
+      {support.dialog}
     </div>
   );
 }

@@ -100,10 +100,10 @@ function openSignInWindow() {
  * { error } if it refused or couldn't start, or {} if cancelled (cancel.current) or left for 10 minutes.
  * No window, or no BroadcastChannel: the page itself goes and comes back here with the popup open.
  */
-async function startOAuth(db, provider, popup, cancel) {
+async function startOAuth(db, provider, popup, cancel, returnUrl = returnHere) {
   if (!popup || typeof BroadcastChannel === 'undefined') {
     popup?.close();
-    const { error } = await db.auth.signInWithOAuth({ provider, options: { redirectTo: returnHere() } });
+    const { error } = await db.auth.signInWithOAuth({ provider, options: { redirectTo: returnUrl() } });
     return error ? { error: OAUTH_FAILED } : new Promise(() => {}); // leaving
   }
   const id = crypto.randomUUID();
@@ -126,7 +126,9 @@ async function startOAuth(db, provider, popup, cancel) {
   return answer;
 }
 
-export default function SignInPanel({ db, message, onSignedIn }) {
+// `returnUrl`: where a full page trip to Google or Apple comes back to (the review popup's by default;
+// /contact's support sign-in passes its own, landing/contact/).
+export default function SignInPanel({ db, message, onSignedIn, returnUrl = returnHere }) {
   const emailRef = useRef(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -169,7 +171,7 @@ export default function SignInPanel({ db, message, onSignedIn }) {
   const withProvider = async (provider) => {
     setBusy(provider);
     setError('');
-    const result = await startOAuth(db, provider, openSignInWindow(), cancelOAuth);
+    const result = await startOAuth(db, provider, openSignInWindow(), cancelOAuth, returnUrl);
     if (!result.code) { setBusy(null); if (result.error) setError(result.error); return; }
     // This page made the code's verifier, so it trades the code; the small window never held a session.
     const { data, error: err } = await db.auth.exchangeCodeForSession(result.code);

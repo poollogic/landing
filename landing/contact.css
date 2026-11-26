@@ -253,23 +253,47 @@
 .ct-page .ct-way-links svg { flex: none; color: #64748b; transition: transform .2s; }
 .ct-page .ct-way-links a:hover svg { transform: translate(2px, -1px); }
 
-/* The support phone line (pages/contact.jsx, SUPPORT_LINE_LIVE): a blurred dummy number, never the real
-   one, and "Sign in to view", which opens the app screen that shows it. One 28px row. */
-/* A 28px row; where the card is too narrow for it (four cards across), the button wraps under the number. */
-.ct-page .ct-phone { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; min-height: 28px; }
-.ct-page .ct-phone > svg { flex: none; color: rgb(138, 150, 168); }
+/* The support phone line (pages/contact.jsx, landing/contact/SupportLine.jsx). Signed out: a blurred dummy
+   number, never the real one, and "Sign in to view". Signed in: the number (a tel: link) and the hours.
+   One 28px row where the card is wide enough; below that (four cards across, a narrow phone), both states
+   take the same two lines: number, then the button or the hours, each 28px. The row is a size container,
+   so the switch depends only on its own width and never on which state is showing: the card keeps its
+   size when someone signs in or out. Hours too long for the space end in an ellipsis (full text in title). */
+.ct-page .ct-phone { justify-self: stretch; container-type: inline-size; }
+.ct-page .ct-phone-row { display: flex; align-items: center; gap: 10px; height: 28px; }
+.ct-page .ct-phone-row > svg { flex: none; color: rgb(138, 150, 168); }
+.ct-page .ct-phone-end { display: flex; align-items: center; min-width: 0; height: 28px; }
+@container (max-width: 279.98px) {
+  .ct-page .ct-phone-row { display: grid; grid-template-columns: auto minmax(0, 1fr); row-gap: 8px; column-gap: 10px; height: auto; }
+  .ct-page .ct-phone-row > :is(svg, .ct-phone-dummy, .ct-phone-number) { height: 21px; align-self: center; }
+  .ct-page .ct-phone-end { grid-column: 1 / -1; }
+  .ct-page .ct-phone-end .ct-phone-btn { margin-left: 0; }
+  .ct-page .ct-phone.is-in .ct-phone-end { grid-column: 2; }
+}
 .ct-page .ct-phone-dummy {
+  display: flex; align-items: center;
   font-size: 14px; font-weight: 600; letter-spacing: .02em; color: rgb(245, 245, 247);
   white-space: nowrap; filter: blur(5px); opacity: .85; user-select: none; pointer-events: none;
 }
 .ct-page .ct-way-links .ct-phone-btn {
   display: inline-flex; align-items: center; height: 28px; margin-left: 4px; padding: 0 12px;
-  border-radius: 8px; background: linear-gradient(rgb(75, 141, 255), rgb(37, 99, 235));
+  border: 0; border-radius: 8px; background: linear-gradient(rgb(75, 141, 255), rgb(37, 99, 235));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 0 0 1px rgba(37, 99, 235, .6);
-  font-size: 13px; font-weight: 600; color: #fff; white-space: nowrap;
+  font: inherit; font-size: 13px; font-weight: 600; line-height: 1; color: #fff; white-space: nowrap; cursor: pointer;
 }
 .ct-page .ct-way-links .ct-phone-btn:hover { color: #fff; filter: brightness(1.07); }
-
+.ct-page .ct-way-links .ct-phone-number {
+  flex: none; font-size: 14px; font-weight: 600; letter-spacing: .02em; font-variant-numeric: tabular-nums;
+  color: rgb(245, 245, 247); white-space: nowrap;
+}
+.ct-page .ct-way-links .ct-phone-number:hover { color: #93c5fd; }
+.ct-page .ct-phone-hours { display: block; line-height: 28px; font-size: 13px; color: rgb(138, 150, 168); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Signed in: "Sign out" in the card's top-right corner, on the title's line (out of the flow). */
+.ct-page .ct-way .ct-signout {
+  position: absolute; top: 28px; right: 28px; height: 22px; padding: 0; border: 0; background: none;
+  font: inherit; font-size: 13px; font-weight: 500; line-height: 22px; color: rgb(138, 150, 168); cursor: pointer; transition: color .15s;
+}
+.ct-page .ct-way .ct-signout:hover { color: #cbd5e1; }
 
 /* ---------- Narrower screens ---------- */
 @media (max-width: 1179.98px) {
@@ -294,6 +318,7 @@
   .ct-page .ct-card-form { padding: 20px; } /* at 28px the "Partner program" tab runs into its edge */
   .ct-page .ct-ways { grid-template-columns: minmax(0, 1fr); }
   .ct-page .ct-way { padding: 24px; }
+  .ct-page .ct-way .ct-signout { top: 24px; right: 24px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
