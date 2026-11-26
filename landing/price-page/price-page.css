@@ -26,53 +26,97 @@
 
 /* ======================= 1. Hero: the billing page's, no buttons ======================= */
 /* The billing hero's centred column, but sized by its content (no min-height): the copy 176px under the
-   page's top, the visual 60px under the copy. */
+   page's top, the visual 92px under the copy's last line. Every hero rule is under .pr-hero (the hero
+   shares .bp-hero--billing with the billing page, whose rules are under .ai-page.billing-page and don't
+   reach here). */
 .ai-page.price-page .hero.pr-hero { display: block; min-height: 0; padding: 64px 0 120px; text-align: center; }
-.ai-page.price-page .pr-hero-copy { max-width: 760px; margin-inline: auto; padding: 112px 0 60px; }
+/* The ground: flat #111318 for its top 64px (the page's theme-color and body colour, so an iPhone's
+   status bar meets it with no band), lighter behind the heading, with a soft blue glow there that fades
+   out before the panel. Phones (below) get it higher up, the hero being much taller. The glow fades to
+   nothing only at its edge, which reaches the top, so a first layer keeps the top 64px flat and lets the
+   glow in gradually by 200px (no edge). */
+.ai-page.price-page .hero.pr-hero {
+  background-image:
+    linear-gradient(#111318 0, #111318 64px, rgba(17, 19, 24, 0) 200px),
+    radial-gradient(72% 40% at 50% 22%, rgba(59, 130, 246, .12), rgba(59, 130, 246, .05) 45%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(#111318 0, #111318 64px, rgb(19, 24, 34) 26%, #111318 58%);
+}
+.ai-page.price-page .pr-hero > .ai-hero-fade { background: linear-gradient(rgba(17, 19, 24, 0), rgba(17, 19, 24, .9)); }
+.ai-page.price-page .pr-hero .pr-hero-copy { max-width: 760px; margin-inline: auto; padding: 112px 0 60px; }
 .ai-page.price-page .pr-hero .hero-eyebrow { margin: 0; font-size: 13px; line-height: 20px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #94a3b8; }
-.ai-page.price-page .pr-hero .hero-title { max-width: 760px; margin: 20px auto 0; font-size: 60px; line-height: 1.05; font-weight: 700; letter-spacing: -2.4px; color: #fff; text-wrap: balance; }
-.ai-page.price-page .pr-hero .hero-sub { max-width: 600px; margin: 28px auto 0; font-size: 18px; line-height: 1.6; letter-spacing: normal; color: #97a3b6; text-wrap: wrap; }
+/* 48px on desktop, down to 36px on tablets and phones. */
+.ai-page.price-page .pr-hero .hero-title { max-width: 760px; margin: 20px auto 0; font-size: clamp(2.25rem, 4.3vw, 3rem); line-height: 1.12; font-weight: 700; letter-spacing: -.035em; color: #fff; text-wrap: balance; }
+.ai-page.price-page .pr-hero .hero-sub { max-width: 600px; margin: 22px auto 0; font-size: 18px; line-height: 1.55; letter-spacing: normal; color: rgb(160, 170, 186); text-wrap: wrap; }
 /* "Already on Poolnautics? Start your price increase" (and "Already a customer?" in the closing band). */
 .ai-page.price-page .pr-open { margin: 26px 0 0; font-size: 15px; line-height: 1.5; color: #a5b1c2; text-align: center; }
+.ai-page.price-page .pr-hero .pr-open { margin-top: 24px; }
 .ai-page.price-page .pr-open a { margin-left: 6px; padding-bottom: 1px; border-bottom: 1px solid rgba(255, 255, 255, .35); color: #fff; font-weight: 600; white-space: nowrap; }
 .ai-page.price-page .pr-open a:hover { border-bottom-color: #fff; }
 .ai-page.price-page .pr-open svg { display: inline-block; width: 13px; height: 13px; margin-left: 5px; vertical-align: -1px; }
 
-/* The visual, over the billing hero's soft blue glow (1100 × 620px, centred behind it). */
-.ai-page.price-page .pr-hero .bp-hero-visual { position: relative; isolation: isolate; }
-.ai-page.price-page .pr-hero .bp-hero-visual::before {
-  content: ''; position: absolute; left: 50%; top: 50%; z-index: -1;
-  width: 1100px; height: 620px; transform: translate(-50%, -50%);
-  background: radial-gradient(closest-side, rgba(46, 133, 255, .2), rgba(46, 133, 255, 0));
+/* The visual: the panel, 32px under "Already on Poolnautics?" (the copy's 60px foot, then 32px). No glow
+   of its own: the hero's fades out above it. */
+.ai-page.price-page .pr-hero .bp-hero-visual { position: relative; isolation: isolate; margin-top: 32px; }
+/* The panel: the homepage dashboard's neutral charcoal, a white light along its top edge. Its only blue
+   is the timeline's last dot and amount. */
+.ai-page.price-page .pr-hero .pr-stage {
+  position: relative; overflow: hidden;
+  max-width: 940px; margin: 0 auto; padding: 28px; border-radius: 22px;
+  background: rgb(17, 19, 24);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 40px 80px -20px rgba(0, 0, 0, .6);
+  color: rgb(152, 152, 157); text-align: left; line-height: normal;
+}
+.ai-page.price-page .pr-hero .pr-stage::before {
+  content: ""; position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(191, 219, 254, .55) 25%, rgba(255, 255, 255, .95) 50%, rgba(191, 219, 254, .55) 75%, rgba(0, 0, 0, 0));
+  filter: drop-shadow(0 0 6px rgba(147, 197, 253, .6));
   pointer-events: none;
 }
-.ai-page.price-page .pr-stage { max-width: 940px; margin: 0 auto; padding: 28px; border-radius: 22px; background: rgba(255, 255, 255, .03); box-shadow: inset 0 0 0 1px rgba(148, 163, 184, .14); text-align: left; line-height: normal; }
-.ai-page.price-page .pr-top { display: grid; grid-template-columns: 440px minmax(0, 1fr); gap: 32px; align-items: center; }
-/* The bottom of an invoice, as the app prints it. */
-.ai-page.price-page .pr-paper { padding: 30px 0; border-radius: 18px; background: #fff; box-shadow: 0 24px 60px rgba(0, 0, 0, .35); font-family: var(--app-font); font-variant-numeric: tabular-nums; }
-.ai-page.price-page .pz-sum { padding: 0 36px; }
-.ai-page.price-page .pz-sum > div { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding: 8px 0; font-size: 17px; line-height: 1.45; color: #555; }
-.ai-page.price-page .pz-sum > div > span { display: block; }
-.ai-page.price-page .pz-sum > div > span:last-child { color: #333; white-space: nowrap; }
-.ai-page.price-page .pz-sum i { display: block; font-style: normal; white-space: nowrap; }
-.ai-page.price-page .pz-sum > .pz-total { align-items: baseline; margin-top: 14px; padding: 22px 0 0; border-top: 1px solid #dcdcdc; font-size: 28px; font-weight: 800; letter-spacing: -.01em; color: #111; }
-.ai-page.price-page .pz-sum > .pz-total > span:last-child { color: #111; }
-.ai-page.price-page .pr-notes { display: flex; flex-direction: column; justify-content: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
-.ai-page.price-page .pr-notes li { padding-left: 16px; border-left: 2px solid rgba(46, 133, 255, .65); }
-.ai-page.price-page .pr-notes b { display: block; font-size: 15.5px; line-height: 22px; font-weight: 600; color: #fff; }
-.ai-page.price-page .pr-notes span { display: block; margin-top: 3px; font-size: 14px; line-height: 21px; color: rgba(226, 232, 240, .68); }
-/* The five steps, left to right (top to bottom on a phone). */
-.ai-page.price-page .pr-time { display: grid; grid-template-columns: repeat(5, 1fr); margin: 28px 0 0; padding: 26px 0 2px; border-top: 1px solid rgba(148, 163, 184, .14); list-style: none; text-align: center; }
-.ai-page.price-page .pr-time li { position: relative; padding-top: 24px; }
-.ai-page.price-page .pr-time li::before { content: ""; position: absolute; left: 50%; top: 0; z-index: 1; width: 11px; height: 11px; margin-left: -5.5px; border-radius: 50%; border: 2px solid #94a3b8; background: #0f1422; }
-.ai-page.price-page .pr-time li:not(:last-child)::after { content: ""; position: absolute; left: 50%; top: 5px; width: 100%; height: 1px; background: rgba(148, 163, 184, .35); }
-.ai-page.price-page .pr-time small { display: block; font-size: 11.5px; line-height: 16px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: #94a3b8; }
-.ai-page.price-page .pr-time b { display: block; margin-top: 4px; font-size: 17px; line-height: 24px; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; color: #fff; }
-.ai-page.price-page .pr-time span { display: block; margin-top: 2px; font-size: 12.5px; line-height: 18px; color: rgba(226, 232, 240, .6); }
-.ai-page.price-page .pr-time li.is-end::before { border-color: var(--pr-blue); background: var(--pr-blue); }
-.ai-page.price-page .pr-time li.is-end b { color: var(--pr-blue); }
-.ai-page.price-page .pr-time-note { margin: 26px 0 4px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .08); text-align: center; font-size: 14px; line-height: 1.55; color: #a5b1c2; }
-.ai-page.price-page .pr-time-note b { font-weight: 600; color: #fff; }
+.ai-page.price-page .pr-hero .pr-top { display: grid; grid-template-columns: 440px minmax(0, 1fr); gap: 32px; align-items: center; }
+/* The bottom of an invoice, as the app prints it. Its three amounts end on one right edge. */
+.ai-page.price-page .pr-hero .pr-paper { padding: 30px 0; border-radius: 14px; background: #fff; box-shadow: 0 0 0 1px rgba(255, 255, 255, .6), 0 24px 48px -16px rgba(0, 0, 0, .65); font-family: var(--app-font); font-variant-numeric: tabular-nums; }
+.ai-page.price-page .pr-hero .pz-sum { padding: 0 36px; }
+.ai-page.price-page .pr-hero .pz-sum > div { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; padding: 8px 0; font-size: 15.5px; line-height: 1.45; color: #555; font-variant-numeric: tabular-nums; }
+.ai-page.price-page .pr-hero .pz-sum > div > span { display: block; font-size: 15.5px; font-variant-numeric: tabular-nums; }
+.ai-page.price-page .pr-hero .pz-sum > div > span:first-child { min-width: 0; }
+.ai-page.price-page .pr-hero .pz-sum > div > span:last-child { flex-shrink: 0; color: #333; white-space: nowrap; text-align: right; }
+.ai-page.price-page .pr-hero .pz-sum > div:nth-child(2) > span:last-child { color: rgb(22, 163, 74); font-weight: 500; } /* the credit */
+.ai-page.price-page .pr-hero .pz-sum i { display: block; font-style: normal; white-space: nowrap; }
+.ai-page.price-page .pr-hero .pz-sum > .pz-total { align-items: baseline; margin-top: 14px; padding: 22px 0 0; border-top: 1px solid rgb(229, 231, 235); font-size: 22px; font-weight: 700; letter-spacing: -.01em; color: #111; }
+.ai-page.price-page .pr-hero .pz-sum > .pz-total > span { font-size: 22px; }
+.ai-page.price-page .pr-hero .pz-sum > .pz-total > span:last-child { color: #111; }
+/* The three points: a white title and a grey line each, no bar beside them. */
+.ai-page.price-page .pr-hero .pr-notes { display: flex; flex-direction: column; justify-content: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
+.ai-page.price-page .pr-hero .pr-notes li { padding-left: 0; border-left: 0; }
+.ai-page.price-page .pr-hero .pr-notes b { display: block; font-size: 15.5px; line-height: 22px; font-weight: 600; color: rgb(245, 245, 247); }
+.ai-page.price-page .pr-hero .pr-notes span { display: block; margin-top: 4px; font-size: 14px; line-height: 21px; color: rgb(152, 152, 157); }
+/* The timeline: grey dots joined by a faint line, the last (the new price) blue. No rule above it or
+   under it. */
+.ai-page.price-page .pr-hero .pr-time { display: grid; grid-template-columns: repeat(5, 1fr); margin: 28px 0 0; padding: 26px 0 2px; border-top: 0; list-style: none; text-align: center; }
+.ai-page.price-page .pr-hero .pr-time li { position: relative; padding-top: 24px; }
+.ai-page.price-page .pr-hero .pr-time li::before { content: ""; position: absolute; left: 50%; top: 0; z-index: 1; width: 11px; height: 11px; margin-left: -5.5px; border-radius: 50%; border: 2px solid rgb(110, 110, 115); background-color: rgb(17, 19, 24); }
+.ai-page.price-page .pr-hero .pr-time li:not(:last-child)::after { content: ""; position: absolute; left: 50%; top: 5px; width: 100%; height: 1px; background-color: rgba(255, 255, 255, .12); }
+.ai-page.price-page .pr-hero .pr-time small { display: block; font-size: 11.5px; line-height: 16px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: rgb(134, 134, 140); }
+.ai-page.price-page .pr-hero .pr-time b { display: block; margin-top: 4px; font-size: 17px; line-height: 24px; font-weight: 600; font-variant-numeric: lining-nums tabular-nums; color: rgb(245, 245, 247); }
+.ai-page.price-page .pr-hero .pr-time span { display: block; margin-top: 2px; font-size: 12.5px; line-height: 18px; color: rgb(152, 152, 157); }
+.ai-page.price-page .pr-hero .pr-time li.is-end::before { border-color: var(--pr-blue); background-color: var(--pr-blue); }
+.ai-page.price-page .pr-hero .pr-time li.is-end b { color: var(--pr-blue); }
+.ai-page.price-page .pr-hero .pr-time-note { margin: 26px 0 4px; padding-top: 8px; border-top: 0; text-align: center; font-size: 14px; line-height: 1.55; color: #a5b1c2; }
+.ai-page.price-page .pr-hero .pr-time-note b { font-weight: 600; color: #fff; }
+/* Desktop: more room in the panel, the points further from the invoice. */
+@media (min-width: 1024px) {
+  .ai-page.price-page .pr-hero .pr-stage { padding: 36px; }
+  .ai-page.price-page .pr-hero .pr-notes { gap: 30px; padding-left: 28px; }
+}
+/* Phones: the glow higher up and wider. */
+@media (max-width: 640px) {
+  .ai-page.price-page .hero.pr-hero {
+    background-image:
+      linear-gradient(#111318 0, #111318 64px, rgba(17, 19, 24, 0) 200px),
+      radial-gradient(150% 22% at 50% 15%, rgba(59, 130, 246, .12), rgba(59, 130, 246, .05) 45%, rgba(0, 0, 0, 0) 100%),
+      linear-gradient(#111318 0, #111318 64px, rgb(19, 24, 34) 18%, #111318 42%);
+  }
+}
 
 /* ======================= Sections (the feature pages' .fp-sec), this page's additions ======================= */
 /* .fp-sec too: the shared section padding may load after this file. */
@@ -255,9 +299,8 @@
 
 /* ======================= Tablet: 1020px and below ======================= */
 @media (max-width: 1020px) {
-  .ai-page.price-page .pr-hero .hero-title { font-size: 44px; letter-spacing: -1.6px; }
-  .ai-page.price-page .pr-hero-copy { padding: 80px 0 52px; }
-  .ai-page.price-page .pr-top { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+  .ai-page.price-page .pr-hero .pr-hero-copy { padding: 80px 0 52px; }
+  .ai-page.price-page .pr-hero .pr-top { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
   .ai-page.price-page .pr-case { grid-template-columns: 1fr; gap: 44px; padding: 48px; }
   .ai-page.price-page .pr-cs-res { padding-top: 0; }
   .ai-page.price-page .pr-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; }
@@ -270,21 +313,20 @@
 /* ======================= Phone: 720px and below ======================= */
 @media (max-width: 720px) {
   .ai-page.price-page .hero.pr-hero { padding-top: 64px; padding-bottom: 80px; }
-  .ai-page.price-page .pr-hero-copy { padding: 72px 0 36px; }
-  .ai-page.price-page .pr-hero .hero-title { font-size: 36px; letter-spacing: -1.2px; }
+  .ai-page.price-page .pr-hero .pr-hero-copy { padding: 72px 0 36px; }
+  .ai-page.price-page .pr-hero .hero-title { font-size: 36px; }
   .ai-page.price-page .pr-hero .hero-sub { font-size: 17px; }
-  .ai-page.price-page .pr-stage { padding: 16px; }
-  .ai-page.price-page .pr-top { grid-template-columns: 1fr; gap: 28px; }
-  .ai-page.price-page .pr-paper { padding: 24px 0; }
-  .ai-page.price-page .pz-sum { padding: 0 22px; }
-  .ai-page.price-page .pz-sum > div { font-size: 15.5px; }
-  .ai-page.price-page .pz-sum > .pz-total { padding-top: 18px; font-size: 25px; }
-  .ai-page.price-page .pr-time { grid-template-columns: 1fr; padding-top: 20px; text-align: left; }
-  .ai-page.price-page .pr-time li { padding: 0 0 18px 28px; }
-  .ai-page.price-page .pr-time li:last-child { padding-bottom: 0; }
-  .ai-page.price-page .pr-time li::before { left: 0; top: 4px; margin-left: 0; }
-  .ai-page.price-page .pr-time li:not(:last-child)::after { left: 5px; top: 16px; bottom: -2px; width: 1px; height: auto; }
-  .ai-page.price-page .pr-time-note { margin-top: 20px; padding-top: 18px; text-align: left; }
+  .ai-page.price-page .pr-hero .pr-stage { padding: 16px; }
+  .ai-page.price-page .pr-hero .pr-top { grid-template-columns: 1fr; gap: 28px; }
+  .ai-page.price-page .pr-hero .pr-paper { padding: 24px 0; }
+  .ai-page.price-page .pr-hero .pz-sum { padding: 0 22px; }
+  .ai-page.price-page .pr-hero .pz-sum > .pz-total { padding-top: 18px; }
+  .ai-page.price-page .pr-hero .pr-time { grid-template-columns: 1fr; padding-top: 20px; text-align: left; }
+  .ai-page.price-page .pr-hero .pr-time li { padding: 0 0 18px 28px; }
+  .ai-page.price-page .pr-hero .pr-time li:last-child { padding-bottom: 0; }
+  .ai-page.price-page .pr-hero .pr-time li::before { left: 0; top: 4px; margin-left: 0; }
+  .ai-page.price-page .pr-hero .pr-time li:not(:last-child)::after { left: 5px; top: 16px; bottom: -2px; width: 1px; height: auto; }
+  .ai-page.price-page .pr-hero .pr-time-note { margin-top: 20px; padding-top: 8px; text-align: left; }
   .ai-page.price-page .fp-sec.pr-why { padding-bottom: 56px; }
   .ai-page.price-page .pr-case { padding: 32px 22px 30px; gap: 34px; border-radius: 18px; }
   .ai-page.price-page .pr-case h3 { font-size: 26px; }
