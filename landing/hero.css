@@ -169,7 +169,7 @@
    transparent until it's redrawn (Hero.jsx), then fades in. From 721px only: on phones the hero shows
    the dashboard card, which is dark whatever the theme. */
 .mockup-holder { transition: opacity .2s ease; }
-@media (min-width: 720.02px) {
+@media (min-width: 768px) {
   .pv-pending .mockup-holder { opacity: 0; transition: none; }
 }
 
@@ -437,12 +437,12 @@
   .hero-fine { font-size: 12.5px; max-width: 40ch; margin-inline: auto; text-wrap: balance; opacity: .8; }
 }
 
-/* ---------- From 721px: the desktop dashboard on its own ----------
+/* ---------- From 768px: the desktop dashboard on its own ----------
    The hero's phone frame (always rendered, Hero.jsx) steps aside: no box, no side buttons, island or
-   home bar, and the dashboard takes the holder's child styles. The phone dashboard card's markup
-   (HeroPhoneDash) is hidden. Tablets (721px to 1023px) show it too, under the copy ("Homepage hero,
+   home bar, and the dashboard takes the holder's child styles. The iPhone's dashboard
+   (HeroPhoneDash) is hidden. Tablets (768px to 1023px) show it too, under the copy ("Homepage hero,
    tablets" below). */
-@media (min-width: 720.02px) {
+@media (min-width: 768px) {
   .hero-phone,
   .hero-phone > .bz-screen { display: contents; }
   .hero-phone::before,
@@ -458,10 +458,10 @@
     box-shadow: 0 40px 100px -30px rgba(0, 0, 0, .7);
   }
 }
-/* From 721px, the dashboard is a laptop's screen (laptop.css): the bezel frames it, so it drops its own
+/* From 768px, the dashboard is a laptop's screen (laptop.css): the bezel frames it, so it drops its own
    shadow; the top-edge light moves out to the bezel's top edge, the glint and glow with it, and the
    glow goes behind the bezel. */
-@media (min-width: 720.02px) {
+@media (min-width: 768px) {
   .mockup-holder > .hero-phone > .bz-screen > .pl-preview { box-shadow: none; }
   .mockup-holder::before { top: -12px; left: calc(3% + 12px); right: calc(3% + 12px); }
   .mockup-holder > .preview-glint { top: -32px; }
@@ -523,36 +523,35 @@
   }
 }
 
-/* ---------- Phones (720px and under): the dashboard card ----------
-   The app's phone dashboard (HeroPhoneDash.jsx) in a frameless dark card, like /ai-and-automations'
-   chat window: the container's full width, 428px tall, a blue edge on the top and sides, fading out
-   at the bottom into the next section, with a soft blue glow behind its top edge. The phone frame
-   (PhoneFrame.jsx) is the card: no bezel, rim, side buttons, island or home bar, and no zoom. Its
-   header stays put while the list under it moves with the page (useHeroCardScroll.js). */
-@media (max-width: 720px) {
-  /* The faded card's foot meets the next (white) section: no space under it. */
-  .hero.hero--home,
+/* ---------- Phones (under 768px): the iPhone ----------
+   Two lines of caption, then a whole iPhone (PhoneFrame.jsx, sized here rather than at phone.css's
+   262 × 586): 330px wide (at most 88% of the window), a 393:852 screen in a 10px bezel, a graphite edge
+   and a soft blue glow (its own shadow), showing the app's light phone dashboard in Safari
+   (HeroPhoneDash.jsx). Nothing in it moves. Then 64px of the hero before the next section. */
+@media (max-width: 767.98px) {
+  .hero.hero--home { padding-bottom: 64px; }
   .hero--home > .container,
   .hero--home .hero-mockup { padding-bottom: 0; }
-  .hero--home .hero-mockup { margin-top: 30px; }
+  .hero--home .hero-mockup { margin-top: 26px; }
 
   .hero.hero--home { padding-top: 96px; }
   .hero--home .hero-sub { margin-top: 22px; }
-  /* Two lines over the card (hidden on smaller phones, below). */
+  /* Two lines over the phone. */
   .hero--home .hero-card-caption {
-    margin: 64px 0 0;
-    font-size: 17px;
+    max-width: 330px;
+    margin: 40px auto 0;
+    font-size: 18px;
     font-weight: 600;
-    line-height: 1.4;
+    line-height: 1.3;
     letter-spacing: -0.01em;
-    color: #f1f5f9;
+    color: #f8fafc;
     text-align: center;
+    text-wrap: balance;
   }
   .hero--home .hero-card-sub {
-    max-width: 290px;
-    margin: 8px auto 0;
-    font-size: 14px;
-    line-height: 1.45;
+    margin: 6px auto 0;
+    font-size: 15px;
+    line-height: 1.5;
     color: #94a3b8;
     text-align: center;
     text-wrap: balance;
@@ -560,105 +559,128 @@
 
   .hero--home .preview-glint,
   .hero--home .mockup-holder::before { display: none; }
-  /* The glow behind the card's top edge: about 340 × 160, centred, ~70px above it. */
-  .hero--home .mockup-holder:has(.hero-dash)::after { /* :has: outranks the light preview's dimming */
-    left: 50%;
-    right: auto;
-    top: -70px;
-    width: 340px;
-    height: 160px;
-    z-index: 0;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    background: radial-gradient(closest-side, rgba(46, 133, 255, .38), transparent);
-    filter: blur(24px);
-    animation: none;
-    opacity: 1;
-  }
+  /* The phone's glow is its own shadow (below), so the holder's glow stays off. */
+  .hero--home .mockup-holder:has(.hero-dash)::after { display: none; } /* :has: outranks the light preview's */
 
-  /* The card. */
+  /* The phone: the bezel a 10px border, so the screen is the box's content. */
   .hero--home .hero-phone {
-    z-index: 1; /* over the glow (.bz-phone--embedded sets auto) */
+    z-index: 1;
     zoom: 1;
-    width: 100%;
-    height: 428px;
+    width: min(330px, 88vw);
+    height: auto;
+    margin-inline: auto;
     padding: 0;
-    border-radius: 20px 20px 0 0;
-    background: rgb(17, 19, 24);
-    border: 1px solid rgba(86, 150, 255, .30);
-    border-bottom: 0;
-    box-shadow: none;
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 76%, transparent 100%);
+    border: 10px solid #0b0d12;
+    border-radius: 48px;
+    background: #0b0d12;
+    box-shadow:
+      0 0 0 1.5px #4b5263,
+      0 0 0 3px #1a1d25,
+      0 30px 90px -10px rgba(59, 130, 246, .55);
   }
+  /* The frame's own side buttons, island and home bar stay off: the screen draws its cutout and home
+     indicator at the dashboard's scale (HeroPhoneDash.jsx). */
   .hero-phone::before,
   .hero-phone::after,
   .hero-phone .bz-island,
   .hero-phone .bz-home,
   .hero-phone .bz-statusbar-overlay,
   .hero-phone .pl-preview { display: none; }
+  /* A size container, so the dashboard inside can scale to its width. */
   .hero-phone > .bz-screen {
     width: 100%;
-    height: 100%;
-    border-radius: 0;
-    background: none;
+    height: auto;
+    aspect-ratio: 393 / 852;
+    border-radius: 38px;
+    background: #f8f9fa;
+    container-type: inline-size;
   }
 }
 
-/* The phone dashboard (HeroPhoneDash.jsx): the app's PhoneHome in its dark theme. Inter, white,
-   16px either side. Shown on phones only (the card); from 721px it's display: none (above). */
+/* The phone dashboard (HeroPhoneDash.jsx): the app's PhoneHome in its light theme, in Safari, laid out
+   at an iPhone's 393 × 852 points with the app's own sizes (index.css --home-*: 52px rows, 36px section
+   labels, 24px between sections, 18px icons) and scaled as a whole to the screen's width (the screen is
+   a size container: 100cqw / 393px). Inter. Shown on phones only; from 768px it's display: none (above). */
 .hero-dash {
   position: relative;
   height: 100%;
   overflow: hidden;
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  color: #fff;
+  color: #0a0a0a;
   text-align: left;
   -webkit-font-smoothing: antialiased;
 }
-.hero-dash svg { flex: none; display: block; }
-.hd-muted { color: rgba(203, 213, 225, .62); }
-.hd-strong { color: #fff; }
-/* The pinned header: over the list as it moves up under it, with a short fade under it so rows don't
-   end in a hard line as they pass under. */
-.hd-header {
+.hd-screen {
   position: relative;
-  z-index: 2;
+  width: 393px;
+  height: 852px;
+  transform: scale(.7888); /* 310 / 393: browsers without container units or trig */
+  transform: scale(tan(atan2(100cqw, 393px)));
+  transform-origin: 0 0;
+}
+.hero-dash svg { flex: none; display: block; }
+.hd-muted { color: #71717a; }
+.hd-strong { color: #0a0a0a; }
+/* The status bar: 9:41 left, the camera cutout centred, signal, 5G and battery right. */
+.hd-status {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px;
+  padding: 4px 32px 0 52px;
+  color: #0a0a0a;
+}
+.hd-time { font-size: 17px; font-weight: 600; letter-spacing: -.3px; }
+.hd-island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  width: 126px;
+  height: 37px;
+  border-radius: 999px;
+  background: #0b0d12;
+  transform: translateX(-50%);
+}
+.hd-status-icons { display: inline-flex; align-items: center; gap: 6px; }
+.hd-5g { font-size: 15px; font-weight: 600; letter-spacing: -.2px; line-height: 1; }
+/* The app's top bar: today's date, then the bell, the menu and the blue +. */
+.hd-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  height: 56px;
+  height: 52px;
   padding: 0 16px;
-  background: rgb(17, 19, 24);
-}
-.hd-header::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  height: 20px;
-  background: linear-gradient(to bottom, rgb(17, 19, 24), rgba(17, 19, 24, 0));
-  pointer-events: none;
 }
 .hd-title { font-size: 17px; font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
-.hd-date { font-weight: 400; color: rgba(226, 232, 240, .55); }
-.hd-actions { margin-left: auto; display: inline-flex; align-items: center; gap: 16px; color: rgba(226, 232, 240, .85); }
+.hd-date { font-weight: 400; color: #71717a; }
+.hd-actions { margin-left: auto; display: inline-flex; align-items: center; gap: 18px; color: #0a0a0a; }
 .hd-plus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 7px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   background: #3b82f6;
   color: #fff;
 }
-/* The list: moves up with the page (useHeroCardScroll.js). */
-.hd-list { position: relative; z-index: 1; padding: 0 16px; will-change: transform; }
-.hd-section { margin-top: 22px; }
-.hd-list > .hd-section:first-child { margin-top: 2px; } /* just under the header */
+/* The search field: a drawing (the dashboard is role="img"). */
+.hd-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 44px;
+  margin: 4px 16px 16px;
+  padding: 0 12px;
+  border: 1px solid rgba(10, 10, 10, .09);
+  border-radius: 10px;
+  background: #fff;
+  font-size: 16px;
+  color: #a1a1aa;
+}
+.hd-list { padding: 0 16px; }
+.hd-section + .hd-section { margin-top: 24px; }
 .hd-section-head {
   display: flex;
   align-items: center;
@@ -666,49 +688,71 @@
   height: 36px;
   font-size: 13px;
   font-weight: 400;
-  color: rgba(203, 213, 225, .62);
+  color: #71717a;
 }
 .hd-row {
   display: flex;
   align-items: center;
   gap: 12px;
   height: 52px;
+  border-bottom: 1px solid rgba(10, 10, 10, .07);
   font-size: 14px;
 }
-.hd-row-icon { color: rgba(226, 232, 240, .48); } /* every row's, the app's red ones too: a calmer preview */
+.hd-row-icon { color: rgb(127, 127, 136); }
+.hd-row-icon.is-critical { color: rgb(255, 0, 54); } /* the app's red: invoices to mail and past due */
 .hd-row-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.hd-row-value { flex: none; font-variant-numeric: tabular-nums; white-space: nowrap; color: rgba(226, 232, 240, .7); }
-.hd-chevron { width: 14px; flex: none; color: rgba(226, 232, 240, .32); }
+.hd-row-value { flex: none; font-variant-numeric: tabular-nums; white-space: nowrap; color: #71717a; }
+.hd-chevron { width: 14px; flex: none; color: #a1a1aa; }
 /* A route's stops done: "X of Y" (green with a tick when done), then the app's 44 × 4 bar: blue while
    under way, green like the count once done. */
 .hd-route { display: inline-flex; align-items: center; gap: 10px; }
-.hd-route-bar { position: relative; width: 44px; height: 4px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, .12); }
+.hd-route-bar { position: relative; width: 44px; height: 4px; overflow: hidden; border-radius: 999px; background: rgba(10, 10, 10, .10); }
 .hd-route-bar > span { position: absolute; inset: 0 auto 0 0; border-radius: 999px; background: #3b82f6; }
-.hd-route-bar.is-done > span { background: #34b864; }
-.hd-route-count { color: #fff; }
-.hd-route-count.is-done { display: inline-flex; align-items: center; gap: 4px; color: #34b864; }
-/* Scroll-linked (useHeroCardScroll.js sets --hd-travel): a CSS animation on the card's view timeline, so
-   the compositor moves the list in step with the scroll; smoothstep easing. */
-@media (max-width: 720px) {
-  .hero-phone { view-timeline: --hero-card block; }
-  .hd-list.is-scroll-linked {
-    animation: hero-card-list linear both;
-    animation-timing-function: cubic-bezier(.3333, 0, .6667, 1); /* smoothstep */
-    animation-timeline: --hero-card;
-    animation-range: contain 0% contain 100%; /* from the whole card on screen to its top at the window's top */
-  }
+.hd-route-bar.is-done > span { background: #16a34a; }
+.hd-route-count { color: #71717a; }
+.hd-route-count.is-done { display: inline-flex; align-items: center; gap: 4px; color: #16a34a; }
+/* Safari's bar at the screen's foot (back, the address, tabs: white at 90% with a soft shadow), and the
+   home indicator under it. */
+.hd-safari {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 30px;
+  display: flex;
+  gap: 8px;
 }
-@keyframes hero-card-list {
-  from { transform: translateY(0); }
-  to { transform: translateY(calc(var(--hd-travel) * -1)); }
+.hd-sf-btn,
+.hd-sf-url {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .9);
+  box-shadow: 0 0 0 .5px rgba(10, 10, 10, .06), 0 4px 16px rgba(10, 10, 10, .12);
+  color: #0a0a0a;
+}
+.hd-sf-btn { flex: none; width: 46px; }
+.hd-sf-url { position: relative; flex: 1; min-width: 0; font-size: 15px; }
+.hd-sf-url > svg { position: absolute; right: 16px; color: #0a0a0a; }
+.hd-home {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  width: 136px;
+  height: 5px;
+  border-radius: 999px;
+  background: #0a0a0a;
+  transform: translateX(-50%);
 }
 
 /* ---------- Homepage hero, phones (below 640px, the type tokens' phone step) ----------
-   The first screen is the copy, centred in the space above a 66px strip at the screen's foot: the
-   card's top, its header row only. The card carries on below the fold, whole, then 56px of the hero
-   before the next section. No lines over the card. A slow blue glow drifts behind that strip. */
+   The first screen is the copy, centred in the space above a 92px strip at the screen's foot that holds
+   the caption over the iPhone, whole (its 40px gap and two lines), with the line under it just below the
+   fold (the 66px strip that showed the old card's header cut the caption's first line in half). The phone carries on below the fold, whole, then 64px
+   of the hero before the next section. A slow blue glow drifts behind that strip. */
 @media (max-width: 639.98px) {
-  .hero.hero--home { padding-top: 84px; padding-bottom: 56px; }
+  .hero.hero--home { padding-top: 84px; padding-bottom: 64px; }
   /* The headline in three set lines ("Pool service software / built to run and grow / your pool business")
      and the subhead in two, one sentence each. Each line keeps a 3% margin in the 16px-gutter column:
      the headline's longest is 9.47 times its font size, so it's 36px from 390px wide down to 30px at
@@ -717,13 +761,10 @@
   .lp-home .hero--home .hero-sub { font-size: clamp(14px, calc((100vw - 32px) / 20.8), 16px); }
   .hero--home .hero-sub-line { white-space: nowrap; }
   .hero--home .hero-copy {
-    min-height: calc(100vh - 84px - 66px);
-    min-height: calc(100svh - 84px - 66px);
+    min-height: calc(100vh - 84px - 92px);
+    min-height: calc(100svh - 84px - 92px);
     justify-content: center;
   }
-  .hero--home .hero-card-caption,
-  .hero--home .hero-card-sub { display: none; }
-  .hero--home .hero-mockup { margin-top: 0; }
 
   .hero--home::after {
     content: "";
@@ -750,7 +791,7 @@
   .hero--home::after { animation: none; opacity: .7; }
 }
 
-/* ---------- Homepage hero, tablets (721px to 1023px; .hero--home, Hero.jsx) ----------
+/* ---------- Homepage hero, tablets (768px to 1023px; .hero--home, Hero.jsx) ----------
    The copy centred, 80px under the header, then, 76px under the ticks, the desktop dashboard: the
    browser window in its bezel (laptop.css), its 1062px design width zoomed as a whole so the bezel
    spans the container's width, with the glow and the top-edge light behind it, centred, as on desktop.
@@ -759,7 +800,7 @@
    phones and tablets below 1024px (the #collections section's too), so here its desktop rules are
    repeated for the hero's dashboard and its phone and tablet ones undone (a selector that outranks
    them). */
-@media (min-width: 720.02px) and (max-width: 1023.98px) {
+@media (min-width: 768px) and (max-width: 1023.98px) {
   .hero.hero--home { padding-top: calc(64px + 80px); padding-bottom: 80px; } /* the header's 64px, then 80px */
   .hero--home .hero-title { line-height: 1.1; }
   .hero--home .hero-sub { margin-top: 26px; }

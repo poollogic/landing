@@ -6,13 +6,13 @@ import { getPreviewTheme, usePreviewTheme } from './preview/previewTheme.js';
 import PhoneFrame from './PhoneFrame.jsx';
 import './laptop.css';
 import HeroPhoneDash from './HeroPhoneDash.jsx';
-import useHeroCardScroll from './useHeroCardScroll.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import useHeroToastAnchor from './useHeroToastAnchor.js';
 
-// Phones (720px and under), where the hero shows the dashboard card (HeroPhoneDash) instead of the
-// desktop dashboard. Updates if the window crosses the breakpoint; false on the server.
-const PHONE_QUERY = '(max-width: 720px)';
+// Phones (under 768px), where the hero shows the iPhone (HeroPhoneDash) instead of the desktop
+// dashboard (hero.css switches at the same width). Updates if the window crosses the breakpoint; false on
+// the server.
+const PHONE_QUERY = '(max-width: 767.98px)';
 const subscribePhone = (fn) => {
   const mq = window.matchMedia(PHONE_QUERY);
   mq.addEventListener('change', fn);
@@ -20,7 +20,7 @@ const subscribePhone = (fn) => {
 };
 const useIsPhone = () => useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
 // The billing-run toast is decoration: absolutely positioned (it can't move anything), shown on the
-// desktop dashboard (from 721px, tablets too; never on phones) and only loaded once the page has painted.
+// desktop dashboard (from 768px, tablets too; never on phones) and only loaded once the page has painted.
 const PreviewToast = lazy(() => import('./preview/PreviewToast.jsx'));
 function useAfterPaint() {
   const [ready, setReady] = useState(false);
@@ -36,11 +36,11 @@ function useAfterPaint() {
 // The homepage hero. Background, light beams, type and CTA styling live in
 // landing/hero.css; layout and the entrance animation stay in Tailwind. On
 // desktop (hero.css, "Desktop") it's one screen: the copy on the left, the dashboard on the right,
-// running off the window's edge, its toast placed by useHeroToastAnchor. On tablets (721px to 1023px)
+// running off the window's edge, its toast placed by useHeroToastAnchor. On tablets (768px to 1023px)
 // the copy is centred over the same desktop dashboard, scaled to the container's width, its toast in
-// the window's top-right corner (hero.css, "Homepage hero, tablets"). On phones
-// the dashboard is the phone dashboard card (HeroPhoneDash), whose list moves with the page
-// (useHeroCardScroll).
+// the window's top-right corner (hero.css, "Homepage hero, tablets"). On phones (under 768px) it's a
+// whole iPhone showing the app's light phone dashboard in Safari (HeroPhoneDash), under two lines of
+// caption; nothing in it moves.
 
 // The offer under the buttons. The second links to the switching page.
 const TICKS = ['No credit card, free for 30 days', 'We’ll move your customers over'];
@@ -52,9 +52,7 @@ const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 const Hero = () => {
   const theme = usePreviewTheme();
   const isPhone = useIsPhone();
-  const holderRef = useRef(null);
   const mockupRef = useRef(null);
-  useHeroCardScroll(holderRef, isPhone);
   useHeroToastAnchor(mockupRef);
   const showToast = useAfterPaint();
   // The pre-rendered page is drawn with the dark preview. When this visitor's is light, the page's
@@ -114,18 +112,18 @@ const Hero = () => {
         </ul>
       </div>
 
-      {/* 640px to 720px: two lines over the dashboard card; hidden on smaller phones and from 721px (hero.css). */}
-      <p className="hero-card-caption">Built for your desktop and your phone.</p>
-      <p className="hero-card-sub">Billing, customers and route management. Not just the tech app.</p>
+      {/* Under 768px: two lines over the iPhone; hidden from 768px (hero.css). */}
+      <p className="hero-card-caption">Works as well on your phone as it does on your desktop.</p>
+      <p className="hero-card-sub">Manage billing, customers and routes from anywhere.</p>
 
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
       <div ref={mockupRef} className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
-        <div className="mockup-holder" ref={holderRef}>
-          {/* From 721px: the bezel around the screen, a floating window (laptop.css). */}
+        <div className="mockup-holder">
+          {/* From 768px: the bezel around the screen, a floating window (laptop.css). */}
           <div className="lt-bezel" aria-hidden="true" />
           {/* Both dashboards are always rendered, so the pre-rendered page is the same at every width.
-              From 721px, hero.css takes the frame away and the desktop dashboard sits in the holder on
-              its own. On phones the frame is the dark card, showing only the phone dashboard. */}
+              From 768px, hero.css takes the frame away and the desktop dashboard sits in the holder on
+              its own. On phones the frame is a whole iPhone, showing only the phone dashboard. */}
           <PhoneFrame className="bz-phone--embedded hero-phone">
             <DashboardPreview date={HERO_DATE.long} />
             <HeroPhoneDash />

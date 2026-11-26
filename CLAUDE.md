@@ -27,7 +27,7 @@ Every indexable page is pre-rendered: the homepage (`pages/landing.jsx`, `landin
 
 ## SEO guardrails
 
-These apply to the homepage hero for now: `<section class="hero">`, including the dashboard preview inside it (`landing/Hero.jsx`, `landing/hero.css`, `landing/useHeroToastAnchor.js`, `landing/preview/`, and below lg the phone dashboard card, `landing/HeroPhoneDash.jsx` and `landing/useHeroCardScroll.js`), and to `/ai-and-automations` (its hero, and the whole page's text in the served HTML). `scripts/seo-check.mjs` enforces them (`npm run check:seo` after `npm run build`), and the deploy workflow runs it before deploying, so a broken rule stops the deploy.
+These apply to the homepage hero for now: `<section class="hero">`, including the dashboard preview inside it (`landing/Hero.jsx`, `landing/hero.css`, `landing/useHeroToastAnchor.js`, `landing/preview/`, and below 768px the iPhone, `landing/HeroPhoneDash.jsx`), and to `/ai-and-automations` (its hero, and the whole page's text in the served HTML). `scripts/seo-check.mjs` enforces them (`npm run check:seo` after `npm run build`), and the deploy workflow runs it before deploying, so a broken rule stops the deploy.
 
 1. **Crawlable text.** Search crawlers must be able to read the hero's `<h1>` and copy without waiting on animation.
    - Keep the headline and copy as real text in the DOM, never in images, canvas or SVG paths. Animate it with opacity and transforms only. Never mount it late, or after a scroll or timer.
