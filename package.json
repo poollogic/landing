@@ -7,7 +7,8 @@
     "build": "vite build && vite build --ssr entry-server.jsx --outDir .prerender && node scripts/prerender.mjs && node scripts/csp.mjs",
     "preview": "vite preview",
     "check:seo": "node scripts/seo-check.mjs",
-    "test": "node --test \"server/*.test.mjs\" \"scripts/*.test.mjs\" \"landing/reviews/*.test.mjs\""
+    "test": "node --test \"server/*.test.mjs\" \"scripts/*.test.mjs\" \"landing/reviews/*.test.mjs\"",
+    "og": "node scripts/share-images.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.0",

@@ -3,6 +3,8 @@
 // Price per month by active (not paused) customers: [customers, Insight, Vision].
 // More than 2,500 active customers is priced individually. Paying yearly saves 25%
 // (a year costs 9 months' price); /pricing works that out from these monthly prices.
+// The /pricing share image (public/og/pricing.png) shows the first row's prices ("$99/mo", "$159/mo"):
+// when they change, update shareImages.js and run `npm run og` to regenerate it (npm test fails until then).
 export const BRACKETS = [
   ['0–100', 99, 159],
   ['101–250', 199, 319],

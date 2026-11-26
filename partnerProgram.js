@@ -35,6 +35,7 @@ export const PARTNER = {
   // Flat amount per referred company, by plan, one per bracket in pricingPlans.js
   // (same order: 0–100, 101–250, 251–500, 501–1,000, 1,001–1,500, 1,501–2,500).
   // Set by the owner: about two months' price, in easy round numbers.
+  // The /partners share image (public/og/partners.png) shows the range: see shareImages.js if it changes.
   payouts: {
     Insight: [200, 400, 750, 1250, 1750, 2750],
     Vision: [300, 650, 1200, 2000, 3000, 4500],

@@ -11,6 +11,7 @@ import { FLEET_TITLE, FLEET_DESCRIPTION } from './landing/fleet-page/fleetMeta.j
 import { GUIDE_TITLE, GUIDE_DESCRIPTION, GUIDE_OG_TITLE, GUIDE_OG_IMAGE_ALT } from './landing/guides/raisePricesMeta.js';
 import { SWITCH_PATH, SWITCH_TITLE, SWITCH_DESCRIPTION, SWITCH_OG_TITLE, SWITCH_OG_DESCRIPTION } from './landing/switch-page/switchMeta.js';
 import { PRICE_TITLE, PRICE_DESCRIPTION, PRICE_OG_TITLE, PRICE_OG_IMAGE_ALT } from './landing/price-page/priceMeta.js';
+import { shareImage } from './shareImages.js';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
 const TermsPage = lazy(() => import('./pages/terms.jsx'));
@@ -80,17 +81,24 @@ const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
 
 const SITE_ORIGIN = 'https://getpoolnautics.com';
+// The site's share image and its alt text, as in index.html.
+const SITE_OG_IMAGE = '/og-image.png';
+const SITE_OG_IMAGE_ALT = 'Poolnautics: Run your pool route. Don’t let it run you.';
 
+// ogImage / ogImageAlt: the page's own share image (shareImage, from shareImages.js), written into og:image,
+// twitter:image and og:image:alt by scripts/prerender.mjs. A page without one keeps the site's /og-image.png.
 export const ROUTE_META = {
   home: {
     title: 'Pool Service Software: Billing, Routes & Scheduling | Poolnautics',
     description: 'Poolnautics is pool service software that puts billing, routes and service reports on autopilot. Cut your overhead and add more pools. Free for 30 days.',
     ogTitle: 'Poolnautics | Pool service software built to run and grow your business',
+    ...shareImage('home'),
     path: '/',
   },
   pricing: {
     title: 'Pool Service Software Pricing — Poolnautics',
     description: 'Insight from $99/mo and Vision from $159/mo, priced by active customers, with unlimited technicians and office staff. 25% off yearly. 30-day free trial.',
+    ...shareImage('pricing'),
     path: '/pricing',
   },
   reserve: {
@@ -102,57 +110,68 @@ export const ROUTE_META = {
   aiIntegrations: {
     title: 'Pool Service Management Software with Built-In Automations and AI | Poolnautics',
     description: 'Pool service software that automates billing, lead follow-ups and reminders on its own. Connect ChatGPT, Claude or Grok to your pool business. 30-day trial.',
+    ...shareImage('aiIntegrations'),
     path: '/ai-and-automations',
   },
   // The Claude connector (pages/claude.jsx). Pre-rendered.
   claude: {
     title: 'Claude Connector for Pool Service Software | Poolnautics',
     description: 'The Poolnautics connector for Claude. Send quotes, reassign requests, chase late invoices and check routes from Claude on your desk or your phone, inside limits you set.',
+    ...shareImage('claude'),
     path: '/claude',
   },
   techApp: {
     title: 'Pool Service Technician App | Poolnautics',
     description: 'Pool service technician app from Poolnautics: routes, chemistry logging, GPS-verified service reports and equipment notes from the field.',
+    ...shareImage('techApp'),
     path: '/tech-app',
   },
   contact: {
     title: 'Contact Poolnautics — Get a Demo or Ask a Question',
     description: 'Get a demo on your own routes, ask a question, or reach Poolnautics support, partnerships and legal. A real person replies within one business day.',
+    ...shareImage('contact'),
     path: '/contact',
   },
   terms: {
     title: 'Terms of Service — Poolnautics',
     description: 'The terms for using Poolnautics pool service software: accounts, payments through Stripe, your responsibilities as a subscriber, the technician app, and more.',
+    ...shareImage('terms'),
     path: '/terms',
   },
   privacy: {
     title: 'Privacy Policy — Poolnautics',
     description: 'How Poolnautics collects, uses and protects information from pool service companies, their customers, and the technicians who use the Poolnautics app.',
+    ...shareImage('privacy'),
     path: '/privacy',
   },
   partners: {
     title: 'Partner Program — Poolnautics',
     description: `Get paid when pool pros switch to Poolnautics: a flat ${payoutRange()} for every company you refer, set by its plan and size.`,
+    ...shareImage('partners'),
     path: '/partners',
   },
   technicianTerms: {
     title: 'Technician App Terms — Poolnautics',
     description: 'What a pool technician agrees to when they first sign in to the Poolnautics app: location on service reports, mileage logging, route review during work hours, and changing location access.',
+    ...shareImage('technicianTerms'),
     path: '/technician-terms',
   },
   deleteAccount: {
     title: 'Delete your account — Poolnautics',
     description: 'How to delete your Poolnautics account, in the app or without it, and what is deleted and what is kept, for technicians using the Poolnautics app and for pool service companies.',
+    ...shareImage('deleteAccount'),
     path: '/delete-account',
   },
   partnerTerms: {
     title: 'Partner Program Terms — Poolnautics',
     description: 'The terms of the Poolnautics Partner Program: referrals, what you earn per paying technician, payouts, disclosure and what partners may not do.',
+    ...shareImage('partnerTerms'),
     path: '/partners/terms',
   },
   partnerKit: {
     title: 'Partner kit — Poolnautics',
     description: 'The Poolnautics partner disclosure kit: the exact words to use on each platform, and what partners can and can\'t say.',
+    ...shareImage('partnerKit'),
     path: '/partners/kit',
   },
   reviews: {
@@ -170,6 +189,7 @@ export const ROUTE_META = {
   workflow: {
     title: 'Pool Repair & Work Order Software | Poolnautics',
     description: 'Repair requests, quotes, work orders and invoices for pool service companies. Poolnautics takes every repair from the tech’s request to a paid invoice.',
+    ...shareImage('workflow'),
     path: '/workflow',
   },
   // Pre-rendered at build time (entry-server.jsx). Indexed from Nov 19, 2026 (in the sitemap, linked
@@ -177,24 +197,28 @@ export const ROUTE_META = {
   billing: {
     title: BILLING_TITLE, // landing/billing-page/billingMeta.js, shared with the page's WebPage JSON-LD
     description: BILLING_DESCRIPTION,
+    ...shareImage('billing'),
     path: '/pool-service-billing',
   },
   // Pre-rendered at build time (entry-server.jsx). Indexed from Nov 21, 2026: "pool route software".
   routeSoftware: {
     title: ROUTE_TITLE, // landing/route-page/routeMeta.js, shared with the page's WebPage JSON-LD
     description: ROUTE_DESCRIPTION,
+    ...shareImage('routeSoftware'),
     path: '/pool-route-software',
   },
   // Pre-rendered at build time (entry-server.jsx). Mileage tracking, from Nov 25, 2026.
   mileage: {
     title: MILEAGE_TITLE, // landing/mileage-page/mileageMeta.js, shared with the page's WebPage JSON-LD
     description: MILEAGE_DESCRIPTION,
+    ...shareImage('mileage'),
     path: '/pool-service-mileage-tracking',
   },
   // Pre-rendered at build time (entry-server.jsx). Fleet management, from Nov 25, 2026.
   fleet: {
     title: FLEET_TITLE, // landing/fleet-page/fleetMeta.js, shared with the page's WebPage JSON-LD
     description: FLEET_DESCRIPTION,
+    ...shareImage('fleet'),
     path: '/pool-service-fleet-management',
   },
   // Pre-rendered at build time (entry-server.jsx). Raising prices, from Nov 25, 2026. Its own share title
@@ -250,6 +274,11 @@ const applyRouteMeta = (meta) => {
   setMeta('meta[property="og:url"]', 'content', url);
   setMeta('meta[name="twitter:title"]', 'content', meta.ogTitle || meta.title);
   setMeta('meta[name="twitter:description"]', 'content', meta.ogDescription || meta.description);
+  // The share image follows the page too (the served HTML already has it; this keeps it right after moving
+  // between pages in the browser). index.html's is the site's, for pages without their own.
+  setMeta('meta[property="og:image"]', 'content', SITE_ORIGIN + (meta.ogImage || SITE_OG_IMAGE));
+  setMeta('meta[name="twitter:image"]', 'content', SITE_ORIGIN + (meta.ogImage || SITE_OG_IMAGE));
+  setMeta('meta[property="og:image:alt"]', 'content', meta.ogImageAlt || SITE_OG_IMAGE_ALT);
   let canonical = document.head.querySelector('link[rel="canonical"]');
   if (!canonical) {
     canonical = document.createElement('link');

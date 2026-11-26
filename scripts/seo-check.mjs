@@ -310,6 +310,30 @@ for (const route of ROUTES) checkServedHtml(route);
   const missing = routes.filter((r) => !prerendered.has(r.replace(/(.)\/$/, '$1')) && !rewritten.has(r));
   if (missing.length) fail('crawlable text', `public/_redirects has no "/app-shell 200" rewrite for ${missing.join(', ')} (routes in app.jsx)`);
 }
+// Share images: every page in the sitemap names its own og:image (and the same twitter:image), sized
+// 1200 × 630 in its <head>, and the file is in the build at that size (shareImages.js, scripts/share-images.mjs).
+{
+  const seen = new Map();
+  for (const [, loc] of readFileSync(join(ROOT, 'public/sitemap.xml'), 'utf8').matchAll(/<loc>([^<]+)<\/loc>/g)) {
+    const path = new URL(loc).pathname;
+    const file = join(DIST, path === '/' ? 'index.html' : `${path.slice(1)}.html`);
+    if (!existsSync(file)) { fail('share image', `${path}: no ${relative(ROOT, file)} in the build`); continue; }
+    const html = readFileSync(file, 'utf8');
+    const meta = (attr, name) => html.match(new RegExp(`<meta ${attr}="${name}" content="([^"]*)">`))?.[1];
+    const image = meta('property', 'og:image');
+    if (!image) { fail('share image', `${path} has no og:image`); continue; }
+    if (meta('name', 'twitter:image') !== image) fail('share image', `${path}: twitter:image isn't its og:image`);
+    if (meta('property', 'og:image:width') !== '1200' || meta('property', 'og:image:height') !== '630') fail('share image', `${path}: og:image:width/height aren't 1200 × 630`);
+    if (meta('name', 'twitter:card') !== 'summary_large_image') fail('share image', `${path}: twitter:card isn't summary_large_image`);
+    if (seen.has(image)) fail('share image', `${path} has the same og:image as ${seen.get(image)} (${image})`);
+    seen.set(image, path);
+    const png = join(DIST, new URL(image).pathname);
+    if (!existsSync(png)) { fail('share image', `${path}: ${new URL(image).pathname} isn't in the build`); continue; }
+    const b = readFileSync(png);
+    const size = b.toString('ascii', 1, 4) === 'PNG' ? `${b.readUInt32BE(16)} × ${b.readUInt32BE(20)}` : 'not a PNG';
+    if (size !== '1200 × 630' && new URL(image).pathname !== '/og-image.png') fail('share image', `${path}: ${new URL(image).pathname} is ${size}, not 1200 × 630`);
+  }
+}
 await browserChecks();
 for (const w of warnings) console.log(`  ⚠ ${w}`);
 if (failures.length) {
