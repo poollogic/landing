@@ -12,8 +12,17 @@
   display: block; text-transform: none; letter-spacing: normal; opacity: 1;
   font-size: 17px; line-height: 24px; white-space: nowrap; color: #f8fafc;
 }
+.ai-page .claude-logos svg { display: inline-block; width: auto; height: 17px; vertical-align: -3.7px; }
 .ai-page .claude-logos-plus { margin: 0 9px; font-size: 15px; font-weight: 400; color: #64748b; }
 .ai-page .claude-logos-claude { font-weight: 600; letter-spacing: -.01em; }
+/* Phones: smaller and a little quieter, centred with the rest of the copy (claudeHero.css). The wordmark's
+   baseline stays 78% of the way down its box: 3.1px under the text's at 14px. */
+@media (max-width: 767.98px) {
+  .ai-page .claude-logos { font-size: 14px; line-height: 20px; opacity: .85; }
+  .ai-page .claude-logos svg { height: 14px; vertical-align: -3.1px; }
+  .ai-page .claude-logos-claude { font-size: 14px; }
+  .ai-page .claude-logos-plus { font-size: 12px; }
+}
 .ai-page .claude-trial-line a {
   color: #cbd5e1; text-decoration: underline; text-decoration-color: rgba(148, 163, 184, .5); text-underline-offset: 3px;
   transition: color .2s, text-decoration-color .2s;

@@ -155,7 +155,8 @@ function AddToClaudeCta({ onOpen, size = 'ai-cta' }) {
 function LogoPair() {
   return (
     <div className="hero-eyebrow claude-logos" role="img" aria-label="Poolnautics + Claude">
-      <Wordmark bg="dark" height={17} style={{ display: 'inline-block', verticalAlign: '-3.7px' }} />
+      {/* Sized by claude.css (.claude-logos svg): 17px, 14px on phones. */}
+      <Wordmark bg="dark" style={{ display: undefined, width: undefined, height: undefined }} />
       <span className="claude-logos-plus">+</span>
       <span className="claude-logos-claude">Claude</span>
     </div>

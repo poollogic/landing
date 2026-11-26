@@ -37,7 +37,7 @@
 }
 @media (max-width: 767.98px) {
   .ai-page .hero.ch-hero {
-  padding-top: 116px; } }
+  padding-top: 88px; } }
 .ai-page .hero > .ch-hero-fade {
   position: absolute;
   left: 0;
@@ -78,7 +78,7 @@
   align-items: center; }
 /* Phones: without the beam, the copy and the card need only half the room. */
 @media (max-width: 767.98px) {
-  .ai-page .ch-hero-grid { row-gap: 64px; }
+  .ai-page .ch-hero-grid { row-gap: 72px; }
 }
 @media (min-width: 960px) {
   .ai-page .hero.ch-hero {
@@ -149,6 +149,11 @@
 }
 .ai-page .ch-hero-copy {
   text-align: left; }
+/* Phones: the copy centred (the logo line, headline, paragraph and trial line). */
+@media (max-width: 767.98px) {
+  .ai-page .ch-hero-copy { text-align: center; }
+  .ai-page .ch-cta-row { justify-content: center; }
+}
 @media (prefers-reduced-motion: no-preference) {
   .ai-page .ch-hero .ch-hero-copy {
   animation-name: hero-rise; } }
@@ -204,7 +209,9 @@
 @media (max-width: 767.98px) {
   .ai-page .ch-hero .hero-sub {
   max-width: none;
-  margin-inline: 0; }
+  margin-inline: 0;
+  text-align: center;
+  text-wrap: balance; }
   .ai-page .ch-hero .hero-fine {
   max-width: none; }
 }
@@ -266,9 +273,11 @@
   box-shadow: var(--ch-chat-shadow, 0 0 0 1px rgba(46, 133, 255, .12), inset 0 0 70px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .05), 0 50px 100px -30px rgba(0, 0, 0, .85));
   -webkit-font-smoothing: antialiased;
 }
-/* Phones, where there's no beam: a thin blue edge and a soft, quiet halo. */
+/* Phones, where there's no beam: a thin blue edge and a soft, quiet halo, and a shorter window (the demo
+   follows the conversation to its end whatever the height: useChatDemo.js). */
 @media (max-width: 767.98px) {
   .ai-page .ch-chat {
+    height: 520px;
     box-shadow:
       0 0 0 1px rgba(96, 165, 250, .32),
       0 0 24px rgba(59, 130, 246, .22),
@@ -825,5 +834,6 @@
   .ai-page .ch-hero .hero-sub { font-size: 1.0625rem; line-height: 1.65; }
 }
 @media (max-width: 767.98px) {
-  .ai-page .ch-hero .hero-title { font-size: clamp(34px, 9.6vw, 42px); }
+  /* Three even lines from 360px to 430px. */
+  .ai-page .ch-hero .hero-title { font-size: clamp(27px, 7.8vw, 32px); line-height: 1.12; letter-spacing: -.025em; text-wrap: balance; }
 }
