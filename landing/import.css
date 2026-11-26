@@ -30,7 +30,7 @@
   user-select: none;
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  border-radius: 20px;
   padding-bottom: 8px;
   box-shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 24px 48px -16px rgba(16, 24, 40, .16), 0 8px 16px -8px rgba(16, 24, 40, .06);
 }
@@ -66,6 +66,11 @@
 }
 .demo-step.is-current { color: #1d1d1f; font-weight: 500; }
 .demo-step.is-current .demo-step-num { background: #2e85ff; border-color: #2e85ff; color: #fff; box-shadow: 0 0 0 3px #dfe9f7; }
+/* A finished step: a blue tick for its number; the lines up to the current step blue. */
+.demo-step:has(~ .demo-step.is-current) { color: #334155; }
+.demo-step:has(~ .demo-step.is-current) .demo-step-num { font-size: 0; border-color: #d9e8ff; background: #eaf2ff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232e85ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 12px 12px no-repeat; }
+.demo-step.is-current::before,
+.demo-step:has(~ .demo-step.is-current)::before { background: #2e85ff; opacity: .55; }
 
 /* Stage: scenes stacked, sliding as they cross-fade */
 .demo-stage { position: relative; height: 400px; margin-top: 22px; }
@@ -105,6 +110,9 @@
 .demo-review-note { display: flex; align-items: center; gap: 6px; margin: 0 0 12px; font-size: 13.5px; color: #64748b; }
 .demo-info { color: #94a3b8; flex: none; }
 .demo-table-wrap { border: 1px solid #e5e7eb; border-radius: 14px; overflow: hidden; background: #fff; }
+/* More rows than fit (ImportDemo.jsx adds .is-long): the table runs past its box and fades out. */
+.demo-table-wrap.is-long { position: relative; max-height: 366px; }
+.demo-table-wrap.is-long::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46px; background: linear-gradient(rgba(255, 255, 255, 0), #fff 88%); pointer-events: none; }
 .demo-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.5px; table-layout: fixed; }
 .demo-table th {
   padding: 10px 14px 9px; background: #fafafa; text-align: left; vertical-align: top; font-weight: 400;
@@ -130,18 +138,21 @@
 @keyframes demo-row-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 /* Step 3: billing */
-.demo-billing { max-width: 760px; }
+/* The billing step: the choice and the fields 760px wide, the summary as a card on the right. */
+.demo-billing { position: relative; width: 100%; }
+.demo-billing > :is(.demo-lead, .demo-options, .demo-fields) { max-width: 760px; }
 .demo-lead { margin: 0; font-size: 15px; font-weight: 500; color: #1d1d1f; }
 .demo-options { margin-top: 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.demo-option { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 12px; background: #f5f5f6; border: 1.5px solid transparent; }
-.demo-option.is-on { background: #f3f7fd; border-color: #2e85ff; }
-.demo-option-icon { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 9px; background: #fff; color: #475569; box-shadow: inset 0 0 0 1px #e5e7eb; }
-.demo-option-icon.is-blue { background: #2e85ff; color: #fff; box-shadow: none; }
+.demo-option {
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px 14px 18px;
+  border: 1.5px solid transparent; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 1px #e1e6ee;
+}
+.demo-option.is-on { border-color: #2e85ff; border-radius: 14px; background: #eff5ff; box-shadow: none; }
 .demo-option-text { flex: 1; display: flex; flex-direction: column; }
 .demo-option-text b { font-size: 14px; font-weight: 600; }
 .demo-option-text span { margin-top: 1px; font-size: 12.5px; color: #64748b; }
 .demo-radio { width: 18px; height: 18px; flex: none; border-radius: 999px; border: 1.5px solid #c8ccd2; background: #fff; }
-.demo-radio.is-on { border: 5px solid #2e85ff; }
+.demo-radio.is-on { border-color: #2e85ff; background: radial-gradient(circle, #2e85ff 0 4.4px, #fff 5px); }
 .demo-fields { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; }
 .demo-field { display: flex; flex-direction: column; gap: 6px; }
 .demo-label { display: flex; align-items: center; gap: 5px; font-size: 13px; font-weight: 500; color: #1d1d1f; }
@@ -161,9 +172,18 @@
 .demo-extra.is-disabled { color: #b4b9c0; }
 .demo-box { width: 16px; height: 16px; flex: none; border-radius: 4px; border: 1.5px solid #c8ccd2; background: #fff; }
 .demo-extra.is-disabled .demo-box { border-color: #e3e5e8; background: #f5f5f6; }
-.demo-summary { margin-top: 20px; display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 10px; background: #f3f7fd; font-size: 13.5px; color: #475569; }
-.demo-summary svg { color: #2e85ff; flex: none; }
-.demo-summary b { color: #1d1d1f; font-weight: 600; padding: 1px 3px; margin: 0 -3px; border-radius: 4px; transition: background-color .6s ease; }
+.demo-summary {
+  position: absolute; top: 36px; right: 0; box-sizing: border-box; width: 200px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 14px; padding: 20px 20px 22px;
+  border-radius: 14px; background: #f8fafc; box-shadow: inset 0 0 0 1px #e3e8f0;
+  font-size: 14.5px; line-height: 1.55; color: #56657f;
+}
+/* .demo-billing > …: outranks a page's own box-sizing on everything (the switching page's .sw *). */
+.demo-billing > .demo-summary > svg {
+  flex: none; box-sizing: content-box; width: 18px; height: 18px; padding: 9px;
+  border-radius: 10px; background: #fff; box-shadow: 0 0 0 1px #e3e8f0; color: #2e85ff;
+}
+.demo-summary b { color: #0e1117; font-weight: 600; padding: 1px 3px; margin: 0 -3px; border-radius: 4px; transition: background-color .6s ease; }
 .demo-summary b.is-flash { background: #dfe9f7; transition: background-color .15s ease; }
 
 /* Menus (positioned over the stage) */
@@ -223,4 +243,18 @@
 /* ---------- Closing line ---------- */
 .im-closing { margin-top: 56px; text-align: center; }
 .im-closing-a { font-size: 16px; color: #94a3b8; }
+/* The link to /switch-pool-service-software: a quiet text link, as the homepage hero's "See pricing". */
+.im-closing-link {
+  display: inline-block;
+  margin-top: 20px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(226, 232, 240, .4);
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(226, 232, 240, .72);
+  transition: color .15s ease, border-color .15s ease;
+}
+.im-closing-link:hover { color: #fff; border-bottom-color: #fff; }
+.im-closing-link:focus-visible { outline: 2px solid #93C5FD; outline-offset: 4px; border-radius: 2px; }
+@media (prefers-reduced-motion: reduce) { .im-closing-link { transition: none; } }
 .im-closing-b { margin-top: 6px; font-size: 17px; font-weight: 600; color: #f1f5f9; }

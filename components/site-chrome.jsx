@@ -69,6 +69,7 @@ const Footer = () =>
       <span suppressHydrationWarning>© {new Date().getFullYear()} Poolnautics. All rights reserved.</span>
       <span className="site-footer-links">
         <a href="/pool-route-software" className="site-footer-link">Route software</a>
+        <a href="/switch-pool-service-software" className="site-footer-link">Switch to Poolnautics</a>
         <a href="/ai-and-automations" className="site-footer-link">AI &amp; automations</a>
         <a href="/claude" className="site-footer-link">Claude</a>
         <a href="/partners" className="site-footer-link">Partners</a>

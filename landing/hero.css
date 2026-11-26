@@ -252,8 +252,20 @@
 }
 .hero-ticks > li { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
 .hero-ticks svg { display: block; flex: none; width: 16px; height: 16px; color: #10b981; }
+/* "We'll move your customers over": a link to /switch-pool-service-software, the tick's own colour with a
+   quiet underline (as "See pricing"'s), white on hover. */
+.hero-tick-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(226, 232, 240, .35);
+  text-underline-offset: 4px;
+  transition: color .15s ease, text-decoration-color .15s ease;
+}
+.hero-tick-link:hover { color: #fff; text-decoration-color: #fff; }
+.hero-tick-link:focus-visible { outline: 2px solid #93C5FD; outline-offset: 4px; border-radius: 2px; }
 @media (prefers-reduced-motion: reduce) {
-  .hero-pricing { transition: none; }
+  .hero-pricing, .hero-tick-link { transition: none; }
 }
 
 .hero-cta {

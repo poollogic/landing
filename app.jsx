@@ -9,6 +9,7 @@ import { ROUTE_TITLE, ROUTE_DESCRIPTION } from './landing/route-page/routeMeta.j
 import { MILEAGE_TITLE, MILEAGE_DESCRIPTION } from './landing/mileage-page/mileageMeta.js';
 import { FLEET_TITLE, FLEET_DESCRIPTION } from './landing/fleet-page/fleetMeta.js';
 import { GUIDE_TITLE, GUIDE_DESCRIPTION, GUIDE_OG_TITLE, GUIDE_OG_IMAGE_ALT } from './landing/guides/raisePricesMeta.js';
+import { SWITCH_PATH, SWITCH_TITLE, SWITCH_DESCRIPTION, SWITCH_OG_TITLE, SWITCH_OG_DESCRIPTION } from './landing/switch-page/switchMeta.js';
 import { PRICE_TITLE, PRICE_DESCRIPTION, PRICE_OG_TITLE, PRICE_OG_IMAGE_ALT } from './landing/price-page/priceMeta.js';
 
 // Sub-pages are each split into their own chunks — only fetched when visited.
@@ -32,6 +33,7 @@ const MileageTrackingPage = lazy(() => import('./pages/mileage-tracking.jsx'));
 const FleetManagementPage = lazy(() => import('./pages/fleet-management.jsx'));
 const PriceIncreasesPage = lazy(() => import('./pages/price-increases.jsx'));
 const GuideRaisePricesPage = lazy(() => import('./pages/guide-raise-prices.jsx'));
+const SwitchSoftwarePage = lazy(() => import('./pages/switch-software.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 // Customer reviews: only with VITE_REVIEWS=1 (landing/reviews/config.js). Off, both addresses show the
 // homepage, marked noindex, like any unknown address, and none of it is built. On, writing a review is a
@@ -73,6 +75,7 @@ const isMileagePath = (p) => p === '/pool-service-mileage-tracking';
 const isFleetPath = (p) => p === '/pool-service-fleet-management';
 const isPricePath = (p) => p === '/pool-service-price-increases';
 const isGuideRaisePricesPath = (p) => p === '/guides/how-to-raise-prices';
+const isSwitchPath = (p) => p === SWITCH_PATH;
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
 
@@ -215,6 +218,15 @@ export const ROUTE_META = {
     ogImageAlt: GUIDE_OG_IMAGE_ALT,
     path: '/guides/how-to-raise-prices',
   },
+  // Pre-rendered at build time (entry-server.jsx). Switching from other pool software, from Nov 25, 2026:
+  // its own share title and description.
+  switchSoftware: {
+    title: SWITCH_TITLE, // landing/switch-page/switchMeta.js, shared with the page's WebPage JSON-LD
+    description: SWITCH_DESCRIPTION,
+    ogTitle: SWITCH_OG_TITLE,
+    ogDescription: SWITCH_OG_DESCRIPTION,
+    path: SWITCH_PATH,
+  },
 };
 
 const setMeta = (selector, attr, value) => {
@@ -283,6 +295,7 @@ const App = ({ path: pathProp }) => {
     else if (isFleetPath(path)) meta = ROUTE_META.fleet;
     else if (isPricePath(path)) meta = ROUTE_META.priceIncreases;
     else if (isGuideRaisePricesPath(path)) meta = ROUTE_META.guideRaisePrices;
+    else if (isSwitchPath(path)) meta = ROUTE_META.switchSoftware;
     else if (isReviewsPath(path)) meta = ROUTE_META.reviews;
     else if (isReviewWritePath(path)) meta = ROUTE_META.reviewWrite;
     // Any other address shows the homepage; keep those copies out of search results.
@@ -462,6 +475,17 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
           <GuideRaisePricesPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // Switching from other pool software: a light hero under the light nav, the homepage's import demo. Pre-rendered.
+  if (isSwitchPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#FFFFFF' }} />}>
+          <SwitchSoftwarePage />
         </Suspense>
       </ErrorBoundary>
     );

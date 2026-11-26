@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import useHydrated from './useHydrated.js';
 import useBrowserLayoutEffect from './useBrowserLayoutEffect.js';
 import {
-  ArrowLeft, BanknoteX, Calendar, Check, ChevronDown, Clock, Info, Loader2, Mail, Receipt, Upload,
+  ArrowLeft, Calendar, Check, ChevronDown, Clock, Info, Loader2, Mail, Upload,
 } from 'lucide-react';
 
 // A copy of the app's Import customers screen (poollogic-web-app:
@@ -12,6 +12,11 @@ import {
 // fixed, billing is set, and the customers are imported. Laid out at a 1040px
 // design width and scaled down to fit narrower screens. Decorative: nothing
 // in it is a control. All names, figures and menu options are MOCK data.
+// The homepage shows it as it is; /switch-pool-service-software passes its own
+// customer count, rows and billing total (props below) and restyles it in its
+// own CSS. The pointer's targets (the upload box, the table's cells and the
+// billing fields) stay where they are either way. The second row's type and the
+// fifth row's last name are the ones the pointer changes.
 
 const DESIGN_W = 1040;
 const STEPS = ['Upload your spreadsheet', 'Automatic import', 'Review before saving'];
@@ -135,7 +140,7 @@ function UploadScene({ s }) {
   );
 }
 
-function ReviewScene({ s }) {
+function ReviewScene({ s, rows, count }) {
   const cell = (r, i, key) => {
     if (key === 'type') {
       const v = i === 1 ? s.marisolType : 'Home';
@@ -159,10 +164,11 @@ function ReviewScene({ s }) {
   return (
     <div className="demo-review">
       <p className="demo-review-note">
-        5 customers — click any cell to fix it. Click a column’s name to change which of your columns fills it.
+        {count} customers — click any cell to fix it. Click a column’s name to change which of your columns fills it.
         <Info size={14} strokeWidth={1.75} className="demo-info" />
       </p>
-      <div className="demo-table-wrap">
+      {/* More rows than the stage holds (the switching page's eight): the table fades out at its foot. */}
+      <div className={`demo-table-wrap${rows.length > 6 ? ' is-long' : ''}`}>
         <table className="demo-table">
           <thead>
             <tr>
@@ -181,7 +187,7 @@ function ReviewScene({ s }) {
             </tr>
           </thead>
           <tbody>
-            {ROWS.map((r, i) => (
+            {rows.map((r, i) => (
               <tr key={r.first} className="demo-row" style={{ '--i': i }}>
                 <td className="demo-td-active"><span className="demo-check"><Check size={12} strokeWidth={3} /></span></td>
                 {COLUMNS.map((c) => (
@@ -198,20 +204,18 @@ function ReviewScene({ s }) {
   );
 }
 
-function BillingScene({ s }) {
+function BillingScene({ s, count, total }) {
   return (
     <div className="demo-billing">
       <p className="demo-lead">Choose how these customers are billed.</p>
       <div className="demo-options">
         <div className="demo-option is-on">
-          <span className="demo-option-icon is-blue"><Receipt size={17} strokeWidth={1.9} /></span>
-          <span className="demo-option-text"><b>Bill them</b><span>Invoices go out on a schedule</span></span>
           <span className="demo-radio is-on" />
+          <span className="demo-option-text"><b>Bill them</b><span>Invoices go out on a schedule</span></span>
         </div>
         <div className="demo-option">
-          <span className="demo-option-icon"><BanknoteX size={17} strokeWidth={1.9} /></span>
-          <span className="demo-option-text"><b>Don’t bill yet</b><span>Set up billing per customer later</span></span>
           <span className="demo-radio" />
+          <span className="demo-option-text"><b>Don’t bill yet</b><span>Set up billing per customer later</span></span>
         </div>
       </div>
 
@@ -244,14 +248,15 @@ function BillingScene({ s }) {
       <div className="demo-summary">
         <Mail size={15} strokeWidth={1.9} />
         <span>
-          On <b className={s.flash ? 'is-flash' : undefined}>{s.summaryDate}</b>, 5 customers are emailed invoices totalling <b>$750.00</b> automatically.
+          On <b className={s.flash ? 'is-flash' : undefined}>{s.summaryDate}</b>, {count} customers are emailed invoices totalling <b>{total}</b> automatically.
         </span>
       </div>
     </div>
   );
 }
 
-export default function ImportDemo() {
+/** count, rows, total: the customers in the file, the rows shown, and the first billing run's total. */
+export default function ImportDemo({ count = 5, rows = ROWS, total = '$750.00' }) {
   const fitRef = useRef(null);
   const rootRef = useRef(null);
   const scaleRef = useRef(1);
@@ -439,7 +444,7 @@ export default function ImportDemo() {
   const primaryLabel = s.step === 2 ? 'Continue'
     : s.importing === 'busy' ? <><Loader2 size={15} strokeWidth={2.2} className="demo-spin" /> Importing</>
     : s.importing === 'done' ? <><Check size={15} strokeWidth={2.6} /> Imported</>
-    : 'Import 5 customers';
+    : `Import ${count} customers`;
 
   return (
     <div className={`demo-fit${height == null ? ' is-unfitted' : ''}`} ref={fitRef} style={{ height: height ?? undefined }} aria-hidden="true">
@@ -458,8 +463,8 @@ export default function ImportDemo() {
 
         <div className="demo-stage">
           <div className={sceneClass(1)}><UploadScene s={s} /></div>
-          <div className={sceneClass(2)}><ReviewScene s={s} /></div>
-          <div className={sceneClass(3)}><BillingScene s={s} /></div>
+          <div className={sceneClass(2)}><ReviewScene s={s} rows={rows} count={count} /></div>
+          <div className={sceneClass(3)}><BillingScene s={s} count={count} total={total} /></div>
         </div>
 
         {/* Menus float above the scenes, so nothing clips them. */}
@@ -477,7 +482,7 @@ export default function ImportDemo() {
 
         <div className={`demo-toast${s.toast ? ' is-on' : ''}`}>
           <span className="demo-toast-check"><Check size={12} strokeWidth={3} /></span>
-          5 customers imported
+          {count} customers imported
         </div>
 
         {hydrated && !reduced && <Pointer cursor={cursor} />}

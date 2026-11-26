@@ -4,7 +4,8 @@ import SectionHeader from './SectionHeader.jsx';
 import './import.css';
 
 // Section 4: instant migration, on dark. Copy, the looping import demo (a white card, unchanged on the
-// dark ground) and a closing line. Route acquisition follows in its own section (RouteSection.jsx).
+// dark ground), a closing line and a link to the switching page. Route acquisition follows in its own
+// section (RouteSection.jsx).
 
 export default function ImportSection() {
   return (
@@ -24,6 +25,7 @@ export default function ImportSection() {
         <div className="im-closing">
           <p className="im-closing-a">Every step is streamlined so you spend less time on setup and more time on the route.</p>
           <p className="im-closing-b">One of the quickest customer onboarding processes in the pool industry.</p>
+          <a href="/switch-pool-service-software" className="im-closing-link">See how switching works</a>
         </div>
       </div>
     </section>

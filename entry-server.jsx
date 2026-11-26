@@ -12,6 +12,7 @@ import { structuredData as mileageData } from './pages/mileage-tracking.jsx';
 import { structuredData as fleetData } from './pages/fleet-management.jsx';
 import { structuredData as priceData } from './pages/price-increases.jsx';
 import { structuredData as guideRaisePricesData } from './pages/guide-raise-prices.jsx';
+import { structuredData as switchSoftwareData } from './pages/switch-software.jsx';
 import { structuredData as techAppData, appBanner } from './pages/tech-app.jsx';
 import { homeFirstPaintScript } from './landing/firstPaint.js';
 import { FAQS } from './landing/FaqSection.jsx';
@@ -45,6 +46,7 @@ export const PRERENDERED = {
     meta: ROUTE_META.guideRaisePrices,
     jsonLd: guideRaisePricesData.map((d) => (d['@type'] === 'Article' ? { ...d, image: `https://getpoolnautics.com${ROUTE_META.guideRaisePrices.ogImage}` } : d)),
   },
+  '/switch-pool-service-software': { meta: ROUTE_META.switchSoftware, jsonLd: switchSoftwareData },
   // The rest of the indexable pages: their own <head> and text in the served HTML, not the empty page
   // (whose head was the homepage's, canonical included, until JavaScript ran).
   '/contact': { meta: ROUTE_META.contact },

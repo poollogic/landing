@@ -125,7 +125,8 @@ const FAQ = [
   ['What happens if I go over my customer limit?',
     `You simply move into the next bracket. We’ll automatically adjust your billing for the following month. No hidden overage fees. ${TIER_PRICES}`],
   ['Is there a setup fee?',
-    'Zero setup fees, and our white-glove onboarding and data migration is 100% free.'],
+    'Zero setup fees, and our white-glove onboarding and data migration is 100% free.',
+    <a href="/switch-pool-service-software">See how switching works</a>],
   ['Do I need a credit card for the free trial?',
     isReserving
       ? 'No. When we onboard you, you sign up with just your email, and we import your route for you.'
@@ -136,7 +137,7 @@ const FAQ = [
     'Stripe charges its standard processing fees to your Stripe account. You can pass them on with a card fee of up to 3% on credit card payments, where your state allows it.'],
   ['Is there a discount for paying yearly?',
     `Yes. Pay for a year up front and save ${YEARLY_SAVING}.`],
-].map(([q, a]) => ({ q, a }));
+].map(([q, a, more]) => ({ q, a, more }));
 
 // Structured data for search engines and AI assistants, in the pre-rendered page's <head>
 // (entry-server.jsx): the page, about the product, and the FAQ (FaqSection's own copy is off, so

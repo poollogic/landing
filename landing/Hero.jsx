@@ -42,8 +42,9 @@ function useAfterPaint() {
 // the dashboard is the phone dashboard card (HeroPhoneDash), whose list moves with the page
 // (useHeroCardScroll).
 
-// The offer under the buttons.
+// The offer under the buttons. The second links to the switching page.
 const TICKS = ['No credit card, free for 30 days', 'We’ll move your customers over'];
+const TICK_LINKS = { 'We’ll move your customers over': '/switch-pool-service-software' };
 
 // Staggered entrance: 300ms fade-up (ease-mktg), skipped under reduced motion.
 const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
@@ -105,7 +106,10 @@ const Hero = () => {
         {/* The offer, one tick per line, under both. */}
         <ul className="hero-ticks">
           {TICKS.map((t) => (
-            <li key={t}><Check size={16} strokeWidth={2.25} aria-hidden="true" />{t}</li>
+            <li key={t}>
+              <Check size={16} strokeWidth={2.25} aria-hidden="true" />
+              {TICK_LINKS[t] ? <a href={TICK_LINKS[t]} className="hero-tick-link">{t}</a> : t}
+            </li>
           ))}
         </ul>
       </div>
