@@ -869,6 +869,9 @@
   .hero--home .hero-copy .hero-title { font-size: clamp(44px, 1.6vw + 26px, 56px); line-height: 1.12; } /* over 56px, line one wraps */
   .hero--home .hero-copy .hero-sub { margin-top: 22px; max-width: 31em; font-size: 18px; line-height: 1.6; text-wrap: pretty; }
   .hero--home .hero-actions { justify-content: flex-start; margin-top: 34px; }
+  /* The ticks as wide as the column (their items still left-aligned), so the box doesn't depend on when
+     Satoshi replaces its fallback: it changed by a few pixels when sized by the text. */
+  .hero--home .hero-ticks { align-self: stretch; }
 
   /* The dashboard, at its design size, zoomed. Inside, the preview and its toast are laid out for a
      1062px-wide screen (preview.css's --dz, here fixed to that width). */

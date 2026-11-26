@@ -240,7 +240,7 @@ function PlanCard({ id, name, desc, price, yearly, featured, lead, features, hre
       <p className="pr-plan-desc">{desc}</p>
       <Price amount={price == null ? null : perMonth(price, yearly)} yearly={yearly} />
       <a
-        href={price ? href : '/contact'}
+        href={price ? href : '/contact?topic=demo'}
         aria-describedby={id}
         className={`pr-plan-btn ${featured ? 'pr-plan-btn--primary' : 'pr-plan-btn--secondary'} ${FOCUS}`}
       >
@@ -485,7 +485,7 @@ export default function PricingPage() {
                 <p className="pr-cmp-cta-title">Try it on your own route.</p>
                 <p className="pr-cmp-cta-text">Free for 30 days, no credit card required. Migration is on us.</p>
               </div>
-              <a href={vision ? trial : '/contact'} className={`pr-cmp-cta-btn ${FOCUS}`}>
+              <a href={vision ? trial : '/contact?topic=demo'} className={`pr-cmp-cta-btn ${FOCUS}`}>
                 {vision ? (isReserving ? 'Reserve your spot' : 'Start 30-day free trial') : 'Talk to us'}
               </a>
             </div>

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowRight, ArrowUpRight, Check, CodeXml, Handshake, LifeBuoy, Scale } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Check, Phone } from 'lucide-react';
 import '../landing/landing.css';
 import '../landing/hero.css';
 import '../landing/reserve.css';
@@ -16,16 +16,18 @@ import { payoutRange } from '../partnerProgram.js';
 // /contact: a short heading, the form (a demo, a question or a Partner Program application, picked
 // with the switch at its top), then the other ways to reach us. Kept deliberately sparse. The form posts
 // to /api/request (server/requestForm.js) as the form kind of the same name: the owner gets an
-// email, the person a confirmation. /contact?topic=question|partner opens on that topic (the
-// Partner Program's Apply button is ?topic=partner). The card and fields are /reserve's
+// email, the person a confirmation. It opens on "Ask a question"; /contact?topic=demo|partner opens on
+// that topic (the pricing page's "Talk to us" is ?topic=demo, the Partner Program's Apply button
+// ?topic=partner). The card and fields are /reserve's
 // (reserve.css); the rest is contact.css.
 
 const APP_URL = 'https://app.poolnautics.app/';
 const HELLO = 'hello@getpoolnautics.com';
 
+// In the switch's order; the first is the one the page opens on.
 const TOPICS = {
-  demo: { tab: 'Get a demo', submit: 'Request a demo', done: 'We’ll reply within one business day to set up a time.' },
   question: { tab: 'Ask a question', submit: 'Send message', done: 'We’ll reply within one business day.' },
+  demo: { tab: 'Get a demo', submit: 'Request a demo', done: 'We’ll reply within one business day to set up a time.' },
   partner: {
     tab: 'Partner program',
     submit: 'Apply',
@@ -34,28 +36,40 @@ const TOPICS = {
   },
 };
 const isTopic = (t) => Object.hasOwn(TOPICS, t);
+const DEFAULT_TOPIC = 'question';
+
+// The direct support phone line for customers, trials included (the owner, Nov 26, 2026). The number lives
+// only in the app: this page never has it, so it can't leak from here. The "Customer support" card shows a
+// blurred dummy number and "Sign in to view", which opens the app screen that shows the real one
+// (SUPPORT_LINE_URL). Off until that screen exists: then set its address and turn this on, which also
+// shows the hero bullet and the line under "Other ways to reach us". While it's off, nothing on the page
+// mentions the line.
+const SUPPORT_LINE_LIVE = false;
+const SUPPORT_LINE_URL = `${APP_URL}support`; // TODO(owner): the app screen with the number; not built yet
+const DUMMY_NUMBER = '(000) 000-0000'; // what the blur hides: never the real number
 
 const WAYS = [
-  {
-    Icon: LifeBuoy,
+  SUPPORT_LINE_LIVE ? {
+    title: 'Customer support',
+    body: 'Already using Poolnautics? Sign in or email us for help.',
+    phone: true,
+    links: [['support@getpoolnautics.com', 'mailto:support@getpoolnautics.com']],
+  } : {
     title: 'Customer support',
     body: 'Already using Poolnautics? Email us and we’ll help you sort it out.',
     links: [['support@getpoolnautics.com', 'mailto:support@getpoolnautics.com'], ['Sign in to Poolnautics', APP_URL, true]],
   },
   {
-    Icon: Handshake,
     title: 'Partner program',
     body: `Earn a flat ${payoutRange()} for every pool company you refer.`,
     links: [['partners@getpoolnautics.com', 'mailto:partners@getpoolnautics.com'], ['How the program works', '/partners']],
   },
   {
-    Icon: CodeXml,
     title: 'Developers',
     body: 'Connect Claude, Grok, ChatGPT or your own AI, or build on the Poolnautics API.',
     links: [['AI & automations', '/ai-and-automations']],
   },
   {
-    Icon: Scale,
     title: 'Legal and privacy',
     body: 'Contracts, your data, and requests about either.',
     links: [['legal@getpoolnautics.com', 'mailto:legal@getpoolnautics.com'], ['privacy@getpoolnautics.com', 'mailto:privacy@getpoolnautics.com']],
@@ -103,9 +117,9 @@ function Success({ topic, name, already, onReset }) {
 }
 
 function ContactCard() {
-  // Starts on 'demo' everywhere (the pre-rendered page has no address to read), then opens the topic
-  // in ?topic= once the page is in the browser.
-  const [topic, setTopic] = useState('demo');
+  // Starts on "Ask a question" everywhere (the pre-rendered page has no address to read), then opens the
+  // topic in ?topic= once the page is in the browser.
+  const [topic, setTopic] = useState(DEFAULT_TOPIC);
   useEffect(() => {
     const t = new URLSearchParams(window.location.search).get('topic');
     if (isTopic(t)) setTopic(t);
@@ -127,7 +141,7 @@ function ContactCard() {
     setStatus('idle');
     setError('');
     setFields({});
-    window.history.replaceState(null, '', next === 'demo' ? '/contact' : `/contact?topic=${next}`);
+    window.history.replaceState(null, '', next === DEFAULT_TOPIC ? '/contact' : `/contact?topic=${next}`);
   };
 
   const onSubmit = async (e) => {
@@ -244,7 +258,6 @@ function ContactCard() {
 export default function ContactPage() {
   return (
     <div className="mktg ct-page relative flex min-h-screen flex-col font-sans text-mktg-muted antialiased">
-      <div className="ct-light" aria-hidden="true" />
       <Nav current="/contact" />
       <main className="flex-1">
         <section className="hero ct-hero relative overflow-x-clip" aria-labelledby="contact-heading">
@@ -261,6 +274,7 @@ export default function ContactPage() {
                   <li><Check strokeWidth={2.5} />A live walkthrough on your own routes</li>
                   <li><Check strokeWidth={2.5} />Straight answers from the people who build it</li>
                   <li><Check strokeWidth={2.5} />No sales sequence, no bots</li>
+                  {SUPPORT_LINE_LIVE && <li><Check strokeWidth={2.5} />A direct phone line once you’re a customer</li>}
                 </ul>
                 <p className="ct-direct">Prefer email? <a href={`mailto:${HELLO}`} className="ct-inline">{HELLO}</a></p>
               </div>
@@ -271,15 +285,26 @@ export default function ContactPage() {
 
         <section className="ct-more" aria-labelledby="ct-more-heading">
           <div className="container">
-            <h2 id="ct-more-heading" className="ct-h2">Other ways to reach us</h2>
-            <p className="ct-more-sub">Every address goes to a real person.</p>
+            {/* The heading is for screen readers; the cards speak for themselves. */}
+            <h2 id="ct-more-heading" className="sr-only">Other ways to reach us</h2>
+            <p className="ct-more-sub">
+              Every address goes to a real person.
+              {SUPPORT_LINE_LIVE && ' Customers get our direct line. Signing in keeps spam calls off it.'}
+            </p>
             <ul className="ct-ways">
-              {WAYS.map(({ Icon, title, body, links }) => (
+              {WAYS.map(({ title, body, phone, links }) => (
                 <li key={title} className="ct-way">
-                  <span className="ct-way-icon"><Icon size={20} strokeWidth={1.75} aria-hidden="true" /></span>
                   <h3>{title}</h3>
                   <p>{body}</p>
                   <div className="ct-way-links">
+                    {phone && (
+                      <div className="ct-phone">
+                        <Phone size={15} strokeWidth={2} aria-hidden="true" />
+                        <span className="ct-phone-dummy" aria-hidden="true">{DUMMY_NUMBER}</span>
+                        <span className="sr-only">Direct phone line, shown in Poolnautics after you sign in.</span>
+                        <a href={SUPPORT_LINE_URL} className={`ct-phone-btn ${FOCUS}`}>Sign in to view</a>
+                      </div>
+                    )}
                     {links.map(([label, href, external]) => (
                       <a key={href} href={href} className={FOCUS}>
                         {label}
@@ -290,7 +315,6 @@ export default function ContactPage() {
                 </li>
               ))}
             </ul>
-            <p className="ct-company">Poolnautics LLC · St. Petersburg, Florida</p>
           </div>
         </section>
       </main>

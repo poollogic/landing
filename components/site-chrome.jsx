@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AppStoreBadge from '../landing/AppStoreBadge.jsx';
 import { I } from './icons.jsx';
-import BrandLogo from './brand-logo.jsx';
+import BrandLogo, { Wordmark } from './brand-logo.jsx';
 import FeaturesMenu, { LINKS } from '../landing/FeaturesMenu.jsx';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
 import { API_DOCS_URL } from '../aiFacts.js';
@@ -59,30 +59,57 @@ const FooterLink = ({ label, href }) => (
     onMouseLeave={(e) => e.currentTarget.style.color = 'var(--ink-5)'}>{label}</a>
 );
 
-// The site footer on every page: dark whatever the page or OS theme, links turning white on
-// hover like the nav's (.site-footer in index.html). Link grid hidden until destinations are
-// wired. (FooterLink above stays for the preserved v1 homepage's footer in sections.jsx.)
-const Footer = () =>
-<footer className="site-footer">
-    <div className="container footer-bottom">
-      {/* The year can differ between a pre-rendered page's build and the visit. */}
-      <span suppressHydrationWarning>© {new Date().getFullYear()} Poolnautics. All rights reserved.</span>
-      <span className="site-footer-links">
-        <a href="/pool-route-software" className="site-footer-link">Route software</a>
-        <a href="/switch-pool-service-software" className="site-footer-link">Switch to Poolnautics</a>
-        <a href="/ai-and-automations" className="site-footer-link">AI &amp; automations</a>
-        <a href="/claude" className="site-footer-link">Claude</a>
-        <a href="/partners" className="site-footer-link">Partners</a>
-        <a href="/guides/how-to-raise-prices" className="site-footer-link">Guide: raising prices</a>
-        {/* The API docs are on the app's domain (aiFacts.js): getpoolnautics.com/docs/api is a 404. */}
-        <a href={API_DOCS_URL} className="site-footer-link">API docs</a>
-        <a href="/#faq" className="site-footer-link">Questions</a>
-        <a href="/terms" className="site-footer-link">Terms</a>
-        <a href="/privacy" className="site-footer-link">Privacy</a>
-        <a href="/delete-account" className="site-footer-link">Delete account</a>
-        <AppStoreBadge />
-      </span>
+// The site footer on every page: dark whatever the page or OS theme (.site-footer in index.html). A brand
+// block (the header's wordmark, a line on what Poolnautics is, the App Store badge), three columns of
+// links, each a <nav> named by its heading, and a bottom bar with the copyright and the company. The same
+// eleven links as before. (FooterLink above stays for the preserved v1 homepage's footer in sections.jsx.)
+const FOOTER_COLUMNS = [
+  ['Product', [
+    ['Route software', '/pool-route-software'],
+    ['AI & automations', '/ai-and-automations'],
+    ['Claude', '/claude'],
+    // The API docs are on the app's domain (aiFacts.js): getpoolnautics.com/docs/api is a 404.
+    ['API docs', API_DOCS_URL],
+  ]],
+  ['Resources', [
+    ['Switch to Poolnautics', '/switch-pool-service-software'],
+    ['Guide: raising prices', '/guides/how-to-raise-prices'],
+    ['Partners', '/partners'],
+    ['Questions', '/#faq'],
+  ]],
+  ['Legal', [
+    ['Terms', '/terms'],
+    ['Privacy', '/privacy'],
+    ['Delete account', '/delete-account'],
+  ]],
+];
+
+const Footer = () => (
+  <footer className="site-footer">
+    <div className="container">
+      <div className="site-footer-grid">
+        <div className="site-footer-brand">
+          <a href="/" className="site-footer-wordmark" aria-label="Poolnautics — home"><Wordmark bg="dark" /></a>
+          <p className="site-footer-desc">Pool service software for routes, billing and the technician app.</p>
+          <AppStoreBadge />
+        </div>
+        {FOOTER_COLUMNS.map(([title, links]) => {
+          const id = `site-footer-${title.toLowerCase()}`;
+          return (
+            <nav key={title} className={`site-footer-col ${id}`} aria-labelledby={id}>
+              <p id={id} className="site-footer-h">{title}</p>
+              {links.map(([label, href]) => <a key={href} href={href} className="site-footer-link">{label}</a>)}
+            </nav>
+          );
+        })}
+      </div>
+      <div className="site-footer-bar">
+        {/* The year can differ between a pre-rendered page's build and the visit. */}
+        <span suppressHydrationWarning>© {new Date().getFullYear()} Poolnautics. All rights reserved.</span>
+        <span>Poolnautics LLC · St. Petersburg, Florida</span>
+      </div>
     </div>
-  </footer>;
+  </footer>
+);
 
 export { Nav, Footer, FooterLink };
