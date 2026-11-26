@@ -70,7 +70,7 @@ export const FAQ = [
   },
   {
     q: 'Can I train ChatGPT, Grok or another AI agent to do this instead?',
-    a: 'An AI assistant is good at writing a repair description or a message to a customer. On its own, it doesn’t keep track of your open repairs, know which customers approved, assign the technician, or send the invoice when the job is done; you’d have to feed it every update. Poolnautics does those steps itself. If you use an AI assistant, you can connect ChatGPT, Claude or Grok to Poolnautics, and it can look up your real requests, open and assign them, add notes and draft invoices.',
+    a: 'An AI assistant is good at writing a repair description or a message to a customer. On its own, it doesn’t keep track of your open repairs, know which customers approved, assign the technician, or send the invoice when the job is done; you’d have to feed it every update. Poolnautics does those steps itself. If you use an AI assistant, you can connect ChatGPT, Claude or Grok to Poolnautics, and it can look up your real requests, open and assign them, add notes, and write quotes and invoices on them, which it can email to customers if you allow it.',
   },
   {
     q: 'Do I need Zapier or n8n to automate my pool service business?',
@@ -396,7 +396,7 @@ function Setup() {
 // customers level and its limits, NEVER, the "estimate isn't approved after 2–14 days" automation).
 // Claims nothing that page doesn't; the details are there.
 const AI_POINTS = [
-  { title: 'Connect Grok, ChatGPT or Claude', body: 'Sign in to Poolnautics from your assistant, or connect any other AI through MCP with a key.' },
+  { title: 'Connect Grok, ChatGPT or Claude', body: 'Sign in to Poolnautics from Claude or ChatGPT, or connect Grok or any other AI with a key.' },
   { title: 'Let it send the quotes you’ve priced', body: 'It can email quotes and invoices to your customers, inside hard limits. It can never charge a card or change a price on its own.' },
   { title: 'Follow up when customers go quiet', body: 'An automation texts or emails a customer whose quote isn’t approved after 2 to 14 days. Or ask your assistant to send it again.' },
 ];

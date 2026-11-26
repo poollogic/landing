@@ -24,8 +24,8 @@ import { FOCUS, PrimaryCta, Ticks, header, headerLight } from '../landing/ai/sha
 import HeroHeading from '../landing/HeroHeading.jsx';
 import { Footer } from '../components/site-chrome.jsx';
 import {
-  ACTIONS, AI_PLAN, API_DOCS_URL, API_MAX_POST, AUTOMATION_LIMITS, BULK, LEAD_SOURCES, MCP_CLIENTS, MCP_TOOL_COUNT, PRICE_PROPOSALS,
-  SAMPLE_PAYLOAD, SEND_LIMITS, SMS_PROVIDERS, TECH_APP, TRIAL_DAYS, TRIGGER_COUNT, WEBHOOK_EVENTS, WEBHOOK_GROUPS, WEBHOOK_LIMIT,
+  ACTIONS, AI_PLAN, API_DOCS_URL, API_MAX_POST, AUTOMATION_LIMITS, BULK, LEAD_SOURCES, MCP_KEY_CLIENTS, MCP_SIGN_IN, PRICE_PROPOSALS,
+  AI_ACTIVITY, SAMPLE_PAYLOAD, SEND_LIMITS, SMS_PROVIDERS, TECH_APP, TRIAL_DAYS, TRIGGER_COUNT, WEBHOOK_EVENTS, WEBHOOK_GROUPS, WEBHOOK_LIMIT,
   WEBHOOK_MAX_AGE_MIN, WEBHOOK_RETRIES, WEBHOOK_SIGNATURE_HEADER,
 } from '../aiFacts.js';
 
@@ -52,23 +52,23 @@ const PAGE_URL = `${ORIGIN}/ai-and-automations`;
 const FAQ = [
   {
     q: 'Can I connect ChatGPT or Claude to Poolnautics?',
-    a: 'Yes. Sign in to Poolnautics from ChatGPT, Claude or Grok, and your assistant can look things up and get work done in your real data. Any other assistant that accepts a key works too, including Claude Code, Cursor or your company’s own agent. Just paste the key from Settings.',
+    a: `Yes. Sign in to Poolnautics from ${MCP_SIGN_IN.join(' or ')}, and your assistant can look things up and get work done in your real data. ${MCP_KEY_CLIENTS.slice(0, -1).join(', ')}, ${MCP_KEY_CLIENTS.at(-1)} or your company’s own agent connect with a key instead. Just paste the key from Settings.`,
   },
   {
     q: 'What is MCP, and what can an AI assistant do in Poolnautics?',
-    a: `MCP (Model Context Protocol) is an open standard that lets AI assistants use tools inside other apps. Poolnautics has a built-in MCP server with ${MCP_TOOL_COUNT} tools in three access levels. Read only (15 tools) looks up customers, invoices, quotes, accounts receivable by age, visits with water readings, requests and revenue. Make changes (13 more) opens, moves and assigns requests, adds notes and drafts invoices. Send to customers (2 more) emails invoices and quotes. With Ask first on, ${PRICE_PROPOSALS.tools} more let it propose price changes for an owner or admin to approve.`,
+    a: 'MCP (Model Context Protocol) is an open standard that lets AI assistants use tools inside other apps. Poolnautics has a built-in MCP server with three access levels. Read only looks up customers, invoices, quotes, payments, accounts receivable by age, visits with water readings, routes, requests and revenue. Make changes opens, moves and assigns requests, adds notes and leads, writes quotes and invoices, moves route stops, pauses or resumes service, and proposes price changes for an owner or admin to approve. Send to customers emails invoices, quotes and pause notices.',
   },
   {
     q: 'Can the AI charge my customers’ cards?',
-    a: 'No. No access level can charge a card or bank account, refund, record or void a payment, add charges, or change recurring services, discounts, late fees or autopay. Those tools don’t exist, and it can’t change a price on its own either. An invoice the AI issues is never charged automatically: the customer pays from the link.',
+    a: 'No. No access level can charge a card or bank account, refund, record or void a payment, add charges, or change an existing customer’s billing cycle, discounts, late fees or autopay. Those tools don’t exist, and it can’t change a price without your approval either. Customers pay an invoice the AI sends from the link, unless they agreed to an automatic charge when they approved the quote it’s for.',
   },
   {
     q: 'Can the AI change my customers’ prices?',
-    a: `Not on its own. Price changes are off until an owner or admin turns on Ask first in ${PRICE_PROPOSALS.setting}. Then an assistant with Make changes access can propose new prices, such as $10 more a month for every customer without an increase in 12 months, with its reason. Nothing changes until an owner or admin approves the proposal inside Poolnautics, signed in. A yes typed in the chat doesn’t count. They can leave any customer out, no price moves more than ${PRICE_PROPOSALS.maxChangePercent}% in one proposal, and a proposal no one decides expires after ${PRICE_PROPOSALS.expiresDays} days. New prices start at each customer’s next bill, and customers aren’t emailed until you announce it.`,
+    a: `Not on its own. An assistant with Make changes access can propose new prices, such as $10 more a month for every customer without an increase in 12 months, with its reason. It can also propose a change to an item in Services & Parts. Nothing changes until an owner or admin approves the proposal inside Poolnautics, signed in. A yes typed in the chat doesn’t count. They can leave any customer out, no price moves more than ${PRICE_PROPOSALS.maxChangePercent}% in one proposal, and a proposal no one decides expires after ${PRICE_PROPOSALS.expiresDays} days. New prices start at each customer’s next bill, and customers aren’t emailed until you announce it.`,
   },
   {
     q: 'Can the AI email my customers?',
-    a: `Only at the Send to customers level, and only invoices and quotes, inside hard limits. It can’t send drafts over ${SEND_LIMITS.maxInvoice}, the billing run’s own invoices, or drafts with a payment attached, and links are refused in its note. Each connection can send at most ${SEND_LIMITS.emailsPerDay} customer emails per 24 hours, and each document once per 24 hours. Every send shows on the request’s history with the connection’s name.`,
+    a: `Only at the Send to customers level, and only invoices, quotes, and a note that a customer’s service is paused or back on, inside hard limits. It can’t send invoices over ${SEND_LIMITS.maxInvoice}, the billing run’s own invoices, or drafts with a payment attached, and links are refused in its note. Each connection can send at most ${SEND_LIMITS.emailsPerDay} customer emails per 24 hours, and each document once per 24 hours. Every send is kept in your AI activity, and one on a request shows in its history too.`,
   },
   {
     q: 'Does the technician app use AI?',
@@ -176,14 +176,14 @@ const PILLARS = [
 ];
 
 const CHECKLIST = [
-  ['A real AI connection, not just a chatbot', `A built-in MCP server with ${MCP_TOOL_COUNT} tools that work on your real data, from Claude Code, Cursor, VS Code or any app that connects to an MCP server with a key.`],
+  ['A real AI connection, not just a chatbot', `A built-in MCP server that works on your real data. ${MCP_SIGN_IN.join(' and ')} connect by signing in to Poolnautics; ${MCP_KEY_CLIENTS.join(', ')} and your own agent connect with a key made in Settings.`],
   ['Permission levels you control', 'Three levels that build on each other: Read only, Make changes, Send to customers. Only an owner or admin can create a connection; each one is named and can be revoked on its own, and one switch turns all AI access off.'],
-  ['Money guardrails', 'No level can charge, refund, record or void a payment, add charges, or change discounts, late fees or autopay. Those tools don’t exist. Prices change only when an owner or admin approves the AI’s proposal.'],
+  ['Money guardrails', 'No level can charge, refund, record or void a payment, add charges, or change an existing customer’s discounts, late fees or autopay. Those tools don’t exist. Prices change only when an owner or admin approves the AI’s proposal.'],
   ['Signed, retried webhooks with a delivery log', `HMAC-SHA256 signatures, retries over about ${WEBHOOK_RETRIES.hours} hours with the same event id, and a delivery log with the exact payload and Retry now.`],
   ['Events from field work, not just the CRM', 'visit.completed carries water readings, LSI, chemicals added and the photo count; filter, salt cell and service pause events fire whether the change comes from the office, a tech’s phone or a background job.'],
   ['Built-in automations with quiet hours and opt-out handling', `${TRIGGER_COUNT} triggers, ${ACTIONS.length} actions, up to ${AUTOMATION_LIMITS.actions} steps with their own waits, sending hours, and STOP replies honored automatically.`],
   ['Lead capture from any form or ad', 'A lead link that Jotform, Typeform, Webflow and Google Ads lead forms post to directly, with Facebook, Instagram, Wix, Squarespace and WordPress through Zapier.'],
-  ['A record of what the AI did', 'Every send shows on the request’s history as sent by the connection’s name (AI assistant), and Settings shows when each connection was last used.'],
+  ['A record of what the AI did', `Every change and every send is kept in AI activity (${AI_ACTIVITY.place}) for ${AI_ACTIVITY.days} days. Anything it does on a request also shows in that request’s history, and Settings shows when each connection was last used.`],
 ];
 
 const SIGNATURE_SNIPPET = `import crypto from 'node:crypto';

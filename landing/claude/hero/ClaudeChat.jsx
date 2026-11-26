@@ -3,22 +3,27 @@ import { Check, LoaderCircle } from 'lucide-react';
 import useChatDemo from './useChatDemo.js';
 import AiChat, { AiChatReply, AiChatTool, AiChatTurn, AiChatUser } from './ChatWindow.jsx';
 
-// /claude's hero chat: a copy of /ai-and-automations' AssistantChat.jsx (2026-11-23, classes ai- → ch-), so a change to\n// that page's hero never reaches this one. As it was there: an AI assistant connected to Poolnautics, drawn with the conventions
+// /claude's hero chat: a copy of /ai-and-automations' AssistantChat.jsx (2026-11-23, classes ai- → ch-), so a change to
+// that page's hero never reaches this one. As it was there: an AI assistant connected to Poolnautics, drawn with the conventions
 // people know from AI chat apps (tool-use rows that spin then check, a typing cursor, a composer
 // with a tools chip) but no other company's look: the brands that connect today are named in text
 // elsewhere on the page. Customers and amounts are MOCK data (the homepage's Better Call Saul
-// cast); the tool names and what they do are the app's own. Four exchanges, typed the way people
+// cast); the tool names and what they do are the app's own. Five exchanges, typed the way people
 // type to an assistant (the replies are written properly):
 //   1. get_accounts_receivable gives each customer's oldest days past due, hence "42 days late".
 //   2. send_invoice sends an invoice that's already issued again, as a payment reminder once it's
 //      overdue, as the company, with the link to pay (routes/hono/_mcpBillingTools.ts). It won't
 //      send the billing run's own monthly invoices, so these three are invoices the office issued.
-//   3. propose_price_change ("Ask first", PriceProposal.jsx further down): the same proposal, all
-//      212 customers before anyone is left out. There, Howard Hamlin ($160 a month) is unticked:
-//      $30,740 - $160 = $30,580 for 211, and 211 × $10 = $2,110 more.
+//      Its first call sends nothing: it returns a preview (who each goes to and the total), which
+//      Claude shows; only on a yes does it call again and send (as /ai-and-automations' Guardrails
+//      demo says: nothing goes out until the preview is confirmed).
+//   3. propose_price_change (PriceProposal.jsx further down): the same proposal, all 212 customers
+//      before anyone is left out. There, Howard Hamlin ($160 a month) is unticked: $30,740 - $160 =
+//      $30,580 for 211, and 211 × $10 = $2,110 more. Any connection with Make changes can propose;
+//      there's no switch for it (since 2026-11-24), and every proposal waits for an owner or admin.
 //   4. Asked to approve it, it can't: no tool takes an approval, and a yes in the chat doesn't count.
-//      An owner or admin approves it signed in to Poolnautics, on the proposal's own page (ai/approvals
-//      branch, docs/ai-approvals.md). No tool call, so its answer comes where a tool row would.
+//      An owner or admin approves it signed in to Poolnautics, on the proposal's own page (on the
+//      app's main since 2026-11-24). No tool call, so its answer comes where a tool row would.
 // The whole conversation is in the HTML from the start (pre-rendered), each step fading in. Once
 // the page runs, useAiChatDemo plays it like a live chat, once, then it stays finished (below 960px,
 // from the first answer on, once the whole window is on screen: see useAiChatDemo). The window
@@ -36,6 +41,7 @@ const OVERDUE = [
 const ASKS = [
   'who owes us more than 30 days',
   'send all 3 a reminder',
+  'yes',
   'chlorines up again raise everyone who hasnt had an increase in a year by 10 bucks',
   'go ahead and approve it',
 ];
@@ -44,9 +50,10 @@ const ASKS = [
 const SCRIPT = {
   turns: [
     { ask: ASKS[0], user: 'u1', turn: 'a1', tools: ['ar'], reply: 'r1' },
-    { ask: ASKS[1], user: 'u2', turn: 'a2', tools: ['remind'], reply: 'r2' },
-    { ask: ASKS[2], user: 'u3', turn: 'a3', tools: ['propose'], reply: 'r3' },
-    { ask: ASKS[3], user: 'u4', turn: 'a4', tools: [], reply: 'r4' },
+    { ask: ASKS[1], user: 'u2', turn: 'a2', tools: ['preview'], reply: 'r2' },
+    { ask: ASKS[2], user: 'u2b', turn: 'a2b', tools: ['remind'], reply: 'r2b' },
+    { ask: ASKS[3], user: 'u3', turn: 'a3', tools: ['propose'], reply: 'r3' },
+    { ask: ASKS[4], user: 'u4', turn: 'a4', tools: [], reply: 'r4' },
   ],
 };
 
@@ -142,18 +149,37 @@ export default function ClaudeChat({
 
         {user('u2', 2000, ASKS[1])}
         {assistant('a2', <>
-          {tool('remind', 'send_invoice', 2300, 3)}
-          {reply('r2', 2950, <p>Done. Each one got their invoice again from your company email, with a link to pay.</p>)}
+          {tool('preview', 'send_invoice', 2300, 3)}
+          {reply('r2', 2950, <>
+            <p>Here’s what goes to each. Send?</p>
+            <table className="ch-chat-table">
+              <caption className="sr-only">The three invoices, ready to send</caption>
+              <tbody>
+                {OVERDUE.map(([name, , , amount]) => (
+                  <tr key={name}>
+                    <th scope="row">{name}</th>
+                    <td className="font-tnum">{amount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>)}
         </>)}
 
-        {user('u3', 3500, ASKS[2])}
+        {user('u2b', 3500, ASKS[2])}
+        {assistant('a2b', <>
+          {tool('remind', 'send_invoice', 3800, 3)}
+          {reply('r2b', 4450, <p>Done. Each one got their invoice again from your company email, with a link to pay.</p>)}
+        </>)}
+
+        {user('u3', 5000, ASKS[3])}
         {assistant('a3', <>
-          {tool('propose', 'propose_price_change', 3800)}
-          {reply('r3', 4450, <ApprovalCard />)}
+          {tool('propose', 'propose_price_change', 5300)}
+          {reply('r3', 5950, <ApprovalCard />)}
         </>)}
 
-        {user('u4', 5000, ASKS[3])}
-        {assistant('a4', reply('r4', 5450, <p>I can’t approve it, and a yes in this chat doesn’t count. An owner or admin approves it in Poolnautics, where you can leave anyone out first.</p>))}
+        {user('u4', 6500, ASKS[4])}
+        {assistant('a4', reply('r4', 6950, <p>I can’t approve it, and a yes in this chat doesn’t count. An owner or admin approves it in Poolnautics, where you can leave anyone out first.</p>))}
       </>
     );
   };

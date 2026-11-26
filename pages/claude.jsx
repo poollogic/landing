@@ -29,9 +29,11 @@ import { Footer } from '../components/site-chrome.jsx';
 // → dist/claude.html), so no window or document while rendering. Blocks with data-reveal fade up on
 // scroll (useReveal).
 //
-// Claims kept to what the connector does (poollogic-web-app docs/ai-connections.md): it reassigns
-// requests, never route stops; it can't charge a card, refund, approve a quote for a customer or
-// change a price without an owner or admin. No tool count, no "one click", no setup time.
+// Claims kept to what the connector does (poollogic-web-app docs/ai-connections.md, checked against the
+// app 2026-11-25; the facts are aiFacts.js's): it reassigns requests and moves route stops (shown first,
+// then moved); it quotes catalog items at their catalog price and anything else at the price the person
+// gives it; it shows a quote or invoice before sending it; it can't charge a card, refund, approve a quote
+// for a customer or change a price without an owner or admin. No tool count, no "one click", no setup time.
 
 // ---- Links ----
 // "Add to Claude" opens the popup (AddToClaudeDialog.jsx: the connector link to copy and paste in
@@ -45,7 +47,7 @@ const ORIGIN = 'https://getpoolnautics.com';
 const PAGE_URL = `${ORIGIN}/claude`;
 
 const PLAYBOOK = [
-  ['Your catalog.', 'Every quote uses your price. Claude never makes one up.'],
+  ['Your catalog.', 'Anything in it is quoted at your price, and anything that isn’t gets the price you give it.'],
   ['Your automations.', 'If Poolnautics already sent the invoice, Claude doesn’t send it again.'],
   ['Your settings.', 'Tax rate, late fees, card fee, when accounts pause.'],
   ['Your office bell.', 'New leads, approved quotes, failed payments, jobs with no technician.'],
@@ -56,7 +58,7 @@ const DAY_TO_DAY = [
   ['Quotes and invoices', ['Quote the Wexler heater and email it.', 'The Hamlin job’s done. Invoice it.', 'Did the McGills approve their quote yet?']],
   ['Requests and technicians', ['Open a request for the Varga green pool.', 'Give it to Mike and mark it urgent.', 'What’s still waiting on a technician?']],
   ['Routes', ['Who’s out today?', 'Is anyone running behind?', 'What got skipped yesterday?']],
-  ['Customers and leads', ['What did we do at the McGill pool last visit?', 'Add the Hamlins’ new gate code to their notes.', 'Make that Facebook lead a customer.']],
+  ['Customers and leads', ['What did we do at the McGill pool last visit?', 'Update the Hamlin gate code to 3072.', 'Make that Facebook lead a customer.']],
   ['Money', ['Who owes us more than 30 days?', 'How did October compare to September?', 'Raise everyone with no increase in a year by $10.']],
   ['Water and chemicals', ['Which pools are out of balance this week?', 'Any pools with phosphates over 500?', 'Who’s going through the most chlorine?']],
 ];
@@ -70,7 +72,7 @@ const STEPS = [
 const CANT = ['Charge a card', 'Refund a payment', 'Change a price without your approval', 'Approve a quote on a customer’s behalf'];
 
 const GUARDS = [
-  ['Everything is logged', 'Each change shows in the request’s history as done through your AI connection, and every customer email is kept in your AI activity.'],
+  ['Everything is logged', 'Every change and every customer email is kept in your AI activity, and anything it does on a request shows in that request’s history too.'],
   ['A lead can’t give Claude orders', 'Text inside lead forms, notes and requests is treated as information, never as instructions.'],
   ['Customer email has a ceiling', `At most ${SEND_LIMITS.emailsPerDay} customer emails a day, and the same invoice only once in 24 hours.`],
   ['You can pull the plug', 'Only an owner or admin can connect Claude, and any connection can be revoked on its own.'],
@@ -89,11 +91,11 @@ const FAQ = [
   },
   {
     q: 'Can Claude charge my customers?',
-    a: 'No. Claude can never charge a card or refund a payment. It can draft and send invoices, which customers pay from the link, and it can propose price changes for an owner or admin to approve.',
+    a: 'No. Claude can never charge a card or refund a payment. It can draft and send invoices, which customers pay from the link (unless they agreed to an automatic charge when they approved the quote), and it can propose price changes for an owner or admin to approve.',
   },
   {
     q: 'Can Claude send quotes on its own?',
-    a: 'With the Send to customers access level, yes. Quotes use your catalog prices, and only the customer can approve one.',
+    a: 'With the Send to customers access level, yes. Claude shows you the quote first and sends it when you say so. Anything from your catalog is at your price, and only the customer can approve a quote.',
   },
   {
     q: 'Do I have to use Claude?',

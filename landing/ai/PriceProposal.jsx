@@ -1,7 +1,8 @@
 import React from 'react';
 import { Check } from 'lucide-react';
 
-// "Ask first": a price change the AI proposed, waiting on its review page in Poolnautics, drawn the
+// A price change the AI proposed (any connection with Make changes can propose; there's no switch for
+// it since 2026-11-24), waiting for an owner or admin on its review page in Poolnautics, drawn the
 // way the app draws it (the status banner, the totals, the rule in words, the assistant's reason
 // as quoted text, every customer's price now and new, Approve and Decline). One customer is left
 // out, so the totals are for the 211 still ticked. Names (the homepage's Better Call Saul cast),

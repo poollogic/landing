@@ -1,49 +1,59 @@
 // The AI, automations and integrations page (/ai-and-automations): every number and list it
-// shows, confirmed against the app 2026-10-31. Change a number here and the page, its FAQ
+// shows, confirmed against the app 2026-11-25. Change a number here and the page, its FAQ
 // and its search data all change with it. Claim nothing that isn't in this file.
 
 export const AI_PLAN = 'Vision'; // AI, automations and integrations are all on this plan
 export const TRIAL_DAYS = 30; // the trial includes everything in Vision
 export const API_DOCS_URL = 'https://app.poolnautics.app/docs/api';
 
-// AI assistant connection (Poolnautics' built-in MCP server)
-export const MCP_CLIENTS = ['Claude Code', 'Cursor', 'VS Code']; // plus any app that connects to an MCP server with a key
-export const MCP_TOOL_COUNT = 30;
+// AI assistant connection (Poolnautics' built-in MCP server). No tool counts: they go stale (the
+// connector had 60 on 2026-11-25, in 8 toolkits an assistant loads through a small menu).
+export const MCP_SIGN_IN = ['Claude', 'ChatGPT']; // connect by signing in to Poolnautics
+export const MCP_KEY_CLIENTS = ['Grok', 'Claude Code', 'Codex', 'Cursor']; // connect with a key made in Settings, as does a company's own agent
 // Three levels that build on each other: each one adds to the one before.
 export const ACCESS_LEVELS = [
   {
     key: 'read',
     name: 'Read only',
-    tools: 15,
     summary: 'Looks things up. Changes nothing.',
     unlocks: [
       'Customers, invoices and quotes',
       'Accounts receivable by age: current, 1–30, 31–60, 61–90, 90+',
-      'Visits with water readings, LSI and chemicals',
+      'Visits with water readings, LSI and chemicals, and which pools got a chemical',
+      'Routes: each technician’s day and the weekly route board',
       'Requests and technicians',
+      'Payments, and the next billing run',
       'Revenue by month, up to 24 months',
+      'The notification bell',
       'Settings and the webhook delivery log',
     ],
   },
   {
     key: 'change',
     name: 'Make changes',
-    tools: 13,
     summary: 'Works the office queue, through the same code as your office screen.',
     unlocks: [
       'Open requests, move them and assign them',
       'Add notes, and dated customer notes',
-      'Draft invoices, and turn an approved quote into a draft invoice',
+      'Write quotes and invoices on requests, at catalog prices or the person’s own, and turn an approved quote into a draft invoice',
+      'Add leads',
+      'Change a customer’s contact details and gate code',
+      'Pause or resume a customer’s service',
+      'Move stops between technicians’ routes and days, for good or for a set number of days (up to 31), shown first and then moved',
+      'Add a customer with their billing and route set up, or a new item to Services & Parts, each shown first and saved only on a yes in the chat',
+      'Propose price changes and changes to a Services & Parts item, always for an owner or admin to approve in Poolnautics',
       'Set up webhooks and the email sending address',
-      'Propose price changes for an admin to approve, with Ask first on',
     ],
   },
   {
     key: 'send',
     name: 'Send to customers',
-    tools: 2,
-    summary: 'Emails invoices and quotes, inside hard limits.',
-    unlocks: ['Email invoices to customers', 'Email quotes to customers'],
+    summary: 'Emails invoices, quotes and pause notices, inside hard limits.',
+    unlocks: [
+      'Issue and email invoices to customers, up to $10,000 each',
+      'Email quotes to customers',
+      'Email a customer that their service is paused, back on, or not pausing after all',
+    ],
   },
 ];
 
@@ -53,23 +63,25 @@ export const NEVER = [
   'Refund a payment',
   'Record or void a payment',
   'Add charges',
-  'Change a price on its own',
-  'Change recurring services, discounts, late fees or autopay',
+  'Change a price or a Services & Parts item without your approval',
+  'Change an existing customer’s billing cycle, discounts, late fees or autopay',
+  'Approve a quote for a customer',
 ];
-// "Ask first": the AI proposes new prices; an owner or admin approves in Poolnautics before anything
-// changes. Confirmed against the app's ai/approvals branch 2026-10-31 (docs/ai-approvals.md):
-// BUILT BUT NOT ON MAIN YET. Don't push this page until it ships.
+// Price changes: any connection with Make changes can propose (there has been no switch since
+// 2026-11-24); every proposal, including a change to a Services & Parts item, waits for an owner or
+// admin to approve it in Poolnautics. A yes in the chat doesn't count.
 export const PRICE_PROPOSALS = {
-  setting: 'Settings › Integrations › AI assistants', // Price changes: Off / Ask first; off by default
-  tools: 4, // propose_price_change, withdraw_proposal (Make changes); get_proposal, list_proposals
+  tools: 6, // propose_price_change, propose_catalog_change, withdraw_proposal (Make changes); get_proposal, list_proposals, get_price_change_rules (Read only)
   maxChangePercent: 50, // per customer, per proposal
   expiresDays: 7, // a proposal no one decides
 };
 export const SEND_LIMITS = {
-  maxInvoice: '$10,000', // drafts over this can't be sent by the AI
+  maxInvoice: '$10,000', // invoices over this can't be issued or sent by the AI
   emailsPerDay: 200, // customer emails per connection per 24 hours
   sendsPerDocument: 1, // per document per connection per 24 hours
 };
+// Every change and every customer email an AI connection makes is kept in AI activity, for this long.
+export const AI_ACTIVITY = { place: 'Settings › AI assistants', days: 180 };
 
 // Webhooks out
 export const WEBHOOK_GROUPS = [

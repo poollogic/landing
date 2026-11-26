@@ -624,7 +624,7 @@
 .ai-page .ai-never-foot { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--ai-line-strong); font-size: 15px; font-weight: 600; color: var(--mktg-text-primary); }
 @media (max-width: 559.98px) { .ai-page .ai-never li { font-size: 16px; } }
 
-/* ---------- Ask first: the AI proposes a price change, a person approves it (PriceProposal.jsx) ---------- */
+/* ---------- Price proposals: the AI proposes a price change, a person approves it (PriceProposal.jsx) ---------- */
 .ai-page .ai-ask { margin-top: 72px; padding-top: 72px; border-top: 1px solid var(--ai-line); }
 @media (min-width: 1024px) {
   .ai-page .ai-ask { margin-top: 96px; padding-top: 96px; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; }

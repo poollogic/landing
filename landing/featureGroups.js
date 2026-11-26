@@ -102,7 +102,6 @@ export const FEATURE_GROUPS = [
       'Built-in automations',
       'Connect ChatGPT, Claude or Grok',
       'API & webhooks',
-      'AI-assisted customer import',
     ],
     link: { label: 'See AI & automations', href: '/ai-and-automations' },
   },
