@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { PARTNER, usd, payoutRows, leftLine, perkLine, trialEveryone, TRIAL_ENDS } from '../partnerProgram.js';
+import { PARTNER, usd, payoutRows, payoutCell, leftLine, perkLine, trialEveryone, TRIAL_ENDS } from '../partnerProgram.js';
 
 // Partner Program Terms — built like pages/terms.jsx (same TOC, Section and
 // .terms-* classes). Numbers come from partnerProgram.js. Draft: a lawyer
@@ -159,8 +159,8 @@ const PartnerTermsPage = () => {
                   {payoutRows().map((r) => (
                     <tr key={r.customers}>
                       <td style={{ padding: '7px 0', borderBottom: '1px solid var(--line)' }}>{r.customers}</td>
-                      <td style={{ padding: '7px 0', borderBottom: '1px solid var(--line)', textAlign: 'right' }}>{usd(r.insight)}</td>
-                      <td style={{ padding: '7px 0', borderBottom: '1px solid var(--line)', textAlign: 'right' }}>{usd(r.vision)}</td>
+                      <td style={{ padding: '7px 0', borderBottom: '1px solid var(--line)', textAlign: 'right' }}>{payoutCell(r.insight)}</td>
+                      <td style={{ padding: '7px 0', borderBottom: '1px solid var(--line)', textAlign: 'right' }}>{payoutCell(r.vision)}</td>
                     </tr>
                   ))}
                 </tbody>

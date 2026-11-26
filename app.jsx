@@ -97,7 +97,7 @@ export const ROUTE_META = {
   },
   pricing: {
     title: 'Pool Service Software Pricing — Poolnautics',
-    description: 'Insight from $99/mo and Vision from $159/mo, priced by active customers, with unlimited technicians and office staff. 25% off yearly. 30-day free trial.',
+    description: 'Insight from $49/mo and Vision from $79/mo, priced by active customers, with unlimited technicians and office staff. 25% off yearly. 30-day free trial.',
     ...shareImage('pricing'),
     path: '/pricing',
   },

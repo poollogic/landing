@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { I } from '../components/icons.jsx';
 import {
-  PARTNER, usd, payoutRows, payoutFrom, payoutRange, leftLine,
+  PARTNER, usd, payoutRows, payoutCell, payoutFrom, payoutRange, leftLine,
   perkLine, trialEveryone, TRIAL_ENDS,
 } from '../partnerProgram.js';
 
@@ -216,8 +216,8 @@ const Earnings = () => {
                 {payoutRows().map((r) => (
                   <tr key={r.customers}>
                     <td style={cell}>{r.customers}</td>
-                    <td style={num}>{usd(r.insight)}</td>
-                    <td style={num}>{usd(r.vision)}</td>
+                    <td style={num}>{payoutCell(r.insight)}</td>
+                    <td style={num}>{payoutCell(r.vision)}</td>
                   </tr>
                 ))}
                 <tr>

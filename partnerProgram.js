@@ -33,12 +33,13 @@ export const PARTNER = {
 
   // ── What the partner earns ───────────────────────────────────────────────
   // Flat amount per referred company, by plan, one per bracket in pricingPlans.js
-  // (same order: 0–100, 101–250, 251–500, 501–1,000, 1,001–1,500, 1,501–2,500).
-  // Set by the owner: about two months' price, in easy round numbers.
+  // (same order: 0–50, 51–100, 101–250, 251–500, 501–1,000, 1,001–1,500, 1,501–2,500).
+  // Set by the owner: about two months' price, in easy round numbers. null: no payout (the starter
+  // bracket, up to 50 active customers: the owner, Nov 26, 2026).
   // The /partners share image (public/og/partners.png) shows the range: see shareImages.js if it changes.
   payouts: {
-    Insight: [200, 400, 750, 1250, 1750, 2750],
-    Vision: [300, 650, 1200, 2000, 3000, 4500],
+    Insight: [null, 200, 400, 750, 1250, 1750, 2750],
+    Vision: [null, 300, 650, 1200, 2000, 3000, 4500],
   },
   customAbove: '2,500', // companies with more active customers are priced individually: custom terms
 
@@ -78,14 +79,16 @@ export const usd = (value) => {
   return '$' + n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
 };
 
-// The rate table: one row per bracket — { customers, insight, vision } in dollars.
+// The rate table: one row per bracket — { customers, insight, vision } in dollars (null: no payout).
+export const payoutCell = (amount) => (amount == null ? 'No payout' : usd(amount));
 export const payoutRows = () =>
   BRACKETS.map(([customers], i) => ({ customers, insight: PARTNER.payouts.Insight[i], vision: PARTNER.payouts.Vision[i] }));
 
-// Lowest amount on a plan ("from $200"), and the whole range ("$200–$4,450").
-export const payoutFrom = (plan) => usd(Math.min(...PARTNER.payouts[plan]));
+// Lowest amount on a plan ("from $200"), and the whole range ("$200–$4,450"), of the brackets that pay.
+const paid = (amounts) => amounts.filter((a) => a != null);
+export const payoutFrom = (plan) => usd(Math.min(...paid(PARTNER.payouts[plan])));
 export const payoutRange = () => {
-  const all = [...PARTNER.payouts.Insight, ...PARTNER.payouts.Vision];
+  const all = paid([...PARTNER.payouts.Insight, ...PARTNER.payouts.Vision]);
   return `${usd(Math.min(...all))}–${usd(Math.max(...all))}`;
 };
 

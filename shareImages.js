@@ -41,12 +41,12 @@ export const SHARE_IMAGES = {
     sub: 'Unlimited technicians on every plan.',
     card: [
       { k: 'Plans' },
-      { row: { text: 'Insight', small: 'from', b: '$99/mo' } },
-      { row: { text: 'Vision', small: 'from', b: '$159/mo' } },
+      { row: { text: 'Insight', small: 'from', b: '$49/mo' } },
+      { row: { text: 'Vision', small: 'from', b: '$79/mo' } },
       { foot: ['Free for 30 days', 'No credit card'] },
     ],
-    prices: { insight: 99, vision: 159 }, // what the card shows, for the test above
-    alt: 'Poolnautics pricing. Scale your route, not your overhead. Unlimited technicians on every plan. Insight from $99 a month, Vision from $159 a month. Free for 30 days, no credit card.',
+    prices: { insight: 49, vision: 79 }, // what the card shows, for the test above
+    alt: 'Poolnautics pricing. Scale your route, not your overhead. Unlimited technicians on every plan. Insight from $49 a month, Vision from $79 a month. Free for 30 days, no credit card.',
   },
   workflow: {
     file: 'workflow',

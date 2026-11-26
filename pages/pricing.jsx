@@ -9,7 +9,7 @@ import FaqSection from '../landing/FaqSection.jsx';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
 import { Footer } from '../components/site-chrome.jsx';
-import { BRACKETS } from '../pricingPlans.js';
+import { BRACKETS, STARTER } from '../pricingPlans.js';
 import { QUICKBOOKS_SYNC_SHOWN } from '../landing/quickbooksSync.js';
 
 // /pricing: a dark top section (hero, then the pricing slab: the customer slider and billing switch
@@ -33,8 +33,9 @@ const INSIGHT_FEATURES = [
   // QuickBooks: flip to available when Intuit approves production keys; hidden for now (landing/quickbooksSync.js).
   ...(QUICKBOOKS_SYNC_SHOWN ? ['QuickBooks Online integration (coming soon)'] : []),
   'Drag-and-drop routing & offline technician app',
-  'Free white-glove migration',
+  'Free white-glove migration', // not in the starter bracket (up to 50 active customers): left off there
 ];
+const WHITE_GLOVE = 'Free white-glove migration';
 const VISION_FEATURES = [
   'Automatic pause for customers who don’t pay',
   'Fleet: truck check-ins & oil change reminders',
@@ -47,8 +48,11 @@ const VISION_FEATURES = [
 
 // Prices per month by active customers live in pricingPlans.js (the Partner Program
 // reads them too). STOPS: each bracket's top, for the slider.
-const STOPS = [100, 250, 500, 1000, 1500, 2500];
+const STOPS = [50, 100, 250, 500, 1000, 1500, 2500]; // the slider opens on the first, the starter
 const CUSTOM = STOPS.length; // the slider's last stop: more than 2,500
+// Phones label four stops under the slider: the first, every other one after it while it stays clear of
+// the last, and the last ("2,500+"). Every stop is still on the slider.
+const phoneTick = (i) => i === CUSTOM || (i % 2 === 0 && i < CUSTOM - 1);
 const num = (n) => n.toLocaleString('en-US');
 // Whole dollars, or cents when there are any ($74.25).
 const usd = (n) => `$${n.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 })}`;
@@ -72,7 +76,7 @@ const COMPARE = [
     ['Quotes & work orders', true, true],
     ['Chemical cost per visit', true, true],
     ['Route handover tool', false, true],
-    ['Free white-glove migration', true, true],
+    ['Free white-glove migration, above 50 active customers', true, true],
   ]],
   ['Billing & Finance', [
     ['Zero-click billing & autopay', true, true],
@@ -106,7 +110,7 @@ const COMPARE = [
 // "No hidden fees": [fee to ask about, figure, qualifier]. No competitor is named here.
 const FEES = [
   ['Setup or onboarding fee', '$0', ''],
-  ['Moving your data over', '$0', 'done for you'],
+  ['Moving your data over', '$0', 'done for you above 50 active customers'],
   ['Each extra technician or office user', '$0', 'unlimited on every plan'],
   ['Autopay and automatic billing', '$0', 'included on every plan'],
   ['Passing card fees on to your customers', '$0', 'included on every plan'],
@@ -125,7 +129,7 @@ const FAQ = [
   ['What happens if I go over my customer limit?',
     `You simply move into the next bracket. We’ll automatically adjust your billing for the following month. No hidden overage fees. ${TIER_PRICES}`],
   ['Is there a setup fee?',
-    'Zero setup fees, and our white-glove onboarding and data migration is 100% free.',
+    'Zero setup fees. The importer is free on every plan, and above 50 active customers our white-glove onboarding and data migration is free too.',
     <a href="/switch-pool-service-software">See how switching works</a>],
   ['Do I need a credit card for the free trial?',
     isReserving
@@ -272,15 +276,17 @@ export default function PricingPage() {
   const [yearly, setYearly] = useState(true);
   const bracket = stop === CUSTOM ? null : BRACKETS[stop];
   const insight = bracket && bracket[1];
+  // The starter bracket has no white-glove migration: its Insight card leaves that line off.
+  const insightFeatures = bracket && bracket[0] === STARTER ? INSIGHT_FEATURES.filter((f) => f !== WHITE_GLOVE) : INSIGHT_FEATURES;
   const vision = bracket && bracket[2];
   const headPrice = (price) => (price ? `${usd(perMonth(price, yearly))}/mo` : 'Custom');
   const lastGroup = COMPARE.length - 1;
   return (
-    <div className="mktg relative min-h-screen bg-mktg-base font-sans text-mktg-muted antialiased">
+    <div className="mktg pricing-page relative min-h-screen font-sans text-mktg-muted antialiased">
       <Nav current="/pricing" />
       <main>
         {/* 1. Hero (dark): the headline and one line, centred between the nav and the slab. */}
-        <section className="pr-hero bg-mktg-base" aria-labelledby="pricing-heading">
+        <section className="pr-hero" aria-labelledby="pricing-heading">
           <div className="container">
             <SectionHeader
               as="h1"
@@ -295,12 +301,16 @@ export default function PricingPage() {
         </section>
 
         {/* 2. The pricing slab (dark): one raised plate, the slider on top, the plans pressed into it. */}
-        <section className="section bg-mktg-base pt-0" aria-label="Plans">
+        <section className="section pr-slab-section pt-0" aria-label="Plans">
           <div className="container">
             <div className="pr-slab">
+              {/* The glow on the panel's top edge: a layer of its own behind the slab, placed from the
+                  slab's top (not the page's), so it stays there however the heading wraps. */}
+              <div className="pr-glow" aria-hidden="true" />
               {/* Top strip: the customer count and billing switch, then the slider (one stop per bracket). */}
               <div className="pr-card">
                 <p className="pr-readout" aria-hidden="true">
+                  {stop !== CUSTOM && <span className="pr-readout-upto">Up to</span>}
                   <span className="pr-readout-num font-tnum">{stop === CUSTOM ? '2,500+' : num(STOPS[stop])}</span>
                   <span className="pr-readout-label">active customers</span>
                 </p>
@@ -327,7 +337,7 @@ export default function PricingPage() {
                         key={i}
                         type="button"
                         tabIndex={-1}
-                        className="pr-tick"
+                        className={`pr-tick${phoneTick(i) ? '' : ' pr-tick--wide'}`}
                         style={{ '--at': i / CUSTOM }}
                         data-on={i === stop ? '' : undefined}
                         onClick={() => setStop(i)}
@@ -391,7 +401,7 @@ export default function PricingPage() {
                   yearly={yearly}
                   featured={FEATURED_PLAN === 'insight'}
                   lead="Includes:"
-                  features={INSIGHT_FEATURES}
+                  features={insightFeatures}
                   href={trial}
                 />
                 <PlanCard
@@ -545,7 +555,7 @@ export default function PricingPage() {
         />
 
         {/* 6. Final CTA (dark) */}
-        <section className="section bg-mktg-base text-center" aria-labelledby="pricing-cta-heading">
+        <section className="section text-center" aria-labelledby="pricing-cta-heading">
           <div className="container">
             <SectionHeader id="pricing-cta-heading" title="Ready to take your weekends back?" titleClassName="text-white" />
             <a
