@@ -1,4 +1,4 @@
-/* "Other pool software takes your time." (OnePlatformSection.jsx), after the hero. Plain: white, no icons, shadows on the
+/* "Here’s where the time comes from." (OnePlatformSection.jsx), after the hero. Plain: white, no icons, shadows on the
    cards or hover effects. Desktop above 1040px, tablet 761–1040px, phone 760px and below. */
 
 .op-section {
@@ -14,11 +14,6 @@
   color: #0f172a;
   text-wrap: balance;
 }
-/* Two sentences, each starting its own line. "Poolnautics gives it back." stays whole from 540px wide;
-   on narrower phones it may break. */
-.op-title-line { display: block; }
-.op-keep { white-space: nowrap; }
-@media (max-width: 539.98px) { .op-keep { white-space: normal; } }
 /* A long gap before the list, so the section reads in two beats: the statement, then the list. */
 .op-sub {
   margin: 68px 0 20px;

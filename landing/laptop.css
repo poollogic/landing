@@ -1,12 +1,12 @@
-/* The window around the hero dashboard, lg and up: the browser toolbar on the screen and the bezel
-   around it (Hero.jsx), a floating window. All decoration, no requests (inline SVG and the system
-   font), each element's size reserved here. Below lg none of it shows and the phone and tablet
-   previews are as they were. */
+/* The window around the hero dashboard, from 721px (tablets too): the browser toolbar on the screen
+   and the bezel around it (Hero.jsx), a floating window. All decoration, no requests (inline SVG and
+   the system font), each element's size reserved here. On phones none of it shows: the hero shows
+   its dashboard card. */
 
 .pl-browserbar,
 .mockup-holder > .lt-bezel { display: none; }
 
-@media (min-width: 1024px) {
+@media (min-width: 720.02px) {
   /* The holder is the screen's width: a size container, so the dashboard and toast can scale to it. */
   .mockup-holder { container-type: inline-size; }
 

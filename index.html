@@ -583,8 +583,9 @@
     }
   }
 
-  /* Nav: hide center links on tablet. (Sign in stays in the bar on phones: landing/nav.css.) */
-  @media (max-width: 880px) {
+  /* Nav: hide center links on phones and tablets, below 1024px (landing/nav.css). (Sign in stays in the
+     bar on phones.) */
+  @media (max-width: 1023.98px) {
     .nav-links { display: none !important; }
   }
 

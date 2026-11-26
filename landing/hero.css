@@ -166,10 +166,10 @@
    The page's first script adds these to <html>, so its first paint already matches what the scripts
    will draw; the scripts then take them off.
    .pv-pending: this visitor's preview is light, but the page was drawn dark. The preview stays
-   transparent until it's redrawn (Hero.jsx), then fades in. lg and up only: below lg the hero shows
+   transparent until it's redrawn (Hero.jsx), then fades in. From 721px only: on phones the hero shows
    the dashboard card, which is dark whatever the theme. */
 .mockup-holder { transition: opacity .2s ease; }
-@media (min-width: 1024px) {
+@media (min-width: 720.02px) {
   .pv-pending .mockup-holder { opacity: 0; transition: none; }
 }
 
@@ -210,58 +210,51 @@
   text-wrap: balance; /* two even lines, no word left dangling */
 }
 .hero-sub strong { color: #E2E8F0; font-weight: 500; }
-/* The homepage's subhead in two wordings (Hero.jsx): the long one from 1100px, the short one below.
-   Not from lg: the long one needs a ~461px column for two lines, and the copy is 441–478px wide at
-   1024–1100px, so it'd take three there. */
-.hero--home .hero-sub-wide { display: none; }
-@media (min-width: 1100px) {
-  .hero--home .hero-sub-wide { display: inline; }
-  .hero--home .hero-sub-narrow { display: none; }
-}
+/* The homepage's headline and subhead in set lines (Hero.jsx): the headline's three and the subhead's two
+   sentences, each span a line of its own, at every width. */
+.hero--home .hero-title-line { display: block; white-space: nowrap; }
+.hero--home .hero-sub-line { display: block; }
 
-/* The homepage's buttons, under the subhead: the primary and "See pricing" (26px above and below). */
+/* The homepage's buttons (Hero.jsx): the trial button and "See pricing", a quiet grey text link with a
+   thin underline beside it, 24px apart; on phones the link goes under the button (below). */
 .hero-actions {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 26px;
-}
-.hero-actions > .hero-cta { margin-top: 0; }
-.hero-cta-alt {
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 56px;
-  padding: 0 22px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, .16);
-  background: rgba(255, 255, 255, .03);
-  color: #fff;
-  font-size: 16px;
-  font-weight: 500;
-  transition: background-color .2s ease;
+  gap: 24px;
+  margin-top: 34px;
 }
-.hero-cta-alt:hover { background: rgba(255, 255, 255, .08); }
-/* The homepage's offer, in green ticks (Hero.jsx): "We'll move your customers over" on its own row, then
-   "Free for 30 days" and "No credit card" side by side, neither row wrapping. Centred; from lg, under
-   both buttons and in line with the copy ("Homepage hero, desktop"). */
+.hero-actions > .hero-cta { margin-top: 0; }
+.hero-pricing {
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(226, 232, 240, .4);
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(226, 232, 240, .72);
+  text-decoration: none;
+  transition: color .15s ease, border-color .15s ease;
+}
+.hero-pricing:hover { color: #fff; border-bottom-color: #fff; }
+.hero-pricing:focus-visible { outline: 2px solid #93C5FD; outline-offset: 4px; border-radius: 2px; }
+/* The offer: two green ticks, one per line, under both. Centred as a pair below lg (the ticks stay lined
+   up with each other); in line with the copy from lg. */
 .hero-ticks {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  column-gap: 16px;
-  row-gap: 8px;
-  margin: 16px 0 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 24px 0 0;
   padding: 0;
   list-style: none;
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(226, 232, 240, .72);
+  font-size: 15px;
+  line-height: 22px;
+  color: rgba(226, 232, 240, .8);
 }
-.hero-ticks > li { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-.hero-ticks > li:first-child { flex-basis: 100%; justify-content: center; }
-.hero-ticks svg { flex: none; color: #34d399; }
+.hero-ticks > li { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.hero-ticks svg { display: block; flex: none; width: 16px; height: 16px; color: #10b981; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-pricing { transition: none; }
+}
 
 .hero-cta {
   display: inline-flex;
@@ -318,9 +311,6 @@
 @media (max-width: 559.98px) {
   .hero-cta { width: 100%; max-width: 360px; padding: 14px 20px; justify-content: center; gap: 10px; }
   .hero-cta > .hero-cta-label { display: flex; flex-direction: column; align-items: center; line-height: 1.25; text-align: center; }
-  /* The homepage's two buttons stack, the same width and height. */
-  .hero-actions { flex-direction: column; align-items: center; width: 100%; }
-  .hero-cta-alt { width: 100%; max-width: 360px; height: 52px; }
 }
 
 .hero-fine {
@@ -435,11 +425,12 @@
   .hero-fine { font-size: 12.5px; max-width: 40ch; margin-inline: auto; text-wrap: balance; opacity: .8; }
 }
 
-/* ---------- lg and up: the desktop dashboard on its own ----------
+/* ---------- From 721px: the desktop dashboard on its own ----------
    The hero's phone frame (always rendered, Hero.jsx) steps aside: no box, no side buttons, island or
    home bar, and the dashboard takes the holder's child styles. The phone dashboard card's markup
-   (HeroPhoneDash) is hidden. */
-@media (min-width: 1024px) {
+   (HeroPhoneDash) is hidden. Tablets (721px to 1023px) show it too, under the copy ("Homepage hero,
+   tablets" below). */
+@media (min-width: 720.02px) {
   .hero-phone,
   .hero-phone > .bz-screen { display: contents; }
   .hero-phone::before,
@@ -455,57 +446,87 @@
     box-shadow: 0 40px 100px -30px rgba(0, 0, 0, .7);
   }
 }
-/* lg and up, the dashboard is a laptop's screen (laptop.css): the bezel frames it, so it drops its own
+/* From 721px, the dashboard is a laptop's screen (laptop.css): the bezel frames it, so it drops its own
    shadow; the top-edge light moves out to the bezel's top edge, the glint and glow with it, and the
    glow goes behind the bezel. */
-@media (min-width: 1024px) {
-  /* Room under the keyboard deck, which reaches past its 225px box while it's steep (low on screen):
-     without it the deck and its front edge's shadow ran up to 30px into the next section as that
-     section scrolled in. */
-  .hero { padding-bottom: calc(var(--section-y) + 64px); }
+@media (min-width: 720.02px) {
   .mockup-holder > .hero-phone > .bz-screen > .pl-preview { box-shadow: none; }
   .mockup-holder::before { top: -12px; left: calc(3% + 12px); right: calc(3% + 12px); }
   .mockup-holder > .preview-glint { top: -32px; }
   .mockup-holder::after { top: -81px; z-index: -1; }
 }
-/* ---------- Phones and tablets (below lg): the dashboard card ----------
+@media (min-width: 1024px) {
+  /* Room under the keyboard deck, which reaches past its 225px box while it's steep (low on screen):
+     without it the deck and its front edge's shadow ran up to 30px into the next section as that
+     section scrolled in. */
+  .hero { padding-bottom: calc(var(--section-y) + 64px); }
+}
+
+/* ---------- Homepage hero below lg: the copy, centred ----------
+   The trial button and "See pricing" side by side, centred, 24px apart; under 600px the button is the
+   container's width with the link centred under it, 18px apart. The two ticks are centred as a pair. */
+@media (max-width: 1023.98px) {
+  .lp-home .hero--home .hero-sub { font-size: 16px; }
+  .hero--home .hero-ticks { align-self: center; width: fit-content; margin: 26px auto 0; }
+}
+@media (max-width: 599.98px) {
+  .hero--home .hero-actions { flex-direction: column; gap: 18px; width: 100%; }
+  .hero--home .hero-actions > .hero-cta { width: 100%; max-width: none; justify-content: center; }
+
+  /* Phones, where the header's trial button is hidden: its travelling light (nav.css, .nav-trial::before)
+     goes round this button instead. A 1.5px ring just outside its edge, on its 12px corners (+1.5px),
+     with one soft highlight. Out of the flow and untappable, so the button keeps its size and taps. */
+  .hero--home .hero-actions > .hero-cta { position: relative; }
+  .hero--home .hero-actions > .hero-cta::before {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    border-radius: 13.5px;
+    padding: 1.5px;
+    pointer-events: none;
+    background: conic-gradient(from var(--ang),
+      transparent, transparent 60%, rgba(191, 219, 254, .85) 80%, #fff 88%, transparent 96%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: ringSpin 4s linear infinite;
+  }
+}
+@media (max-width: 599.98px) and (prefers-reduced-motion: reduce) {
+  .hero--home .hero-actions > .hero-cta::before { display: none; }
+}
+
+/* The top of the hero flat in the page's colour (the iPhone and iPad status bar sits over it): solid for
+   90px, then into the hero's gradients by 240px. Over .hero-decor, under .container. */
+@media (max-width: 1023.98px) {
+  .hero > .hero-top-flat {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 240px;
+    z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgb(17, 19, 24) 0, rgb(17, 19, 24) 90px, rgba(17, 19, 24, 0) 100%);
+  }
+}
+
+/* ---------- Phones (720px and under): the dashboard card ----------
    The app's phone dashboard (HeroPhoneDash.jsx) in a frameless dark card, like /ai-and-automations'
    chat window: the container's full width, 428px tall, a blue edge on the top and sides, fading out
    at the bottom into the next section, with a soft blue glow behind its top edge. The phone frame
    (PhoneFrame.jsx) is the card: no bezel, rim, side buttons, island or home bar, and no zoom. Its
    header stays put while the list under it moves with the page (useHeroCardScroll.js). */
-@media (max-width: 1023.98px) {
+@media (max-width: 720px) {
   /* The faded card's foot meets the next (white) section: no space under it. */
   .hero.hero--home,
   .hero--home > .container,
   .hero--home .hero-mockup { padding-bottom: 0; }
   .hero--home .hero-mockup { margin-top: 30px; }
 
-  /* The copy, tighter: the buttons stacked, the ticks right under the primary, then "See pricing" as a
-     text link, underlined in the buttons' blue. */
   .hero.hero--home { padding-top: 96px; }
   .hero--home .hero-sub { margin-top: 22px; }
-  .hero--home .hero-actions { flex-direction: column; align-items: center; gap: 0; margin-top: 24px; }
-  .hero--home .hero-cta-alt {
-    width: auto;
-    max-width: none;
-    height: auto;
-    margin-top: 8px;
-    padding: 8px 10px;
-    border: 0;
-    border-radius: 0;
-    background: none;
-    box-shadow: none;
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 1.4;
-    color: #cbd5e1;
-    text-decoration: underline;
-    text-decoration-color: #3b82f6;
-    text-underline-offset: 4px;
-  }
-  .hero--home .hero-cta-alt:hover { background: none; }
-  /* Two lines over the card (hidden on phones, below). */
+  /* Two lines over the card (hidden on smaller phones, below). */
   .hero--home .hero-card-caption {
     margin: 64px 0 0;
     font-size: 17px;
@@ -523,19 +544,6 @@
     color: #94a3b8;
     text-align: center;
     text-wrap: balance;
-  }
-
-  /* The top of the hero flat in the page's colour (the iPhone status bar sits over it): solid for
-     90px, then into the hero's gradients by 240px. Over .hero-decor, under .container. */
-  .hero > .hero-top-flat {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 240px;
-    z-index: 0;
-    pointer-events: none;
-    background: linear-gradient(to bottom, rgb(17, 19, 24) 0, rgb(17, 19, 24) 90px, rgba(17, 19, 24, 0) 100%);
   }
 
   .hero--home .preview-glint,
@@ -587,7 +595,7 @@
 }
 
 /* The phone dashboard (HeroPhoneDash.jsx): the app's PhoneHome in its dark theme. Inter, white,
-   16px either side. Shown below lg only (the card); from lg it's display: none (above). */
+   16px either side. Shown on phones only (the card); from 721px it's display: none (above). */
 .hero-dash {
   position: relative;
   height: 100%;
@@ -669,7 +677,7 @@
 .hd-route-count.is-done { display: inline-flex; align-items: center; gap: 4px; color: #34b864; }
 /* Scroll-linked (useHeroCardScroll.js sets --hd-travel): a CSS animation on the card's view timeline, so
    the compositor moves the list in step with the scroll; smoothstep easing. */
-@media (max-width: 1023.98px) {
+@media (max-width: 720px) {
   .hero-phone { view-timeline: --hero-card block; }
   .hd-list.is-scroll-linked {
     animation: hero-card-list linear both;
@@ -689,13 +697,13 @@
    before the next section. No lines over the card. A slow blue glow drifts behind that strip. */
 @media (max-width: 639.98px) {
   .hero.hero--home { padding-top: 84px; padding-bottom: 56px; }
-  /* The headline in three set lines ("Pool service software / built to run and grow / your business")
+  /* The headline in three set lines ("Pool service software / built to run and grow / your pool business")
      and the subhead in two, one sentence each. Each line keeps a 3% margin in the 16px-gutter column:
      the headline's longest is 9.47 times its font size, so it's 36px from 390px wide down to 30px at
      320px; the subhead's first sentence is 20.4 times its size, so it's 16px from 365px wide. */
   .lp-home .hero--home .hero-title { font-size: clamp(30px, calc((100vw - 32px) / 9.75), 36px); }
   .lp-home .hero--home .hero-sub { font-size: clamp(14px, calc((100vw - 32px) / 20.8), 16px); }
-  .hero--home :is(.hero-title-line, .hero-sub-line) { display: block; white-space: nowrap; }
+  .hero--home .hero-sub-line { white-space: nowrap; }
   .hero--home .hero-copy {
     min-height: calc(100vh - 84px - 66px);
     min-height: calc(100svh - 84px - 66px);
@@ -728,6 +736,76 @@
 }
 @media (max-width: 639.98px) and (prefers-reduced-motion: reduce) {
   .hero--home::after { animation: none; opacity: .7; }
+}
+
+/* ---------- Homepage hero, tablets (721px to 1023px; .hero--home, Hero.jsx) ----------
+   The copy centred, 80px under the header, then, 76px under the ticks, the desktop dashboard: the
+   browser window in its bezel (laptop.css), its 1062px design width zoomed as a whole so the bezel
+   spans the container's width, with the glow and the top-edge light behind it, centred, as on desktop.
+   The toast sits in the window's top-right corner, under the address bar, at the dashboard's scale
+   (zoomed with the holder). The dashboard inside is laid out as on desktop: preview.css lays the preview out for
+   phones and tablets below 1024px (the #collections section's too), so here its desktop rules are
+   repeated for the hero's dashboard and its phone and tablet ones undone (a selector that outranks
+   them). */
+@media (min-width: 720.02px) and (max-width: 1023.98px) {
+  .hero.hero--home { padding-top: calc(64px + 80px); padding-bottom: 80px; } /* the header's 64px, then 80px */
+  .hero--home .hero-title { line-height: 1.1; }
+  .hero--home .hero-sub { margin-top: 26px; }
+  .hero--home .hero-actions { margin-top: 34px; }
+  .hero--home .hero-ticks { margin-top: 28px; }
+
+  /* 1082 design px: the 1062px screen and the bezel's 10px either side. */
+  .hero--home > .container { container-type: inline-size; }
+  .hero--home .hero-mockup { max-width: none; margin-top: 76px; }
+  .hero--home .mockup-holder { width: 1062px; margin-inline: auto; zoom: tan(atan2(100cqw, 1082px)); }
+
+  /* preview.css's desktop rules (min-width: 1024px; at 768px for the panel's padding and the charts). */
+  .hero--home .mockup-holder .pl-preview {
+    --dz: calc(1062 / 1280);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    border-radius: 12px;
+  }
+  .hero--home .mockup-holder .pl-preview .pl-frame { flex: 1; min-height: 0; height: auto; zoom: var(--dz); background: var(--shell-bg); }
+  .hero--home .mockup-holder .pl-preview::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
+    pointer-events: none;
+  }
+  .hero--home .mockup-holder .pl-rail { display: flex; }
+  .hero--home .mockup-holder .pl-theme-toggle { display: none; }
+  .hero--home .mockup-holder .pl-main { padding: 8px 8px 8px 0; }
+  .hero--home .mockup-holder .pl-panel { padding: 0 24px 24px; border: 1px solid var(--panel-edge); border-radius: 12px; }
+  .hero--home .mockup-holder .pl-panel::after { display: block; }
+  .hero--home .mockup-holder .pl-charts { margin-top: 48px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; column-gap: clamp(48px, 11%, 106px); }
+  .hero--home .mockup-holder .pl-charts-hero { row-gap: 48px; column-gap: 96px; }
+  .hero--home .mockup-holder .pl-card { border: 0; border-radius: 0; background: none; }
+  .hero--home .mockup-holder .pl-card-head { padding: 0; }
+  .hero--home .mockup-holder .pl-card-body { padding: 8px 0 0; }
+  .hero--home .mockup-holder .pl-preview .pl-routes { margin-top: 48px; gap: 22px; }
+  .hero--home .mockup-holder .pl-route-row { grid-template-columns: 190px minmax(0, 1fr) 120px; column-gap: 18px; }
+  .hero--home .mockup-holder .pl-route-name { font-size: 14px; }
+  .hero--home .mockup-holder .pl-route-status { font-size: 12.5px; }
+  .hero--home .mockup-holder .pl-route-count b { font-size: 15.5px; }
+  .hero--home .mockup-holder .pl-route-total { font-size: 13.5px; }
+  .hero--home .mockup-holder .pl-route-pct { display: inline; }
+
+  /* The toast, as preview.css places it from 1024px: in the panel's top-right corner, under the
+     browser toolbar, scaled with the dashboard (preview.css hides it below 1024px). */
+  .hero--home .mockup-holder > .pl-toast {
+    --dz: calc(1062 / 1280);
+    --toast-inset: calc(18px * var(--dz));
+    --bar-h: 38px;
+    display: flex;
+    right: var(--toast-inset);
+    transform: scale(var(--dz));
+  }
 }
 
 /* ---------- Homepage hero, desktop (≥1024px; .hero--home, Hero.jsx) ----------
@@ -777,11 +855,8 @@
   /* The copy (its alignment and width are Tailwind's lg: classes in Hero.jsx). It scrolls with the page. */
   .hero--home .hero-copy { margin: 0; padding: 0; min-height: 0; justify-content: center; }
   .hero--home .hero-copy .hero-title { font-size: clamp(44px, 1.6vw + 26px, 56px); line-height: 1.12; } /* over 56px, line one wraps */
-  .hero--home .hero-copy .hero-sub { margin-top: 26px; max-width: 31em; font-size: 18px; line-height: 1.6; text-wrap: pretty; }
+  .hero--home .hero-copy .hero-sub { margin-top: 22px; max-width: 31em; font-size: 18px; line-height: 1.6; text-wrap: pretty; }
   .hero--home .hero-actions { justify-content: flex-start; margin-top: 34px; }
-  /* The ticks on their own rows under both buttons (after "See pricing"), 26px below them, left-aligned. */
-  .hero--home .hero-ticks { order: 1; flex-basis: 100%; justify-content: flex-start; margin-top: 14px; }
-  .hero--home .hero-ticks > li:first-child { justify-content: flex-start; }
 
   /* The dashboard, at its design size, zoomed. Inside, the preview and its toast are laid out for a
      1062px-wide screen (preview.css's --dz, here fixed to that width). */

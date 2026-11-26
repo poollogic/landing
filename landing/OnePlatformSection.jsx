@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import FeatureCard from './FeatureCard.jsx';
 import './one-platform.css';
 
-// "Other pool software takes your time. Poolnautics gives it back.": straight after the hero. What owners still do by hand with other pool software,
+// "Here’s where the time comes from.": straight after the hero (whose subhead says other pool software
+// takes your time and Poolnautics gives it back). What owners still do by hand with other pool software,
 // in three cards, then the card that says Poolnautics handles all of it, with every feature
 // (FeatureCard.jsx). Names no competitor.
 //
@@ -57,8 +58,7 @@ export default function OnePlatformSection() {
     <section ref={ref} id="platform" className={`op-section${cls}`} aria-labelledby="op-heading">
       <div className="op-inner">
         <h2 id="op-heading" className="op-title op-rise">
-          <span className="op-title-line">Other pool software takes your time.</span>{' '}
-          <span className="op-title-line op-keep">Poolnautics gives it back.</span>
+          Here’s where the time comes from.
         </h2>
 
         <div className="op-rise op-still">

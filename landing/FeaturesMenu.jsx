@@ -1,47 +1,42 @@
-import React, { useEffect, useId, useRef } from 'react';
-import { ArrowRight, ChevronDown } from 'lucide-react';
-import { API_DOCS_URL } from '../aiFacts.js';
+import React, { useEffect, useRef } from 'react';
+import {
+  ArrowLeftRight, ArrowRight, Bell, ChevronDown, CreditCard, Gauge, Route, Smartphone, Sparkle, TrendingUp, Truck, Wrench,
+} from 'lucide-react';
 
 // The header's links, shared by the site header (landing/Nav.jsx, styled in landing/nav.css) and
 // the preserved old homepage's (components/site-chrome.jsx, styled in components/site-nav.css).
 
-// The Features menu: what the app does, and where to read about each. Most are homepage sections
-// (rooted at / so they work from every page) until a feature gets a page of its own (billing:
-// /pool-service-billing; repairs: /workflow).
-// Two columns of features, each with a line on what it does (the copy is the homepage's). Read as
-// rows: Billing and Repairs on top, Collections and Switching below...
-export const FEATURE_COLUMNS = [
-  [
-    { label: 'Billing on autopilot', desc: 'Every customer invoiced on their own schedule and paid in one tap', href: '/pool-service-billing' },
-    { label: 'Collections', desc: 'Late fees, overdue notices and service pauses that run themselves', href: '/#collections' },
-  ],
-  [
-    { label: 'Repairs on autopilot', desc: 'Requests, diagnostics and work orders that run from quote to paid', href: '/workflow' },
-    { label: 'Switching', desc: 'Bring your Skimmer or QuickBooks customers over in minutes', href: '/#switching' },
-  ],
-];
-// ...a column of plain links in two labelled groups...
-const AI_PAGE = { label: 'AI & automations', href: '/ai-and-automations' };
-const ROUTES_LINK = { label: 'Route transfers', href: '/#routes' };
-const ROUTE_SOFTWARE = { label: 'Routes & scheduling', href: '/pool-route-software' };
-// TODO(owner): is Route transfers right under Product, and Questions under Resources?
-// TODO(owner): API docs, Partner program and Questions aren't in the phone menu (MENU_FEATURES). Intended?
-const MORE_GROUPS = [
-  ['Product', [ROUTE_SOFTWARE, AI_PAGE, ROUTES_LINK]],
-  ['Resources', [
-    { label: 'API docs', href: API_DOCS_URL },
-    { label: 'Partner program', href: '/partners' },
-    { label: 'Questions', href: '/#faq' },
+// The Features menu: four groups of links, the same in the desktop dropdown (with an icon beside each,
+// Lucide's) and the phone and tablet menu (Nav.jsx, no icons). Homepage sections are rooted at / so
+// they work from every page.
+export const FEATURE_GROUPS = [
+  ['Get paid', [
+    { label: 'Billing on autopilot', href: '/pool-service-billing', Icon: CreditCard },
+    { label: 'Collections', href: '/#collections', Icon: Bell },
+    { label: 'Price increases', href: '/pool-service-price-increases', Icon: TrendingUp },
+  ]],
+  ['In the field', [
+    { label: 'Routes & scheduling', href: '/pool-route-software', Icon: Route },
+    { label: 'Technician app', href: '/tech-app', Icon: Smartphone },
+    { label: 'Repairs on autopilot', href: '/workflow', Icon: Wrench },
+  ]],
+  ['Trucks & mileage', [
+    { label: 'Mileage tracking', href: '/pool-service-mileage-tracking', Icon: Gauge },
+    { label: 'Fleet management', href: '/pool-service-fleet-management', Icon: Truck },
+  ]],
+  ['More', [
+    { label: 'AI & automations', href: '/ai-and-automations', Icon: Sparkle },
+    { label: 'Route transfers', href: '/#routes', Icon: ArrowLeftRight },
   ]],
 ];
-// ...and what's new, along the bottom.
-const NEWS = { title: 'New', text: 'Connect Claude, Grok, ChatGPT or your own AI', href: AI_PAGE.href };
-// The phone menu: the features row by row, as the grid reads, then the plain links it carries (the AI
-// page, Routes & scheduling and Route transfers).
-const [LEFT, RIGHT] = FEATURE_COLUMNS;
-export const MENU_FEATURES = [...LEFT.flatMap((item, i) => [item, RIGHT[i]]), ROUTE_SOFTWARE, AI_PAGE, ROUTES_LINK];
+// What's new: the dropdown's bottom strip, and the phone menu's card (shorter).
+export const NEWS = {
+  href: '/claude',
+  text: 'Poolnautics now connects to Claude. Send quotes, chase late invoices and check routes.',
+  short: 'Connect Poolnautics to Claude',
+};
 
-// The links beside the menu.
+// The links after Features. (Home comes first, before Features: Nav.jsx.)
 export const LINKS = [
   ['Pricing', '/pricing'],
   ['Contact', '/contact'],
@@ -54,7 +49,6 @@ const FeaturesMenu = ({ open, setOpen }) => {
   const ref = useRef(null);
   const timer = useRef(0);
   const viaHover = useRef(false);
-  const groupId = useId();
 
   useEffect(() => () => clearTimeout(timer.current), []);
 
@@ -116,28 +110,18 @@ const FeaturesMenu = ({ open, setOpen }) => {
       </button>
       <div id="lp-nav-features" className="nav-dd-panel">
         <div className="nav-dd-card">
-          {FEATURE_COLUMNS.map((items, i) => (
-            <ul key={i} className="nav-dd-col">
-              {items.map(({ label, desc, href }) => (
-                <li key={href}>
-                  <a href={href} className="nav-dd-feature" onClick={() => setOpen(false)}>
-                    <span className="nav-dd-label">
-                      {label}
-                      <ArrowRight size={14} strokeWidth={2} className="nav-dd-arrow" aria-hidden="true" />
-                    </span>
-                    <span className="nav-dd-desc">{desc}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ))}
-          <div className="nav-dd-col nav-dd-more">
-            {MORE_GROUPS.map(([title, links], g) => (
-              <div key={title} className="nav-dd-group">
-                <p className="nav-dd-group-label" id={`${groupId}-${g}`}>{title}</p>
-                <ul aria-labelledby={`${groupId}-${g}`}>
-                  {links.map(({ label, href }) => (
-                    <li key={href}><a href={href} onClick={() => setOpen(false)}>{label}</a></li>
+          <div className="dd-cols">
+            {FEATURE_GROUPS.map(([title, links], g) => (
+              <div key={title} className="dd-col">
+                <p className="dd-lab" id={`lp-nav-dd-${g}`}>{title}</p>
+                <ul aria-labelledby={`lp-nav-dd-${g}`}>
+                  {links.map(({ label, href, Icon }) => (
+                    <li key={href}>
+                      <a href={href} onClick={() => setOpen(false)}>
+                        <Icon size={17} strokeWidth={1.75} aria-hidden="true" />
+                        {label}
+                      </a>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -145,8 +129,8 @@ const FeaturesMenu = ({ open, setOpen }) => {
           </div>
         </div>
         <a href={NEWS.href} className="nav-dd-news" onClick={() => setOpen(false)}>
-          <span><b>{NEWS.title}</b> {NEWS.text}</span>
-          <span className="nav-dd-news-more">Learn more <ArrowRight size={14} strokeWidth={1.8} aria-hidden="true" /></span>
+          <span className="dd-strip"><b>New</b>{NEWS.text}</span>
+          <span className="dd-more">Learn more <ArrowRight size={16} strokeWidth={2} aria-hidden="true" /></span>
         </a>
       </div>
     </div>

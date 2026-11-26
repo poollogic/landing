@@ -10,23 +10,21 @@ import useHeroCardScroll from './useHeroCardScroll.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import useHeroToastAnchor from './useHeroToastAnchor.js';
 
-// Phones and tablets (below lg), where the hero shows the dashboard card (HeroPhoneDash) instead of
-// the desktop dashboard. Updates if the window crosses the breakpoint; false on the server.
-const BELOW_LG_QUERY = '(max-width: 1023.98px)';
-const subscribeBelowLg = (fn) => {
-  const mq = window.matchMedia(BELOW_LG_QUERY);
+// Phones (720px and under), where the hero shows the dashboard card (HeroPhoneDash) instead of the
+// desktop dashboard. Updates if the window crosses the breakpoint; false on the server.
+const PHONE_QUERY = '(max-width: 720px)';
+const subscribePhone = (fn) => {
+  const mq = window.matchMedia(PHONE_QUERY);
   mq.addEventListener('change', fn);
   return () => mq.removeEventListener('change', fn);
 };
-const useIsBelowLg = () => useSyncExternalStore(subscribeBelowLg, () => window.matchMedia(BELOW_LG_QUERY).matches, () => false);
-
-// The billing-run toast is decoration: absolutely positioned (it can't move
-// anything), hidden below lg, and only loaded once the page has painted.
+const useIsPhone = () => useSyncExternalStore(subscribePhone, () => window.matchMedia(PHONE_QUERY).matches, () => false);
+// The billing-run toast is decoration: absolutely positioned (it can't move anything), shown on the
+// desktop dashboard (from 721px, tablets too; never on phones) and only loaded once the page has painted.
 const PreviewToast = lazy(() => import('./preview/PreviewToast.jsx'));
 function useAfterPaint() {
   const [ready, setReady] = useState(false);
   useEffect(() => {
-    if (window.matchMedia(BELOW_LG_QUERY).matches) return undefined; // display:none there anyway
     const idle = window.requestIdleCallback || ((cb) => setTimeout(cb, 200));
     const cancel = window.cancelIdleCallback || clearTimeout;
     const id = idle(() => setReady(true), { timeout: 1500 });
@@ -38,21 +36,24 @@ function useAfterPaint() {
 // The homepage hero. Background, light beams, type and CTA styling live in
 // landing/hero.css; layout and the entrance animation stay in Tailwind. On
 // desktop (hero.css, "Desktop") it's one screen: the copy on the left, the dashboard on the right,
-// running off the window's edge, its toast placed by useHeroToastAnchor. Below lg the dashboard is
-// the phone dashboard card (HeroPhoneDash), whose list moves with the page (useHeroCardScroll).
+// running off the window's edge, its toast placed by useHeroToastAnchor. On tablets (721px to 1023px)
+// the copy is centred over the same desktop dashboard, scaled to the container's width, its toast in
+// the window's top-right corner (hero.css, "Homepage hero, tablets"). On phones
+// the dashboard is the phone dashboard card (HeroPhoneDash), whose list moves with the page
+// (useHeroCardScroll).
 
-// The offer under the primary button.
-const TICKS = ['We’ll move your customers over', 'Free for 30 days', 'No credit card'];
+// The offer under the buttons.
+const TICKS = ['No credit card, free for 30 days', 'We’ll move your customers over'];
 
 // Staggered entrance: 300ms fade-up (ease-mktg), skipped under reduced motion.
 const ENTER = 'animate-mktg-fade-up motion-reduce:animate-none';
 
 const Hero = () => {
   const theme = usePreviewTheme();
-  const isBelowLg = useIsBelowLg();
+  const isPhone = useIsPhone();
   const holderRef = useRef(null);
   const mockupRef = useRef(null);
-  useHeroCardScroll(holderRef, isBelowLg);
+  useHeroCardScroll(holderRef, isPhone);
   useHeroToastAnchor(mockupRef);
   const showToast = useAfterPaint();
   // The pre-rendered page is drawn with the dark preview. When this visitor's is light, the page's
@@ -77,23 +78,20 @@ const Hero = () => {
     <div className="container">
       {/* Text block */}
       <div className={`hero-copy mx-auto flex max-w-4xl flex-col items-center text-center lg:mx-0 lg:max-w-none lg:items-start lg:text-left ${ENTER}`}>
-        {/* On phones each span is a line of its own (hero.css); wider, the headline wraps as it fits. */}
+        {/* Three set lines at every width, each span a line of its own (hero.css). */}
         <h1 className="hero-title">
           <span className="hero-title-line">Pool service software</span>{' '}
           <span className="hero-title-line">built to run and grow</span>{' '}
-          <span className="hero-title-line">your business</span>
+          <span className="hero-title-line">your pool business</span>
         </h1>
 
-        {/* Two wordings, both in the markup: the long one from 1100px, the short one below (hero.css). On
-            phones each short sentence is a line of its own. */}
+        {/* Two sentences, one per line, at every width. */}
         <p className="hero-sub">
-          <span className="hero-sub-wide">Pool business software that puts billing, routes and service reports on autopilot. Cut your overhead. Add more pools.</span>
-          <span className="hero-sub-narrow">
-            <span className="hero-sub-line">Billing, routes and service reports on autopilot.</span>{' '}
-            <span className="hero-sub-line">Cut your overhead. Add more pools.</span>
-          </span>
+          <span className="hero-sub-line">Other pool software takes your time.</span>{' '}
+          <span className="hero-sub-line">Poolnautics was built to give it back.</span>
         </p>
 
+        {/* The trial button and "See pricing", a quiet text link beside it (under it on phones). */}
         <div className="hero-actions">
           <a
             href={ctaHref(theme)}
@@ -102,40 +100,34 @@ const Hero = () => {
             <span className="hero-cta-label">{isReserving ? 'Reserve your spot' : 'Start your free trial'}</span>
             <ArrowRight size={18} strokeWidth={1.8} aria-hidden="true" />
           </a>
-          {/* The offer in three ticks: one row, then two (hero.css). Between the buttons in the markup, so
-              below lg they sit under the primary; from lg they wrap onto their own row under both. */}
-          <ul className="hero-ticks">
-            {TICKS.map((t) => (
-              <li key={t}><Check size={14} strokeWidth={2.25} aria-hidden="true" />{t}</li>
-            ))}
-          </ul>
-          <a
-            href="/pricing"
-            className="hero-cta-alt cta-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-400"
-          >
-            See pricing
-          </a>
+          <a href="/pricing" className="hero-pricing">See pricing</a>
         </div>
+        {/* The offer, one tick per line, under both. */}
+        <ul className="hero-ticks">
+          {TICKS.map((t) => (
+            <li key={t}><Check size={16} strokeWidth={2.25} aria-hidden="true" />{t}</li>
+          ))}
+        </ul>
       </div>
 
-      {/* 640px to lg: two lines over the dashboard card; hidden on phones and from lg (hero.css). */}
+      {/* 640px to 720px: two lines over the dashboard card; hidden on smaller phones and from 721px (hero.css). */}
       <p className="hero-card-caption">Built for your desktop and your phone.</p>
       <p className="hero-card-sub">Billing, customers and route management. Not just the tech app.</p>
 
       {/* Dashboard preview: the first screen down to two Live route progress rows, sized to its content. */}
       <div ref={mockupRef} className={`hero-mockup relative mx-auto max-w-[1120px] [animation-delay:150ms] ${ENTER}`}>
         <div className="mockup-holder" ref={holderRef}>
-          {/* lg and up: the bezel around the screen, a floating window (laptop.css). */}
+          {/* From 721px: the bezel around the screen, a floating window (laptop.css). */}
           <div className="lt-bezel" aria-hidden="true" />
           {/* Both dashboards are always rendered, so the pre-rendered page is the same at every width.
-              lg and up, hero.css takes the frame away and the desktop dashboard sits in the holder on
-              its own. Below lg the frame is the dark card, showing only the phone dashboard. */}
+              From 721px, hero.css takes the frame away and the desktop dashboard sits in the holder on
+              its own. On phones the frame is the dark card, showing only the phone dashboard. */}
           <PhoneFrame className="bz-phone--embedded hero-phone">
             <DashboardPreview date={HERO_DATE.long} />
             <HeroPhoneDash />
           </PhoneFrame>
           <div className="preview-glint" aria-hidden="true" />
-          {showToast && <Suspense fallback={null}><PreviewToast /></Suspense>}
+          {showToast && !isPhone && <Suspense fallback={null}><PreviewToast /></Suspense>}
         </div>
 
       </div>

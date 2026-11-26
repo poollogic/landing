@@ -39,7 +39,7 @@ if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
 const LandingPage = () => {
   return (
     <div className="mktg lp-home relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
-      <Nav />
+      <Nav current="/" />
       <main>
         <Hero />
         <Suspense fallback={placeholder}><BelowFold /></Suspense>

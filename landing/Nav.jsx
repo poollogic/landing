@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, ChevronDown, Menu, X } from 'lucide-react';
 import { usePreviewTheme } from './preview/previewTheme.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import { Wordmark } from '../components/brand-logo.jsx';
-import FeaturesMenu, { LINKS, MENU_FEATURES } from './FeaturesMenu.jsx';
+import FeaturesMenu, { FEATURE_GROUPS, LINKS, NEWS } from './FeaturesMenu.jsx';
 import './nav.css';
 
 // The site header. Dark, absolutely positioned over the hero, on the homepage, /pricing and /contact;
@@ -13,13 +13,14 @@ import './nav.css';
 
 const APP_URL = 'https://app.poolnautics.app/';
 
-// Below this width the burger menu replaces the links (the same breakpoint as index.html's).
-const MENU_MAX = 880;
+// From this width the links replace the burger menu (the same breakpoint as index.html's and nav.css's).
+const LINKS_MIN = 1024;
 
 // hideCta: no "Reserve your spot" / "Start free trial" button, in the bar or the menu, on the page it
 // would lead to (/reserve).
 // current: the page's own path (e.g. '/pricing'), so its link shows as the page you're on. A prop,
-// not window.location, so a pre-rendered page renders the same on the server.
+// not window.location, so a pre-rendered page renders the same on the server. On the homepage ('/'),
+// Home is the current page: plain white text, not a link (the logo still links to /).
 // tone: 'dark' or 'light', the page's background.
 // overlay: with tone="light", over a white hero like the dark one (absolute, the page's own type), not
 // in the page's flow: /ai-and-automations. Its colours: nav.css ("Light, over a white hero").
@@ -31,6 +32,8 @@ const MENU_MAX = 880;
 const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHide = false }) => {
   const [open, setOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
+  // The phone and tablet menu's Features list: closed each time the menu opens.
+  const [menuFeaturesOpen, setMenuFeaturesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [tucked, setTucked] = useState(false);
   const ref = useRef(null);
@@ -41,6 +44,7 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
   // Close the mobile menu on Escape, outside click, or growing past the menu's widths.
   useEffect(() => {
     if (!open) return undefined;
+    setMenuFeaturesOpen(false);
     // Escape: focus goes back to the menu button, as the Features dropdown's does to its own.
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
@@ -48,7 +52,7 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
       burger.current?.focus();
     };
     const onDown = (e) => { if (!ref.current?.contains(e.target)) setOpen(false); };
-    const mq = window.matchMedia(`(min-width: ${MENU_MAX + 0.02}px)`);
+    const mq = window.matchMedia(`(min-width: ${LINKS_MIN}px)`);
     const onResize = (e) => { if (e.matches) setOpen(false); };
     document.addEventListener('keydown', onKey);
     document.addEventListener('pointerdown', onDown);
@@ -105,6 +109,9 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
         <a href="/" className="lp-nav-wordmark" aria-label="Poolnautics — home"><Wordmark bg={tone} /></a>
 
         <nav className="nav-links" aria-label="Primary">
+          {current === '/'
+            ? <span className="nav-home" aria-current="page">Home</span>
+            : <a href="/" className="nav-home">Home</a>}
           <FeaturesMenu open={featuresOpen} setOpen={setFeaturesOpen} />
           {LINKS.map(([label, href]) => <a key={label} href={href} aria-current={href === current ? 'page' : undefined}>{label}</a>)}
         </nav>
@@ -130,23 +137,49 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
           </button>
         </div>
 
-        <nav id="lp-nav-menu" className="nav-menu" aria-label="Mobile" hidden={!open}>
-          {/* Features: a heading, always open, then its links. Sign in is in the bar at every width.
-              TODO(owner): "Features" looks like Pricing and Contact but isn't tappable. Link it to a
-              features overview page, if one is made, or make it a smaller grey label. */}
-          <p className="nav-menu-label" id="lp-nav-menu-features">Features</p>
-          <div className="menu-features" role="group" aria-labelledby="lp-nav-menu-features">
-            {MENU_FEATURES.map(({ label, href }) => (
-              <a key={href} href={href} className="menu-feature" onClick={close}>{label}</a>
-            ))}
+        {/* The phone and tablet menu: Home, Features (a button that opens its ten links), Pricing and
+            Contact, the Claude card, and the trial button with its terms pinned to the foot. */}
+        <nav id="lp-nav-menu" className={`nav-menu${menuFeaturesOpen ? ' is-features-open' : ''}`} aria-label="Mobile" hidden={!open}>
+          {current === '/'
+            ? <span className="menu-main" aria-current="page">Home</span>
+            : <a href="/" className="menu-main" onClick={close}>Home</a>}
+          <button
+            type="button"
+            className="menu-main menu-acc"
+            aria-expanded={menuFeaturesOpen}
+            aria-controls="lp-nav-menu-features"
+            onClick={() => setMenuFeaturesOpen((o) => !o)}
+          >
+            <span>Features</span>
+            <ChevronDown size={20} strokeWidth={2} aria-hidden="true" />
+          </button>
+          <div id="lp-nav-menu-features" className={`menu-acc-panel${menuFeaturesOpen ? ' is-open' : ''}`}>
+            <div className="menu-acc-inner">
+              <div className="menu-features">
+                {FEATURE_GROUPS.map(([title, links], g) => (
+                  <div key={title} className="menu-group" role="group" aria-labelledby={`lp-nav-menu-g${g}`}>
+                    <p className="menu-lab" id={`lp-nav-menu-g${g}`}>{title}</p>
+                    {links.map(({ label, href }) => (
+                      <a key={href} href={href} className="menu-feature" onClick={close}>{label}</a>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <hr />
           {LINKS.map(([label, href]) => <a key={label} href={href} className="menu-main" aria-current={href === current ? 'page' : undefined} onClick={close}>{label}</a>)}
+          <a href={NEWS.href} className="menu-claude" onClick={close} tabIndex={menuFeaturesOpen ? -1 : undefined} aria-hidden={menuFeaturesOpen || undefined}>
+            <span><b>New</b>{NEWS.short}</span>
+            <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+          </a>
           {!hideCta && (
-            <a href={ctaHref(theme)} className="menu-trial" onClick={close}>
-              {isReserving ? 'Reserve your spot' : 'Start free trial'}
-              <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
-            </a>
+            <div className="menu-foot">
+              <a href={ctaHref(theme)} className="menu-trial" onClick={close}>
+                {isReserving ? 'Reserve your spot' : 'Start free trial'}
+                <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+              </a>
+              {!isReserving && <p className="menu-terms">Free for 30 days. No credit card.</p>}
+            </div>
           )}
         </nav>
       </div>
@@ -154,6 +187,9 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
     {/* Dims the page behind the open menu; outside the header so it sits under it (z-index 99 < 100).
         A tap on it closes the menu. */}
     <div className={`nav-scrim${light}${open ? ' is-open' : ''}`} onClick={close} aria-hidden="true" />
+    {/* Dims and softens the page behind the open desktop Features dropdown, just under the header;
+        clicks pass through it (the dropdown closes on a click anywhere else). */}
+    <div className={`nav-veil${light}${featuresOpen ? ' is-open' : ''}`} aria-hidden="true" />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-// Below lg: as the page scrolls past the hero's dashboard card (HeroPhoneDash.jsx), the list under its
+// Phones (720px and under): as the page scrolls past the hero’s dashboard card (HeroPhoneDash.jsx), the list under its
 // pinned header moves up until its last row ("Next billing") sits at the card's foot, with no empty
 // space under it (at most MAX_TRAVEL px), so the routes and money rows come into view. Linked to the
 // page scroll (it reverses on the way back up) and eased with smoothstep. Nothing moves until the whole

@@ -4,6 +4,7 @@ import { I } from './icons.jsx';
 import BrandLogo from './brand-logo.jsx';
 import FeaturesMenu, { LINKS } from '../landing/FeaturesMenu.jsx';
 import { ctaHref, isReserving } from '../landing/onboarding.js';
+import { API_DOCS_URL } from '../aiFacts.js';
 import './site-nav.css';
 
 // The old site's nav (now only on /landing) and the footer used on every page. Kept apart from sections.jsx so the
@@ -71,6 +72,10 @@ const Footer = () =>
         <a href="/ai-and-automations" className="site-footer-link">AI &amp; automations</a>
         <a href="/claude" className="site-footer-link">Claude</a>
         <a href="/partners" className="site-footer-link">Partners</a>
+        <a href="/guides/how-to-raise-prices" className="site-footer-link">Guide: raising prices</a>
+        {/* The API docs are on the app's domain (aiFacts.js): getpoolnautics.com/docs/api is a 404. */}
+        <a href={API_DOCS_URL} className="site-footer-link">API docs</a>
+        <a href="/#faq" className="site-footer-link">Questions</a>
         <a href="/terms" className="site-footer-link">Terms</a>
         <a href="/privacy" className="site-footer-link">Privacy</a>
         <a href="/delete-account" className="site-footer-link">Delete account</a>

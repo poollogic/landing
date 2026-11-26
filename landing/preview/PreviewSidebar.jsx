@@ -42,8 +42,17 @@ const FleetIcon = () => (
   </svg>
 );
 
+/** nav/NavIcons.tsx NavIconAssistant: the AI assistant page's north star, at the rail's 16px / 1.25 stroke. */
+const AssistantIcon = () => (
+  <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.875} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 2c.7 6.3 2.2 8.6 7 10-4.8 1.4-6.3 3.7-7 10-.7-6.3-2.2-8.6-7-10 4.8-1.4 6.3-3.7 7-10Z" />
+  </svg>
+);
+
+// The app's rail (Sidebar.tsx SIDEBAR_NAV_GROUPS). AI assistant shows there once an AI assistant is
+// connected; the previews show it.
 const NAV = [
-  { label: 'Operations', items: [['Dashboard', LayoutDashboard], ['Requests', Ticket], ['Customers', Users], ['Routes', Route], ['Staff', UserCog], ['Fleet', FleetIcon], ['Settings', Settings]] },
+  { label: 'Operations', items: [['Dashboard', LayoutDashboard], ['Requests', Ticket], ['Customers', Users], ['Routes', Route], ['Staff', UserCog], ['Fleet', FleetIcon], ['AI assistant', AssistantIcon], ['Settings', Settings]] },
   { label: 'Money', items: [['Invoices', InvoiceIcon], ['Payments', CreditCard]] },
   { label: 'Catalog', items: [['Services & Parts', Package]] },
 ];
