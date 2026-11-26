@@ -206,7 +206,7 @@ export default function ReserveCard({ initialSize = '' }) {
 
               {status === 'error' && (
                 <p role="alert" className="rsv-alert">
-                  {error} You can also email us at <a href="mailto:hello@getpoolnautics.com">hello@getpoolnautics.com</a>.
+                  {error} You can also email us at <a href="mailto:contact@getpoolnautics.com">contact@getpoolnautics.com</a>.
                 </p>
               )}
 

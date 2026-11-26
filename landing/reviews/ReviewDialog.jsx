@@ -192,7 +192,7 @@ export default function ReviewDialog({ register }) {
         {step.name === 'saved' && (
           <>
             {title('Your review is live')}
-            <p className="pn-sub">{step.saved?.review ? 'This is how it shows on the Poolnautics homepage.' : 'It’s saved, but it isn’t shown on the site right now. Write to hello@getpoolnautics.com if you think that’s a mistake.'}</p>
+            <p className="pn-sub">{step.saved?.review ? 'This is how it shows on the Poolnautics homepage.' : 'It’s saved, but it isn’t shown on the site right now. Write to contact@getpoolnautics.com if you think that’s a mistake.'}</p>
             {/* The card in the site's own type, as the homepage shows it. */}
             {step.saved?.review && <div className="pn-preview font-sans"><ReviewCard review={step.saved.review} /></div>}
             <div className="pn-done-actions">
