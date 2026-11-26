@@ -22,11 +22,12 @@ import { Footer } from '../../components/site-chrome.jsx';
 // entrance animations or scroll effects.
 
 /** The page: the site's light nav over the hero, the sections, the AI page's trial band and the footer. */
-export function FeaturePage({ className, children }) {
+// current: the page's own path, so the header's Features menu marks its link.
+export function FeaturePage({ className, current, children }) {
   const theme = usePreviewTheme();
   return (
     <div className={`mktg ai-page feature-page ${className} relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased`}>
-      <Nav tone="light" overlay />
+      <Nav tone="light" overlay current={current} />
       <main>
         {children}
         {/* The closing trial band (dark): /ai-and-automations' TrialBand, its copy as it is for now. */}

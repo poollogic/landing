@@ -6,8 +6,8 @@ import {
 // The header's links, shared by the site header (landing/Nav.jsx, styled in landing/nav.css) and
 // the preserved old homepage's (components/site-chrome.jsx, styled in components/site-nav.css).
 
-// The Features menu: four groups of links, the same in the desktop dropdown (with an icon beside each,
-// Lucide's) and the phone and tablet menu (Nav.jsx, no icons). Homepage sections are rooted at / so
+// The Features menu: four groups of links, the same in the desktop dropdown and the phone and tablet menu
+// (Nav.jsx), each with its Lucide icon beside it. Homepage sections are rooted at / so
 // they work from every page.
 export const FEATURE_GROUPS = [
   ['Get paid', [
@@ -45,7 +45,8 @@ export const LINKS = [
 // The desktop Features dropdown. It opens on hover (a mouse only, so a tap doesn't open and close
 // it at once) and on click, and its links stay in the page while it's closed, so crawlers find
 // them.
-const FeaturesMenu = ({ open, setOpen }) => {
+// current: the page's own path (Nav's `current`): its link keeps the hover look and is aria-current.
+const FeaturesMenu = ({ open, setOpen, current }) => {
   const ref = useRef(null);
   const timer = useRef(0);
   const viaHover = useRef(false);
@@ -117,8 +118,8 @@ const FeaturesMenu = ({ open, setOpen }) => {
                 <ul aria-labelledby={`lp-nav-dd-${g}`}>
                   {links.map(({ label, href, Icon }) => (
                     <li key={href}>
-                      <a href={href} onClick={() => setOpen(false)}>
-                        <Icon size={17} strokeWidth={1.75} aria-hidden="true" />
+                      <a href={href} aria-current={href === current ? 'page' : undefined} onClick={() => setOpen(false)}>
+                        <Icon size={17} strokeWidth={1.25} aria-hidden="true" />
                         {label}
                       </a>
                     </li>
@@ -130,7 +131,7 @@ const FeaturesMenu = ({ open, setOpen }) => {
         </div>
         <a href={NEWS.href} className="nav-dd-news" onClick={() => setOpen(false)}>
           <span className="dd-strip"><b>New</b>{NEWS.text}</span>
-          <span className="dd-more">Learn more <ArrowRight size={16} strokeWidth={2} aria-hidden="true" /></span>
+          <span className="dd-more">Learn more <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" /></span>
         </a>
       </div>
     </div>

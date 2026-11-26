@@ -127,7 +127,7 @@ const TechAppPage = () => {
   const theme = usePreviewTheme();
   return (
     <div className="mktg ai-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
-      <Nav />
+      <Nav current="/tech-app" />
       <main>
         {/* Hero: the AI page's, with the phone where its chat window is. */}
         <section className="hero ai-hero ai-hero--glow relative overflow-x-clip" aria-labelledby="tech-hero-title">

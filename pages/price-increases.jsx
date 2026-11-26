@@ -332,7 +332,7 @@ export default function PriceIncreasesPage() {
   const theme = usePreviewTheme();
   return (
     <div className="mktg ai-page feature-page price-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
-      <Nav autoHide />
+      <Nav autoHide current="/pool-service-price-increases" />
       <main>
         {/* 1. Hero (dark): the billing page's centred hero, no buttons or ticks; the invoice, notes and
             timeline under the copy. */}

@@ -555,7 +555,7 @@ export default function WorkflowPage() {
   const theme = usePreviewTheme();
   return (
     <div className="mktg rf-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
-      <Nav />
+      <Nav current="/workflow" />
       <main>
         <Hero theme={theme} />
         <Quotes />

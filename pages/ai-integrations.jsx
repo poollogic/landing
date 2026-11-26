@@ -259,7 +259,7 @@ export default function AiIntegrationsPage() {
   useReveal(pageRef);
   return (
     <div ref={pageRef} className="mktg ai-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
-      <Nav tone="light" overlay />
+      <Nav tone="light" overlay current="/ai-and-automations" />
       <main>
         {/* 1. Hero (light grey): the copy, then the AIs you can connect, left; "Approved quote to paid invoice"
             (QuoteToPaid.jsx), right. The dark hero's grid and breakpoints, on #F8FAFC (ai.css, "Light hero").

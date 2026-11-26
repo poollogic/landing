@@ -89,8 +89,9 @@
 /* Features dropdown (FeaturesMenu, Nav.jsx): a 960px panel (the window less 48px, if narrower) centred
    under the links (.nav-links, whose transform makes it the panel's containing block). Solid, no
    backdrop blur: a dark gradient with a hairline top highlight. Inside, a lighter card holds four
-   columns, each a small uppercase label on a hairline and its links, each with a 17px Lucide icon in
-   muted grey; what's new runs along the bottom, its text in line with the columns' (40px: the card's
+   columns, each a small uppercase label on a hairline and its links, each with a 17px thin-stroke Lucide
+   icon in muted grey (a soft box and a blue icon on hover and keyboard focus, and on the link of the page
+   you're on, without the box); what's new runs along the bottom, its text in line with the columns' (40px: the card's
    30px padding and the links' 10px). Its links are always in the page, hidden while it's closed; it
    fades and drops in with opacity and transform only, and its columns fade up one after another. */
 .nav-dd-trigger {
@@ -147,35 +148,43 @@
 .nav-dd-panel .dd-lab {
   margin: 0 10px 8px;
   padding-bottom: 13px;
-  border-bottom: 1px solid rgba(255, 255, 255, .09);
+  border-bottom: 1px solid rgba(255, 255, 255, .055);
   font-size: 12px;
   line-height: 16px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: #a5b1c2;
+  color: rgb(186, 196, 211);
 }
 .dd-col a {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 9px 10px;
+  padding: 11px 10px; /* 44px rows */
+  border-radius: 10px;
   font-size: 16px;
   line-height: 22px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, .9);
+  font-weight: 400;
+  color: rgba(255, 255, 255, .92);
   white-space: nowrap;
-  transition: color .15s ease;
+  transition: background-color .18s ease, color .18s ease;
 }
-.dd-col a svg { display: block; flex: none; width: 17px; height: 17px; color: #7b879b; transition: color .15s ease; }
-/* Hover: the text and icon brighten to white. No background box. */
+.dd-col a svg {
+  display: block; flex: none; width: 17px; height: 17px;
+  color: rgb(170, 181, 198); opacity: .9;
+  transition: color .18s ease, opacity .18s ease;
+}
+/* Hover and keyboard focus: a soft box, white text, a blue icon. The page you're on (aria-current, from
+   Nav's `current`): the same text and icon, without the box. Nothing moves. */
 .dd-col a:hover,
+.dd-col a:focus-visible { background: rgba(255, 255, 255, .045); color: #fff; }
+.dd-col a[aria-current="page"] { color: #fff; }
 .dd-col a:hover svg,
-.dd-col a:focus-visible,
-.dd-col a:focus-visible svg { color: #fff; }
+.dd-col a:focus-visible svg,
+.dd-col a[aria-current="page"] svg { color: #6ea8ff; opacity: 1; }
 
-/* What's new, along the bottom, to /claude: "New" in bold white, the line in grey, "Learn more" and an
-   arrow that nudges right on hover. */
+/* What's new, along the bottom, to /claude: a small blue "NEW" tag, the line in soft white, "Learn more"
+   and an arrow that nudges right on hover. */
 .nav-dd-news {
   display: flex;
   justify-content: space-between;
@@ -186,9 +195,9 @@
   line-height: normal;
   color: #a5b1c2;
 }
-.dd-strip { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.dd-strip b { flex: none; font-size: 15.5px; line-height: 22px; font-weight: 700; color: #fff; }
-.dd-more { display: inline-flex; align-items: center; gap: 6px; flex: none; font-weight: 600; color: #fff; white-space: nowrap; }
+.dd-strip { display: flex; align-items: center; gap: 12px; min-width: 0; color: rgba(255, 255, 255, .75); }
+.dd-strip b { flex: none; font-size: 11px; line-height: 22px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; color: #6ea8ff; }
+.dd-more { display: inline-flex; align-items: center; gap: 6px; flex: none; font-weight: 500; color: rgba(255, 255, 255, .9); white-space: nowrap; }
 .dd-more svg { display: block; width: 16px; height: 16px; transition: transform .15s ease; }
 .nav-dd-news:hover .dd-more svg { transform: translateX(3px); }
 
@@ -315,12 +324,13 @@
 }
 .nav-burger:hover { background: rgba(148, 163, 184, .1); }
 
-/* The burger menu: Home, Features (a button: it opens the ten links under it and flips its chevron),
-   Pricing and Contact in 20px rows with no lines between them; the Claude card; then the trial button and
-   its terms, pinned to the menu's foot, so on a short screen the rows scroll under them. Text only, no
-   icons. The feature links are the dropdown's four groups in two columns, each label small uppercase grey
-   on a hairline (the only lines here); they fade up one after another as the list opens, and the Claude
-   card folds away while it's open. Pressed rows and links dim briefly. No blue but the trial button. */
+/* The burger menu: Home, Features (a button: it opens the list under it and flips its chevron; open
+   whenever the menu opens), Pricing and Contact in 20px rows with no lines between them; the Claude card;
+   then the trial button and its terms, which scroll with the menu, so they never cover a link. The
+   feature list is one indented column of the dropdown's four groups, each a small uppercase title (a
+   button) between hairlines that opens and closes its links on its own; every group starts closed, so
+   the list stays short however many links it grows to. Each link has its thin Lucide icon. Pressed rows
+   dim briefly; a pressed feature link turns white. */
 .nav-menu {
   position: absolute;
   top: 64px;
@@ -348,24 +358,23 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 54px;
+  min-height: 58px;
   margin: 0;
   padding: 0;
   border: 0;
   background: none;
   font-family: inherit;
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1;
   letter-spacing: -.01em;
-  color: #fff;
+  color: rgba(255, 255, 255, .92);
   text-align: left;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition: opacity .12s ease;
 }
-.nav-menu .menu-main:active,
-.nav-menu .menu-feature:active { opacity: .6; }
+.nav-menu .menu-main:active { opacity: .6; }
 /* Features: a plain chevron, no circle; it flips and turns white when open. */
 .menu-acc svg { display: block; width: 20px; height: 20px; margin-right: 2px; color: #a5b1c2; transition: transform .25s ease, color .2s ease; }
 .menu-acc[aria-expanded="true"] svg { transform: rotate(180deg); color: #fff; }
@@ -374,35 +383,66 @@
 /* Closed, its links are out of the tab order and hidden from screen readers too (once folded). */
 .menu-acc-inner { overflow: hidden; min-height: 0; visibility: hidden; transition: visibility 0s linear .28s; }
 .menu-acc-panel.is-open .menu-acc-inner { visibility: visible; transition: none; }
-.menu-features { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; padding: 4px 0 10px; margin-bottom: 6px; }
-/* p: under .nav-menu to outrank the marketing pages' `.mktg :where(p) { color: inherit }`. */
+/* One column, indented 14px (titles, links and lines together). The 2px above and below even out the
+   gaps under the Features row and over Pricing. */
+.menu-features { display: block; padding: 2px 0 2px 14px; margin-bottom: 0; }
+/* A hairline over every group, and under the last. */
+.menu-group { border-top: 1px solid rgba(255, 255, 255, .07); }
+.menu-group:last-child { border-bottom: 1px solid rgba(255, 255, 255, .07); }
+/* The group's title: a button (its chevron alone shows open or closed). Under .nav-menu to outrank the
+   marketing pages' resets. */
 .nav-menu .menu-lab {
-  margin: 0 0 6px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 46px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
   font-size: 11px;
   line-height: 16px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: .11em;
   text-transform: uppercase;
-  color: #8a96aa;
+  color: rgba(255, 255, 255, .85);
+  text-align: left;
   white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
+.menu-lab svg { display: block; flex: none; width: 14px; height: 14px; opacity: .8; transition: transform .28s cubic-bezier(.2, .8, .2, 1); }
+.menu-lab[aria-expanded="true"] svg { transform: rotate(180deg); }
+/* Its links fold open (0fr → 1fr). Closed, they're out of the tab order and hidden from screen readers
+   too (once folded), as with Features. 10px under the last link, inside the fold. */
+.menu-group-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .28s cubic-bezier(.2, .8, .2, 1); }
+.menu-group-panel.is-open { grid-template-rows: 1fr; }
+.menu-group-inner { overflow: hidden; min-height: 0; visibility: hidden; transition: visibility 0s linear .28s; }
+.menu-group-panel.is-open .menu-group-inner { visibility: visible; transition: none; }
+.menu-group-links { padding-bottom: 10px; }
 .nav-menu .menu-feature {
   display: flex;
   align-items: center;
-  min-height: 38px;
+  gap: 12px;
+  min-height: 42px;
   font-size: 15.5px;
   line-height: 20px;
-  font-weight: 500;
-  color: #fff;
+  font-weight: 400;
+  color: rgba(255, 255, 255, .74);
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity .12s ease;
+  transition: color .12s ease;
 }
-/* Narrower than a 390px phone the two columns can't hold the longest links on one line, so they wrap. */
-@media (max-width: 389.98px) {
-  .nav-menu .menu-feature { white-space: normal; }
+.nav-menu .menu-feature:active,
+.nav-menu .menu-feature[aria-current="page"] { color: #fff; }
+.menu-feature svg { display: block; flex: none; width: 16px; height: 16px; color: rgb(123, 135, 155); opacity: .9; }
+.menu-feature[aria-current="page"] svg { color: #6ea8ff; opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .menu-group-panel,
+  .menu-group-inner,
+  .menu-lab svg { transition: none; }
 }
 .menu-group { opacity: 0; transform: translateY(6px); transition: opacity .25s ease, transform .3s cubic-bezier(.2, .7, .2, 1); }
 .is-open .menu-group { opacity: 1; transform: none; }
@@ -410,7 +450,7 @@
 .is-open .menu-group:nth-child(3) { transition-delay: .08s; }
 .is-open .menu-group:nth-child(4) { transition-delay: .12s; }
 
-/* The Claude card: one outlined row. It folds away while Features is open, so the open menu stays short. */
+/* The Claude card: one outlined row, always shown (Features is open when the menu opens). */
 .nav-menu .menu-claude {
   display: flex;
   justify-content: space-between;
@@ -429,21 +469,18 @@
   color: #a5b1c2;
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
-  transition: max-height .28s cubic-bezier(.2, .7, .2, 1), min-height .28s cubic-bezier(.2, .7, .2, 1), margin .28s ease, opacity .18s ease;
+  transition: opacity .18s ease;
 }
 .nav-menu .menu-claude:active { opacity: .6; }
-.menu-claude b { margin-right: 9px; font-weight: 700; color: #fff; }
+.menu-claude b { margin-right: 12px; font-size: 11px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; color: #6ea8ff; }
 .menu-claude svg { display: block; flex: none; width: 16px; height: 16px; color: #fff; }
-.nav-menu.is-features-open .menu-claude { min-height: 0; max-height: 0; margin-top: 0; opacity: 0; pointer-events: none; }
 
-/* The trial button and its terms, pinned to the menu's foot. */
+/* The trial button and its terms, at the end of the menu: they scroll with it, so they never cover a link. */
 .menu-foot {
-  position: sticky;
-  bottom: 0;
+  position: static;
   margin: 0 -22px;
   padding: 16px 22px 18px;
   border-radius: 0 0 20px 20px;
-  background: linear-gradient(180deg, rgba(13, 15, 21, 0), #0d0f15 26%);
 }
 .nav-menu .menu-trial {
   display: flex;
@@ -460,7 +497,6 @@
   -webkit-tap-highlight-color: transparent;
 }
 .nav-menu .menu-trial:active { opacity: .85; }
-.menu-trial svg { display: block; width: 16px; height: 16px; }
 .nav-menu .menu-terms { margin: 11px 0 0; text-align: center; font-size: 12.5px; line-height: 16px; color: #7b879b; }
 
 .lp-nav .nav-menu :is(a, button):focus-visible { outline: 2px solid #93C5FD; outline-offset: -2px; border-radius: 6px; }
@@ -550,11 +586,14 @@ html.nav-locked { overflow: hidden; }
 .is-light .dd-col a { color: #3F3F46; }
 .is-light .dd-col a svg { color: #A1A1AA; }
 .is-light .dd-col a:hover,
+.is-light .dd-col a:focus-visible { background: rgba(9, 9, 11, .04); color: #09090B; }
+.is-light .dd-col a[aria-current="page"] { color: #09090B; }
 .is-light .dd-col a:hover svg,
-.is-light .dd-col a:focus-visible,
-.is-light .dd-col a:focus-visible svg { color: #09090B; }
-.is-light .nav-dd-news { color: #71717A; }
-.is-light .dd-strip b,
+.is-light .dd-col a:focus-visible svg,
+.is-light .dd-col a[aria-current="page"] svg { color: #2E85FF; }
+.is-light .nav-dd-news,
+.is-light .dd-strip { color: #71717A; }
+.is-light .dd-strip b { color: #2E85FF; }
 .is-light .dd-more { color: #09090B; }
 .nav-veil.is-light { background: rgba(9, 9, 11, .18); }
 
@@ -575,14 +614,19 @@ html.nav-locked { overflow: hidden; }
 /* The phone and tablet menu on a light page: white, in the light pages' greys. */
 .is-light .nav-menu { background: #FFFFFF; box-shadow: 0 0 0 1px #E4E4E7, 0 24px 48px -12px rgba(9, 9, 11, .18); }
 .is-light .nav-menu .menu-main,
-.is-light .nav-menu .menu-feature,
-.is-light .menu-claude b,
+.is-light .nav-menu .menu-feature:active,
+.is-light .nav-menu .menu-feature[aria-current="page"],
 .is-light .menu-claude svg,
 .is-light .menu-acc[aria-expanded="true"] svg { color: #09090B; }
+.is-light .nav-menu .menu-feature { color: #3F3F46; }
+.is-light .menu-feature svg { color: #A1A1AA; }
+.is-light .menu-feature[aria-current="page"] svg,
+.is-light .menu-claude b { color: #2E85FF; }
 .is-light .menu-acc svg { color: #71717A; }
-.is-light .nav-menu .menu-lab { border-bottom-color: #E4E4E7; color: #71717A; }
+.is-light .nav-menu .menu-lab { color: #52525B; }
+.is-light .menu-group,
+.is-light .menu-group:last-child { border-color: #E4E4E7; }
 .is-light .nav-menu .menu-claude { background: #FAFAFA; box-shadow: inset 0 0 0 1px #E4E4E7; color: #52525B; }
-.is-light .menu-foot { background: linear-gradient(180deg, rgba(255, 255, 255, 0), #FFFFFF 26%); }
 .is-light .nav-menu .menu-terms { color: #71717A; }
 /* ---------- Light, over a white hero (.is-light.is-over): /ai-and-automations ----------
    Positioned like the dark nav (absolute, over the hero), in the page's own type. Links slate, the

@@ -183,7 +183,7 @@ export default function RouteSoftwarePage() {
     <div className="mktg ai-page billing-page route-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
       {/* The phone's icons: a 0 × 0 sprite, as on the homepage. */}
       <div dangerouslySetInnerHTML={{ __html: PN_ICONS }} />
-      <Nav />
+      <Nav current="/pool-route-software" />
       <main>
         {/* 1. Hero (dark): /pool-service-billing's, the route board in place of its calendar. */}
         <section className="hero ai-hero bp-hero relative overflow-x-clip" aria-labelledby="route-hero-title">

@@ -223,7 +223,7 @@ const QUESTIONS = [
 
 export default function MileageTrackingPage() {
   return (
-    <FeaturePage className="mileage-page">
+    <FeaturePage className="mileage-page" current="/pool-service-mileage-tracking">
       {/* 1. Hero (light grey): /ai-and-automations' light hero; the route card on the right. */}
       <FeatureHero id="mtk-hero-title" title="Pool Service Mileage Tracking That Logs Itself" visual={<RouteCard />}>
         The <HeroWordmark /> pool

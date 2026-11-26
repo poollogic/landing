@@ -138,7 +138,7 @@ export default function BillingPage() {
   const theme = usePreviewTheme();
   return (
     <div className="mktg ai-page billing-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
-      <Nav />
+      <Nav current="/pool-service-billing" />
       <main>
         {/* 1. Hero: the AI page's ground and type (no smoke or beam), as one centred column: the copy,
             filling the first screen but for the top 96px of the billing panel under it, then the panel,

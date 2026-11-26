@@ -32,8 +32,15 @@ const LINKS_MIN = 1024;
 const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHide = false }) => {
   const [open, setOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
-  // The phone and tablet menu's Features list: closed each time the menu opens.
-  const [menuFeaturesOpen, setMenuFeaturesOpen] = useState(false);
+  // The phone and tablet menu's Features list: open each time the menu opens, its four groups closed
+  // (each opens and closes on its own: openGroups holds the open ones' indexes).
+  const [menuFeaturesOpen, setMenuFeaturesOpen] = useState(true);
+  const [openGroups, setOpenGroups] = useState(() => new Set());
+  const toggleGroup = (g) => setOpenGroups((prev) => {
+    const next = new Set(prev);
+    if (next.has(g)) next.delete(g); else next.add(g);
+    return next;
+  });
   const [scrolled, setScrolled] = useState(false);
   const [tucked, setTucked] = useState(false);
   const ref = useRef(null);
@@ -44,7 +51,8 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
   // Close the mobile menu on Escape, outside click, or growing past the menu's widths.
   useEffect(() => {
     if (!open) return undefined;
-    setMenuFeaturesOpen(false);
+    setMenuFeaturesOpen(true);
+    setOpenGroups(new Set());
     // Escape: focus goes back to the menu button, as the Features dropdown's does to its own.
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
@@ -112,7 +120,7 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
           {current === '/'
             ? <span className="nav-home" aria-current="page">Home</span>
             : <a href="/" className="nav-home">Home</a>}
-          <FeaturesMenu open={featuresOpen} setOpen={setFeaturesOpen} />
+          <FeaturesMenu open={featuresOpen} setOpen={setFeaturesOpen} current={current} />
           {LINKS.map(([label, href]) => <a key={label} href={href} aria-current={href === current ? 'page' : undefined}>{label}</a>)}
         </nav>
 
@@ -137,9 +145,10 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
           </button>
         </div>
 
-        {/* The phone and tablet menu: Home, Features (a button that opens its ten links), Pricing and
-            Contact, the Claude card, and the trial button with its terms pinned to the foot. */}
-        <nav id="lp-nav-menu" className={`nav-menu${menuFeaturesOpen ? ' is-features-open' : ''}`} aria-label="Mobile" hidden={!open}>
+        {/* The phone and tablet menu: Home, Features (open when the menu opens: its four groups, each a
+            button that opens its links), Pricing and Contact, the Claude card, and the trial button with
+            its terms, which scroll with the menu. */}
+        <nav id="lp-nav-menu" className="nav-menu" aria-label="Mobile" hidden={!open}>
           {current === '/'
             ? <span className="menu-main" aria-current="page">Home</span>
             : <a href="/" className="menu-main" onClick={close}>Home</a>}
@@ -156,19 +165,46 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
           <div id="lp-nav-menu-features" className={`menu-acc-panel${menuFeaturesOpen ? ' is-open' : ''}`}>
             <div className="menu-acc-inner">
               <div className="menu-features">
-                {FEATURE_GROUPS.map(([title, links], g) => (
-                  <div key={title} className="menu-group" role="group" aria-labelledby={`lp-nav-menu-g${g}`}>
-                    <p className="menu-lab" id={`lp-nav-menu-g${g}`}>{title}</p>
-                    {links.map(({ label, href }) => (
-                      <a key={href} href={href} className="menu-feature" onClick={close}>{label}</a>
-                    ))}
-                  </div>
-                ))}
+                {FEATURE_GROUPS.map(([title, links], g) => {
+                  const groupOpen = openGroups.has(g);
+                  return (
+                    <div key={title} className="menu-group">
+                      <button
+                        type="button"
+                        className="menu-lab"
+                        id={`lp-nav-menu-gl${g}`}
+                        aria-expanded={groupOpen}
+                        aria-controls={`lp-nav-menu-g${g}`}
+                        onClick={() => toggleGroup(g)}
+                      >
+                        <span>{title}</span>
+                        <ChevronDown size={14} strokeWidth={1.75} aria-hidden="true" />
+                      </button>
+                      <div
+                        id={`lp-nav-menu-g${g}`}
+                        className={`menu-group-panel${groupOpen ? ' is-open' : ''}`}
+                        role="group"
+                        aria-labelledby={`lp-nav-menu-gl${g}`}
+                      >
+                        <div className="menu-group-inner">
+                          <div className="menu-group-links">
+                            {links.map(({ label, href, Icon }) => (
+                              <a key={href} href={href} className="menu-feature" aria-current={href === current ? 'page' : undefined} onClick={close}>
+                                <Icon size={16} strokeWidth={1.25} aria-hidden="true" />
+                                {label}
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
           {LINKS.map(([label, href]) => <a key={label} href={href} className="menu-main" aria-current={href === current ? 'page' : undefined} onClick={close}>{label}</a>)}
-          <a href={NEWS.href} className="menu-claude" onClick={close} tabIndex={menuFeaturesOpen ? -1 : undefined} aria-hidden={menuFeaturesOpen || undefined}>
+          <a href={NEWS.href} className="menu-claude" onClick={close}>
             <span><b>New</b>{NEWS.short}</span>
             <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
           </a>
@@ -176,7 +212,6 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
             <div className="menu-foot">
               <a href={ctaHref(theme)} className="menu-trial" onClick={close}>
                 {isReserving ? 'Reserve your spot' : 'Start free trial'}
-                <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
               </a>
               {!isReserving && <p className="menu-terms">Free for 30 days. No credit card.</p>}
             </div>

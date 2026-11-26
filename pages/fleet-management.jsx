@@ -260,7 +260,7 @@ const QUESTIONS = [
 export default function FleetManagementPage() {
   const t = TRACK_TRUCK;
   return (
-    <FeaturePage className="fleet-page">
+    <FeaturePage className="fleet-page" current="/pool-service-fleet-management">
       {/* 1. Hero (light grey): /ai-and-automations' light hero; the Fleet card on the right. The h1 is four
           spans, one line each on a phone. */}
       <FeatureHero
