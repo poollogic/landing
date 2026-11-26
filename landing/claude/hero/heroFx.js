@@ -10,7 +10,10 @@
 // Below 960px (NARROW), where the window stacks under the copy: the beam fades in only between the
 // copy and the window (it never crosses the text), and the smoke is a 550px band around the window's
 // top edge instead of the whole ~1500px-tall hero, so its grid isn't stretched into columns. At
-// 960px and up, both draw exactly as before.
+// 960px and up, both draw exactly as before. Under 768px HeroFx.jsx doesn't start this at all.
+// While its canvas has no size (hidden by CSS for a moment, e.g. while the window crosses 768px) the
+// smoke waits instead of building a 0×0 simulation, which would throw and end its loop for good; it
+// rebuilds at the right size as soon as the canvas shows again.
 
 const SC = 0.75; // canvases render at 75% resolution
 const NARROW = '(max-width: 959.98px)'; // claudeHero.css: the hero stacks below this
@@ -202,6 +205,7 @@ o=vec4(col*a,a);}`,
   let pre = 250;
   const prefill = (all) => { const n = all ? pre : Math.min(10, pre); for (let i = 0; i < n; i++) sim(.033); pre -= n; };
   const step = (now) => {
+    if (!hasSize()) { last = now; if (vis && !reduce) raf = requestAnimationFrame(step); return; } // hidden: wait
     if (pre > 0) prefill(false);
     const dtReal = Math.min(.033, (now - last) / 1000); last = now;
     if (cv.width !== Math.round(cv.clientWidth * SC)) init();
@@ -210,8 +214,9 @@ o=vec4(col*a,a);}`,
   const io = new IntersectionObserver(([e]) => { vis = e.isIntersecting; cancelAnimationFrame(raf); if (vis) { last = performance.now(); raf = requestAnimationFrame(step); } });
   // Starts once its programs are ready: a frame to check, a frame for the render targets, then the
   // pre-fill a little per frame (step).
+  const hasSize = () => cv.clientWidth > 0 && cv.clientHeight > 0;
   const boot = () => {
-    if (!linked()) { raf = requestAnimationFrame(boot); return; }
+    if (!linked() || !hasSize()) { raf = requestAnimationFrame(boot); return; }
     try { finishPrograms(); init(); } catch { lose(gl); return; } // a shader that won't compile, or a target that won't work: skip it
     io.observe(hero);
     addEventListener('pointermove', onMove, { passive: true });

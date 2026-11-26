@@ -17,10 +17,23 @@
 }
 
 
+/* The ground, as on /pool-service-billing and /contact: flat #111318 for its top 64px (the page's
+   theme-color and body colour, so an iPhone's status bar and the nav meet it with no band), a soft blue
+   glow behind the chat card, and back to #111318 lower down. */
 .ai-page .hero.ch-hero {
   padding-top: calc(var(--page-hero-top) + 20px);
   padding-bottom: var(--section-y);
-  background-image: linear-gradient(180deg, #0a0f1c 0%, #0c1120 60%, #0e1117 100%);
+  background-image:
+    radial-gradient(42% 60% at 76% 50%, rgba(59, 130, 246, .2), rgba(0, 0, 0, 0) 72%),
+    linear-gradient(#111318 0, #111318 64px, rgb(20, 26, 38) 32%, #111318 72%);
+}
+/* With the card under the copy, the glow is a wide band lower down. */
+@media (max-width: 1023.98px) {
+  .ai-page .hero.ch-hero {
+    background-image:
+      radial-gradient(120% 40% at 50% 62%, rgba(59, 130, 246, .16), rgba(0, 0, 0, 0) 72%),
+      linear-gradient(#111318 0, #111318 64px, rgb(20, 26, 38) 32%, #111318 72%);
+  }
 }
 @media (max-width: 767.98px) {
   .ai-page .hero.ch-hero {
@@ -33,7 +46,7 @@
   height: 160px;
   pointer-events: none;
   z-index: 0;
-  background: linear-gradient(180deg, transparent, rgba(17, 21, 30, .9));
+  background: linear-gradient(180deg, rgba(17, 19, 24, 0), rgba(17, 19, 24, .9)); /* to the page's #111318 */
 }
 .ai-page .hero > .ch-hero-smoke,
 .ai-page .hero > .ch-hero-beam {
@@ -52,11 +65,21 @@
   height: 550px;
   opacity: .7; }
 }
+/* Phones (under 768px): no beam or smoke. HeroFx.jsx doesn't start them there; hidden here too, so nothing
+   shows if the script is slow or fails. The chat card gets a blue outline instead (.ch-chat below). */
+@media (max-width: 767.98px) {
+  .ai-page .hero > .ch-hero-smoke,
+  .ai-page .hero > .ch-hero-beam { display: none; }
+}
 .ai-page .ch-hero-grid {
   margin-top: 40px;
   display: grid;
   gap: 128px;
   align-items: center; }
+/* Phones: without the beam, the copy and the card need only half the room. */
+@media (max-width: 767.98px) {
+  .ai-page .ch-hero-grid { row-gap: 64px; }
+}
 @media (min-width: 960px) {
   .ai-page .hero.ch-hero {
   min-height: 100vh;
@@ -242,6 +265,15 @@
   backdrop-filter: var(--ch-chat-backdrop, blur(20px) saturate(1.2));
   box-shadow: var(--ch-chat-shadow, 0 0 0 1px rgba(46, 133, 255, .12), inset 0 0 70px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .05), 0 50px 100px -30px rgba(0, 0, 0, .85));
   -webkit-font-smoothing: antialiased;
+}
+/* Phones, where there's no beam: a thin blue edge and a soft, quiet halo. */
+@media (max-width: 767.98px) {
+  .ai-page .ch-chat {
+    box-shadow:
+      0 0 0 1px rgba(96, 165, 250, .32),
+      0 0 24px rgba(59, 130, 246, .22),
+      0 0 64px rgba(59, 130, 246, .14);
+  }
 }
 .ai-page .ch-chat::before {
   /* light catching the top edge, like the homepage's dashboard */
