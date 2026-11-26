@@ -8,7 +8,7 @@ import '../landing/switch-page/switch-page.css';
 import Nav from '../landing/Nav.jsx';
 import HeroHeading from '../landing/HeroHeading.jsx';
 import ImportDemo from '../landing/ImportDemo.jsx';
-import SwitchImportCard from '../landing/switch-page/SwitchImportCard.jsx';
+import ImportCard from '../landing/ImportCard.jsx';
 import { FOCUS, PrimaryCta } from '../landing/ai/shared.jsx';
 import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref } from '../landing/onboarding.js';
@@ -19,9 +19,8 @@ import { SWITCH_PATH, SWITCH_TITLE, SWITCH_DESCRIPTION } from '../landing/switch
 // reference (switching-page-reference.html, 2026-11-25): its copy, layout, colours, sizes and breakpoints
 // (tablet up to 1020px, phone up to 720px). The hero is /pool-route-software's and /pool-service-billing's
 // centred one (ai.css, billing-page.css) in a light theme, under the site's light nav, with the homepage's
-// import demo (ImportDemo.jsx) under the copy: live, with this page's 612 customers, and restyled for this
-// page only (switch-page.css). On phones the hero shows the compact import card (SwitchImportCard.jsx)
-// instead. Then the smart importer (white), two ways in (dark), what comes over (white), billing (grey),
+// import demo (ImportDemo.jsx) under the copy: live, with this page's 612 customers. On phones the hero
+// shows the compact import card (ImportCard.jsx) instead. Then the smart importer (white), two ways in (dark), what comes over (white), billing (grey),
 // no lock-in (white), questions (grey) and the closing band (dark); their styles are switch-page.css
 // (.sw-*). Other software is named only as a file source. Pre-rendered (entry-server.jsx), so no window
 // or document while rendering.
@@ -175,7 +174,7 @@ export default function SwitchSoftwarePage() {
                   <div className="im-demo-slot sw-imp">
                     <ImportDemo count={IMPORT_COUNT} rows={IMPORT_ROWS} total={IMPORT_TOTAL} />
                   </div>
-                  <SwitchImportCard />
+                  <ImportCard />
                 </div>
               </div>
             </div>

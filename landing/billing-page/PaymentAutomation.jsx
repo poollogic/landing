@@ -25,12 +25,12 @@ const cents = (c) => `$${(c / 100).toFixed(2)}`;
 
 /* ---------- Shared pieces ---------- */
 
-/** A section head: eyebrow, a two-tone H2 (its first sentence muted, on its own line) and a sub.
+/** A section head: an eyebrow (optional: /pool-route-software has none), a two-tone H2 (its first sentence muted, on its own line) and a sub.
     Also /pool-route-software's (pages/route-software.jsx). */
 export function Head({ id, eyebrow, a, b, sub, center = false }) {
   return (
     <div className={`pa-head${center ? ' pa-head--center' : ''}`}>
-      <p className="pa-eyebrow">{eyebrow}</p>
+      {eyebrow && <p className="pa-eyebrow">{eyebrow}</p>}
       <h2 id={id} className="pa-h2">
         {b ? <><span className="pa-h2-a">{a}</span>{' '}<span className="pa-h2-b">{b}</span></> : a}
       </h2>

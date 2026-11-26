@@ -61,11 +61,12 @@ const METRICS = [
 ];
 
 /** The handover card; also /pool-route-software's (pages/route-software.jsx), in a .ra-section. */
-export function Handover() {
+/** kicker: the "The handover" label in the card's head (false on /pool-route-software, which has no eyebrows). */
+export function Handover({ kicker = true }) {
   return (
     <div className="ra-panel">
       <div className="ra-panel-head">
-        <span className="ra-kicker">The handover</span>
+        {kicker && <span className="ra-kicker">The handover</span>}
         <span className="ra-chip"><Clock size={13} strokeWidth={2} /> Takes minutes</span>
       </div>
 

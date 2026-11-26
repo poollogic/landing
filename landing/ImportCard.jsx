@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
+import './import-card.css';
 
-// The compact import card phones get in the hero (720px and under; switch-page.css shows it there and
-// hides the importer), from the approved reference (switching-page-reference.html, #hd and its script):
+// The compact import card: what phones (720px and under) get in place of the full import demo
+// (ImportDemo.jsx), which is too small to read there. /switch-pool-service-software's hero and
+// /pool-route-software's import section; each page shows one or the other by width. Styles:
+// import-card.css. From the approved reference (switching-page-reference.html, #hd and its script):
 // a file's four columns are matched one by one, then five rows turn from raw text into customers,
 // counting up to 612, then the next 607 are mentioned. It plays while at least 35% of it is on screen
 // and loops every few seconds after it ends; between runs and before the first it shows its finished
@@ -34,7 +37,7 @@ const Tick = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
 );
 
-export default function SwitchImportCard() {
+export default function ImportCard() {
   const ref = useRef(null);
   const [s, setS] = useState(DONE);
 

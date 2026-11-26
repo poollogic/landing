@@ -12,6 +12,7 @@ import Nav from '../landing/Nav.jsx';
 import HeroHeading from '../landing/HeroHeading.jsx';
 import FaqSection, { FAQS as HOME_FAQS } from '../landing/FaqSection.jsx';
 import ImportDemo from '../landing/ImportDemo.jsx';
+import ImportCard from '../landing/ImportCard.jsx';
 import { Handover } from '../landing/RouteSection.jsx';
 import { Head, Tick } from '../landing/billing-page/PaymentAutomation.jsx';
 import initPnPhones from '../landing/technicians/pnPhone.js';
@@ -29,9 +30,10 @@ import { Footer } from '../components/site-chrome.jsx';
 // closing section); this page's own pictures are landing/route-page/route-page.css (.rp-*, .rb-*).
 // Reused as they are: the homepage's service report phone (#technicians), its import demo
 // (#switching) and its route handover card (#routes). Every claim was checked against the web app and
-// the phone app (Nov 21, 2026). Sections: hero (dark), drag and drop (white), recurring stops (grey),
-// the technician app (white), mileage (grey), cost per visit (white), import (grey), handing over a
-// route (dark), FAQ (grey), closing call to action (dark). Names, addresses and figures in the
+// the phone app (Nov 21, 2026). Sections: hero (dark), recurring stops (white), drag and drop (grey),
+// the technician app (white), import (grey), mileage (white), cost per visit (grey), handing over a
+// route (dark), FAQ (grey), closing call to action (dark): white and grey alternate, and the two-column
+// ones alternate the card's side. No eyebrows under the hero. Page-wide rules are under .route-page. Names, addresses and figures in the
 // pictures are demo data. Pre-rendered (entry-server.jsx), so no window or document while rendering.
 
 const ORIGIN = 'https://getpoolnautics.com';
@@ -89,7 +91,8 @@ export const structuredData = [
 ];
 
 const TRIAL_LABEL = isReserving ? 'Reserve your spot' : 'Start your free trial';
-const TRIAL_FINE = 'Free for 30 days · No card to start';
+const TRIAL_FINE = 'Free for 30 days · No card to start'; // the closing section's
+const HERO_FINE = 'Free for 30 days · No credit card';
 
 /* ---------- Pictures ---------- */
 
@@ -97,7 +100,7 @@ const TRIAL_FINE = 'Free for 30 days · No card to start';
 // Michael's. A still picture (no motion, fixed sizes), hidden from screen readers: the page says it.
 const BOARD = [
   { tech: 'Justin', count: 17, stops: [['1', '1182 Laurel Ct', 'Weekly'], ['2', '233 Oakmont Ln', 'Weekly'], ['3', '7700 Ridgeway Rd', 'Every other week'], ['4', '49 Harbor Cir', 'Weekly']] },
-  { tech: 'Gabriel', count: 18, stops: [['1', '957 Sunrise Dr', 'Weekly'], ['2', '310 Bayview Ter', 'Every other week'], ['3', '3204 Coquina Ct', 'Weekly', 'lifted'], ['4', '1402 Bayshore Blvd', 'Weekly']] },
+  { tech: 'Gabriel', count: 18, stops: [['1', '957 Sunrise Dr', 'Weekly'], ['2', '310 Bayview Ter', 'Every other week'], ['3', '3204 Coquina Ct', 'Every other week', 'lifted'], ['4', '1402 Bayshore Blvd', 'Weekly']] },
   { tech: 'Michael', count: 15, stops: [['1', '88 Palm Ave', 'Weekly'], ['2', '615 Gulf View Dr', 'Weekly'], [null, 'Drop here', null, 'slot'], ['3', '22 Heron Way', 'Every other week']] },
 ];
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
@@ -190,18 +193,17 @@ export default function RouteSoftwarePage() {
               <div className="ai-hero-copy bp-hero-copy animate-mktg-fade-up motion-reduce:animate-none">
                 <HeroHeading
                   id="route-hero-title"
-                  eyebrow="Routes & scheduling"
-                  title={<><span className="bp-title-line">Pool route software that keeps</span>{' '}<span className="bp-title-line">every stop on schedule</span></>}
+                  eyebrow="Pool service scheduling software"
+                  title={<><span className="bp-title-line">Pool Route Software That Keeps</span>{' '}<span className="bp-title-line">Every Stop on Schedule</span></>}
                 >
-                  Poolnautics is pool route software for pool service companies. Give each pool a technician, a
-                  service day and a place in the route once, and every tech opens the app to the right stops. It’s
-                  pool service scheduling software you set up once, not every Monday.
+                  Give each pool a technician, a service day and a place in the route. Set it up once, not every
+                  Monday, and every tech opens the app to the right stops.
                 </HeroHeading>
                 <div className="ai-cta-row ai-cta-row--center">
-                  <PrimaryCta theme={theme} label={TRIAL_LABEL} />
-                  <a href="/pricing" className={`ai-cta-ghost cta-secondary ${FOCUS}`}>See pricing</a>
+                  <PrimaryCta theme={theme} />
+                  <a href="/pricing" className={`pa-text-link ${FOCUS}`}>See pricing</a>
                 </div>
-                <p className="hero-fine">{TRIAL_FINE}</p>
+                <p className="hero-fine">{HERO_FINE}</p>
               </div>
               <div className="bp-hero-visual animate-mktg-fade-up motion-reduce:animate-none [animation-delay:150ms]">
                 <RouteBoard />
@@ -210,21 +212,47 @@ export default function RouteSoftwarePage() {
           </div>
         </section>
 
-        {/* 2. Drag and drop (white). */}
-        <section className="pa-section pa-white" aria-labelledby="rp-drag-title">
+        {/* 2. Recurring stops (white), the card on the left. */}
+        <section className="pa-section pa-white rp-recur" aria-labelledby="rp-recurring-title">
+          <div className="container">
+            <div className="pa-inner">
+              <div className="pa-split pa-split--mirror">
+                <div className="pa-copy">
+                  <Head
+                    id="rp-recurring-title"
+                    a="Set each stop once."
+                    b="It shows up on the right day, every time."
+                    sub="Every pool has a technician, a service day and a place in the stop order, serviced weekly or every other week. A pool you visit twice a week simply gets two stops."
+                  />
+                  <ul className="pa-checks" role="list">
+                    {['Technician, service day and stop order', 'Weekly or every other week, starting this week or next', 'More than one visit a week, each on its own day'].map((t) => (
+                      <li key={t}><Tick />{t}</li>
+                    ))}
+                  </ul>
+                  <p className="rp-more"><a href="/pool-service-billing">Billing runs on its own schedule: see recurring billing<ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" /></a></p>
+                </div>
+                <div className="pa-visual">
+                  <StopSettings />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3. Drag and drop (grey), the card on the right. */}
+        <section className="pa-section pa-grey rp-build" aria-labelledby="rp-drag-title">
           <div className="container">
             <div className="pa-inner">
               <div className="pa-split">
                 <div className="pa-copy">
                   <Head
                     id="rp-drag-title"
-                    eyebrow="Route building"
                     a="Build and change routes"
                     b="by drag and drop."
                     sub="Every route is on one screen. Move a stop and it’s saved: no forms, no rebuilding the week."
                   />
                   <ul className="pa-checks" role="list">
-                    {['Works with a mouse, or press and hold on a tablet', 'Select several stops and move them together', 'Optimize route reorders a tech’s day from the start address you choose, and you apply or discard it'].map((t) => (
+                    {['On a computer, tablet or phone: press and hold to drag', 'Optimize route reorders a tech’s day from the start address you choose, and you apply or discard it'].map((t) => (
                       <li key={t}><Tick />{t}</li>
                     ))}
                   </ul>
@@ -245,35 +273,7 @@ export default function RouteSoftwarePage() {
           </div>
         </section>
 
-        {/* 3. Recurring stops (grey). */}
-        <section className="pa-section pa-grey" aria-labelledby="rp-recurring-title">
-          <div className="container">
-            <div className="pa-inner">
-              <div className="pa-split pa-split--mirror">
-                <div className="pa-copy">
-                  <Head
-                    id="rp-recurring-title"
-                    eyebrow="Recurring stops"
-                    a="Set each stop once."
-                    b="It shows up on the right day, every time."
-                    sub="Every pool has a technician, a service day and a place in the stop order, serviced weekly or every other week. A pool you visit twice a week simply gets two stops."
-                  />
-                  <ul className="pa-checks" role="list">
-                    {['Technician, service day and stop order', 'Weekly or every other week, starting this week or next', 'More than one visit a week, each on its own day'].map((t) => (
-                      <li key={t}><Tick />{t}</li>
-                    ))}
-                  </ul>
-                  <p className="rp-more"><a href="/pool-service-billing">Billing runs on its own schedule: see recurring billing<ArrowRight size={15} strokeWidth={2.2} aria-hidden="true" /></a></p>
-                </div>
-                <div className="pa-visual">
-                  <StopSettings />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 4. The technician app (white): the homepage's service report phone. */}
+        {/* 4. The technician app (white, the card on the left): the homepage's service report phone. */}
         <section className="pa-section pa-white rp-app" aria-labelledby="rp-app-title">
           <div className="container">
             <div className="pa-inner">
@@ -281,7 +281,6 @@ export default function RouteSoftwarePage() {
                 <div className="pa-copy">
                   <Head
                     id="rp-app-title"
-                    eyebrow="The technician app"
                     a="Your techs get one simple app."
                     b="You get proof of every stop."
                     sub="The day’s route is on their phone, and every service report comes back with the readings, the chemicals and the photos. Each report is emailed to the customer automatically."
@@ -300,15 +299,36 @@ export default function RouteSoftwarePage() {
           </div>
         </section>
 
-        {/* 5. Mileage (grey). */}
-        <section className="pa-section pa-grey" aria-labelledby="rp-miles-title">
+        {/* 5. Import (grey): the homepage's import demo; on phones, where it's too small to read, the compact
+            import card instead (route-page.css). */}
+        <section className="pa-section pa-grey rp-import-band" aria-labelledby="rp-import-title">
+          <div className="container">
+            <div className="pa-inner">
+              <Head
+                center
+                id="rp-import-title"
+                a="Import your routes"
+                b="from Skimmer, QuickBooks or a spreadsheet."
+                sub="QuickBooks exports are recognized automatically. A Skimmer export or any spreadsheet works too: Poolnautics suggests a match for each column and you confirm it. Each customer’s technician, service day, stop order and frequency come over with them."
+              />
+              <div className="im-demo-slot rp-import">
+                <ImportDemo />
+              </div>
+              <div className="rp-import-card">
+                <ImportCard />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 6. Mileage (white), the card on the right. */}
+        <section className="pa-section pa-white rp-miles" aria-labelledby="rp-miles-title">
           <div className="container">
             <div className="pa-inner">
               <div className="pa-split">
                 <div className="pa-copy">
                   <Head
                     id="rp-miles-title"
-                    eyebrow="Mileage"
                     a="Mileage tracked by GPS,"
                     b="stop to stop."
                     sub="On Vision, the tech’s phone measures the drive from each stop to the next, with supply runs kept separate. Export it with dates for your accountant."
@@ -337,15 +357,14 @@ export default function RouteSoftwarePage() {
           </div>
         </section>
 
-        {/* 6. Cost per visit (white). */}
-        <section className="pa-section pa-white" aria-labelledby="rp-cost-title">
+        {/* 7. Cost per visit (grey), the card on the left. */}
+        <section className="pa-section pa-grey rp-cost" aria-labelledby="rp-cost-title">
           <div className="container">
             <div className="pa-inner">
               <div className="pa-split pa-split--mirror">
                 <div className="pa-copy">
                   <Head
                     id="rp-cost-title"
-                    eyebrow="Cost per visit"
                     a="Know your cost per visit"
                     b="for every pool."
                     sub="The chemicals your techs log are priced at your own costs, so every customer’s page shows what a visit really costs you, and which pools are drifting up."
@@ -373,25 +392,6 @@ export default function RouteSoftwarePage() {
           </div>
         </section>
 
-        {/* 7. Import (grey): the homepage's import demo. */}
-        <section className="pa-section pa-grey rp-import-band" aria-labelledby="rp-import-title">
-          <div className="container">
-            <div className="pa-inner">
-              <Head
-                center
-                id="rp-import-title"
-                eyebrow="Switching"
-                a="Import your routes"
-                b="from Skimmer, QuickBooks or a spreadsheet."
-                sub="QuickBooks exports are recognized automatically. A Skimmer export or any spreadsheet works too: Poolnautics suggests a match for each column and you confirm it. Each customer’s technician, service day, stop order and frequency come over with them."
-              />
-              <div className="im-demo-slot rp-import">
-                <ImportDemo />
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* 8. Handing over a route (dark): the homepage's handover card. */}
         <section className="pa-section pa-dark ra-section" aria-labelledby="rp-handover-title">
           <div className="container">
@@ -400,14 +400,13 @@ export default function RouteSoftwarePage() {
                 <div className="pa-copy">
                   <Head
                     id="rp-handover-title"
-                    eyebrow="Route sales"
                     a="Buy, sell or hand over a route."
                     b="The customers move in minutes."
                     sub="Agree the sale however you like. Then send the customers to the buyer’s Poolnautics account with an 8-character code, and their stops arrive on the same day, order and frequency, ready to assign."
                   />
                 </div>
                 <div className="pa-visual">
-                  <Handover />
+                  <Handover kicker={false} />
                 </div>
               </div>
             </div>
@@ -418,6 +417,7 @@ export default function RouteSoftwarePage() {
         <FaqSection
           id="route-faq"
           items={FAQ}
+          eyebrow={null}
           title="Pool route software questions"
           subtitle={null}
           align="center"

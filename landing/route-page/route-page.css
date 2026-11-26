@@ -1,25 +1,83 @@
-/* /pool-route-software's own pictures and pieces (pages/route-software.jsx). The page wears
-   /pool-service-billing's classes (.ai-page.billing-page), so its hero, section heads, two-column layouts,
-   cards, FAQ and closing section are billing-page.css's and payment-automation.css's; only what's new
-   is here, under .ai-page.route-page. Breakpoints are theirs: 900px and 700px. */
+/* /pool-route-software's own pictures and pieces (pages/route-software.jsx). The page wears the billing
+   page's template classes (.ai-page.billing-page), so its hero, section heads, two-column layouts, cards,
+   FAQ and closing section start from billing-page.css and payment-automation.css; what's this page's own
+   is here, under .ai-page.route-page (never .billing-page, which other pages share). This stylesheet loads
+   before those shared ones, so each rule that changes a shared one carries one class more than it does
+   (the hero's under .ai-page.route-page .hero.bp-hero; a section's under its own class, .rp-recur …).
+   Breakpoints are theirs (900px and 700px), and the brief's: 640px, 768px and 1024px. */
+
+/* ======================= Hero ======================= */
+/* The ground ("horizon"): flat #111318 for the top 64px (the page's theme-color, so an iPhone's status bar
+   and the top of the page are one colour), a blue glow rising from behind the top of the route board. */
+.ai-page.route-page .hero.bp-hero {
+  background-image:
+    radial-gradient(90% 46% at 50% 64%, rgba(59, 130, 246, .17), rgba(59, 130, 246, .05) 50%, rgba(0, 0, 0, 0) 100%),
+    linear-gradient(#111318 0, #111318 64px, rgb(18, 22, 31) 40%, #111318 92%);
+}
+.ai-page.route-page .hero.bp-hero > .ai-hero-fade { background: linear-gradient(rgba(17, 19, 24, 0), rgba(17, 19, 24, .9)); }
+/* The copy: 48px headline (36px on tablets and phones), its paragraph and buttons closer, then the board. */
+.ai-page.route-page .hero.bp-hero .hero-title { font-size: clamp(2.25rem, 4.3vw, 3rem); line-height: 1.12; letter-spacing: -.035em; }
+.ai-page.route-page .hero.bp-hero .hero-sub { margin-top: 22px; line-height: 1.55; color: rgb(160, 170, 186); }
+.ai-page.route-page .hero.bp-hero .ai-cta-row { margin-top: 34px; }
+.ai-page.route-page .hero.bp-hero .hero-fine { margin-top: 14px; }
+.ai-page.route-page .hero.bp-hero .bp-hero-visual { margin-top: 56px; }
+/* "See pricing": the closing section's underlined text link (.pa-text-link, payment-automation.css). */
+.ai-page.route-page .hero.bp-hero .pa-text-link { height: auto; margin-left: 8px; padding: 0; background: none; box-shadow: none; }
+.ai-page.route-page .hero.bp-hero .pa-text-link:hover { text-decoration-color: rgba(255, 255, 255, .7); }
+/* Desktop: the copy 112px under the nav (the hero's top padding is the nav's 64px), the board 88px under
+   the fine print and 96px above the hero's foot; content from the top, not centred in the screen. */
+@media (min-width: 960px) {
+  .ai-page.route-page .hero.bp-hero { align-items: flex-start; }
+}
+@media (min-width: 1024px) {
+  .ai-page.route-page .hero.bp-hero .bp-hero-stack { padding-top: 112px; padding-bottom: 96px; }
+  .ai-page.route-page .hero.bp-hero .bp-hero-visual { margin-top: 88px; }
+}
+@media (min-width: 641px) and (max-width: 1023.98px) {
+  .ai-page.route-page .hero.bp-hero {
+    padding-top: 124px;
+    background-image:
+      radial-gradient(110% 44% at 50% 60%, rgba(59, 130, 246, .17), rgba(59, 130, 246, .05) 50%, rgba(0, 0, 0, 0) 100%),
+      linear-gradient(#111318 0, #111318 64px, rgb(18, 22, 31) 40%, #111318 92%);
+  }
+}
+@media (max-width: 640px) {
+  .ai-page.route-page .hero.bp-hero {
+    padding-top: 92px;
+    background-image:
+      radial-gradient(170% 30% at 50% 62%, rgba(59, 130, 246, .17), rgba(59, 130, 246, .05) 50%, rgba(0, 0, 0, 0) 100%),
+      linear-gradient(#111318 0, #111318 64px, rgb(18, 22, 31) 40%, #111318 92%);
+  }
+  /* Centred under the button, a 44px tap target. */
+  .ai-page.route-page .hero.bp-hero .pa-text-link { align-self: center; margin-left: 0; padding: 10px 12px; line-height: 24px; }
+}
 
 /* The app's pictures in Inter, as /pool-service-billing's are (its @font-face: billing-page.css). */
 .ai-page.route-page :is(.rb-panel, .rp-card) { font-family: 'Inter', ui-sans-serif, system-ui, sans-serif; }
 
-/* ======================= Hero: the route board ======================= */
-/* One day's routes, a column per technician, a stop mid-drag. Fixed sizes: nothing in it moves. */
+/* ---------- The route board ----------
+   One day's routes, a column per technician, a stop mid-drag. Fixed sizes: nothing in it moves. The
+   homepage dashboard's neutral charcoal, a light along its top edge; its blues mean something (the day,
+   the technicians, the stop being moved and where it can drop). */
 .ai-page.route-page .rb-panel {
+  position: relative;
   width: 920px; max-width: 100%; margin: 0 auto;
   border-radius: 20px;
-  background: rgba(9, 13, 22, .84);
-  box-shadow: 0 0 0 1px rgba(46, 133, 255, .12), inset 0 0 70px rgba(0, 0, 0, .35), 0 30px 80px rgba(0, 0, 0, .45);
+  background-color: rgb(17, 19, 24);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 40px 80px -20px rgba(0, 0, 0, .6);
+  color: rgb(152, 152, 157);
   text-align: left;
   overflow: hidden;
+}
+.ai-page.route-page .rb-panel::before {
+  content: ""; position: absolute; z-index: 2; top: 0; left: 10%; right: 10%; height: 1px; pointer-events: none;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(191, 219, 254, .55) 25%, rgba(255, 255, 255, .95) 50%, rgba(191, 219, 254, .55) 75%, rgba(0, 0, 0, 0));
+  filter: drop-shadow(0 0 6px rgba(147, 197, 253, .6));
 }
 .ai-page.route-page .rb-head {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   height: 50px; padding: 0 22px;
-  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  border-bottom: 1px solid rgba(255, 255, 255, .07);
   font-size: 13px;
 }
 .ai-page.route-page .rb-title { font-weight: 600; color: #fff; }
@@ -46,11 +104,11 @@
   height: 46px; padding: 0 10px;
   border-radius: 10px;
 }
-.ai-page.route-page .rb-stop { background: rgba(255, 255, 255, .04); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); }
+.ai-page.route-page .rb-stop { background-color: rgb(11, 12, 15); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07); }
 .ai-page.route-page .rb-grip { flex: none; color: rgba(148, 163, 184, .55); }
 .ai-page.route-page .rb-n {
   flex: none; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 6px;
-  background: rgba(255, 255, 255, .06); color: rgb(203, 213, 225); font-size: 11px; font-weight: 600;
+  background: rgba(255, 255, 255, .06); color: rgb(190, 190, 196); font-size: 11px; font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 .ai-page.route-page .rb-stop-text { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
@@ -59,7 +117,7 @@
 /* The stop being dragged: lifted out of its column towards the next, over the drop slot. */
 .ai-page.route-page .rb-stop.is-lifted {
   position: relative; z-index: 1;
-  background: rgb(30, 41, 59);
+  background-color: rgb(29, 32, 39);
   box-shadow: inset 0 0 0 1px rgba(96, 165, 250, .7), 0 18px 30px -8px rgba(0, 0, 0, .6);
   transform: translateX(38%) rotate(-2deg);
 }
@@ -70,7 +128,7 @@
   background: rgba(46, 133, 255, .06);
   font-size: 12px; color: #93c5fd;
 }
-.ai-page.route-page .rb-more { height: 20px; padding-left: 10px; font-size: 12px; line-height: 20px; color: rgb(100, 116, 139); }
+.ai-page.route-page .rb-more { height: 20px; padding-left: 10px; font-size: 12px; line-height: 20px; color: rgb(110, 110, 115); }
 /* Phones: two technicians, and the dragged stop stays in its column. */
 @media (max-width: 699.98px) {
   .ai-page.route-page .rb-head { padding: 0 16px; }
@@ -79,6 +137,40 @@
   .ai-page.route-page .rb-col:nth-child(3) { display: none; }
   .ai-page.route-page .rb-grip { display: none; }
   .ai-page.route-page .rb-stop.is-lifted { transform: rotate(-2deg); }
+}
+
+/* ======================= The sections under the hero ======================= */
+/* No eyebrows (the markup has none) and one colour per heading: its first line as the rest, light or dark. */
+.ai-page.route-page .pa-section .pa-h2 .pa-h2-a { color: inherit; }
+
+/* The two-column sections' cards: white, a hairline, rounded, a soft shadow; copy and card centred on each
+   other from 768px. "Set each stop once" (.rp-recur, card on the left) and "Build and change routes"
+   (.rp-build, card on the right) give the card 400px from 1024px, 88px from the copy. */
+.ai-page.route-page :is(.rp-recur, .rp-build, .rp-miles, .rp-cost) .pa-visual > .pa-card {
+  border: 1px solid rgb(226, 232, 240); border-radius: 20px; background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 24px 48px -24px rgba(15, 23, 42, .18);
+}
+.ai-page.route-page .rp-build .pa-visual > .pa-card { padding: 28px 28px 20px; }
+.ai-page.route-page .rp-recur .rp-foot { text-wrap: balance; }
+@media (min-width: 768px) {
+  .ai-page.route-page :is(.rp-recur, .rp-build, .rp-miles, .rp-cost) .pa-split { align-items: center; }
+}
+@media (min-width: 1024px) {
+  .ai-page.route-page .rp-recur .pa-split { grid-template-columns: minmax(0, 400px) minmax(0, 1fr); column-gap: 88px; }
+  .ai-page.route-page .rp-build .pa-split { grid-template-columns: minmax(0, 1fr) minmax(0, 400px); column-gap: 88px; }
+}
+
+/* "Drag a stop": each way to move a stop a row of its own, no dividers, lit on hover. */
+.ai-page.route-page .rp-build .rp-rows > li {
+  align-items: center; gap: 14px; margin: 0 -12px; padding: 10px 12px;
+  border-top: 0; border-radius: 12px; transition: background-color .15s ease;
+}
+.ai-page.route-page .rp-build .rp-rows > li:hover { background-color: rgb(248, 250, 252); }
+.ai-page.route-page .rp-build .rp-icon { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 10px; }
+.ai-page.route-page .rp-build .rp-row-text b { font-size: 15px; }
+.ai-page.route-page .rp-build .rp-row-text span { font-size: 13.5px; }
+@media (prefers-reduced-motion: reduce) {
+  .ai-page.route-page .rp-build .rp-rows > li { transition: none; }
 }
 
 /* ======================= Section cards ======================= */
@@ -152,6 +244,14 @@
 /* Its pointer and scaled panels reach past its box, as on the homepage (import.css .im-section). */
 .ai-page.route-page .rp-import-band { overflow-x: clip; }
 .ai-page.route-page .rp-import { margin-top: 48px; }
+/* Phones (720px and under), where the demo would be too small to read: the compact import card
+   (ImportCard.jsx, import-card.css) instead, with a shadow for the light ground. */
+.ai-page.route-page .rp-import-card { display: none; text-align: left; }
+@media (max-width: 720px) {
+  .ai-page.route-page .rp-import { display: none; }
+  .ai-page.route-page .rp-import-card { display: block; margin-top: 36px; }
+  .ai-page.route-page .rp-import-card .hd-wrap .sw-demo { box-shadow: 0 0 0 1px #e1e7f0, 0 24px 60px rgba(8, 12, 24, .10); }
+}
 
 /* The handover card on the dark band (route.css's .ra-section supplies its colours). */
 .ai-page.route-page .ra-section .pa-visual { min-width: 0; }
