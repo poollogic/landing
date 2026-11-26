@@ -53,6 +53,16 @@
    blue glow, and its payout card hangs off its bottom-right corner (the hero's 160px foot is room for
    it). Fixed per screen size from the first render: nothing moves. */
 .ai-page.billing-page .bp-hero--billing { --bp-top: calc(var(--page-hero-top) + 20px); }
+/* The ground: flat #111318 for its top 64px (the page's theme-color and body colour, so an iPhone's
+   status bar and the top of the page are one colour, with no band), lighter in the middle, a soft blue
+   glow behind the copy and the panel. The glow is gone well before the top (it ends 72% of its radius
+   out). Phones get a wider, flatter glow (below). */
+.ai-page.billing-page .hero.bp-hero--billing {
+  background-image:
+    radial-gradient(58% 52% at 50% 40%, rgba(59, 130, 246, .11), rgba(0, 0, 0, 0) 72%),
+    linear-gradient(#111318 0, #111318 64px, rgb(19, 24, 34) 32%, #111318 72%);
+}
+.ai-page.billing-page .bp-hero--billing > .ai-hero-fade { background: linear-gradient(rgba(17, 19, 24, 0), rgba(17, 19, 24, .9)); }
 .ai-page.billing-page .bp-hero--billing .bp-hero-stack { max-width: 1010px; margin-inline: auto; }
 .ai-page.billing-page .bp-hero--billing .bp-hero-copy {
   box-sizing: border-box;
@@ -60,9 +70,19 @@
   min-height: calc(100svh - var(--bp-top) - 96px);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-.ai-page.billing-page .bp-hero--billing .hero-sub { max-width: 640px; margin-inline: auto; font-size: 18px; line-height: 1.6; text-wrap: balance; }
+/* The headline: 48px on desktop, down to 36px on phones, on two lines from 1024px (.bp-title-line). */
+.ai-page.billing-page .bp-hero--billing .hero-title { font-size: clamp(2.25rem, 4.3vw, 3rem); line-height: 1.12; letter-spacing: -.035em; }
+.ai-page.billing-page .bp-hero--billing .hero-sub {
+  max-width: 600px; margin-top: 22px; margin-inline: auto;
+  font-size: 18px; line-height: 1.55; color: rgb(160, 170, 186); text-wrap: balance;
+}
+.ai-page.billing-page .bp-hero--billing .ai-cta-row { margin-top: 34px; }
+/* "See pricing": the closing section's underlined text link (.pa-text-link, payment-automation.css),
+   8px further from the button than the row's gap. */
+.ai-page.billing-page .bp-hero--billing .pa-text-link { height: auto; margin-left: 8px; padding: 0; background: none; box-shadow: none; }
+.ai-page.billing-page .bp-hero--billing .pa-text-link:hover { text-decoration-color: rgba(255, 255, 255, .7); }
 
-/* Under the buttons: three ticks on one centred row. */
+/* The offer: three ticks on one centred row, in the closing section (PaymentAutomation.jsx, ClosingCta). */
 .ai-page.billing-page .bp-hero-ticks {
   display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px;
   margin: 18px 0 0; padding: 0; list-style: none;
@@ -83,196 +103,260 @@
 @media (min-width: 960px) {
   .ai-page.billing-page .hero.bp-hero--billing { --bp-top: var(--header-h, 64px); align-items: flex-start; padding-bottom: 56px; }
 }
-/* Desktop: the headline at 60px (on two lines), the hero's foot room for the payout card. */
+/* Desktop: the hero's foot is room for the payout card. */
 @media (min-width: 1024px) {
   .ai-page.billing-page .hero.bp-hero--billing { --bp-top: calc(var(--header-h, 64px) + 24px); padding-bottom: 160px; }
-  .ai-page.billing-page .bp-hero--billing .hero-title { font-size: 60px; font-weight: 700; line-height: 1.05; letter-spacing: -.04em; }
 }
 @media (max-width: 1023.98px) {
   .ai-page.billing-page .hero.bp-hero--billing { padding-bottom: 56px; }
 }
-/* Phones: a 36px headline; the copy leaves the panel's top showing under it. */
+/* Tablets and large phones: the copy 124px from the top (the header's 64px, then 60px). */
+@media (min-width: 481px) and (max-width: 1023.98px) {
+  .ai-page.billing-page .hero.bp-hero--billing { --bp-top: 124px; padding-top: 124px; }
+}
+/* Phones: 92px from the top, a wider and flatter glow, and "See pricing" centred under the button with
+   a 44px tap target. The copy leaves the panel's top showing under it. */
+@media (max-width: 640px) {
+  .ai-page.billing-page .hero.bp-hero--billing {
+    padding-top: 92px;
+    background-image:
+      radial-gradient(130% 34% at 50% 30%, rgba(59, 130, 246, .11), rgba(0, 0, 0, 0) 72%),
+      linear-gradient(#111318 0, #111318 64px, rgb(19, 24, 34) 32%, #111318 72%);
+  }
+  .ai-page.billing-page .bp-hero--billing .pa-text-link { align-self: center; margin-left: 0; padding: 10px 12px; line-height: 24px; }
+}
 @media (max-width: 767.98px) {
-  .ai-page.billing-page .bp-hero--billing .hero-title { font-size: 36px; }
   .ai-page.billing-page .bp-hero--billing .bp-hero-copy { min-height: calc(100vh - 150px); min-height: calc(100svh - 150px); }
   .ai-page.billing-page .bp-hero-ticks { gap: 8px 16px; font-size: 13px; }
 }
 
-/* ---------- The billing panel (BillingCalendar.jsx) ---------- */
-.ai-page.billing-page .bc-panel {
+/* ---------- The billing panel (BillingCalendar.jsx) ----------
+   The homepage dashboard's neutral charcoal (preview.css): near-black ground, white hairlines, grey
+   text (#98989D) and near-white figures (#F5F5F7). Every rule is under .bp-hero--billing. */
+.ai-page.billing-page .bp-hero--billing .bc-panel {
   position: relative;
   max-width: 100%; margin: 0 auto;
   border-radius: 20px;
-  background: rgba(9, 13, 22, .84);
-  box-shadow: 0 0 0 1px rgba(46, 133, 255, .12), inset 0 0 70px rgba(0, 0, 0, .35), 0 30px 80px rgba(0, 0, 0, .45);
+  background-color: rgb(17, 19, 24);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 40px 80px -20px rgba(0, 0, 0, .6);
+  color: rgb(152, 152, 157);
   text-align: left;
   overflow: hidden;
   font-variant-numeric: tabular-nums;
 }
-/* A 1px highlight along the top edge, 10% in from each side. */
-.ai-page.billing-page .bc-panel::before {
+/* A 1px light along the top edge, 10% in from each side: blue-white, white at its middle, glowing. */
+.ai-page.billing-page .bp-hero--billing .bc-panel::before {
   content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
-  background: linear-gradient(90deg, rgba(46, 133, 255, 0), rgba(46, 133, 255, .7), rgba(46, 133, 255, 0));
+  background-image: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(191, 219, 254, .55) 25%, rgba(255, 255, 255, .95) 50%, rgba(191, 219, 254, .55) 75%, rgba(0, 0, 0, 0));
+  filter: drop-shadow(0 0 6px rgba(147, 197, 253, .6));
   pointer-events: none;
 }
-.ai-page.billing-page .bc-panel :is(p, ul) { margin: 0; padding: 0; list-style: none; }
-.ai-page.billing-page .bc-panel i { display: block; flex: none; }
+.ai-page.billing-page .bp-hero--billing .bc-panel :is(p, ul) { margin: 0; padding: 0; list-style: none; }
+.ai-page.billing-page .bp-hero--billing .bc-panel i { display: block; flex: none; }
+.ai-page.billing-page .bp-hero--billing .bc-panel strong { color: rgb(245, 245, 247); }
 
-/* A. Title bar */
-.ai-page.billing-page .bh-bar { display: flex; align-items: center; gap: 12px; padding: 16px 22px 6px; }
-.ai-page.billing-page .bh-name { display: inline-flex; align-items: baseline; gap: 12px; min-width: 0; }
-.ai-page.billing-page .bh-title { font-size: 15px; font-weight: 700; line-height: 22px; color: #F8FAFC; }
-.ai-page.billing-page .bh-company { font-size: 13px; line-height: 20px; color: #7C8AA0; }
-.ai-page.billing-page .bh-pill {
+/* A. Title bar: the name, and the run's status in plain text with its green dot. */
+.ai-page.billing-page .bp-hero--billing .bh-bar { display: flex; align-items: center; gap: 12px; padding: 16px 22px 6px; }
+.ai-page.billing-page .bp-hero--billing .bh-name { display: inline-flex; align-items: baseline; gap: 12px; min-width: 0; }
+.ai-page.billing-page .bp-hero--billing .bh-title { font-size: 15px; font-weight: 700; line-height: 22px; color: #F8FAFC; }
+.ai-page.billing-page .bp-hero--billing .bh-company { font-size: 13px; line-height: 20px; color: rgb(152, 152, 157); }
+.ai-page.billing-page .bp-hero--billing .bh-pill {
   display: inline-flex; align-items: center; gap: 7px; margin-left: auto;
-  padding: 5px 11px; border: 1px solid rgba(148, 163, 184, .16); border-radius: 999px;
-  font-size: 12.5px; line-height: 18px; color: #CBD5E1; white-space: nowrap;
+  padding: 5px 0; border: 0; background: transparent; box-shadow: none;
+  font-size: 12.5px; line-height: 18px; color: rgb(152, 152, 157); white-space: nowrap;
 }
-.ai-page.billing-page .bh-pill > i { width: 7px; height: 7px; border-radius: 50%; background: #22C55E; }
+.ai-page.billing-page .bp-hero--billing .bh-pill > i { width: 7px; height: 7px; border-radius: 50%; background: #22C55E; }
 
 /* B. Body: the stats and calendar, and this morning's run beside them. */
-.ai-page.billing-page .bh-body { display: grid; grid-template-columns: minmax(0, 1fr) 292px; }
-.ai-page.billing-page .bh-main { min-width: 0; }
+.ai-page.billing-page .bp-hero--billing .bh-body { display: grid; grid-template-columns: minmax(0, 1fr) 292px; }
+.ai-page.billing-page .bp-hero--billing .bh-main { min-width: 0; }
 
-/* B1. Stat cards */
-.ai-page.billing-page .bh-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 10px 16px 6px; }
-.ai-page.billing-page .bh-stat {
+/* B1. Stat cards: 22px in from the panel's sides (16px on small phones), as the title, bar and chart. */
+.ai-page.billing-page .bp-hero--billing .bh-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; padding: 10px 22px 6px; }
+.ai-page.billing-page .bp-hero--billing .bh-stat {
   min-width: 0; padding: 13px 16px; container-type: inline-size;
-  border: 1px solid rgba(148, 163, 184, .1); border-radius: 14px; background: rgba(8, 11, 18, .45);
+  border: 1px solid rgba(255, 255, 255, .07); border-radius: 14px; background-color: rgb(11, 12, 15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 1px 2px rgba(0, 0, 0, .3);
 }
 /* One line always. "Emailed automatically", the longest, is about 10.9 times its font size wide: where
    12.5px would take it more than 8px into the card's padding (narrower panels: 1024–1100px, small
    phones), the labels shrink to fit (100cqi: the card's content width). */
-.ai-page.billing-page .bh-stat-label {
+.ai-page.billing-page .bp-hero--billing .bh-stat-label {
   display: flex; align-items: center; gap: 6px;
-  font-size: min(12.5px, (100cqi + 8px) / 10.9); line-height: 18px; color: #93A1B5; white-space: nowrap;
+  font-size: min(12.5px, (100cqi + 8px) / 10.9); line-height: 18px; color: rgb(152, 152, 157); white-space: nowrap;
 }
-.ai-page.billing-page .bh-key { width: 6px; height: 6px; border-radius: 50%; }
-.ai-page.billing-page .bh-key--blue { background: #2E85FF; }
-.ai-page.billing-page .bh-key--white { background: #F8FAFC; }
-.ai-page.billing-page .bh-key--slate { background: #64748B; }
-.ai-page.billing-page .bh-stat-value {
+.ai-page.billing-page .bp-hero--billing .bh-stat-value {
   display: flex; align-items: baseline; margin-top: 4px;
   font-size: 27px; font-weight: 700; line-height: 34px; letter-spacing: -.03em; color: #F8FAFC; white-space: nowrap;
 }
-.ai-page.billing-page .bh-count { display: inline-block; }
-.ai-page.billing-page .bh-stat-share { margin-left: 6px; font-size: 14px; font-weight: 500; letter-spacing: 0; color: #7C8AA0; }
+.ai-page.billing-page .bp-hero--billing .bh-count { display: inline-block; color: rgb(245, 245, 247); }
+.ai-page.billing-page .bp-hero--billing .bh-stat-share { margin-left: 6px; font-size: 14px; font-weight: 500; letter-spacing: 0; color: rgb(152, 152, 157); }
 
-/* B2. The chart: caption and legend, the collection bar, the dot calendar */
-.ai-page.billing-page .bh-chart { padding: 14px 22px 20px; }
-.ai-page.billing-page .bh-caption {
-  display: flex; justify-content: space-between; gap: 6px 16px; margin-bottom: 12px;
-  font-size: 12.5px; line-height: 18px; color: #7C8AA0;
+/* B2. The chart: invoices sent (its line of text, then the bar), the dot calendar, then the legend. */
+.ai-page.billing-page .bp-hero--billing .bh-chart { padding: 14px 22px 20px; }
+.ai-page.billing-page .bp-hero--billing .bh-caption {
+  display: flex; justify-content: space-between; gap: 6px 16px; margin: 14px 0 0;
+  font-size: 12.5px; line-height: 18px; color: rgb(152, 152, 157);
 }
-.ai-page.billing-page .bh-legend { display: flex; gap: 14px; white-space: nowrap; }
-.ai-page.billing-page .bh-legend > span { display: inline-flex; align-items: center; gap: 6px; }
-.ai-page.billing-page .bh-legend .bh-dot { width: 8px; height: 8px; }
+.ai-page.billing-page .bp-hero--billing .bh-legend { display: flex; gap: 14px; white-space: nowrap; }
+.ai-page.billing-page .bp-hero--billing .bh-legend > span { display: inline-flex; align-items: center; gap: 6px; }
+.ai-page.billing-page .bp-hero--billing .bh-legend .bh-dot { width: 8px; height: 8px; }
 
-.ai-page.billing-page .bh-collect { margin-bottom: 20px; }
-.ai-page.billing-page .bh-track { height: 6px; border-radius: 99px; background: rgba(148, 163, 184, .12); overflow: hidden; }
-.ai-page.billing-page .bh-fill { width: 92%; height: 100%; border-radius: 99px; background: #22C55E; transform-origin: left center; }
-.ai-page.billing-page .bh-collect-text {
-  display: flex; justify-content: space-between; gap: 12px; margin-top: 8px;
-  font-size: 12.5px; line-height: 18px; color: #7C8AA0;
+/* The bar: 202 of 302 sent (66.9%). Green for days 1 to 18, its blue end today's invoices. Square ends;
+   the track's rounded ones clip it. */
+.ai-page.billing-page .bp-hero--billing .bh-collect { margin-bottom: 22px; }
+.ai-page.billing-page .bp-hero--billing .bh-track { height: 6px; border-radius: 99px; background-color: rgba(255, 255, 255, .1); overflow: hidden; }
+.ai-page.billing-page .bp-hero--billing .bh-fill {
+  width: 66.9%; height: 100%; border-radius: 0;
+  background: linear-gradient(90deg, rgb(34, 197, 94) 0, rgb(34, 197, 94) 95.5%, rgb(46, 133, 255) 95.5%);
+  transform-origin: left center;
 }
-.ai-page.billing-page .bh-collect-text strong { font-weight: 600; color: #E8EDF5; }
+.ai-page.billing-page .bp-hero--billing .bh-collect-text {
+  display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px;
+  font-size: 12.5px; line-height: 18px; color: rgb(152, 152, 157);
+}
+.ai-page.billing-page .bp-hero--billing .bh-collect-text strong { font-weight: 600; }
 
 /* The dot calendar: 28 columns, a stack of dots two wide per day, filling from the bottom row up,
-   left to right (wrap-reverse), the columns' feet on one line. */
-.ai-page.billing-page .bh-days { display: grid; grid-template-columns: repeat(28, minmax(0, 1fr)); align-items: end; }
-.ai-page.billing-page .bh-day {
+   left to right (wrap-reverse), the columns' feet on one line. A little wider than the bar on each
+   side, so the first and last dots line up with its ends at every width: each stack is centred in its
+   column, so the overhang m solves m = (column − stack) / 2 with column = (100% + 2m) / 28, which is
+   m = (100% − 28 × stack) / 54 (100%: the bar's width). About 2px on desktop (20px stacks), 1px on a
+   390px phone (9.5px stacks, below). */
+.ai-page.billing-page .bp-hero--billing .bh-days {
+  display: grid; grid-template-columns: repeat(28, minmax(0, 1fr)); align-items: end;
+  margin: 0 calc((28 * 20px - 100%) / 54);
+}
+.ai-page.billing-page .bp-hero--billing .bh-day {
   display: flex; flex-direction: column; align-items: center;
   padding: 6px 0; border-radius: 8px;
 }
-.ai-page.billing-page .bh-stack { display: flex; flex-wrap: wrap-reverse; gap: 4px 2px; width: 20px; }
-.ai-page.billing-page .bh-num { margin-top: 8px; font-size: 10.5px; font-weight: 500; line-height: 14px; color: #566176; }
-.ai-page.billing-page .bh-day.is-today { background: rgba(46, 133, 255, .12); box-shadow: inset 0 0 0 1px rgba(46, 133, 255, .35); }
-.ai-page.billing-page .bh-day.is-today .bh-num { font-weight: 700; color: #fff; }
+.ai-page.billing-page .bp-hero--billing .bh-stack { display: flex; flex-wrap: wrap-reverse; gap: 4px 2px; width: 20px; }
+.ai-page.billing-page .bp-hero--billing .bh-num { margin-top: 8px; font-size: 10.5px; font-weight: 500; line-height: 14px; color: rgb(134, 134, 140); }
+.ai-page.billing-page .bp-hero--billing .bh-day.is-today { background: rgba(46, 133, 255, .12); box-shadow: inset 0 0 0 1px rgba(46, 133, 255, .35); }
+.ai-page.billing-page .bp-hero--billing .bh-day.is-today .bh-num { font-weight: 700; color: #fff; }
 
-/* A dot: paid (green), followed up (a hollow blue ring), today (blue, glowing), scheduled (slate). */
-.ai-page.billing-page .bh-dot { width: 9px; height: 9px; border-radius: 50%; }
-.ai-page.billing-page .bh-dot.is-paid { background: #22C55E; }
-.ai-page.billing-page .bh-dot.is-followed { background: transparent; box-shadow: inset 0 0 0 1.7px #2E85FF; }
-.ai-page.billing-page .bh-dot.is-today { background: #2E85FF; box-shadow: 0 0 10px rgba(46, 133, 255, .7); }
-.ai-page.billing-page .bh-dot.is-later { background: #334155; }
+/* A dot: paid (green), followed up (a hollow blue ring), today (blue, glowing), scheduled (grey). */
+.ai-page.billing-page .bp-hero--billing .bh-dot { width: 9px; height: 9px; border-radius: 50%; }
+.ai-page.billing-page .bp-hero--billing .bh-dot.is-paid { background: #22C55E; }
+.ai-page.billing-page .bp-hero--billing .bh-dot.is-followed { background: transparent; box-shadow: inset 0 0 0 1.7px #2E85FF; }
+.ai-page.billing-page .bp-hero--billing .bh-dot.is-today { background: #2E85FF; box-shadow: 0 0 10px rgba(46, 133, 255, .7); }
+.ai-page.billing-page .bp-hero--billing .bh-dot.is-later { background-color: rgb(62, 64, 72); }
 
-/* This morning's run */
-.ai-page.billing-page .bh-run { min-width: 0; padding: 14px 22px 22px 10px; }
-.ai-page.billing-page .bh-run-head { margin-bottom: 8px !important; font-size: 13px; font-weight: 600; line-height: 18px; color: #93A1B5; }
-.ai-page.billing-page .bh-row {
-  display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; column-gap: 10px; align-items: center;
-  padding: 13px 0; border-top: 1px solid rgba(148, 163, 184, .08);
+/* This morning's run: each row a name and its amount, a green tick before a paid one's; a note across
+   the row's width under a followed-up one. */
+.ai-page.billing-page .bp-hero--billing .bh-run { min-width: 0; padding: 14px 22px 22px 28px; }
+.ai-page.billing-page .bp-hero--billing .bh-run .bh-run-head { margin-bottom: 8px; /* .bh-run: outranks the panel's p reset */ font-size: 13px; font-weight: 600; line-height: 18px; color: rgb(152, 152, 157); }
+.ai-page.billing-page .bp-hero--billing .bh-row {
+  display: grid; grid-template-columns: 1fr auto; column-gap: 10px; align-items: center;
+  padding: 13px 0; border-top: 1px solid rgba(255, 255, 255, .07);
 }
-.ai-page.billing-page .bh-row-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 600; line-height: 20px; color: #E8EDF5; }
-.ai-page.billing-page .bh-row-amount { font-size: 14px; font-weight: 600; line-height: 20px; color: #F8FAFC; }
-.ai-page.billing-page .bh-row-note {
-  grid-column: 2 / 4; min-width: 0; margin-top: 3px;
+.ai-page.billing-page .bp-hero--billing .bh-row-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 600; line-height: 20px; color: rgb(245, 245, 247); }
+.ai-page.billing-page .bp-hero--billing .bh-row-amount { font-size: 14px; font-weight: 600; line-height: 20px; color: rgb(245, 245, 247); }
+.ai-page.billing-page .bp-hero--billing .bh-row.is-paid .bh-row-amount::before {
+  content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 7px; vertical-align: -1px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2334b864' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.ai-page.billing-page .bp-hero--billing .bh-row-note {
+  grid-column: 1 / -1; min-width: 0; margin-top: 3px;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   font-size: 12.5px; line-height: 18px; color: color-mix(in oklab, #2E85FF 72%, white);
 }
 
-/* C. The payout card, over the panel's bottom-right corner. */
-.ai-page.billing-page .bh-payout {
-  position: absolute; right: -22px; bottom: -64px; z-index: 1; box-sizing: border-box; width: 300px;
-  padding: 14px 18px; border: 1px solid rgba(148, 163, 184, .18); border-radius: 16px;
-  background: rgba(22, 28, 43, .86); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 24px 60px -12px rgba(0, 0, 0, .8);
+/* C. The payout card, over the panel's bottom-right corner, drawn as the homepage dashboard's toast
+   (preview.css, .pl-toast): a green tick in a circle, "Payout to your bank" and the amount beside it,
+   "Arrives tomorrow" under them. The markup's second line (amount and when) joins the card's grid. */
+.ai-page.billing-page .bp-hero--billing .bh-payout {
+  position: absolute; right: -22px; bottom: -40px; z-index: 1; box-sizing: border-box;
+  display: grid; grid-template-columns: 22px auto 1fr; align-items: center; width: max-content;
+  padding: 14px 26px 14px 18px; border: 0; border-radius: 14px;
+  background-color: rgb(29, 32, 39);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .12), 0 2px 4px rgba(0, 0, 0, .45), 0 14px 28px -6px rgba(0, 0, 0, .6), 0 40px 80px -16px rgba(0, 0, 0, .9);
   text-align: left; font-variant-numeric: tabular-nums;
 }
-.ai-page.billing-page .bh-payout p { margin: 0; }
-.ai-page.billing-page .bh-payout-label { font-size: 12.5px; line-height: 18px; color: #7C8AA0; }
-.ai-page.billing-page .bh-payout-line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 2px !important; }
-.ai-page.billing-page .bh-payout-amount { font-size: 26px; font-weight: 700; line-height: 32px; letter-spacing: -.03em; color: #F8FAFC; }
-.ai-page.billing-page .bh-payout-when { font-size: 12.5px; font-weight: 500; line-height: 18px; color: #CBD5E1; white-space: nowrap; }
+.ai-page.billing-page .bp-hero--billing .bh-payout::before {
+  content: ''; grid-column: 1; grid-row: 1 / span 2; width: 22px; height: 22px; border-radius: 50%;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 13px 13px no-repeat, rgb(34, 197, 94);
+}
+.ai-page.billing-page .bp-hero--billing .bh-payout p { margin: 0; }
+.ai-page.billing-page .bp-hero--billing .bh-payout-line { display: contents; }
+/* .bh-payout .bh-payout-label: outranks the card's p reset above. */
+.ai-page.billing-page .bp-hero--billing .bh-payout .bh-payout-label {
+  grid-column: 2; grid-row: 1; margin-left: 14px;
+  font-size: 14px; font-weight: 600; line-height: 20px; color: rgb(248, 250, 252); white-space: nowrap;
+}
+.ai-page.billing-page .bp-hero--billing .bh-payout-amount {
+  grid-column: 3; grid-row: 1; margin-left: 5px;
+  font-size: 14px; font-weight: 400; line-height: 20px; letter-spacing: 0; color: rgb(152, 152, 157); white-space: nowrap;
+}
+.ai-page.billing-page .bp-hero--billing .bh-payout-amount::before { content: "\00B7\00A0"; }
+.ai-page.billing-page .bp-hero--billing .bh-payout-when {
+  grid-column: 2 / span 2; grid-row: 2; margin-left: 14px; text-align: left;
+  font-size: 12.5px; font-weight: 400; line-height: 18px; color: rgb(152, 152, 157); white-space: nowrap;
+}
 
-/* The animation's start (BillingCalendar.jsx adds .is-anim, then plays it): every dot slate, no day
+/* The animation's start (BillingCalendar.jsx adds .is-anim, then plays it): every dot grey, no day
    lit, the bar empty, the list and the payout card down 8px and hidden. Each step's change eases out;
-   only colour, opacity and transforms change. */
-.ai-page.billing-page .bc-panel.is-anim .bh-dot:not(.bh-legend .bh-dot),
-.ai-page.billing-page .bc-panel.is-anim .bh-day { transition: background-color .3s cubic-bezier(.16, 1, .3, 1); }
-.ai-page.billing-page .bc-panel.is-anim .bh-day:not(.is-on) .bh-dot { background: #334155; box-shadow: none; }
-.ai-page.billing-page .bc-panel.is-anim:not(.is-lit) .bh-day.is-today { background: transparent; box-shadow: none; }
-.ai-page.billing-page .bc-panel.is-anim:not(.is-lit) .bh-day.is-today .bh-num { font-weight: 500; color: #566176; }
-.ai-page.billing-page .bc-panel.is-anim .bh-fill { transform: scaleX(0); } /* then grown by the script, with the numbers */
-.ai-page.billing-page .bc-panel.is-anim .bh-row {
+   only colour, opacity and transforms change. A dot not lit yet is the scheduled grey, so nothing
+   changes colour when the animation ends. */
+.ai-page.billing-page .bp-hero--billing .bc-panel.is-anim .bh-dot:not(.bh-legend .bh-dot),
+.ai-page.billing-page .bp-hero--billing .bc-panel.is-anim .bh-day { transition: background-color .3s cubic-bezier(.16, 1, .3, 1); }
+.ai-page.billing-page .bp-hero--billing .bc-panel.is-anim .bh-day:not(.is-on) .bh-dot { background-color: rgb(62, 64, 72); box-shadow: none; }
+.ai-page.billing-page .bp-hero--billing .bc-panel.is-anim:not(.is-lit) .bh-day.is-today { background: transparent; box-shadow: none; }
+.ai-page.billing-page .bp-hero--billing .bc-panel.is-anim:not(.is-lit) .bh-day.is-today .bh-num { font-weight: 500; color: rgb(134, 134, 140); }
+.ai-page.billing-page .bp-hero--billing .bc-panel.is-anim .bh-fill { transform: scaleX(0); } /* then grown by the script, with the numbers */
+.ai-page.billing-page .bp-hero--billing .bc-panel.is-anim .bh-row {
   opacity: 0; transform: translateY(8px);
   transition: opacity .35s cubic-bezier(.16, 1, .3, 1), transform .35s cubic-bezier(.16, 1, .3, 1);
   transition-delay: calc(var(--i) * 110ms);
 }
-.ai-page.billing-page .bc-panel.is-anim.is-rows .bh-row { opacity: 1; transform: none; }
-.ai-page.billing-page .bh-payout.is-anim {
+.ai-page.billing-page .bp-hero--billing .bc-panel.is-anim.is-rows .bh-row { opacity: 1; transform: none; }
+.ai-page.billing-page .bp-hero--billing .bh-payout.is-anim {
   opacity: 0; transform: translateY(8px);
   transition: opacity .35s cubic-bezier(.16, 1, .3, 1), transform .35s cubic-bezier(.16, 1, .3, 1);
 }
-.ai-page.billing-page .bh-payout.is-anim.is-in { opacity: 1; transform: none; }
+.ai-page.billing-page .bp-hero--billing .bh-payout.is-anim.is-in { opacity: 1; transform: none; }
 
-/* Below 1024px: one column, the run under the calendar; the payout card under the panel. */
+/* Below 1024px: one column, the run under the calendar (22px in, as the chart), the legend wrapping;
+   the payout card under the panel, at its right. */
 @media (max-width: 1023.98px) {
-  .ai-page.billing-page .bh-body { grid-template-columns: minmax(0, 1fr); }
-  .ai-page.billing-page .bh-run { padding: 16px; border-top: 1px solid rgba(148, 163, 184, .1); }
-  .ai-page.billing-page .bh-payout { position: static; width: 100%; margin-top: 12px; }
+  .ai-page.billing-page .bp-hero--billing .bh-body { grid-template-columns: minmax(0, 1fr); }
+  .ai-page.billing-page .bp-hero--billing .bh-run { padding: 16px 22px; border-top: 1px solid rgba(255, 255, 255, .07); }
+  .ai-page.billing-page .bp-hero--billing .bh-legend { flex-wrap: wrap; gap: 8px 14px; }
+  .ai-page.billing-page .bp-hero--billing .bh-payout { position: static; width: max-content; max-width: 100%; margin-top: 12px; margin-left: auto; }
 }
 
 /* Phones */
 @media (max-width: 767.98px) {
-  .ai-page.billing-page .bh-bar { flex-wrap: wrap; gap: 8px 12px; padding: 14px 16px; }
-  .ai-page.billing-page .bh-name { flex: 1 0 100%; }
-  .ai-page.billing-page .bh-pill { margin-left: 0; font-size: 12px; }
+  .ai-page.billing-page .bp-hero--billing .bh-bar { flex-wrap: wrap; gap: 8px 12px; padding: 14px 22px; }
+  .ai-page.billing-page .bp-hero--billing .bh-name { flex: 1 0 100%; }
+  .ai-page.billing-page .bp-hero--billing .bh-pill { margin-left: 0; font-size: 12px; }
 
-  .ai-page.billing-page .bh-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
-  .ai-page.billing-page .bh-stat { padding: 11px 13px; }
-  .ai-page.billing-page .bh-stat-label { font-size: min(11.5px, (100cqi + 8px) / 10.9); line-height: 16px; }
-  .ai-page.billing-page .bh-stat-value { font-size: 22px; line-height: 28px; }
+  .ai-page.billing-page .bp-hero--billing .bh-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .ai-page.billing-page .bp-hero--billing .bh-stat { padding: 11px 13px; }
+  .ai-page.billing-page .bp-hero--billing .bh-stat-label { font-size: min(11.5px, (100cqi + 8px) / 10.9); line-height: 16px; }
+  .ai-page.billing-page .bp-hero--billing .bh-stat-value { font-size: 22px; line-height: 28px; }
 
-  .ai-page.billing-page .bh-chart { padding: 12px 14px 16px; }
-  .ai-page.billing-page .bh-caption { flex-direction: column; }
+  .ai-page.billing-page .bp-hero--billing .bh-chart { padding: 12px 22px 16px; }
+  .ai-page.billing-page .bp-hero--billing .bh-caption { flex-direction: column; }
 
-  .ai-page.billing-page .bh-stack { gap: 2px 1.5px; width: 9.5px; }
-  .ai-page.billing-page .bh-stack .bh-dot { width: 4px; height: 4px; }
-  .ai-page.billing-page .bh-stack .bh-dot.is-followed { box-shadow: inset 0 0 0 1px #2E85FF; }
-  .ai-page.billing-page .bh-stack .bh-dot.is-today { box-shadow: none; }
-  .ai-page.billing-page .bh-num { font-size: 8px; line-height: 10px; }
-  .ai-page.billing-page .bh-day:not(.is-odd) .bh-num { visibility: hidden; }
+  .ai-page.billing-page .bp-hero--billing .bh-stack { gap: 2px 1.5px; width: 9.5px; }
+  .ai-page.billing-page .bp-hero--billing .bh-days { margin: 0 calc((28 * 9.5px - 100%) / 54); }
+  .ai-page.billing-page .bp-hero--billing .bh-stack .bh-dot { width: 4px; height: 4px; }
+  .ai-page.billing-page .bp-hero--billing .bh-stack .bh-dot.is-followed { box-shadow: inset 0 0 0 1px #2E85FF; }
+  .ai-page.billing-page .bp-hero--billing .bh-stack .bh-dot.is-today { box-shadow: none; }
+  .ai-page.billing-page .bp-hero--billing .bh-num { font-size: 8px; line-height: 10px; }
+  .ai-page.billing-page .bp-hero--billing .bh-day:not(.is-odd) .bh-num { visibility: hidden; }
+}
+
+/* Small phones: 16px in from the panel's sides, the legend in two columns, the payout card the panel's width. */
+@media (max-width: 480px) {
+  .ai-page.billing-page .bp-hero--billing .bh-bar { padding-inline: 16px; }
+  .ai-page.billing-page .bp-hero--billing .bh-stats { padding-inline: 16px; }
+  .ai-page.billing-page .bp-hero--billing .bh-chart { padding-inline: 16px; }
+  .ai-page.billing-page .bp-hero--billing .bh-run { padding-inline: 16px; }
+  .ai-page.billing-page .bp-hero--billing .bh-legend { display: grid; grid-template-columns: repeat(2, max-content); gap: 8px 28px; }
+  .ai-page.billing-page .bp-hero--billing .bh-payout { width: auto; }
 }
 
 /* ======================= 2. Statement and month belt ======================= */
@@ -532,6 +616,10 @@
   font-size: var(--subhead-size); line-height: var(--subhead-leading); color: var(--subhead-on-dark);
 }
 .ai-page.billing-page .bp-late-close { max-width: 560px; margin: 56px auto 0; font-size: 20px; font-weight: 600; line-height: 1.35; color: #fff; text-wrap: balance; }
+/* The trial under it: the hero's button at its own width (not full width on phones), the offer under it. */
+.ai-page.billing-page .bp-late-cta { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 36px; text-align: center; }
+.ai-page.billing-page .bp-late-cta .ai-cta { width: auto; }
+.ai-page.billing-page .bp-late-cta-fine { margin: 0; font-size: 14px; color: rgb(148, 163, 184); }
 
 /* ======================= 5. Plans (PlansTable.jsx) ======================= */
 .ai-page.billing-page .bp-plans { padding: 112px 0; background: #fff; }

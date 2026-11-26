@@ -79,25 +79,36 @@
 .ai-page.billing-page .pa-visual > .pa-product[id]:not([hidden]) { animation: pa-fade .25s ease; }
 @keyframes pa-fade { from { opacity: 0; } to { opacity: 1; } }
 
-/* ---------- A. How customers pay: the options ---------- */
-.ai-page.billing-page .pa-choose {
-  margin: 32px 0 0; font-size: 12px; font-weight: 600; line-height: 1.4; letter-spacing: .1em; text-transform: uppercase; color: #64748b;
+/* ---------- A. How customers pay (.pa-collect): the card on the left, the copy on the right ----------
+   The options are a compact segmented control over the card (as .bp-seg, Monthly / Quarterly / Yearly,
+   billing-page.css). The heading: two lines on desktop, one per span. */
+.ai-page.billing-page .pa-collect .pa-h2 { font-size: 32px; font-weight: 700; text-wrap: balance; }
+.ai-page.billing-page .pa-collect .pa-options {
+  display: inline-flex; flex-direction: row; width: max-content; max-width: 100%;
+  padding: 3px; gap: 0; margin: 0 0 16px; border-radius: 8px; background: rgb(241, 245, 249);
 }
-.ai-page.billing-page .pa-choose-hint { margin-left: 8px; font-weight: 500; letter-spacing: 0; text-transform: none; color: #2e85ff; }
-.ai-page.billing-page .pa-options { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-.ai-page.billing-page .pa-option {
-  display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 10px 16px;
-  border: 1px solid rgb(226, 232, 240); border-radius: 12px; background: #fff;
-  font: inherit; font-size: 15.5px; font-weight: 500; line-height: 1.35; color: #0f172a; text-align: left; cursor: pointer;
-  transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+.ai-page.billing-page .pa-collect .pa-option {
+  flex: 0 0 auto; padding: 5px 13px; border: 0; border-radius: 6px; background: transparent;
+  font: inherit; font-size: 14px; font-weight: 500; line-height: 20px; color: rgb(71, 85, 105);
+  white-space: nowrap; text-align: center; cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, box-shadow .15s ease;
 }
-.ai-page.billing-page .pa-option:hover { border-color: rgb(203, 213, 225); }
-.ai-page.billing-page .pa-option.is-on { border-color: #2e85ff; box-shadow: 0 0 0 1px #2e85ff; background: rgba(46, 133, 255, .07); }
-.ai-page.billing-page .pa-option:focus-visible { outline: 2px solid #2e85ff; outline-offset: 2px; }
-.ai-page.billing-page .pa-radio {
-  flex: none; width: 18px; height: 18px; border: 1.5px solid rgb(203, 213, 225); border-radius: 50%; background: #fff;
+.ai-page.billing-page .pa-collect .pa-option:hover { color: rgb(15, 23, 42); }
+.ai-page.billing-page .pa-collect .pa-option.is-on { background: #fff; color: rgb(15, 23, 42); font-weight: 600; box-shadow: 0 1px 2px rgba(15, 23, 42, .12); }
+.ai-page.billing-page .pa-collect .pa-option:focus-visible { outline: 2px solid #2e85ff; outline-offset: 2px; }
+@media (min-width: 768px) {
+  .ai-page.billing-page .pa-collect .pa-split { align-items: center; }
+  .ai-page.billing-page .pa-collect .pa-visual { order: 1; }
+  .ai-page.billing-page .pa-collect .pa-copy { order: 2; }
 }
-.ai-page.billing-page .pa-option.is-on .pa-radio { border-color: #2e85ff; background: #2e85ff; box-shadow: inset 0 0 0 3.5px #fff; }
+/* From 1024px the heading is two lines, one per span: 32px once the copy column is 500px wide (about
+   1170px and up); narrower, it scales to the column (6.4cqi: its longer line, "Your payments collect
+   themselves.", is 493px at 32px). */
+@media (min-width: 1024px) {
+  .ai-page.billing-page .pa-collect .pa-split { grid-template-columns: minmax(0, 440px) minmax(0, 1fr); }
+  .ai-page.billing-page .pa-collect .pa-copy { container-type: inline-size; }
+  .ai-page.billing-page .pa-collect .pa-h2 { font-size: min(32px, 6.4cqi); }
+}
 
 /* ---------- B. Check list ---------- */
 .ai-page.billing-page .pa-checks { display: flex; flex-direction: column; gap: 12px; margin: 28px 0 0; padding: 0; list-style: none; }
@@ -141,6 +152,97 @@
 .ai-page.billing-page .pa-big span { font-size: 20px; font-weight: 500; letter-spacing: 0; color: #94a3b8; }
 .ai-page.billing-page .pa-big-note { margin: 16px 0 0; font-size: 16px; line-height: 1.5; color: #cbd5e1; }
 .ai-page.billing-page .pa-fine { margin: auto 0 0; padding-top: 24px; font-size: 13px; line-height: 1.45; color: #7c8aa0; }
+
+/* ---------- C. The card fee calculator (.pa-fees): one card, the inputs on white, the result on dark ----------
+   Side by side from 768px (wider inputs from 1024px), the inputs over the result below that. The sliders
+   are drawn here (their fill follows --p, set by PaymentAutomation.jsx's Slider), and the card fee is a
+   typed field, up to 3%. */
+.ai-page.billing-page .pa-fees .pa-pair {
+  gap: 0; border: 1px solid rgb(226, 232, 240); border-radius: 24px; overflow: hidden;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 32px 64px -32px rgba(15, 23, 42, .22);
+}
+.ai-page.billing-page .pa-fees .pa-calc { padding: 36px 36px 30px; border: 0; border-radius: 0; background: #fff; }
+.ai-page.billing-page .pa-fees .pa-card-label { font-size: 11.5px; letter-spacing: .12em; }
+.ai-page.billing-page .pa-fees .pa-slider { margin-top: 24px; }
+.ai-page.billing-page .pa-fees .pa-slider label { font-weight: 500; color: rgb(51, 65, 85); }
+.ai-page.billing-page .pa-fees .pa-slider-value { font-weight: 600; color: rgb(15, 23, 42); font-variant-numeric: tabular-nums; }
+
+.ai-page.billing-page .pa-fees .pa-slider input[type="range"] {
+  -webkit-appearance: none; appearance: none; display: block;
+  width: 100%; height: 20px; margin: 8px 0 0; padding: 0;
+  border: 0; background: transparent; cursor: pointer;
+}
+.ai-page.billing-page .pa-fees .pa-slider input[type="range"]:focus-visible { outline: 2px solid #2e85ff; outline-offset: 4px; border-radius: 4px; }
+.ai-page.billing-page .pa-fees .pa-slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 99px;
+  background: linear-gradient(90deg, rgb(46, 133, 255) var(--p, 50%), rgb(226, 232, 240) var(--p, 50%));
+}
+.ai-page.billing-page .pa-fees .pa-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; box-sizing: border-box;
+  width: 18px; height: 18px; margin-top: -7px; border-radius: 50%;
+  border: 1px solid rgba(15, 23, 42, .14); background: #fff; box-shadow: 0 1px 3px rgba(15, 23, 42, .22);
+  transition: box-shadow .15s ease;
+}
+.ai-page.billing-page .pa-fees .pa-slider input[type="range"]:is(:hover, :focus-visible)::-webkit-slider-thumb {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, .22), 0 0 0 5px rgba(46, 133, 255, .16);
+}
+.ai-page.billing-page .pa-fees .pa-slider input[type="range"]::-moz-range-track { height: 4px; border-radius: 99px; background: rgb(226, 232, 240); }
+.ai-page.billing-page .pa-fees .pa-slider input[type="range"]::-moz-range-progress { height: 4px; border-radius: 99px; background: rgb(46, 133, 255); }
+.ai-page.billing-page .pa-fees .pa-slider input[type="range"]::-moz-range-thumb {
+  box-sizing: border-box; width: 18px; height: 18px; border-radius: 50%;
+  border: 1px solid rgba(15, 23, 42, .14); background: #fff; box-shadow: 0 1px 3px rgba(15, 23, 42, .22);
+  transition: box-shadow .15s ease;
+}
+.ai-page.billing-page .pa-fees .pa-slider input[type="range"]:is(:hover, :focus-visible)::-moz-range-thumb {
+  box-shadow: 0 1px 3px rgba(15, 23, 42, .22), 0 0 0 5px rgba(46, 133, 255, .16);
+}
+
+/* The card fee: a small boxed field and its % on the right of its label, the cap under it. */
+.ai-page.billing-page .pa-fees .pa-fee .pa-slider-top { align-items: center; }
+.ai-page.billing-page .pa-fees .pa-fee-box {
+  display: inline-flex; align-items: center; gap: 2px; height: 34px; padding: 0 10px;
+  border: 1px solid rgb(226, 232, 240); border-radius: 9px; background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.ai-page.billing-page .pa-fees .pa-fee-box:focus-within { border-color: rgb(46, 133, 255); box-shadow: 0 0 0 4px rgba(46, 133, 255, .14); }
+.ai-page.billing-page .pa-fees .pa-fee-box input {
+  width: 3.4ch; margin: 0; padding: 0; border: 0; outline: 0; background: transparent;
+  font: inherit; font-size: 15px; font-weight: 600; color: rgb(15, 23, 42); text-align: right; font-variant-numeric: tabular-nums;
+}
+.ai-page.billing-page .pa-fees .pa-fee-suffix { font-size: 15px; font-weight: 600; color: rgb(100, 116, 139); }
+.ai-page.billing-page .pa-fees .pa-fee-hint { margin: 6px 0 0; text-align: right; font-size: 12.5px; line-height: 1.4; color: rgb(148, 163, 184); }
+.ai-page.billing-page .pa-fees .pa-fee-hint.is-capped { color: rgb(217, 119, 6); }
+
+/* The breakdown: hairline rows, "You keep" last in green. */
+.ai-page.billing-page .pa-fees .pa-calc-rows { margin: 28px 0 0; border-top: 1px solid rgb(226, 232, 240); }
+.ai-page.billing-page .pa-fees .pa-calc-rows > div {
+  padding: 12px 0; border-top: 0; border-bottom: 1px solid rgb(241, 245, 249); border-radius: 0; background: none;
+  font-variant-numeric: tabular-nums;
+}
+.ai-page.billing-page .pa-fees .pa-calc-rows > div.is-keep { margin-top: 0; border-bottom: 0; background: none; font-weight: 400; color: #334155; }
+.ai-page.billing-page .pa-fees .pa-calc-rows > div.is-keep dt { font-weight: 600; color: rgb(15, 23, 42); }
+.ai-page.billing-page .pa-fees .pa-calc-rows > div.is-keep dd { font-weight: 700; color: rgb(22, 163, 74); }
+
+/* The result: dark, a blue wash from its top-right corner, the fine print pinned to its foot. */
+.ai-page.billing-page .pa-fees .pa-dark-card {
+  padding: 40px; border-radius: 0;
+  background: radial-gradient(120% 90% at 100% 0%, rgba(46, 133, 255, .16), rgba(46, 133, 255, 0) 60%), rgb(17, 19, 24);
+}
+.ai-page.billing-page .pa-fees .pa-dark-card .pa-card-label { color: rgb(148, 163, 184); }
+.ai-page.billing-page .pa-fees .pa-big { margin: 20px 0 0; font-size: 68px; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.ai-page.billing-page .pa-fees .pa-big span { letter-spacing: normal; }
+.ai-page.billing-page .pa-fees .pa-big-note { max-width: 30ch; margin: 18px 0 28px; font-size: 16px; line-height: 1.55; color: rgb(203, 213, 225); }
+.ai-page.billing-page .pa-fees .pa-fine { margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .08); font-size: 12.5px; color: rgb(100, 116, 139); }
+
+@media (min-width: 1024px) {
+  .ai-page.billing-page .pa-fees .pa-pair { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); }
+}
+@media (max-width: 1023.98px) {
+  .ai-page.billing-page .pa-fees .pa-calc,
+  .ai-page.billing-page .pa-fees .pa-dark-card { padding: 28px; }
+  .ai-page.billing-page .pa-fees .pa-big { font-size: clamp(44px, 12vw, 64px); }
+}
 
 /* ---------- D. Beyond the monthly rate ---------- */
 .ai-page.billing-page .pa-h3 { margin: 8px 0 0; font-size: 18px; font-weight: 600; line-height: 1.35; color: #0f172a; }
@@ -222,7 +324,6 @@
   .ai-page.billing-page .pa-sub { font-size: 16px; }
   /* Every section head centred; reading content stays left. */
   .ai-page.billing-page .pa-head { text-align: center; }
-  .ai-page.billing-page .pa-choose { text-align: center; }
   .ai-page.billing-page :is(.pa-split, .pa-money, .pa-pair) { grid-template-columns: minmax(0, 1fr); }
   .ai-page.billing-page .pa-split { gap: 40px; }
   .ai-page.billing-page .pa-split--mirror .pa-visual { order: 0; } /* copy first, then the card */
@@ -250,7 +351,32 @@
   .ai-page.billing-page .pa-close-row .pa-text-link { align-self: center; padding: 6px 10px; }
 }
 
+/* ---------- A and C on tablets and phones (after the shared layouts above, which they adjust) ---------- */
+/* A, 768–1023px: still two columns, centred on each other; the control the card's width. */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .ai-page.billing-page .pa-collect .pa-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+  .ai-page.billing-page .pa-collect .pa-h2 { font-size: 26px; }
+  .ai-page.billing-page .pa-collect .pa-options { display: flex; width: 100%; }
+  .ai-page.billing-page .pa-collect .pa-option { flex: 1 1 auto; padding: 7px 6px; font-size: 13.5px; }
+}
+/* Below 768px: one column, the copy (centred head), then the control centred over the card. C stacks:
+   the inputs over the result. */
+@media (max-width: 767.98px) {
+  .ai-page.billing-page .pa-collect .pa-split { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .ai-page.billing-page .pa-collect .pa-head { text-align: center; }
+  .ai-page.billing-page .pa-collect .pa-h2 { font-size: clamp(26px, 5vw, 32px); }
+  .ai-page.billing-page .pa-collect .pa-options { display: flex; margin-inline: auto; }
+  .ai-page.billing-page .pa-fees .pa-pair { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}
+@media (max-width: 480px) {
+  .ai-page.billing-page .pa-collect .pa-options { width: 100%; }
+  .ai-page.billing-page .pa-collect .pa-option { flex: 1 1 auto; padding: 7px 6px; font-size: 13.5px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ai-page.billing-page .pa-visual > .pa-product[id]:not([hidden]) { animation: none; }
-  .ai-page.billing-page .pa-option { transition: none; }
+  .ai-page.billing-page .pa-collect .pa-option,
+  .ai-page.billing-page .pa-fees .pa-fee-box,
+  .ai-page.billing-page .pa-fees .pa-slider input[type="range"]::-webkit-slider-thumb,
+  .ai-page.billing-page .pa-fees .pa-slider input[type="range"]::-moz-range-thumb { transition: none; }
 }

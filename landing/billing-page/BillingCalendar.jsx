@@ -1,9 +1,11 @@
 import React, { memo, useEffect, useRef } from 'react';
 
 // /pool-service-billing's hero picture: a billing screen for one example month at Bayside Pool Co. The
-// stat cards, the collection bar, a dot calendar (a dot per customer on their own billing day, the 1st
-// to the 28th, "today" the 19th) and this morning's run, with the payout card over its bottom-right
-// corner. Styles: billing-page.css (.bc-panel, .bh-*). All of it is an example, not real data, and no
+// stat cards, the invoices-sent bar, a dot calendar (a dot per customer on their own billing day, the 1st
+// to the 28th, "today" the 19th) and its legend, and this morning's run, with the payout card (drawn as
+// a toast) over its bottom-right corner. The figures agree: 302 customers, 202 billed through the 19th
+// (194 emailed + 8 mailed), 191 of them paid on autopay (95%), 202 of 302 sent (66.9% of the bar: green
+// for days 1 to 18, its blue end today's). Styles: billing-page.css (.bc-panel, .bh-*). All of it is an example, not real data, and no
 // month or date is named. Its figures are this file's own.
 //
 // The markup is the finished picture: it's what the pre-rendered page shows, with JavaScript off, and
@@ -21,20 +23,20 @@ const TODAY = 19;
 const FOLLOWED = { 10: [3], 12: [1, 7], 14: [2], 15: [9], 16: [4, 11], 17: [0], 18: [5] };
 
 const STATS = [
-  { dot: 'blue', label: 'Invoiced this month', to: 36912, money: true },
-  { dot: 'white', label: 'Emailed automatically', to: 211 },
-  { dot: 'white', label: 'Mailed automatically', to: 8 },
-  { dot: 'slate', label: 'Paid on autopay', to: 191, share: '87%' },
+  { label: 'Invoiced this month', to: 36912, money: true },
+  { label: 'Emailed automatically', to: 194 },
+  { label: 'Mailed automatically', to: 8 },
+  { label: 'Paid on autopay', to: 191, share: '95%' },
 ];
-const BILLED = 36912;
-const COLLECTED = 33959;
+const CUSTOMERS = DOTS.reduce((a, n) => a + n, 0); // 302
+const SENT = DOTS.slice(0, TODAY).reduce((a, n) => a + n, 0); // 202, through today
 
 const RUN = [
-  { name: 'Lakeshore HOA', amount: '$1,470.00' },
-  { name: 'Dana Whitfield', amount: '$145.00' },
-  { name: 'Avery Collins', amount: '$320.00' },
+  { name: 'Lakeshore HOA', amount: '$1,470.00', paid: true },
+  { name: 'Dana Whitfield', amount: '$145.00', paid: true },
+  { name: 'Avery Collins', amount: '$320.00', paid: true },
   { name: 'Derek Holloway', amount: '$145.00', note: 'Card expired. Retried and emailed.' },
-  { name: 'Priya Raman', amount: '$170.00', note: '10 days overdue. Late fee added.' },
+  { name: 'Mark Sullivan', amount: '$170.00', note: '10 days overdue. Late fee added.' },
 ];
 
 // The animation's timing, in ms from its start.
@@ -91,10 +93,11 @@ function usePlayOnce(panelRef, payoutRef) {
         const t = performance.now() - t0;
         const share = Math.min(1, shareAt(t));
         counts.forEach((el) => { el.textContent = fmt(el, Math.round(Number(el.dataset.to) * share)); });
-        bar.style.transform = `scaleX(${share})`; // the bar grows with them, to its 92%
+        bar.style.transform = `scaleX(${share})`; // the bar grows with them, as one piece, to its 66.9% (CSS)
         if (t < FILL_MS) raf = requestAnimationFrame(step);
         else {
-          counts.forEach((el) => { el.textContent = fmt(el, Number(el.dataset.to)); });
+          // Finished: the numbers at their own width again (no gap after one if its font came in late).
+          counts.forEach((el) => { el.textContent = fmt(el, Number(el.dataset.to)); el.style.minWidth = ''; });
           bar.style.transform = 'none';
         }
       };
@@ -145,7 +148,7 @@ function BillingCalendar() {
             <div className="bh-stats">
               {STATS.map((s) => (
                 <div key={s.label} className="bh-stat">
-                  <span className="bh-stat-label"><i className={`bh-key bh-key--${s.dot}`} />{s.label}</span>
+                  <span className="bh-stat-label">{s.label}</span>
                   <span className="bh-stat-value">
                     <span className="bh-count" data-to={s.to} data-money={s.money ? '1' : undefined}>
                       {s.money ? usd(s.to) : s.to}
@@ -157,24 +160,15 @@ function BillingCalendar() {
             </div>
 
             <div className="bh-chart">
-              <div className="bh-caption">
-                <span>One dot per customer, on their own billing day</span>
-                <span className="bh-legend">
-                  <span><i className="bh-dot is-paid" />Paid</span>
-                  <span><i className="bh-dot is-followed" />Followed up for you</span>
-                  <span><i className="bh-dot is-later" />Scheduled</span>
-                </span>
-              </div>
-
               <div className="bh-collect">
-                <div className="bh-track"><div className="bh-fill" /></div>
                 <div className="bh-collect-text">
                   <span>
-                    <strong><span className="bh-count" data-to={COLLECTED} data-money="1">{usd(COLLECTED)}</span></strong>
-                    {' '}collected of {usd(BILLED)}
+                    <strong><span className="bh-count" data-to={SENT}>{SENT}</span></strong>
+                    {' '}of {CUSTOMERS} invoices sent
                   </span>
-                  <strong>92%</strong>
+                  <strong>{Math.round((SENT / CUSTOMERS) * 100)}%</strong>
                 </div>
+                <div className="bh-track"><div className="bh-fill" /></div>
               </div>
 
               <div className="bh-days">
@@ -190,6 +184,15 @@ function BillingCalendar() {
                   );
                 })}
               </div>
+
+              <div className="bh-caption">
+                <span className="bh-legend">
+                  <span><i className="bh-dot is-paid" />Paid</span>
+                  <span><i className="bh-dot is-followed" />Followed up for you</span>
+                  <span><i className="bh-dot is-today" />Billing today</span>
+                  <span><i className="bh-dot is-later" />Scheduled to send</span>
+                </span>
+              </div>
             </div>
           </div>
 
@@ -197,8 +200,7 @@ function BillingCalendar() {
             <p className="bh-run-head">This morning’s run</p>
             <ul className="bh-rows">
               {RUN.map((r, i) => (
-                <li key={r.name} className="bh-row" style={{ '--i': i }}>
-                  <i className={`bh-dot ${r.note ? 'is-followed' : 'is-paid'}`} />
+                <li key={r.name} className={`bh-row${r.paid ? ' is-paid' : ''}`} style={{ '--i': i }}>
                   <span className="bh-row-name">{r.name}</span>
                   <span className="bh-row-amount">{r.amount}</span>
                   {r.note && <span className="bh-row-note">{r.note}</span>}

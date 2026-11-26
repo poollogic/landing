@@ -826,7 +826,7 @@
     overflow: clip; /* the dashboard's right side and the rays' layer end at the hero's edges */
     background-image:
       radial-gradient(42% 60% at 80% 54%, rgba(59, 130, 246, .20), rgba(0, 0, 0, 0) 72%),
-      linear-gradient(rgb(20, 26, 38), rgb(17, 19, 24) 60%);
+      linear-gradient(#111318 0, #111318 64px, rgb(20, 26, 38) 32%, #111318 72%); /* flat #111318 for the top 64px: the theme-color, so the status bar meets it with no band */
   }
   .hero--home .hero-decor { transform: scaleX(-1.35); transform-origin: 42.55% 50%; }
   /* Softer rays, with the softness in the rays themselves instead of a live blur on moving layers:

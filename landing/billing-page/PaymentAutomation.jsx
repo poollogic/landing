@@ -79,7 +79,7 @@ function ProductCard({ label, title, pill, steps, ...rest }) {
 const PAY_OPTIONS = [
   {
     id: 'autopay',
-    label: 'Charge the card on file',
+    label: 'Autopay',
     card: {
       title: 'Autopay',
       pill: `Paid · ${cents(RATE * 100)}`,
@@ -93,7 +93,7 @@ const PAY_OPTIONS = [
   },
   {
     id: 'pay-button',
-    label: 'A Pay button in the emailed invoice',
+    label: 'One-tap payment',
     card: {
       title: 'One-tap payment',
       pill: `Paid · ${cents(RATE * 100)}`,
@@ -107,7 +107,7 @@ const PAY_OPTIONS = [
   },
   {
     id: 'mailed',
-    label: 'Printed and mailed for you',
+    label: 'Mailed invoices',
     card: {
       title: 'Mailed invoices',
       pill: 'Mailed',
@@ -120,10 +120,11 @@ const PAY_OPTIONS = [
   },
 ];
 
+// A's options are a compact segmented control above the card (.pa-collect, payment-automation.css), each
+// named as its card is titled; still a radio group: one is chosen, and choosing one shows its card.
 export function HowCustomersPay() {
   const [sel, setSel] = useState(0);
   const refs = useRef([]);
-  const labelId = useId();
   // A radio group: arrows move the choice (and focus) round the three, Home and End jump.
   const onKey = (e, i) => {
     const n = PAY_OPTIONS.length;
@@ -135,7 +136,7 @@ export function HowCustomersPay() {
     refs.current[next]?.focus();
   };
   return (
-    <section className="pa-section pa-white" aria-labelledby="pa-pay-title">
+    <section className="pa-section pa-white pa-collect" aria-labelledby="pa-pay-title">
       <div className="container">
         <div className="pa-inner">
           <div className="pa-split">
@@ -145,10 +146,11 @@ export function HowCustomersPay() {
                 eyebrow="Payment automation"
                 a="You’re on the route at 8:30."
                 b="Your payments collect themselves."
-                sub="Built for pool service companies. Set a customer up once and Poolnautics bills them, collects, and sends the receipt."
+                sub="Every customer pays the way that suits them. Poolnautics charges, collects, and sends the receipt."
               />
-              <p className="pa-choose" id={labelId}>How customers pay <span className="pa-choose-hint">Tap one</span></p>
-              <div className="pa-options" role="radiogroup" aria-labelledby={labelId}>
+            </div>
+            <div className="pa-visual">
+              <div className="pa-options" role="radiogroup" aria-label="How customers pay">
                 {PAY_OPTIONS.map((o, i) => (
                   <button
                     key={o.id}
@@ -162,13 +164,10 @@ export function HowCustomersPay() {
                     onClick={() => setSel(i)}
                     onKeyDown={(e) => onKey(e, i)}
                   >
-                    <span className="pa-radio" aria-hidden="true" />
                     {o.label}
                   </button>
                 ))}
               </div>
-            </div>
-            <div className="pa-visual">
               {PAY_OPTIONS.map((o, i) => (
                 <ProductCard
                   key={o.id}
@@ -230,11 +229,18 @@ export function FailedPayments() {
 
 /* ---------- C. Card fees ---------- */
 
-const FEE_PCT = 2.9;
+const FEE_DEFAULT = 2.9;
+const FEE_MAX = 3; // the highest card fee a company can pass on
+/** The typed fee as a number (a comma or a dot for the decimal), or NaN. */
+const parseFee = (text) => (/^\s*\d*([.,]\d*)?\s*$/.test(text) && /\d/.test(text) ? Number(text.trim().replace(',', '.')) : NaN);
+/** "2.9", "3", "2.75": the rate as the page writes it. */
+const showFee = (n) => String(Math.round(n * 100) / 100);
 
-/** A labelled slider, its current value at the right of its label, and the value read out as text. */
+/** A labelled slider, its current value at the right of its label, and the value read out as text. Its
+    track fills to the handle (--p: how far along it is, payment-automation.css). */
 function Slider({ label, value, min, max, step, onChange, show }) {
   const id = useId();
+  const fill = { '--p': `${((value - min) / (max - min)) * 100}%` };
   return (
     <div className="pa-slider">
       <div className="pa-slider-top">
@@ -249,8 +255,41 @@ function Slider({ label, value, min, max, step, onChange, show }) {
         step={step}
         value={value}
         aria-valuetext={show(value)}
+        style={fill}
         onChange={(e) => onChange(Number(e.target.value))}
       />
+    </div>
+  );
+}
+
+/** The card fee to pass on, typed: up to 3%. Above that it counts as 3% (and says so) until the field is
+    left, when it's written back as 3; left empty or not a number, it goes back to 2.9. */
+function FeeInput({ text, onText }) {
+  const id = useId();
+  const hintId = useId();
+  const typed = parseFee(text);
+  const over = typed > FEE_MAX;
+  const commit = () => onText(Number.isNaN(typed) ? showFee(FEE_DEFAULT) : showFee(Math.min(Math.max(typed, 0), FEE_MAX)));
+  return (
+    <div className="pa-slider pa-fee">
+      <div className="pa-slider-top">
+        <label htmlFor={id}>Card fee you pass on</label>
+        <span className="pa-fee-box">
+          <input
+            id={id}
+            type="text"
+            inputMode="decimal"
+            autoComplete="off"
+            value={text}
+            aria-describedby={hintId}
+            onChange={(e) => onText(e.target.value)}
+            onBlur={commit}
+            onKeyDown={(e) => { if (e.key === 'Enter') commit(); }}
+          />
+          <span className="pa-fee-suffix" aria-hidden="true">%</span>
+        </span>
+      </div>
+      <p id={hintId} className={`pa-fee-hint${over ? ' is-capped' : ''}`} aria-live="polite">{over ? `Capped at ${FEE_MAX}%` : `Up to ${FEE_MAX}%`}</p>
     </div>
   );
 }
@@ -258,12 +297,17 @@ function Slider({ label, value, min, max, step, onChange, show }) {
 export function CardFees() {
   const [customers, setCustomers] = useState(200);
   const [bill, setBill] = useState(RATE);
+  const [feeText, setFeeText] = useState(showFee(FEE_DEFAULT));
+  // The rate used: what's typed, between 0 and 3% (2.9% while it isn't a number yet).
+  const typed = parseFee(feeText);
+  const rate = Number.isNaN(typed) ? FEE_DEFAULT : Math.min(Math.max(typed, 0), FEE_MAX);
+  const pct = showFee(rate);
   // In whole cents and dollars, so $145 × 2.9% is $4.21 (4.205 rounds up) and 200 of them $841.
-  const feeCents = Math.round((bill * 100 * FEE_PCT) / 100);
-  const monthly = Math.round((customers * bill * FEE_PCT) / 100);
+  const feeCents = Math.round((bill * 100 * rate) / 100);
+  const monthly = Math.round((customers * bill * rate) / 100);
   const yearly = monthly * 12;
   return (
-    <section className="pa-section pa-white" aria-labelledby="pa-fees-title">
+    <section className="pa-section pa-white pa-fees" aria-labelledby="pa-fees-title">
       <div className="container">
         <div className="pa-inner">
           <Head
@@ -279,16 +323,17 @@ export function CardFees() {
               <p className="pa-card-label">Try your numbers</p>
               <Slider label="Customers paying by card" value={customers} min={25} max={1000} step={25} onChange={setCustomers} show={(v) => fmt.format(v)} />
               <Slider label="Average monthly bill" value={bill} min={80} max={300} step={5} onChange={setBill} show={(v) => money(v)} />
+              <FeeInput text={feeText} onText={setFeeText} />
               <dl className="pa-calc-rows">
                 <div><dt>One invoice</dt><dd>{cents(bill * 100)}</dd></div>
-                <div><dt>Card fee, {FEE_PCT}%</dt><dd>+ {cents(feeCents)}</dd></div>
+                <div><dt>Card fee, {pct}%</dt><dd>+ {cents(feeCents)}</dd></div>
                 <div className="is-keep"><dt>You keep</dt><dd>{cents(bill * 100)}</dd></div>
               </dl>
             </div>
             <div className="pa-dark-card">
               <p className="pa-card-label">Card fees you stop paying</p>
               <p className="pa-big">{money(monthly)}<span> a month</span></p>
-              <p className="pa-big-note">That’s {money(yearly)} a year that stays with you, at a {FEE_PCT}% card fee.</p>
+              <p className="pa-big-note">That’s {money(yearly)} a year that stays with you, at a {pct}% card fee.</p>
               <p className="pa-fine">Example figures. Surcharging is available where state law allows.</p>
             </div>
           </div>
@@ -421,6 +466,8 @@ export function QuickBooksSync() {
 
 /* ---------- F. Closing call to action (dark, after the FAQ) ---------- */
 
+const CLOSE_TICKS = ['Free for 30 days', 'No credit card', 'Included in every plan'];
+
 export function ClosingCta() {
   const theme = usePreviewTheme();
   return (
@@ -433,7 +480,17 @@ export function ClosingCta() {
             <PrimaryCta theme={theme} />
             <a href="/pricing" className="pa-text-link">See pricing</a>
           </div>
-          <p className="pa-close-fine">Free for 30 days · No credit card</p>
+          {/* The offer: three ticks on one centred row (billing-page.css, .bp-hero-ticks: it was under the hero's buttons). */}
+          <ul className="bp-hero-ticks">
+            {CLOSE_TICKS.map((t) => (
+              <li key={t}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12.5l4.5 4.5L19 7.5" />
+                </svg>
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

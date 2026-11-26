@@ -59,8 +59,8 @@ const ROUTES = [
   { path: '/technician-terms', html: 'technician-terms.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   { path: '/delete-account', html: 'delete-account.html', strictStatic: true, hero: 'main header', stable: ['h1'] },
   // Recurring billing (pages/billing.jsx): pre-rendered, the AI page's hero as one centred column (its
-  // billing calendar is .bc-panel). Its page, breadcrumbs and FAQ are structured data.
-  { path: '/pool-service-billing', html: 'pool-service-billing.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.bp-hero-ticks', '.bc-panel', '.bh-payout'] },
+  // billing calendar is .bc-panel, its payout card .bh-payout). Its page, breadcrumbs and FAQ are structured data.
+  { path: '/pool-service-billing', html: 'pool-service-billing.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.bc-panel', '.bh-payout'] },
   { path: '/pool-route-software', html: 'pool-route-software.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.rb-panel'] },
   // Mileage tracking (pages/mileage-tracking.jsx): pre-rendered, the AI page's light hero with its route card.
   { path: '/pool-service-mileage-tracking', html: 'pool-service-mileage-tracking.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList'], stable: ['.hero-title', '.hero-sub', '.fp-hero-cta', '.fp-notes', '.mtk-route'] },

@@ -1,5 +1,7 @@
 import React from 'react';
 import { F, TimelineSection } from '../DayTimeline.jsx';
+import { PrimaryCta } from '../ai/shared.jsx';
+import { usePreviewTheme } from '../preview/previewTheme.js';
 
 // /pool-service-billing's late invoices: every email and notice that follows when the invoice above
 // (Dana's, $145, Net 15, due May 20) isn't paid, as the homepage's scroll-lit timeline
@@ -47,6 +49,7 @@ const LATE = [
 ];
 
 export default function LateInvoices() {
+  const theme = usePreviewTheme();
   return (
     <TimelineSection
       id="late-invoices"
@@ -58,6 +61,11 @@ export default function LateInvoices() {
       entries={LATE}
     >
       <p className="bp-late-close dt-reveal">Five emails before a pause. At least five days apart, never two on the same day.</p>
+      {/* The trial, halfway down the page: the hero's button (its label and link), its own width at every size. */}
+      <div className="bp-late-cta">
+        <PrimaryCta theme={theme} />
+        <p className="bp-late-cta-fine">Free for 30 days. No credit card.</p>
+      </div>
     </TimelineSection>
   );
 }
