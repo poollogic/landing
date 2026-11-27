@@ -16,11 +16,16 @@ import { structuredData as switchSoftwareData } from './pages/switch-software.js
 import { structuredData as techAppData, appBanner } from './pages/tech-app.jsx';
 import { homeFirstPaintScript } from './landing/firstPaint.js';
 import { FAQS } from './landing/FaqSection.jsx';
+import { QUESTIONS, questionAnswerText } from './landing/QuestionsSection.jsx';
 
+// The homepage's one FAQPage: "Before you choose" (#questions) first, in page order, then the FAQ at the foot.
 const homeFaq = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: FAQS.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  mainEntity: [
+    ...QUESTIONS.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: questionAnswerText(f) } })),
+    ...FAQS.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  ],
 };
 
 // Pre-rendering: the build renders these routes to real HTML (scripts/prerender.mjs), so search

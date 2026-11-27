@@ -1,0 +1,32 @@
+/* "Before you choose" (#questions, QuestionsSection.jsx), the owner's spec of 2026-11-27. The eyebrow,
+   title and subhead are the site's shared .section-* styles (landing.css; sizes from home-roles.css).
+   #475569 is --subhead-on-light; #0f172a (the white sections' heading colour) and the #e6eaf0 hairlines
+   have no token. Sides: the spec's 24px, and the site's --gutter from 768px so the edges line up with
+   the other sections. Every rule is scoped to .lp-home so the marketing resets (.mktg :where(p, h3, ol))
+   can't win. */
+.lp-home .qa-section { background: #fff; padding: 104px 24px; }
+@media (min-width: 768px) {
+  .lp-home .qa-section { padding-left: var(--gutter); padding-right: var(--gutter); }
+}
+.lp-home .qa-inner { max-width: 880px; margin: 0 auto; }
+.lp-home .qa-head { text-align: center; }
+.lp-home .qa-head .section-title { color: #0f172a; }
+.lp-home .qa-head .section-sub { margin-left: auto; margin-right: auto; }
+.lp-home .qa-list { list-style: none; margin: 48px 0 0; padding: 0; border-top: 1px solid #e6eaf0; }
+.lp-home .qa-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+  column-gap: 48px;
+  padding: 28px 0;
+  border-bottom: 1px solid #e6eaf0;
+}
+.lp-home .qa-q { margin: 0; font-size: 18px; line-height: 26px; font-weight: 600; letter-spacing: -0.01em; color: #0f172a; text-wrap: balance; }
+.lp-home .qa-a { margin: 0; font-size: 15.5px; line-height: 25px; color: var(--subhead-on-light); text-wrap: pretty; }
+.lp-home .qa-lead { color: #0f172a; font-weight: 600; }
+
+@media (max-width: 720px) {
+  .lp-home .qa-section { padding: 72px 20px; }
+  .lp-home .qa-list { margin-top: 32px; }
+  .lp-home .qa-item { grid-template-columns: 1fr; row-gap: 6px; padding: 20px 0; }
+  .lp-home .qa-q { font-size: 17px; line-height: 24px; }
+}
