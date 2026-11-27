@@ -114,3 +114,21 @@
   .lp-home :is(#day .dt-sub, #reserve .hero-sub) { margin-top: 16px; }
   .lp-home :is(#day .dt-sub, :is(#billing, #collections, #technicians, #repairs, #fleet, #reviews, #switching, #routes) .section-head--center .section-sub) { max-width: 672px; }
 }
+
+/* ---------- Drawing only what's near the screen ----------
+   Every section under the hero (about 4,500 of the page's 5,000 elements) is laid out and painted only
+   once it comes near the screen (content-visibility: auto). Without this the browser laid the whole
+   pre-rendered page out before its first paint, then again as the sections' own stylesheets and the
+   fonts arrived (each pass 100–300ms on a fast laptop: PageSpeed counts them as blocking time and as
+   the headline's render delay). Until a section has been drawn the browser takes it as 1000px tall
+   (1600px on phones, where they run longer); once drawn it keeps its real height (the auto keyword), and
+   BelowFold.jsx draws each one once, off screen, when the visitor first scrolls or arrives on a
+   /#section link, so jumping around the page and scrolling back up never shifts anything. Nothing
+   looks different: the sections are the same pixels either way. */
+.lp-home main > section:not(.hero) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1000px;
+}
+@media (max-width: 767.98px) {
+  .lp-home main > section:not(.hero) { contain-intrinsic-size: auto 1600px; }
+}

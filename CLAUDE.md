@@ -53,6 +53,10 @@ These apply to the homepage hero for now: `<section class="hero">`, including th
 
 To widen the guardrails to more of the site, extend `SOURCE` and `ROUTES` at the top of `scripts/seo-check.mjs`, and update this section.
 
+## Homepage sections are drawn near the screen only
+
+Every homepage section below the hero has `content-visibility: auto` (end of `landing/home-roles.css`): the browser lays out and paints it only when it comes near the screen, which keeps PageSpeed's blocking time and the headline's render delay down. Until a section has been drawn its height is a guess (1000px, 1600px on phones); `measureSections` in `landing/BelowFold.jsx` draws each one once, in idle time, after the first scroll or on a `/#section` link, so the browser keeps the real heights. Code that measures a section, or anything in it, before then gets the guess. A new homepage section is covered automatically if it's a `<section>` directly in `<main>`.
+
 ## Page gutter
 
 Every page's nav, sections and footer share one left and right edge: `--gutter` in `index.html`, `clamp(32px, 5vw, 64px)` from 768px (38px at 768, 51px at 1024, 64px from 1280). Content is 1120px wide (`--container-max`). Use `.container`, or pad a section's sides with `var(--gutter)` and cap its inner wrapper at `--container-max`. A wrapper whose max-width includes its padding must size from the token, `calc(var(--container-max) + 2 * var(--gutter))`, or the content shrinks when the gutter grows. Below 768px each page keeps its own side padding (the token's phone value is `clamp(16px, 4vw, 32px)`; some sections use a fixed 20–32px there), so put a section's phone padding in a `max-width: 767.98px` rule.

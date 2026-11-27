@@ -17,7 +17,39 @@ import FaqSection from './FaqSection.jsx';
 // The homepage below the hero, in its own chunk so the hero paints without
 // waiting for it. pages/landing.jsx starts loading it straight away.
 
+// These sections are drawn only near the screen (content-visibility, home-roles.css); until then the
+// browser guesses their height. Draws each one once, off screen, one per idle moment, so the browser
+// keeps its real height: from then on a jump (a /#section link, End, the scrollbar) lands where it should
+// and scrolling back up over a section never shifts the page. Each section is drawn for one frame
+// (visible, then auto again two frames later), which is when the browser records its size.
+function measureSections() {
+  const idle = window.requestIdleCallback
+    ? (fn) => window.requestIdleCallback(fn, { timeout: 1000 })
+    : (fn) => setTimeout(fn, 50);
+  const queue = [...document.querySelectorAll('.lp-home main > section:not(.hero)')];
+  const next = () => {
+    const el = queue.shift();
+    if (!el) return;
+    el.style.contentVisibility = 'visible';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      el.style.contentVisibility = '';
+      idle(next);
+    }));
+  };
+  idle(next);
+}
+
 export default function BelowFold() {
+  // The sections' real heights, once the visitor moves (see measureSections): on a /#section link, or
+  // the first scroll (this chunk itself may have been fetched by one). Not on load: a visitor who reads
+  // the first screen and leaves never pays for laying out the rest of the page.
+  useEffect(() => {
+    if (window.location.hash || window.scrollY > 0) { measureSections(); return undefined; }
+    const start = () => measureSections();
+    window.addEventListener('scroll', start, { once: true, passive: true });
+    return () => window.removeEventListener('scroll', start);
+  }, []);
+
   // Arriving on /#billing etc.: the target didn't exist when the browser
   // looked for it, so scroll to it once it does. A hashchange first tells the
   // billing section's scroll gate this is navigation, as it does for in-page
