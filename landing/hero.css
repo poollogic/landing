@@ -665,20 +665,31 @@
   background: #3b82f6;
   color: #fff;
 }
-/* The search field: a drawing (the dashboard is role="img"). */
+/* The search field, as the app draws it (HomeSearch.tsx, index.css --home-search-*): a 40px white field
+   (8px corners, a 12% edge, a hairline shadow) in a well 4px around it (12px corners, 2.5% fill, 6% edge),
+   24px under the top bar. A drawing: the dashboard is role="img". 12px under it rather than the app's
+   24px, so "Next billing" clears Safari's bar by 12px. */
+.hd-search-well {
+  margin: 24px 16px 12px;
+  padding: 4px;
+  border: 1px solid rgba(10, 10, 10, .06);
+  border-radius: 12px;
+  background: rgba(10, 10, 10, .025);
+}
 .hd-search {
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 44px;
-  margin: 4px 16px 16px;
+  height: 40px;
   padding: 0 12px;
-  border: 1px solid rgba(10, 10, 10, .09);
-  border-radius: 10px;
+  border: 1px solid rgba(10, 10, 10, .12);
+  border-radius: 8px;
   background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
   font-size: 16px;
   color: #a1a1aa;
 }
+.hd-search > svg { color: #71717a; }
 .hd-list { padding: 0 16px; }
 .hd-section + .hd-section { margin-top: 24px; }
 .hd-section-head {

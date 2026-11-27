@@ -115,9 +115,12 @@ export default function HeroPhoneDash() {
           </span>
         </div>
 
-        <div className="hd-search">
-          <Search size={18} strokeWidth={1.5} aria-hidden="true" />
-          <span>Search</span>
+        {/* The app's search (HomeSearch.tsx): a white field in a faint well. */}
+        <div className="hd-search-well">
+          <div className="hd-search">
+            <Search size={18} strokeWidth={1.5} aria-hidden="true" />
+            <span>Search</span>
+          </div>
         </div>
 
         <div className="hd-list">
