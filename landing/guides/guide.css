@@ -169,6 +169,14 @@
 .guide-page .gd-cta { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 22px; border-radius: 10px; background: linear-gradient(#2e85ff, #1d65f4); color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; }
 .guide-page .gd-cta svg { display: block; width: 16px; height: 16px; }
 .guide-page .gd-ghost { padding-bottom: 1px; border-bottom: 1px solid rgba(255, 255, 255, .45); color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; }
+/* From 1250px the hero's text column is at its full 587px and the three shortcut chips fit on one row in
+   Satoshi (579px). Before Satoshi loads, a machine with no Arial-like font (PageSpeed's test machine) draws
+   them wider (596px), and wrapping put the third on a second row: the hero grew 40px and the whole article
+   jumped when Satoshi arrived (CLS 0.18). Kept on one row, the stand-in runs a few pixels into the gap beside
+   the invoice instead, and nothing moves. */
+@media (min-width: 1250px) {
+  .guide-page .gd-in { flex-wrap: nowrap; }
+}
 @media (max-width: 1020px) {
   .guide-page .gd-hero { padding: 130px 0 64px; }
   .guide-page .gd-hero-grid { grid-template-columns: 1fr; gap: 44px; }
