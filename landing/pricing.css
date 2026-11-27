@@ -324,7 +324,7 @@
 .mktg.pricing-page .pr-plan-name { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .mktg.pricing-page .pr-plan-name h2 { font-size: 15.5px; font-weight: 600; line-height: 1.4; color: #fff; }
 .mktg.pricing-page .pr-plan-rec { font-size: 12px; font-weight: 600; color: var(--pr-label); }
-.mktg.pricing-page .pr-plan--featured .pr-plan-rec { color: rgb(47, 107, 242); } /* the Vision button's blue */
+.mktg.pricing-page .pr-plan--featured .pr-plan-rec { color: rgb(59, 116, 243); } /* the Vision button's blue (47, 107, 242), a shade lighter: 12px text needs 4.5:1 on the card (4.6; the button's blue is 4.2) */
 .mktg.pricing-page .pr-plan-desc { margin: 4px 0 16px; font-size: 14px; line-height: 1.5; color: rgb(152, 152, 157); }
 
 .mktg.pricing-page .pr-price { display: flex; align-items: baseline; min-height: 40px; }
