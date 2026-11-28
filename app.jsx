@@ -11,6 +11,7 @@ import { FLEET_TITLE, FLEET_DESCRIPTION } from './landing/fleet-page/fleetMeta.j
 import { GUIDE_TITLE, GUIDE_DESCRIPTION, GUIDE_OG_TITLE, GUIDE_OG_IMAGE_ALT } from './landing/guides/raisePricesMeta.js';
 import { START_GUIDE_PATH, START_GUIDE_TITLE, START_GUIDE_DESCRIPTION, START_GUIDE_OG_TITLE } from './landing/guides/startBusinessMeta.js';
 import { CHOOSE_GUIDE_PATH, CHOOSE_GUIDE_TITLE, CHOOSE_GUIDE_DESCRIPTION, CHOOSE_GUIDE_OG_TITLE } from './landing/guides/chooseSoftwareMeta.js';
+import { GUIDES_PATH, GUIDES_TITLE, GUIDES_DESCRIPTION, GUIDES_OG_TITLE } from './landing/guides/guidesMeta.js';
 import { SWITCH_PATH, SWITCH_TITLE, SWITCH_DESCRIPTION, SWITCH_OG_TITLE, SWITCH_OG_DESCRIPTION } from './landing/switch-page/switchMeta.js';
 import { PRICE_TITLE, PRICE_DESCRIPTION, PRICE_OG_TITLE, PRICE_OG_IMAGE_ALT } from './landing/price-page/priceMeta.js';
 import { shareImage } from './shareImages.js';
@@ -38,6 +39,7 @@ const PriceIncreasesPage = lazy(() => import('./pages/price-increases.jsx'));
 const GuideRaisePricesPage = lazy(() => import('./pages/guide-raise-prices.jsx'));
 const GuideStartBusinessPage = lazy(() => import('./pages/guide-start-business.jsx'));
 const GuideChooseSoftwarePage = lazy(() => import('./pages/guide-choose-software.jsx'));
+const GuidesPage = lazy(() => import('./pages/guides.jsx'));
 const SwitchSoftwarePage = lazy(() => import('./pages/switch-software.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
 // Customer reviews: only with VITE_REVIEWS=1 (landing/reviews/config.js). Off, both addresses show the
@@ -82,6 +84,7 @@ const isPricePath = (p) => p === '/pool-service-price-increases';
 const isGuideRaisePricesPath = (p) => p === '/guides/how-to-raise-prices';
 const isGuideStartBusinessPath = (p) => p === START_GUIDE_PATH;
 const isGuideChooseSoftwarePath = (p) => p === CHOOSE_GUIDE_PATH;
+const isGuidesPath = (p) => p === GUIDES_PATH;
 const isSwitchPath = (p) => p === SWITCH_PATH;
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
 const isReviewWritePath = (p) => REVIEWS_ON && (p === '/reviews/write' || p === '/reviews/write/');
@@ -268,6 +271,15 @@ export const ROUTE_META = {
     ...shareImage('guideChooseSoftware'),
     path: CHOOSE_GUIDE_PATH,
   },
+  // Pre-rendered at build time (entry-server.jsx). The guides' index, from Nov 27, 2026: its own share
+  // title (the page's title without the brand) and image (shareImages.js).
+  guides: {
+    title: GUIDES_TITLE, // landing/guides/guidesMeta.js, shared with the page's JSON-LD
+    description: GUIDES_DESCRIPTION,
+    ogTitle: GUIDES_OG_TITLE,
+    ...shareImage('guides'),
+    path: GUIDES_PATH,
+  },
   // Pre-rendered at build time (entry-server.jsx). Switching from other pool software, from Nov 25, 2026:
   // its own share title and description.
   switchSoftware: {
@@ -352,6 +364,7 @@ const App = ({ path: pathProp }) => {
     else if (isGuideRaisePricesPath(path)) meta = ROUTE_META.guideRaisePrices;
     else if (isGuideStartBusinessPath(path)) meta = ROUTE_META.guideStartBusiness;
     else if (isGuideChooseSoftwarePath(path)) meta = ROUTE_META.guideChooseSoftware;
+    else if (isGuidesPath(path)) meta = ROUTE_META.guides;
     else if (isSwitchPath(path)) meta = ROUTE_META.switchSoftware;
     else if (isReviewsPath(path)) meta = ROUTE_META.reviews;
     else if (isReviewWritePath(path)) meta = ROUTE_META.reviewWrite;
@@ -554,6 +567,17 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
           <GuideChooseSoftwarePage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // The guides' index: the guides' hero and a card per guide. Pre-rendered.
+  if (isGuidesPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
+          <GuidesPage />
         </Suspense>
       </ErrorBoundary>
     );

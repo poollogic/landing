@@ -6,3 +6,6 @@ export const CHOOSE_GUIDE_PATH = '/guides/how-to-choose-pool-service-software';
 export const CHOOSE_GUIDE_TITLE = 'How to Choose the Best Pool Service Software | Poolnautics';
 export const CHOOSE_GUIDE_DESCRIPTION = 'A buyer\'s guide to pool service software: what to compare, what it should cost, seven questions to ask every vendor, and a checklist for your trial.';
 export const CHOOSE_GUIDE_OG_TITLE = 'How to Choose the Best Pool Service Software';
+// The guide's h1 and the paragraph under it: on the page, and on its card on /guides (pages/guides.jsx).
+export const CHOOSE_GUIDE_H1 = 'How to Choose the Best Pool Service Software';
+export const CHOOSE_GUIDE_LEDE = 'There’s no single best pool software, only the best fit for how you bill, route and grow. Here’s what to compare, what it should cost, and the questions that separate a good demo from a good product.';

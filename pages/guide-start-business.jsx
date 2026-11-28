@@ -9,7 +9,7 @@ import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref } from '../landing/onboarding.js';
 import { TRIAL_DAYS } from '../aiFacts.js';
 import { Footer } from '../components/site-chrome.jsx';
-import { START_GUIDE_PATH, START_GUIDE_DESCRIPTION } from '../landing/guides/startBusinessMeta.js';
+import { START_GUIDE_PATH, START_GUIDE_DESCRIPTION, START_GUIDE_H1, START_GUIDE_LEDE } from '../landing/guides/startBusinessMeta.js';
 
 // /guides/how-to-start-a-pool-cleaning-business: the second guide, built from the owner's content
 // reference (start-pool-business-guide.html, 2026-11-27): its copy, order, links, demo numbers and
@@ -29,7 +29,7 @@ export const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'Article',
     '@id': `${PAGE_URL}#article`,
-    headline: 'How to Start a Pool Cleaning Business',
+    headline: START_GUIDE_H1,
     description: START_GUIDE_DESCRIPTION,
     url: PAGE_URL,
     mainEntityOfPage: PAGE_URL,
@@ -42,7 +42,8 @@ export const structuredData = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
-      { '@type': 'ListItem', position: 2, name: 'How to start a pool cleaning business', item: PAGE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: `${ORIGIN}/guides` },
+      { '@type': 'ListItem', position: 3, name: 'How to start a pool cleaning business', item: PAGE_URL },
     ],
   },
 ];
@@ -188,11 +189,8 @@ export default function GuideStartBusinessPage() {
             <div className="gd-hero-grid">
               <div>
                 <p className="gd-eyebrow">Guide for new pool pros</p>
-                <h1>How to Start a Pool Cleaning Business</h1>
-                <p className="gd-lede">
-                  A step-by-step plan for your first route: what it costs, what licenses and insurance you need, how to price a stop, and how
-                  to land your first 50 pools.
-                </p>
+                <h1>{START_GUIDE_H1}</h1>
+                <p className="gd-lede">{START_GUIDE_LEDE}</p>
                 <ul className="gd-in">
                   {SHORTCUTS.map(([id, label, icon]) => (
                     <li key={id}>

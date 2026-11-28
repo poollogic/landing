@@ -49,6 +49,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://getpoolnautics.com/guides</loc>
+    <lastmod>2026-11-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://getpoolnautics.com/guides/how-to-raise-prices</loc>
     <lastmod>2026-11-25</lastmod>
     <changefreq>monthly</changefreq>

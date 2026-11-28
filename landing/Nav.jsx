@@ -3,7 +3,7 @@ import { ArrowRight, ChevronDown, Menu, X } from 'lucide-react';
 import { usePreviewTheme } from './preview/previewTheme.js';
 import { ctaHref, isReserving } from './onboarding.js';
 import { Wordmark } from '../components/brand-logo.jsx';
-import FeaturesMenu, { FEATURE_GROUPS, LINKS, NEWS } from './FeaturesMenu.jsx';
+import FeaturesMenu, { FEATURE_GROUPS, ItemLabel, LINKS, NEWS } from './FeaturesMenu.jsx';
 import './nav.css';
 
 // The site header. Dark, absolutely positioned over the hero, on the homepage, /pricing and /contact;
@@ -32,8 +32,9 @@ const LINKS_MIN = 1024;
 const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHide = false }) => {
   const [open, setOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
-  // The phone and tablet menu's Features list: open each time the menu opens, its four groups closed
-  // (each opens and closes on its own: openGroups holds the open ones' indexes).
+  // The phone and tablet menu's Features list: open each time the menu opens, its four groups closed except
+  // the one holding the page you're on (each opens and closes on its own: openGroups holds the open ones'
+  // indexes).
   const [menuFeaturesOpen, setMenuFeaturesOpen] = useState(true);
   const [openGroups, setOpenGroups] = useState(() => new Set());
   const toggleGroup = (g) => setOpenGroups((prev) => {
@@ -52,7 +53,7 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
   useEffect(() => {
     if (!open) return undefined;
     setMenuFeaturesOpen(true);
-    setOpenGroups(new Set());
+    setOpenGroups(new Set(FEATURE_GROUPS.flatMap(([, links], g) => (links.some((l) => l.href === current) ? [g] : []))));
     // Escape: focus goes back to the menu button, as the Features dropdown's does to its own.
     const onKey = (e) => {
       if (e.key !== 'Escape') return;
@@ -188,10 +189,10 @@ const Nav = ({ hideCta = false, current, tone = 'dark', overlay = false, autoHid
                       >
                         <div className="menu-group-inner">
                           <div className="menu-group-links">
-                            {links.map(({ label, href, Icon }) => (
+                            {links.map(({ label, wordmark, href, Icon }) => (
                               <a key={href} href={href} className="menu-feature" aria-current={href === current ? 'page' : undefined} onClick={close}>
                                 <Icon size={16} strokeWidth={1.25} aria-hidden="true" />
-                                {label}
+                                <ItemLabel label={label} wordmark={wordmark} />
                               </a>
                             ))}
                           </div>

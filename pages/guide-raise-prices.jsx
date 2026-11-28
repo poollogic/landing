@@ -9,7 +9,7 @@ import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref } from '../landing/onboarding.js';
 import { TRIAL_DAYS } from '../aiFacts.js';
 import { Footer } from '../components/site-chrome.jsx';
-import { GUIDE_TITLE, GUIDE_DESCRIPTION } from '../landing/guides/raisePricesMeta.js';
+import { GUIDE_DESCRIPTION, GUIDE_H1, GUIDE_LEDE } from '../landing/guides/raisePricesMeta.js';
 
 // /guides/how-to-raise-prices: the first guide, a long-form article, built from the approved reference
 // (price-guide-reference.html, 2026-11-25): its copy, example numbers, layout, colours, sizes and
@@ -34,7 +34,7 @@ export const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'Article',
     '@id': `${PAGE_URL}#article`,
-    headline: 'How to Raise Prices Without Losing Customers',
+    headline: GUIDE_H1,
     description: GUIDE_DESCRIPTION,
     url: PAGE_URL,
     mainEntityOfPage: PAGE_URL,
@@ -47,7 +47,8 @@ export const structuredData = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
-      { '@type': 'ListItem', position: 2, name: 'How to raise prices', item: PAGE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: `${ORIGIN}/guides` },
+      { '@type': 'ListItem', position: 3, name: 'How to raise prices', item: PAGE_URL },
     ],
   },
 ];
@@ -289,11 +290,8 @@ export default function GuideRaisePricesPage() {
             <div className="gd-hero-grid">
               <div>
                 <p className="gd-eyebrow">Guide for service businesses</p>
-                <h1>How to Raise Prices Without Losing Customers</h1>
-                <p className="gd-lede">
-                  A step-by-step plan for pool, lawn, pest and cleaning companies: how much to raise, who goes first, what to say, and
-                  how to take the sting out with a discount that fades away.
-                </p>
+                <h1>{GUIDE_H1}</h1>
+                <p className="gd-lede">{GUIDE_LEDE}</p>
                 <ul className="gd-in">
                   {SHORTCUTS.map(([id, label, icon]) => (
                     <li key={id}>

@@ -7,3 +7,6 @@ export const GUIDE_TITLE = 'How to Raise Prices Without Losing Customers | Pooln
 export const GUIDE_DESCRIPTION = 'A step-by-step guide for service businesses. Includes a break-even calculator, a price increase letter to copy and the vanishing discount.';
 export const GUIDE_OG_TITLE = 'The math, the letter and the vanishing discount';
 export const GUIDE_OG_IMAGE_ALT = 'How to raise prices without losing customers. A free guide for service businesses. You could lose 9 customers and still bring in what you do today: 100 customers, $140 → $155 a month.';
+// The guide's h1 and the paragraph under it: on the page, and on its card on /guides (pages/guides.jsx).
+export const GUIDE_H1 = 'How to Raise Prices Without Losing Customers';
+export const GUIDE_LEDE = 'A step-by-step plan for pool, lawn, pest and cleaning companies: how much to raise, who goes first, what to say, and how to take the sting out with a discount that fades away.';

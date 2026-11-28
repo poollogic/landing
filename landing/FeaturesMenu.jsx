@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import {
-  ArrowLeftRight, ArrowRight, Bell, ChevronDown, CreditCard, Gauge, Route, Smartphone, Sparkle, TrendingUp, Truck, Wrench,
+  ArrowLeftRight, ArrowRight, Bell, BookOpen, ChevronDown, CreditCard, Gauge, Import, Route, Smartphone, Sparkle, TrendingUp, Truck, Wrench,
 } from 'lucide-react';
+import { NAME, NAME_PATH, TM_PATH } from '../components/brandName.js';
 
 // The header's links, shared by the site header (landing/Nav.jsx, styled in landing/nav.css) and
 // the preserved old homepage's (components/site-chrome.jsx, styled in components/site-nav.css).
@@ -10,25 +11,59 @@ import {
 // (Nav.jsx), each with its Lucide icon beside it. Homepage sections are rooted at / so
 // they work from every page.
 export const FEATURE_GROUPS = [
-  ['Get paid', [
+  ['Getting paid', [
     { label: 'Billing on autopilot', href: '/pool-service-billing', Icon: CreditCard },
     { label: 'Collections', href: '/#collections', Icon: Bell },
     { label: 'Price increases', href: '/pool-service-price-increases', Icon: TrendingUp },
   ]],
-  ['In the field', [
+  ['Routes & jobs', [
     { label: 'Routes & scheduling', href: '/pool-route-software', Icon: Route },
-    { label: 'Technician app', href: '/tech-app', Icon: Smartphone },
     { label: 'Repairs on autopilot', href: '/workflow', Icon: Wrench },
+    { label: 'Route transfers', href: '/#routes', Icon: ArrowLeftRight },
   ]],
-  ['Trucks & mileage', [
+  ['Technicians', [
+    { label: 'Technician app', href: '/tech-app', Icon: Smartphone },
     { label: 'Mileage tracking', href: '/pool-service-mileage-tracking', Icon: Gauge },
     { label: 'Fleet management', href: '/pool-service-fleet-management', Icon: Truck },
   ]],
   ['More', [
     { label: 'AI & automations', href: '/ai-and-automations', Icon: Sparkle },
-    { label: 'Route transfers', href: '/#routes', Icon: ArrowLeftRight },
+    // Its label is "Switching to" and the header's wordmark (ItemLabel); screen readers hear "Switching to Poolnautics".
+    { label: 'Switching to', wordmark: true, href: '/switch-pool-service-software', Icon: Import },
+    { label: 'Guides', href: '/guides', Icon: BookOpen },
   ]],
 ];
+
+// A menu item's label, in the desktop dropdown and the phone and tablet menu. "Switching to" is followed on
+// the same line by the header logo's wordmark (components/brandName.js, its name and ™), in the link's own
+// colour (currentColor, so it follows hover), 0.82em of the label's font size tall and 0.3em after the
+// words. Its box runs from the top of the "l" to the bottom of the "p", and the name's baseline is 78% of
+// the way down, so it sits 0.18em below the text's baseline to put the two baselines together. The SVG is
+// hidden from screen readers, which read the visually hidden " Poolnautics" instead. One span that never
+// wraps, so the flex row's gap doesn't come between the words and the wordmark. Its styles are inline, as
+// the old homepage's header (components/site-chrome.jsx) shares this menu without landing/nav.css, and so
+// they beat the menus' icon rules (.dd-col a svg, .menu-feature svg: 17px, grey), which would catch it too.
+const WM_BASELINE = (86.64 - NAME.y) / NAME.h; // the name's baseline, as a share of the box's height
+const SR_ONLY = { position: 'absolute', width: 1, height: 1, margin: -1, padding: 0, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap', border: 0 };
+export const ItemLabel = ({ label, wordmark }) => {
+  if (!wordmark) return label;
+  const h = 0.82;
+  return (
+    <span style={{ whiteSpace: 'nowrap' }}>
+      {label}
+      <svg
+        viewBox={`${NAME.x} ${NAME.y} ${NAME.w} ${NAME.h}`}
+        aria-hidden="true"
+        focusable="false"
+        style={{ display: 'inline-block', overflow: 'visible', color: 'inherit', opacity: 1, height: `${h}em`, width: `${((h * NAME.w) / NAME.h).toFixed(3)}em`, marginLeft: '0.3em', verticalAlign: `-${(h * (1 - WM_BASELINE)).toFixed(3)}em` }}
+      >
+        <path d={NAME_PATH} fill="currentColor" />
+        <path d={TM_PATH} fill="currentColor" />
+      </svg>
+      <span style={SR_ONLY}> Poolnautics</span>
+    </span>
+  );
+};
 // What's new: the dropdown's bottom strip, and the phone menu's card (shorter).
 export const NEWS = {
   href: '/claude',
@@ -116,11 +151,11 @@ const FeaturesMenu = ({ open, setOpen, current }) => {
               <div key={title} className="dd-col">
                 <p className="dd-lab" id={`lp-nav-dd-${g}`}>{title}</p>
                 <ul aria-labelledby={`lp-nav-dd-${g}`}>
-                  {links.map(({ label, href, Icon }) => (
+                  {links.map(({ label, wordmark, href, Icon }) => (
                     <li key={href}>
                       <a href={href} aria-current={href === current ? 'page' : undefined} onClick={() => setOpen(false)}>
                         <Icon size={17} strokeWidth={1.25} aria-hidden="true" />
-                        {label}
+                        <ItemLabel label={label} wordmark={wordmark} />
                       </a>
                     </li>
                   ))}

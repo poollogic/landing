@@ -205,6 +205,14 @@ export const SHARE_IMAGES = {
     ],
     alt: 'How to choose pool service software. A free buyer’s guide for pool companies. Software budget: about 1% of your monthly recurring billing. Seven questions to ask and a trial checklist.',
   },
+  // The guides' index (/guides, Nov 27, 2026): text only, like the legal pages'.
+  guides: {
+    file: 'guides',
+    label: 'Guides',
+    headline: 'Guides for pool service companies',
+    sub: 'Starting a pool cleaning business, choosing software and raising prices.',
+    alt: 'Poolnautics guides: guides for pool service companies. Starting a pool cleaning business, choosing software and raising prices.',
+  },
   technicianTerms: {
     file: 'technician-terms',
     label: 'Legal',

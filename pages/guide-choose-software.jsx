@@ -9,7 +9,7 @@ import { usePreviewTheme } from '../landing/preview/previewTheme.js';
 import { ctaHref } from '../landing/onboarding.js';
 import { TRIAL_DAYS } from '../aiFacts.js';
 import { Footer } from '../components/site-chrome.jsx';
-import { CHOOSE_GUIDE_PATH, CHOOSE_GUIDE_DESCRIPTION } from '../landing/guides/chooseSoftwareMeta.js';
+import { CHOOSE_GUIDE_PATH, CHOOSE_GUIDE_DESCRIPTION, CHOOSE_GUIDE_H1, CHOOSE_GUIDE_LEDE } from '../landing/guides/chooseSoftwareMeta.js';
 
 // /guides/how-to-choose-pool-service-software: the third guide, built from the owner's content reference
 // (choose-pool-software-guide.html, 2026-11-27): its copy, order, links, example numbers and component
@@ -29,7 +29,7 @@ export const structuredData = [
     '@context': 'https://schema.org',
     '@type': 'Article',
     '@id': `${PAGE_URL}#article`,
-    headline: 'How to Choose the Best Pool Service Software',
+    headline: CHOOSE_GUIDE_H1,
     description: CHOOSE_GUIDE_DESCRIPTION,
     url: PAGE_URL,
     mainEntityOfPage: PAGE_URL,
@@ -42,7 +42,8 @@ export const structuredData = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
-      { '@type': 'ListItem', position: 2, name: 'How to choose pool service software', item: PAGE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Guides', item: `${ORIGIN}/guides` },
+      { '@type': 'ListItem', position: 3, name: 'How to choose pool service software', item: PAGE_URL },
     ],
   },
 ];
@@ -189,11 +190,8 @@ export default function GuideChooseSoftwarePage() {
             <div className="gd-hero-grid">
               <div>
                 <p className="gd-eyebrow">Buyer’s guide for pool companies</p>
-                <h1>How to Choose the Best Pool Service Software</h1>
-                <p className="gd-lede">
-                  There’s no single best pool software, only the best fit for how you bill, route and grow. Here’s what to compare, what it
-                  should cost, and the questions that separate a good demo from a good product.
-                </p>
+                <h1>{CHOOSE_GUIDE_H1}</h1>
+                <p className="gd-lede">{CHOOSE_GUIDE_LEDE}</p>
                 <ul className="gd-in">
                   {SHORTCUTS.map(([id, label, icon]) => (
                     <li key={id}>

@@ -426,7 +426,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 42px;
+  min-height: 44px; /* a 44px tap target (was 42) */
   font-size: 15.5px;
   line-height: 20px;
   font-weight: 400;
@@ -656,3 +656,4 @@ html.nav-locked { overflow: hidden; }
 .is-light .nav-menu :is(a, button):focus-visible { outline-color: #2E85FF; }
 
 .nav-scrim.is-light { background: rgba(9, 9, 11, .28); }
+

@@ -193,6 +193,22 @@
 .guide-page .gd-check + p { margin-top: 36px; }
 /* A contents list of ten or more parts: room for the two-digit numbers (12px holds one digit). */
 .guide-page .gd-toc ol:has(> li:nth-child(10)) a::before { width: 19px; }
+/* /guides, the index: one card per guide, the whole card a link. The card is the switch page's No lock-in
+   card (switch-page.css .sw-lock-sec .sw-out-card: padding, corners, border, shadow, title and text), with
+   the shortcut chips' hover border (.gd-in a:hover) and the guides' ink focus ring. One column on phones,
+   two from 768px. The space around them is the article's (.gd-body). */
+.guide-page .gd-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; margin: 0; padding: 80px 0 112px; list-style: none; }
+@media (min-width: 768px) {
+  .guide-page .gd-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.guide-page .gd-card { display: block; height: 100%; padding: 28px 28px 30px; border: 1px solid #e3e8f0; border-radius: 18px; background: #fff; box-shadow: 0 18px 44px rgba(8, 12, 24, .05); text-decoration: none; transition: border-color .2s ease; }
+.guide-page .gd-card:hover { border-color: #c3ccd9; }
+.guide-page .gd-card:focus-visible { outline: 2px solid var(--gd-ink); outline-offset: 3px; }
+.guide-page .gd-card h2 { margin: 0; font-size: 17px; line-height: 1.3; font-weight: 600; color: #0e1117; }
+.guide-page .gd-card p { margin: 8px 0 0; font-size: 14.5px; line-height: 1.6; color: #475569; }
+@media (max-width: 720px) {
+  .guide-page .gd-cards { gap: 14px; padding: 40px 0 80px; }
+}
 /* From 1250px the hero's text column is at its full 587px and the three shortcut chips fit on one row in
    Satoshi (579px). Before Satoshi loads, a machine with no Arial-like font (PageSpeed's test machine) draws
    them wider (596px), and wrapping put the third on a second row: the hero grew 40px and the whole article

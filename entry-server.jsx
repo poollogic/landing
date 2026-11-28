@@ -14,6 +14,7 @@ import { structuredData as priceData } from './pages/price-increases.jsx';
 import { structuredData as guideRaisePricesData } from './pages/guide-raise-prices.jsx';
 import { structuredData as guideStartBusinessData } from './pages/guide-start-business.jsx';
 import { structuredData as guideChooseSoftwareData } from './pages/guide-choose-software.jsx';
+import { structuredData as guidesData } from './pages/guides.jsx';
 import { structuredData as switchSoftwareData } from './pages/switch-software.jsx';
 import { structuredData as techAppData, appBanner } from './pages/tech-app.jsx';
 import { homeFirstPaintScript } from './landing/firstPaint.js';
@@ -61,6 +62,7 @@ export const PRERENDERED = {
     meta: ROUTE_META.guideChooseSoftware,
     jsonLd: guideChooseSoftwareData.map((d) => (d['@type'] === 'Article' ? { ...d, image: `https://getpoolnautics.com${ROUTE_META.guideChooseSoftware.ogImage}` } : d)),
   },
+  '/guides': { meta: ROUTE_META.guides, jsonLd: guidesData },
   '/switch-pool-service-software': { meta: ROUTE_META.switchSoftware, jsonLd: switchSoftwareData },
   // The rest of the indexable pages: their own <head> and text in the served HTML, not the empty page
   // (whose head was the homepage's, canonical included, until JavaScript ran).

@@ -65,6 +65,9 @@ const ROUTES = [
   // Mileage tracking (pages/mileage-tracking.jsx): pre-rendered, the AI page's light hero with its route card.
   { path: '/pool-service-mileage-tracking', html: 'pool-service-mileage-tracking.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList'], stable: ['.hero-title', '.hero-sub', '.fp-hero-cta', '.fp-notes', '.mtk-route'] },
   // Fleet management (pages/fleet-management.jsx): pre-rendered, the mileage page's sibling, with its Fleet card.
+  // The guides' index (pages/guides.jsx): the guides' hero without a picture, then a card per guide.
+  // Its h1 is the one word "Guides" (the owner's), so it's allowed a shorter one than the check's usual 10 characters.
+  { path: '/guides', html: 'guides.html', h1Min: 5, strictStatic: true, jsonLd: ['CollectionPage', 'BreadcrumbList'], hero: 'header.gd-hero', stable: ['.gd-eyebrow', 'h1', '.gd-lede'] },
   // The first guide (pages/guide-raise-prices.jsx): pre-rendered, a light article hero (header.gd-hero).
   { path: '/guides/how-to-raise-prices', html: 'guides/how-to-raise-prices.html', strictStatic: true, jsonLd: ['Article', 'BreadcrumbList'], hero: 'header.gd-hero', stable: ['.gd-eyebrow', 'h1', '.gd-lede', '.gd-in', '.gd-vis'] },
   // The second and third guides (pages/guide-start-business.jsx, pages/guide-choose-software.jsx): the first one's template.
@@ -78,7 +81,7 @@ const ROUTES = [
   { path: '/switch-pool-service-software', html: 'switch-pool-service-software.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList', 'FAQPage'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.ai-cta-row', '.hero-fine', '.sw-hero-visual'] },
   { path: '/workflow', html: 'workflow.html', strictStatic: true, jsonLd: ['BreadcrumbList', 'FAQPage'], hero: 'section.rf-hero', stable: ['.rf-hero-eyebrow', '.rf-hero-title', '.rf-hero-sub', '.rf-hero-checks', '.rf-hero-actions', '.rf-hero-visual'] },
 ];
-const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/HeroPhoneDash.jsx', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/claude.jsx', 'landing/claude', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow', 'pages/billing.jsx', 'landing/billing-page', 'pages/route-software.jsx', 'landing/route-page', 'pages/mileage-tracking.jsx', 'landing/mileage-page', 'pages/fleet-management.jsx', 'landing/fleet-page', 'pages/price-increases.jsx', 'landing/price-page', 'pages/guide-raise-prices.jsx', 'pages/guide-start-business.jsx', 'pages/guide-choose-software.jsx', 'landing/guides', 'pages/switch-software.jsx', 'landing/switch-page', 'landing/feature-page', 'landing/AppStoreBadge.jsx']; // the heroes' own code (and the App Store badge, in /tech-app's)
+const SOURCE = ['landing/Hero.jsx', 'landing/hero.css', 'landing/HeroPhoneDash.jsx', 'landing/useHeroToastAnchor.js', 'landing/preview', 'pages/ai-integrations.jsx', 'landing/ai', 'pages/claude.jsx', 'landing/claude', 'pages/pricing.jsx', 'pages/workflow.jsx', 'landing/workflow', 'pages/billing.jsx', 'landing/billing-page', 'pages/route-software.jsx', 'landing/route-page', 'pages/mileage-tracking.jsx', 'landing/mileage-page', 'pages/fleet-management.jsx', 'landing/fleet-page', 'pages/price-increases.jsx', 'landing/price-page', 'pages/guides.jsx', 'pages/guide-raise-prices.jsx', 'pages/guide-start-business.jsx', 'pages/guide-choose-software.jsx', 'landing/guides', 'pages/switch-software.jsx', 'landing/switch-page', 'landing/feature-page', 'landing/AppStoreBadge.jsx']; // the heroes' own code (and the App Store badge, in /tech-app's)
 const IMAGE_BUDGET_KB = 150; // any image file imported by the hero code
 const STABLE_TOLERANCE_PX = 2;
 const CLS_BUDGET = 0.01; // we hold the new pages at zero; Google's "good" line is 0.1
@@ -245,7 +248,7 @@ async function browserChecks() {
         await send('Page.navigate', { url: `http://localhost:${PORT}${route.path}` });
         const t0 = Date.now();
         // Rule 1 (rendered): a visible, non-empty <h1>
-        const h1 = await waitFor(() => ev(`(() => { const h = document.querySelector('h1'); return h && h.textContent.trim().length > 10 && h.getBoundingClientRect().height > 0 ? h.textContent.trim() : null; })()`), H1_BUDGET_MS);
+        const h1 = await waitFor(() => ev(`(() => { const h = document.querySelector('h1'); return h && h.textContent.trim().length > ${route.h1Min ?? 10} && h.getBoundingClientRect().height > 0 ? h.textContent.trim() : null; })()`), H1_BUDGET_MS);
         if (!h1) fail('crawlable text', `${label}: no visible <h1> within ${H1_BUDGET_MS / 1000}s`);
         const h1Ms = Date.now() - t0;
         // Rule 3a: layout boxes (offset chain, so transforms are ignored) at first render vs. after loading

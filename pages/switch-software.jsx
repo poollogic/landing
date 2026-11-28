@@ -145,7 +145,7 @@ export default function SwitchSoftwarePage() {
   const theme = usePreviewTheme();
   return (
     <div className="mktg ai-page billing-page switch-page relative min-h-screen bg-mktg-page font-sans text-mktg-muted antialiased">
-      <Nav tone="light" overlay />
+      <Nav tone="light" overlay current={SWITCH_PATH} />
       <main>
         <div className="sw">
           {/* 1. Hero (light): the billing page's centred column, then the importer (phones: the import card). */}
