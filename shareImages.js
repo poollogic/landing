@@ -205,6 +205,34 @@ export const SHARE_IMAGES = {
     ],
     alt: 'How to choose pool service software. A free buyer’s guide for pool companies. Software budget: about 1% of your monthly recurring billing. Seven questions to ask and a trial checklist.',
   },
+  // The fourth guide (/guides/how-to-find-out-if-a-pool-tech-is-stealing-chemicals, Nov 28, 2026), laid out
+  // as the other guides': its question and the hero card's example (240 gal bought, 148 logged).
+  guideChemicals: {
+    file: 'how-to-find-out-if-a-pool-tech-is-stealing-chemicals',
+    headline: 'Is your pool tech stealing chemicals?',
+    sub: 'A free 5-step guide for pool companies.',
+    card: [
+      { k: 'Not on any report' },
+      { n: '92 gal' },
+      { sub: 'of liquid chlorine in 4 weeks.' },
+      { foot: ['240 gal bought', '148 gal logged'] },
+    ],
+    alt: 'Is your pool tech stealing chemicals? A free 5-step guide for pool companies. Not on any report: 92 gallons of liquid chlorine in 4 weeks. 240 gallons bought, 148 gallons logged.',
+  },
+  // The fifth guide (/guides/pool-stabilizer-cyanuric-acid, Nov 28, 2026), laid out as the other guides': its
+  // topic and the page's target range (Part 2).
+  guideStabilizer: {
+    file: 'pool-stabilizer-cyanuric-acid',
+    headline: 'Pool stabilizer: the right level.',
+    sub: 'How to test it, raise it and lower it.',
+    card: [
+      { k: 'Ideal for outdoor pools' },
+      { n: '40 to 50 ppm', mid: true },
+      { sub: 'of stabilizer (cyanuric acid).' },
+      { foot: ['30 is acceptable', 'Salt: 60 to 80'] },
+    ],
+    alt: 'Pool stabilizer: the right level. How to test it, raise it and lower it. Ideal for outdoor pools: 40 to 50 ppm of stabilizer (cyanuric acid). 30 is acceptable, salt pools 60 to 80.',
+  },
   // The guides' index (/guides, Nov 27, 2026): text only, like the legal pages'.
   guides: {
     file: 'guides',

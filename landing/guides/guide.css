@@ -271,3 +271,250 @@
 @media (max-width: 720px) {
   .guide-page .gd-proof-row .hero-cta { justify-content: center; width: 100%; }
 }
+
+/* ---------- The fourth guide (/guides/how-to-find-out-if-a-pool-tech-is-stealing-chemicals,
+   pages/guide-chemicals.jsx), from the owner's brief of 2026-11-28: its new pieces, as written there.
+   All on this page only: the hero's through .gd-hero--chem, the rest through the page's .guide-chem or
+   classes no other guide has. The question card's rules also take the fifth guide's .guide-stab. Where a brief rule styles a paragraph inside the article or the closing
+   card, it is raised over the article's own paragraph rules (.gd-art p, .gd-proof p), which would
+   otherwise win; the values are the brief's. Focus rings: ink on light, white on the dark card. ---------- */
+
+/* Hero */
+.gd-hero--chem { position: relative; overflow: hidden; }
+.gd-hero--chem::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(560px 380px at 78% 46%, rgba(46,133,255,.10), transparent 70%),
+    radial-gradient(420px 300px at 92% 78%, rgba(230,0,49,.07), transparent 70%); }
+.gd-hero--chem .container { position: relative; }
+.gd-hero--chem h1 { text-wrap: balance; }
+.gd-h1-soft { display: block; margin-top: 10px; font-size: .72em; line-height: 1.15; letter-spacing: -.03em; color: #7b8aa0; }
+.gd-hero--chem .gd-lede { margin-top: 22px; }
+
+/* Split bar inside the main hero card */
+.gd-vis-bar { display: flex; gap: 3px; height: 10px; margin: 18px 0 6px; }
+.gd-vis-bar i { display: block; height: 100%; }
+.gd-vis-bar .is-in  { flex: 148 1 0; border-radius: 999px 3px 3px 999px; background: linear-gradient(90deg,#2563eb,#2e85ff);
+  transform-origin: left center; animation: gdBar .9s cubic-bezier(.16,1,.3,1) .15s both; }
+.gd-vis-bar .is-gap { flex: 92 1 0; border-radius: 3px 999px 999px 3px;
+  background: repeating-linear-gradient(135deg,#e60031 0 6px,rgba(230,0,49,.35) 6px 12px);
+  animation: gdFade .5s ease .9s both; }
+.gd-hero--chem .gd-vis-card .gd-vis-r.is-total { border-top: 0; margin-top: 0; padding-top: 8px; }
+.gd-hero--chem .gd-vis-card .gd-vis-r.is-total b { color: #e60031; }
+@keyframes gdBar  { from { transform: scaleX(0); } to { transform: none; } }
+@keyframes gdFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* Small floating card: overlaps the main card, rises in, then moves in a slow small circle */
+.gd-vis-say { margin: 8px 0 4px; font-size: 21px; line-height: 1.2; font-weight: 600; letter-spacing: -.02em; color: #0f172a; }
+.gd-hero--chem .gd-vis-next { z-index: 2; transform: translate(5px,-18px); will-change: transform;
+  box-shadow: 0 1px 2px rgba(8,12,24,.06), 0 22px 48px -12px rgba(8,12,24,.22);
+  animation: gdRise .7s cubic-bezier(.16,1,.3,1) 1.1s both, gdOrbit 9s linear 1.8s infinite; }
+@keyframes gdRise  { from { opacity: 0; transform: translate(5px,-6px); } to { opacity: 1; transform: translate(5px,-18px); } }
+@keyframes gdOrbit { from { transform: translateY(-18px) rotate(0deg)   translateX(5px) rotate(0deg); }
+                     to   { transform: translateY(-18px) rotate(360deg) translateX(5px) rotate(-360deg); } }
+
+/* Scroll parallax (desktop only): the small card rises slightly as the hero scrolls.
+   --gd-sy is set on .gd-vis by script. Uses the `translate` property so it stacks with the animation's `transform`. */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .gd-hero--chem .gd-vis { --gd-sy: 0; }
+  .gd-hero--chem .gd-vis-next { translate: 0 calc(var(--gd-sy) * -0.03px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gd-vis-bar i, .gd-hero--chem .gd-vis-next { animation: none !important; }
+}
+
+/* Warning box (Step 1) */
+.gd-warn { margin: 28px 0; padding: 26px 28px; border: 1px solid #fecdd3; border-left: 5px solid #e60031; border-radius: 16px; background: #fff1f2; }
+.gd-warn-k { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #e60031; }
+.gd-warn-k svg { width: 16px; height: 16px; }
+:is(.guide-chem, .guide-stab) .gd-art p.gd-warn-h { margin: 10px 0 8px; font-size: 26px; line-height: 1.2; font-weight: 600; letter-spacing: -.02em; color: #0f172a; }
+:is(.guide-chem, .guide-stab) .gd-art .gd-warn p:last-child { margin: 0; color: #334155; }
+
+/* Poolnautics panel: optional questions */
+:is(.guide-chem, .guide-stab) .gd-art .gd-proof { margin-top: 56px; margin-bottom: 8px; }
+.gd-ask-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 36px 0 0; }
+:is(.guide-chem, .guide-stab) .gd-proof p.gd-ask-h { margin: 0; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #94a3b8; }
+.gd-ask-all { display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: none; color: #8ab8ff;
+  font-family: inherit; font-size: 13px; font-weight: 600; line-height: 1; cursor: pointer; }
+.gd-ask-all:hover { color: #fff; }
+.gd-ask-all.is-done { color: #6ee7b7; }
+.gd-ask-all svg { width: 14px; height: 14px; }
+.gd-ask { list-style: none; display: block; margin: 14px 0 0; padding: 0; overflow: hidden;
+  border: 1px solid rgba(255,255,255,.09); border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); }
+.gd-ask li { display: flex; align-items: center; gap: 20px; margin: 0; padding: 18px 18px 18px 22px;
+  border-top: 1px solid rgba(255,255,255,.07); transition: background .15s; }
+.gd-ask li:first-child { border-top: 0; }
+.gd-ask li:hover { background: rgba(255,255,255,.035); }
+.gd-ask li::before { content: none; }
+.gd-ask-main { flex: 1; min-width: 0; }
+.gd-ask-step { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #8ab8ff; }
+.gd-ask-q { display: block; font-size: 16.5px; line-height: 1.45; color: #f8fafc; text-wrap: pretty; }
+.gd-ask-var { white-space: nowrap; color: #8ab8ff; font-weight: 500; border-bottom: 1px dashed rgba(138,184,255,.55); }
+.gd-ask-copy { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 11px;
+  border: 1px solid rgba(255,255,255,.12); border-radius: 8px; background: transparent; color: #cbd5e1;
+  font-family: inherit; font-size: 12.5px; font-weight: 600; line-height: 1; cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s; }
+.gd-ask-copy:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.22); color: #fff; }
+.gd-ask-copy svg { width: 13px; height: 13px; }
+.gd-ask-copy .ic-ok, .gd-ask-all .ic-ok { display: none; }
+.gd-ask-copy.is-done { border-color: rgba(16,185,129,.5); color: #6ee7b7; }
+.is-done .ic-copy { display: none; }
+.is-done .ic-ok { display: inline; }
+:is(.guide-chem, .guide-stab) .gd-proof p.gd-ask-note { margin: 16px 0 0; font-size: 14px; line-height: 1.5; color: #94a3b8; }
+:is(.guide-chem, .guide-stab) :is(.gd-ask-copy, .gd-ask-all):focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 8px; }
+
+/* Phone and tablet */
+@media (max-width: 640px) {
+  .gd-warn { margin: 22px 0; padding: 20px 20px 20px 18px; border-radius: 14px; }
+  :is(.guide-chem, .guide-stab) .gd-art p.gd-warn-h { font-size: 22px; }
+  .gd-ask-head { flex-wrap: wrap; row-gap: 10px; }
+  .gd-ask li { align-items: flex-start; gap: 12px; padding: 16px 14px 16px 16px; }
+  .gd-ask-q { font-size: 16px; }
+  .gd-ask-copy { width: 40px; height: 40px; padding: 0; justify-content: center; border-radius: 10px; }   /* icon-only, thumb-sized */
+  .gd-ask-copy span { display: none; }
+  .gd-ask-copy svg { width: 16px; height: 16px; }
+  .gd-ask-all { min-height: 40px; }
+  :is(.guide-chem, .guide-stab) .gd-proof .gd-proof-row { row-gap: 14px; }
+}
+@media (min-width: 641px) and (max-width: 1023px) {
+  .gd-ask li { padding: 18px 20px 18px 22px; }
+  .gd-ask-copy { height: 38px; padding: 0 14px; }
+}
+/* The small card sits a little lower on this page than the brief's template spacing, which let it cover the
+   red figure: on desktop by up to 7px when its circle and the scroll lift add up, on phones by 13px at rest
+   (this card is taller than the other guides'). It still overlaps the main card's lower edge. */
+@media (min-width: 1021px) {
+  .gd-hero--chem .gd-vis { padding-bottom: 140px; }
+}
+@media (max-width: 720px) {
+  .gd-hero--chem .gd-vis { padding-bottom: 160px; }
+}
+/* The byline under the lede (this guide only): small and grey, like the eyebrow without its capitals. */
+.guide-page .gd-byline { margin: 14px 0 0; font-size: 14px; line-height: 1.5; font-weight: 500; color: var(--gd-muted); }
+
+/* ---------- The fifth guide (/guides/pool-stabilizer-cyanuric-acid, pages/guide-stabilizer.jsx), from the
+   owner's brief of 2026-11-28: its hero chart panel (.hx, landing/guides/StabilizerChart.jsx), tables, the
+   two "signs" cards, the sub-heading and the FAQ, as written there. The h1's soft line (.gd-h1-soft) and the
+   question list (.gd-ask-*, landing/guides/AskList.jsx) are the fourth guide's, above. The hero's rules go
+   through .gd-hero--stab; where a brief rule styles a heading or paragraph in the article it is raised over
+   the article's own (.gd-art h3, .gd-art p), which would otherwise win. ---------- */
+
+/* Hero */
+.gd-hero--stab { position: relative; overflow: hidden; }
+.gd-hero--stab::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(640px 440px at 82% 42%, rgba(46,133,255,.10), transparent 70%); }
+.gd-hero--stab .container { position: relative; }
+.gd-hero--stab h1 { text-wrap: balance; }
+.gd-hero--stab .gd-lede { margin-top: 22px; }
+
+/* Chart panel */
+.hx { --acc: #34d399; position: relative; width: 100%; max-width: 468px; margin-left: auto; padding: 28px 28px 22px;
+  border-radius: 24px; color: #e5e9f0; background: linear-gradient(180deg, #111827 0%, #0b0f1a 100%);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 1px 0 0 rgba(255,255,255,.08) inset,
+              0 50px 90px -40px rgba(8,12,24,.7), 0 20px 40px -24px rgba(8,12,24,.45);
+  overflow: hidden; isolation: isolate; -webkit-font-smoothing: antialiased; }
+.hx::before { content: ""; position: absolute; z-index: -1; right: -120px; top: -140px; width: 380px; height: 380px;
+  border-radius: 50%; background: radial-gradient(circle, var(--acc), transparent 65%); opacity: .16; transition: background .6s; }
+.hx::after { content: ""; position: absolute; top: 0; left: 14%; right: 14%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); }
+.hx-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hx-k { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #7c8aa3; }
+.hx-status { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; letter-spacing: .01em; color: #e5e9f0; }
+.hx-status i { width: 7px; height: 7px; border-radius: 50%; background: var(--acc);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--acc) 22%, transparent); transition: background .4s, box-shadow .4s; }
+.hx-stats { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-top: 18px; }
+.hx-num { display: flex; align-items: baseline; gap: 10px; line-height: 1; }
+.hx-num b { font-size: 72px; font-weight: 500; letter-spacing: -.05em; color: #fff; font-variant-numeric: tabular-nums; }
+.hx-num span { font-size: 15px; font-weight: 500; letter-spacing: .04em; color: #7c8aa3; }
+.hx-keep { text-align: right; line-height: 1; }
+.hx-keep b { display: block; font-size: 34px; font-weight: 500; letter-spacing: -.03em; color: #7db6ff; font-variant-numeric: tabular-nums; }
+.hx-keep span { display: block; max-width: 17ch; margin: 7px 0 0 auto; font-size: 11.5px; line-height: 1.35; color: #8a96aa; }
+.hx-say { min-height: 66px; max-width: 34ch; margin: 14px 0 0; font-size: 15px; line-height: 1.45; color: #aab4c5; }  /* fixed height: three lines, so the panel never jumps */
+.hx-plot { position: relative; margin: 22px -4px 0; }
+.hx-plot svg { display: block; width: 100%; height: auto; overflow: visible; }
+.hx-range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; z-index: 3; touch-action: pan-y; }
+.hx-grid { stroke: rgba(255,255,255,.06); stroke-width: 1; }
+.hx-ylbl { font-size: 9.5px; font-weight: 600; letter-spacing: .04em; fill: #55617a; }
+.hx-hi { fill: rgba(255,92,122,.07); }
+.hx-okband { fill: rgba(52,211,153,.035); }
+.hx-band { fill: rgba(52,211,153,.08); }
+.hx-bandline { stroke: rgba(52,211,153,.35); stroke-width: 1; stroke-dasharray: 2 4; }
+.hx-ideal { font-size: 9px; font-weight: 700; letter-spacing: .16em; fill: rgba(52,211,153,.8); }
+.hx-oklbl { font-size: 8px; font-weight: 700; letter-spacing: .14em; fill: rgba(154,215,184,.6); }
+.hx-pa { fill: url(#hxPa); }
+.hx-p { fill: none; stroke: #5aa2ff; stroke-width: 2; stroke-linecap: round; }
+.hx-pt { fill: #8fc0ff; opacity: .7; }
+.hx-base { stroke: rgba(255,255,255,.14); stroke-width: 1; }
+.hx-tick { stroke: rgba(255,255,255,.22); stroke-width: 1; }
+.hx-lbl { font-size: 10px; font-weight: 600; letter-spacing: .08em; fill: #64748b; }
+.hx-cur { stroke: rgba(255,255,255,.5); stroke-width: 1; }
+.hx-dp { fill: #0b0f1a; stroke: #5aa2ff; stroke-width: 2; }
+.hx-knob { fill: #fff; stroke: var(--acc); stroke-width: 3; filter: drop-shadow(0 2px 6px rgba(0,0,0,.5)); transition: stroke .4s; }
+.hx-move { transition: transform .8s cubic-bezier(.16,1,.3,1); }
+.hx.is-drag .hx-move { transition: none; }
+.hx-legend { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 16px; padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.07); font-size: 11.5px; color: #8a96aa; }
+.hx-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.hx-legend i { width: 14px; height: 2px; border-radius: 2px; background: #5aa2ff; }
+.hx-legend em { font-style: normal; font-size: 10.5px; letter-spacing: .04em; color: #5b677c; }
+/* The range input is invisible, so keyboard focus rings the chart instead (white on the dark panel). */
+.hx-plot:has(.hx-range:focus-visible) { outline: 2px solid #fff; outline-offset: 4px; border-radius: 8px; }
+@media (prefers-reduced-motion: reduce) { .hx-move { transition: none; } }
+@media (min-width: 641px) and (max-width: 1023px) { .hx { max-width: 560px; margin: 8px auto 0; padding: 32px 32px 26px; } }
+@media (max-width: 640px) {
+  .hx { margin: 8px auto 0; padding: 24px 22px 20px; border-radius: 20px; }
+  .hx-num b { font-size: 60px; }
+  .hx-stats { gap: 12px; }
+  .hx-keep b { font-size: 28px; }
+  .hx-keep span { max-width: 16ch; font-size: 11px; }
+  .hx-say { font-size: 14.5px; }
+  .hx-lbl { font-size: 11.5px; } .hx-ylbl { font-size: 11px; } .hx-ideal { font-size: 10px; } .hx-oklbl { font-size: 9px; }
+  .hx-legend { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+
+/* Tables */
+.guide-page .gd-table-wrap { margin: 24px 0; overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; }
+.guide-page .gd-table { width: 100%; border-collapse: collapse; font-size: 15.5px; }
+.guide-page .gd-table th { padding: 12px 18px; text-align: left; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: #64748b; background: #f8fafc; border-bottom: 1px solid #e2e8f0; white-space: nowrap; }
+.guide-page .gd-table td { padding: 13px 18px; border-bottom: 1px solid #eef2f6; color: #334155; vertical-align: top; }
+.guide-page .gd-table tr:last-child td { border-bottom: 0; }
+.guide-page .gd-table td:first-child { font-weight: 600; color: #0f172a; white-space: nowrap; }
+.guide-page .gd-table td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }   /* short numeric cells only (doses, percentages) */
+@media (min-width: 641px) {
+  .guide-page .gd-table.is-stack { table-layout: fixed; }
+  .guide-page .gd-table.is-stack th:nth-child(1) { width: 30%; }
+  .guide-page .gd-table.is-stack th:nth-child(2) { width: 28%; }
+  .guide-page .gd-table.is-stack td:first-child { white-space: normal; }
+}
+@media (max-width: 640px) {
+  .guide-page .gd-table { font-size: 14.5px; }
+  .guide-page .gd-table th, .guide-page .gd-table td { padding: 11px 12px; }
+  .guide-page .gd-table th { white-space: normal; }
+  /* The three-column level table becomes stacked cards */
+  .guide-page .gd-table.is-stack thead { display: none; }
+  .guide-page .gd-table.is-stack, .guide-page .gd-table.is-stack tbody, .guide-page .gd-table.is-stack tr, .guide-page .gd-table.is-stack td { display: block; }
+  .guide-page .gd-table.is-stack tr { padding: 14px 16px; border-bottom: 1px solid #eef2f6; }
+  .guide-page .gd-table.is-stack tr:last-child { border-bottom: 0; }
+  .guide-page .gd-table.is-stack td { padding: 0; border: 0; white-space: normal; }
+  .guide-page .gd-table.is-stack td:first-child { margin-bottom: 4px; font-size: 16px; }
+  .guide-page .gd-table.is-stack td:nth-child(2) { margin-bottom: 4px; font-weight: 600; color: #2563eb; }
+  .guide-page .gd-table.is-stack td:nth-child(3) { font-size: 14.5px; color: #64748b; }
+}
+
+/* Too low / Too high cards */
+.guide-page .gd-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+.guide-page .gd-two > div { padding: 20px 22px; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; }
+.guide-page .gd-art .gd-two h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; font-size: 16px; font-weight: 600; color: #0f172a; }
+.guide-page .gd-two h3 i { width: 9px; height: 9px; border-radius: 50%; background: #f59e0b; }
+.guide-page .gd-two .is-high h3 i { background: #e60031; }
+.guide-page .gd-two ul { margin: 0; padding: 0; list-style: none; }
+.guide-page .gd-two li { position: relative; margin: 0; padding: 6px 0 6px 16px; font-size: 15px; line-height: 1.5; color: #475569; }
+.guide-page .gd-two li::before { content: ""; position: absolute; left: 0; top: 15px; width: 5px; height: 5px; border-radius: 50%; background: #cbd5e1; }
+@media (max-width: 640px) { .guide-page .gd-two { grid-template-columns: 1fr; } }
+
+/* Sub-heading and FAQ */
+.guide-page .gd-art h3.gd-sub { margin: 34px 0 10px; font-size: 20px; font-weight: 600; letter-spacing: -.01em; color: #0f172a; }
+.guide-page .gd-art .gd-faq h3 { margin: 28px 0 6px; font-size: 18px; line-height: 1.35; font-weight: 600; color: #0f172a; }
+.guide-page .gd-art .gd-faq h3:first-of-type { margin-top: 8px; }
+.guide-page .gd-art .gd-faq p { margin: 0; }

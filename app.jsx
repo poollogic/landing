@@ -11,6 +11,8 @@ import { FLEET_TITLE, FLEET_DESCRIPTION } from './landing/fleet-page/fleetMeta.j
 import { GUIDE_TITLE, GUIDE_DESCRIPTION, GUIDE_OG_TITLE, GUIDE_OG_IMAGE_ALT } from './landing/guides/raisePricesMeta.js';
 import { START_GUIDE_PATH, START_GUIDE_TITLE, START_GUIDE_DESCRIPTION, START_GUIDE_OG_TITLE } from './landing/guides/startBusinessMeta.js';
 import { CHOOSE_GUIDE_PATH, CHOOSE_GUIDE_TITLE, CHOOSE_GUIDE_DESCRIPTION, CHOOSE_GUIDE_OG_TITLE } from './landing/guides/chooseSoftwareMeta.js';
+import { CHEM_GUIDE_PATH, CHEM_GUIDE_TITLE, CHEM_GUIDE_DESCRIPTION, CHEM_GUIDE_OG_TITLE } from './landing/guides/chemicalsMeta.js';
+import { STAB_GUIDE_PATH, STAB_GUIDE_TITLE, STAB_GUIDE_DESCRIPTION, STAB_GUIDE_OG_TITLE } from './landing/guides/stabilizerMeta.js';
 import { GUIDES_PATH, GUIDES_TITLE, GUIDES_DESCRIPTION, GUIDES_OG_TITLE } from './landing/guides/guidesMeta.js';
 import { SWITCH_PATH, SWITCH_TITLE, SWITCH_DESCRIPTION, SWITCH_OG_TITLE, SWITCH_OG_DESCRIPTION } from './landing/switch-page/switchMeta.js';
 import { PRICE_TITLE, PRICE_DESCRIPTION, PRICE_OG_TITLE, PRICE_OG_IMAGE_ALT } from './landing/price-page/priceMeta.js';
@@ -39,6 +41,8 @@ const PriceIncreasesPage = lazy(() => import('./pages/price-increases.jsx'));
 const GuideRaisePricesPage = lazy(() => import('./pages/guide-raise-prices.jsx'));
 const GuideStartBusinessPage = lazy(() => import('./pages/guide-start-business.jsx'));
 const GuideChooseSoftwarePage = lazy(() => import('./pages/guide-choose-software.jsx'));
+const GuideChemicalsPage = lazy(() => import('./pages/guide-chemicals.jsx'));
+const GuideStabilizerPage = lazy(() => import('./pages/guide-stabilizer.jsx'));
 const GuidesPage = lazy(() => import('./pages/guides.jsx'));
 const SwitchSoftwarePage = lazy(() => import('./pages/switch-software.jsx'));
 const LandingPage = lazy(() => import('./pages/landing.jsx'));
@@ -84,6 +88,8 @@ const isPricePath = (p) => p === '/pool-service-price-increases';
 const isGuideRaisePricesPath = (p) => p === '/guides/how-to-raise-prices';
 const isGuideStartBusinessPath = (p) => p === START_GUIDE_PATH;
 const isGuideChooseSoftwarePath = (p) => p === CHOOSE_GUIDE_PATH;
+const isGuideChemicalsPath = (p) => p === CHEM_GUIDE_PATH;
+const isGuideStabilizerPath = (p) => p === STAB_GUIDE_PATH;
 const isGuidesPath = (p) => p === GUIDES_PATH;
 const isSwitchPath = (p) => p === SWITCH_PATH;
 const isReviewsPath = (p) => REVIEWS_ON && (p === '/reviews' || p === '/reviews/');
@@ -271,6 +277,26 @@ export const ROUTE_META = {
     ...shareImage('guideChooseSoftware'),
     path: CHOOSE_GUIDE_PATH,
   },
+  // Pre-rendered at build time (entry-server.jsx). The fourth guide, from Nov 28, 2026: an article (og:type),
+  // its own share title (the page's title without the brand) and image (shareImages.js).
+  guideChemicals: {
+    title: CHEM_GUIDE_TITLE, // landing/guides/chemicalsMeta.js, shared with the page's Article JSON-LD
+    description: CHEM_GUIDE_DESCRIPTION,
+    ogTitle: CHEM_GUIDE_OG_TITLE,
+    ogType: 'article',
+    ...shareImage('guideChemicals'),
+    path: CHEM_GUIDE_PATH,
+  },
+  // Pre-rendered at build time (entry-server.jsx). The fifth guide, from Nov 28, 2026: an article (og:type),
+  // its own share title (the page's title without the brand) and image (shareImages.js).
+  guideStabilizer: {
+    title: STAB_GUIDE_TITLE, // landing/guides/stabilizerMeta.js, shared with the page's Article JSON-LD
+    description: STAB_GUIDE_DESCRIPTION,
+    ogTitle: STAB_GUIDE_OG_TITLE,
+    ogType: 'article',
+    ...shareImage('guideStabilizer'),
+    path: STAB_GUIDE_PATH,
+  },
   // Pre-rendered at build time (entry-server.jsx). The guides' index, from Nov 27, 2026: its own share
   // title (the page's title without the brand) and image (shareImages.js).
   guides: {
@@ -364,6 +390,8 @@ const App = ({ path: pathProp }) => {
     else if (isGuideRaisePricesPath(path)) meta = ROUTE_META.guideRaisePrices;
     else if (isGuideStartBusinessPath(path)) meta = ROUTE_META.guideStartBusiness;
     else if (isGuideChooseSoftwarePath(path)) meta = ROUTE_META.guideChooseSoftware;
+    else if (isGuideChemicalsPath(path)) meta = ROUTE_META.guideChemicals;
+    else if (isGuideStabilizerPath(path)) meta = ROUTE_META.guideStabilizer;
     else if (isGuidesPath(path)) meta = ROUTE_META.guides;
     else if (isSwitchPath(path)) meta = ROUTE_META.switchSoftware;
     else if (isReviewsPath(path)) meta = ROUTE_META.reviews;
@@ -567,6 +595,28 @@ const App = ({ path: pathProp }) => {
       <ErrorBoundary>
         <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
           <GuideChooseSoftwarePage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // The fourth guide: the first one's template. Pre-rendered.
+  if (isGuideChemicalsPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
+          <GuideChemicalsPage />
+        </Suspense>
+      </ErrorBoundary>
+    );
+  }
+
+  // The fifth guide: the first one's template, with a chart in its hero. Pre-rendered.
+  if (isGuideStabilizerPath(path)) {
+    return (
+      <ErrorBoundary>
+        <Suspense fallback={<div style={{ minHeight: '100vh', background: '#F8FAFC' }} />}>
+          <GuideStabilizerPage />
         </Suspense>
       </ErrorBoundary>
     );

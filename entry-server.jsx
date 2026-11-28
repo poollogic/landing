@@ -14,6 +14,8 @@ import { structuredData as priceData } from './pages/price-increases.jsx';
 import { structuredData as guideRaisePricesData } from './pages/guide-raise-prices.jsx';
 import { structuredData as guideStartBusinessData } from './pages/guide-start-business.jsx';
 import { structuredData as guideChooseSoftwareData } from './pages/guide-choose-software.jsx';
+import { structuredData as guideChemicalsData } from './pages/guide-chemicals.jsx';
+import { structuredData as guideStabilizerData } from './pages/guide-stabilizer.jsx';
 import { structuredData as guidesData } from './pages/guides.jsx';
 import { structuredData as switchSoftwareData } from './pages/switch-software.jsx';
 import { structuredData as techAppData, appBanner } from './pages/tech-app.jsx';
@@ -61,6 +63,14 @@ export const PRERENDERED = {
   '/guides/how-to-choose-pool-service-software': {
     meta: ROUTE_META.guideChooseSoftware,
     jsonLd: guideChooseSoftwareData.map((d) => (d['@type'] === 'Article' ? { ...d, image: `https://getpoolnautics.com${ROUTE_META.guideChooseSoftware.ogImage}` } : d)),
+  },
+  '/guides/how-to-find-out-if-a-pool-tech-is-stealing-chemicals': {
+    meta: ROUTE_META.guideChemicals,
+    jsonLd: guideChemicalsData.map((d) => (d['@type'] === 'Article' ? { ...d, image: `https://getpoolnautics.com${ROUTE_META.guideChemicals.ogImage}` } : d)),
+  },
+  '/guides/pool-stabilizer-cyanuric-acid': {
+    meta: ROUTE_META.guideStabilizer,
+    jsonLd: guideStabilizerData.map((d) => (d['@type'] === 'Article' ? { ...d, image: `https://getpoolnautics.com${ROUTE_META.guideStabilizer.ogImage}` } : d)),
   },
   '/guides': { meta: ROUTE_META.guides, jsonLd: guidesData },
   '/switch-pool-service-software': { meta: ROUTE_META.switchSoftware, jsonLd: switchSoftwareData },

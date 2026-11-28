@@ -73,6 +73,10 @@ const ROUTES = [
   // The second and third guides (pages/guide-start-business.jsx, pages/guide-choose-software.jsx): the first one's template.
   { path: '/guides/how-to-start-a-pool-cleaning-business', html: 'guides/how-to-start-a-pool-cleaning-business.html', strictStatic: true, jsonLd: ['Article', 'BreadcrumbList'], hero: 'header.gd-hero', stable: ['.gd-eyebrow', 'h1', '.gd-lede', '.gd-in', '.gd-vis'] },
   { path: '/guides/how-to-choose-pool-service-software', html: 'guides/how-to-choose-pool-service-software.html', strictStatic: true, jsonLd: ['Article', 'BreadcrumbList'], hero: 'header.gd-hero', stable: ['.gd-eyebrow', 'h1', '.gd-lede', '.gd-in', '.gd-vis'] },
+  // The fourth guide (pages/guide-chemicals.jsx): the same template, with its own hero card.
+  { path: '/guides/how-to-find-out-if-a-pool-tech-is-stealing-chemicals', html: 'guides/how-to-find-out-if-a-pool-tech-is-stealing-chemicals.html', strictStatic: true, jsonLd: ['Article', 'BreadcrumbList'], hero: 'header.gd-hero', stable: ['.gd-eyebrow', 'h1', '.gd-lede', '.gd-in', '.gd-vis'] },
+  // The fifth guide (pages/guide-stabilizer.jsx): the same template, a chart panel (.hx) in place of the hero cards.
+  { path: '/guides/pool-stabilizer-cyanuric-acid', html: 'guides/pool-stabilizer-cyanuric-acid.html', strictStatic: true, jsonLd: ['Article', 'BreadcrumbList'], hero: 'header.gd-hero', stable: ['.gd-eyebrow', 'h1', '.gd-lede', '.gd-in', '.hx'] },
   // Raising prices (pages/price-increases.jsx): pre-rendered, the billing page's dark hero without buttons.
   { path: '/pool-service-price-increases', html: 'pool-service-price-increases.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList'], stable: ['.hero-eyebrow', '.hero-title', '.hero-sub', '.pr-open', '.pr-stage'] },
   { path: '/pool-service-fleet-management', html: 'pool-service-fleet-management.html', strictStatic: true, jsonLd: ['WebPage', 'BreadcrumbList'], stable: ['.hero-title', '.hero-sub', '.fp-hero-cta', '.fp-notes', '.flt-fo'] },
