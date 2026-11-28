@@ -176,6 +176,35 @@ export const SHARE_IMAGES = {
     headline: 'Partner Program Terms',
     alt: 'Poolnautics Partner Program Terms.',
   },
+  // The second guide (/guides/how-to-start-a-pool-cleaning-business, Nov 27, 2026), laid out as the first
+  // guide's own image (/og/how-to-raise-prices.png): the guide's title and a figure from its calculator, at
+  // the page's defaults (50 pools at $160, $65 a pool in costs).
+  guideStartBusiness: {
+    file: 'how-to-start-a-pool-cleaning-business',
+    headline: 'How to start a pool cleaning business.',
+    sub: 'A free guide for new pool pros.',
+    card: [
+      { k: 'Left for you' },
+      { n: '$4,750' },
+      { sub: 'a month, from $8,000 in billing.' },
+      { foot: ['50 pools', '$160 a month each'] },
+    ],
+    alt: 'How to start a pool cleaning business. A free guide for new pool pros. Left for you: $4,750 a month, from $8,000 in billing. 50 pools at $160 a month each.',
+  },
+  // The third guide (/guides/how-to-choose-pool-service-software, Nov 27, 2026), laid out as the first
+  // guide's own image: the guide's title and its rule of thumb, from the hero's small card.
+  guideChooseSoftware: {
+    file: 'how-to-choose-pool-service-software',
+    headline: 'How to choose pool service software.',
+    sub: 'A free buyer’s guide for pool companies.',
+    card: [
+      { k: 'Software budget' },
+      { n: 'About 1%' },
+      { sub: 'of your monthly recurring billing.' },
+      { foot: ['7 questions to ask', 'Trial checklist'] },
+    ],
+    alt: 'How to choose pool service software. A free buyer’s guide for pool companies. Software budget: about 1% of your monthly recurring billing. Seven questions to ask and a trial checklist.',
+  },
   technicianTerms: {
     file: 'technician-terms',
     label: 'Legal',

@@ -269,6 +269,7 @@ export default function SwitchSoftwarePage() {
               <div className="sw-out">
                 {LOCK.map(([t, p]) => <div key={t} className="sw-out-card"><h3>{t}</h3><p>{p}</p></div>)}
               </div>
+              <p className="sw-more-row"><a className={`sw-more ${FOCUS}`} href="/guides/how-to-choose-pool-service-software">Read our guide to choosing pool service software</a></p>
             </div>
           </section>
 

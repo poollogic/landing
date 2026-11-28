@@ -169,6 +169,30 @@
 .guide-page .gd-cta { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 22px; border-radius: 10px; background: linear-gradient(#2e85ff, #1d65f4); color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; }
 .guide-page .gd-cta svg { display: block; width: 16px; height: 16px; }
 .guide-page .gd-ghost { padding-bottom: 1px; border-bottom: 1px solid rgba(255, 255, 255, .45); color: #fff; font-size: 15px; font-weight: 600; text-decoration: none; }
+/* Added for the second and third guides (/guides/how-to-start-a-pool-cleaning-business, 2026-11-27); none of these
+   classes is on the first guide, and the nowrap only holds a figure that already fits there.
+   - The hero's small card: its figure stays on one line ("$2k–$15k").
+   - The route income calculator (#calc, a hero shortcut): lands below the window's top as the parts do,
+     and its third result spans both columns so the sale range stays on one line.
+   - The note with "Poolnautics" for its label instead of "Tip". */
+.guide-page .gd-vis-next .gd-vis-r b { white-space: nowrap; }
+.guide-page .gd-calc { scroll-margin-top: 24px; }
+.guide-page .gd-out.is-wide { grid-column: 1 / -1; }
+.guide-page .gd-out.is-wide b { white-space: nowrap; }
+/* On phones the range at 28px ("$64,000 to $96,000", 265px) is wider than the tile at 360px (244px), so
+   there it scales with the tile: 28px wherever it fits, a little smaller on the narrowest screens. */
+@media (max-width: 720px) {
+  .guide-page .gd-out.is-wide { container-type: inline-size; }
+  .guide-page .gd-out.is-wide b { font-size: min(28px, 10.4cqi); }
+}
+.guide-page .gd-note.is-brand::before { content: "Poolnautics"; }
+/* The third guide (/guides/how-to-choose-pool-service-software): a hero shortcut targets a paragraph
+   (#checklist, the line above the trial checklist), which lands where the parts do; and a lead-in that
+   follows the checklist card sits about 36px below it. */
+.guide-page .gd-art p[id] { scroll-margin-top: 24px; }
+.guide-page .gd-check + p { margin-top: 36px; }
+/* A contents list of ten or more parts: room for the two-digit numbers (12px holds one digit). */
+.guide-page .gd-toc ol:has(> li:nth-child(10)) a::before { width: 19px; }
 /* From 1250px the hero's text column is at its full 587px and the three shortcut chips fit on one row in
    Satoshi (579px). Before Satoshi loads, a machine with no Arial-like font (PageSpeed's test machine) draws
    them wider (596px), and wrapping put the third on a second row: the hero grew 40px and the whole article

@@ -368,7 +368,9 @@ export default function GuideRaisePricesPage() {
                   <li><b>Your oldest, lowest-priced accounts.</b> They’ve had your best deal for the longest, and they’re the furthest below what the work costs you now.</li>
                   <li><b>Everyone else, on a schedule.</b> Once a year, at the same time of year, so it becomes something customers expect.</li>
                 </ol>
-                <p>Group customers by what they cost you to serve. A job that takes twice the time or supplies, or a stop 25 minutes off your route, shouldn’t get the same raise as an easy one around the corner.</p>
+                <p>
+                  Group customers by{' '}
+                  <a className="gd-a" href="/guides/how-to-start-a-pool-cleaning-business#price">what they cost you to serve</a>. A job that takes twice the time or supplies, or a stop 25 minutes off your route, shouldn’t get the same raise as an easy one around the corner.</p>
               </section>
 
               <section id="notice" aria-labelledby="notice-title">

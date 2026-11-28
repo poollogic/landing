@@ -2,7 +2,9 @@
 // other: the derived figures are worked out here from their inputs, never typed in, so they can't drift.
 
 // The IRS standard mileage rate. When it changes, change these two lines: the headline ("76¢"), the
-// three-number card's deduction and the note under it all follow.
+// three-number card's deduction and the note under it all follow. The guide
+// /guides/how-to-start-a-pool-cleaning-business also quotes it, in its own words ("76 cents a mile as of
+// July 2026", and $11,400 for 15,000 miles in Part 1, pages/guide-start-business.jsx): change it there too.
 export const IRS_RATE_CENTS = 76; // cents a mile
 export const IRS_RATE_SINCE = 'July 1, 2026';
 

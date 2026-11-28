@@ -123,7 +123,8 @@ const TIER_PRICES = `Monthly prices by active customers, Insight / Vision: ${BRA
 
 const FAQ = [
   ['Do I pay extra for new technicians or office staff?',
-    'No. Every plan includes unlimited users. You only pay for the size of your route.'],
+    'No. Every plan includes unlimited users. You only pay for the size of your route.',
+    <a href="/guides/how-to-choose-pool-service-software#cost">Compare how pool software is priced</a>],
   ['Do paused customers count toward my price?',
     'No. Your price is based on active customers only. Paused customers don’t count.'],
   ['What happens if I go over my customer limit?',
