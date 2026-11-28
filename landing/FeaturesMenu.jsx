@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import {
-  ArrowLeftRight, ArrowRight, Bell, BookOpen, ChevronDown, CreditCard, Gauge, Import, Route, Smartphone, Sparkle, TrendingUp, Truck, Wrench,
+  ArrowLeftRight, ArrowRight, Bell, ChevronDown, CreditCard, Gauge, Import, Route, Smartphone, Sparkle, TrendingUp, Truck, Wrench,
 } from 'lucide-react';
 import { NAME, NAME_PATH, TM_PATH } from '../components/brandName.js';
 
@@ -19,7 +19,6 @@ export const FEATURE_GROUPS = [
   ['Routes & jobs', [
     { label: 'Routes & scheduling', href: '/pool-route-software', Icon: Route },
     { label: 'Repairs on autopilot', href: '/workflow', Icon: Wrench },
-    { label: 'Route transfers', href: '/#routes', Icon: ArrowLeftRight },
   ]],
   ['Technicians', [
     { label: 'Technician app', href: '/tech-app', Icon: Smartphone },
@@ -30,7 +29,9 @@ export const FEATURE_GROUPS = [
     { label: 'AI & automations', href: '/ai-and-automations', Icon: Sparkle },
     // Its label is "Switching to" and the header's wordmark (ItemLabel); screen readers hear "Switching to Poolnautics".
     { label: 'Switching to', wordmark: true, href: '/switch-pool-service-software', Icon: Import },
-    { label: 'Guides', href: '/guides', Icon: BookOpen },
+    // The homepage's Route acquisition section (buy, sell and transfer routes). It was "Route transfers"
+    // under Routes & jobs; the owner moved it here in Guides' place (2026-11-28). /guides is in the footer.
+    { label: 'Selling a pool route', href: '/#routes', Icon: ArrowLeftRight },
   ]],
 ];
 

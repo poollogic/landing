@@ -62,7 +62,7 @@ const FooterLink = ({ label, href }) => (
 // The site footer on every page: dark whatever the page or OS theme (.site-footer in index.html). A brand
 // block (the header's wordmark, a line on what Poolnautics is, the App Store badge), three columns of
 // links, each a <nav> named by its heading, and a bottom bar with the copyright and the company. The same
-// eleven links as before, and the second and third guides' (2026-11-27). (FooterLink above stays for the preserved v1 homepage's footer in sections.jsx.)
+// eleven links as before, with the one guide link now Guides (/guides, the index; 2026-11-28). (FooterLink above stays for the preserved v1 homepage's footer in sections.jsx.)
 const FOOTER_COLUMNS = [
   ['Product', [
     ['Route software', '/pool-route-software'],
@@ -73,9 +73,7 @@ const FOOTER_COLUMNS = [
   ]],
   ['Resources', [
     ['Switch to Poolnautics', '/switch-pool-service-software'],
-    ['Guide: raising prices', '/guides/how-to-raise-prices'],
-    ['Guide: starting a pool business', '/guides/how-to-start-a-pool-cleaning-business'],
-    ['Guide: choosing pool software', '/guides/how-to-choose-pool-service-software'],
+    ['Guides', '/guides'],
     ['Partners', '/partners'],
     ['Questions', '/#faq'],
   ]],
